@@ -14,8 +14,8 @@ Building out a decentralized application to enable houseless individuals to secu
 ## Ready to contribute?
 
 1. We are still building out the bones of the project. The best way to get started is to follow the steps above and join a meeting to connect with those on the team.
-2. Read the documentation in our GitHub ReadMe to become familiar with the technology we are with.
-3. Feel free to check out/clone the various branches and play around with our use cases. Each should have documentation to follow.
+2. Read the documentation in our GitHub ReadMe to become familiar with the technology we are working with.
+3. Feel free to check out/clone the various branches and play around with our use cases. Each should have documentation to follow. If you notice a gap or errors in documentation feel free to make the changes locally and create a pull request.
 
 
 ## Our development process
@@ -42,7 +42,7 @@ Building out a decentralized application to enable houseless individuals to secu
 ## Similar apps to play with
 
 - [My Digital Data Locker](https://vimeo.com/mddl) — a similar project in Baltimore. [More info](https://www.aecf.org/blog/new-digital-data-locker-may-help-people-find-stable-housing). [GitHub](https://github.com/newamericafoundation/MDDL).
-- [AWS Kiip Digital Locker](https://la.railstats.org/) — a similar project using AWS.
+- [AWS Kiip Digital Locker](https://vimeo.com/762041743) — a similar project using AWS.
 - [Digita](https://www.youtube.com/@Digita-ai) — Brussels start-up providing Enterprise Pods to the Flemish government. *Great videos to understand Solid Functionality*
-  - Also, read this [On-boarding w/ Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrustructure.
+  - Also, read this [On-boarding with Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrustructure.
 
