@@ -46,8 +46,3 @@ Building out a decentralized application to enable houseless individuals to secu
 - [Digita](https://www.youtube.com/@Digita-ai) — Brussels start-up providing Enterprise Pods to the Flemish government. *Great videos to understand Solid Functionality*
   - Also, read this [On-boarding w/ Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrustructure.
 
-
-## Want to take on something bigger?
-
-🚧 Work in progress 🚧
-Great! Go to [this board](https://github.com/codeforpdx/opentransit-metrics/projects), where we prioritize our top issues. Pick one in the “High priority” or, even better, “Top 5” column, that matches your interests. Go to the issue and assign it to yourself.
