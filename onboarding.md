@@ -2,7 +2,7 @@
 
 ## Project summary
 
-Building out a decentralized application to enable houseless individuals to securely store their documents electronically. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents.
+Building out a decentralized application to enable the home insecure to securely store their documents electronically. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents.
 
 ## Get started
 
