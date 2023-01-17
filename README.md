@@ -7,7 +7,7 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
 
 ## Terminology
 
-* Houseless individual = individual
+* Home insecure individual = individual
 * Service provider = organization
 * Solid data pod = pod/wallet
 * Solid/Inrupt data folders = folder/container
