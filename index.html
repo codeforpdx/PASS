@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8" />
+     <title>Getting Started: Inrupt JavaScript Client Libraries</title>
+     <script type="module" defer src="./index.js"></script>
+     <link rel="stylesheet" href="/style.css" />
+   </head>
+
+   <body>
+     <header>
+       <h2>Getting Started</h2>
+       <h3>with Inrupt JavaScript Client Libraries</h3>
+     </header>
+     <section id="login" class="panel">
+       <div class="row">
+         <label id="labelLogin" for="btnLogin"
+           >1. Click the button to log into
+           <span id="solid_identity_provider"
+             >...provided by the JavaScript code...</span
+           >:
+         </label>
+         <button name="btnLogin" id="btnLogin">Login</button>
+         <p id="labelStatus" class="labelStatus"></p>
+       </div>
+     </section>
+     <!-- div for document upload -->
+     <div hidden="hidden" id="write" class="panel">
+       <div class="row">
+         <form id="writeForm">
+            <label for="cars">Choose Document Type To Upload</label>
+            <!-- documentValue in index.js -->
+            <select name="document" id="document">
+              <option value="Bank Statement">Bank Statement</option>
+              <option value="Passport">Passport</option>
+              <option value="Driver License">Driver License</option>
+            </select>
+            <br></br>
+            <!-- endDateValue in index.js -->
+            <p>expiration date </p>
+            <input id="date" type="date"></input>
+            <br>
+            <!-- descriptionValue in index.js -->
+            <p>enter description</p>
+            <input id="description" size="50"></input>
+            <br>
+            <!-- fileList in index.js -->
+           <label id="writelabel" for="input_file"></label>
+           <input
+             type="file"
+             id="input_file"
+             name="file"
+             accept=".pdf, .docx., .doc, .txt, .rtf"
+           />
+           <button type="submit">
+             Upload file
+           </button>
+         </form>
+       </div>
+       <dl class="display">
+         <dt>Writing status:&nbsp</dt>
+         <dd id="labelWriteStatus" class="labelStatus">...not written yet...</dd>
+       </dl>
+     </div>
+     </div>
+   </body>
+ </html>
