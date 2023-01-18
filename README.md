@@ -51,32 +51,17 @@ Pods are like secure personal web servers for data.
 
 ### Document Hashing
 
+
 ## The Team
 
-#### Development Team:
+|Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
+| ------------------- | --------------------- | -----------| ------------------------|
+| Team Lead - Kevin M.| Team Lead - Jared K.  | Gabby      | Flo                     |
+| Colton              | Andy                  | Kyle       | Danica                  |
+| Greg                | Delaney               | Laura      | Wilfred                 |
+|                     | Erin                  |            | Katherine               |
+|                     | Perla            
 
-##### Front-End:
-* Team Lead: Jared Krajewski
-* Andy
-* Delaney
-* Erin
-* Perla
-
-##### Back-End:
-* Team Lead: Kevin Macksamie
-* Colton
-* Greg
-
-#### UX/UI Team:
-* Gabby
-* Kyle
-* Laura
-
-#### Project Management Team:
-* Flo
-* Danica
-* Wilfred
-* Katherine
 
 
 ## Check out the documentation:
