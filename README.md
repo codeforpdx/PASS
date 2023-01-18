@@ -25,6 +25,7 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
     * Able to share verified documents with individuals
     * Might require several users
 
+## If you're new to the team, check out our [onboarding](https://github.com/codeforpdx/PASS/blob/db/onboarding/onboarding.md) file.
 
 ## Tech Overview
 
