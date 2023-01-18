@@ -7,10 +7,10 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
 
 ## Terminology
 
-* Home insecure individual = individual
-* Service provider = organization
-* Solid data pod = pod/wallet
-* Solid/Inrupt data folders = folder/container
+* Individual - housing insecure person using services to interact with organizations.
+* Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
+* Pod/Wallet - decentralized data/document storage built with Solid API. Individuals and organizations will have certain functinality within their pods.
+* Folder/Container - referring to organization of document data into ttl files using Solid API with Inrupt libarary.
 
 
 ## User Flows
@@ -44,14 +44,42 @@ Pods are like secure personal web servers for data.
 * Clone repository and follow the [instructions](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/01-one-server).
 * Feel free to play around with the pod and check out the second use case [here](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/02-different-file-browser-application).
 
+### Inrupt JavaSctipt Client Libraries
 
+### RDF
 
+### Document Hashing
 
+## The Team
 
+#### Development Team:
+
+##### Front-End:
+* Team Lead: Jared Krajewski
+* Andy
+* Delaney
+* Erin
+* Perla
+
+##### Back-End:
+* Team Lead: Kevin Macksamie
+* Colton
+* Greg
+
+#### UX/UI Team:
+* Gabby
+* Kyle
+* Laura
+
+#### Project Management Team:
+* Flo
+* Danica
+* Wilfred
+* Katherine
 
 
 ## Check out the documentation:
-* [Solid](https://solidproject.org/developers/tutorials/getting-started)
+* [Solid Data Pods](https://solidproject.org/developers/tutorials/getting-started)
 * [Inrupt](https://docs.inrupt.com/developer-tools/javascript/client-libraries/) provides JavaScript client libraries to help developers create Solid applications. Will be used to upload and query data in pods. Data will be stored in `ttl` files.
 * [Inrupt Access Requests and Grants](https://docs.inrupt.com/ess/latest/security/access-requests-grants/)
     * Further documentation on building an [access timer](https://solid.github.io/data-interoperability-panel/specification/#access-authorization%E2%91%A0) to a pod 
