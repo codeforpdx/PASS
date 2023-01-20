@@ -25,7 +25,7 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
     * Able to share verified documents with individuals
     * Might require several users
 
-## If you're new to the team, check out our [onboarding](https://github.com/codeforpdx/PASS/blob/db/onboarding/onboarding.md) file.
+### If you're new to the team, check out our [onboarding](https://github.com/codeforpdx/PASS/blob/db/onboarding/onboarding.md) steps.
 
 ## Tech Overview
 
@@ -52,7 +52,7 @@ Pods are like secure personal web servers for data.
 ### Document Hashing
 
 
-## The Team
+### The Team
 
 |Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
 | ------------------- | --------------------- | -----------| ------------------------|
