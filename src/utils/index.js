@@ -18,13 +18,11 @@ import { Session } from "@inrupt/solid-client-authn-browser";
 import { rdf } from "@inrupt/solid-client/dist/constants";
 import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 
-// If your Pod is *not* on `solidcommunity.net`, change this to your identity provider.
-const SOLID_IDENTITY_PROVIDER = "https://solidcommunity.net";
+// Team has recently moved to dedicated server at `opencommons.net`, change this to your identity provider.
+const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 
-// forcing the id of "solid_identity_provider" to https://solidcommunity.net
-document.getElementById(
-  "solid_identity_provider"
-).innerHTML = `[<a target="_blank" href="${SOLID_IDENTITY_PROVIDER}">${SOLID_IDENTITY_PROVIDER}</a>]`;
+// forcing the id of "solid_identity_provider" to https://opencommons.net
+document.getElementById("solid_identity_provider").innerHTML = `[<a target="_blank" href="${SOLID_IDENTITY_PROVIDER}">${SOLID_IDENTITY_PROVIDER}</a>]`;
 
 // https://docs.inrupt.com/developer-tools/api/javascript/solid-client-authn-node/classes/Session.html#constructor  ;
 // session object constructor is called and assigned to session constant;
@@ -69,6 +67,15 @@ async function handleRedirectAfterLogin() {
 // Function defined above is invoked causing re-direct to index.html;
 // If function is called when not part of the login redirect, the function is a no-op;
 handleRedirectAfterLogin();
+
+// Function to handle form submission
+async function handleFiles() {
+  const SESSION_POD_URL = session.info.webId.split("profile")[0];
+
+  const getSessionPodDataset = await getSolidDataset(SESSION_POD_URL, { fetch: session.fetch });
+
+  console.log(getSessionPodDataset);
+}
 
 // functions for buttons defined at start of program;
 buttonLogin.onclick = function () {

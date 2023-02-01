@@ -1,31 +1,32 @@
 # PASS
-PASS project 
 
-This file contains a demo of 
-1. Uploading a file to solid
-2. Creating and updating a ttl file with data entered through a form
-3. Querying the ttl file
+PASS Project - React Migration Test
 
+This repository branch contains a bare-bones demo of:
 
-Please run
+1. Logging into user's Pod
+2. Creating data entered through a form and store them in user's Pod
 
-```
+The current build is made with React 18 from the original packages from jk/solidPodBoilerplate. New additions to package.json besides React include only react-dom. The current build is not built with create-react-app (CRA). Instead it's bundled with Parcel, in line with previous versions of this project.
+
+As of this demo (Feb 1, 2023), @inrupt/solid-ui-react has not been tested in any of the component. All features are developed with existing @inrupt/solid* packages the previous package.json. CSS class names and id are lightly modified to accommodate for React. The existing CSS file has not been touched.
+
+To get a running version of this demo, clone from this branch and run:
+
+```shell
 npm install
 ```
 
-to install the dependencies from package.json
+After installing the dependencies from package.json, run the following to start a local live server:
 
-Next enter
-
-```
-npx parcel index.html
+```shell
+npx parcel ./src/index.html
 ```
 
-Open
-```
+The local live server would be located in port 1234:
+
+```shell
 http://localhost:1234/
 ```
 
-In order to be able to login you need a pod at solidcommunity.com
-
-Once you created it and logged in you can upload files to your pod and query them
+Latest version of demo requires login from pod at [https://opencommons.net](https://opencommons.net)
