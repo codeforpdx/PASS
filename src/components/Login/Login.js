@@ -2,15 +2,15 @@ import { useContext } from "react";
 import { SessionContext } from "../../App";
 import { SOLID_IDENTITY_PROVIDER } from "../../utils/session-helper";
 
-const Login = ({ handleLogin, setUpdate }) => {
-  const { session } = useContext(SessionContext);
+const Login = ({ setUpdate }) => {
+  const { session, handleLogin } = useContext(SessionContext);
 
   return (
     <section id="login" className="panel">
       <div className="row">
         <label id="labelLogin" htmlFor="btnLogin">
           1. Click the button to log into [
-          <a target="_blank" href={SOLID_IDENTITY_PROVIDER}>
+          <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
             {SOLID_IDENTITY_PROVIDER}
           </a>
           ]:{" "}
@@ -18,14 +18,20 @@ const Login = ({ handleLogin, setUpdate }) => {
         <button
           onClick={() => {
             handleLogin();
-            setUpdate((prevState) => !prevState);
+            setUpdate((prevState) => {
+              return !prevState;
+            });
           }}
         >
           Login
         </button>
         {session.info.isLoggedIn ? (
           <p className="labelStatus" id="labelStatus" role="alert">
-            Your session is logged in with the WebID [<a href={session.info.webId}>{session.info.webId}</a>].
+            Your session is logged in with the WebID [
+            <a href={session.info.webId} target="_blank">
+              {session.info.webId}
+            </a>
+            ].
           </p>
         ) : (
           <p>Not logged in</p>

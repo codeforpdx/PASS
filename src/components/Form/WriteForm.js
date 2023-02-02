@@ -51,10 +51,14 @@ const WriteForm = () => {
       description: event.target.description.value || "No Description provided",
       file: file,
     };
-    handleFiles(fileObject, session);
-    handleUploadMessage(`File "${fileObject.file.name}" uploaded to solid`);
-    event.target.file.value = null;
-    clearDescription();
+    try {
+      handleFiles(fileObject, session);
+      handleUploadMessage(`File "${fileObject.file.name}" uploaded to solid`);
+      event.target.file.value = null;
+      clearDescription();
+    } catch (error) {
+      handleUploadMessage(`Submission failed. Reason: missing file`);
+    }
   };
 
   const handleUploadMessage = (message) => {

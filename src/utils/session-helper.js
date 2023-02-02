@@ -16,6 +16,10 @@ import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 export const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 
 export const handleFiles = async (fileObject, session) => {
+  if (!fileObject.file) {
+    throw "File missing from submission!";
+  }
+
   const POD_URL = String(session.info.webId.split("profile")[0]);
 
   // Generating Directory for document
@@ -25,7 +29,7 @@ export const handleFiles = async (fileObject, session) => {
   });
 
   // Storing File in Document
-  await placeFileInContainer(fileObject, `${documentFolder}`, session);
+  const storedFile = await placeFileInContainer(fileObject, `${documentFolder}`, session);
 
   // Setting url to location of document directory
   const solidDatasetUrl = documentFolder;
@@ -35,19 +39,19 @@ export const handleFiles = async (fileObject, session) => {
   const hasTTLFiles = () => {
     const items = getThingAll(getDatasetFromUrl);
     if (!items) {
-      return [];
+      return null;
     }
     const ttlFiles = items.find((item) => item.url.slice(-3) === "ttl");
     if (ttlFiles) {
       return ttlFiles;
     } else {
-      return [];
+      return null;
     }
   };
 
   const ttlFile = hasTTLFiles();
 
-  const toBeUpdated = buildThing(createThing({ name: fileObject.file.name }))
+  const toBeUpdated = buildThing(createThing({ name: storedFile }))
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
