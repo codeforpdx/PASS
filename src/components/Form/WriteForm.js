@@ -37,10 +37,17 @@ const WriteForm = () => {
   const docOptions = ["Bank Statement", "Passport", "Drivers License"];
 
   // Custom useField hook for handling form inputs
-  const { clearValue: clearDescription, _type, ...description } = useField("textarea");
+  const {
+    clearValue: clearDescription,
+    _type,
+    ...description
+  } = useField("textarea");
 
   // useState for upload notification
-  const [fileUploaded, setFileUploaded] = useState({ uploaded: false, message: "" });
+  const [fileUploaded, setFileUploaded] = useState({
+    uploaded: false,
+    message: "",
+  });
 
   // main form handler for form submission
   const handleFormSubmission = (event) => {
@@ -79,7 +86,11 @@ const WriteForm = () => {
   return (
     <>
       {/* <div hidden={!session.info.isLoggedIn ? "" : ""} id="write" className="panel">  toggle hidden off when testing inputs */}
-      <div hidden={!session.info.isLoggedIn ? "hidden" : ""} id="write" className="panel">
+      <div
+        hidden={!session.info.isLoggedIn ? "hidden" : ""}
+        id="write"
+        className="panel"
+      >
         <div className="row">
           <form id="writeForm" onSubmit={handleFormSubmission}>
             <label htmlFor="cars">Choose Document Type To Upload: </label>
@@ -97,7 +108,13 @@ const WriteForm = () => {
             <br />
             <br />
             <label id="writelabel" htmlFor="input_file"></label>
-            <input type="file" id="input_file" name="file" accept=".pdf, .docx., .doc, .txt, .rtf" onChange={handleFileChange} />
+            <input
+              type="file"
+              id="input_file"
+              name="file"
+              accept=".pdf, .docx., .doc, .txt, .rtf"
+              onChange={handleFileChange}
+            />
             <button type="submit">Upload file</button>
           </form>
         </div>

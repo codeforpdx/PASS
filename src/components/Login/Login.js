@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { SessionContext } from "../../App";
 import { SOLID_IDENTITY_PROVIDER } from "../../utils/session-helper";
 
-const Login = ({ setUpdate }) => {
+const Login = () => {
   const { session, handleLogin } = useContext(SessionContext);
 
   return (
@@ -15,16 +15,7 @@ const Login = ({ setUpdate }) => {
           </a>
           ]:{" "}
         </label>
-        <button
-          onClick={() => {
-            handleLogin();
-            setUpdate((prevState) => {
-              return !prevState;
-            });
-          }}
-        >
-          Login
-        </button>
+        <button onClick={() => handleLogin()}>Login</button>
         {session.info.isLoggedIn ? (
           <p className="labelStatus" id="labelStatus" role="alert">
             Your session is logged in with the WebID [

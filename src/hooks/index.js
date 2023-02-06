@@ -23,11 +23,11 @@ export const useField = (type) => {
 
 export const useSession = () => {
   const [session, setSession] = useState(new Session());
+  const [_sessionInfo, setSessionInfo] = useState(false);
 
   useEffect(() => {
     handleRedirectAfterLogin();
-    handleSession();
-  });
+  }, [session]);
 
   const loginPod = async () => {
     if (!session.info.isLoggedIn) {
@@ -38,19 +38,13 @@ export const useSession = () => {
     }
   };
 
-  const handleRedirectAfterLogin = async () => {
-    await session.handleIncomingRedirect(window.location.href);
-  };
-
-  const handleLogin = () => {
+  const handleLogin = async () => {
     loginPod();
-    console.log("logging in...");
   };
 
-  const handleSession = () => {
-    setSession((state) => {
-      return state;
-    });
+  const handleRedirectAfterLogin = async () => {
+    const response = await session.handleIncomingRedirect(window.location.href);
+    setSessionInfo(response);
   };
 
   return {

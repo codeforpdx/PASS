@@ -1,7 +1,7 @@
 import Login from "./components/Login/Login";
 import WriteForm from "./components/Form/WriteForm";
 import { useSession } from "./hooks";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const AppHeader = () => {
   return (
@@ -15,23 +15,28 @@ const AppHeader = () => {
 export const SessionContext = createContext(null);
 
 const App = () => {
-  const { session, setSession, handleLogin } = useSession();
-  const [_update, setUpdate] = useState(false);
+  const { session, handleLogin } = useSession();
 
   return (
     <>
       <AppHeader />
-      <SessionContext.Provider value={{ session, setSession, handleLogin }}>
-        <Login setUpdate={setUpdate} />
+      <SessionContext.Provider value={{ session, handleLogin }}>
+        <Login />
         <WriteForm />
         {/* <div hidden={!session.info.isLoggedIn ? "" : ""} className="panel"> toggle hidden off when testing inputs */}
-        <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+        <div
+          hidden={!session.info.isLoggedIn ? "hidden" : ""}
+          className="panel"
+        >
           <div className="row">
             <div>Current Documents</div>
           </div>
         </div>
         {/* <div hidden={!session.info.isLoggedIn ? "" : ""} className="panel"> toggle hidden off when testing inputs */}
-        <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+        <div
+          hidden={!session.info.isLoggedIn ? "hidden" : ""}
+          className="panel"
+        >
           <div className="row">
             <form>
               <label>Query Documents</label>
