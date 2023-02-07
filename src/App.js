@@ -1,7 +1,8 @@
 import Login from "./components/Login/Login";
 import WriteForm from "./components/Form/WriteForm";
 import { useSession } from "./hooks";
-import { createContext, useState, useEffect } from "react";
+import { createContext } from "react";
+import FetchDocumentForm from "./components/Form/FetchDocumentForm";
 
 const AppHeader = () => {
   return (
@@ -23,26 +24,7 @@ const App = () => {
       <SessionContext.Provider value={{ session, handleLogin }}>
         <Login />
         <WriteForm />
-        {/* <div hidden={!session.info.isLoggedIn ? "" : ""} className="panel"> toggle hidden off when testing inputs */}
-        <div
-          hidden={!session.info.isLoggedIn ? "hidden" : ""}
-          className="panel"
-        >
-          <div className="row">
-            <div>Current Documents</div>
-          </div>
-        </div>
-        {/* <div hidden={!session.info.isLoggedIn ? "" : ""} className="panel"> toggle hidden off when testing inputs */}
-        <div
-          hidden={!session.info.isLoggedIn ? "hidden" : ""}
-          className="panel"
-        >
-          <div className="row">
-            <form>
-              <label>Query Documents</label>
-            </form>
-          </div>
-        </div>
+        <FetchDocumentForm />
       </SessionContext.Provider>
     </>
   );

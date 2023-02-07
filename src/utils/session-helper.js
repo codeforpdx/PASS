@@ -24,32 +24,28 @@ export const handleFiles = async (fileObject, session) => {
 
   // Generating Directory for document
   const documentFolder = POD_URL + fileObject.type;
-  await createContainerAt(documentFolder, { fetch: session.fetch }).then((response) => {
-    console.log(`Dataset Information`, response);
-  });
+  await createContainerAt(documentFolder, { fetch: session.fetch }).then(
+    (response) => {
+      console.log(`Dataset Information`, response);
+    }
+  );
 
   // Storing File in Document
-  const storedFile = await placeFileInContainer(fileObject, `${documentFolder}`, session);
+  const storedFile = await placeFileInContainer(
+    fileObject,
+    `${documentFolder}`,
+    session
+  );
 
   // Setting url to location of document directory
   const solidDatasetUrl = documentFolder;
-  let getDatasetFromUrl = await getSolidDataset(solidDatasetUrl, { fetch: session.fetch });
+  let getDatasetFromUrl = await getSolidDataset(solidDatasetUrl, {
+    fetch: session.fetch,
+  });
 
-  // Sub-routine to check for existing ttl files in directory
-  const hasTTLFiles = () => {
-    const items = getThingAll(getDatasetFromUrl);
-    if (!items) {
-      return null;
-    }
-    const ttlFiles = items.find((item) => item.url.slice(-3) === "ttl");
-    if (ttlFiles) {
-      return ttlFiles;
-    } else {
-      return null;
-    }
-  };
+  console.log(getDatasetFromUrl);
 
-  const ttlFile = hasTTLFiles();
+  const ttlFile = hasTTLFiles(getDatasetFromUrl);
 
   const toBeUpdated = buildThing(createThing({ name: storedFile }))
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
@@ -67,7 +63,9 @@ export const handleFiles = async (fileObject, session) => {
 
     myDataset = setThing(myDataset, toBeUpdated);
 
-    await saveSolidDatasetAt(ttlFile, solidDatasetUrl, myDataset, { fetch: session.fetch }).then((result) => {
+    await saveSolidDatasetAt(ttlFile, solidDatasetUrl, myDataset, {
+      fetch: session.fetch,
+    }).then((result) => {
       console.log("New dataset: ", result);
     });
   } else {
@@ -75,7 +73,9 @@ export const handleFiles = async (fileObject, session) => {
 
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
 
-    await saveSolidDatasetInContainer(solidDatasetUrl, courseSolidDataset, { fetch: session.fetch }).then((result) => {
+    await saveSolidDatasetInContainer(solidDatasetUrl, courseSolidDataset, {
+      fetch: session.fetch,
+    }).then((result) => {
       console.log("newly generated and uploaded dataset: ", result);
     });
   }
@@ -85,15 +85,89 @@ export const handleFiles = async (fileObject, session) => {
   );
 };
 
-const placeFileInContainer = async (fileObject, targetContainerUrl, session) => {
+// Sub-routine to check for existing ttl files in directory
+const hasTTLFiles = (url) => {
+  const items = getThingAll(url);
+  if (!items) {
+    return null;
+  }
+
+  const ttlFiles = items.find((item) => item.url.slice(-3) === "ttl");
+  if (ttlFiles) {
+    return ttlFiles;
+  } else {
+    return null;
+  }
+};
+
+const placeFileInContainer = async (
+  fileObject,
+  targetContainerUrl,
+  session
+) => {
   try {
-    const savedFile = await saveFileInContainer(targetContainerUrl, fileObject.file, {
-      slug: fileObject.file.name,
-      contentType: fileObject.type,
-      fetch: session.fetch,
-    });
+    const savedFile = await saveFileInContainer(
+      targetContainerUrl,
+      fileObject.file,
+      {
+        slug: fileObject.file.name,
+        contentType: fileObject.type,
+        fetch: session.fetch,
+      }
+    );
     console.log(`File saved at ${getSourceUrl(savedFile)}`);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const fetchDocuments = async (session, fileType) => {
+  const POD_URL = String(session.info.webId.split("profile")[0]);
+  let documentUrl;
+  let ttlFiles;
+
+  switch (fileType) {
+    case "Bank Statement":
+      try {
+        documentUrl = `${POD_URL}Bank%20Statement/`;
+        const bankDocument = await getSolidDataset(documentUrl, {
+          fetch: session.fetch,
+        });
+        ttlFiles = hasTTLFiles(bankDocument);
+      } catch (error) {
+        console.log("No Data Found");
+      }
+      break;
+    case "Passport":
+      try {
+        documentUrl = `${POD_URL}Passport/`;
+        const passportDocument = await getSolidDataset(documentUrl, {
+          fetch: session.fetch,
+        });
+        ttlFiles = hasTTLFiles(passportDocument);
+      } catch (error) {
+        console.log("No Data Found");
+      }
+      break;
+    case "Drivers License":
+      try {
+        documentUrl = `${POD_URL}Drivers%20License/`;
+        const licenseDocument = await getSolidDataset(documentUrl, {
+          fetch: session.fetch,
+        });
+        ttlFiles = hasTTLFiles(licenseDocument);
+      } catch (error) {
+        console.log("No Data Found");
+      }
+      break;
+    default:
+      break;
+  }
+
+  if (ttlFiles) {
+    console.log("TTL file exist");
+    return documentUrl;
+  } else {
+    console.log("No Data Found");
   }
 };

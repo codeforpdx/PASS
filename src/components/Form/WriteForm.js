@@ -2,24 +2,10 @@ import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
 import { handleFiles } from "../../utils/session-helper";
+import StatusNotification from "./StatusNotification";
 
 const DocumentOption = ({ docType }) => {
   return <option>{docType}</option>;
-};
-
-const UploadStatus = ({ fileUploaded }) => {
-  return (
-    <dl className="display">
-      <dt>Writing status:</dt>
-      {fileUploaded.uploaded ? (
-        <dd id="labelWriteStatus" className="labelStatus" role="alert">
-          {fileUploaded.message}
-        </dd>
-      ) : (
-        <dd>...not written yet...</dd>
-      )}
-    </dl>
-  );
 };
 
 const WriteForm = () => {
@@ -45,7 +31,7 @@ const WriteForm = () => {
 
   // useState for upload notification
   const [fileUploaded, setFileUploaded] = useState({
-    uploaded: false,
+    state: false,
     message: "",
   });
 
@@ -71,13 +57,13 @@ const WriteForm = () => {
   const handleUploadMessage = (message) => {
     setTimeout(() => {
       setFileUploaded({
-        uploaded: false,
+        state: false,
         message: "",
       });
     }, 7000);
     setFileUploaded((prevState) => {
       return {
-        uploaded: !prevState.uploaded,
+        state: !prevState.state,
         message,
       };
     });
@@ -85,13 +71,15 @@ const WriteForm = () => {
 
   return (
     <>
-      {/* <div hidden={!session.info.isLoggedIn ? "" : ""} id="write" className="panel">  toggle hidden off when testing inputs */}
       <div
         hidden={!session.info.isLoggedIn ? "hidden" : ""}
         id="write"
         className="panel"
       >
         <div className="row">
+          <strong>Upload Document</strong>
+          <br />
+          <br />
           <form id="writeForm" onSubmit={handleFormSubmission}>
             <label htmlFor="cars">Choose Document Type To Upload: </label>
             <select name="document" id="document">
@@ -118,7 +106,11 @@ const WriteForm = () => {
             <button type="submit">Upload file</button>
           </form>
         </div>
-        <UploadStatus fileUploaded={fileUploaded} />
+        <StatusNotification
+          notification={fileUploaded}
+          statusType="Writing Status"
+          defaultMessage="To be uploaded..."
+        />
       </div>
     </>
   );
