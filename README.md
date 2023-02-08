@@ -63,10 +63,10 @@ With PASS we are looking into using RDF to link between pods and store metadata 
 |Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
 | ------------------- | --------------------- | -----------| ------------------------|
 | Team Lead - Kevin M.| Team Lead - Jared K.  | Gabby      | Flo                     |
-| Greg                | Andy                  | Kyle       | Danica                  |
-|                     | Delaney               | Laura      | Wilfred                 |
-|                     | Erin                  |            | Katherine               |
-|                     | Perla            
+|                     |                       | Kyle       | Danica                  |
+|                     |                       |            | Wilfred                 |
+|                     |                       |            | Katherine               |
+|                     |      
 
 
 
