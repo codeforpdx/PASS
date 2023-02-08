@@ -33,6 +33,8 @@ Building out a decentralized application to enable the home insecure to securely
 - When in doubt, ask more people for reviews!
 - Include screenshots whenever you’re building a frontend feature.
 
+4. If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Onboarding to familiarize yourself with the project and GitHub. Add any comments and/or feedback. Request reviews from the appropriate people above.
+
 ## Introductory readings
 
 - [PASS Problem & Solution Stmts](https://docs.google.com/document/d/1mK4-nFlpRtnsbDAuoDgSo3Fsoi2_JDfMyU4nuBjnAMo/edit?usp=share_link)
