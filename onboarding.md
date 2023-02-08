@@ -16,7 +16,7 @@ Building out a decentralized application to enable the home insecure to securely
 
 1. We are still building out the bones of the project. The best way to get started is to follow the steps above and join a meeting to connect with those on the team.
 2. Read the documentation in our GitHub ReadMe to become familiar with the technology we are working with.
-3. Feel free to check out/clone the various branches and play around with our use cases(Particularly [`km/solid/experiments`](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid) and [`jk/solidPodBiolerplate`](https://github.com/codeforpdx/PASS/tree/jk/solidPodBoilerplate)). Each should have documentation to follow. If you notice a gap or errors in documentation feel free to make the changes locally and create a pull request to the branch creator.
+3. Feel free to check out/clone the various branches and play around with our use cases(Particularly [`jk/solidTests`](https://github.com/codeforpdx/PASS/tree/jk/solidTests), [`km/solid/experiments`](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid), and [`jk/solidPodBiolerplate`](https://github.com/codeforpdx/PASS/tree/jk/solidPodBoilerplate)). Each should have documentation to follow. If you notice a gap or errors in documentation feel free to make the changes locally and create a pull request to the branch creator.
 
 
 ## Our development process
