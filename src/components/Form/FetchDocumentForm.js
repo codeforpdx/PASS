@@ -20,11 +20,9 @@ const FetchDocumentForm = () => {
         message: "",
       });
     }, 7000);
-    setSearchSubmitted((prevState) => {
-      return {
-        state: !prevState.state,
-        message,
-      };
+    setSearchSubmitted({
+      state: true,
+      message,
     });
   };
 
@@ -32,16 +30,15 @@ const FetchDocumentForm = () => {
 
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
-    try {
-      fetchDocuments(session, event.target.documentGet.value).then(
-        (documentUrl) => {
-          setDocumentLocation(documentUrl);
-          handleSearchMessage(`Document found! Document located at: `);
-        }
-      );
-    } catch (error) {
-      handleSearchMessage(`Search failed. Reason: Document not found`);
-    }
+    fetchDocuments(session, event.target.documentGet.value)
+      .then((documentUrl) => {
+        setDocumentLocation(documentUrl);
+        handleSearchMessage(`Document found! Document located at: `);
+      })
+      .catch((_error) => {
+        setDocumentLocation("");
+        handleSearchMessage(`Search failed. Reason: Document not found`);
+      });
   };
 
   return (

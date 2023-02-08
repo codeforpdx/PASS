@@ -57,7 +57,7 @@ export const handleFiles = async (fileObject, session) => {
   console.log("TTL url", ttlFile);
 
   let myDataset;
-  if (ttlFile) {
+  if (ttlFile !== null) {
     myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
     console.log("Call original dataset: ", myDataset);
 
@@ -136,6 +136,7 @@ export const fetchDocuments = async (session, fileType) => {
         ttlFiles = hasTTLFiles(bankDocument);
       } catch (error) {
         console.log("No Data Found");
+        throw "No Data Found";
       }
       break;
     case "Passport":
@@ -147,6 +148,7 @@ export const fetchDocuments = async (session, fileType) => {
         ttlFiles = hasTTLFiles(passportDocument);
       } catch (error) {
         console.log("No Data Found");
+        throw "No Data Found";
       }
       break;
     case "Drivers License":
@@ -158,6 +160,7 @@ export const fetchDocuments = async (session, fileType) => {
         ttlFiles = hasTTLFiles(licenseDocument);
       } catch (error) {
         console.log("No Data Found");
+        throw "No Data Found";
       }
       break;
     default:
