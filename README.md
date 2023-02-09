@@ -11,7 +11,7 @@ This repository branch contains a bare-bones demo of:
 
 The current build is made with React 18 from the original packages from jk/solidPodBoilerplate. New additions to package.json besides React include only react-dom. The current build is not built with create-react-app (CRA). Instead it's bundled with Parcel, in line with previous versions of this project.
 
-As of this demo (Feb 7, 2023), @inrupt/solid-ui-react has not been tested in any of the components. All features are developed with existing @inrupt/solid* packages the previous package.json. CSS class names and id are lightly modified in JSX to accommodate for React. The existing CSS file has been lightly modified to use font family Arial as default.
+As of this demo (Feb 7, 2023), @inrupt/solid-ui-react has not been tested in any of the components. All features are developed with existing @inrupt/solid\* packages the previous package.json. CSS class names and id are lightly modified in JSX to accommodate for React. The existing CSS file has been lightly modified to use font family Arial as default.
 
 To get a running version of this demo, clone from this branch and run:
 
