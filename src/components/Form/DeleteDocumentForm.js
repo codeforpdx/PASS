@@ -7,33 +7,39 @@ const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
 
   // initialize states for potential document location on pod
-  const [documentLocation, setDocumentLocation] = useState("");
   const [deleteSubmitted, setDeleteSubmitted] = useState({
     state: false,
     message: "",
   });
+  const [timeoutID, setTimeoutID] = useState(null);
 
-  const handleDeleteMessage = (message) => {
-    setTimeout(() => {
+  // Setting up a more robust notification system
+  // but this needs refactoring in future
+  const handleDeleteMessage = (message, time) => {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+      setDeleteSubmitted({ state: true, message });
+    }
+
+    const timeout = setTimeout(() => {
       setDeleteSubmitted({
         state: false,
         message: "",
       });
-    }, 7000);
-    setDeleteSubmitted({
-      state: true,
-      message,
-    });
+    }, time * 1000);
+    setTimeoutID(timeout);
+    setDeleteSubmitted({ state: true, message });
   };
 
   const docTypes = ["Bank Statement", "Passport", "Drivers License"];
 
-  const handleGetDocumentSubmission = (event) => {
+  // Event handler for deleting document
+  const handleDeleteDocument = (event) => {
     event.preventDefault();
     deleteDocuments(session, event.target.documentGet.value)
-      .then((_response) => handleDeleteMessage("File deleted from Pod"))
+      .then((_response) => handleDeleteMessage("File deleted from Pod", 7))
       .catch((_error) => {
-        handleDeleteMessage("Deletion failed. Reason: Data not found");
+        handleDeleteMessage("Deletion failed. Reason: Data not found", 7);
       });
   };
 
@@ -43,8 +49,8 @@ const DeleteDocumentForm = () => {
         <strong>Delete Document</strong>
         <br />
         <br />
-        <form onSubmit={handleGetDocumentSubmission}>
-          <select name="documentGet" id="documentGet">
+        <form onSubmit={handleDeleteDocument}>
+          <select name="documentDelete" id="documentDelete">
             {docTypes.map((doc, index) => {
               return <option key={index}>{doc}</option>;
             })}
@@ -57,7 +63,6 @@ const DeleteDocumentForm = () => {
           notification={deleteSubmitted}
           statusType="Deletion Status"
           defaultMessage="To be searched..."
-          locationUrl={documentLocation}
         />
       </div>
     </div>

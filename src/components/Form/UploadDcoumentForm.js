@@ -34,8 +34,27 @@ const UploadDocumentForm = () => {
     state: false,
     message: "",
   });
+  const [timeoutID, setTimeoutID] = useState(null);
 
-  // main form handler for form submission
+  // Setting up a more robust notification system
+  // but this needs refactoring in future
+  const handleUploadMessage = (message, time) => {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+      setFileUploaded({ state: true, message });
+    }
+
+    const timeout = setTimeout(() => {
+      setFileUploaded({
+        state: false,
+        message: "",
+      });
+    }, time * 1000);
+    setTimeoutID(timeout);
+    setFileUploaded({ state: true, message });
+  };
+
+  // Event handler for form/document submission to Pod
   const handleFormSubmission = (event) => {
     event.preventDefault();
     const fileObject = {
@@ -46,27 +65,15 @@ const UploadDocumentForm = () => {
     };
     try {
       handleFiles(fileObject, session);
-      handleUploadMessage(`File "${fileObject.file.name}" uploaded to solid`);
+      handleUploadMessage(
+        `File "${fileObject.file.name}" uploaded to solid`,
+        7
+      );
       event.target.file.value = null;
       clearDescription();
     } catch (error) {
-      handleUploadMessage(`Submission failed. Reason: missing file`);
+      handleUploadMessage(`Submission failed. Reason: missing file`, 7);
     }
-  };
-
-  const handleUploadMessage = (message) => {
-    setTimeout(() => {
-      setFileUploaded({
-        state: false,
-        message: "",
-      });
-    }, 7000);
-    setFileUploaded((prevState) => {
-      return {
-        state: !prevState.state,
-        message,
-      };
-    });
   };
 
   return (

@@ -102,6 +102,7 @@ const hasTTLFiles = (url) => {
   }
 };
 
+// Sub-routine to check for any existing files in directory to help in container deletion from Pod
 const hasFiles = (url) => {
   const items = getThingAll(url);
   if (!items) {

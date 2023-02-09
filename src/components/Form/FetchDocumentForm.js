@@ -12,32 +12,39 @@ const FetchDocumentForm = () => {
     state: false,
     message: "",
   });
+  const [timeoutID, setTimeoutID] = useState(null);
 
-  const handleSearchMessage = (message) => {
-    setTimeout(() => {
+  // Setting up a more robust notification system
+  // but this needs refactoring in future
+  const handleSearchMessage = (message, time) => {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+      setSearchSubmitted({ state: true, message });
+    }
+
+    const timeout = setTimeout(() => {
       setSearchSubmitted({
         state: false,
         message: "",
       });
-    }, 7000);
-    setSearchSubmitted({
-      state: true,
-      message,
-    });
+    }, time * 1000);
+    setTimeoutID(timeout);
+    setSearchSubmitted({ state: true, message });
   };
 
   const docTypes = ["Bank Statement", "Passport", "Drivers License"];
 
+  // Event handler for fetching document
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
     fetchDocuments(session, event.target.documentGet.value)
       .then((documentUrl) => {
         setDocumentLocation(documentUrl);
-        handleSearchMessage(`Document found! Document located at: `);
+        handleSearchMessage(`Document found! Document located at: `, 7);
       })
       .catch((_error) => {
         setDocumentLocation("");
-        handleSearchMessage(`Search failed. Reason: Document not found`);
+        handleSearchMessage(`Search failed. Reason: Document not found`, 7);
       });
   };
 
