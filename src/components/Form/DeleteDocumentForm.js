@@ -1,26 +1,26 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import StatusNotification from "../StatusNotification";
-import { fetchDocuments } from "../../utils/session-helper";
+import { deleteDocuments } from "../../utils/session-helper";
 
-const FetchDocumentForm = () => {
+const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
 
   // initialize states for potential document location on pod
   const [documentLocation, setDocumentLocation] = useState("");
-  const [searchSubmitted, setSearchSubmitted] = useState({
+  const [deleteSubmitted, setDeleteSubmitted] = useState({
     state: false,
     message: "",
   });
 
-  const handleSearchMessage = (message) => {
+  const handleDeleteMessage = (message) => {
     setTimeout(() => {
-      setSearchSubmitted({
+      setDeleteSubmitted({
         state: false,
         message: "",
       });
     }, 7000);
-    setSearchSubmitted({
+    setDeleteSubmitted({
       state: true,
       message,
     });
@@ -30,21 +30,17 @@ const FetchDocumentForm = () => {
 
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
-    fetchDocuments(session, event.target.documentGet.value)
-      .then((documentUrl) => {
-        setDocumentLocation(documentUrl);
-        handleSearchMessage(`Document found! Document located at: `);
-      })
+    deleteDocuments(session, event.target.documentGet.value)
+      .then((_response) => handleDeleteMessage("File deleted from Pod"))
       .catch((_error) => {
-        setDocumentLocation("");
-        handleSearchMessage(`Search failed. Reason: Document not found`);
+        handleDeleteMessage("Deletion failed. Reason: Data not found");
       });
   };
 
   return (
     <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
       <div className="row">
-        <strong>Search Document</strong>
+        <strong>Delete Document</strong>
         <br />
         <br />
         <form onSubmit={handleGetDocumentSubmission}>
@@ -53,13 +49,13 @@ const FetchDocumentForm = () => {
               return <option key={index}>{doc}</option>;
             })}
           </select>{" "}
-          <button>Get Document</button>
+          <button>Delete Document</button>
         </form>
       </div>
       <div className="row">
         <StatusNotification
-          notification={searchSubmitted}
-          statusType="Search Status"
+          notification={deleteSubmitted}
+          statusType="Deletion Status"
           defaultMessage="To be searched..."
           locationUrl={documentLocation}
         />
@@ -68,4 +64,4 @@ const FetchDocumentForm = () => {
   );
 };
 
-export default FetchDocumentForm;
+export default DeleteDocumentForm;

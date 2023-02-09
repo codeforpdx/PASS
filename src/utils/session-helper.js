@@ -10,6 +10,8 @@ import {
   saveSolidDatasetAt,
   createSolidDataset,
   saveSolidDatasetInContainer,
+  deleteContainer,
+  deleteFile,
 } from "@inrupt/solid-client";
 import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 
@@ -100,6 +102,15 @@ const hasTTLFiles = (url) => {
   }
 };
 
+const hasFiles = (url) => {
+  const items = getThingAll(url);
+  if (!items) {
+    return null;
+  } else {
+    return items;
+  }
+};
+
 const placeFileInContainer = async (
   fileObject,
   targetContainerUrl,
@@ -124,53 +135,59 @@ const placeFileInContainer = async (
 export const fetchDocuments = async (session, fileType) => {
   const POD_URL = String(session.info.webId.split("profile")[0]);
   let documentUrl;
-  let ttlFiles;
 
   switch (fileType) {
     case "Bank Statement":
       try {
         documentUrl = `${POD_URL}Bank%20Statement/`;
-        const bankDocument = await getSolidDataset(documentUrl, {
+        await getSolidDataset(documentUrl, {
           fetch: session.fetch,
         });
-        ttlFiles = hasTTLFiles(bankDocument);
+        console.log("TTL file exist");
+        return documentUrl;
       } catch (error) {
         console.log("No Data Found");
         throw "No Data Found";
       }
-      break;
     case "Passport":
       try {
         documentUrl = `${POD_URL}Passport/`;
-        const passportDocument = await getSolidDataset(documentUrl, {
+        await getSolidDataset(documentUrl, {
           fetch: session.fetch,
         });
-        ttlFiles = hasTTLFiles(passportDocument);
+        console.log("TTL file exist");
+        return documentUrl;
       } catch (error) {
         console.log("No Data Found");
         throw "No Data Found";
       }
-      break;
     case "Drivers License":
       try {
         documentUrl = `${POD_URL}Drivers%20License/`;
-        const licenseDocument = await getSolidDataset(documentUrl, {
+        await getSolidDataset(documentUrl, {
           fetch: session.fetch,
         });
-        ttlFiles = hasTTLFiles(licenseDocument);
+        console.log("TTL file exist");
+        return documentUrl;
       } catch (error) {
         console.log("No Data Found");
         throw "No Data Found";
       }
-      break;
     default:
       break;
   }
+};
 
-  if (ttlFiles) {
-    console.log("TTL file exist");
-    return documentUrl;
-  } else {
-    console.log("No Data Found");
-  }
+export const deleteDocuments = async (session, fileType) => {
+  const response = await fetchDocuments(session, fileType);
+  const fetched = await getSolidDataset(response, {
+    fetch: session.fetch,
+  });
+  const allFiles = hasFiles(fetched);
+  allFiles.filter((file) => {
+    if (!file.url.slice(-3).includes("/")) {
+      deleteFile(file.url, { fetch: session.fetch });
+    }
+  });
+  await deleteContainer(response, { fetch: session.fetch });
 };

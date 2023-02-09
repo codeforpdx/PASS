@@ -2,13 +2,13 @@ import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
 import { handleFiles } from "../../utils/session-helper";
-import StatusNotification from "./StatusNotification";
+import StatusNotification from "../StatusNotification";
 
 const DocumentOption = ({ docType }) => {
   return <option>{docType}</option>;
 };
 
-const WriteForm = () => {
+const UploadDocumentForm = () => {
   const { session } = useContext(SessionContext);
 
   // Initalized state for file upload
@@ -80,7 +80,7 @@ const WriteForm = () => {
           <strong>Upload Document</strong>
           <br />
           <br />
-          <form id="writeForm" onSubmit={handleFormSubmission}>
+          <form id="upload-document" onSubmit={handleFormSubmission}>
             <label htmlFor="cars">Choose Document Type To Upload: </label>
             <select name="document" id="document">
               {docOptions.map((docType, index) => {
@@ -116,4 +116,4 @@ const WriteForm = () => {
   );
 };
 
-export default WriteForm;
+export default UploadDocumentForm;

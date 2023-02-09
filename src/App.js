@@ -1,8 +1,11 @@
-import Login from "./components/Login/Login";
-import WriteForm from "./components/Form/WriteForm";
 import { useSession } from "./hooks";
 import { createContext } from "react";
-import FetchDocumentForm from "./components/Form/FetchDocumentForm";
+import Login from "./components/Login/Login";
+import {
+  UploadDocumentForm,
+  FetchDocumentForm,
+  DeleteDocumentForm,
+} from "./components/Form";
 
 const AppHeader = () => {
   return (
@@ -23,8 +26,9 @@ const App = () => {
       <AppHeader />
       <SessionContext.Provider value={{ session, handleLogin }}>
         <Login />
-        <WriteForm />
+        <UploadDocumentForm />
         <FetchDocumentForm />
+        <DeleteDocumentForm />
       </SessionContext.Provider>
     </>
   );

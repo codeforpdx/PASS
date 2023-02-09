@@ -15,7 +15,9 @@ const Login = () => {
           </a>
           ]:{" "}
         </label>
-        <button onClick={() => handleLogin()}>Login</button>
+        <button onClick={() => handleLogin()}>
+          {session.info.isLoggedIn ? "Logout" : "Login"}
+        </button>
         {session.info.isLoggedIn ? (
           <p className="labelStatus" id="labelStatus" role="alert">
             Your session is logged in with the WebID [

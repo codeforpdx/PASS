@@ -1,4 +1,4 @@
-import { Session } from "@inrupt/solid-client-authn-browser";
+import { logout, Session } from "@inrupt/solid-client-authn-browser";
 import { useEffect, useState } from "react";
 import { SOLID_IDENTITY_PROVIDER } from "../utils/session-helper";
 
@@ -39,7 +39,12 @@ export const useSession = () => {
   };
 
   const handleLogin = async () => {
-    loginPod();
+    if (!session.info.isLoggedIn) {
+      loginPod();
+    } else {
+      logout();
+      window.location.reload();
+    }
   };
 
   const handleRedirectAfterLogin = async () => {
