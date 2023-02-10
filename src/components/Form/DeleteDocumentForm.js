@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import StatusNotification from "../StatusNotification";
 import { deleteDocuments } from "../../utils/session-helper";
 import { runNotification } from "../../utils/notification-helper";
+import DocumentSelection from "./DocumentSelection";
+import StatusNotification from "./StatusNotification";
 
 const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
@@ -14,12 +15,10 @@ const DeleteDocumentForm = () => {
   });
   const [timeoutID, setTimeoutID] = useState(null);
 
-  const docTypes = ["Bank Statement", "Passport", "Drivers License"];
-
   // Event handler for deleting document
   const handleDeleteDocument = (event) => {
     event.preventDefault();
-    deleteDocuments(session, event.target.documentDelete.value)
+    deleteDocuments(session, event.target.document.value)
       .then((_response) =>
         runNotification(
           "File deleted from Pod",
@@ -47,12 +46,7 @@ const DeleteDocumentForm = () => {
         <br />
         <br />
         <form onSubmit={handleDeleteDocument}>
-          <select name="documentDelete" id="documentDelete">
-            {docTypes.map((doc, index) => {
-              return <option key={index}>{doc}</option>;
-            })}
-          </select>{" "}
-          <button>Delete Document</button>
+          <DocumentSelection /> <button>Delete Document</button>
         </form>
       </div>
       <div className="row">

@@ -1,13 +1,10 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
-import { runNotification } from "../../utils/notification-helper";
 import { handleFiles } from "../../utils/session-helper";
-import StatusNotification from "../StatusNotification";
-
-const DocumentOption = ({ docType }) => {
-  return <option>{docType}</option>;
-};
+import { runNotification } from "../../utils/notification-helper";
+import DocumentSelection from "./DocumentSelection";
+import StatusNotification from "./StatusNotification";
 
 const UploadDocumentForm = () => {
   const { session } = useContext(SessionContext);
@@ -20,8 +17,6 @@ const UploadDocumentForm = () => {
       setFile(event.target.files[0]);
     }
   };
-
-  const docOptions = ["Bank Statement", "Passport", "Drivers License"];
 
   // Custom useField hook for handling form inputs
   const {
@@ -81,11 +76,7 @@ const UploadDocumentForm = () => {
           <br />
           <form id="upload-document" onSubmit={handleFormSubmission}>
             <label htmlFor="cars">Choose Document Type To Upload: </label>
-            <select name="document" id="document">
-              {docOptions.map((docType, index) => {
-                return <DocumentOption key={index} docType={docType} />;
-              })}
-            </select>
+            <DocumentSelection />
             <br />
             <p>Expiration Date (if applicable):</p>
             <input name="date" id="date" type="date" />

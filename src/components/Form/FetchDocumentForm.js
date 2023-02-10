@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import StatusNotification from "../StatusNotification";
 import { fetchDocuments } from "../../utils/session-helper";
 import { runNotification } from "../../utils/notification-helper";
+import DocumentSelection from "./DocumentSelection";
+import StatusNotification from "./StatusNotification";
 
 const FetchDocumentForm = () => {
   const { session } = useContext(SessionContext);
@@ -15,12 +16,10 @@ const FetchDocumentForm = () => {
   });
   const [timeoutID, setTimeoutID] = useState(null);
 
-  const docTypes = ["Bank Statement", "Passport", "Drivers License"];
-
   // Event handler for fetching document
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
-    fetchDocuments(session, event.target.documentGet.value)
+    fetchDocuments(session, event.target.document.value)
       .then((documentUrl) => {
         setDocumentLocation(documentUrl);
         runNotification(
@@ -50,12 +49,7 @@ const FetchDocumentForm = () => {
         <br />
         <br />
         <form onSubmit={handleGetDocumentSubmission}>
-          <select name="documentGet" id="documentGet">
-            {docTypes.map((doc, index) => {
-              return <option key={index}>{doc}</option>;
-            })}
-          </select>{" "}
-          <button>Get Document</button>
+          <DocumentSelection /> <button>Get Document</button>
         </form>
       </div>
       <div className="row">

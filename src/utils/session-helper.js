@@ -17,6 +17,7 @@ import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 
 export const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 
+// Main function to upload document to user's Pod on Solid
 export const handleFiles = async (fileObject, session) => {
   if (!fileObject.file) {
     throw "File missing from submission!";
@@ -83,7 +84,8 @@ export const handleFiles = async (fileObject, session) => {
   }
 
   console.log(
-    `Uploaded ${fileObject.file.name} to pod successfully and set identifier to ${fileObject.type}, end date to ${fileObject.date}, and description to ${fileObject.description}`
+    `Uploaded ${fileObject.file.name} to pod successfully and set identifier to ${fileObject.type},
+    end date to ${fileObject.date}, and description to ${fileObject.description}`
   );
 };
 
@@ -184,6 +186,9 @@ export const deleteDocuments = async (session, fileType) => {
   const fetched = await getSolidDataset(response, {
     fetch: session.fetch,
   });
+
+  // Solid requires all files within Pod Container must be deleted before
+  // the container itself can be delete itself
   const allFiles = hasFiles(fetched);
   allFiles.filter((file) => {
     if (!file.url.slice(-3).includes("/")) {

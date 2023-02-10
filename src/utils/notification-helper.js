@@ -1,6 +1,6 @@
 export const runNotification = (
   message,
-  time,
+  time, // in seconds
   timeoutID,
   setStatusFunc,
   setTimeoutFunc
