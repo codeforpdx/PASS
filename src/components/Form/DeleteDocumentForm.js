@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import StatusNotification from "../StatusNotification";
 import { deleteDocuments } from "../../utils/session-helper";
+import { runNotification } from "../../utils/notification-helper";
 
 const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
@@ -13,33 +14,29 @@ const DeleteDocumentForm = () => {
   });
   const [timeoutID, setTimeoutID] = useState(null);
 
-  // Setting up a more robust notification system
-  // but this needs refactoring in future
-  const handleDeleteMessage = (message, time) => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-      setDeleteSubmitted({ state: true, message });
-    }
-
-    const timeout = setTimeout(() => {
-      setDeleteSubmitted({
-        state: false,
-        message: "",
-      });
-    }, time * 1000);
-    setTimeoutID(timeout);
-    setDeleteSubmitted({ state: true, message });
-  };
-
   const docTypes = ["Bank Statement", "Passport", "Drivers License"];
 
   // Event handler for deleting document
   const handleDeleteDocument = (event) => {
     event.preventDefault();
-    deleteDocuments(session, event.target.documentGet.value)
-      .then((_response) => handleDeleteMessage("File deleted from Pod", 7))
+    deleteDocuments(session, event.target.documentDelete.value)
+      .then((_response) =>
+        runNotification(
+          "File deleted from Pod",
+          7,
+          timeoutID,
+          setDeleteSubmitted,
+          setTimeoutID
+        )
+      )
       .catch((_error) => {
-        handleDeleteMessage("Deletion failed. Reason: Data not found", 7);
+        runNotification(
+          "Deletion failed. Reason: Data not found",
+          7,
+          timeoutID,
+          setDeleteSubmitted,
+          setTimeoutID
+        );
       });
   };
 

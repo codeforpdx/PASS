@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
+import { runNotification } from "../../utils/notification-helper";
 import { handleFiles } from "../../utils/session-helper";
 import StatusNotification from "../StatusNotification";
 
@@ -36,24 +37,6 @@ const UploadDocumentForm = () => {
   });
   const [timeoutID, setTimeoutID] = useState(null);
 
-  // Setting up a more robust notification system
-  // but this needs refactoring in future
-  const handleUploadMessage = (message, time) => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-      setFileUploaded({ state: true, message });
-    }
-
-    const timeout = setTimeout(() => {
-      setFileUploaded({
-        state: false,
-        message: "",
-      });
-    }, time * 1000);
-    setTimeoutID(timeout);
-    setFileUploaded({ state: true, message });
-  };
-
   // Event handler for form/document submission to Pod
   const handleFormSubmission = (event) => {
     event.preventDefault();
@@ -65,14 +48,23 @@ const UploadDocumentForm = () => {
     };
     try {
       handleFiles(fileObject, session);
-      handleUploadMessage(
+      runNotification(
         `File "${fileObject.file.name}" uploaded to solid`,
-        7
+        7,
+        timeoutID,
+        setFileUploaded,
+        setTimeoutID
       );
       event.target.file.value = null;
       clearDescription();
     } catch (error) {
-      handleUploadMessage(`Submission failed. Reason: missing file`, 7);
+      runNotification(
+        `Submission failed. Reason: missing file`,
+        7,
+        timeoutID,
+        setFileUploaded,
+        setTimeoutID
+      );
     }
   };
 

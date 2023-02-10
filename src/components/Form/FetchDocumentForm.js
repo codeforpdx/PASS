@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import StatusNotification from "../StatusNotification";
 import { fetchDocuments } from "../../utils/session-helper";
+import { runNotification } from "../../utils/notification-helper";
 
 const FetchDocumentForm = () => {
   const { session } = useContext(SessionContext);
@@ -14,24 +15,6 @@ const FetchDocumentForm = () => {
   });
   const [timeoutID, setTimeoutID] = useState(null);
 
-  // Setting up a more robust notification system
-  // but this needs refactoring in future
-  const handleSearchMessage = (message, time) => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-      setSearchSubmitted({ state: true, message });
-    }
-
-    const timeout = setTimeout(() => {
-      setSearchSubmitted({
-        state: false,
-        message: "",
-      });
-    }, time * 1000);
-    setTimeoutID(timeout);
-    setSearchSubmitted({ state: true, message });
-  };
-
   const docTypes = ["Bank Statement", "Passport", "Drivers License"];
 
   // Event handler for fetching document
@@ -40,11 +23,23 @@ const FetchDocumentForm = () => {
     fetchDocuments(session, event.target.documentGet.value)
       .then((documentUrl) => {
         setDocumentLocation(documentUrl);
-        handleSearchMessage(`Document found! Document located at: `, 7);
+        runNotification(
+          `Document found! Document located at: `,
+          7,
+          timeoutID,
+          setSearchSubmitted,
+          setTimeoutID
+        );
       })
       .catch((_error) => {
         setDocumentLocation("");
-        handleSearchMessage(`Search failed. Reason: Document not found`, 7);
+        runNotification(
+          `Search failed. Reason: Document not found`,
+          7,
+          timeoutID,
+          setSearchSubmitted,
+          setTimeoutID
+        );
       });
   };
 
