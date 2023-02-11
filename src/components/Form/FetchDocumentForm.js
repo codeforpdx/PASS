@@ -1,38 +1,43 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import { useDispatch, useSelector } from "react-redux";
-import { runNotification } from "../../reducers/notificationReducer";
 import { fetchDocuments } from "../../utils/session-helper";
+import { runNotification } from "../../utils/notification-helper";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
 const FetchDocumentForm = () => {
   const { session } = useContext(SessionContext);
-  const dispatch = useDispatch();
-  // Get state from redux store
-  const fetchNotification = useSelector((state) => state.fetchNotification);
+
+  // initialize states for potential document location on pod
+  const [documentLocation, setDocumentLocation] = useState("");
+  const [searchSubmitted, setSearchSubmitted] = useState({
+    state: false,
+    message: "",
+  });
+  const [timeoutID, setTimeoutID] = useState(null);
 
   // Event handler for fetching document
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
     fetchDocuments(session, event.target.document.value)
       .then((documentUrl) => {
-        dispatch(
-          runNotification({
-            message: "Document found! Document located at: ",
-            statusType: "fetch",
-            documentUrl,
-            time: 7,
-          })
+        setDocumentLocation(documentUrl);
+        runNotification(
+          `Document found! Document located at: `,
+          7,
+          timeoutID,
+          setSearchSubmitted,
+          setTimeoutID
         );
       })
       .catch((_error) => {
-        dispatch(
-          runNotification({
-            message: "Search failed. Reason: Document not found",
-            statusType: "fetch",
-            time: 7,
-          })
+        setDocumentLocation("");
+        runNotification(
+          `Search failed. Reason: Document not found`,
+          7,
+          timeoutID,
+          setSearchSubmitted,
+          setTimeoutID
         );
       });
   };
@@ -49,10 +54,10 @@ const FetchDocumentForm = () => {
       </div>
       <div className="row">
         <StatusNotification
-          notification={fetchNotification.message}
+          notification={searchSubmitted}
           statusType="Search Status"
           defaultMessage="To be searched..."
-          locationUrl={fetchNotification.documentUrl}
+          locationUrl={documentLocation}
         />
       </div>
     </div>

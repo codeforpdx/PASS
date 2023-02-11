@@ -13,13 +13,10 @@
     "@inrupt/solid-client": "^1.24.0",
     "@inrupt/solid-client-authn-browser": "^1.12.3",
     "@inrupt/vocab-common-rdf": "^1.0.5",
-    "@reduxjs/toolkit": "^1.9.2",
     "fs": "^0.0.1-security",
     "git": "^0.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "redux-thunk": "^2.4.2"
+    "react-dom": "^18.2.0"
   },
   "browserslist": [
     "last 3 and_chr versions",

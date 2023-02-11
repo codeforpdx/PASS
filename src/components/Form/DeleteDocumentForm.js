@@ -1,37 +1,40 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import { useDispatch, useSelector } from "react-redux";
-import { runNotification } from "../../reducers/notificationReducer";
 import { deleteDocuments } from "../../utils/session-helper";
+import { runNotification } from "../../utils/notification-helper";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
 const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
-  const dispatch = useDispatch();
-  // Get state from redux store
-  const deleteNotification = useSelector((state) => state.deleteNotification);
+
+  // initialize states for potential document location on pod
+  const [deleteSubmitted, setDeleteSubmitted] = useState({
+    state: false,
+    message: "",
+  });
+  const [timeoutID, setTimeoutID] = useState(null);
 
   // Event handler for deleting document
   const handleDeleteDocument = (event) => {
     event.preventDefault();
     deleteDocuments(session, event.target.document.value)
       .then((_response) =>
-        dispatch(
-          runNotification({
-            message: "File deleted from Pod",
-            statusType: "delete",
-            time: 7,
-          })
+        runNotification(
+          "File deleted from Pod",
+          7,
+          timeoutID,
+          setDeleteSubmitted,
+          setTimeoutID
         )
       )
       .catch((_error) => {
-        dispatch(
-          runNotification({
-            message: "Deletion failed. Reason: Data not found",
-            statusType: "delete",
-            time: 7,
-          })
+        runNotification(
+          "Deletion failed. Reason: Data not found",
+          7,
+          timeoutID,
+          setDeleteSubmitted,
+          setTimeoutID
         );
       });
   };
@@ -48,7 +51,7 @@ const DeleteDocumentForm = () => {
       </div>
       <div className="row">
         <StatusNotification
-          notification={deleteNotification.message}
+          notification={deleteSubmitted}
           statusType="Deletion Status"
           defaultMessage="To be searched..."
         />

@@ -7,17 +7,17 @@ const StatusNotification = ({
   return (
     <dl className="display">
       <dt>{statusType}:</dt>
-      {notification !== "" ? (
+      {notification.state ? (
         locationUrl ? (
           <dd id="labelWriteStatus" className="labelStatus" role="alert">
-            {notification}{" "}
+            {notification.message}{" "}
             <a href={locationUrl} target="_blank">
               {locationUrl}
             </a>
           </dd>
         ) : (
           <dd id="labelWriteStatus" className="labelStatus" role="alert">
-            {notification}
+            {notification.message}
           </dd>
         )
       ) : (
