@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
-import { handleFiles, runN } from "../../utils";
+import { handleFiles, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
