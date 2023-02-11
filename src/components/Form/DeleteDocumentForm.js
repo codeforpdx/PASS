@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import { deleteDocuments } from "../../utils/session-helper";
-import { runNotification } from "../../utils/notification-helper";
+import { deleteDocuments, runNotification } from "../../utils/";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
@@ -9,10 +8,7 @@ const DeleteDocumentForm = () => {
   const { session } = useContext(SessionContext);
 
   // initialize states for potential document location on pod
-  const [deleteSubmitted, setDeleteSubmitted] = useState({
-    state: false,
-    message: "",
-  });
+  const [deleteSubmitted, setDeleteSubmitted] = useState("");
   const [timeoutID, setTimeoutID] = useState(null);
 
   // Event handler for deleting document

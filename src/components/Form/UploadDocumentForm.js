@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
-import { handleFiles } from "../../utils/session-helper";
-import { runNotification } from "../../utils/notification-helper";
+import { handleFiles, runN } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
@@ -26,10 +25,7 @@ const UploadDocumentForm = () => {
   } = useField("textarea");
 
   // useState for upload notification
-  const [fileUploaded, setFileUploaded] = useState({
-    state: false,
-    message: "",
-  });
+  const [fileUploaded, setFileUploaded] = useState("");
   const [timeoutID, setTimeoutID] = useState(null);
 
   // Event handler for form/document submission to Pod

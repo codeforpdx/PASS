@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
-import { fetchDocuments } from "../../utils/session-helper";
-import { runNotification } from "../../utils/notification-helper";
+import { fetchDocuments, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
@@ -10,10 +9,7 @@ const FetchDocumentForm = () => {
 
   // initialize states for potential document location on pod
   const [documentLocation, setDocumentLocation] = useState("");
-  const [searchSubmitted, setSearchSubmitted] = useState({
-    state: false,
-    message: "",
-  });
+  const [searchSubmitted, setSearchSubmitted] = useState("");
   const [timeoutID, setTimeoutID] = useState(null);
 
   // Event handler for fetching document

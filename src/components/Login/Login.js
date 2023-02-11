@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { SessionContext } from "../../App";
-import { SOLID_IDENTITY_PROVIDER } from "../../utils/session-helper";
+import { SOLID_IDENTITY_PROVIDER } from "../../utils/";
 
 const Login = () => {
   const { session, handleLogin } = useContext(SessionContext);
