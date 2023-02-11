@@ -1,4 +1,4 @@
-import UploadDocumentForm from "./UploadDcoumentForm";
+import UploadDocumentForm from "./UploadDocumentForm";
 import FetchDocumentForm from "./FetchDocumentForm";
 import DeleteDocumentForm from "./DeleteDocumentForm";
 
