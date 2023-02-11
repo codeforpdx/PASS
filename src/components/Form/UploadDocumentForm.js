@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { SessionContext } from "../../App";
+import { useDispatch, useSelector } from "react-redux";
+import { runNotification } from "../../reducers/notificationReducer";
 import { useField } from "../../hooks";
 import { handleFiles } from "../../utils/session-helper";
-import { runNotification } from "../../utils/notification-helper";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
@@ -25,12 +26,9 @@ const UploadDocumentForm = () => {
     ...description
   } = useField("textarea");
 
-  // useState for upload notification
-  const [fileUploaded, setFileUploaded] = useState({
-    state: false,
-    message: "",
-  });
-  const [timeoutID, setTimeoutID] = useState(null);
+  const dispatch = useDispatch();
+  // Get state from redux store
+  const uploadNotification = useSelector((state) => state.uploadNotification);
 
   // Event handler for form/document submission to Pod
   const handleFormSubmission = (event) => {
@@ -43,22 +41,22 @@ const UploadDocumentForm = () => {
     };
     try {
       handleFiles(fileObject, session);
-      runNotification(
-        `File "${fileObject.file.name}" uploaded to solid`,
-        7,
-        timeoutID,
-        setFileUploaded,
-        setTimeoutID
+      dispatch(
+        runNotification({
+          message: `File "${fileObject.file.name}" uploaded to solid`,
+          statusType: "upload",
+          time: 7,
+        })
       );
       event.target.file.value = null;
       clearDescription();
     } catch (error) {
-      runNotification(
-        `Submission failed. Reason: missing file`,
-        7,
-        timeoutID,
-        setFileUploaded,
-        setTimeoutID
+      dispatch(
+        runNotification({
+          message: "Submission failed. Reason: missing file",
+          statusType: "upload",
+          time: 7,
+        })
       );
     }
   };
@@ -97,7 +95,7 @@ const UploadDocumentForm = () => {
           </form>
         </div>
         <StatusNotification
-          notification={fileUploaded}
+          notification={uploadNotification.message}
           statusType="Writing Status"
           defaultMessage="To be uploaded..."
         />
