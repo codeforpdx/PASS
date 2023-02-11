@@ -49,7 +49,6 @@ const UploadDocumentForm = () => {
         })
       );
       event.target.file.value = null;
-      setFile(null);
       clearDescription();
     } catch (error) {
       dispatch(
