@@ -1,19 +1,39 @@
-import { useContext, useState } from "react";
+import { useContext, useReducer } from "react";
 import { SessionContext } from "../../App";
 import { useField } from "../../hooks";
 import { handleFiles, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
+const uploadReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_FILE":
+      return { ...state, file: action.payload };
+    case "SET_MESSAGE":
+      return { ...state, message: action.payload };
+    case "SET_TIMEOUTID":
+      return { ...state, timeoutID: action.payload };
+    default:
+      throw new Error("No action");
+  }
+};
+
 const UploadDocumentForm = () => {
   const { session } = useContext(SessionContext);
+  // Combined state for file upload with useReducer
+  const [state, dispatch] = useReducer(uploadReducer, {
+    file: null,
+    message: "",
+    timeoutID: null,
+  });
 
   // Initalized state for file upload
-  const [file, setFile] = useState(null);
-
   const handleFileChange = (event) => {
     if (event.target.files) {
-      setFile(event.target.files[0]);
+      dispatch({
+        type: "SET_FILE",
+        payload: event.target.files[0],
+      });
     }
   };
 
@@ -24,10 +44,6 @@ const UploadDocumentForm = () => {
     ...description
   } = useField("textarea");
 
-  // useState for upload notification
-  const [fileUploaded, setFileUploaded] = useState("");
-  const [timeoutID, setTimeoutID] = useState(null);
-
   // Event handler for form/document submission to Pod
   const handleFormSubmission = (event) => {
     event.preventDefault();
@@ -35,27 +51,25 @@ const UploadDocumentForm = () => {
       type: event.target.document.value,
       date: event.target.date.value || "01/01/1800",
       description: event.target.description.value || "No Description provided",
-      file: file,
+      file: state.file,
     };
     try {
       handleFiles(fileObject, session);
       runNotification(
         `File "${fileObject.file.name}" uploaded to solid`,
         7,
-        timeoutID,
-        setFileUploaded,
-        setTimeoutID
+        state.timeoutID,
+        dispatch
       );
       event.target.file.value = null;
-      setFile(null);
+      dispatch({ type: "SET_FILE", payload: null });
       clearDescription();
     } catch (error) {
       runNotification(
         `Submission failed. Reason: missing file`,
         7,
-        timeoutID,
-        setFileUploaded,
-        setTimeoutID
+        state.timeoutID,
+        dispatch
       );
     }
   };
@@ -94,7 +108,7 @@ const UploadDocumentForm = () => {
           </form>
         </div>
         <StatusNotification
-          notification={fileUploaded}
+          notification={state.message}
           statusType="Writing Status"
           defaultMessage="To be uploaded..."
         />
