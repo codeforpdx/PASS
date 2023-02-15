@@ -1,3 +1,8 @@
+/**
+ * utils module to help run functions for form, notification, and Solid session
+ * @module utils
+ * @namespace utils
+ */
 import { docTypes } from "./form-helper";
 import { runNotification } from "./notification-helper";
 import {

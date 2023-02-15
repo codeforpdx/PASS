@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "docs": "jsdoc --readme ./README.md -c jsdoc.config.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -28,6 +29,7 @@
   ],
   "devDependencies": {
     "buffer": "^5.7.1",
+    "jsdoc": "^4.0.0",
     "string_decoder": "^1.3.0"
   }
 }

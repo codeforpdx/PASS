@@ -4,6 +4,20 @@ import { deleteDocuments, runNotification } from "../../utils/";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
+/**
+ * @typedef deleteReducerObject
+ * @property {string} message - File status message
+ * @property {string|null} timeoutID - timeoutID for status message
+ */
+
+/**
+ * @memberof Forms
+ * @function deleteReducer
+ * @param {deleteReducerObject} state - State for file deletion and status message
+ * @param {Object} action - useReducer Object for useReducer hook containing action.payload
+ * @return {deleteReducerObject} An updated state based on useReducer action
+ */
+
 const deleteReducer = (state, action) => {
   switch (action.type) {
     case "SET_MESSAGE":
