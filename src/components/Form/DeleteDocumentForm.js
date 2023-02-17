@@ -61,13 +61,14 @@ const DeleteDocumentForm = () => {
         <br />
         <br />
         <form onSubmit={handleDeleteDocument}>
+          <label>Select document type to delete: </label>
           <DocumentSelection /> <button>Delete Document</button>
         </form>
       </div>
       <div className="row">
         <StatusNotification
           notification={state.message}
-          statusType="Deletion Status"
+          statusType="Deletion status"
           defaultMessage="To be searched..."
         />
       </div>

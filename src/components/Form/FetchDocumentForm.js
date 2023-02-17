@@ -72,13 +72,14 @@ const FetchDocumentForm = () => {
         <br />
         <br />
         <form onSubmit={handleGetDocumentSubmission}>
+          <label>Select document type to search: </label>
           <DocumentSelection /> <button>Get Document</button>
         </form>
       </div>
       <div className="row">
         <StatusNotification
           notification={state.message}
-          statusType="Search Status"
+          statusType="Search status"
           defaultMessage="To be searched..."
           locationUrl={state.documentLocation}
         />

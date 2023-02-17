@@ -6,6 +6,8 @@ import {
   FetchDocumentForm,
   DeleteDocumentForm,
 } from "./components/Form";
+import CrossPodQuery from "./components/Form/CrossPodQuery";
+import CrossPodWrite from "./components/Form/CrossPodWrite";
 
 const AppHeader = () => {
   return (
@@ -29,6 +31,8 @@ const App = () => {
         <UploadDocumentForm />
         <FetchDocumentForm />
         <DeleteDocumentForm />
+        <CrossPodQuery />
+        <CrossPodWrite />
       </SessionContext.Provider>
     </>
   );

@@ -101,13 +101,13 @@ const UploadDocumentForm = () => {
           <br />
           <br />
           <form id="upload-document" onSubmit={handleFormSubmission}>
-            <label htmlFor="cars">Choose Document Type To Upload: </label>
+            <label>Select document type to upload: </label>
             <DocumentSelection />
             <br />
-            <p>Expiration Date (if applicable):</p>
+            <p>Expiration date (if applicable):</p>
             <input name="date" id="date" type="date" />
             <br />
-            <p>Enter Description:</p>
+            <p>Enter description:</p>
             <textarea name="description" id="description" {...description} />
             <br />
             <br />
@@ -124,7 +124,7 @@ const UploadDocumentForm = () => {
         </div>
         <StatusNotification
           notification={state.message}
-          statusType="Writing Status"
+          statusType="Writing status"
           defaultMessage="To be uploaded..."
         />
       </div>
