@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useField } from "../../hooks";
 import { SessionContext } from "../../App";
 import StatusNotification from "./StatusNotification";
@@ -11,16 +11,28 @@ const CrossPodWrite = () => {
     _type,
     ...description
   } = useField("textarea");
+  const [file, setFile] = useState([]);
 
-  const handleFileChange = () => {};
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleCrossPodUpload = (event) => {
+    event.preventDefault();
+    console.log(event.target.crossPodWrite.value);
+    console.log(event.target.document.value);
+    console.log(event.target.date.value);
+    console.log(event.target.description.value);
+    console.log(file);
+  };
 
   return (
     <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
-      <div class="row">
+      <div className="row">
         <strong>Cross Pod Upload</strong>
         <br />
         <br />
-        <form id="crossPodWrite">
+        <form id="crossPodWrite" onSubmit={handleCrossPodUpload}>
           <label id="writelabel" htmlFor="input_file">
             Paste other user's pod url to upload to:{" "}
           </label>
