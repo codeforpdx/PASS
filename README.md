@@ -1,26 +1,40 @@
 # PASS
 
-PASS Project - React Migration Test
+## PASS Project - React Migration Test
 
-This repository branch contains a bare-bones demo of:
+This repository branch contains a ported version of the PASS project using React. Currently, this build can:
 
-1. Logging into user's Pod
-2. Creating data entered through a form and store them in user's Pod
-3. Querying specific document from user's Pod if data exist (i.e. .ttl file exist for named document)
-4. Deleting specific document from user's Pod if data exist (i.e. .ttl file exist for named document)
+1. Log into a user's Pod
+2. Upload files through a form and store them in the user's Pod
+3. Query for specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
+4. Delete specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
 5. Logout the user
 
-The current build is made with React 18 from the original packages from jk/solidPodBoilerplate. New additions to package.json besides React include only react-dom. The current build is not built with create-react-app (CRA). Instead it's bundled with Parcel, in line with previous versions of this project.
+Newer features like Cross Pod interactions for querying and/or writing new files has yet to be implemented. However, components for these features are present as placeholders at this time (Feb 17, 2023).
 
-As of this demo (Feb 7, 2023), @inrupt/solid-ui-react has not been tested in any of the components. All features are developed with existing @inrupt/solid\* packages the previous package.json. CSS class names and id are lightly modified in JSX to accommodate for React. The existing CSS file has been lightly modified to use font family Arial as default.
+## State of Build
 
-To get a running version of this demo, clone from this branch and run:
+The current build is made with React 18 from the original packages from jk/solidPodBoilerplate. New additions to package.json besides React include only react-dom at this time. Other library would likely be explored over time as the project grows. The current build is not built using create-react-app (CRA). Instead, it's bundled with Parcel, in line with previous versions of this project.
+
+As of this build, @inrupt/solid-ui-react has not been tested or incorporated in any of the components. All features are developed with existing @inrupt/solid\* packages the previous package.json. CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
+
+Documentation for the build is located under the docs directory and can be accessed locally using the follow command in the terminal:
+
+```shell
+npx serve docs
+```
+
+Documentation for cross pod components has yet to be documented.
+
+## How to get this running locally
+
+To get a running version of this branch, clone from this branch into a directory and run the following within the directory containing the package.json:
 
 ```shell
 npm install
 ```
 
-After installing the dependencies from package.json, run the following to start a local live server:
+After installing the dependencies from package.json, run the following to start a local live server to view the application:
 
 ```shell
 npx parcel ./src/index.html
@@ -32,4 +46,4 @@ The local live server would be located in port 1234:
 http://localhost:1234/
 ```
 
-Latest version of demo require user login to Pod at [https://opencommons.net](https://opencommons.net)
+Latest version of this build require users to login to their Pod through [https://opencommons.net](https://opencommons.net)

@@ -54,24 +54,24 @@ const DeleteDocumentForm = () => {
       });
   };
 
+  const formRowStyle = {
+    margin: "20px 0",
+  };
+
   return (
     <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
-      <div className="row">
-        <strong>Delete Document</strong>
-        <br />
-        <br />
-        <form onSubmit={handleDeleteDocument}>
+      <strong>Delete Document</strong>
+      <form onSubmit={handleDeleteDocument}>
+        <div style={formRowStyle}>
           <label>Select document type to delete: </label>
           <DocumentSelection /> <button>Delete Document</button>
-        </form>
-      </div>
-      <div className="row">
-        <StatusNotification
-          notification={state.message}
-          statusType="Deletion status"
-          defaultMessage="To be searched..."
-        />
-      </div>
+        </div>
+      </form>
+      <StatusNotification
+        notification={state.message}
+        statusType="Deletion status"
+        defaultMessage="To be searched..."
+      />
     </div>
   );
 };

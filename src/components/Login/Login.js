@@ -9,7 +9,7 @@ const Login = () => {
     <section id="login" className="panel">
       <div className="row">
         <label id="labelLogin" htmlFor="btnLogin">
-          1. Click the button to log into [
+          Click the following login button to log into your pod at [
           <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
             {SOLID_IDENTITY_PROVIDER}
           </a>
@@ -19,7 +19,7 @@ const Login = () => {
           {session.info.isLoggedIn ? "Logout" : "Login"}
         </button>
         {session.info.isLoggedIn ? (
-          <p className="labelStatus" id="labelStatus" role="alert">
+          <p className="labelStatus" role="alert">
             Your session is logged in with the WebID [
             <a href={session.info.webId} target="_blank">
               {session.info.webId}

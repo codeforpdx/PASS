@@ -65,25 +65,25 @@ const FetchDocumentForm = () => {
       });
   };
 
+  const formRowStyle = {
+    margin: "20px 0",
+  };
+
   return (
     <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
-      <div className="row">
-        <strong>Search Document</strong>
-        <br />
-        <br />
-        <form onSubmit={handleGetDocumentSubmission}>
+      <strong>Search Document</strong>
+      <form onSubmit={handleGetDocumentSubmission}>
+        <div style={formRowStyle}>
           <label>Select document type to search: </label>
           <DocumentSelection /> <button>Get Document</button>
-        </form>
-      </div>
-      <div className="row">
-        <StatusNotification
-          notification={state.message}
-          statusType="Search status"
-          defaultMessage="To be searched..."
-          locationUrl={state.documentLocation}
-        />
-      </div>
+        </div>
+      </form>
+      <StatusNotification
+        notification={state.message}
+        statusType="Search status"
+        defaultMessage="To be searched..."
+        locationUrl={state.documentLocation}
+      />
     </div>
   );
 };

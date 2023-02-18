@@ -22,14 +22,14 @@ const StatusNotification = ({
       <dt>{statusType}:</dt>
       {notification ? (
         locationUrl ? (
-          <dd id="labelWriteStatus" className="labelStatus" role="alert">
+          <dd className="labelStatus" role="alert">
             {notification}{" "}
             <a href={locationUrl} target="_blank">
               {locationUrl}
             </a>
           </dd>
         ) : (
-          <dd id="labelWriteStatus" className="labelStatus" role="alert">
+          <dd className="labelStatus" role="alert">
             {notification}
           </dd>
         )

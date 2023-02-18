@@ -12,8 +12,7 @@ import CrossPodWrite from "./components/Form/CrossPodWrite";
 const AppHeader = () => {
   return (
     <header>
-      <h2>Getting Started</h2>
-      <h3>with Inrupt JavaScript Client Libraries</h3>
+      <h2>Getting Started with PASS</h2>
     </header>
   );
 };

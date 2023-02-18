@@ -89,46 +89,45 @@ const UploadDocumentForm = () => {
     }
   };
 
+  const formRowStyle = {
+    margin: "20px 0",
+  };
+
   return (
-    <>
-      <div
-        hidden={!session.info.isLoggedIn ? "hidden" : ""}
-        id="write"
-        className="panel"
-      >
-        <div className="row">
-          <strong>Upload Document</strong>
-          <br />
-          <br />
-          <form id="upload-document" onSubmit={handleFormSubmission}>
-            <label>Select document type to upload: </label>
-            <DocumentSelection />
-            <br />
-            <p>Expiration date (if applicable):</p>
-            <input name="date" id="date" type="date" />
-            <br />
-            <p>Enter description:</p>
-            <textarea name="description" id="description" {...description} />
-            <br />
-            <br />
-            <label id="writelabel" htmlFor="input_file"></label>
-            <input
-              type="file"
-              id="input_file"
-              name="file"
-              accept=".pdf, .docx., .doc, .txt, .rtf"
-              onChange={handleFileChange}
-            />
-            <button type="submit">Upload file</button>
-          </form>
+    <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+      <strong>Upload Document</strong>
+      <form onSubmit={handleFormSubmission}>
+        <div style={formRowStyle}>
+          <label>Select document type to upload: </label>
+          <DocumentSelection />
         </div>
-        <StatusNotification
-          notification={state.message}
-          statusType="Writing status"
-          defaultMessage="To be uploaded..."
-        />
-      </div>
-    </>
+        <div style={formRowStyle}>
+          <label>Expiration date (if applicable): </label>
+          <input name="date" type="date" />
+        </div>
+        <div style={formRowStyle}>
+          <label>Enter description: </label>
+          <br />
+          <br />
+          <textarea name="description" {...description} />
+        </div>
+        <div style={formRowStyle}>
+          <label>File to upload: </label>
+          <input
+            type="file"
+            name="file"
+            accept=".pdf, .docx., .doc, .txt, .rtf"
+            onChange={handleFileChange}
+          />
+          <button type="submit">Upload file</button>
+        </div>
+      </form>
+      <StatusNotification
+        notification={state.message}
+        statusType="Writing status"
+        defaultMessage="To be uploaded..."
+      />
+    </div>
   );
 };
 
