@@ -9,7 +9,8 @@ import {
   SOLID_IDENTITY_PROVIDER,
   handleFiles,
   fetchDocuments,
-  deleteDocuments,
+  deleteDocumentContainer,
+  deleteDocumentFile,
 } from "./session-helper";
 
 export {
@@ -18,5 +19,6 @@ export {
   SOLID_IDENTITY_PROVIDER,
   handleFiles,
   fetchDocuments,
-  deleteDocuments,
+  deleteDocumentContainer,
+  deleteDocumentFile,
 };

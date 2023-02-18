@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { SessionContext } from "../../App";
+import { useSession } from "@inrupt/solid-ui-react";
 import StatusNotification from "./StatusNotification";
 import DocumentSelection from "./DocumentSelection";
 
 const CrossPodQuery = () => {
-  const { session } = useContext(SessionContext);
+  const { session } = useSession();
 
   const handleCrossPodQuery = (event) => {
     event.preventDefault();

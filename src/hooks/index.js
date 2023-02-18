@@ -3,9 +3,7 @@
  * @namespace hooks
  */
 
-import { logout, Session } from "@inrupt/solid-client-authn-browser";
-import { useEffect, useState } from "react";
-import { SOLID_IDENTITY_PROVIDER } from "../utils/session-helper";
+import { useState } from "react";
 
 /**
  * @typedef {Object} useFieldObject
@@ -39,57 +37,5 @@ export const useField = (type) => {
     value,
     onChange,
     clearValue,
-  };
-};
-
-/**
- * @typedef {Object} useSessionObject
- * @property {Session} session - State for Solid session
- * @property {React.SetStateAction} setSession - React setState function for session
- * @property {function} handleLogin - Function that handles Solid login and logout
- */
-
-/**
- * Custom hook that provide the value of input element, type attribute of HTML input element, set value of input element onChange, and a clear value function
- * @memberof hooks
- * @function useSession
- * @return {useSessionObject} useSessionObject - An object that contains { session, setSession, handleLogin }
- */
-
-export const useSession = () => {
-  const [session, setSession] = useState(new Session());
-  const [_sessionInfo, setSessionInfo] = useState(false);
-
-  useEffect(() => {
-    handleRedirectAfterLogin();
-  }, [session]);
-
-  const loginPod = async () => {
-    if (!session.info.isLoggedIn) {
-      await session.login({
-        oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl: window.location.href,
-      });
-    }
-  };
-
-  const handleLogin = async () => {
-    if (!session.info.isLoggedIn) {
-      loginPod();
-    } else {
-      logout();
-      window.location.reload();
-    }
-  };
-
-  const handleRedirectAfterLogin = async () => {
-    const response = await session.handleIncomingRedirect(window.location.href);
-    setSessionInfo(response);
-  };
-
-  return {
-    session,
-    setSession,
-    handleLogin,
   };
 };

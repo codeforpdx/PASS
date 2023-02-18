@@ -1,5 +1,5 @@
-import { useContext, useReducer } from "react";
-import { SessionContext } from "../../App";
+import { useReducer } from "react";
+import { useSession } from "@inrupt/solid-ui-react";
 import { fetchDocuments, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
@@ -27,13 +27,15 @@ const fetchReducer = (state, action) => {
       return { ...state, message: action.payload };
     case "SET_TIMEOUTID":
       return { ...state, timeoutID: action.payload };
+    case "CLEAR_DOCUMENT_LOCATION":
+      return { ...state, documentLocation: "" };
     default:
       throw new Error("No action");
   }
 };
 
 const FetchDocumentForm = () => {
-  const { session } = useContext(SessionContext);
+  const { session } = useSession();
   // Combined state for file upload with useReducer
   const [state, dispatch] = useReducer(fetchReducer, {
     documentLocation: "",
@@ -46,13 +48,17 @@ const FetchDocumentForm = () => {
     event.preventDefault();
     fetchDocuments(session, event.target.document.value)
       .then((documentUrl) => {
-        dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
-        runNotification(
-          `Document found! Document located at: `,
-          7,
-          state.timeoutID,
-          dispatch
-        );
+        runNotification(`Locating document...`, 2, state.timeoutID, dispatch);
+        // setTimeout is used to let fetchDocuments complete its fetch
+        setTimeout(() => {
+          dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
+          runNotification(
+            `Document found! Document located at: `,
+            7,
+            state.timeoutID,
+            dispatch
+          );
+        }, 2000);
       })
       .catch((_error) => {
         dispatch({ type: "SET_DOCUMENT_LOCATION", payload: "" });
@@ -63,6 +69,7 @@ const FetchDocumentForm = () => {
           dispatch
         );
       });
+    dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
   };
 
   const formRowStyle = {

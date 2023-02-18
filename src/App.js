@@ -1,5 +1,4 @@
-import { useSession } from "./hooks";
-import { createContext } from "react";
+import { SessionProvider } from "@inrupt/solid-ui-react";
 import Login from "./components/Login/Login";
 import {
   UploadDocumentForm,
@@ -17,22 +16,18 @@ const AppHeader = () => {
   );
 };
 
-export const SessionContext = createContext(null);
-
 const App = () => {
-  const { session, handleLogin } = useSession();
-
   return (
     <>
       <AppHeader />
-      <SessionContext.Provider value={{ session, handleLogin }}>
+      <SessionProvider>
         <Login />
         <UploadDocumentForm />
         <FetchDocumentForm />
         <DeleteDocumentForm />
         <CrossPodQuery />
         <CrossPodWrite />
-      </SessionContext.Provider>
+      </SessionProvider>
     </>
   );
 };

@@ -1,9 +1,14 @@
-import { useContext } from "react";
-import { SessionContext } from "../../App";
+import { useSession, LoginButton, LogoutButton } from "@inrupt/solid-ui-react";
+import { useState, useEffect } from "react";
 import { SOLID_IDENTITY_PROVIDER } from "../../utils/";
 
 const Login = () => {
-  const { session, handleLogin } = useContext(SessionContext);
+  const { session } = useSession();
+  const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, [setCurrentUrl]);
 
   return (
     <section id="login" className="panel">
@@ -15,9 +20,19 @@ const Login = () => {
           </a>
           ]:{" "}
         </label>
-        <button onClick={() => handleLogin()}>
-          {session.info.isLoggedIn ? "Logout" : "Login"}
-        </button>
+        {!session.info.isLoggedIn ? (
+          <LoginButton
+            oidcIssuer={SOLID_IDENTITY_PROVIDER}
+            redirectUrl={currentUrl}
+            onError={console.error}
+          >
+            <button>Login</button>
+          </LoginButton>
+        ) : (
+          <LogoutButton>
+            <button>Logout</button>
+          </LogoutButton>
+        )}
         {session.info.isLoggedIn ? (
           <p className="labelStatus" role="alert">
             Your session is logged in with the WebID [

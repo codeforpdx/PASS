@@ -1,5 +1,5 @@
-import { useContext, useReducer } from "react";
-import { SessionContext } from "../../App";
+import { useReducer } from "react";
+import { useSession } from "@inrupt/solid-ui-react";
 import { useField } from "../../hooks";
 import { handleFiles, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
@@ -34,7 +34,7 @@ const uploadReducer = (state, action) => {
 };
 
 const UploadDocumentForm = () => {
-  const { session } = useContext(SessionContext);
+  const { session } = useSession();
   // Combined state for file upload with useReducer
   const [state, dispatch] = useReducer(uploadReducer, {
     file: null,
@@ -71,14 +71,23 @@ const UploadDocumentForm = () => {
     try {
       handleFiles(fileObject, session);
       runNotification(
-        `File "${fileObject.file.name}" uploaded to solid`,
-        7,
+        `Uploading "${fileObject.file.name}" to Solid`,
+        2,
         state.timeoutID,
         dispatch
       );
-      event.target.file.value = null;
-      dispatch({ type: "SET_FILE", payload: null });
-      clearDescription();
+      // setTimeout is used to let handleFiles finish its upload to user's Pod
+      setTimeout(() => {
+        runNotification(
+          `File "${fileObject.file.name}" uploaded to Solid`,
+          7,
+          state.timeoutID,
+          dispatch
+        );
+        event.target.file.value = null;
+        dispatch({ type: "SET_FILE", payload: null });
+        clearDescription();
+      }, 2000);
     } catch (error) {
       runNotification(
         `Submission failed. Reason: missing file`,

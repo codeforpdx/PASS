@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useSession } from "@inrupt/solid-ui-react";
 import { useField } from "../../hooks";
-import { SessionContext } from "../../App";
 import StatusNotification from "./StatusNotification";
 import DocumentSelection from "./DocumentSelection";
 
 const CrossPodWrite = () => {
-  const { session } = useContext(SessionContext);
+  const { session } = useSession();
   const {
     clearValue: clearDescription,
     _type,
