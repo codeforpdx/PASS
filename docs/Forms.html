@@ -326,7 +326,7 @@
     
 
     
-    <h4 class="name" id=".deleteReducer"><span class="type-signature">(static) </span>deleteReducer<span class="signature">(state, action)</span><span class="type-signature"> &rarr; {<a href="global.html#deleteReducerObject">deleteReducerObject</a>}</span></h4>
+    <h4 class="name" id=".statusReducer"><span class="type-signature">(static) </span>statusReducer<span class="signature">(state, action)</span><span class="type-signature"> &rarr; {<a href="global.html#useStatusNotificationObject">useStatusNotificationObject</a>}</span></h4>
     
 
     
@@ -372,7 +372,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#deleteReducerObject">deleteReducerObject</a></span>
+<span class="param-type"><a href="global.html#useStatusNotificationObject">useStatusNotificationObject</a></span>
 
 
             
@@ -382,7 +382,7 @@
 
             
 
-            <td class="description last">State for file deletion and status message</td>
+            <td class="description last">the state for status notification</td>
         </tr>
 
     
@@ -405,7 +405,7 @@
 
             
 
-            <td class="description last">useReducer Object for useReducer hook containing action.payload</td>
+            <td class="description last">useReducer Object for useReducer hook containing action.payload for useStatusNotification hook</td>
         </tr>
 
     
@@ -446,7 +446,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Form_DeleteDocumentForm.js.html">components/Form/DeleteDocumentForm.js</a>, <a href="components_Form_DeleteDocumentForm.js.html#line17">line 17</a>
+        <a href="reducers_statusReducer.js.html">reducers/statusReducer.js</a>, <a href="reducers_statusReducer.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -475,7 +475,7 @@
 
         
 <div class="param-desc">
-    An updated state based on useReducer action
+    state - The updated state based on useReducer action
 </div>
 
 
@@ -486,7 +486,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="global.html#deleteReducerObject">deleteReducerObject</a></span>
+<span class="param-type"><a href="global.html#useStatusNotificationObject">useStatusNotificationObject</a></span>
 
 
     </dd>
@@ -499,30 +499,43 @@
 
 
         
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".useStatusNotificationObject">useStatusNotificationObject</h4>
+
+
+
+
+<div class="description">
+    Initial state for useStatusNotification hook
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
 
     
 
-    
-    <h4 class="name" id=".fetchReducer"><span class="type-signature">(static) </span>fetchReducer<span class="signature">(state, action)</span><span class="type-signature"> &rarr; {<a href="global.html#fetchReducerObject">fetchReducerObject</a>}</span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -544,13 +557,16 @@
 
         <tr>
             
-                <td class="name"><code>state</code></td>
+                <td class="name"><code>documentLocation</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#fetchReducerObject">fetchReducerObject</a></span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
 
 
             
@@ -560,20 +576,20 @@
 
             
 
-            <td class="description last">State for fetch file and status message</td>
+            <td class="description last">Location of document URL</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>action</code></td>
+                <td class="name"><code>message</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">string</span>
 
 
             
@@ -583,14 +599,61 @@
 
             
 
-            <td class="description last">useReducer Object for useReducer hook containing action.payload</td>
+            <td class="description last">Status message for file upload, query, or deletion</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>timeoutID</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Timeout ID for status message</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clearValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Event handler that clears value set for input element</td>
         </tr>
 
     
     </tbody>
 </table>
-
-
 
 
 
@@ -624,7 +687,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Form_FetchDocumentForm.js.html">components/Form/FetchDocumentForm.js</a>, <a href="components_Form_FetchDocumentForm.js.html#line14">line 14</a>
+        <a href="reducers_statusReducer.js.html">reducers/statusReducer.js</a>, <a href="reducers_statusReducer.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -640,223 +703,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    An updated state based on useReducer action
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#fetchReducerObject">fetchReducerObject</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
             
-
-    
-
-    
-    <h4 class="name" id=".uploadReducer"><span class="type-signature">(static) </span>uploadReducer<span class="signature">(state, action)</span><span class="type-signature"> &rarr; {<a href="global.html#uploadReducerObject">uploadReducerObject</a>}</span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>state</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#uploadReducerObject">uploadReducerObject</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">State for file upload and status message</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>action</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">useReducer Object for useReducer hook containing action.payload</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_Form_UploadDocumentForm.js.html">components/Form/UploadDocumentForm.js</a>, <a href="components_Form_UploadDocumentForm.js.html#line15">line 15</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    An updated state based on useReducer action
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#uploadReducerObject">uploadReducerObject</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-    
-
     
 
     
@@ -876,7 +723,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Sat Feb 18 2023 03:39:52 GMT-0800 (Pacific Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Sun Feb 19 2023 22:48:47 GMT-0800 (Pacific Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

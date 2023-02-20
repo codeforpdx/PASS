@@ -409,7 +409,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line221">line 221</a>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -438,7 +438,7 @@
 
         
 <div class="param-desc">
-    Void - Returns deletes container completely from Pod
+    Void - Perform action that deletes container completely from Pod
 </div>
 
 
@@ -591,7 +591,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line194">line 194</a>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -620,7 +620,7 @@
 
         
 <div class="param-desc">
-    directory.url - Returns url of document container and the response on whether document file is deleted, if exist, or not, if it doesn't
+    directory.url - the URL of document container and the response on whether document file is deleted, if exist, or not, if it doesn't
 </div>
 
 
@@ -649,7 +649,7 @@
     
 
     
-    <h4 class="name" id=".fetchDocuments"><span class="type-signature">(static) </span>fetchDocuments<span class="signature">(session, fileType)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
+    <h4 class="name" id=".fetchDocuments"><span class="type-signature">(static) </span>fetchDocuments<span class="signature">(session, fileType)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -773,7 +773,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line171">line 171</a>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -802,7 +802,189 @@
 
         
 <div class="param-desc">
-    A string containing the url location of the document, if exist, or null, if it doesn't
+    Void - Either a string containing the url location of the document, if exist, or throws an Error
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".fetchUrl"><span class="type-signature">(static) </span>fetchUrl<span class="signature">(session, fileType)</span><span class="type-signature"> &rarr; {string|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that returns location of file container, if exist
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>session</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Session</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Solid Session</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fileType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Type of document</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line259">line 259</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    url or null - A url location of where the file is located in or null, if doesn't exist
 </div>
 
 
@@ -1016,7 +1198,536 @@
     
 
     
-    <h4 class="name" id=".runNotification"><span class="type-signature">(static) </span>runNotification<span class="signature">(message, time, timeoutID, dispatch)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id=".hasFiles"><span class="type-signature">(static) </span>hasFiles<span class="signature">(url)</span><span class="type-signature"> &rarr; {Array|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function checks if location has any files
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL of location in question</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    [directory, files] or null - an Array of Objects consisting of the directory container and the rest of the files or null
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".hasTTLFiles"><span class="type-signature">(static) </span>hasTTLFiles<span class="signature">(url)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that checks if location has TTL files
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL of location in question</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    ttlFiles or null - An object of first ttl file in location or null, if file does not exist
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".placeFileInContainer"><span class="type-signature">(static) </span>placeFileInContainer<span class="signature">(fileObject, targetContainerUrl, session)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function helps put file into Pod container
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object of file being uploaded to Solid</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>targetContainerUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL location of Pod container</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>session</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Solid Session</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_session-helper.js.html">utils/session-helper.js</a>, <a href="utils_session-helper.js.html#line165">line 165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Void - A message regarding the status of upload to user's Pod
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".runNotification"><span class="type-signature">(static) </span>runNotification<span class="signature">(message, time, state, dispatch)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1106,16 +1817,13 @@
 
         <tr>
             
-                <td class="name"><code>timeoutID</code></td>
+                <td class="name"><code>state</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
-|
-
-<span class="param-type">null</span>
+<span class="param-type"><a href="global.html#useStatusNotificationObject">useStatusNotificationObject</a></span>
 
 
             
@@ -1125,7 +1833,7 @@
 
             
 
-            <td class="description last">TimeoutID of previous dispatch call</td>
+            <td class="description last">useStatusNotificationObject</td>
         </tr>
 
     
@@ -1148,7 +1856,7 @@
 
             
 
-            <td class="description last">useReducer dispatch function</td>
+            <td class="description last">useStatusNotification dispatch function</td>
         </tr>
 
     
@@ -1263,7 +1971,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Sat Feb 18 2023 03:39:52 GMT-0800 (Pacific Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.1</a> on Sun Feb 19 2023 22:48:47 GMT-0800 (Pacific Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

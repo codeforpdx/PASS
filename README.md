@@ -22,6 +22,12 @@ Documentation for the build is located under the docs directory and can be acces
 npx serve docs
 ```
 
+The local live server link to the documentation will be located at:
+
+```shell
+http://localhost:3000/
+```
+
 Documentation for cross pod components has yet to be documented.
 
 ## How to get this running locally

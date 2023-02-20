@@ -1,46 +1,13 @@
-import { useReducer } from "react";
 import { useSession } from "@inrupt/solid-ui-react";
-import { useField } from "../../hooks";
+import { useField, useStatusNotification } from "../../hooks";
 import { handleFiles, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
-/**
- * @typedef uploadReducerObject
- * @property {Object|null} file - An object containing file information and file
- * @property {string} message - File status message
- * @property {string|null} timeoutID - timeoutID for status message
- */
-
-/**
- * @memberof Forms
- * @function uploadReducer
- * @param {uploadReducerObject} state - State for file upload and status message
- * @param {Object} action - useReducer Object for useReducer hook containing action.payload
- * @return {uploadReducerObject} An updated state based on useReducer action
- */
-
-const uploadReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FILE":
-      return { ...state, file: action.payload };
-    case "SET_MESSAGE":
-      return { ...state, message: action.payload };
-    case "SET_TIMEOUTID":
-      return { ...state, timeoutID: action.payload };
-    default:
-      throw new Error("No action");
-  }
-};
-
 const UploadDocumentForm = () => {
   const { session } = useSession();
   // Combined state for file upload with useReducer
-  const [state, dispatch] = useReducer(uploadReducer, {
-    file: null,
-    message: "",
-    timeoutID: null,
-  });
+  const { state, dispatch } = useStatusNotification();
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
@@ -73,7 +40,7 @@ const UploadDocumentForm = () => {
       runNotification(
         `Uploading "${fileObject.file.name}" to Solid`,
         2,
-        state.timeoutID,
+        state,
         dispatch
       );
       // setTimeout is used to let handleFiles finish its upload to user's Pod
@@ -81,11 +48,11 @@ const UploadDocumentForm = () => {
         runNotification(
           `File "${fileObject.file.name}" uploaded to Solid`,
           7,
-          state.timeoutID,
+          state,
           dispatch
         );
         event.target.file.value = null;
-        dispatch({ type: "SET_FILE", payload: null });
+        dispatch({ type: "CLEAR_FILE" });
         clearDescription();
       }, 2000);
     } catch (error) {

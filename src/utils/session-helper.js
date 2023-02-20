@@ -112,7 +112,14 @@ export const handleFiles = async (fileObject, session) => {
   );
 };
 
-// Sub-routine to check for existing ttl files in directory
+/**
+ * Function that checks if location has TTL files
+ * @memberof utils
+ * @function hasTTLFiles
+ * @param {string} url - URL of location in question
+ * @returns {Object|null} ttlFiles or null - An object of first ttl file in location or null, if file does not exist
+ */
+
 const hasTTLFiles = (url) => {
   const items = getThingAll(url);
   if (!items) {
@@ -126,6 +133,14 @@ const hasTTLFiles = (url) => {
     return null;
   }
 };
+
+/**
+ * Function checks if location has any files
+ * @memberof utils
+ * @function hasFiles
+ * @param {string} url - URL of location in question
+ * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the directory container and the rest of the files or null
+ */
 
 // Sub-routine to check for any existing files in directory to help in container deletion from Pod
 const hasFiles = (url) => {
@@ -146,6 +161,16 @@ const hasFiles = (url) => {
     return [directory, files];
   }
 };
+
+/**
+ * Function helps put file into Pod container
+ * @memberof utils
+ * @function placeFileInContainer
+ * @param {Object} fileObject - Object of file being uploaded to Solid
+ * @param {string} targetContainerUrl - URL location of Pod container
+ * @param {string} session - Solid Session
+ * @returns {void} Void - A message regarding the status of upload to user's Pod
+ */
 
 const placeFileInContainer = async (
   fileObject,
@@ -174,7 +199,7 @@ const placeFileInContainer = async (
  * @function fetchDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
- * @returns {string|null} A string containing the url location of the document, if exist, or null, if it doesn't
+ * @returns {void} Void - Either a string containing the url location of the document, if exist, or throws an Error
  */
 
 export const fetchDocuments = async (session, fileType) => {
@@ -197,7 +222,7 @@ export const fetchDocuments = async (session, fileType) => {
  * @function deleteDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
- * @returns {string} directory.url - Returns url of document container and the response on whether document file is deleted, if exist, or not, if it doesn't
+ * @returns {string} directory.url - the URL of document container and the response on whether document file is deleted, if exist, or not, if it doesn't
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
@@ -224,12 +249,21 @@ export const deleteDocumentFile = async (session, fileType) => {
  * @function deleteDocumentContainer
  * @param {Session} session - Solid Session
  * @param {string} documentUrl - Url of document url container
- * @returns {void} Void - Returns deletes container completely from Pod
+ * @returns {void} Void - Perform action that deletes container completely from Pod
  */
 
 export const deleteDocumentContainer = async (session, documentUrl) => {
   await deleteContainer(documentUrl, { fetch: session.fetch });
 };
+
+/**
+ * Function that returns location of file container, if exist
+ * @memberof utils
+ * @function fetchUrl
+ * @param {Session} session - Solid Session
+ * @param {string} fileType - Type of document
+ * @returns {string|null} url or null - A url location of where the file is located in or null, if doesn't exist
+ */
 
 const fetchUrl = (session, fileType) => {
   const POD_URL = String(session.info.webId.split("profile")[0]);

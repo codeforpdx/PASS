@@ -1,75 +1,44 @@
-import { useReducer } from "react";
 import { useSession } from "@inrupt/solid-ui-react";
 import { fetchDocuments, runNotification } from "../../utils";
+import { useStatusNotification } from "../../hooks";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
-
-/**
- * @typedef fetchReducerObject
- * @property {string} documentLocation - A string containing the URL of the file location, if exist
- * @property {string} message - File status message
- * @property {string|null} timeoutID - timeoutID for status message
- */
-
-/**
- * @memberof Forms
- * @function fetchReducer
- * @param {fetchReducerObject} state - State for fetch file and status message
- * @param {Object} action - useReducer Object for useReducer hook containing action.payload
- * @return {fetchReducerObject} An updated state based on useReducer action
- */
-
-const fetchReducer = (state, action) => {
-  switch (action.type) {
-    case "SET_DOCUMENT_LOCATION":
-      return { ...state, documentLocation: action.payload };
-    case "SET_MESSAGE":
-      return { ...state, message: action.payload };
-    case "SET_TIMEOUTID":
-      return { ...state, timeoutID: action.payload };
-    case "CLEAR_DOCUMENT_LOCATION":
-      return { ...state, documentLocation: "" };
-    default:
-      throw new Error("No action");
-  }
-};
 
 const FetchDocumentForm = () => {
   const { session } = useSession();
   // Combined state for file upload with useReducer
-  const [state, dispatch] = useReducer(fetchReducer, {
-    documentLocation: "",
-    message: "",
-    timeoutID: null,
-  });
+  const { state, dispatch } = useStatusNotification();
 
   // Event handler for fetching document
   const handleGetDocumentSubmission = (event) => {
     event.preventDefault();
     fetchDocuments(session, event.target.document.value)
       .then((documentUrl) => {
-        runNotification(`Locating document...`, 2, state.timeoutID, dispatch);
+        if (state.documentLocation) {
+          dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
+        }
+        runNotification(`Locating document...`, 2, state, dispatch);
+
         // setTimeout is used to let fetchDocuments complete its fetch
         setTimeout(() => {
           dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
           runNotification(
             `Document found! Document located at: `,
             7,
-            state.timeoutID,
+            state,
             dispatch
           );
         }, 2000);
       })
       .catch((_error) => {
-        dispatch({ type: "SET_DOCUMENT_LOCATION", payload: "" });
+        dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
         runNotification(
           `Search failed. Reason: Document not found`,
           7,
-          state.timeoutID,
+          state,
           dispatch
         );
       });
-    dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
   };
 
   const formRowStyle = {

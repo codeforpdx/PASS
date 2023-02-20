@@ -3,7 +3,8 @@
  * @namespace hooks
  */
 
-import { useState } from "react";
+import { useReducer, useState } from "react";
+import statusReducer, { initialStatusState } from "../reducers/statusReducer";
 
 /**
  * @typedef {Object} useFieldObject
@@ -38,4 +39,25 @@ export const useField = (type) => {
     onChange,
     clearValue,
   };
+};
+
+/**
+ * @typedef {Object} useStatusNotificationObject
+ * @property {string|null} documentLocation - Location of document URL
+ * @property {string} message - Status message for file upload, query, or deletion
+ * @property {string|null} timeoutID - Timeout ID for status message
+ * @property {function} clearValue - Event handler that clears value set for input element
+ */
+
+/**
+ * Custom hook that provide the useStatusNotificationObject as the state and a useReducer dispatch function to alter the state
+ * @memberof hooks
+ * @function useStatusNotification
+ * @return {useStatusNotificationObject} useStatusNotificationObject - An object that contains { documentLocation, message, timeoutID, and file }
+ */
+
+export const useStatusNotification = () => {
+  const [state, dispatch] = useReducer(statusReducer, initialStatusState);
+
+  return { state, dispatch };
 };
