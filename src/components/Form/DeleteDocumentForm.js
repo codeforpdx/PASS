@@ -31,16 +31,8 @@ const DeleteDocumentForm = () => {
     setDeleteSubmitted({ state: true, message });
   };
 
-  const docTypes = ["Bank Statement", "Passport", "Drivers License"];
-
-  // Event handler for deleting document
-  const handleDeleteDocument = (event) => {
-    event.preventDefault();
-    deleteDocuments(session, event.target.documentDelete.value)
-      .then((_response) => handleDeleteMessage("File deleted from Pod", 7))
-      .catch((_error) => {
-        handleDeleteMessage("Deletion failed. Reason: Data not found", 7);
-      });
+  const formRowStyle = {
+    margin: "20px 0",
   };
 
   return (
