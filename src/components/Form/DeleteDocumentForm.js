@@ -1,34 +1,46 @@
-import { useContext, useState } from "react";
-import { SessionContext } from "../../App";
-import StatusNotification from "../StatusNotification";
-import { deleteDocuments } from "../../utils/session-helper";
+import { useSession } from "@inrupt/solid-ui-react";
+import { useStatusNotification } from "../../hooks";
+import {
+  deleteDocumentFile,
+  deleteDocumentContainer,
+  runNotification,
+} from "../../utils/";
+import DocumentSelection from "./DocumentSelection";
+import StatusNotification from "./StatusNotification";
 
 const DeleteDocumentForm = () => {
-  const { session } = useContext(SessionContext);
+  const { session } = useSession();
+  // Combined state for file upload with useReducer
+  const { state, dispatch } = useStatusNotification();
 
-  // initialize states for potential document location on pod
-  const [deleteSubmitted, setDeleteSubmitted] = useState({
-    state: false,
-    message: "",
-  });
-  const [timeoutID, setTimeoutID] = useState(null);
-
-  // Setting up a more robust notification system
-  // but this needs refactoring in future
-  const handleDeleteMessage = (message, time) => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-      setDeleteSubmitted({ state: true, message });
+  // Event handler for deleting document
+  const handleDeleteDocument = async (event) => {
+    event.preventDefault();
+    try {
+      const documentUrl = await deleteDocumentFile(
+        session,
+        event.target.document.value
+      );
+      runNotification("File being deleted from Pod...", 2, state, dispatch);
+      // Solid requires all files to be removed from container before it can be removed
+      // setTimeout lets deleteDocumentFile finish removing the files
+      setTimeout(() => {
+        deleteDocumentContainer(session, documentUrl);
+        runNotification(
+          "Removing file container from Pod...",
+          7,
+          state,
+          dispatch
+        );
+      }, 2000);
+    } catch (_error) {
+      runNotification(
+        "Deletion failed. Reason: Data not found",
+        7,
+        state,
+        dispatch
+      );
     }
-
-    const timeout = setTimeout(() => {
-      setDeleteSubmitted({
-        state: false,
-        message: "",
-      });
-    }, time * 1000);
-    setTimeoutID(timeout);
-    setDeleteSubmitted({ state: true, message });
   };
 
   const formRowStyle = {
@@ -37,26 +49,18 @@ const DeleteDocumentForm = () => {
 
   return (
     <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
-      <div className="row">
-        <strong>Delete Document</strong>
-        <br />
-        <br />
-        <form onSubmit={handleDeleteDocument}>
-          <select name="documentDelete" id="documentDelete">
-            {docTypes.map((doc, index) => {
-              return <option key={index}>{doc}</option>;
-            })}
-          </select>{" "}
-          <button>Delete Document</button>
-        </form>
-      </div>
-      <div className="row">
-        <StatusNotification
-          notification={deleteSubmitted}
-          statusType="Deletion Status"
-          defaultMessage="To be searched..."
-        />
-      </div>
+      <strong>Delete Document</strong>
+      <form onSubmit={handleDeleteDocument}>
+        <div style={formRowStyle}>
+          <label>Select document type to delete: </label>
+          <DocumentSelection /> <button>Delete Document</button>
+        </div>
+      </form>
+      <StatusNotification
+        notification={state.message}
+        statusType="Deletion status"
+        defaultMessage="To be searched..."
+      />
     </div>
   );
 };
