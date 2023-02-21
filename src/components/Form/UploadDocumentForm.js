@@ -27,7 +27,7 @@ const UploadDocumentForm = () => {
   } = useField("textarea");
 
   // Event handler for form/document submission to Pod
-  const handleFormSubmission = (event) => {
+  const handleFormSubmission = async (event) => {
     event.preventDefault();
     const fileObject = {
       type: event.target.document.value,
@@ -35,8 +35,9 @@ const UploadDocumentForm = () => {
       description: event.target.description.value || "No Description provided",
       file: state.file,
     };
+
     try {
-      uploadDocument(fileObject, session);
+      await uploadDocument(fileObject, session);
       runNotification(
         `Uploading "${fileObject.file.name}" to Solid`,
         2,
@@ -59,7 +60,7 @@ const UploadDocumentForm = () => {
       runNotification(
         `Submission failed. Reason: missing file`,
         7,
-        state.timeoutID,
+        state,
         dispatch
       );
     }

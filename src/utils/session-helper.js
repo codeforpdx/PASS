@@ -43,7 +43,7 @@ export const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (fileObject, session) => {
   if (!fileObject.file) {
-    throw "File missing from submission!";
+    throw new Error("File missing from submission!");
   }
 
   const POD_URL = String(session.info.webId.split("profile")[0]);
