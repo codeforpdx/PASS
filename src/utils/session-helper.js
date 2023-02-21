@@ -34,14 +34,14 @@ export const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 /**
  * Function that uploads file to Pod on Solid
  * @memberof utils
- * @function handleFiles
+ * @function uploadDocument
  * @param {fileObject} fileObject - Object containing information about file from form submission
  * @param {Session} session - Solid Session
  * @returns {void} Void - File upload is handled via Solid libraries
  */
 
 // Main function to upload document to user's Pod on Solid
-export const handleFiles = async (fileObject, session) => {
+export const uploadDocument = async (fileObject, session) => {
   if (!fileObject.file) {
     throw "File missing from submission!";
   }

@@ -1,6 +1,6 @@
 import { useSession } from "@inrupt/solid-ui-react";
 import { useField, useStatusNotification } from "../../hooks";
-import { handleFiles, runNotification } from "../../utils";
+import { uploadDocument, runNotification } from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 
@@ -36,14 +36,14 @@ const UploadDocumentForm = () => {
       file: state.file,
     };
     try {
-      handleFiles(fileObject, session);
+      uploadDocument(fileObject, session);
       runNotification(
         `Uploading "${fileObject.file.name}" to Solid`,
         2,
         state,
         dispatch
       );
-      // setTimeout is used to let handleFiles finish its upload to user's Pod
+      // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
         runNotification(
           `File "${fileObject.file.name}" uploaded to Solid`,
