@@ -63,6 +63,7 @@ const UploadDocumentForm = () => {
         state,
         dispatch
       );
+      console.log("Submission failed. Reason: missing file");
     }
   };
 

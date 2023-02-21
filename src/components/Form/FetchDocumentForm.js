@@ -40,6 +40,7 @@ const FetchDocumentForm = () => {
         state,
         dispatch
       );
+      console.log("Search failed. Reason: Document not found");
     }
   };
 
