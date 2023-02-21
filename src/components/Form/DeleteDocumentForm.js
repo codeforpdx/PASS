@@ -40,6 +40,7 @@ const DeleteDocumentForm = () => {
         state,
         dispatch
       );
+      console.log("Deletion failed. Reason: Data not found");
     }
   };
 

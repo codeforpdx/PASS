@@ -10,35 +10,38 @@ const FetchDocumentForm = () => {
   const { state, dispatch } = useStatusNotification();
 
   // Event handler for fetching document
-  const handleGetDocumentSubmission = (event) => {
+  const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
-    fetchDocuments(session, event.target.document.value)
-      .then((documentUrl) => {
-        if (state.documentLocation) {
-          dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
-        }
-        runNotification(`Locating document...`, 2, state, dispatch);
-
-        // setTimeout is used to let fetchDocuments complete its fetch
-        setTimeout(() => {
-          dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
-          runNotification(
-            `Document found! Document located at: `,
-            7,
-            state,
-            dispatch
-          );
-        }, 2000);
-      })
-      .catch((_error) => {
+    try {
+      const documentUrl = await fetchDocuments(
+        session,
+        event.target.document.value
+      );
+      if (state.documentLocation) {
         dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
+      }
+      runNotification(`Locating document...`, 2, state, dispatch);
+
+      // setTimeout is used to let fetchDocuments complete its fetch
+      setTimeout(() => {
+        dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
         runNotification(
-          `Search failed. Reason: Document not found`,
+          `Document found! Document located at: `,
           7,
           state,
           dispatch
         );
-      });
+      }, 2000);
+    } catch (_error) {
+      dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
+      runNotification(
+        `Search failed. Reason: Document not found`,
+        7,
+        state,
+        dispatch
+      );
+      console.log("Search failed. Reason: Document not found");
+    }
   };
 
   const formRowStyle = {
