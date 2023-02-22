@@ -32,7 +32,7 @@ const FetchDocumentForm = () => {
           dispatch
         );
       }, 2000);
-    } catch (error) {
+    } catch (_error) {
       dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
       runNotification(
         `Search failed. Reason: Document not found`,
