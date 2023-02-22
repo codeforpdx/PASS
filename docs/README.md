@@ -10,11 +10,11 @@ This repository branch contains a ported version of the PASS project using React
 4. Delete specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
 5. Logout the user
 
-Newer features like Cross Pod interactions for querying and/or writing new files has yet to be implemented. However, components for these features are present as placeholders at this time (Feb 18, 2023).
+Newer features like Cross Pod interactions for querying and/or writing new files has yet to be implemented. However, components for these features are present as placeholders at this time.
 
 ## State of Build
 
-The current build is made with React 18 and bundled with Parcel v2. As of Feb 18, 2023, the solid-ui-react library has been incorporated to the application along with Solid's other client libraries. CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
+The current build is made with React 18 and bundled with Parcel v2. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
 
 Documentation for the build is located under the docs directory and can be accessed locally using the follow command in the terminal:
 
@@ -26,6 +26,12 @@ The local live server link to the documentation will be located at:
 
 ```shell
 http://localhost:3000/
+```
+
+New documentation could be added via JSDoc syntax and produced by running the following npm script in the root directory:
+
+```shell
+npm run docs
 ```
 
 Documentation for cross pod components has yet to be documented.
