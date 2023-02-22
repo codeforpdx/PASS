@@ -1,53 +1,78 @@
-# PASS
+# PASS - Personal Access System for Services
 
-## PASS Project - React Migration Test
+## Description
 
-This repository branch contains a ported version of the PASS project using React. Currently, this build can:
+In Portland, housing insecure individuals struggle to maintain documentation, which is often required to receive government and/or non-profit services. With PASS, we are building out an application to enable the home insecure to store their personal documents online in decentralized data stores, called Pods. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their documents. Verified organization will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod.
 
-1. Log into a user's Pod
-2. Upload files through a form and store them in the user's Pod
-3. Query for specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
-4. Delete specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
-5. Logout the user
 
-Newer features like Cross Pod interactions for querying and/or writing new files has yet to be implemented. However, components for these features are present as placeholders at this time (Feb 18, 2023).
+## Terminology
 
-## State of Build
+* Individual - housing insecure person using services to interact with organizations.
+* Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
+* Pod/Wallet - decentralized data/document storage built with Solid API. Individuals and organizations will have certain functionality within their pods.
+* Folder/Container - referring to organization of document data into ttl files using Solid API with Inrupt library.
 
-The current build is made with React 18 and bundled with Parcel v2. As of Feb 18, 2023, the solid-ui-react library has been incorporated to the application along with Solid's other client libraries. CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
 
-Documentation for the build is located under the docs directory and can be accessed locally using the follow command in the terminal:
+## User Flows
 
-```shell
-npx serve docs
-```
+1. Individual
+    * Upload and Maintain Documents
+    * Able to share documents
+    * Can copy verified documents into pod from organization(s)
+2. Organization
+    * Can request and review documents
+    * Can create verified documents
+    * Able to share verified documents with individuals
+    * Might require several users
 
-The local live server link to the documentation will be located at:
+## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 
-```shell
-http://localhost:3000/
-```
+## Tech Overview
 
-Documentation for cross pod components has yet to be documented.
+Currently building out use-cases in vanilla JavaScript to determine Solid and Inrupt functionality. Once we have proof of concept, we will build out the PASS application in React.
 
-## How to get this running locally
+### Solid Data Pods
 
-To get a running version of this branch, clone from this branch into a directory and run the following within the directory containing the package.json:
+Pods are like secure personal web servers for data.
 
-```shell
-npm install
-```
+#### General User Flow of Solid Pods:
+* User registers for a WebID (kind of like an email address)
+* User data remains in pod (which is associated to WebID)
+* User authorizes applications to read/write/control data in pod
 
-After installing the dependencies from package.json, run the following to start a local live server to view the application:
+#### To become familiar with how pods work:
+* Go to [Kevin's Solid Experiment](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid) on GitHub.
+* Clone repository and follow the [instructions](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/01-one-server).
+* Feel free to play around with the pod and check out the second use case [here](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/02-different-file-browser-application).
 
-```shell
-npx parcel ./src/index.html
-```
+### Inrupt JavaSctipt Client Libraries
 
-The local live server would be located in port 1234:
+Inrupt is currently leading the way for development with Solid. Check out their documentation [here](https://docs.inrupt.com/developer-tools/javascript/client-libraries/)
 
-```shell
-http://localhost:1234/
-```
+### RDF (Resource Description Framework) and Turtle (ttl files)
 
-Latest version of this build require users to login to their Pod through [https://opencommons.net](https://opencommons.net)
+The Resource Description Framework (RDF) is a framework for expressing information about resources. Resources can be anything, including documents, people, physical objects, and abstract concepts. RDF is intended for situations in which information on the Web needs to be processed by applications, rather than being only displayed to people. Read more about RDF [here](https://www.w3.org/TR/rdf11-primer/). See how RDF is used within Solid [here](https://solidproject.org/developers/vocabularies/well-known/core).
+
+There is a textual syntax for RDF called Turtle that allows an RDF graph to be completely written in a compact and natural text form, with abbreviations for common usage patterns and datatypes. Read more on the Turtle spec [here](https://www.w3.org/TR/turtle/)
+
+With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
+
+
+### The Team
+
+|Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
+| ------------------- | --------------------- | -----------| ------------------------|
+| Team Lead - Kevin M.| Team Lead - Jared K.  | Gabby      | Flo                     |
+|                     |                       | Kyle       | Danica                  |
+|                     |                       |            | Wilfred                 |
+|                     |                       |            | Katherine               |
+|                     |      
+
+
+
+## Check out the documentation:
+* [Solid Data Pods](https://solidproject.org/developers/tutorials/getting-started)
+* As noted above, [Inrupt](https://docs.inrupt.com/developer-tools/javascript/client-libraries/) provides JavaScript client libraries to help developers create Solid applications. Will be used to upload and query data in pods. Data will be stored in `ttl` files.
+* [Inrupt Access Requests and Grants](https://docs.inrupt.com/ess/latest/security/access-requests-grants/)
+    * Further documentation on building an [access timer](https://solid.github.io/data-interoperability-panel/specification/#access-authorization%E2%91%A0) to a pod 
+* [`solid-ui-react`](https://solid-ui-react.docs.inrupt.com/?path=/story/intro--page), a React library to make development with Solid simple(ish lol).
