@@ -56,7 +56,7 @@ const UploadDocumentForm = () => {
         dispatch({ type: "CLEAR_FILE" });
         clearDescription();
       }, 2000);
-    } catch (error) {
+    } catch (_error) {
       runNotification(
         `Submission failed. Reason: missing file`,
         7,
