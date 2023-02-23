@@ -17,16 +17,29 @@ const CrossPodQuery = () => {
   };
 
   return (
-    <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+    <section
+      hidden={!session.info.isLoggedIn ? "hidden" : ""}
+      className="panel"
+    >
       <strong>Cross Pod Search</strong>
-      <form id="crossPodQueryDocument" onSubmit={handleCrossPodQuery}>
+      <form onSubmit={handleCrossPodQuery}>
         <div style={formRowStyle}>
-          <label>Paste other user's pod url to search from: </label>
-          <input size="60" type="text" name="crossPodQuery" />
+          <label htmlFor="cross-search-doc">
+            Paste other user's pod url to search from:{" "}
+          </label>
+          <input
+            id="cross-search-doc"
+            size="60"
+            type="text"
+            name="crossPodQuery"
+          />
         </div>
         <div style={formRowStyle}>
-          <label>Select document type to search: </label>
-          <DocumentSelection /> <button type="submit">Search Pod</button>
+          <label htmlFor="cross-search-doctype">
+            Select document type to search:{" "}
+          </label>
+          <DocumentSelection htmlId="cross-search-doctype" />{" "}
+          <button type="submit">Search Pod</button>
         </div>
       </form>
       <StatusNotification
@@ -34,7 +47,7 @@ const CrossPodQuery = () => {
         statusType="Writing status"
         defaultMessage="To be searched..."
       />
-    </div>
+    </section>
   );
 };
 

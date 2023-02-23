@@ -72,26 +72,32 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+    <section
+      hidden={!session.info.isLoggedIn ? "hidden" : ""}
+      className="panel"
+    >
       <strong>Upload Document</strong>
       <form onSubmit={handleFormSubmission}>
         <div style={formRowStyle}>
-          <label>Select document type to upload: </label>
-          <DocumentSelection />
+          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <DocumentSelection htmlId="upload-doc" />
         </div>
         <div style={formRowStyle}>
-          <label>Expiration date (if applicable): </label>
-          <input name="date" type="date" />
+          <label htmlFor="upload-doc-expiration">
+            Expiration date (if applicable):{" "}
+          </label>
+          <input id="upload-doc-expiration" name="date" type="date" />
         </div>
         <div style={formRowStyle}>
-          <label>Enter description: </label>
+          <label htmlFor="upload-doc-desc">Enter description: </label>
           <br />
           <br />
-          <textarea name="description" {...description} />
+          <textarea id="upload-doc-desc" name="description" {...description} />
         </div>
         <div style={formRowStyle}>
-          <label>File to upload: </label>
+          <label htmlFor="upload-doctype">File to upload: </label>
           <input
+            id="upload-doctype"
             type="file"
             name="file"
             accept=".pdf, .docx., .doc, .txt, .rtf"
@@ -105,7 +111,7 @@ const UploadDocumentForm = () => {
         statusType="Writing status"
         defaultMessage="To be uploaded..."
       />
-    </div>
+    </section>
   );
 };
 
