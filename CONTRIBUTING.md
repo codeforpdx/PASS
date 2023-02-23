@@ -6,7 +6,7 @@ Building out a decentralized application to enable the home insecure to securely
 
 ## Get started
 
-1. Join [Code for PDX Slack](http://www.codeforpdx.org/welcome). If you run into any issues, shoot an email to our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
+1. Join [Code for PDX Discord](https://discord.gg/FEX9KUMH). If you run into any issues, shoot an email to our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
 2. Post your email and GitHub name on the **#pass** channel and we’ll add you to our [GitHub](https://github.com/codeforpdx/PASS) and [Google Drive](https://drive.google.com/drive/u/0/folders/1zTEd34K7Eg7rvg71zS6Uzbwrsct2Lx9E?ths=true). Or you can send that info to Flo and Hugh privately if you're more comfortable with that. Even if you don't plan or writing code for the project, please have Hugh get you connected to our GitHub, as we do keep track of technical and non-technical tasks in GitHub Projects.
 3. Our project is currently broken into three teams: UX/UI, Project Management, and Developers (back and front end). We are currently meeting in separate groups based on team member availability. We come together as a team about one or twice a month.
 4. Reach out to Flo (Project Manager) on slack to introduce yourself and share what team you wish to join.

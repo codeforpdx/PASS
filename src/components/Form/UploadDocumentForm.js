@@ -35,6 +35,7 @@ const UploadDocumentForm = () => {
       description: event.target.description.value || "No Description provided",
       file: state.file,
     };
+
     try {
       await uploadDocument(fileObject, session);
       runNotification(
