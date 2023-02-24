@@ -28,7 +28,7 @@ Building out a decentralized application to enable house insecure individuals to
 
 1. Follow step one under **Ready to contribute?**
 2. Create a new branch to work on your feature:
-  * `git checkout -b <branch name>` [learn more](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
+  * `git checkout -b <your branch name> Development` [learn more](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
 3. `git pull origin Development` - to sync with PASS Development branch
 4. Work on feature in your own branch.
 5. When ready, push up for review:
