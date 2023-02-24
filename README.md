@@ -2,7 +2,7 @@
 
 ## Description
 
-In Portland, housing insecure individuals struggle to maintain documentation, which is often required to receive government and/or non-profit services. With PASS, we are building out an application to enable the home insecure to store their personal documents online in decentralized data stores, called Pods. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their documents. Verified organization will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod.
+In Portland, housing insecure individuals struggle to maintain documentation, which is often required to receive government and/or non-profit services. With PASS, we are building out an application to enable house insecure individuals to store their personal documents online in decentralized data stores, called Pods. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their documents. Verified organization will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod.
 
 
 ## Terminology
@@ -10,7 +10,8 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
 * Individual - housing insecure person using services to interact with organizations.
 * Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
 * Pod/Wallet - decentralized data/document storage built with Solid API. Individuals and organizations will have certain functionality within their pods.
-* Folder/Container - referring to organization of document data into ttl files using Solid API with Inrupt library.
+* Folder/Container - referring to the organization of document data into ttl files using Solid API with Inrupt library.
+* ACL file - Access Control List is used to manage Solid Pods by allowing users to control who can access and modify their data.
 
 
 ## User Flows
@@ -25,11 +26,10 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
     * Able to share verified documents with individuals
     * Might require several users
 
-## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 
 ## Tech Overview
 
-Currently building out use-cases in vanilla JavaScript to determine Solid and Inrupt functionality. Once we have proof of concept, we will build out the PASS application in React.
+Initially built out use-cases in Vanilla JavaScript to determine Solid and Inrupt functionality. Currently beginning to build out the PASS application in React.
 
 ### Solid Data Pods
 
@@ -40,10 +40,6 @@ Pods are like secure personal web servers for data.
 * User data remains in pod (which is associated to WebID)
 * User authorizes applications to read/write/control data in pod
 
-#### To become familiar with how pods work:
-* Go to [Kevin's Solid Experiment](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid) on GitHub.
-* Clone repository and follow the [instructions](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/01-one-server).
-* Feel free to play around with the pod and check out the second use case [here](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/02-different-file-browser-application).
 
 ### Inrupt JavaScript Client Libraries
 
@@ -60,14 +56,16 @@ With PASS we are looking into using RDF to link between pods and store metadata 
 
 ### The Team
 
-|Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
-| ------------------- | --------------------- | -----------| ------------------------|
-| Team Lead - Kevin M.| Team Lead - Jared K.  | Gabby      | Flo                     |
-|                     | Greg Witt                      | Kyle       | Danica                  |
-|                     |                       |            | Wilfred                 |
-|                     |                       |            | Katherine               |
-|                     |      
+| Development Team      | UX/UI Team | Project Management Team |
+| --------------------- | -----------| ------------------------|
+| Jared K.              | Gabby      | Flo                     |
+| Kevin M.              | Kyle       | Danica                  |
+| Ka Hung               |            | Wilfred                 |
+| Greg Witt             |            | Katharine               |
+|      
 
+
+## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 
 
 ## Check out the documentation:
