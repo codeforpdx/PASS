@@ -33,7 +33,7 @@ Building out a decentralized application to enable house insecure individuals to
 4. Work on feature in your own branch.
 5. When ready, push up for review:
   * `git push origin <your branch name>`
-3. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to Development branch. Request reviews from members of the team - you’ll need their approval to merge. **Make sure to close your branch once merged.
+6. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to Development branch. Request reviews from members of the team - you’ll need their approval to merge. **Make sure to close your branch once merged.
 
 - Good people to ask for reviews:
   - Development -- Jared Krajewski, Ka Hung, Kevin M., Greg Witt
@@ -41,7 +41,7 @@ Building out a decentralized application to enable house insecure individuals to
 - When in doubt, ask more people for reviews!
 - Include screenshots whenever you’re building a frontend feature.
 
-4. If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback. Request reviews from the appropriate people above.
+7. If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback. Request reviews from the appropriate people above.
 
 ## Feeling Lost?
 Our developers will occasionally hang out in the *#pass voice channel* on Discord while working on the project. If you ever see people in there, feel free to hop in and ask questions. Consider it office hours.
