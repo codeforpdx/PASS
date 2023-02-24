@@ -31,7 +31,7 @@ Building out a decentralized application to enable house insecure individuals to
   * `git checkout -b <branch name>` [learn more](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
 3. `git pull origin Development` - to sync with PASS Development branch
 4. Work on feature in your own branch.
-5. When ready to push up for review:
+5. When ready, push up for review:
   * `git push origin <your branch name>`
 3. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to Development branch. Request reviews from members of the team - you’ll need their approval to merge. **Make sure to close your branch once merged.
 
@@ -44,7 +44,9 @@ Building out a decentralized application to enable house insecure individuals to
 4. If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback. Request reviews from the appropriate people above.
 
 ## Feeling Lost?
-**Our developers will occasionally hang out in the *pass voice channel* while working on the project. If you ever see people in there, feel free to hop in and ask questions. Consider it office hours.**
+Our developers will occasionally hang out in the *#pass voice channel* on Discord while working on the project. If you ever see people in there, feel free to hop in and ask questions. Consider it office hours.
+
+
 
 
 ## Introductory PASS Readings
