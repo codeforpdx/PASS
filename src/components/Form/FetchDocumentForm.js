@@ -49,12 +49,18 @@ const FetchDocumentForm = () => {
   };
 
   return (
-    <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+    <section
+      hidden={!session.info.isLoggedIn ? "hidden" : ""}
+      className="panel"
+    >
       <strong>Search Document</strong>
       <form onSubmit={handleGetDocumentSubmission}>
         <div style={formRowStyle}>
-          <label>Select document type to search: </label>
-          <DocumentSelection /> <button>Get Document</button>
+          <label htmlFor="search-doctype">
+            Select document type to search:{" "}
+          </label>
+          <DocumentSelection htmlId="search-doctype" />{" "}
+          <button type="submit">Get Document</button>
         </div>
       </form>
       <StatusNotification
@@ -63,7 +69,7 @@ const FetchDocumentForm = () => {
         defaultMessage="To be searched..."
         locationUrl={state.documentLocation}
       />
-    </div>
+    </section>
   );
 };
 

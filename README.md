@@ -45,7 +45,7 @@ Pods are like secure personal web servers for data.
 * Clone repository and follow the [instructions](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/01-one-server).
 * Feel free to play around with the pod and check out the second use case [here](https://github.com/codeforpdx/PASS/tree/km/solid/experiments/experiments/solid/02-different-file-browser-application).
 
-### Inrupt JavaSctipt Client Libraries
+### Inrupt JavaScript Client Libraries
 
 Inrupt is currently leading the way for development with Solid. Check out their documentation [here](https://docs.inrupt.com/developer-tools/javascript/client-libraries/)
 
@@ -63,7 +63,7 @@ With PASS we are looking into using RDF to link between pods and store metadata 
 |Back-End Dev Team    | Front-End Dev Team    | UX/UI Team | Project Management Team |
 | ------------------- | --------------------- | -----------| ------------------------|
 | Team Lead - Kevin M.| Team Lead - Jared K.  | Gabby      | Flo                     |
-|                     |                       | Kyle       | Danica                  |
+|                     | Greg Witt                      | Kyle       | Danica                  |
 |                     |                       |            | Wilfred                 |
 |                     |                       |            | Katherine               |
 |                     |      

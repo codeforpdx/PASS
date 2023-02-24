@@ -1,9 +1,9 @@
 import { docTypes } from "../../utils/form-helper";
 
-const DocumentSelection = () => {
+const DocumentSelection = ({ htmlId }) => {
   return (
     <>
-      <select name="document">
+      <select id={htmlId} name="document">
         {docTypes.map((doc, index) => {
           return <option key={index}>{doc}</option>;
         })}

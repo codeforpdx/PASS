@@ -49,12 +49,18 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <div hidden={!session.info.isLoggedIn ? "hidden" : ""} className="panel">
+    <section
+      hidden={!session.info.isLoggedIn ? "hidden" : ""}
+      className="panel"
+    >
       <strong>Delete Document</strong>
       <form onSubmit={handleDeleteDocument}>
         <div style={formRowStyle}>
-          <label>Select document type to delete: </label>
-          <DocumentSelection /> <button>Delete Document</button>
+          <label htmlFor="delete-doctype">
+            Select document type to delete:{" "}
+          </label>
+          <DocumentSelection htmlId="delete-doctype" />{" "}
+          <button type="submit">Delete Document</button>
         </div>
       </form>
       <StatusNotification
@@ -62,7 +68,7 @@ const DeleteDocumentForm = () => {
         statusType="Deletion status"
         defaultMessage="To be searched..."
       />
-    </div>
+    </section>
   );
 };
 

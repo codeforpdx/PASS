@@ -21,12 +21,14 @@ const App = () => {
     <>
       <AppHeader />
       <SessionProvider>
-        <Login />
-        <UploadDocumentForm />
-        <FetchDocumentForm />
-        <DeleteDocumentForm />
-        <CrossPodQuery />
-        <CrossPodWrite />
+        <main>
+          <Login />
+          <UploadDocumentForm />
+          <FetchDocumentForm />
+          <DeleteDocumentForm />
+          <CrossPodQuery />
+          <CrossPodWrite />
+        </main>
       </SessionProvider>
     </>
   );
