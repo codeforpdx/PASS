@@ -14,7 +14,7 @@ Newer features like Cross Pod interactions for querying and/or writing new files
 
 ## State of Build
 
-The current build is made with React 18 and bundled with Parcel v2. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
+The current build is made with React 18 and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
 
 Documentation for the build is located under the docs directory and can be accessed locally using the follow command in the terminal:
 
@@ -50,7 +50,7 @@ After installing the dependencies from package.json, run the following to start 
 npm run dev
 ```
 
-The local live server would be located in port 1234:
+The local live server would be located in port 5173:
 
 ```shell
 http://localhost:5173/

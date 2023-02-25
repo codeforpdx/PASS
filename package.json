@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "docs": "jsdoc --readme ./README.md -c jsdoc.config.json",
+    "docs": "jsdoc --readme ./docs/README.md -c jsdoc.config.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
