@@ -1,6 +1,6 @@
 import { useSession, LoginButton, LogoutButton } from "@inrupt/solid-ui-react";
 import { useState, useEffect } from "react";
-import { SOLID_IDENTITY_PROVIDER } from "../../utils/";
+import { SOLID_IDENTITY_PROVIDER } from "../../utils";
 
 const Login = () => {
   const { session } = useSession();

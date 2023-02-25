@@ -4,7 +4,7 @@ import {
   deleteDocumentFile,
   deleteDocumentContainer,
   runNotification,
-} from "../../utils/";
+} from "../../utils";
 import DocumentSelection from "./DocumentSelection";
 import StatusNotification from "./StatusNotification";
 

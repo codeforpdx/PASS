@@ -47,13 +47,13 @@ npm install
 After installing the dependencies from package.json, run the following to start a local live server to view the application:
 
 ```shell
-npx parcel ./src/index.html
+npm run dev
 ```
 
 The local live server would be located in port 1234:
 
 ```shell
-http://localhost:1234/
+http://localhost:5173/
 ```
 
 Latest version of this build require users to login to their Pod through [https://opencommons.net](https://opencommons.net)
