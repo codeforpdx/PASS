@@ -16,7 +16,13 @@ Newer features like Cross Pod interactions for querying and/or writing new files
 
 The current build is made with React 18 and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
 
-Documentation for the build is located under the docs directory and can be accessed locally using the follow command in the terminal:
+To generate the React documentation locally, run the following command:
+
+```shell
+npm run docs
+```
+
+This will generate the documentation within the docs directory, and can be accessed locally using the follow command in the terminal:
 
 ```shell
 npx serve docs
@@ -28,10 +34,10 @@ The local live server link to the documentation will be located at:
 http://localhost:3000/
 ```
 
-New documentation could be added via JSDoc syntax and produced by running the following npm script in the root directory:
+To clear the docs directory, you can use the following to remove all but the docs/README.md file:
 
 ```shell
-npm run docs
+npm run docs:clear
 ```
 
 Documentation for cross pod components has yet to be documented.
