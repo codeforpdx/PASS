@@ -1,5 +1,7 @@
 # PASS - Personal Access System for Services
 
+[![Build status](https://github.com/codeforpdx/pass/actions/workflows/build.yml/badge.svg)](https://github.com/codeforpdx/pass/actions?query=workflow%3ABuild)
+
 ## Description
 
 In Portland, housing insecure individuals struggle to maintain documentation, which is often required to receive government and/or non-profit services. With PASS, we are building out an application to enable house insecure individuals to store their personal documents online in decentralized data stores, called Pods. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their documents. Verified organization will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod.
