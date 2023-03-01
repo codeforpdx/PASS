@@ -4,9 +4,9 @@ import {
   UploadDocumentForm,
   FetchDocumentForm,
   DeleteDocumentForm,
+  CrossPodQuery,
+  CrossPodWrite,
 } from "./components/Form";
-import CrossPodQuery from "./components/Form/CrossPodQuery";
-import CrossPodWrite from "./components/Form/CrossPodWrite";
 
 const AppHeader = () => {
   return (

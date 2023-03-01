@@ -15,7 +15,8 @@ const FetchDocumentForm = () => {
     try {
       const documentUrl = await fetchDocuments(
         session,
-        event.target.document.value
+        event.target.document.value,
+        "self-fetch"
       );
       if (state.documentLocation) {
         dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });

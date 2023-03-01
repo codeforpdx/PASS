@@ -1,15 +1,48 @@
 import { useSession } from "@inrupt/solid-ui-react";
+import { fetchDocuments, runNotification } from "../../utils";
+import { useStatusNotification } from "../../hooks";
 import StatusNotification from "./StatusNotification";
 import DocumentSelection from "./DocumentSelection";
 
 const CrossPodQuery = () => {
   const { session } = useSession();
+  const { state, dispatch } = useStatusNotification();
 
-  const handleCrossPodQuery = (event) => {
+  const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     // dummy calls for now
-    console.log(event.target.crossPodQuery.value);
-    console.log(event.target.document.value);
+    try {
+      const documentUrl = await fetchDocuments(
+        session,
+        event.target.document.value,
+        "cross-fetch",
+        event.target.crossPodQuery.value
+      );
+      if (state.documentLocation) {
+        dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
+      }
+      runNotification(`Locating document...`, 2, state, dispatch);
+
+      // setTimeout is used to let fetchDocuments complete its fetch
+      setTimeout(() => {
+        dispatch({ type: "SET_DOCUMENT_LOCATION", payload: documentUrl });
+        runNotification(
+          `Document found! Document located at: `,
+          7,
+          state,
+          dispatch
+        );
+      }, 2000);
+    } catch (_error) {
+      dispatch({ type: "CLEAR_DOCUMENT_LOCATION" });
+      runNotification(
+        `Search failed. Reason: Document not found or unauthorized`,
+        7,
+        state,
+        dispatch
+      );
+      console.log("Search failed. Reason: Document not found or unauthorized");
+    }
   };
 
   const formRowStyle = {
@@ -25,8 +58,11 @@ const CrossPodQuery = () => {
       <form onSubmit={handleCrossPodQuery}>
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doc">
-            Paste other user's pod url to search from:{" "}
+            Paste other user's pod url to search from (i.e.,
+            username.opencommons.net):{" "}
           </label>
+          <br />
+          <br />
           <input
             id="cross-search-doc"
             size="60"
@@ -43,9 +79,10 @@ const CrossPodQuery = () => {
         </div>
       </form>
       <StatusNotification
-        notification=""
-        statusType="Writing status"
+        notification={state.message}
+        statusType="Search status"
         defaultMessage="To be searched..."
+        locationUrl={state.documentLocation}
       />
     </section>
   );

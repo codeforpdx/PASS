@@ -199,11 +199,20 @@ const placeFileInContainer = async (
  * @function fetchDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
+ * @param {string} [otherPodUrl] - Url to other user's Pod (set to empty string by default)
  * @returns {void} Void - Either a string containing the url location of the document, if exist, or throws an Error
  */
 
-export const fetchDocuments = async (session, fileType) => {
-  const documentUrl = fetchUrl(session, fileType);
+export const fetchDocuments = async (
+  session,
+  fileType,
+  fetchType,
+  otherPodUrl = ""
+) => {
+  const documentUrl = fetchUrl(session, fileType, fetchType, otherPodUrl);
+
+  console.log(documentUrl);
 
   try {
     await getSolidDataset(documentUrl, {
@@ -262,11 +271,18 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  * @function fetchUrl
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
+ * @param {string} otherPodUrl - Url to other user's Pod or empty string
  * @returns {string|null} url or null - A url location of where the file is located in or null, if doesn't exist
  */
 
-const fetchUrl = (session, fileType) => {
-  const POD_URL = String(session.info.webId.split("profile")[0]);
+const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
+  let POD_URL;
+  if (fetchType === "self-fetch") {
+    POD_URL = String(session.info.webId.split("profile")[0]);
+  } else {
+    POD_URL = `https://${otherPodUrl}/`;
+  }
 
   switch (fileType) {
     case "Bank Statement":
