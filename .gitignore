@@ -1,0 +1,7 @@
+/dist
+/node_modules
+/.parcel-cache
+.DS_Store
+/PASS-branches
+/docs
+!/docs/README.md
