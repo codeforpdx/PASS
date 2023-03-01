@@ -42,34 +42,20 @@ export const SOLID_IDENTITY_PROVIDER = "https://opencommons.net";
 
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (fileObject, session) => {
-  if (!fileObject.file) {
-    throw "File missing from submission!";
-  }
-
-  const POD_URL = String(session.info.webId.split("profile")[0]);
-
   // Generating Directory for document
-  const documentFolder = POD_URL + fileObject.type;
-  await createContainerAt(documentFolder, { fetch: session.fetch }).then(
-    (response) => {
-      console.log(`Dataset Information`, response);
-    }
-  );
+  const documentUrl = fetchUrl(session, fileObject.type, "self-fetch");
+  await createContainerAt(documentUrl, { fetch: session.fetch });
 
   // Storing File in Document
   const storedFile = await placeFileInContainer(
     fileObject,
-    `${documentFolder}`,
+    documentUrl,
     session
   );
 
-  // Setting url to location of document directory
-  const solidDatasetUrl = documentFolder;
-  let getDatasetFromUrl = await getSolidDataset(solidDatasetUrl, {
+  let getDatasetFromUrl = await getSolidDataset(documentUrl, {
     fetch: session.fetch,
   });
-
-  console.log(getDatasetFromUrl);
 
   const ttlFile = hasTTLFiles(getDatasetFromUrl);
 
@@ -80,8 +66,6 @@ export const uploadDocument = async (fileObject, session) => {
     .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
     .build();
 
-  console.log("TTL url", ttlFile);
-
   let myDataset;
   if (ttlFile !== null) {
     myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
@@ -89,7 +73,7 @@ export const uploadDocument = async (fileObject, session) => {
 
     myDataset = setThing(myDataset, toBeUpdated);
 
-    await saveSolidDatasetAt(ttlFile, solidDatasetUrl, myDataset, {
+    await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
       fetch: session.fetch,
     }).then((result) => {
       console.log("New dataset: ", result);
@@ -99,10 +83,10 @@ export const uploadDocument = async (fileObject, session) => {
 
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
 
-    await saveSolidDatasetInContainer(solidDatasetUrl, courseSolidDataset, {
+    await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
       fetch: session.fetch,
     }).then((result) => {
-      console.log("newly generated and uploaded dataset: ", result);
+      console.log("Newly generated and uploaded dataset: ", result);
     });
   }
 
@@ -178,16 +162,11 @@ const placeFileInContainer = async (
   session
 ) => {
   try {
-    const savedFile = await saveFileInContainer(
-      targetContainerUrl,
-      fileObject.file,
-      {
-        slug: fileObject.file.name,
-        contentType: fileObject.type,
-        fetch: session.fetch,
-      }
-    );
-    console.log(`File saved at ${getSourceUrl(savedFile)}`);
+    await saveFileInContainer(targetContainerUrl, fileObject.file, {
+      slug: fileObject.file.name,
+      contentType: fileObject.type,
+      fetch: session.fetch,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -235,7 +214,7 @@ export const fetchDocuments = async (
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
-  const documentUrl = fetchUrl(session, fileType);
+  const documentUrl = fetchUrl(session, fileType, "self-fetch");
   let fetched = await getSolidDataset(documentUrl, {
     fetch: session.fetch,
   });

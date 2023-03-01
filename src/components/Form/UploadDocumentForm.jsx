@@ -16,6 +16,14 @@ const UploadDocumentForm = () => {
         type: "SET_FILE",
         payload: event.target.files[0],
       });
+    } else {
+      dispatch({
+        type: "CLEAR_FILE",
+      });
+      dispatch({
+        type: "SET_FILE",
+        payload: event.target.files[0],
+      });
     }
   };
 
@@ -29,6 +37,18 @@ const UploadDocumentForm = () => {
   // Event handler for form/document submission to Pod
   const handleFormSubmission = async (event) => {
     event.preventDefault();
+
+    if (!state.file) {
+      runNotification(
+        `Submission failed. Reason: missing file`,
+        7,
+        state,
+        dispatch
+      );
+      console.log("Submission failed. Reason: missing file");
+      return;
+    }
+
     const fileObject = {
       type: event.target.document.value,
       date: event.target.date.value || "01/01/1800",
@@ -52,18 +72,25 @@ const UploadDocumentForm = () => {
           state,
           dispatch
         );
-        event.target.file.value = null;
-        dispatch({ type: "CLEAR_FILE" });
-        clearDescription();
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_FILE" });
+          event.target.file.value = "";
+          clearDescription();
+        }, 7000);
       }, 2000);
     } catch (_error) {
+      dispatch({ type: "CLEAR_FILE" });
+      event.target.file.value = "";
+      clearDescription();
       runNotification(
-        `Submission failed. Reason: missing file`,
+        `Submission failed. Reason: Previous file has already been saved to this type`,
         7,
         state,
         dispatch
       );
-      console.log("Submission failed. Reason: missing file");
+      console.log(
+        "Submission failed. Reason: Previous file has already been saved to this type"
+      );
     }
   };
 
@@ -104,6 +131,9 @@ const UploadDocumentForm = () => {
             onChange={handleFileChange}
           />
           <button type="submit">Upload file</button>
+          <button style={{ marginLeft: "5px" }} type="reset">
+            Reset file submission
+          </button>
         </div>
       </form>
       <StatusNotification
