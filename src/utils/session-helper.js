@@ -1,5 +1,4 @@
 import {
-  getSourceUrl,
   saveFileInContainer,
   createContainerAt,
   getSolidDataset,
@@ -12,6 +11,12 @@ import {
   saveSolidDatasetInContainer,
   deleteContainer,
   deleteFile,
+  createAcl,
+  setAgentResourceAccess,
+  saveAclFor,
+  setAgentDefaultAccess,
+  getSolidDatasetWithAcl,
+  getResourceAcl,
 } from "@inrupt/solid-client";
 import { SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 
@@ -73,21 +78,25 @@ export const uploadDocument = async (fileObject, session) => {
 
     myDataset = setThing(myDataset, toBeUpdated);
 
-    await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
+    const result = await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
       fetch: session.fetch,
-    }).then((result) => {
-      console.log("New dataset: ", result);
     });
+    console.log("New dataset: ", result);
   } else {
     let courseSolidDataset = createSolidDataset();
 
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
 
-    await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
-      fetch: session.fetch,
-    }).then((result) => {
-      console.log("Newly generated and uploaded dataset: ", result);
-    });
+    const result = await saveSolidDatasetInContainer(
+      documentUrl,
+      courseSolidDataset,
+      {
+        fetch: session.fetch,
+      }
+    );
+    console.log("Newly generated and uploaded dataset: ", result);
+
+    await createDocAclForUser(session, documentUrl);
   }
 
   console.log(
@@ -191,16 +200,14 @@ export const fetchDocuments = async (
 ) => {
   const documentUrl = fetchUrl(session, fileType, fetchType, otherPodUrl);
 
-  console.log(documentUrl);
-
   try {
     await getSolidDataset(documentUrl, {
       fetch: session.fetch,
     });
     return documentUrl;
   } catch (error) {
-    console.log("No Data Found");
-    throw "No Data Found";
+    console.log("No data found or unauthorized");
+    throw "No data found or unauthorized";
   }
 };
 
@@ -273,4 +280,79 @@ const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
     default:
       return null;
   }
+};
+
+/**
+ * Function that generates ACL file for container containing document and turtle file and give user access and control to them
+ * @memberof utils
+ * @function createDocAclForUser
+ * @param {Session} session - Solid Session
+ * @param {string} documentUrl - Url link to document container
+ * @returns {void} Void - Generates ACL file for container and give user access and control to it and its contents
+ */
+
+const createDocAclForUser = async (session, documentUrl) => {
+  const podResourceWithoutAcl = await getSolidDataset(documentUrl, {
+    fetch: session.fetch,
+  });
+  const resourceAcl = createAcl(podResourceWithoutAcl);
+  let newAcl = setAgentResourceAccess(resourceAcl, session.info.webId, {
+    read: true,
+    append: true,
+    write: true,
+    control: true,
+  });
+  newAcl = setAgentDefaultAccess(newAcl, session.info.webId, {
+    read: true,
+    append: true,
+    write: true,
+    control: true,
+  });
+
+  await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that set permissions for document container's ACL file
+ * @memberof utils
+ * @function setDocAclPermission
+ * @param {Session} session - Solid Session
+ * @param {string} fileType - Type of document
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
+ * @param {string} otherPodUrl - Url to other user's Pod or empty string
+ * @returns {void} Void - Sets permission for otherPodUrl for given document type, if exists
+ */
+
+export const setDocAclPermission = async (
+  session,
+  fileType,
+  accessType,
+  otherPodUrl
+) => {
+  const documentUrl = fetchUrl(session, fileType, "self-fetch");
+  const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, {
+    fetch: session.fetch,
+  });
+  const resourceAcl = getResourceAcl(podResouceWithAcl);
+  let accessObject;
+
+  if (accessType === "Give") {
+    accessObject = { read: true };
+  } else {
+    accessObject = { read: false };
+  }
+
+  let updatedAcl = setAgentResourceAccess(
+    resourceAcl,
+    `https://${otherPodUrl}/profile/card#me`,
+    accessObject
+  );
+  updatedAcl = setAgentDefaultAccess(
+    updatedAcl,
+    `https://${otherPodUrl}/profile/card#me`,
+    accessObject
+  );
+
+  await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
+  console.log(`Permissions has been set to: "${accessType}"`);
 };

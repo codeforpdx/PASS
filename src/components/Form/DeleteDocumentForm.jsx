@@ -54,7 +54,7 @@ const DeleteDocumentForm = () => {
       className="panel"
     >
       <strong>Delete Document</strong>
-      <form onSubmit={handleDeleteDocument}>
+      <form onSubmit={handleDeleteDocument} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="delete-doctype">
             Select document type to delete:{" "}

@@ -55,7 +55,7 @@ const FetchDocumentForm = () => {
       className="panel"
     >
       <strong>Search Document</strong>
-      <form onSubmit={handleGetDocumentSubmission}>
+      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">
             Select document type to search:{" "}

@@ -10,7 +10,6 @@ const CrossPodQuery = () => {
 
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
-    // dummy calls for now
     try {
       const documentUrl = await fetchDocuments(
         session,
@@ -55,7 +54,7 @@ const CrossPodQuery = () => {
       className="panel"
     >
       <strong>Cross Pod Search</strong>
-      <form onSubmit={handleCrossPodQuery}>
+      <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doc">
             Paste other user's pod url to search from (i.e.,

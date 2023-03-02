@@ -104,7 +104,7 @@ const UploadDocumentForm = () => {
       className="panel"
     >
       <strong>Upload Document</strong>
-      <form onSubmit={handleFormSubmission}>
+      <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="upload-doc">Select document type to upload: </label>
           <DocumentSelection htmlId="upload-doc" />

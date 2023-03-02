@@ -7,6 +7,7 @@ import {
   CrossPodQuery,
   CrossPodWrite,
 } from "./components/Form";
+import SetAclPermission from "./components/Form/SetAclPermission";
 
 const AppHeader = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <UploadDocumentForm />
           <FetchDocumentForm />
           <DeleteDocumentForm />
+          <SetAclPermission />
           <CrossPodQuery />
           <CrossPodWrite />
         </main>
