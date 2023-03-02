@@ -1,9 +1,8 @@
 import { useSession } from "@inrupt/solid-ui-react";
+import { runNotification, setDocAclPermission } from "../../utils";
 import { useStatusNotification } from "../../hooks";
 import StatusNotification from "./StatusNotification";
 import DocumentSelection from "./DocumentSelection";
-import { setDocAclPermission } from "../../utils/session-helper";
-import { runNotification } from "../../utils";
 
 const SetAclPermission = () => {
   const { session } = useSession();

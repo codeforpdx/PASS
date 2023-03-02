@@ -1,4 +1,4 @@
-import { docTypes } from "../../utils/form-helper";
+import docTypes from "../../utils/form-helper";
 
 const DocumentSelection = ({ htmlId }) => {
   return (

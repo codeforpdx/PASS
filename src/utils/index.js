@@ -11,6 +11,7 @@ import {
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
+  setDocAclPermission,
 } from "./session-helper";
 
 export {
@@ -21,4 +22,5 @@ export {
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
+  setDocAclPermission,
 };
