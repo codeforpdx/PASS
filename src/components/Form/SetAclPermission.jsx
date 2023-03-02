@@ -57,13 +57,21 @@ const SetAclPermission = () => {
           <DocumentSelection htmlId="set-acl-doctype" />{" "}
         </div>
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-permission">
-            Give or revoke permission?{" "}
-          </label>
-          <select id="set-acl-permission" name="setAclPerms">
-            <option>Give</option>
-            <option>Revoke</option>
-          </select>{" "}
+          <p>Select permission setting:</p>
+          <input
+            type="radio"
+            id="set-acl-perm-give"
+            name="setAclPerms"
+            value="Give"
+          ></input>
+          <label htmlFor="set-acl-perm-give">Give</label>
+          <input
+            type="radio"
+            id="set-acl-perm-revoke"
+            name="setAclPerms"
+            value="Revoke"
+          ></input>
+          <label htmlFor="set-acl-perm-revoke">Revoke</label>
         </div>
         <button type="submit">Set Permission</button>
       </form>

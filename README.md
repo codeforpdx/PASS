@@ -1,6 +1,6 @@
 # PASS - Personal Access System for Services
 
-[![Build status](https://github.com/codeforpdx/pass/actions/workflows/build.yml/badge.svg)](https://github.com/codeforpdx/pass/actions?query=workflow%3ABuild)
+[![Build status](https://github.com/codeforpdx/pass/actions/workflows/ci.yml/badge.svg)](https://github.com/codeforpdx/pass/actions?query=workflow%3ABuild)
 
 ## Description
 

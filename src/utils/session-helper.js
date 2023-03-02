@@ -354,5 +354,5 @@ export const setDocAclPermission = async (
   );
 
   await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
-  console.log(`Permissions has been set to: "${accessType}"`);
+  console.log(`Permissions for ${fileType} has been set to: "${accessType}"`);
 };
