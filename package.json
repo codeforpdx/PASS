@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "docs": "jsdoc --readme ./README.md -c jsdoc.config.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "keywords": [],
   "author": "",
