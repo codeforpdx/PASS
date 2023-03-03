@@ -5,3 +5,4 @@
 /PASS-branches
 /docs
 !/docs/README.md
+./package-lock.json
