@@ -3,3 +3,4 @@
 /.parcel-cache
 .DS_Store
 /PASS-branches
+./package-lock.json
