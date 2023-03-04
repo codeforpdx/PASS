@@ -3,8 +3,8 @@
  * @namespace hooks
  */
 
-import { useReducer, useState } from "react";
-import statusReducer, { initialStatusState } from "../reducers/statusReducer";
+import { useReducer, useState } from 'react';
+import statusReducer, { initialStatusState } from '../reducers/statusReducer';
 
 /**
  * @typedef {Object} useFieldObject
@@ -23,21 +23,21 @@ import statusReducer, { initialStatusState } from "../reducers/statusReducer";
  */
 
 export const useField = (type) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   const onChange = (event) => {
     setValue(event.target.value);
   };
 
   const clearValue = () => {
-    setValue("");
+    setValue('');
   };
 
   return {
     type,
     value,
     onChange,
-    clearValue,
+    clearValue
   };
 };
 

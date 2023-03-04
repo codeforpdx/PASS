@@ -1,10 +1,18 @@
-import { useSession, LoginButton, LogoutButton } from "@inrupt/solid-ui-react";
-import { useState, useEffect } from "react";
-import { SOLID_IDENTITY_PROVIDER } from "../../utils";
+import { useSession, LoginButton, LogoutButton } from '@inrupt/solid-ui-react';
+import React, { useState, useEffect } from 'react';
+import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+
+/**
+ * Login Component - Component that generates Login section to Solid Pod via Solid Session
+ * @memberof Forms
+ * @component
+ * @name CrossPodWriteForm
+ * @returns {void}
+ */
 
 const Login = () => {
   const { session } = useSession();
-  const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
+  const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
@@ -15,10 +23,10 @@ const Login = () => {
       <div className="row">
         <label id="labelLogin" htmlFor="btnLogin">
           Click the following login button to log into your pod at [
-          <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
+          <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
             {SOLID_IDENTITY_PROVIDER}
           </a>
-          ]:{" "}
+          ]:{' '}
         </label>
         {!session.info.isLoggedIn ? (
           <LoginButton
@@ -26,17 +34,17 @@ const Login = () => {
             redirectUrl={currentUrl}
             onError={console.error}
           >
-            <button>Login</button>
+            <button type="submit">Login</button>
           </LoginButton>
         ) : (
           <LogoutButton>
-            <button>Logout</button>
+            <button type="submit">Logout</button>
           </LogoutButton>
         )}
         {session.info.isLoggedIn ? (
           <p className="labelStatus" role="alert">
             Your session is logged in with the WebID [
-            <a href={session.info.webId} target="_blank">
+            <a href={session.info.webId} target="_blank" rel="noreferrer">
               {session.info.webId}
             </a>
             ].

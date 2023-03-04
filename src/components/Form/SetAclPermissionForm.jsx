@@ -1,10 +1,19 @@
-import { useSession } from "@inrupt/solid-ui-react";
-import { runNotification, setDocAclPermission } from "../../utils";
-import { useStatusNotification } from "../../hooks";
-import StatusNotification from "./StatusNotification";
-import DocumentSelection from "./DocumentSelection";
+import React from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
+import { runNotification, setDocAclPermission } from '../../utils';
+import { useStatusNotification } from '../../hooks';
+import StatusNotification from './StatusNotification';
+import DocumentSelection from './DocumentSelection';
 
-const SetAclPermission = () => {
+/**
+ * SetAclPermissionForm Component - Component that generates the form for setting document ACL permissions to Solid Pod via Solid Session
+ * @memberof Forms
+ * @component
+ * @name SetAclPermissionForm
+ * @returns {void}
+ */
+
+const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
@@ -24,29 +33,21 @@ const SetAclPermission = () => {
         dispatch
       );
     } catch (error) {
-      runNotification(
-        "Set permission failed. Reason: File not found",
-        7,
-        state,
-        dispatch
-      );
+      runNotification('Set permission failed. Reason: File not found', 7, state, dispatch);
     }
   };
 
   const formRowStyle = {
-    margin: "20px 0",
+    margin: '20px 0'
   };
 
   return (
-    <section
-      hidden={!session.info.isLoggedIn ? "hidden" : ""}
-      className="panel"
-    >
+    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
       <strong>Permission to Files</strong>
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="set-acl-to">
-            Paste other user's pod url (i.e., username.opencommons.net):{" "}
+            Paste other user's pod url (i.e., username.opencommons.net):{' '}
           </label>
           <br />
           <br />
@@ -54,23 +55,13 @@ const SetAclPermission = () => {
         </div>
         <div style={formRowStyle}>
           <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{" "}
+          <DocumentSelection htmlId="set-acl-doctype" />{' '}
         </div>
         <div style={formRowStyle}>
           <p>Select permission setting:</p>
-          <input
-            type="radio"
-            id="set-acl-perm-give"
-            name="setAclPerms"
-            value="Give"
-          ></input>
+          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
           <label htmlFor="set-acl-perm-give">Give</label>
-          <input
-            type="radio"
-            id="set-acl-perm-revoke"
-            name="setAclPerms"
-            value="Revoke"
-          ></input>
+          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
           <label htmlFor="set-acl-perm-revoke">Revoke</label>
         </div>
         <button type="submit">Set Permission</button>
@@ -85,4 +76,4 @@ const SetAclPermission = () => {
   );
 };
 
-export default SetAclPermission;
+export default SetAclPermissionForm;

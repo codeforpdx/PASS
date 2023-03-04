@@ -1,8 +1,9 @@
-import UploadDocumentForm from "./UploadDocumentForm";
-import FetchDocumentForm from "./FetchDocumentForm";
-import DeleteDocumentForm from "./DeleteDocumentForm";
-import CrossPodQuery from "./CrossPodQuery";
-import CrossPodWrite from "./CrossPodWrite";
+import UploadDocumentForm from './UploadDocumentForm';
+import FetchDocumentForm from './FetchDocumentForm';
+import DeleteDocumentForm from './DeleteDocumentForm';
+import CrossPodQueryForm from './CrossPodQueryForm';
+import CrossPodWriteForm from './CrossPodWriteForm';
+import SetAclPermissionForm from './SetAclPermissionForm';
 
 /**
  * Components and functions related to Application Forms
@@ -13,6 +14,7 @@ export {
   UploadDocumentForm,
   FetchDocumentForm,
   DeleteDocumentForm,
-  CrossPodQuery,
-  CrossPodWrite,
+  CrossPodQueryForm,
+  CrossPodWriteForm,
+  SetAclPermissionForm
 };

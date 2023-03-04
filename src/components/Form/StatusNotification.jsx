@@ -1,5 +1,8 @@
+import React from 'react';
+import StatusMessage from './StatusMessage';
+
 /**
- * StatusNotification Component
+ * StatusNotification Component - Component that renders Status notification and message for file upload, search, delete, etc.
  * @memberof Forms
  * @component
  * @name StatusNotification
@@ -11,33 +14,15 @@
  * @returns {void}
  */
 
-const StatusNotification = ({
-  notification,
-  statusType,
-  defaultMessage,
-  locationUrl = "",
-}) => {
-  return (
-    <dl className="display">
-      <dt>{statusType}:</dt>
-      {notification ? (
-        locationUrl ? (
-          <dd className="labelStatus" role="alert">
-            {notification}{" "}
-            <a href={locationUrl} target="_blank">
-              {locationUrl}
-            </a>
-          </dd>
-        ) : (
-          <dd className="labelStatus" role="alert">
-            {notification}
-          </dd>
-        )
-      ) : (
-        <dd>{defaultMessage}</dd>
-      )}
-    </dl>
-  );
-};
+const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (
+  <dl className="display">
+    <dt>{statusType}:</dt>
+    {notification ? (
+      <StatusMessage notification={notification} locationUrl={locationUrl} />
+    ) : (
+      <dd>{defaultMessage}</dd>
+    )}
+  </dl>
+);
 
 export default StatusNotification;
