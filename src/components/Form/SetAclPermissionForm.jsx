@@ -70,7 +70,7 @@ const SetAclPermissionForm = () => {
         notification={state.message}
         statusType="Permission status"
         defaultMessage="Permission to be set..."
-        locationUrl={state.documentLocation}
+        locationUrl={state.documentUrl}
       />
     </section>
   );

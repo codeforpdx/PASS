@@ -32,15 +32,15 @@ export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
  * Function helps put file into Pod container
  * @memberof utils
  * @function placeFileInContainer
- * @param {Object} fileObject - Object of file being uploaded to Solid
- * @param {string} targetContainerUrl - URL location of Pod container
  * @param {Session} session - Solid Session
+ * @param {Object} fileObject - Object of file being uploaded to Solid
+ * @param {string} containerUrl - URL location of Pod container
  * @returns {Promise} Promise - A message regarding the status of upload to user's Pod
  */
 
-const placeFileInContainer = async (fileObject, targetContainerUrl, session) => {
+const placeFileInContainer = async (session, fileObject, containerUrl) => {
   try {
-    await saveFileInContainer(targetContainerUrl, fileObject.file, {
+    await saveFileInContainer(containerUrl, fileObject.file, {
       slug: fileObject.file.name,
       contentType: fileObject.type,
       fetch: session.fetch
@@ -54,12 +54,12 @@ const placeFileInContainer = async (fileObject, targetContainerUrl, session) => 
  * Function that checks if location has TTL files
  * @memberof utils
  * @function hasTTLFiles
- * @param {string} url - URL of location in question
+ * @param {string} containerUrl - URL of location in question
  * @returns {Object|null} ttlFiles or null - An object of first ttl file in location or null, if file does not exist
  */
 
-const hasTTLFiles = (url) => {
-  const items = getThingAll(url);
+const hasTTLFiles = (containerUrl) => {
+  const items = getThingAll(containerUrl);
   if (!items) {
     return null;
   }
@@ -76,13 +76,13 @@ const hasTTLFiles = (url) => {
  * Function checks if location has any files
  * @memberof utils
  * @function hasFiles
- * @param {string} url - URL of location in question
+ * @param {string} containerUrl - URL of location in question
  * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the directory container and the rest of the files or null
  */
 
 // Sub-routine to check for any existing files in directory to help in container deletion from Pod
-const hasFiles = (url) => {
-  const items = getThingAll(url);
+const hasFiles = (containerUrl) => {
+  const items = getThingAll(containerUrl);
   if (!items) {
     return null;
   }
@@ -142,9 +142,10 @@ const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
  * @returns {AclDataset} - Solid Session Dataset with updated ACL file
  */
 
-const setupAcl = async (resourceWithAcl, webId, accessObject) => {
+const setupAcl = (resourceWithAcl, webId, accessObject) => {
+  // setAgentResourceAccess will set ACL for resource and setAgentDefaultAcess will set ACL for resource container
   let acl = setAgentResourceAccess(resourceWithAcl, webId, accessObject);
-  acl = setAgentDefaultAccess(resourceWithAcl, webId, accessObject);
+  acl = setAgentDefaultAccess(acl, webId, accessObject);
 
   return acl;
 };
@@ -159,9 +160,7 @@ const setupAcl = async (resourceWithAcl, webId, accessObject) => {
  */
 
 const createDocAclForUser = async (session, documentUrl) => {
-  const podResourceWithoutAcl = await getSolidDataset(documentUrl, {
-    fetch: session.fetch
-  });
+  const podResourceWithoutAcl = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   const resourceAcl = createAcl(podResourceWithoutAcl);
   const accessObject = {
@@ -172,8 +171,8 @@ const createDocAclForUser = async (session, documentUrl) => {
   };
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
-
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+  console.log(`ACL generated for ${documentUrl}`);
 };
 
 /**
@@ -189,13 +188,12 @@ const createDocAclForUser = async (session, documentUrl) => {
 
 export const setDocAclPermission = async (session, fileType, accessType, otherPodUrl) => {
   const documentUrl = fetchUrl(session, fileType, 'self-fetch');
-  const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, {
-    fetch: session.fetch
-  });
+
+  const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
+
   const resourceAcl = getResourceAcl(podResouceWithAcl);
   const webId = `https://${otherPodUrl}/profile/card#me`;
   let accessObject;
-
   if (accessType === 'Give') {
     accessObject = { read: true };
   } else {
@@ -203,7 +201,6 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
   }
 
   const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
-
   await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
   console.log(`Permissions for ${fileType} has been set to: "${accessType}"`);
 };
@@ -220,26 +217,20 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  * Function that uploads file to Pod on Solid
  * @memberof utils
  * @function uploadDocument
- * @param {fileObject} fileObject - Object containing information about file from form submission
  * @param {Session} session - Solid Session
+ * @param {fileObject} fileObject - Object containing information about file from form submission
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
 
 // Main function to upload document to user's Pod on Solid
-export const uploadDocument = async (fileObject, session) => {
-  // Generating Directory for document
+export const uploadDocument = async (session, fileObject) => {
   const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
-  // Storing File in Document
-  const storedFile = await placeFileInContainer(fileObject, documentUrl, session);
-
-  const getDatasetFromUrl = await getSolidDataset(documentUrl, {
-    fetch: session.fetch
-  });
+  const storedFile = await placeFileInContainer(session, fileObject, documentUrl);
+  const getDatasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   const ttlFile = hasTTLFiles(getDatasetFromUrl);
-
   const toBeUpdated = buildThing(createThing({ name: storedFile }))
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
@@ -251,7 +242,6 @@ export const uploadDocument = async (fileObject, session) => {
   if (ttlFile !== null) {
     myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
     console.log('Call original dataset: ', myDataset);
-
     myDataset = setThing(myDataset, toBeUpdated);
 
     const result = await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
@@ -260,7 +250,6 @@ export const uploadDocument = async (fileObject, session) => {
     console.log('New dataset: ', result);
   } else {
     let courseSolidDataset = createSolidDataset();
-
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
 
     const result = await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
@@ -292,9 +281,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
   const documentUrl = fetchUrl(session, fileType, fetchType, otherPodUrl);
 
   try {
-    await getSolidDataset(documentUrl, {
-      fetch: session.fetch
-    });
+    await getSolidDataset(documentUrl, { fetch: session.fetch });
     return documentUrl;
   } catch (error) {
     console.log('No data found or unauthorized');
@@ -308,25 +295,23 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
  * @function deleteDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
- * @returns {Promise} directory.url - The URL of document container and the response on whether document file is deleted, if exist, and delete all existing files within it
+ * @returns {Promise} container.url - The URL of document container and the response on whether document file is deleted, if exist, and delete all existing files within it
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
   const documentUrl = fetchUrl(session, fileType, 'self-fetch');
-  const fetched = await getSolidDataset(documentUrl, {
-    fetch: session.fetch
-  });
+  const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   // Solid requires all files within Pod Container must be deleted before
   // the container itself can be delete itself
-  const [directory, files] = hasFiles(fetched);
+  const [container, files] = hasFiles(fetched);
   files.filter(async (file) => {
     if (!file.url.slice(-3).includes('/')) {
       await deleteFile(file.url, { fetch: session.fetch });
     }
   });
 
-  return directory.url;
+  return container.url;
 };
 
 /**

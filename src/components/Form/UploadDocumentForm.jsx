@@ -57,8 +57,8 @@ const UploadDocumentForm = () => {
     };
 
     try {
-      await uploadDocument(fileObject, session);
       runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
+      await uploadDocument(session, fileObject);
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);

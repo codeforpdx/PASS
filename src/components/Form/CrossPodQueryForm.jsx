@@ -26,7 +26,7 @@ const CrossPodQueryForm = () => {
         'cross-fetch',
         event.target.crossPodQuery.value
       );
-      if (state.documentLocation) {
+      if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
       runNotification(`Locating document...`, 2, state, dispatch);
@@ -74,7 +74,7 @@ const CrossPodQueryForm = () => {
         notification={state.message}
         statusType="Search status"
         defaultMessage="To be searched..."
-        locationUrl={state.documentLocation}
+        locationUrl={state.documentUrl}
       />
     </section>
   );

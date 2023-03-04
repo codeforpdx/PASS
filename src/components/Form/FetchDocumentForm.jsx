@@ -23,7 +23,7 @@ const FetchDocumentForm = () => {
     event.preventDefault();
     try {
       const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
-      if (state.documentLocation) {
+      if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
       runNotification(`Locating document...`, 2, state, dispatch);
@@ -57,7 +57,7 @@ const FetchDocumentForm = () => {
         notification={state.message}
         statusType="Search status"
         defaultMessage="To be searched..."
-        locationUrl={state.documentLocation}
+        locationUrl={state.documentUrl}
       />
     </section>
   );

@@ -43,7 +43,7 @@ export const useField = (type) => {
 
 /**
  * @typedef {Object} useStatusNotificationObject
- * @property {string|null} documentLocation - Location of document URL
+ * @property {string|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
  * @property {function} clearValue - Event handler that clears value set for input element
@@ -53,7 +53,7 @@ export const useField = (type) => {
  * Custom hook that provide the useStatusNotificationObject as the state and a useReducer dispatch function to alter the state
  * @memberof hooks
  * @function useStatusNotification
- * @return {useStatusNotificationObject} useStatusNotificationObject - An object that contains { documentLocation, message, timeoutID, and file }
+ * @return {useStatusNotificationObject} useStatusNotificationObject - An object that contains { documentUrl, message, timeoutID, and file }
  */
 
 export const useStatusNotification = () => {

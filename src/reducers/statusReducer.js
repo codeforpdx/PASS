@@ -3,14 +3,14 @@
  * @memberof Forms
  * @name initialStatusState
  * @typedef {Object} useStatusNotificationObject
- * @property {string|null} documentLocation - Location of document URL
+ * @property {string|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
  * @property {function} clearValue - Event handler that clears value set for input element
  */
 
 export const initialStatusState = {
-  documentLocation: null,
+  documentUrl: null,
   message: '',
   timeoutID: null,
   file: null
@@ -27,7 +27,7 @@ export const initialStatusState = {
 const statusReducer = (state, action) => {
   switch (action.type) {
     case 'SET_DOCUMENT_LOCATION':
-      return { ...state, documentLocation: action.payload };
+      return { ...state, documentUrl: action.payload };
     case 'SET_MESSAGE':
       return { ...state, message: action.payload };
     case 'SET_TIMEOUT_ID':
