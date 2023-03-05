@@ -6,7 +6,7 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
  * Login Component - Component that generates Login section to Solid Pod via Solid Session
  * @memberof Forms
  * @component
- * @name CrossPodWriteForm
+ * @name Login
  * @returns {void}
  */
 
@@ -29,28 +29,29 @@ const Login = () => {
           ]:{' '}
         </label>
         {!session.info.isLoggedIn ? (
-          <LoginButton
-            oidcIssuer={SOLID_IDENTITY_PROVIDER}
-            redirectUrl={currentUrl}
-            onError={console.error}
-          >
-            <button type="submit">Login</button>
-          </LoginButton>
+          <>
+            <LoginButton
+              oidcIssuer={SOLID_IDENTITY_PROVIDER}
+              redirectUrl={currentUrl}
+              onError={console.error}
+            >
+              <button type="submit">Login</button>
+            </LoginButton>
+            <p>Not logged in</p>
+          </>
         ) : (
-          <LogoutButton>
-            <button type="submit">Logout</button>
-          </LogoutButton>
-        )}
-        {session.info.isLoggedIn ? (
-          <p className="labelStatus" role="alert">
-            Your session is logged in with the WebID [
-            <a href={session.info.webId} target="_blank" rel="noreferrer">
-              {session.info.webId}
-            </a>
-            ].
-          </p>
-        ) : (
-          <p>Not logged in</p>
+          <>
+            <LogoutButton>
+              <button type="submit">Logout</button>
+            </LogoutButton>
+            <p className="labelStatus" role="alert">
+              Your session is logged in with the WebID [
+              <a href={session.info.webId} target="_blank" rel="noreferrer">
+                {session.info.webId}
+              </a>
+              ].
+            </p>
+          </>
         )}
       </div>
     </section>
