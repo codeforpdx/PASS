@@ -86,7 +86,7 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+    <section className="panel">
       <strong>Upload Document</strong>
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>

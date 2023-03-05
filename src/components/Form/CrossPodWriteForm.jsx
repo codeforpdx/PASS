@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSession } from '@inrupt/solid-ui-react';
 import { useField } from '../../hooks';
 import StatusNotification from './StatusNotification';
 import DocumentSelection from './DocumentSelection';
@@ -13,7 +12,6 @@ import DocumentSelection from './DocumentSelection';
  */
 
 const CrossPodWriteForm = () => {
-  const { session } = useSession();
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
   const [file, setFile] = useState([]);
 
@@ -36,7 +34,7 @@ const CrossPodWriteForm = () => {
   };
 
   return (
-    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+    <section className="panel">
       <strong>Cross Pod Upload</strong>
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>

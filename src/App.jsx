@@ -1,6 +1,6 @@
 import React from 'react';
-import { SessionProvider } from '@inrupt/solid-ui-react';
-import Login from './components/Login/Login';
+import { useSession } from '@inrupt/solid-ui-react';
+import { Login, Logout } from './components/Login';
 import {
   UploadDocumentForm,
   FetchDocumentForm,
@@ -16,21 +16,27 @@ const AppHeader = () => (
   </header>
 );
 
-const App = () => (
-  <>
-    <AppHeader />
-    <SessionProvider>
-      <main>
+const App = () => {
+  const { session } = useSession();
+
+  return (
+    <>
+      <AppHeader />
+      {!session.info.isLoggedIn ? (
         <Login />
-        <UploadDocumentForm />
-        <FetchDocumentForm />
-        <DeleteDocumentForm />
-        <SetAclPermissionForm />
-        <CrossPodQueryForm />
-        <CrossPodWriteForm />
-      </main>
-    </SessionProvider>
-  </>
-);
+      ) : (
+        <main>
+          <Logout />
+          <UploadDocumentForm />
+          <FetchDocumentForm />
+          <DeleteDocumentForm />
+          <SetAclPermissionForm />
+          <CrossPodQueryForm />
+          <CrossPodWriteForm />
+        </main>
+      )}
+    </>
+  );
+};
 
 export default App;

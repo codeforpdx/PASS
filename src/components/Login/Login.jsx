@@ -1,4 +1,4 @@
-import { useSession, LoginButton, LogoutButton } from '@inrupt/solid-ui-react';
+import { LoginButton } from '@inrupt/solid-ui-react';
 import React, { useState, useEffect } from 'react';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
@@ -11,7 +11,6 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
  */
 
 const Login = () => {
-  const { session } = useSession();
   const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
 
   useEffect(() => {
@@ -28,31 +27,14 @@ const Login = () => {
           </a>
           ]:{' '}
         </label>
-        {!session.info.isLoggedIn ? (
-          <>
-            <LoginButton
-              oidcIssuer={SOLID_IDENTITY_PROVIDER}
-              redirectUrl={currentUrl}
-              onError={console.error}
-            >
-              <button type="submit">Login</button>
-            </LoginButton>
-            <p>Not logged in</p>
-          </>
-        ) : (
-          <>
-            <LogoutButton>
-              <button type="submit">Logout</button>
-            </LogoutButton>
-            <p className="labelStatus" role="alert">
-              Your session is logged in with the WebID [
-              <a href={session.info.webId} target="_blank" rel="noreferrer">
-                {session.info.webId}
-              </a>
-              ].
-            </p>
-          </>
-        )}
+        <LoginButton
+          oidcIssuer={SOLID_IDENTITY_PROVIDER}
+          redirectUrl={currentUrl}
+          onError={console.error}
+        >
+          <button type="submit">Login</button>
+        </LoginButton>
+        <p>Not logged in</p>
       </div>
     </section>
   );

@@ -41,7 +41,7 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+    <section className="panel">
       <strong>Delete Document</strong>
       <form onSubmit={handleDeleteDocument} autoComplete="off">
         <div style={formRowStyle}>

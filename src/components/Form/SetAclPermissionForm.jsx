@@ -42,7 +42,7 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+    <section className="panel">
       <strong>Permission to Files</strong>
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>

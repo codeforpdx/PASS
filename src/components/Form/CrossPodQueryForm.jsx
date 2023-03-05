@@ -53,7 +53,7 @@ const CrossPodQueryForm = () => {
   };
 
   return (
-    <section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+    <section className="panel">
       <strong>Cross Pod Search</strong>
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
