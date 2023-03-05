@@ -57,21 +57,14 @@ const UploadDocumentForm = () => {
     };
 
     try {
-      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
       await uploadDocument(session, fileObject);
+      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
+
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_FILE' });
-          event.target.file.value = '';
-          clearDescription();
-        }, 7000);
       }, 2000);
     } catch (_error) {
-      dispatch({ type: 'CLEAR_FILE' });
-      event.target.file.value = '';
-      clearDescription();
       runNotification(
         `Submission failed. Reason: Previous file has already been saved to this type`,
         7,
@@ -80,6 +73,12 @@ const UploadDocumentForm = () => {
       );
       console.log('Submission failed. Reason: Previous file has already been saved to this type');
     }
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_FILE' });
+      event.target.file.value = '';
+      clearDescription();
+    }, 7000);
   };
 
   const formRowStyle = {
