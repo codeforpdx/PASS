@@ -13,7 +13,6 @@ const Login = () => {
   return (
     <section id="login" className="panel">
       <div className="col s12 m7">
-        {/* <h2 className="header">Horizontal Card</h2> */}
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -31,7 +30,14 @@ const Login = () => {
                     redirectUrl={currentUrl}
                     onError={console.error}
                   >
-                    <button>Login</button>
+                    <div className="row center">
+                      <a
+                        id="download-button"
+                        className="btn-large waves-effect waves-light teal"
+                      >
+                        Get Started
+                      </a>
+                    </div>
                   </LoginButton>
                 ) : (
                   <LogoutButton>
@@ -54,42 +60,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      {/* <h1>TEST</h1> */}
-
-      {/* <div className="section no-pad-bot">
-        <label id="labelLogin" htmlFor="btnLogin">
-          Click the following login button to log into your pod at [
-          <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
-            {SOLID_IDENTITY_PROVIDER}
-          </a>
-          ]:{" "}
-        </label>
-        {!session.info.isLoggedIn ? (
-          <LoginButton
-            oidcIssuer={SOLID_IDENTITY_PROVIDER}
-            redirectUrl={currentUrl}
-            onError={console.error}
-          >
-            <button>Login</button>
-          </LoginButton>
-        ) : (
-          <LogoutButton>
-            <button>Logout</button>
-          </LogoutButton>
-        )}
-        {session.info.isLoggedIn ? (
-          <p className="labelStatus" role="alert">
-            Your session is logged in with the WebID [
-            <a href={session.info.webId} target="_blank">
-              {session.info.webId}
-            </a>
-            ].
-          </p>
-        ) : (
-          <p>Not logged in</p>
-        )}
-      </div> */}
     </section>
   );
 };
