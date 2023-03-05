@@ -1,6 +1,5 @@
 import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 import React from 'react';
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
  * Logout Component - Component that generates Logout section to Solid Pod via Solid Session
