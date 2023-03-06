@@ -38,7 +38,9 @@ const CrossPodWriteForm = () => {
       <strong>Cross Pod Upload</strong>
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Paste other user's pod url to upload to: </label>
+          <label htmlFor="cross-upload-doc">
+            Please input a user's Pod URL you wish to upload to:{' '}
+          </label>
           <input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
         </div>
         <div style={formRowStyle}>

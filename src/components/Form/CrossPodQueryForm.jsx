@@ -61,7 +61,7 @@ const CrossPodQueryForm = () => {
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doc">
-            Paste other user's pod url to search from (i.e., username.opencommons.net):{' '}
+            Please input a user's Pod URL you wish to search from (i.e., username.opencommons.net):{' '}
           </label>
           <br />
           <br />

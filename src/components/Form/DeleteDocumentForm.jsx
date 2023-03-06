@@ -23,7 +23,9 @@ const DeleteDocumentForm = () => {
     event.preventDefault();
     try {
       const documentUrl = await deleteDocumentFile(session, event.target.document.value);
+
       runNotification('File being deleted from Pod...', 2, state, dispatch);
+
       // Solid requires all files to be removed from container before it can be removed
       // setTimeout lets deleteDocumentFile finish removing the files
       setTimeout(() => {
@@ -32,6 +34,7 @@ const DeleteDocumentForm = () => {
       }, 2000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found', 7, state, dispatch);
+
       console.log('Deletion failed. Reason: Data not found');
     }
   };
