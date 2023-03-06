@@ -76,9 +76,9 @@ const UploadDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <div className="col s12 m7">
+      <div>
         <div className="card horizontal">
-          <div className="card-stacked ">
+          <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
                 <strong>Upload Document</strong>
@@ -127,7 +127,6 @@ const UploadDocumentForm = () => {
           </div>
         </div>
       </div>
-      {/* <br /> */}
     </section>
   );
 };

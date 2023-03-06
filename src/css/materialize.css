@@ -4824,12 +4824,15 @@ small {
 .card {
   position: relative;
   margin: 0.5rem 0 1rem 0;
-  background-color: #fff;
+  /* background-color: #f06292; */
   -webkit-transition: -webkit-box-shadow 0.25s;
   transition: -webkit-box-shadow 0.25s;
   transition: box-shadow 0.25s;
   transition: box-shadow 0.25s, -webkit-box-shadow 0.25s;
   border-radius: 2px;
+  /* padding-left: 10%; */
+  /* padding-right: 10%; */
+  width: 90%;
 }
 
 .card .card-title {
@@ -7319,7 +7322,7 @@ input[type="checkbox"]:not(:disabled).tabbed:focus ~ .lever::before {
 /* Select Field
    ========================================================================== */
 select {
-  display: none;
+  /* display: none; */
 }
 
 select.browser-default {

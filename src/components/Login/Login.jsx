@@ -19,19 +19,20 @@ const Login = () => {
           <div className="card-stacked ">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <label id="labelLogin" htmlFor="btnLogin">
-                  Click the following login button to log into your pod at [
-                  <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
-                    {SOLID_IDENTITY_PROVIDER}
-                  </a>
-                  ]:
-                </label>
                 {!session.info.isLoggedIn ? (
                   <LoginButton
                     oidcIssuer={SOLID_IDENTITY_PROVIDER}
                     redirectUrl={currentUrl}
                     onError={console.error}
                   >
+                    <label id="labelLogin" htmlFor="btnLogin">
+                      Click the following login button to log into your pod at [
+                      <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
+                        {SOLID_IDENTITY_PROVIDER}
+                      </a>
+                      ]:
+                    </label>
+                    <br />
                     <br />
                     <div>
                       <a className="btn-large waves-effect waves-light teal">
@@ -47,6 +48,7 @@ const Login = () => {
                         Logout
                       </a>
                     </div>
+                    <br />
                   </LogoutButton>
                 )}
                 {session.info.isLoggedIn ? (
@@ -58,10 +60,7 @@ const Login = () => {
                     ].
                   </p>
                 ) : (
-                  <p>
-                    <br />
-                    Not logged in
-                  </p>
+                  <p>Not logged in</p>
                 )}
               </div>
             </div>

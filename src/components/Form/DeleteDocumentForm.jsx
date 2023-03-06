@@ -78,7 +78,6 @@ const DeleteDocumentForm = () => {
           </div>
         </div>
       </div>
-      ;
     </section>
   );
 };

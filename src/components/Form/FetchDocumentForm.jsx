@@ -79,7 +79,6 @@ const FetchDocumentForm = () => {
           </div>
         </div>
       </div>
-      ;
     </section>
   );
 };
