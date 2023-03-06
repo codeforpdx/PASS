@@ -76,41 +76,58 @@ const UploadDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <strong>Upload Document</strong>
-      <form onSubmit={handleFormSubmission}>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
+      <div className="col s12 m7">
+        <div className="card horizontal">
+          <div className="card-stacked ">
+            <div className="card-content">
+              <div className="section no-pad-bot row center">
+                <strong>Upload Document</strong>
+                <form onSubmit={handleFormSubmission}>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc">
+                      Select document type to upload:{" "}
+                    </label>
+                    <DocumentSelection htmlId="upload-doc" />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc-expiration">
+                      Expiration date (if applicable):{" "}
+                    </label>
+                    <input id="upload-doc-expiration" name="date" type="date" />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc-desc">Enter description: </label>
+                    <br />
+                    <br />
+                    <textarea
+                      id="upload-doc-desc"
+                      name="description"
+                      {...description}
+                    />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doctype">File to upload: </label>
+                    <input
+                      id="upload-doctype"
+                      type="file"
+                      name="file"
+                      accept=".pdf, .docx., .doc, .txt, .rtf"
+                      onChange={handleFileChange}
+                    />
+                    <button type="submit">Upload file</button>
+                  </div>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Writing status"
+                  defaultMessage="To be uploaded..."
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">
-            Expiration date (if applicable):{" "}
-          </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="file"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button type="submit">Upload file</button>
-        </div>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Writing status"
-        defaultMessage="To be uploaded..."
-      />
+      </div>
+      {/* <br /> */}
     </section>
   );
 };

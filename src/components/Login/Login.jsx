@@ -12,17 +12,19 @@ const Login = () => {
 
   return (
     <section id="login" className="panel">
+      <br />
+      <br />
       <div className="col s12 m7">
         <div className="card horizontal">
-          <div className="card-stacked">
+          <div className="card-stacked ">
             <div className="card-content">
-              <div className="section no-pad-bot">
+              <div className="section no-pad-bot row center">
                 <label id="labelLogin" htmlFor="btnLogin">
                   Click the following login button to log into your pod at [
                   <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
                     {SOLID_IDENTITY_PROVIDER}
                   </a>
-                  ]:{" "}
+                  ]:
                 </label>
                 {!session.info.isLoggedIn ? (
                   <LoginButton
@@ -30,18 +32,21 @@ const Login = () => {
                     redirectUrl={currentUrl}
                     onError={console.error}
                   >
-                    <div className="row center">
-                      <a
-                        id="download-button"
-                        className="btn-large waves-effect waves-light teal"
-                      >
-                        Get Started
+                    <br />
+                    <div>
+                      <a className="btn-large waves-effect waves-light teal">
+                        Login
                       </a>
                     </div>
                   </LoginButton>
                 ) : (
                   <LogoutButton>
-                    <button>Logout</button>
+                    {/* <button>Logout</button> */}
+                    <div>
+                      <a className="btn-large waves-effect waves-light teal">
+                        Logout
+                      </a>
+                    </div>
                   </LogoutButton>
                 )}
                 {session.info.isLoggedIn ? (
@@ -53,7 +58,10 @@ const Login = () => {
                     ].
                   </p>
                 ) : (
-                  <p>Not logged in</p>
+                  <p>
+                    <br />
+                    Not logged in
+                  </p>
                 )}
               </div>
             </div>

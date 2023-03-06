@@ -53,22 +53,33 @@ const FetchDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <strong>Search Document</strong>
-      <form onSubmit={handleGetDocumentSubmission}>
-        <div style={formRowStyle}>
-          <label htmlFor="search-doctype">
-            Select document type to search:{" "}
-          </label>
-          <DocumentSelection htmlId="search-doctype" />{" "}
-          <button type="submit">Get Document</button>
+      <div className="col s12 m7">
+        <div className="card horizontal">
+          <div className="card-stacked ">
+            <div className="card-content">
+              <div className="section no-pad-bot row center">
+                <strong>Search Document</strong>
+                <form onSubmit={handleGetDocumentSubmission}>
+                  <div style={formRowStyle}>
+                    <label htmlFor="search-doctype">
+                      Select document type to search:{" "}
+                    </label>
+                    <DocumentSelection htmlId="search-doctype" />{" "}
+                    <button type="submit">Get Document</button>
+                  </div>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Search status"
+                  defaultMessage="To be searched..."
+                  locationUrl={state.documentLocation}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Search status"
-        defaultMessage="To be searched..."
-        locationUrl={state.documentLocation}
-      />
+      </div>
+      ;
     </section>
   );
 };

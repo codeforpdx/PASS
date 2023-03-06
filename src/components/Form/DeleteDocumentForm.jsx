@@ -53,21 +53,32 @@ const DeleteDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <strong>Delete Document</strong>
-      <form onSubmit={handleDeleteDocument}>
-        <div style={formRowStyle}>
-          <label htmlFor="delete-doctype">
-            Select document type to delete:{" "}
-          </label>
-          <DocumentSelection htmlId="delete-doctype" />{" "}
-          <button type="submit">Delete Document</button>
+      <div className="col s12 m7">
+        <div className="card horizontal">
+          <div className="card-stacked ">
+            <div className="card-content">
+              <div className="section no-pad-bot row center">
+                <strong>Delete Document</strong>
+                <form onSubmit={handleDeleteDocument}>
+                  <div style={formRowStyle}>
+                    <label htmlFor="delete-doctype">
+                      Select document type to delete:{" "}
+                    </label>
+                    <DocumentSelection htmlId="delete-doctype" />{" "}
+                    <button type="submit">Delete Document</button>
+                  </div>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Deletion status"
+                  defaultMessage="To be searched..."
+                />{" "}
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Deletion status"
-        defaultMessage="To be searched..."
-      />
+      </div>
+      ;
     </section>
   );
 };

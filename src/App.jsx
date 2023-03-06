@@ -10,11 +10,11 @@ import CrossPodWrite from "./components/Form/CrossPodWrite";
 
 const AppHeader = () => {
   return (
-    <div className="col s12 m7">
-      <nav className="teal darken-3" role="navigation">
-        <div className="nav-wrapper container">Getting Started with PASS</div>
-      </nav>
-    </div>
+    <nav className="teal darken-3" role="navigation">
+      <div className="nav-wrapper container">
+        <h4>Getting Started with PASS</h4>
+      </div>
+    </nav>
   );
 };
 
