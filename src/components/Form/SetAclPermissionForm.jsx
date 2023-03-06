@@ -26,6 +26,7 @@ const SetAclPermissionForm = () => {
         event.target.setAclPerms.value,
         event.target.setAclTo.value
       );
+
       runNotification(
         `${event.target.setAclPerms.value} permission to ${event.target.setAclTo.value} for ${event.target.document.value}`,
         7,

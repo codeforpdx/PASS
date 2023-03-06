@@ -21,11 +21,13 @@ const runNotification = (
   }
 
   dispatch({ type: 'SET_MESSAGE', payload: message });
+
   // set timeout for potentially new notification
   const timeout = setTimeout(() => {
     dispatch({ type: 'CLEAR_MESSAGE' });
     dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
   }, time * 1000);
+
   dispatch({ type: 'SET_TIMEOUT_ID', payload: timeout });
 };
 

@@ -1,5 +1,5 @@
-import { LoginButton } from '@inrupt/solid-ui-react';
 import React, { useState, useEffect } from 'react';
+import { LoginButton } from '@inrupt/solid-ui-react';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**

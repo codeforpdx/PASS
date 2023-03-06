@@ -58,6 +58,7 @@ const UploadDocumentForm = () => {
 
     try {
       await uploadDocument(session, fileObject);
+
       runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
@@ -71,6 +72,7 @@ const UploadDocumentForm = () => {
         state,
         dispatch
       );
+
       console.log('Submission failed. Reason: Previous file has already been saved to this type');
     }
 

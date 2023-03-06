@@ -172,6 +172,7 @@ const createDocAclForUser = async (session, documentUrl) => {
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+
   console.log(`ACL generated for ${documentUrl}`);
 };
 
@@ -241,20 +242,22 @@ export const uploadDocument = async (session, fileObject) => {
   let myDataset;
   if (ttlFile !== null) {
     myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
-    console.log('Call original dataset: ', myDataset);
-    myDataset = setThing(myDataset, toBeUpdated);
 
+    console.log('Call original dataset: ', myDataset);
+
+    myDataset = setThing(myDataset, toBeUpdated);
     const result = await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
       fetch: session.fetch
     });
+
     console.log('New dataset: ', result);
   } else {
     let courseSolidDataset = createSolidDataset();
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
-
     const result = await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
       fetch: session.fetch
     });
+
     console.log('Newly generated and uploaded dataset: ', result);
 
     await createDocAclForUser(session, documentUrl);

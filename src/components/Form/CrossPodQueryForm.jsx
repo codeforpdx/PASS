@@ -26,9 +26,11 @@ const CrossPodQueryForm = () => {
         'cross-fetch',
         event.target.crossPodQuery.value
       );
+
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
+
       runNotification(`Locating document...`, 2, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
@@ -44,6 +46,7 @@ const CrossPodQueryForm = () => {
         state,
         dispatch
       );
+
       console.log('Search failed. Reason: Document not found or unauthorized');
     }
   };

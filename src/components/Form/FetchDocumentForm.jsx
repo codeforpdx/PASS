@@ -23,9 +23,11 @@ const FetchDocumentForm = () => {
     event.preventDefault();
     try {
       const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
+
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
+
       runNotification(`Locating document...`, 2, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
@@ -36,6 +38,7 @@ const FetchDocumentForm = () => {
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification(`Search failed. Reason: Document not found`, 7, state, dispatch);
+
       console.log('Search failed. Reason: Document not found');
     }
   };
