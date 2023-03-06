@@ -6,13 +6,13 @@
 import docTypes from './form-helper';
 import runNotification from './notification-helper';
 import {
-  SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission
-} from './session-helper';
+} from './session-core';
+import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
 export {
   docTypes,
