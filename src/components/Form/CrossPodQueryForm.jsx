@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import StatusNotification from './StatusNotification';
+import StatusNotification from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**

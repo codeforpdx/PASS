@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, runNotification } from '../../utils';
+import StatusNotification from '../Notification';
 import DocumentSelection from './DocumentSelection';
-import StatusNotification from './StatusNotification';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading documents to Solid Pod via Solid Session

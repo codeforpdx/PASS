@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification } from '../../hooks';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
+import StatusNotification from '../Notification';
 import DocumentSelection from './DocumentSelection';
-import StatusNotification from './StatusNotification';
 
 /**
  * DeleteDocumentForm Component - Component that generates the form for deleting specific document type from Solid Pod via Solid Session
