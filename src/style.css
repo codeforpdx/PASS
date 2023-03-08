@@ -30,7 +30,7 @@ header {
   background: #e6f4f9;
 }
 
-.labelStatus[role="alert"] {
+.labelStatus[role='alert'] {
   padding-left: 1rem;
   color: purple;
 }
