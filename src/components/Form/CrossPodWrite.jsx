@@ -1,95 +1,77 @@
-import { useState } from "react";
-import { useSession } from "@inrupt/solid-ui-react";
-import { useField } from "../../hooks";
-import StatusNotification from "./StatusNotification";
-import DocumentSelection from "./DocumentSelection";
+import { useState, React } from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
+import { useField } from '../../hooks';
+import StatusNotification from './StatusNotification';
+import DocumentSelection from './DocumentSelection';
 
 const CrossPodWrite = () => {
-  const { session } = useSession();
-  const {
-    clearValue: clearDescription,
-    _type,
-    ...description
-  } = useField("textarea");
-  const [file, setFile] = useState([]);
+	const { session } = useSession();
+	const { clearValue: clearDescription, _type, ...description } = useField('textarea');
+	const [file, setFile] = useState([]);
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+	const handleFileChange = (event) => {
+		setFile(event.target.files[0]);
+	};
 
-  const handleCrossPodUpload = (event) => {
-    event.preventDefault();
-    // dummy calls for now
-    console.log(event.target.crossPodUpload.value);
-    console.log(event.target.document.value);
-    console.log(event.target.date.value);
-    console.log(event.target.description.value);
-    console.log(file);
-  };
+	const handleCrossPodUpload = (event) => {
+		event.preventDefault();
+		// dummy calls for now
+		console.log(event.target.crossPodUpload.value);
+		console.log(event.target.document.value);
+		console.log(event.target.date.value);
+		console.log(event.target.description.value);
+		console.log(file);
+	};
 
-  const formRowStyle = {
-    margin: "20px 0",
-  };
+	const formRowStyle = {
+		margin: '20px 0'
+	};
 
-  return (
-    <section
-      hidden={!session.info.isLoggedIn ? "hidden" : ""}
-      className="panel"
-    >
-      <strong>Cross Pod Upload</strong>
-      <form onSubmit={handleCrossPodUpload}>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">
-            Paste other user's pod url to upload to:{" "}
-          </label>
-          <input
-            id="cross-upload-doc"
-            size="60"
-            type="text"
-            name="crossPodUpload"
-          />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doctype">
-            Choose document type to upload:{" "}
-          </label>
-          <DocumentSelection htmlId="cross-upload-doctype" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc-expiration">
-            Expiration date (if applicable):{" "}
-          </label>
-          <input id="cross-upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc-desc">Enter description:</label>
-          <br />
-          <br />
-          <textarea
-            id="cross-upload-doc-desc"
-            name="description"
-            {...description}
-          />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doctype">File to upload: </label>
-          <input
-            id="cross-upload-doctype"
-            type="file"
-            name="file"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button type="submit">Upload to Pod</button>
-        </div>
-      </form>
-      <StatusNotification
-        notification=""
-        statusType="Writing status"
-        defaultMessage="To be uploaded..."
-      />
-    </section>
-  );
+	return (
+		<section hidden={!session.info.isLoggedIn ? 'hidden' : ''} className="panel">
+			<strong>Cross Pod Upload</strong>
+			<form onSubmit={handleCrossPodUpload}>
+				<div style={formRowStyle}>
+					<label htmlFor="cross-upload-doc">
+						Paste other user%apos;s pod url to upload to:{' '}
+					</label>
+					<input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
+				</div>
+				<div style={formRowStyle}>
+					<label htmlFor="cross-upload-doctype">Choose document type to upload: </label>
+					<DocumentSelection htmlId="cross-upload-doctype" />
+				</div>
+				<div style={formRowStyle}>
+					<label htmlFor="cross-upload-doc-expiration">
+						Expiration date (if applicable):{' '}
+					</label>
+					<input id="cross-upload-doc-expiration" name="date" type="date" />
+				</div>
+				<div style={formRowStyle}>
+					<label htmlFor="cross-upload-doc-desc">Enter description:</label>
+					<br />
+					<br />
+					<textarea id="cross-upload-doc-desc" name="description" {...description} />
+				</div>
+				<div style={formRowStyle}>
+					<label htmlFor="cross-upload-doctype">File to upload: </label>
+					<input
+						id="cross-upload-doctype"
+						type="file"
+						name="file"
+						accept=".pdf, .docx., .doc, .txt, .rtf"
+						onChange={handleFileChange}
+					/>
+					<button type="submit">Upload to Pod</button>
+				</div>
+			</form>
+			<StatusNotification
+				notification=""
+				statusType="Writing status"
+				defaultMessage="To be uploaded..."
+			/>
+		</section>
+	);
 };
 
 export default CrossPodWrite;

@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * StatusNotification Component
  * @memberof Forms
@@ -11,33 +12,28 @@
  * @returns {void}
  */
 
-const StatusNotification = ({
-  notification,
-  statusType,
-  defaultMessage,
-  locationUrl = "",
-}) => {
-  return (
-    <dl className="display">
-      <dt>{statusType}:</dt>
-      {notification ? (
-        locationUrl ? (
-          <dd className="labelStatus" role="alert">
-            {notification}{" "}
-            <a href={locationUrl} target="_blank">
-              {locationUrl}
-            </a>
-          </dd>
-        ) : (
-          <dd className="labelStatus" role="alert">
-            {notification}
-          </dd>
-        )
-      ) : (
-        <dd>{defaultMessage}</dd>
-      )}
-    </dl>
-  );
+const StatusNotification = (notification, statusType, defaultMessage, locationUrl = '') => {
+	return (
+		<dl className="display">
+			<dt>{statusType}:</dt>
+			{notification ? (
+				locationUrl ? (
+					<dd className="labelStatus" role="alert">
+						{notification}{' '}
+						<a href={locationUrl} target="_blank">
+							{locationUrl}
+						</a>
+					</dd>
+				) : (
+					<dd className="labelStatus" role="alert">
+						{notification}
+					</dd>
+				)
+			) : (
+				<dd>{defaultMessage}</dd>
+			)}
+		</dl>
+	);
 };
 
 export default StatusNotification;
