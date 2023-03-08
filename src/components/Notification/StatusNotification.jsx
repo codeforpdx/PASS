@@ -3,7 +3,7 @@ import StatusMessage from './StatusMessage';
 
 /**
  * StatusNotification Component - Component that renders Status notification and message for file upload, search, delete, etc.
- * @memberof Forms
+ * @memberof Notifications
  * @component
  * @name StatusNotification
  * @param {object}
@@ -11,7 +11,6 @@ import StatusMessage from './StatusMessage';
  * @property {string} statusType - Type of file status (i.e. file upload, file fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not triggered
  * @property {string} [locationUrl] - URL location of file, if exist
- * @returns {void}
  */
 
 const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (

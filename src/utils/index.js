@@ -1,8 +1,9 @@
 /**
- * utils module to help run functions for PASS forms, notifications, and Solid Session
+ * The utils module to help run functions for PASS forms, notifications, and Solid Session
  * @module utils
  * @namespace utils
  */
+
 import docTypes from './form-helper';
 import runNotification from './notification-helper';
 import {

@@ -6,11 +6,10 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * FetchDocumentForm Component - Component that generates the form for searching specific document Solid Pod via Solid Session
+ * FetchDocumentForm Component - Component that generates the form for searching a specific document type from a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name FetchDocumentForm
- * @returns {void}
  */
 
 const FetchDocumentForm = () => {

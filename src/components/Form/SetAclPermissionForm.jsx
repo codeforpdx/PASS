@@ -6,11 +6,10 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * SetAclPermissionForm Component - Component that generates the form for setting document ACL permissions to Solid Pod via Solid Session
+ * SetAclPermissionForm Component - Component that generates the form for setting document ACL permissions to another user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name SetAclPermissionForm
- * @returns {void}
  */
 
 const SetAclPermissionForm = () => {
