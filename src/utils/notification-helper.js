@@ -1,5 +1,5 @@
 /**
- * Function to run status messages provided a message given a string for the message, time, timeoutID of previous message (if exist), and useReducer dispatch function
+ * Function that runs status messages provided a message, the duration (time in seconds), the timeoutID of previous message (if exist), and the useReducer dispatch function
  * @memberof utils
  * @function runNotification
  * @param {string} message - File status message for upload, fetch, or delete file

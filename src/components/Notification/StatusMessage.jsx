@@ -2,13 +2,12 @@ import React from 'react';
 
 /**
  * StatusMessage Component - Sub-component that shows Status message for StatusNotification
- * @memberof Forms
+ * @memberof Notifications
  * @component
  * @name StatusMessage
  * @param {object}
  * @property {string} notification - File status message
  * @property {string} [locationUrl] - URL location of file, if exist
- * @returns {void}
  */
 
 const StatusMessage = ({ notification, locationUrl }) => {

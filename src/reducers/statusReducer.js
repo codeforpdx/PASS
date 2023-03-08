@@ -1,6 +1,11 @@
 /**
+ * The reducers module contains Redux-like reducers that assist with status notifications
+ * @namespace reducers
+ */
+
+/**
  * Initial state for useStatusNotification hook
- * @memberof Forms
+ * @memberof reducers
  * @name initialStatusState
  * @typedef {Object} useStatusNotificationObject
  * @property {string|null} documentUrl - Url link to document container
@@ -17,7 +22,7 @@ export const initialStatusState = {
 };
 
 /**
- * @memberof Forms
+ * @memberof reducers
  * @function statusReducer
  * @param {useStatusNotificationObject} state - the state for status notification
  * @param {Object} action - useReducer Object for useReducer hook containing action.payload for useStatusNotification hook

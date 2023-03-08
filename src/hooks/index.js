@@ -1,5 +1,5 @@
 /**
- * hooks module contains custom hooks to assist with form handling or session login/logout
+ * The hooks module contains custom hooks to assist with form handling or status notifications
  * @namespace hooks
  */
 

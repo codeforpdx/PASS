@@ -24,7 +24,7 @@ import {
 } from './session-helper';
 
 /**
- * Function that set permissions for document container's ACL file
+ * Function that sets permissions for a user's document container's ACL file
  * @memberof utils
  * @function setDocAclPermission
  * @param {Session} session - Solid Session
@@ -54,6 +54,7 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 };
 
 /**
+ * An input object for functions related to file uploads to Solid's Pod
  * @typedef fileObject
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
@@ -117,7 +118,7 @@ export const uploadDocument = async (session, fileObject) => {
 };
 
 /**
- * Function that fetch information of file from Pod on Solid, if exist
+ * Function that fetch the URL of the container containing a specific file uploaded to a user's Pod on Solid, if exist
  * @memberof utils
  * @function fetchDocuments
  * @param {Session} session - Solid Session
@@ -140,7 +141,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
 };
 
 /**
- * Function that delete file from Pod on Solid, if exist
+ * Function that deletes all files from a Solid container associated to a file type, if exist, and returns the container's URL
  * @memberof utils
  * @function deleteDocuments
  * @param {Session} session - Solid Session
@@ -165,7 +166,7 @@ export const deleteDocumentFile = async (session, fileType) => {
 };
 
 /**
- * Function that delete file from Pod on Solid, if exist
+ * Function that delete a Solid container from Pod on Solid given the container's URL, if exist
  * @memberof utils
  * @function deleteDocumentContainer
  * @param {Session} session - Solid Session

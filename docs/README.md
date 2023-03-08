@@ -2,7 +2,7 @@
 
 ## PASS Project - React Documentation
 
-This repository branch contains a ported version of the PASS project using React. Currently, this build can:
+This repository branch contains a ported version of the PASS project using React.js. Currently, this build can:
 
 1. Log into a user's Pod
 2. Upload files through a form and store them in the user's Pod
@@ -14,9 +14,9 @@ This repository branch contains a ported version of the PASS project using React
 
 While features for cross pod querying/searching has been implemented, cross pod writing/uploading has yet to be implemented. At this time, cross pod writing/uploading is shown simply as a placeholder at this time.
 
-## State of Build
+## State of Build/Tech Stack
 
-The current build is made with React 18 and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development.
+The current build is made with React 18 for the front-end and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development.
 
 To generate the full React development documentation of the application locally, the following command can be ran:
 
