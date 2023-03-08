@@ -26,7 +26,9 @@ const CrossPodQuery = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <strong>Cross Pod Search</strong>
+                <h5>
+                  <strong>Cross Pod Search</strong>
+                </h5>
                 <form onSubmit={handleCrossPodQuery}>
                   <div style={formRowStyle}>
                     <label htmlFor="cross-search-doc">

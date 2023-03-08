@@ -41,7 +41,9 @@ const CrossPodWrite = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <strong>Cross Pod Upload</strong>
+                <h5>
+                  <strong>Cross Pod Upload</strong>
+                </h5>
                 <form onSubmit={handleCrossPodUpload}>
                   <div style={formRowStyle}>
                     <label htmlFor="cross-upload-doc">

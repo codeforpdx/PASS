@@ -81,7 +81,9 @@ const UploadDocumentForm = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <strong>Upload Document</strong>
+                <h5>
+                  <strong>Upload Document</strong>
+                </h5>
                 <form onSubmit={handleFormSubmission}>
                   <div style={formRowStyle}>
                     <label htmlFor="upload-doc">

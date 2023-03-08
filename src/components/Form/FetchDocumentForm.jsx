@@ -58,7 +58,9 @@ const FetchDocumentForm = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <strong>Search Document</strong>
+                <h5>
+                  <strong>Search Document</strong>
+                </h5>
                 <form onSubmit={handleGetDocumentSubmission}>
                   <div style={formRowStyle}>
                     <label htmlFor="search-doctype">

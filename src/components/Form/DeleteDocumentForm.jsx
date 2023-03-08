@@ -58,7 +58,9 @@ const DeleteDocumentForm = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <strong>Delete Document</strong>
+                <h5>
+                  <strong>Delete Document</strong>
+                </h5>
                 <form onSubmit={handleDeleteDocument}>
                   <div style={formRowStyle}>
                     <label htmlFor="delete-doctype">
