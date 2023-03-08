@@ -4832,7 +4832,7 @@ small {
   border-radius: 2px;
   /* padding-left: 10%; */
   /* padding-right: 10%; */
-  width: 90%;
+  /* width: 90%; */
 }
 
 .card .card-title {
@@ -7333,7 +7333,7 @@ select {
   background-color: rgba(255, 255, 255, 0.9);
   width: 100%;
   padding: 5px;
-  border: 1px solid #f2f2f2;
+  /* border: 1px solid #f2f2f2; */
   border-radius: 2px;
   height: 3rem;
 }

@@ -14,9 +14,9 @@ const Login = () => {
     <section id="login" className="panel">
       <br />
       <br />
-      <div className="col s12 m7">
+      <div className="col s6 offset-s3 container">
         <div className="card horizontal">
-          <div className="card-stacked ">
+          <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
                 {!session.info.isLoggedIn ? (

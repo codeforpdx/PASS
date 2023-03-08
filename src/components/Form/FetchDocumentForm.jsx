@@ -53,9 +53,9 @@ const FetchDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <div className="col s12 m7">
+      <div className="col s12 m7 container">
         <div className="card horizontal">
-          <div className="card-stacked ">
+          <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
                 <strong>Search Document</strong>
@@ -64,8 +64,13 @@ const FetchDocumentForm = () => {
                     <label htmlFor="search-doctype">
                       Select document type to search:{" "}
                     </label>
-                    <DocumentSelection htmlId="search-doctype" />{" "}
-                    <button type="submit">Get Document</button>
+                    <DocumentSelection htmlId="search-doctype" />
+                    <button
+                      type="submit"
+                      className="btn-small waves-effect waves-light teal"
+                    >
+                      Get Document
+                    </button>
                   </div>
                 </form>
                 <StatusNotification

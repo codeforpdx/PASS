@@ -36,9 +36,9 @@ const CrossPodWrite = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <div className="col s12 m7">
+      <div className="col s12 m7 container">
         <div className="card horizontal">
-          <div className="card-stacked ">
+          <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
                 <strong>Cross Pod Upload</strong>
@@ -93,7 +93,12 @@ const CrossPodWrite = () => {
                       accept=".pdf, .docx., .doc, .txt, .rtf"
                       onChange={handleFileChange}
                     />
-                    <button type="submit">Upload to Pod</button>
+                    <button
+                      type="submit"
+                      className="btn-small waves-effect waves-light teal"
+                    >
+                      Upload to Pod
+                    </button>
                   </div>
                 </form>
                 <StatusNotification

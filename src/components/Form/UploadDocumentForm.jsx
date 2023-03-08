@@ -76,7 +76,7 @@ const UploadDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <div>
+      <div className="col s6 offset-s3 container">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -97,8 +97,6 @@ const UploadDocumentForm = () => {
                   </div>
                   <div style={formRowStyle}>
                     <label htmlFor="upload-doc-desc">Enter description: </label>
-                    <br />
-                    <br />
                     <textarea
                       id="upload-doc-desc"
                       name="description"
@@ -107,6 +105,7 @@ const UploadDocumentForm = () => {
                   </div>
                   <div style={formRowStyle}>
                     <label htmlFor="upload-doctype">File to upload: </label>
+                    <br />
                     <input
                       id="upload-doctype"
                       type="file"
@@ -114,7 +113,14 @@ const UploadDocumentForm = () => {
                       accept=".pdf, .docx., .doc, .txt, .rtf"
                       onChange={handleFileChange}
                     />
-                    <button type="submit">Upload file</button>
+                    <br />
+                    <br />
+                    <button
+                      type="submit"
+                      className="btn-small waves-effect waves-light teal"
+                    >
+                      Upload file
+                    </button>
                   </div>
                 </form>
                 <StatusNotification

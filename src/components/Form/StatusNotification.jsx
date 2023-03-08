@@ -19,7 +19,9 @@ const StatusNotification = ({
 }) => {
   return (
     <dl className="display">
-      <dt>{statusType}:</dt>
+      <dt>
+        <label>{statusType}:</label>
+      </dt>
       {notification ? (
         locationUrl ? (
           <dd className="labelStatus" role="alert">

@@ -53,9 +53,9 @@ const DeleteDocumentForm = () => {
       hidden={!session.info.isLoggedIn ? "hidden" : ""}
       className="panel"
     >
-      <div className="col s12 m7">
+      <div className="col s12 m7 container">
         <div className="card horizontal">
-          <div className="card-stacked ">
+          <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
                 <strong>Delete Document</strong>
@@ -65,7 +65,12 @@ const DeleteDocumentForm = () => {
                       Select document type to delete:{" "}
                     </label>
                     <DocumentSelection htmlId="delete-doctype" />{" "}
-                    <button type="submit">Delete Document</button>
+                    <button
+                      type="submit"
+                      className="btn-small waves-effect waves-light teal"
+                    >
+                      Delete Document
+                    </button>
                   </div>
                 </form>
                 <StatusNotification
