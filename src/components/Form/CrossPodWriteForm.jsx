@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useField } from '../../hooks';
-import StatusNotification from '../Notification';
+import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
