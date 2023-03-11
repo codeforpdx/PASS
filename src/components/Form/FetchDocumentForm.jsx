@@ -20,6 +20,8 @@ const FetchDocumentForm = () => {
   // Event handler for fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
 
@@ -52,7 +54,10 @@ const FetchDocumentForm = () => {
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" /> <button type="submit">Get Document</button>
+          <DocumentSelection htmlId="search-doctype" />{' '}
+          <button disabled={state.processing} type="submit">
+            Get Document
+          </button>
         </div>
       </form>
       <StatusNotification

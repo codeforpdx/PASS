@@ -29,6 +29,7 @@ const runNotification = (
   }, time * 1000);
 
   dispatch({ type: 'SET_TIMEOUT_ID', payload: timeout });
+  dispatch({ type: 'CLEAR_PROCESSING' });
 };
 
 export default runNotification;

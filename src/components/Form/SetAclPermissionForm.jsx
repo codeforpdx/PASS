@@ -18,6 +18,8 @@ const SetAclPermissionForm = () => {
 
   const handleAclPermission = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       await setDocAclPermission(
         session,
@@ -64,7 +66,9 @@ const SetAclPermissionForm = () => {
           <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
           <label htmlFor="set-acl-perm-revoke">Revoke</label>
         </div>
-        <button type="submit">Set Permission</button>
+        <button disabled={state.processing} type="submit">
+          Set Permission
+        </button>
       </form>
       <StatusNotification
         notification={state.message}

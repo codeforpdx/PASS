@@ -20,6 +20,8 @@ const DeleteDocumentForm = () => {
   // Event handler for deleting document
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       const documentUrl = await deleteDocumentFile(session, event.target.document.value);
 
@@ -49,7 +51,9 @@ const DeleteDocumentForm = () => {
         <div style={formRowStyle}>
           <label htmlFor="delete-doctype">Select document type to delete: </label>
           <DocumentSelection htmlId="delete-doctype" />{' '}
-          <button type="submit">Delete Document</button>
+          <button disabled={state.processing} type="submit">
+            Delete Document
+          </button>
         </div>
       </form>
       <StatusNotification

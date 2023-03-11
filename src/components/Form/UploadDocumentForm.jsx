@@ -55,6 +55,8 @@ const UploadDocumentForm = () => {
       file: state.file
     };
 
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       await uploadDocument(session, fileObject);
 
@@ -113,7 +115,9 @@ const UploadDocumentForm = () => {
             accept=".pdf, .docx., .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
-          <button type="submit">Upload file</button>
+          <button disabled={state.processing} type="submit">
+            Upload file
+          </button>
         </div>
       </form>
       <StatusNotification

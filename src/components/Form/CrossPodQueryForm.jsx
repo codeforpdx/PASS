@@ -18,6 +18,8 @@ const CrossPodQueryForm = () => {
 
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       const documentUrl = await fetchDocuments(
         session,
@@ -69,7 +71,9 @@ const CrossPodQueryForm = () => {
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doctype">Select document type to search: </label>
           <DocumentSelection htmlId="cross-search-doctype" />{' '}
-          <button type="submit">Search Pod</button>
+          <button disabled={state.processing} type="submit">
+            Search Pod
+          </button>
         </div>
       </form>
       <StatusNotification
