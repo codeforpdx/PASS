@@ -22,24 +22,29 @@ const Login = () => {
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
-              <div className="section no-pad-bot row center"></div>
-      <div className="row">
-        <label id="labelLogin" htmlFor="btnLogin">
-          Click the following login button to log into your pod at [
-          <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-            {SOLID_IDENTITY_PROVIDER}
-          </a>
-          ]:{' '}
-        </label>
-        <LoginButton
-          oidcIssuer={SOLID_IDENTITY_PROVIDER}
-          redirectUrl={currentUrl}
-          onError={console.error}
-        >
-          <button type="submit">Login</button>
-        </LoginButton>
-        <p>Not logged in</p>
-      </div></div></div></div></div>
+              <div className="section no-pad-bot row center">
+                {/* <div className="row"> */}
+                <label id="labelLogin" htmlFor="btnLogin">
+                  Click the following login button to log into your pod at [
+                  <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+                    {SOLID_IDENTITY_PROVIDER}
+                  </a>
+                  ]:{' '}
+                </label>
+                <LoginButton
+                  oidcIssuer={SOLID_IDENTITY_PROVIDER}
+                  redirectUrl={currentUrl}
+                  onError={console.error}
+                >
+                  <button type="submit">Login</button>
+                </LoginButton>
+                <p>Not logged in</p>
+                {/* </div> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

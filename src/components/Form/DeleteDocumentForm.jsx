@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification } from '../../hooks';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
-import { StatusNotification } from '../Notification';
+// import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
@@ -44,7 +44,7 @@ const DeleteDocumentForm = () => {
 
   return (
     <section className="panel">
-       <div className="col s12 m7 container">
+      <div className="col s12 m7 container">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -52,13 +52,18 @@ const DeleteDocumentForm = () => {
                 <h5>
                   <strong>Delete Document</strong>
                 </h5>
-      <form onSubmit={handleDeleteDocument} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="delete-doctype">Select document type to delete: </label>
-          <DocumentSelection htmlId="delete-doctype" />{' '}
-          <button type="submit">Delete Document</button>
+                <form onSubmit={handleDeleteDocument} autoComplete="off">
+                  <div style={formRowStyle}>
+                    <label htmlFor="delete-doctype">Select document type to delete: </label>
+                    <DocumentSelection htmlId="delete-doctype" />{' '}
+                    <button type="submit">Delete Document</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-      </form></div></div></div></div></div>
+      </div>
     </section>
   );
 };

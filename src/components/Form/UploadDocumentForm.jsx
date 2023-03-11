@@ -88,7 +88,7 @@ const UploadDocumentForm = () => {
 
   return (
     <section className="panel">
-            <div className="col s6 offset-s3 container">
+      <div className="col s6 offset-s3 container">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -96,40 +96,44 @@ const UploadDocumentForm = () => {
                 <h5>
                   <strong>Upload Document</strong>
                 </h5>
-      
-      <form onSubmit={handleFormSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="file"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button type="submit">Upload file</button>
-        </div>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Writing status"
-        defaultMessage="To be uploaded..."
+
+                <form onSubmit={handleFormSubmission} autoComplete="off">
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc">Select document type to upload: </label>
+                    <DocumentSelection htmlId="upload-doc" />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+                    <input id="upload-doc-expiration" name="date" type="date" />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doc-desc">Enter description: </label>
+                    <br />
+                    <br />
+                    <textarea id="upload-doc-desc" name="description" {...description} />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="upload-doctype">File to upload: </label>
+                    <input
+                      id="upload-doctype"
+                      type="file"
+                      name="file"
+                      accept=".pdf, .docx., .doc, .txt, .rtf"
+                      onChange={handleFileChange}
+                    />
+                    <button type="submit">Upload file</button>
+                  </div>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Writing status"
+                  defaultMessage="To be uploaded..."
                 />
-                </div></div></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

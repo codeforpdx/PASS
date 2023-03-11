@@ -56,18 +56,24 @@ const FetchDocumentForm = () => {
                 <h5>
                   <strong>Search Document</strong>
                 </h5>
-      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" /> <button type="submit">Get Document</button>
+                <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+                  <div style={formRowStyle}>
+                    <label htmlFor="search-doctype">Select document type to search: </label>
+                    <DocumentSelection htmlId="search-doctype" />{' '}
+                    <button type="submit">Get Document</button>
+                  </div>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Search status"
+                  defaultMessage="To be searched..."
+                  locationUrl={state.documentUrl}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Search status"
-        defaultMessage="To be searched..."
-        locationUrl={state.documentUrl}
-      /></div></div></div></div></div>
+      </div>
     </section>
   );
 };

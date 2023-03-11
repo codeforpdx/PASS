@@ -43,35 +43,53 @@ const SetAclPermissionForm = () => {
 
   return (
     <section className="panel">
-      <strong>Permission to Files</strong>
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">
-            Paste other user's pod url (i.e., username.opencommons.net):{' '}
-          </label>
-          <br />
-          <br />
-          <input id="set-acl-to" size="60" type="text" name="setAclTo" />
+      <div className="col s12 m7 container">
+        <div className="card horizontal">
+          <div className="card-stacked">
+            <div className="card-content">
+              <div className="section no-pad-bot row center">
+                <h5>
+                  <strong>Permission to Files</strong>
+                </h5>
+
+                <form onSubmit={handleAclPermission} autoComplete="off">
+                  <div style={formRowStyle}>
+                    <label htmlFor="set-acl-to">
+                      Paste other user's pod url (i.e., username.opencommons.net):{' '}
+                    </label>
+                    <br />
+                    <br />
+                    <input id="set-acl-to" size="60" type="text" name="setAclTo" />
+                  </div>
+                  <div style={formRowStyle}>
+                    <label htmlFor="set-acl-doctype">Select document type: </label>
+                    <DocumentSelection htmlId="set-acl-doctype" />{' '}
+                  </div>
+                  <div style={formRowStyle}>
+                    <p>Select permission setting:</p>
+                    <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
+                    <label htmlFor="set-acl-perm-give">Give</label>
+                    <input
+                      type="radio"
+                      id="set-acl-perm-revoke"
+                      name="setAclPerms"
+                      value="Revoke"
+                    />
+                    <label htmlFor="set-acl-perm-revoke">Revoke</label>
+                  </div>
+                  <button type="submit">Set Permission</button>
+                </form>
+                <StatusNotification
+                  notification={state.message}
+                  statusType="Permission status"
+                  defaultMessage="Permission to be set..."
+                  locationUrl={state.documentUrl}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{' '}
-        </div>
-        <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
-        <button type="submit">Set Permission</button>
-      </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Permission status"
-        defaultMessage="Permission to be set..."
-        locationUrl={state.documentUrl}
-      />
+      </div>
     </section>
   );
 };
