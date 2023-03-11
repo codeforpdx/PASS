@@ -1,6 +1,5 @@
+import React from 'react';
 import { docTypes } from '../../utils/form-helper';
-
-const React = require('react');
 
 const DocumentSelection = ({ htmlId }) => {
 	return (

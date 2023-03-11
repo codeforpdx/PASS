@@ -13,11 +13,10 @@ module.exports = {
 	},
 	plugins: ['prettier'],
 	rules: {
-		'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+		'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
 		'arrow-body-style': ['error', 'always'],
-		'react/jsx-no-target-blank': 0,
-		'no-console': 0,
-		'label-has-associated-control': 0,
-		'no-nested-ternary': 'error'
+		'react/jsx-no-target-blank': 'off',
+		'no-console': 'off',
+		'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }]
 	}
 };

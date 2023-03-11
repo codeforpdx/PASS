@@ -1,10 +1,9 @@
+import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import StatusNotification from './StatusNotification';
-
-const React = require('react');
 
 const FetchDocumentForm = () => {
 	const { session } = useSession();
