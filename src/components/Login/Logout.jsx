@@ -12,7 +12,7 @@ const Logout = () => {
   const { session } = useSession();
 
   return (
-    <section id="login" className="panel">
+    <section id="logout" className="panel">
       <div className="row">
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
