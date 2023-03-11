@@ -1,10 +1,16 @@
-import { useSession, LoginButton, LogoutButton } from "@inrupt/solid-ui-react";
-import { useState, useEffect } from "react";
-import { SOLID_IDENTITY_PROVIDER } from "../../utils";
+import React, { useState, useEffect } from 'react';
+import { LoginButton } from '@inrupt/solid-ui-react';
+import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+
+/**
+ * Login Component - Component that generates Login section for users to a Solid Pod via Solid Session
+ * @memberof Login
+ * @component
+ * @name Login
+ */
 
 const Login = () => {
-  const { session } = useSession();
-  const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
+  const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
@@ -12,61 +18,28 @@ const Login = () => {
 
   return (
     <section id="login" className="panel">
-      <br />
-      <br />
       <div className="col s6 offset-s3 container">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
-              <div className="section no-pad-bot row center">
-                {!session.info.isLoggedIn ? (
-                  <LoginButton
-                    oidcIssuer={SOLID_IDENTITY_PROVIDER}
-                    redirectUrl={currentUrl}
-                    onError={console.error}
-                  >
-                    <label id="labelLogin" htmlFor="btnLogin">
-                      Click the following login button to log into your pod at [
-                      <a href={SOLID_IDENTITY_PROVIDER} target="_blank">
-                        {SOLID_IDENTITY_PROVIDER}
-                      </a>
-                      ]:
-                    </label>
-                    <br />
-                    <br />
-                    <div>
-                      <a className="btn-large waves-effect waves-light teal">
-                        Login
-                      </a>
-                    </div>
-                  </LoginButton>
-                ) : (
-                  <LogoutButton>
-                    {/* <button>Logout</button> */}
-                    <div>
-                      <a className="btn-large waves-effect waves-light teal">
-                        Logout
-                      </a>
-                    </div>
-                    <br />
-                  </LogoutButton>
-                )}
-                {session.info.isLoggedIn ? (
-                  <p className="labelStatus" role="alert">
-                    Your session is logged in with the WebID [
-                    <a href={session.info.webId} target="_blank">
-                      {session.info.webId}
-                    </a>
-                    ].
-                  </p>
-                ) : (
-                  <p>Not logged in</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div className="section no-pad-bot row center"></div>
+      <div className="row">
+        <label id="labelLogin" htmlFor="btnLogin">
+          Click the following login button to log into your pod at [
+          <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+            {SOLID_IDENTITY_PROVIDER}
+          </a>
+          ]:{' '}
+        </label>
+        <LoginButton
+          oidcIssuer={SOLID_IDENTITY_PROVIDER}
+          redirectUrl={currentUrl}
+          onError={console.error}
+        >
+          <button type="submit">Login</button>
+        </LoginButton>
+        <p>Not logged in</p>
+      </div></div></div></div></div>
     </section>
   );
 };

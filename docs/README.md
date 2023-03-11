@@ -2,45 +2,71 @@
 
 ## PASS Project - React Documentation
 
-This repository branch contains a ported version of the PASS project using React. Currently, this build can:
+This repository branch contains a ported version of the PASS project using React.js. Currently, this build can:
 
 1. Log into a user's Pod
 2. Upload files through a form and store them in the user's Pod
 3. Query for specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
 4. Delete specific document from user's Pod if file exist (i.e. .ttl file exist for specific document type)
-5. Logout the user
+5. Set/Revoke permission for other user's Pod to see specific document in your Pod
+6. Search other user's Pod for specific document if permission is given by other user
+7. Logout the user
 
-Newer features like Cross Pod interactions for querying and/or writing new files has yet to be implemented. However, components for these features are present as placeholders at this time.
+While features for cross pod querying/searching has been implemented, cross pod writing/uploading has yet to be implemented. At this time, cross pod writing/uploading is shown simply as a placeholder at this time.
 
-## State of Build
+## State of Build/Tech Stack
 
-The current build is made with React 18 and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). CSS class names and id are lightly modified in JSX to accommodate for React and CSS-in-JS features (primarily React's style attribute) has been included. The existing CSS file has also been lightly modified to use font family Arial as default.
+The current build is made with React 18 for the front-end and bundled with Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development.
 
-To generate the React documentation locally, run the following command:
+To generate the full React development documentation of the application locally, the following command can be ran:
 
 ```shell
 npm run docs
 ```
 
-This will generate the documentation within the docs directory, and can be accessed locally using the follow command in the terminal:
+This will create the documentation within /docs via JSDoc. The documentation could easily be accessed locally by running:
 
 ```shell
 npx serve docs
 ```
 
-The local live server link to the documentation will be located at:
+A local live server link to the documentation will be prepared at:
 
 ```shell
 http://localhost:3000/
 ```
 
-To clear the docs directory, you can use the following to remove all but the docs/README.md file:
+To clear the documentation from /docs, you can simply run the following command:
 
 ```shell
 npm run docs:clear
 ```
 
-Documentation for cross pod components has yet to be documented.
+This will clear all, but /docs/README.md from your branch.
+
+Linting and formatting for this project has also been setup using ESlint and Prettier. To lint your changes with ESLint, you can run:
+
+```shell
+npm run lint
+```
+
+To fix these errors, you can run:
+
+```shell
+npm run lint:fix
+```
+
+You can check the formatting of the existing code using Prettier by running:
+
+```shell
+npm run prettier:check
+```
+
+This will enable Prettier to check if existing code follows existing formatting rules for this project. To format the project with existing Prettier settings, simply run:
+
+```shell
+npm run prettier:run
+```
 
 ## How to get this running locally
 
