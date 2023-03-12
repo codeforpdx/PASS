@@ -6,22 +6,25 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * FetchDocumentForm Component - Component that generates the form for searching a specific document type from a user's Solid Pod via Solid Session
+ * CrossPodQueryForm Component - Component that generates the form for cross pod search for a specific document to another user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
- * @name FetchDocumentForm
+ * @name CrossPodQueryForm
  */
 
-const FetchDocumentForm = () => {
+const CrossPodQueryForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
-  // Event handler for fetching document
-  const handleGetDocumentSubmission = async (event) => {
+  const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     try {
-      const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
+      const documentUrl = await fetchDocuments(
+        session,
+        event.target.document.value,
+        'cross-fetch',
+        event.target.crossPodQuery.value
+      );
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -36,9 +39,14 @@ const FetchDocumentForm = () => {
       }, 2000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification(`Search failed. Reason: Document not found`, 7, state, dispatch);
+      runNotification(
+        `Search failed. Reason: Document not found or unauthorized`,
+        7,
+        state,
+        dispatch
+      );
 
-      console.log('Search failed. Reason: Document not found');
+      console.log('Search failed. Reason: Document not found or unauthorized');
     }
   };
 
@@ -48,11 +56,20 @@ const FetchDocumentForm = () => {
 
   return (
     <section className="panel">
-      <strong>Search Document</strong>
-      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+      <strong>Cross Pod Search</strong>
+      <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" /> <button type="submit">Get Document</button>
+          <label htmlFor="cross-search-doc">
+            Please input a user's Pod URL you wish to search from (i.e., username.opencommons.net):{' '}
+          </label>
+          <br />
+          <br />
+          <input id="cross-search-doc" size="60" type="text" name="crossPodQuery" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="cross-search-doctype">Select document type to search: </label>
+          <DocumentSelection htmlId="cross-search-doctype" />{' '}
+          <button type="submit">Search Pod</button>
         </div>
       </form>
       <StatusNotification
@@ -65,4 +82,4 @@ const FetchDocumentForm = () => {
   );
 };
 
-export default FetchDocumentForm;
+export default CrossPodQueryForm;

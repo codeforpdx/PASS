@@ -1,35 +1,40 @@
-import { SessionProvider } from "@inrupt/solid-ui-react";
-import Login from "./components/Login/Login";
+import React from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
+import { Login, Logout } from './components/Login';
 import {
   UploadDocumentForm,
   FetchDocumentForm,
   DeleteDocumentForm,
-} from "./components/Form";
-import CrossPodQuery from "./components/Form/CrossPodQuery";
-import CrossPodWrite from "./components/Form/CrossPodWrite";
+  CrossPodQueryForm,
+  CrossPodWriteForm,
+  SetAclPermissionForm
+} from './components/Form';
 
-const AppHeader = () => {
-  return (
-    <header>
-      <h2>Getting Started with PASS</h2>
-    </header>
-  );
-};
+const AppHeader = () => (
+  <header>
+    <h2>Getting Started with PASS</h2>
+  </header>
+);
 
 const App = () => {
+  const { session } = useSession();
+
   return (
     <>
       <AppHeader />
-      <SessionProvider>
+      {!session.info.isLoggedIn ? (
+        <Login />
+      ) : (
         <main>
-          <Login />
+          <Logout />
           <UploadDocumentForm />
           <FetchDocumentForm />
           <DeleteDocumentForm />
-          <CrossPodQuery />
-          <CrossPodWrite />
+          <SetAclPermissionForm />
+          <CrossPodQueryForm />
+          <CrossPodWriteForm />
         </main>
-      </SessionProvider>
+      )}
     </>
   );
 };
