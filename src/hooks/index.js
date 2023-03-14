@@ -46,7 +46,8 @@ export const useField = (type) => {
  * @property {string|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
- * @property {function} clearValue - Event handler that clears value set for input element
+ * @property {object|null} file - Object that includes file in question
+ * @property {boolean} processing - Boolean on whether application is uploading/fetching/querying data from Solid
  */
 
 /**
