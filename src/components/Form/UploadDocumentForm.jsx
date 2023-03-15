@@ -64,7 +64,7 @@ const UploadDocumentForm = () => {
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
       runNotification(
         `Submission failed. Reason: Previous file has already been saved to this type`,
