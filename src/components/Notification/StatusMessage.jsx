@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * StatusMessage Component - Sub-component that shows Status message for StatusNotification
+ * StatusMessage Component - Sub-component that shows status message for StatusNotification
  * @memberof Notifications
  * @component
  * @name StatusMessage

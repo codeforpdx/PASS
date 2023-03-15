@@ -159,6 +159,4 @@ export const createDocAclForUser = async (session, documentUrl) => {
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
-
-  console.log(`ACL generated for ${documentUrl}`);
 };

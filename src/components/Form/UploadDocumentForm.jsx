@@ -20,18 +20,10 @@ const UploadDocumentForm = () => {
   // Initalized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files) {
-      dispatch({
-        type: 'SET_FILE',
-        payload: event.target.files[0]
-      });
+      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     } else {
-      dispatch({
-        type: 'CLEAR_FILE'
-      });
-      dispatch({
-        type: 'SET_FILE',
-        payload: event.target.files[0]
-      });
+      dispatch({ type: 'CLEAR_FILE' });
+      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     }
   };
 
@@ -44,8 +36,7 @@ const UploadDocumentForm = () => {
     dispatch({ type: 'SET_PROCESSING' });
 
     if (!state.file) {
-      runNotification(`Submission failed. Reason: missing file`, 2, state, dispatch);
-      console.log('Submission failed. Reason: missing file');
+      runNotification('Submission failed. Reason: missing file', 2, state, dispatch);
       return;
     }
 
@@ -67,13 +58,11 @@ const UploadDocumentForm = () => {
       }, 3000);
     } catch (_error) {
       runNotification(
-        `Submission failed. Reason: Previous file has already been saved to this type`,
-        3,
+        'Submission failed. Reason: A previous file has already been saved to this type. Please delete the previous file if you wish to reupload.',
+        7,
         state,
         dispatch
       );
-
-      console.log('Submission failed. Reason: Previous file has already been saved to this type');
     }
 
     setTimeout(() => {

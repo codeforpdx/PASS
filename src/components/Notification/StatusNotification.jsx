@@ -2,7 +2,7 @@ import React from 'react';
 import StatusMessage from './StatusMessage';
 
 /**
- * StatusNotification Component - Component that renders Status notification and message for file upload, search, delete, etc.
+ * StatusNotification Component - Component that renders status notification and message for file upload, search, delete, etc.
  * @memberof Notifications
  * @component
  * @name StatusNotification

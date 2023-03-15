@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { useStatusNotification } from '../../hooks';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
+import { useStatusNotification } from '../../hooks';
 import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
@@ -14,7 +14,6 @@ import DocumentSelection from './DocumentSelection';
 
 const DeleteDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
   // Event handler for deleting document
@@ -35,8 +34,6 @@ const DeleteDocumentForm = () => {
       }, 3000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found', 3, state, dispatch);
-
-      console.log('Deletion failed. Reason: Data not found');
     }
   };
 

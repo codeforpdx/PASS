@@ -6,7 +6,7 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * CrossPodQueryForm Component - Component that generates the form for cross pod search for a specific document to another user's Solid Pod via Solid Session
+ * CrossPodQueryForm Component - Component that generates the form for cross pod search for a specific document from another user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name CrossPodQueryForm
@@ -16,13 +16,13 @@ const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
+  // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
     if (!event.target.crossPodQuery.value) {
-      runNotification(`Search failed. Reason: Pod URL not provided`, 3, state, dispatch);
-      console.log('Search failed. Reason: Pod URL not provided');
+      runNotification('Search failed. Reason: Pod URL not provided', 3, state, dispatch);
       return;
     }
 
@@ -38,23 +38,16 @@ const CrossPodQueryForm = () => {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
 
-      runNotification(`Locating document...`, 3, state, dispatch);
+      runNotification('Locating document...', 3, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification(`Document found! Document located at: `, 7, state, dispatch);
+        runNotification('Document found! Document located at: ', 7, state, dispatch);
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification(
-        `Search failed. Reason: Document not found or unauthorized`,
-        3,
-        state,
-        dispatch
-      );
-
-      console.log('Search failed. Reason: Document not found or unauthorized');
+      runNotification('Search failed. Reason: Document not found', 3, state, dispatch);
     }
   };
 

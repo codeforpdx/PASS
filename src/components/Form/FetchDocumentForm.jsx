@@ -14,10 +14,9 @@ import DocumentSelection from './DocumentSelection';
 
 const FetchDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
-  // Event handler for fetching document
+  // Event handler for searching/fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -29,18 +28,16 @@ const FetchDocumentForm = () => {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
 
-      runNotification(`Locating document...`, 3, state, dispatch);
+      runNotification('Locating document...', 3, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification(`Document found! Document located at: `, 7, state, dispatch);
+        runNotification('Document found! Document located at: ', 7, state, dispatch);
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification(`Search failed. Reason: Document not found`, 3, state, dispatch);
-
-      console.log('Search failed. Reason: Document not found');
+      runNotification('Search failed. Reason: Document not found', 3, state, dispatch);
     }
   };
 

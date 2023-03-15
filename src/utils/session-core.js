@@ -46,9 +46,6 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
     case 'Give':
       accessObject = { read: true };
       break;
-    case 'Revoke':
-      accessObject = { read: false };
-      break;
     default:
       accessObject = { read: false };
       break;
@@ -56,8 +53,6 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 
   const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
   await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
-
-  console.log(`Permissions for ${fileType} has been set to: "${accessType}"`);
 };
 
 /**
@@ -97,31 +92,21 @@ export const uploadDocument = async (session, fileObject) => {
   let myDataset;
   if (ttlFile !== null) {
     myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
-
-    console.log('Call original dataset: ', myDataset);
-
     myDataset = setThing(myDataset, toBeUpdated);
-    const result = await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
+
+    await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
       fetch: session.fetch
     });
-
-    console.log('New dataset: ', result);
   } else {
     let courseSolidDataset = createSolidDataset();
     courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
-    const result = await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
+
+    await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
       fetch: session.fetch
     });
 
-    console.log('Newly generated and uploaded dataset: ', result);
-
     await createDocAclForUser(session, documentUrl);
   }
-
-  console.log(
-    `Uploaded ${fileObject.file.name} to pod successfully and set identifier to ${fileObject.type},
-    end date to ${fileObject.date}, and description to ${fileObject.description}`
-  );
 };
 
 /**
@@ -142,7 +127,6 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
     await getSolidDataset(documentUrl, { fetch: session.fetch });
     return documentUrl;
   } catch (error) {
-    console.log('No data found or unauthorized');
     throw new Error('No data found or unauthorized');
   }
 };
@@ -160,8 +144,8 @@ export const deleteDocumentFile = async (session, fileType) => {
   const documentUrl = fetchUrl(session, fileType, 'self-fetch');
   const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
-  // Solid requires all files within Pod Container must be deleted before
-  // the container itself can be delete itself
+  // Solid requires all files within Pod container must be deleted before
+  // the container itself can be deleted from Pod
   const [container, files] = hasFiles(fetched);
   files.filter(async (file) => {
     if (!file.url.slice(-3).includes('/')) {
