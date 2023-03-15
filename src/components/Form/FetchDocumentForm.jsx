@@ -48,7 +48,7 @@ const FetchDocumentForm = () => {
 
   return (
     <section className="panel">
-      <div className="col s12 m7 container">
+      <div className="col s6">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">

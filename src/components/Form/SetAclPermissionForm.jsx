@@ -43,7 +43,7 @@ const SetAclPermissionForm = () => {
 
   return (
     <section className="panel">
-      <div className="col s12 m7 container">
+      <div className="col s6">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -65,10 +65,12 @@ const SetAclPermissionForm = () => {
                     <label htmlFor="set-acl-doctype">Select document type: </label>
                     <DocumentSelection htmlId="set-acl-doctype" />{' '}
                   </div>
-                  <div style={formRowStyle}>
+                  {/* <div style={formRowStyle}> */}
+                  <div>
                     <p>Select permission setting:</p>
                     <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
                     <label htmlFor="set-acl-perm-give">Give</label>
+                    <br />
                     <input
                       type="radio"
                       id="set-acl-perm-revoke"

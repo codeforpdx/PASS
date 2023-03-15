@@ -88,7 +88,7 @@ const UploadDocumentForm = () => {
 
   return (
     <section className="panel">
-      <div className="col s6 offset-s3 container">
+      <div className="col s6">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">

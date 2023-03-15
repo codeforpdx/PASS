@@ -10,15 +10,13 @@ import {
   SetAclPermissionForm
 } from './components/Form';
 
-const AppHeader = () => {
-  return (
-    <nav className="teal darken-3" role="navigation">
-      <div className="nav-wrapper container">
-        <h4>Getting Started with PASS</h4>
-      </div>
-    </nav>
-  );
-};
+const AppHeader = () => (
+  <nav className="teal darken-3" role="navigation">
+    <div className="nav-wrapper container">
+      <h4>Getting Started with PASS</h4>
+    </div>
+  </nav>
+);
 
 const App = () => {
   const { session } = useSession();
@@ -29,7 +27,7 @@ const App = () => {
       {!session.info.isLoggedIn ? (
         <Login />
       ) : (
-        <main>
+        <main className="row">
           <Logout />
           <UploadDocumentForm />
           <FetchDocumentForm />

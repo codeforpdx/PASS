@@ -56,8 +56,7 @@ const CrossPodQueryForm = () => {
 
   return (
     <section className="panel">
-      {' '}
-      <div className="col s12 m7 container">
+      <div className="col s6">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
@@ -65,7 +64,7 @@ const CrossPodQueryForm = () => {
                 <h5>
                   <strong>Cross Pod Search</strong>
                 </h5>
-
+                {/* <div className="divider" /> */}
                 <form onSubmit={handleCrossPodQuery} autoComplete="off">
                   <div style={formRowStyle}>
                     <label htmlFor="cross-search-doc">

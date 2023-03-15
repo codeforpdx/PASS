@@ -13,20 +13,32 @@ const Logout = () => {
 
   return (
     <section id="login" className="panel">
-      <div className="row">
-        <label id="labelLogout" htmlFor="btnLogout">
-          Click the following logout button to log out of your pod:{' '}
-        </label>
-        <LogoutButton>
-          <button type="submit">Logout</button>
-        </LogoutButton>
-        <p className="labelStatus" role="alert">
-          Your session is now logged in with the WebID [
-          <a href={session.info.webId} target="_blank" rel="noreferrer">
-            {session.info.webId}
-          </a>
-          ].
-        </p>
+      <div className="col s12">
+        <div className="card horizontal">
+          <div className="card-stacked">
+            <div className="card-content">
+              <div className="section no-pad-bot row center">
+                {/* <div className="row"> */}
+                <label id="labelLogout" htmlFor="btnLogout">
+                  Click the following logout button to log out of your pod:{' '}
+                </label>
+                <LogoutButton>
+                  <button type="submit" className="waves-effect waves-light btn">
+                    Logout
+                  </button>
+                </LogoutButton>
+                <p className="labelStatus" role="alert">
+                  Your session is now logged in with the WebID [
+                  <a href={session.info.webId} target="_blank" rel="noreferrer">
+                    {session.info.webId}
+                  </a>
+                  ].
+                </p>
+                {/* </div> */}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
