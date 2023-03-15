@@ -20,6 +20,28 @@ const SetAclPermissionForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
+    if (!event.target.setAclTo.value) {
+      runNotification(
+        `Permission assignment failed. Reason: Pod URL not provided`,
+        3,
+        state,
+        dispatch
+      );
+      console.log('Permission assignment failed. Reason: Pod URL not provided');
+      return;
+    }
+
+    if (!event.target.setAclPerms.value) {
+      runNotification(
+        `Permission assignment failed. Reason: Permissions not set`,
+        3,
+        state,
+        dispatch
+      );
+      console.log('Permission assignment failed. Reason: Permissions not set');
+      return;
+    }
+
     try {
       await setDocAclPermission(
         session,
@@ -35,7 +57,7 @@ const SetAclPermissionForm = () => {
         dispatch
       );
     } catch (error) {
-      runNotification('Set permission failed. Reason: File not found', 7, state, dispatch);
+      runNotification('Set permission failed. Reason: File not found', 3, state, dispatch);
     }
   };
 

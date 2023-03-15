@@ -20,6 +20,12 @@ const CrossPodQueryForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
+    if (!event.target.crossPodQuery.value) {
+      runNotification(`Search failed. Reason: Pod URL not provided`, 3, state, dispatch);
+      console.log('Search failed. Reason: Pod URL not provided');
+      return;
+    }
+
     try {
       const documentUrl = await fetchDocuments(
         session,
@@ -43,7 +49,7 @@ const CrossPodQueryForm = () => {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification(
         `Search failed. Reason: Document not found or unauthorized`,
-        7,
+        3,
         state,
         dispatch
       );
