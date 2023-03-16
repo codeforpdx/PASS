@@ -23,19 +23,15 @@ export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
  * @param {Session} session - Solid Session
  * @param {Object} fileObject - Object of file being uploaded to Solid
  * @param {string} containerUrl - URL location of Pod container
- * @returns {Promise} Promise - A message regarding the status of upload to user's Pod
+ * @returns {Promise} Promise - Places and saves uploaded file onto Solid Pod via a container
  */
 
 export const placeFileInContainer = async (session, fileObject, containerUrl) => {
-  try {
-    await saveFileInContainer(containerUrl, fileObject.file, {
-      slug: fileObject.file.name,
-      contentType: fileObject.type,
-      fetch: session.fetch
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  await saveFileInContainer(containerUrl, fileObject.file, {
+    slug: fileObject.file.name,
+    contentType: fileObject.type,
+    fetch: session.fetch
+  });
 };
 
 /**

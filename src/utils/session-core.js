@@ -127,7 +127,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
     await getSolidDataset(documentUrl, { fetch: session.fetch });
     return documentUrl;
   } catch (error) {
-    throw new Error('No data found or unauthorized');
+    throw new Error('No data found');
   }
 };
 
