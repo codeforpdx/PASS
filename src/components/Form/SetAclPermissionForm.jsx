@@ -20,6 +20,7 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
     const podUrl = event.target.setAclTo.value;
     const permissionType = event.target.setAclPerms.value;
 
@@ -44,10 +45,10 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, event.target.document.value, permissionType, podUrl);
+      await setDocAclPermission(session, docType, permissionType, podUrl);
 
       runNotification(
-        `${permissionType} permission to ${podUrl} for ${event.target.document.value}`,
+        `${permissionType} permission to ${podUrl} for ${docType}`,
         7,
         state,
         dispatch

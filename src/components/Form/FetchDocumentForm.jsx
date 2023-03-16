@@ -20,9 +20,10 @@ const FetchDocumentForm = () => {
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
 
     try {
-      const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
+      const documentUrl = await fetchDocuments(session, docType, 'self-fetch');
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });

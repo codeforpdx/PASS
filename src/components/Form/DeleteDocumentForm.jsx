@@ -20,9 +20,10 @@ const DeleteDocumentForm = () => {
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
 
     try {
-      const documentUrl = await deleteDocumentFile(session, event.target.document.value);
+      const documentUrl = await deleteDocumentFile(session, docType);
 
       runNotification('File being deleted from Pod...', 3, state, dispatch);
 

@@ -20,19 +20,16 @@ const CrossPodQueryForm = () => {
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
+    const podUrl = event.target.crossPodQuery.value;
 
-    if (!event.target.crossPodQuery.value) {
+    if (!podUrl) {
       runNotification('Search failed. Reason: Pod URL not provided', 3, state, dispatch);
       return;
     }
 
     try {
-      const documentUrl = await fetchDocuments(
-        session,
-        event.target.document.value,
-        'cross-fetch',
-        event.target.crossPodQuery.value
-      );
+      const documentUrl = await fetchDocuments(session, docType, 'cross-fetch', podUrl);
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });

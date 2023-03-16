@@ -34,6 +34,9 @@ const UploadDocumentForm = () => {
   const handleFormSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
+    const expirationDate = event.target.date.value;
+    const docDescription = event.target.description.value;
 
     if (!state.file) {
       runNotification('Submission failed. Reason: missing file', 2, state, dispatch);
@@ -41,9 +44,9 @@ const UploadDocumentForm = () => {
     }
 
     const fileObject = {
-      type: event.target.document.value,
-      date: event.target.date.value || '01/01/1800',
-      description: event.target.description.value || 'No Description provided',
+      type: docType,
+      date: expirationDate || '01/01/1800',
+      description: docDescription || 'No Description provided',
       file: state.file
     };
 
