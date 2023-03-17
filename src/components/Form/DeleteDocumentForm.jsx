@@ -6,7 +6,8 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * DeleteDocumentForm Component - Component that generates the form for deleting a specific document type from a user's Solid Pod via Solid Session
+ * DeleteDocumentForm Component - Component that generates the form for
+ * deleting a specific document type from a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name DeleteDocumentForm

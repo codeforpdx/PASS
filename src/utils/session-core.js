@@ -61,7 +61,8 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
  * @property {string} description - Description of document
- * @property {Object} file - An object which contain infomation about the file being uploaded as well the document itself
+ * @property {Object} file - An object which contain infomation about the file being uploaded
+ * as well the document itself
  */
 
 /**
@@ -110,14 +111,17 @@ export const uploadDocument = async (session, fileObject) => {
 };
 
 /**
- * Function that fetch the URL of the container containing a specific file uploaded to a user's Pod on Solid, if exist
+ * Function that fetch the URL of the container containing a specific file uploaded to
+ * a user's Pod on Solid, if exist
  * @memberof utils
  * @function fetchDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
+ * or "cross-fetch")
  * @param {string} [otherPodUrl] - Url to other user's Pod (set to empty string by default)
- * @returns {Promise} Promise - Either a string containing the url location of the document, if exist, or throws an Error
+ * @returns {Promise} Promise - Either a string containing the url location of the document,
+ * if exist, or throws an Error
  */
 
 export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl = '') => {
@@ -132,12 +136,14 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
 };
 
 /**
- * Function that deletes all files from a Solid container associated to a file type, if exist, and returns the container's URL
+ * Function that deletes all files from a Solid container associated to a file type,
+ * if exist, and returns the container's URL
  * @memberof utils
  * @function deleteDocuments
  * @param {Session} session - Solid Session
  * @param {string} fileType - Type of document
- * @returns {Promise} container.url - The URL of document container and the response on whether document file is deleted, if exist, and delete all existing files within it
+ * @returns {Promise} container.url - The URL of document container and the response on
+ * whether document file is deleted, if exist, and delete all existing files within it
  */
 
 export const deleteDocumentFile = async (session, fileType) => {

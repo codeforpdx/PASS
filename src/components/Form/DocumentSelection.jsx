@@ -2,7 +2,8 @@ import React from 'react';
 import docTypes from '../../utils/form-helper';
 
 /**
- * DocumentSelection Component - Sub-component that generates the drop down box/menu for selecting document type to a user's Solid Pod via Solid Session
+ * DocumentSelection Component - Sub-component that generates the dropdown
+ * box/menu for selecting document type to a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name DocumentSelection

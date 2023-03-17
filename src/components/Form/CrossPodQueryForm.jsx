@@ -6,7 +6,8 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * CrossPodQueryForm Component - Component that generates the form for cross pod search for a specific document from another user's Solid Pod via Solid Session
+ * CrossPodQueryForm Component - Component that generates the form for cross pod search
+ * for a specific document from another user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name CrossPodQueryForm

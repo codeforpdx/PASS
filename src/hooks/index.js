@@ -15,7 +15,8 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  */
 
 /**
- * Custom hook that provide the value of input element, type attribute of HTML input element, set value of input element onChange, and a clear value function
+ * Custom hook that provide the value of input element, type attribute of HTML input element,
+ * set value of input element onChange, and a clear value function
  * @memberof hooks
  * @function useField
  * @param {string} type - Type attribute of HTML input element
@@ -47,14 +48,17 @@ export const useField = (type) => {
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
  * @property {object|null} file - Object that includes file in question
- * @property {boolean} processing - Boolean on whether application is uploading/fetching/querying data from Solid
+ * @property {boolean} processing - Boolean on whether application is uploading,
+ * fetching, querying data from Solid
  */
 
 /**
- * Custom hook that provide the useStatusNotificationObject as the state and a useReducer dispatch function to alter the state
+ * Custom hook that provide the useStatusNotificationObject as the state and a
+ * useReducer dispatch function to alter the state
  * @memberof hooks
  * @function useStatusNotification
- * @return {useStatusNotificationObject} useStatusNotificationObject - An object that contains { documentUrl, message, timeoutID, and file }
+ * @return {useStatusNotificationObject} useStatusNotificationObject - An object that
+ * contains { documentUrl, message, timeoutID, and file }
  */
 
 export const useStatusNotification = () => {

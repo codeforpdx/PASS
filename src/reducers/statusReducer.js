@@ -12,7 +12,8 @@
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
  * @property {object|null} file - Object that includes file in question
- * @property {boolean} processing - Boolean on whether application is uploading/fetching/querying data from Solid
+ * @property {boolean} processing - Boolean on whether application is uploading,
+ * fetching, querying data from Solid
  */
 
 export const initialStatusState = {
@@ -27,7 +28,8 @@ export const initialStatusState = {
  * @memberof reducers
  * @function statusReducer
  * @param {useStatusNotificationObject} state - the state for status notification
- * @param {Object} action - useReducer Object for useReducer hook containing action.payload for useStatusNotification hook
+ * @param {Object} action - useReducer Object for useReducer hook containing
+ * action.payload for useStatusNotification hook
  * @return {useStatusNotificationObject} state - The updated state based on useReducer action
  */
 

@@ -6,7 +6,8 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * UploadDocumentForm Component - Component that generates the form for uploading a specific document type to a user's Solid Pod via Solid Session
+ * UploadDocumentForm Component - Component that generates the form for uploading
+ * a specific document type to a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name UploadDocumentForm
