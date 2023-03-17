@@ -41,9 +41,10 @@ const UploadDocumentForm = () => {
   // Event handler for form/document submission to Pod
   const handleFormSubmission = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
 
     if (!state.file) {
-      runNotification(`Submission failed. Reason: missing file`, 7, state, dispatch);
+      runNotification(`Submission failed. Reason: missing file`, 2, state, dispatch);
       console.log('Submission failed. Reason: missing file');
       return;
     }
@@ -58,16 +59,16 @@ const UploadDocumentForm = () => {
     try {
       await uploadDocument(session, fileObject);
 
-      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
+      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 3, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
       runNotification(
         `Submission failed. Reason: Previous file has already been saved to this type`,
-        7,
+        3,
         state,
         dispatch
       );
@@ -113,7 +114,9 @@ const UploadDocumentForm = () => {
             accept=".pdf, .docx., .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
-          <button type="submit">Upload file</button>
+          <button disabled={state.processing} type="submit">
+            Upload file
+          </button>
         </div>
       </form>
       <StatusNotification

@@ -18,6 +18,14 @@ const CrossPodQueryForm = () => {
 
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
+    if (!event.target.crossPodQuery.value) {
+      runNotification(`Search failed. Reason: Pod URL not provided`, 3, state, dispatch);
+      console.log('Search failed. Reason: Pod URL not provided');
+      return;
+    }
+
     try {
       const documentUrl = await fetchDocuments(
         session,
@@ -30,18 +38,18 @@ const CrossPodQueryForm = () => {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
 
-      runNotification(`Locating document...`, 2, state, dispatch);
+      runNotification(`Locating document...`, 3, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification(`Document found! Document located at: `, 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification(
         `Search failed. Reason: Document not found or unauthorized`,
-        7,
+        3,
         state,
         dispatch
       );
@@ -69,7 +77,9 @@ const CrossPodQueryForm = () => {
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doctype">Select document type to search: </label>
           <DocumentSelection htmlId="cross-search-doctype" />{' '}
-          <button type="submit">Search Pod</button>
+          <button disabled={state.processing} type="submit">
+            Search Pod
+          </button>
         </div>
       </form>
       <StatusNotification
