@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusNotification } from '../Notification';
 
 /**
- *  @typedef {import('../../hooks').statusNotificationObject} statusNotificationObject
+ * @typedef {import('../../hooks').statusNotificationObject} statusNotificationObject
  */
 
 /**
