@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * DeleteDocumentForm Component - Component that generates the form for
@@ -44,7 +44,7 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Deletion status" defaultMessage="To be deleted...">
       <strong>Delete Document</strong>
       <form onSubmit={handleDeleteDocument} autoComplete="off">
         <div style={formRowStyle}>
@@ -55,12 +55,7 @@ const DeleteDocumentForm = () => {
           </button>
         </div>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Deletion status"
-        defaultMessage="To be searched..."
-      />
-    </section>
+    </FormSection>
   );
 };
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * FetchDocumentForm Component - Component that generates the form for searching
@@ -48,7 +48,7 @@ const FetchDocumentForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Search status" defaultMessage="To be searched...">
       <strong>Search Document</strong>
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
@@ -59,13 +59,7 @@ const FetchDocumentForm = () => {
           </button>
         </div>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Search status"
-        defaultMessage="To be searched..."
-        locationUrl={state.documentUrl}
-      />
-    </section>
+    </FormSection>
   );
 };
 

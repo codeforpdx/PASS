@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod search
@@ -25,7 +25,7 @@ const CrossPodQueryForm = () => {
     const podUrl = event.target.crossPodQuery.value;
 
     if (!podUrl) {
-      runNotification('Search failed. Reason: Pod URL not provided', 3, state, dispatch);
+      runNotification('Search failed. Reason: Pod URL not provided.', 3, state, dispatch);
       return;
     }
 
@@ -54,7 +54,7 @@ const CrossPodQueryForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Search status" defaultMessage="To be searched...">
       <strong>Cross Pod Search</strong>
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
@@ -73,13 +73,7 @@ const CrossPodQueryForm = () => {
           </button>
         </div>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Search status"
-        defaultMessage="To be searched..."
-        locationUrl={state.documentUrl}
-      />
-    </section>
+    </FormSection>
   );
 };
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { runNotification, setDocAclPermission } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
@@ -26,13 +26,13 @@ const SetAclPermissionForm = () => {
     const permissionType = event.target.setAclPerms.value;
 
     if (!podUrl) {
-      runNotification('Set permissions failed. Reason: Pod URL not provided', 3, state, dispatch);
+      runNotification('Set permissions failed. Reason: Pod URL not provided.', 3, state, dispatch);
       return;
     }
 
     if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
       runNotification(
-        'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself',
+        'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         3,
         state,
         dispatch
@@ -41,7 +41,7 @@ const SetAclPermissionForm = () => {
     }
 
     if (!permissionType) {
-      runNotification('Set permissions failed. Reason: Permissions not set', 3, state, dispatch);
+      runNotification('Set permissions failed. Reason: Permissions not set.', 3, state, dispatch);
       return;
     }
 
@@ -49,13 +49,13 @@ const SetAclPermissionForm = () => {
       await setDocAclPermission(session, docType, permissionType, podUrl);
 
       runNotification(
-        `${permissionType} permission to ${podUrl} for ${docType}`,
+        `${permissionType} permission to ${podUrl} for ${docType}.`,
         7,
         state,
         dispatch
       );
     } catch (error) {
-      runNotification('Set permissions failed. Reason: File not found', 3, state, dispatch);
+      runNotification('Set permissions failed. Reason: File not found.', 3, state, dispatch);
     }
   };
 
@@ -64,7 +64,7 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Permission status" defaultMessage="To be set...">
       <strong>Permission to Files</strong>
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
@@ -90,13 +90,7 @@ const SetAclPermissionForm = () => {
           Set Permission
         </button>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Permission status"
-        defaultMessage="Permission to be set..."
-        locationUrl={state.documentUrl}
-      />
-    </section>
+    </FormSection>
   );
 };
 

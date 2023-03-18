@@ -8,10 +8,10 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
 
 /**
  * @typedef {Object} useFieldObject
- * @property {string} type - Type attribute of HTML input element
- * @property {string} value - The value of input element
- * @property {function} onChange - Event handler for changes in input element
- * @property {function} clearValue - Event handler that clears value set for input element
+ * @property {String} type - Type attribute of HTML input element
+ * @property {String} value - The value of input element
+ * @property {Function} onChange - Event handler for changes in input element
+ * @property {Function} clearValue - Event handler that clears value set for input element
  */
 
 /**
@@ -19,7 +19,7 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  * set value of input element onChange, and a clear value function
  * @memberof hooks
  * @function useField
- * @param {string} type - Type attribute of HTML input element
+ * @param {String} type - Type attribute of HTML input element
  * @return {useFieldObject} useFieldObject - An object that contains { type, value, onChange, clearValue }
  */
 
@@ -43,13 +43,14 @@ export const useField = (type) => {
 };
 
 /**
+ * @typedef {import("../reducers/statusReducer").statusNotificationObject} statusNotificationObject
+ */
+
+/**
  * @typedef {Object} useStatusNotificationObject
- * @property {string|null} documentUrl - Url link to document container
- * @property {string} message - Status message for file upload, query, or deletion
- * @property {string|null} timeoutID - Timeout ID for status message
- * @property {object|null} file - Object that includes file in question
- * @property {boolean} processing - Boolean on whether application is uploading,
- * fetching, querying data from Solid
+ * @property {statusNotificationObject} statusNotificationObject - An object consisting of the
+ * state for status notifications
+ * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch function
  */
 
 /**
@@ -58,7 +59,7 @@ export const useField = (type) => {
  * @memberof hooks
  * @function useStatusNotification
  * @return {useStatusNotificationObject} useStatusNotificationObject - An object that
- * contains { documentUrl, message, timeoutID, and file }
+ * contains the StatusNotification state and React's useReducer dispatch function
  */
 
 export const useStatusNotification = () => {

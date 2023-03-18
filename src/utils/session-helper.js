@@ -11,7 +11,7 @@ import {
 /**
  * The URL to a specific Solid Provider
  * @name SOLID_IDENTITY_PROVIDER
- * @type {string}
+ * @type {String}
  */
 
 export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
@@ -22,7 +22,7 @@ export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
  * @function placeFileInContainer
  * @param {Session} session - Solid Session
  * @param {Object} fileObject - Object of file being uploaded to Solid
- * @param {string} containerUrl - URL location of Pod container
+ * @param {String} containerUrl - URL location of Pod container
  * @returns {Promise} Promise - Places and saves uploaded file onto Solid Pod via a container
  */
 
@@ -38,7 +38,7 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  * Function that checks if container URL contains TTL files
  * @memberof utils
  * @function hasTTLFiles
- * @param {string} containerUrl - URL of a Solid container
+ * @param {String} containerUrl - URL of a Solid container
  * @returns {Object|null} ttlFiles or null - An object of the first ttl file in location or null,
  * if the ttl file does not exist
  */
@@ -61,7 +61,7 @@ export const hasTTLFiles = (containerUrl) => {
  * Function checks if container URL contains any files
  * @memberof utils
  * @function hasFiles
- * @param {string} containerUrl - URL of location in question
+ * @param {String} containerUrl - URL of location in question
  * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the
  * directory container and the rest of the files or null
  */
@@ -92,11 +92,11 @@ export const hasFiles = (containerUrl) => {
  * @memberof utils
  * @function fetchUrl
  * @param {Session} session - Solid Session
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
+ * @param {String} fileType - Type of document
+ * @param {String} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
  * or "cross-fetch")
- * @param {string} otherPodUrl - Url to other user's Pod or empty string
- * @returns {string|null} url or null - A url of where the container that stores the file
+ * @param {String} otherPodUrl - Url to other user's Pod or empty string
+ * @returns {String|null} url or null - A url of where the container that stores the file
  * is located in or null, if container doesn't exist
  */
 
@@ -125,7 +125,7 @@ export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
  * @memberof utils
  * @function setupAcl
  * @param {AclDataset} resourceWithAcl - A Solid Session Dataset with ACL file
- * @param {string} webId - Solid webId
+ * @param {String} webId - Solid webId
  * @param {Access} accessObject - Solid Access Object which sets ACL permission for
  * read, append, write, and control
  * @returns {AclDataset} - Solid Session Dataset with updated ACL file
@@ -145,7 +145,7 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
  * @memberof utils
  * @function createDocAclForUser
  * @param {Session} session - Solid Session
- * @param {string} documentUrl - Url link to document container
+ * @param {String} documentUrl - Url link to document container
  * @returns {Promise} Promise - Generates ACL file for container and give user access
  * and control to it and its contents
  */

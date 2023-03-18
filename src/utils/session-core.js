@@ -28,9 +28,9 @@ import {
  * @memberof utils
  * @function setDocAclPermission
  * @param {Session} session - Solid Session
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
- * @param {string} otherPodUrl - Url to other user's Pod or empty string
+ * @param {String} fileType - Type of document
+ * @param {String} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
+ * @param {String} otherPodUrl - Url to other user's Pod or empty string
  * @returns {Promise} Promise - Sets permission for otherPodUrl for given document type, if exists, or null
  */
 
@@ -58,9 +58,9 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 /**
  * An input object for functions related to file uploads to Solid's Pod
  * @typedef fileObject
- * @property {string} type - Type of document
- * @property {string} date - Date of upload
- * @property {string} description - Description of document
+ * @property {String} type - Type of document
+ * @property {String} date - Date of upload
+ * @property {String} description - Description of document
  * @property {Object} file - An object which contain infomation about the file being uploaded
  * as well the document itself
  */
@@ -116,10 +116,10 @@ export const uploadDocument = async (session, fileObject) => {
  * @memberof utils
  * @function fetchDocuments
  * @param {Session} session - Solid Session
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
+ * @param {String} fileType - Type of document
+ * @param {String} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
  * or "cross-fetch")
- * @param {string} [otherPodUrl] - Url to other user's Pod (set to empty string by default)
+ * @param {String} [otherPodUrl] - Url to other user's Pod (set to empty string by default)
  * @returns {Promise} Promise - Either a string containing the url location of the document,
  * if exist, or throws an Error
  */
@@ -141,7 +141,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
  * @memberof utils
  * @function deleteDocuments
  * @param {Session} session - Solid Session
- * @param {string} fileType - Type of document
+ * @param {String} fileType - Type of document
  * @returns {Promise} container.url - The URL of document container and the response on
  * whether document file is deleted, if exist, and delete all existing files within it
  */
@@ -167,7 +167,7 @@ export const deleteDocumentFile = async (session, fileType) => {
  * @memberof utils
  * @function deleteDocumentContainer
  * @param {Session} session - Solid Session
- * @param {string} documentUrl - Url of document container
+ * @param {String} documentUrl - Url of document container
  * @returns {Promise} Promise - Perform action that deletes container completely from Pod
  */
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, runNotification } from '../../utils';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -54,11 +54,11 @@ const UploadDocumentForm = () => {
     try {
       await uploadDocument(session, fileObject);
 
-      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 3, state, dispatch);
+      runNotification(`Uploading "${fileObject.file.name}" to Solid...`, 3, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);
+        runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
     } catch (_error) {
       runNotification(
@@ -81,7 +81,7 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Writing status" defaultMessage="To be uploaded...">
       <strong>Upload Document</strong>
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
@@ -112,12 +112,7 @@ const UploadDocumentForm = () => {
           </button>
         </div>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Writing status"
-        defaultMessage="To be uploaded..."
-      />
-    </section>
+    </FormSection>
   );
 };
 
