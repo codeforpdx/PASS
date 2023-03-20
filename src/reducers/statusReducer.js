@@ -7,12 +7,13 @@
  * Initial state for useStatusNotification hook
  * @memberof reducers
  * @name initialStatusState
- * @typedef {Object} useStatusNotificationObject
- * @property {string|null} documentUrl - Url link to document container
- * @property {string} message - Status message for file upload, query, or deletion
- * @property {string|null} timeoutID - Timeout ID for status message
- * @property {object|null} file - Object that includes file in question
- * @property {boolean} processing - Boolean on whether application is uploading/fetching/querying data from Solid
+ * @typedef {Object} statusNotificationObject
+ * @property {String|null} documentUrl - Url link to document container
+ * @property {String} message - Status message for file upload, query, or deletion
+ * @property {String|null} timeoutID - Timeout ID for status message
+ * @property {Object|null} file - Object that includes file in question
+ * @property {Boolean} processing - Boolean on whether application is uploading,
+ * fetching, querying data from Solid
  */
 
 export const initialStatusState = {
@@ -26,9 +27,10 @@ export const initialStatusState = {
 /**
  * @memberof reducers
  * @function statusReducer
- * @param {useStatusNotificationObject} state - the state for status notification
- * @param {Object} action - useReducer Object for useReducer hook containing action.payload for useStatusNotification hook
- * @return {useStatusNotificationObject} state - The updated state based on useReducer action
+ * @param {statusNotificationObject} state - The state for status notification
+ * @param {Object} action - useReducer Object for useReducer hook containing
+ * action.payload for useStatusNotification hook
+ * @return {statusNotificationObject} state - The updated state based on useReducer action
  */
 
 const statusReducer = (state, action) => {

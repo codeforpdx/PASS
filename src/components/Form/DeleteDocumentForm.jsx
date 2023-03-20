@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { useStatusNotification } from '../../hooks';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
-import { StatusNotification } from '../Notification';
+import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
- * DeleteDocumentForm Component - Component that generates the form for deleting a specific document type from a user's Solid Pod via Solid Session
+ * DeleteDocumentForm Component - Component that generates the form for
+ * deleting a specific document type from a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name DeleteDocumentForm
@@ -14,16 +15,16 @@ import DocumentSelection from './DocumentSelection';
 
 const DeleteDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
   // Event handler for deleting document
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
 
     try {
-      const documentUrl = await deleteDocumentFile(session, event.target.document.value);
+      const documentUrl = await deleteDocumentFile(session, docType);
 
       runNotification('File being deleted from Pod...', 3, state, dispatch);
 
@@ -35,8 +36,6 @@ const DeleteDocumentForm = () => {
       }, 3000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found', 3, state, dispatch);
-
-      console.log('Deletion failed. Reason: Data not found');
     }
   };
 
@@ -45,7 +44,7 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Deletion status" defaultMessage="To be deleted...">
       <strong>Delete Document</strong>
       <form onSubmit={handleDeleteDocument} autoComplete="off">
         <div style={formRowStyle}>
@@ -56,12 +55,7 @@ const DeleteDocumentForm = () => {
           </button>
         </div>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Deletion status"
-        defaultMessage="To be searched..."
-      />
-    </section>
+    </FormSection>
   );
 };
 
