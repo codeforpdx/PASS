@@ -69,7 +69,7 @@ const UploadDocumentForm = () => {
 
     setTimeout(() => {
       dispatch({ type: 'CLEAR_FILE' });
-      event.target.file.value = '';
+      event.target.uploadDoctype.value = '';
       clearDescription();
     }, 7000);
   };
