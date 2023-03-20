@@ -2,11 +2,12 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { runNotification, setDocAclPermission } from '../../utils';
 import { useStatusNotification } from '../../hooks';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
- * SetAclPermissionForm Component - Component that generates the form for setting document ACL permissions to another user's Solid Pod via Solid Session
+ * SetAclPermissionForm Component - Component that generates the form for setting
+ * document ACL permissions to another user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name SetAclPermissionForm
@@ -16,48 +17,45 @@ const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
+  // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
+    const podUrl = event.target.setAclTo.value;
+    const permissionType = event.target.setAclPerms.value;
 
-    if (!event.target.setAclTo.value) {
-      runNotification(
-        `Permission assignment failed. Reason: Pod URL not provided`,
-        3,
-        state,
-        dispatch
-      );
-      console.log('Permission assignment failed. Reason: Pod URL not provided');
+    if (!podUrl) {
+      runNotification('Set permissions failed. Reason: Pod URL not provided.', 3, state, dispatch);
       return;
     }
 
-    if (!event.target.setAclPerms.value) {
+    if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
       runNotification(
-        `Permission assignment failed. Reason: Permissions not set`,
+        'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         3,
         state,
         dispatch
       );
-      console.log('Permission assignment failed. Reason: Permissions not set');
+      return;
+    }
+
+    if (!permissionType) {
+      runNotification('Set permissions failed. Reason: Permissions not set.', 3, state, dispatch);
       return;
     }
 
     try {
-      await setDocAclPermission(
-        session,
-        event.target.document.value,
-        event.target.setAclPerms.value,
-        event.target.setAclTo.value
-      );
+      await setDocAclPermission(session, docType, permissionType, podUrl);
 
       runNotification(
-        `${event.target.setAclPerms.value} permission to ${event.target.setAclTo.value} for ${event.target.document.value}`,
+        `${permissionType} permission to ${podUrl} for ${docType}.`,
         7,
         state,
         dispatch
       );
     } catch (error) {
-      runNotification('Set permission failed. Reason: File not found', 3, state, dispatch);
+      runNotification('Set permissions failed. Reason: File not found.', 3, state, dispatch);
     }
   };
 
@@ -66,7 +64,7 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <section className="panel">
+    <FormSection state={state} statusType="Permission status" defaultMessage="To be set...">
       <strong>Permission to Files</strong>
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
@@ -92,13 +90,7 @@ const SetAclPermissionForm = () => {
           Set Permission
         </button>
       </form>
-      <StatusNotification
-        notification={state.message}
-        statusType="Permission status"
-        defaultMessage="Permission to be set..."
-        locationUrl={state.documentUrl}
-      />
-    </section>
+    </FormSection>
   );
 };
 
