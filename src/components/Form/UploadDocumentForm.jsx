@@ -15,7 +15,6 @@ import FormSection from './FormSection';
 
 const UploadDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
   // Initalized state for file upload
