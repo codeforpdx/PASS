@@ -20,11 +20,10 @@ const UploadDocumentForm = () => {
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
-    if (event.target.files) {
+    if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     } else {
       dispatch({ type: 'CLEAR_FILE' });
-      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     }
   };
 
@@ -103,7 +102,7 @@ const UploadDocumentForm = () => {
           <input
             id="upload-doctype"
             type="file"
-            name="file"
+            name="upload-doctype"
             accept=".pdf, .docx., .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
