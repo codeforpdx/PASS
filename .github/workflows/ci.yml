@@ -33,7 +33,7 @@ jobs:
       - name: Upload frontend assets
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'dist/'
+          path: './dist'
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/Master'
