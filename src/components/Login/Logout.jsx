@@ -2,7 +2,8 @@ import React from 'react';
 import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 
 /**
- * Logout Component - Component that generates Logout section for users to a Solid Pod via Solid Session
+ * Logout Component - Component that generates Logout section for users to a
+ * Solid Pod via Solid Session
  * @memberof Login
  * @component
  * @name Logout
@@ -12,7 +13,7 @@ const Logout = () => {
   const { session } = useSession();
 
   return (
-    <section id="login" className="panel">
+    <section id="logout" className="panel">
       <div className="col s12">
         <div className="card horizontal">
           <div className="card-stacked">

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { useStatusNotification } from '../../hooks';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
-// import { StatusNotification } from '../Notification';
+import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
- * DeleteDocumentForm Component - Component that generates the form for deleting a specific document type from a user's Solid Pod via Solid Session
+ * DeleteDocumentForm Component - Component that generates the form for
+ * deleting a specific document type from a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name DeleteDocumentForm
@@ -14,27 +15,27 @@ import DocumentSelection from './DocumentSelection';
 
 const DeleteDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
   // Event handler for deleting document
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
-    try {
-      const documentUrl = await deleteDocumentFile(session, event.target.document.value);
+    dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
 
-      runNotification('File being deleted from Pod...', 2, state, dispatch);
+    try {
+      const documentUrl = await deleteDocumentFile(session, docType);
+
+      runNotification('File being deleted from Pod...', 3, state, dispatch);
 
       // Solid requires all files to be removed from container before it can be removed
       // setTimeout lets deleteDocumentFile finish removing the files
       setTimeout(() => {
         deleteDocumentContainer(session, documentUrl);
         runNotification('Removing file container from Pod...', 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
-      runNotification('Deletion failed. Reason: Data not found', 7, state, dispatch);
-
-      console.log('Deletion failed. Reason: Data not found');
+      runNotification('Deletion failed. Reason: Data not found', 3, state, dispatch);
     }
   };
 
@@ -49,16 +50,22 @@ const DeleteDocumentForm = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <h5>
+                <FormSection
+                  state={state}
+                  statusType="Deletion status"
+                  defaultMessage="To be deleted..."
+                >
                   <strong>Delete Document</strong>
-                </h5>
-                <form onSubmit={handleDeleteDocument} autoComplete="off">
-                  <div style={formRowStyle}>
-                    <label htmlFor="delete-doctype">Select document type to delete: </label>
-                    <DocumentSelection htmlId="delete-doctype" />{' '}
-                    <button type="submit">Delete Document</button>
-                  </div>
-                </form>
+                  <form onSubmit={handleDeleteDocument} autoComplete="off">
+                    <div style={formRowStyle}>
+                      <label htmlFor="delete-doctype">Select document type to delete: </label>
+                      <DocumentSelection htmlId="delete-doctype" />{' '}
+                      <button disabled={state.processing} type="submit">
+                        Delete Document
+                      </button>
+                    </div>
+                  </form>
+                </FormSection>
               </div>
             </div>
           </div>

@@ -2,11 +2,12 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, runNotification } from '../../utils';
-import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
- * UploadDocumentForm Component - Component that generates the form for uploading a specific document type to a user's Solid Pod via Solid Session
+ * UploadDocumentForm Component - Component that generates the form for uploading
+ * a specific document type to a user's Solid Pod via Solid Session
  * @memberof Forms
  * @component
  * @name UploadDocumentForm
@@ -20,18 +21,10 @@ const UploadDocumentForm = () => {
   // Initalized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files) {
-      dispatch({
-        type: 'SET_FILE',
-        payload: event.target.files[0]
-      });
+      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     } else {
-      dispatch({
-        type: 'CLEAR_FILE'
-      });
-      dispatch({
-        type: 'SET_FILE',
-        payload: event.target.files[0]
-      });
+      dispatch({ type: 'CLEAR_FILE' });
+      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     }
   };
 
@@ -41,38 +34,39 @@ const UploadDocumentForm = () => {
   // Event handler for form/document submission to Pod
   const handleFormSubmission = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+    const docType = event.target.document.value;
+    const expirationDate = event.target.date.value;
+    const docDescription = event.target.description.value;
 
     if (!state.file) {
-      runNotification(`Submission failed. Reason: missing file`, 7, state, dispatch);
-      console.log('Submission failed. Reason: missing file');
+      runNotification('Submission failed. Reason: missing file', 2, state, dispatch);
       return;
     }
 
     const fileObject = {
-      type: event.target.document.value,
-      date: event.target.date.value || '01/01/1800',
-      description: event.target.description.value || 'No Description provided',
+      type: docType,
+      date: expirationDate || '01/01/1800',
+      description: docDescription || 'No Description provided',
       file: state.file
     };
 
     try {
       await uploadDocument(session, fileObject);
 
-      runNotification(`Uploading "${fileObject.file.name}" to Solid`, 2, state, dispatch);
+      runNotification(`Uploading "${fileObject.file.name}" to Solid...`, 3, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileObject.file.name}" uploaded to Solid`, 7, state, dispatch);
-      }, 2000);
+        runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
+      }, 3000);
     } catch (_error) {
       runNotification(
-        `Submission failed. Reason: Previous file has already been saved to this type`,
+        'Submission failed. Reason: A previous file has already been saved to this type. Please delete the previous file if you wish to reupload.',
         7,
         state,
         dispatch
       );
-
-      console.log('Submission failed. Reason: Previous file has already been saved to this type');
     }
 
     setTimeout(() => {
@@ -93,42 +87,44 @@ const UploadDocumentForm = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <h5>
-                  <strong>Upload Document</strong>
-                </h5>
-
-                <form onSubmit={handleFormSubmission} autoComplete="off">
-                  <div style={formRowStyle}>
-                    <label htmlFor="upload-doc">Select document type to upload: </label>
-                    <DocumentSelection htmlId="upload-doc" />
-                  </div>
-                  <div style={formRowStyle}>
-                    <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-                    <input id="upload-doc-expiration" name="date" type="date" />
-                  </div>
-                  <div style={formRowStyle}>
-                    <label htmlFor="upload-doc-desc">Enter description: </label>
-                    <br />
-                    <br />
-                    <textarea id="upload-doc-desc" name="description" {...description} />
-                  </div>
-                  <div style={formRowStyle}>
-                    <label htmlFor="upload-doctype">File to upload: </label>
-                    <input
-                      id="upload-doctype"
-                      type="file"
-                      name="file"
-                      accept=".pdf, .docx., .doc, .txt, .rtf"
-                      onChange={handleFileChange}
-                    />
-                    <button type="submit">Upload file</button>
-                  </div>
-                </form>
-                <StatusNotification
-                  notification={state.message}
+                <FormSection
+                  state={state}
                   statusType="Writing status"
                   defaultMessage="To be uploaded..."
-                />
+                >
+                  <strong>Upload Document</strong>
+                  <form onSubmit={handleFormSubmission} autoComplete="off">
+                    <div style={formRowStyle}>
+                      <label htmlFor="upload-doc">Select document type to upload: </label>
+                      <DocumentSelection htmlId="upload-doc" />
+                    </div>
+                    <div style={formRowStyle}>
+                      <label htmlFor="upload-doc-expiration">
+                        Expiration date (if applicable):{' '}
+                      </label>
+                      <input id="upload-doc-expiration" name="date" type="date" />
+                    </div>
+                    <div style={formRowStyle}>
+                      <label htmlFor="upload-doc-desc">Enter description: </label>
+                      <br />
+                      <br />
+                      <textarea id="upload-doc-desc" name="description" {...description} />
+                    </div>
+                    <div style={formRowStyle}>
+                      <label htmlFor="upload-doctype">File to upload: </label>
+                      <input
+                        id="upload-doctype"
+                        type="file"
+                        name="file"
+                        accept=".pdf, .docx., .doc, .txt, .rtf"
+                        onChange={handleFileChange}
+                      />
+                      <button disabled={state.processing} type="submit">
+                        Upload file
+                      </button>
+                    </div>
+                  </form>
+                </FormSection>
               </div>
             </div>
           </div>
