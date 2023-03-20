@@ -31,7 +31,7 @@ import {
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
  * @param {string} otherPodUrl - Url to other user's Pod or empty string
- * @returns {Promise} Promise - Sets permission for otherPodUrl for given document type, if exists
+ * @returns {Promise} Promise - Sets permission for otherPodUrl for given document type, if exists, or null
  */
 
 export const setDocAclPermission = async (session, fileType, accessType, otherPodUrl) => {
@@ -42,14 +42,21 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
   const resourceAcl = getResourceAcl(podResouceWithAcl);
   const webId = `https://${otherPodUrl}/profile/card#me`;
   let accessObject;
-  if (accessType === 'Give') {
-    accessObject = { read: true };
-  } else {
-    accessObject = { read: false };
+  switch (accessType) {
+    case 'Give':
+      accessObject = { read: true };
+      break;
+    case 'Revoke':
+      accessObject = { read: false };
+      break;
+    default:
+      accessObject = { read: false };
+      break;
   }
 
   const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
   await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
+
   console.log(`Permissions for ${fileType} has been set to: "${accessType}"`);
 };
 

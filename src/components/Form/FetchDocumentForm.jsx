@@ -20,6 +20,8 @@ const FetchDocumentForm = () => {
   // Event handler for fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       const documentUrl = await fetchDocuments(session, event.target.document.value, 'self-fetch');
 
@@ -27,16 +29,16 @@ const FetchDocumentForm = () => {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       }
 
-      runNotification(`Locating document...`, 2, state, dispatch);
+      runNotification(`Locating document...`, 3, state, dispatch);
 
       // setTimeout is used to let fetchDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification(`Document found! Document located at: `, 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification(`Search failed. Reason: Document not found`, 7, state, dispatch);
+      runNotification(`Search failed. Reason: Document not found`, 3, state, dispatch);
 
       console.log('Search failed. Reason: Document not found');
     }
@@ -52,7 +54,10 @@ const FetchDocumentForm = () => {
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" /> <button type="submit">Get Document</button>
+          <DocumentSelection htmlId="search-doctype" />{' '}
+          <button disabled={state.processing} type="submit">
+            Get Document
+          </button>
         </div>
       </form>
       <StatusNotification

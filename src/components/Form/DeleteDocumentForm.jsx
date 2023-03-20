@@ -20,19 +20,21 @@ const DeleteDocumentForm = () => {
   // Event handler for deleting document
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     try {
       const documentUrl = await deleteDocumentFile(session, event.target.document.value);
 
-      runNotification('File being deleted from Pod...', 2, state, dispatch);
+      runNotification('File being deleted from Pod...', 3, state, dispatch);
 
       // Solid requires all files to be removed from container before it can be removed
       // setTimeout lets deleteDocumentFile finish removing the files
       setTimeout(() => {
         deleteDocumentContainer(session, documentUrl);
         runNotification('Removing file container from Pod...', 7, state, dispatch);
-      }, 2000);
+      }, 3000);
     } catch (_error) {
-      runNotification('Deletion failed. Reason: Data not found', 7, state, dispatch);
+      runNotification('Deletion failed. Reason: Data not found', 3, state, dispatch);
 
       console.log('Deletion failed. Reason: Data not found');
     }
@@ -49,7 +51,9 @@ const DeleteDocumentForm = () => {
         <div style={formRowStyle}>
           <label htmlFor="delete-doctype">Select document type to delete: </label>
           <DocumentSelection htmlId="delete-doctype" />{' '}
-          <button type="submit">Delete Document</button>
+          <button disabled={state.processing} type="submit">
+            Delete Document
+          </button>
         </div>
       </form>
       <StatusNotification
