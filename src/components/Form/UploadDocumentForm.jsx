@@ -102,7 +102,7 @@ const UploadDocumentForm = () => {
             id="upload-doctype"
             type="file"
             name="uploadDoctype"
-            accept=".pdf,.docx.,.doc"
+            accept=".pdf, .docx, .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
           <button disabled={state.processing} type="submit">
