@@ -10,11 +10,7 @@ import {
   SetAclPermissionForm
 } from './components/Form';
 
-const AppHeader = () => (
-  <header>
-    <h2>Getting Started with PASS</h2>
-  </header>
-);
+const AppHeader = () => <header>{/* <h2>Getting Started with PASS</h2> */}</header>;
 
 const App = () => {
   const { session } = useSession();
