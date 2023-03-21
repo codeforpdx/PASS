@@ -63,7 +63,7 @@ const CrossPodWriteForm = () => {
             id="cross-upload-doctype"
             type="file"
             name="crossUploadDoctype"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
+            accept=".pdf, .docx., .doc"
             onChange={handleFileChange}
           />
           <button type="submit">Upload to Pod</button>
