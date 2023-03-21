@@ -12,8 +12,22 @@ import {
 
 const AppHeader = () => (
   <nav className="teal darken-3" role="navigation">
-    <div className="nav-wrapper container">
-      <h4>Getting Started with PASS</h4>
+    {/* Experimenting with navbar links and menu. These currently do not link to anything */}
+    <div className="nav-wrapper">
+      <a href="/" className="left">
+        <h4>Getting Started with PASS</h4>
+      </a>
+      <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <li>
+          <a href="/">My Files</a>
+        </li>
+        <li>
+          <a href="/">Account</a>
+        </li>
+        <li>
+          <a href="/">Logout</a>
+        </li>
+      </ul>
     </div>
   </nav>
 );

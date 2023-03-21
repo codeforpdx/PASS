@@ -35,14 +35,13 @@ const CrossPodWriteForm = () => {
 
   return (
     <section className="panel">
-      <div className="col s6">
+      <div className="col s12">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                <h5>
-                  <strong>Cross Pod Upload</strong>
-                </h5>
+                <strong>Cross Pod Upload</strong>
+
                 <form onSubmit={handleCrossPodUpload} autoComplete="off">
                   <div style={formRowStyle}>
                     <label htmlFor="cross-upload-doc">

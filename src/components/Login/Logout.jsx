@@ -19,7 +19,6 @@ const Logout = () => {
           <div className="card-stacked">
             <div className="card-content">
               <div className="section no-pad-bot row center">
-                {/* <div className="row"> */}
                 <label id="labelLogout" htmlFor="btnLogout">
                   Click the following logout button to log out of your pod:{' '}
                 </label>
@@ -35,7 +34,6 @@ const Logout = () => {
                   </a>
                   ].
                 </p>
-                {/* </div> */}
               </div>
             </div>
           </div>

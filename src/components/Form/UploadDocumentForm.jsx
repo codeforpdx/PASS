@@ -18,7 +18,7 @@ const UploadDocumentForm = () => {
   // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
-  // Initalized state for file upload
+  // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
@@ -82,7 +82,7 @@ const UploadDocumentForm = () => {
 
   return (
     <section className="panel">
-      <div className="col s6">
+      <div className="col s12">
         <div className="card horizontal">
           <div className="card-stacked">
             <div className="card-content">
