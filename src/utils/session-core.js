@@ -24,7 +24,7 @@ import {
 } from './session-helper';
 
 /**
- * @typedef {import('@inrupt/solid-client').Session} Session
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
 
 /**
@@ -36,7 +36,7 @@ import {
  *
  * @memberof utils
  * @function setDocAclPermission
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods, or "cross-fetch")
  * @param {string} otherPodUrl - Url to other user's Pod or empty string
@@ -69,7 +69,7 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  *
  * @memberof utils
  * @function uploadDocument
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {fileObjectType} fileObject - Object containing information about file from form submission
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
@@ -116,7 +116,7 @@ export const uploadDocument = async (session, fileObject) => {
  *
  * @memberof utils
  * @function fetchDocuments
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
  * or "cross-fetch")
@@ -142,7 +142,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
  *
  * @memberof utils
  * @function deleteDocuments
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {string} fileType - Type of document
  * @returns {Promise} container.url - The URL of document container and the response on
  * whether document file is deleted, if exist, and delete all existing files within it
@@ -169,8 +169,8 @@ export const deleteDocumentFile = async (session, fileType) => {
  *
  * @memberof utils
  * @function deleteDocumentContainer
- * @param {Session} session - Solid Session
- * @param {string} documentUrl - Url of document container
+ * @param {Session} session - Solid's Session Object
+ * @param {string} documentUrl - Url link to document container
  * @returns {Promise} Promise - Perform action that deletes container completely from Pod
  */
 

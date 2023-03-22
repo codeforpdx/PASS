@@ -17,7 +17,7 @@ import {
  */
 
 /**
- * @typedef {import ('@inrupt/solid-client').Session} Session
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
 
 /**
@@ -35,7 +35,7 @@ export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
  *
  * @memberof utils
  * @function placeFileInContainer
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {object} fileObject - Object of file being uploaded to Solid
  * @param {string} containerUrl - URL location of Pod container
  * @returns {Promise} Promise - Places and saves uploaded file onto Solid Pod via a container
@@ -109,7 +109,7 @@ export const hasFiles = (containerUrl) => {
  *
  * @memberof utils
  * @function fetchUrl
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
  * or "cross-fetch")
@@ -164,7 +164,7 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
  *
  * @memberof utils
  * @function createDocAclForUser
- * @param {Session} session - Solid Session
+ * @param {Session} session - Solid's Session Object
  * @param {string} documentUrl - Url link to document container
  * @returns {Promise} Promise - Generates ACL file for container and give user access
  * and control to it and its contents
