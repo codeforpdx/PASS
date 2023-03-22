@@ -2,6 +2,7 @@ const React = require('react');
 
 /**
  * @namespace typedefs
+ * @module typedefs
  */
 
 /**

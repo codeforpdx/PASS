@@ -6,7 +6,14 @@
 
 import { useReducer, useState } from 'react';
 import statusReducer, { initialStatusState } from '../reducers/statusReducer';
-import { useFieldObject, useStatusNotificationObject } from '../typedefs';
+
+/**
+ * @typedef {import('../typedefs').useFieldObject} useFieldObject
+ */
+
+/**
+ * @typedef {import('../typedefs').useStatusNotificationObject} useStatusNotificationObject
+ */
 
 /**
  * Custom hook that provide the value of input element, type attribute of HTML input element,

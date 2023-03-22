@@ -1,4 +1,6 @@
-import { statusNotificationObject } from '../typedefs';
+/**
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ */
 
 /**
  * The reducers module contains Redux-like reducers that assist with status notifications

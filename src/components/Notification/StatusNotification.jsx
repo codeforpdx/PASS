@@ -1,6 +1,9 @@
 import React from 'react';
 import StatusMessage from './StatusMessage';
-import { statusNotificationProps } from '../../typedefs';
+
+/**
+ * @typedef {import("../../typedefs").statusNotificationProps} statusNotificationProps
+ */
 
 /**
  * StatusNotification Component - Component that renders status notification and message

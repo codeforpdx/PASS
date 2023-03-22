@@ -1,5 +1,8 @@
 import React from 'react';
-import { statusNotificationObject } from '../typedefs';
+
+/**
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ */
 
 /**
  * Function that runs status messages provided a message, the duration (time in seconds),

@@ -5,11 +5,20 @@ import {
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess,
-  AclDataset,
-  Access,
-  Session
+  setAgentDefaultAccess
 } from '@inrupt/solid-client';
+
+/**
+ * @typedef {import('@inrupt/solid-client').Access} Access
+ */
+
+/**
+ * @typedef {import('@inrupt/solid-client').AclDataset} AclDataset
+ */
+
+/**
+ * @typedef {import ('@inrupt/solid-client').Session} Session
+ */
 
 /**
  * The URL to a specific Solid Provider

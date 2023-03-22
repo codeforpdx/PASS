@@ -11,8 +11,7 @@ import {
   deleteFile,
   saveAclFor,
   getSolidDatasetWithAcl,
-  getResourceAcl,
-  Session
+  getResourceAcl
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -23,7 +22,14 @@ import {
   hasTTLFiles,
   createDocAclForUser
 } from './session-helper';
-import { fileObjectType } from '../typedefs';
+
+/**
+ * @typedef {import('@inrupt/solid-client').Session} Session
+ */
+
+/**
+ * @typedef {import('../typedefs').fileObjectType} fileObjectType
+ */
 
 /**
  * Function that sets permissions for a user's document container's ACL file

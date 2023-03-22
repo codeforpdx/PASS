@@ -1,6 +1,9 @@
 import React from 'react';
 import { StatusNotification } from '../Notification';
-import { formSectionProps } from '../../typedefs';
+
+/**
+ * @typedef {import('../../typedefs').formSectionProps} formSectionProps
+ */
 
 /**
  * FormSection Component - Component that wraps Form with StatusNotification
