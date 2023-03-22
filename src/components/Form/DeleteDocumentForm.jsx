@@ -35,7 +35,7 @@ const DeleteDocumentForm = () => {
         runNotification('Removing file container from Pod...', 7, state, dispatch);
       }, 3000);
     } catch (_error) {
-      runNotification('Deletion failed. Reason: Data not found', 3, state, dispatch);
+      runNotification('Deletion failed. Reason: Data not found.', 3, state, dispatch);
     }
   };
 
@@ -44,8 +44,12 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Deletion status" defaultMessage="To be deleted...">
-      <strong>Delete Document</strong>
+    <FormSection
+      title="Delete Document"
+      state={state}
+      statusType="Deletion status"
+      defaultMessage="To be deleted..."
+    >
       <form onSubmit={handleDeleteDocument} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="delete-doctype">Select document type to delete: </label>

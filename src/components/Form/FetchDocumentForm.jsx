@@ -39,7 +39,7 @@ const FetchDocumentForm = () => {
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found', 3, state, dispatch);
+      runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
     }
   };
 
@@ -48,8 +48,12 @@ const FetchDocumentForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Search status" defaultMessage="To be searched...">
-      <strong>Search Document</strong>
+    <FormSection
+      title="Search Document"
+      state={state}
+      statusType="Search status"
+      defaultMessage="To be searched..."
+    >
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">Select document type to search: </label>

@@ -79,8 +79,12 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Writing status" defaultMessage="To be uploaded...">
-      <strong>Upload Document</strong>
+    <FormSection
+      title="Upload Document"
+      state={state}
+      statusType="Writing status"
+      defaultMessage="To be uploaded..."
+    >
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="upload-doc">Select document type to upload: </label>

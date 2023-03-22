@@ -16,7 +16,7 @@ import React from 'react';
  */
 
 const StatusMessage = ({ notification, locationUrl }) => {
-  if (notification) {
+  if (locationUrl) {
     return (
       <dd className="labelStatus" role="alert">
         {notification}{' '}

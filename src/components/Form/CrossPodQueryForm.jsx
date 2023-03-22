@@ -45,7 +45,7 @@ const CrossPodQueryForm = () => {
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found', 3, state, dispatch);
+      runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
     }
   };
 
@@ -54,8 +54,12 @@ const CrossPodQueryForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Search status" defaultMessage="To be searched...">
-      <strong>Cross Pod Search</strong>
+    <FormSection
+      title="Cross Pod Search"
+      state={state}
+      statusType="Search status"
+      defaultMessage="To be searched..."
+    >
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doc">
