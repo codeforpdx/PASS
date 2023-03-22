@@ -1,17 +1,20 @@
+import React from 'react';
+
 /**
- * @typedef {import("../reducers/statusReducer").statusNotificationObject} statusNotificationObject
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
  */
 
 /**
  * Function that runs status messages provided a message, the duration (time in seconds),
  * the timeoutID of previous message (if exist), and the useReducer dispatch function
+ *
  * @memberof utils
  * @function runNotification
- * @param {String} message - File status message for upload, fetch, or delete file
- * @param {Number} time - Duration of message in seconds
- * @param {statusNotificationObject} state - useStatusNotificationObject
+ * @param {string} message - File status message for upload, fetch, or delete file
+ * @param {number} time - Duration of message in seconds
+ * @param {statusNotificationObject} state - The {@link statusNotificationObject}
  * @param {React.DispatchWithoutAction} dispatch - useStatusNotification dispatch function
- * @returns {Void} Void - Status message is displayed via dispatch call
+ * @returns {void} Void - Status message is displayed via dispatch call
  */
 
 const runNotification = (

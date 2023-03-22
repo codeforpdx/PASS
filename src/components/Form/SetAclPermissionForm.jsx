@@ -8,8 +8,8 @@ import FormSection from './FormSection';
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
  * document ACL permissions to another user's Solid Pod via Solid Session
+ *
  * @memberof Forms
- * @component
  * @name SetAclPermissionForm
  */
 
@@ -64,8 +64,12 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Permission status" defaultMessage="To be set...">
-      <strong>Permission to Files</strong>
+    <FormSection
+      title="Permission to Files"
+      state={state}
+      statusType="Permission status"
+      defaultMessage="To be set..."
+    >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="set-acl-to">

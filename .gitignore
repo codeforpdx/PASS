@@ -2,4 +2,4 @@
 .DS_Store
 /docs
 !/docs/README.md
-
+/dist
