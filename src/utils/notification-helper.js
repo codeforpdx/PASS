@@ -1,5 +1,11 @@
 /**
- * @typedef {import("../reducers/statusReducer").statusNotificationObject} statusNotificationObject
+ * @typedef {Object} statusNotificationObject
+ * @property {String|null} documentUrl - Url link to document container
+ * @property {String} message - Status message for file upload, query, or deletion
+ * @property {String|null} timeoutID - Timeout ID for status message
+ * @property {Object|null} file - Object that includes file in question
+ * @property {Boolean} processing - Boolean on whether application is uploading,
+ * fetching, querying data from Solid
  */
 
 /**

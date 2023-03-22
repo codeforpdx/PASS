@@ -4,9 +4,6 @@
  */
 
 /**
- * Initial state for useStatusNotification hook
- * @memberof reducers
- * @name initialStatusState
  * @typedef {Object} statusNotificationObject
  * @property {String|null} documentUrl - Url link to document container
  * @property {String} message - Status message for file upload, query, or deletion
@@ -14,6 +11,13 @@
  * @property {Object|null} file - Object that includes file in question
  * @property {Boolean} processing - Boolean on whether application is uploading,
  * fetching, querying data from Solid
+ */
+
+/**
+ * Initial state for useStatusNotification hook
+ * @memberof reducers
+ * @name initialStatusState
+ * @type {statusNotificationObject}
  */
 
 export const initialStatusState = {
