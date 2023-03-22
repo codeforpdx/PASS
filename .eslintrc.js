@@ -4,14 +4,14 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'plugin:jsdoc/recommended'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
     },
     ecmaVersion: 14
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'jsdoc'],
   rules: {
     'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
     'react/jsx-props-no-spreading': 'off',

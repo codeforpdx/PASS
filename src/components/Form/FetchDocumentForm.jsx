@@ -8,8 +8,8 @@ import FormSection from './FormSection';
 /**
  * FetchDocumentForm Component - Component that generates the form for searching
  * a specific document type from a user's Solid Pod via Solid Session
+ *
  * @memberof Forms
- * @component
  * @name FetchDocumentForm
  */
 

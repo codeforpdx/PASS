@@ -1,23 +1,17 @@
-/**
- * @typedef {Object} statusNotificationObject
- * @property {String|null} documentUrl - Url link to document container
- * @property {String} message - Status message for file upload, query, or deletion
- * @property {String|null} timeoutID - Timeout ID for status message
- * @property {Object|null} file - Object that includes file in question
- * @property {Boolean} processing - Boolean on whether application is uploading,
- * fetching, querying data from Solid
- */
+import React from 'react';
+import { statusNotificationObject } from '../typedefs';
 
 /**
  * Function that runs status messages provided a message, the duration (time in seconds),
  * the timeoutID of previous message (if exist), and the useReducer dispatch function
+ *
  * @memberof utils
  * @function runNotification
- * @param {String} message - File status message for upload, fetch, or delete file
- * @param {Number} time - Duration of message in seconds
- * @param {statusNotificationObject} state - useStatusNotificationObject
+ * @param {string} message - File status message for upload, fetch, or delete file
+ * @param {number} time - Duration of message in seconds
+ * @param {statusNotificationObject} state - The {@link statusNotificationObject}
  * @param {React.DispatchWithoutAction} dispatch - useStatusNotification dispatch function
- * @returns {Void} Void - Status message is displayed via dispatch call
+ * @returns {void} Void - Status message is displayed via dispatch call
  */
 
 const runNotification = (

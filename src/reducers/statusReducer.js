@@ -1,20 +1,14 @@
+import { statusNotificationObject } from '../typedefs';
+
 /**
  * The reducers module contains Redux-like reducers that assist with status notifications
+ *
  * @namespace reducers
  */
 
 /**
- * @typedef {Object} statusNotificationObject
- * @property {String|null} documentUrl - Url link to document container
- * @property {String} message - Status message for file upload, query, or deletion
- * @property {String|null} timeoutID - Timeout ID for status message
- * @property {Object|null} file - Object that includes file in question
- * @property {Boolean} processing - Boolean on whether application is uploading,
- * fetching, querying data from Solid
- */
-
-/**
  * Initial state for useStatusNotification hook
+ *
  * @memberof reducers
  * @name initialStatusState
  * @type {statusNotificationObject}
@@ -31,10 +25,10 @@ export const initialStatusState = {
 /**
  * @memberof reducers
  * @function statusReducer
- * @param {statusNotificationObject} state - The state for status notification
- * @param {Object} action - useReducer Object for useReducer hook containing
+ * @param {statusNotificationObject} state - The state for status notification {@link statusNotificationObject}
+ * @param {object} action - useReducer Object for useReducer hook containing
  * action.payload for useStatusNotification hook
- * @return {statusNotificationObject} state - The updated state based on useReducer action
+ * @returns {statusNotificationObject} state - The updated state based on useReducer action
  */
 
 const statusReducer = (state, action) => {

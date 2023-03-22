@@ -5,24 +5,30 @@ import {
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess
+  setAgentDefaultAccess,
+  AclDataset,
+  Access,
+  Session
 } from '@inrupt/solid-client';
 
 /**
  * The URL to a specific Solid Provider
+ *
  * @name SOLID_IDENTITY_PROVIDER
- * @type {String}
+ * @type {string}
+ * @memberof utils
  */
 
 export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a Solid container
+ *
  * @memberof utils
  * @function placeFileInContainer
  * @param {Session} session - Solid Session
- * @param {Object} fileObject - Object of file being uploaded to Solid
- * @param {String} containerUrl - URL location of Pod container
+ * @param {object} fileObject - Object of file being uploaded to Solid
+ * @param {string} containerUrl - URL location of Pod container
  * @returns {Promise} Promise - Places and saves uploaded file onto Solid Pod via a container
  */
 
@@ -36,10 +42,11 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
 
 /**
  * Function that checks if container URL contains TTL files
+ *
  * @memberof utils
  * @function hasTTLFiles
- * @param {String} containerUrl - URL of a Solid container
- * @returns {Object|null} ttlFiles or null - An object of the first ttl file in location or null,
+ * @param {string} containerUrl - URL of a Solid container
+ * @returns {object|null} ttlFiles or null - An object of the first ttl file in location or null,
  * if the ttl file does not exist
  */
 
@@ -59,9 +66,10 @@ export const hasTTLFiles = (containerUrl) => {
 
 /**
  * Function checks if container URL contains any files
+ *
  * @memberof utils
  * @function hasFiles
- * @param {String} containerUrl - URL of location in question
+ * @param {string} containerUrl - URL of location in question
  * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the
  * directory container and the rest of the files or null
  */
@@ -89,14 +97,15 @@ export const hasFiles = (containerUrl) => {
 /**
  * Function that returns the location of the Solid container containing a specific file type,
  * if exist on user's Pod
+ *
  * @memberof utils
  * @function fetchUrl
  * @param {Session} session - Solid Session
- * @param {String} fileType - Type of document
- * @param {String} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
+ * @param {string} fileType - Type of document
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to other Pods,
  * or "cross-fetch")
- * @param {String} otherPodUrl - Url to other user's Pod or empty string
- * @returns {String|null} url or null - A url of where the container that stores the file
+ * @param {string} otherPodUrl - Url to other user's Pod or empty string
+ * @returns {string|null} url or null - A url of where the container that stores the file
  * is located in or null, if container doesn't exist
  */
 
@@ -122,10 +131,11 @@ export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
 
 /**
  * Function that setups ACL permissions for a Solid dataset or resource with an ACL file
+ *
  * @memberof utils
  * @function setupAcl
  * @param {AclDataset} resourceWithAcl - A Solid Session Dataset with ACL file
- * @param {String} webId - Solid webId
+ * @param {string} webId - Solid webId
  * @param {Access} accessObject - Solid Access Object which sets ACL permission for
  * read, append, write, and control
  * @returns {AclDataset} - Solid Session Dataset with updated ACL file
@@ -142,10 +152,11 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
 /**
  * Function that generates ACL file for container containing a specific document type
  * and turtle file and give the user access and control to the Solid container
+ *
  * @memberof utils
  * @function createDocAclForUser
  * @param {Session} session - Solid Session
- * @param {String} documentUrl - Url link to document container
+ * @param {string} documentUrl - Url link to document container
  * @returns {Promise} Promise - Generates ACL file for container and give user access
  * and control to it and its contents
  */
