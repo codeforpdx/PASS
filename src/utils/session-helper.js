@@ -44,7 +44,6 @@ export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
 export const placeFileInContainer = async (session, fileObject, containerUrl) => {
   await saveFileInContainer(containerUrl, fileObject.file, {
     slug: fileObject.file.name,
-    contentType: fileObject.type,
     fetch: session.fetch
   });
 };
@@ -74,17 +73,17 @@ export const hasTTLFiles = (containerUrl) => {
 };
 
 /**
- * Function checks if container URL contains any files
+ * Function checks if Solid dataset on Pod contains any files
  *
  * @memberof utils
  * @function hasFiles
- * @param {string} containerUrl - URL of location in question
+ * @param {string} solidDataset - Solid's dataset object on Pod
  * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the
  * directory container and the rest of the files or null
  */
 
-export const hasFiles = (containerUrl) => {
-  const items = getThingAll(containerUrl);
+export const hasFiles = (solidDataset) => {
+  const items = getThingAll(solidDataset);
   if (!items) {
     return null;
   }

@@ -11,7 +11,10 @@ import {
   deleteFile,
   saveAclFor,
   getSolidDatasetWithAcl,
-  getResourceAcl
+  getResourceAcl,
+  getThingAll,
+  overwriteFile,
+  getThing
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -80,34 +83,46 @@ export const uploadDocument = async (session, fileObject) => {
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
   const storedFile = await placeFileInContainer(session, fileObject, documentUrl);
-  const getDatasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
+  const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
-  const ttlFile = hasTTLFiles(getDatasetFromUrl);
-  const toBeUpdated = buildThing(createThing({ name: storedFile }))
+  const ttlFile = hasTTLFiles(datasetFromUrl);
+  const ttlFileDescription = buildThing(createThing({ name: storedFile }))
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
     .build();
 
-  let myDataset;
   if (ttlFile !== null) {
-    myDataset = await getSolidDataset(ttlFile, { fetch: session.fetch });
-    myDataset = setThing(myDataset, toBeUpdated);
-
-    await saveSolidDatasetAt(ttlFile, documentUrl, myDataset, {
-      fetch: session.fetch
-    });
+    throw new Error('Container already exist.');
   } else {
-    let courseSolidDataset = createSolidDataset();
-    courseSolidDataset = setThing(courseSolidDataset, toBeUpdated);
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, ttlFileDescription);
 
-    await saveSolidDatasetInContainer(documentUrl, courseSolidDataset, {
+    await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
       fetch: session.fetch
     });
 
     await createDocAclForUser(session, documentUrl);
   }
+};
+
+export const updateDocument = async (session, fileObject) => {
+  const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
+  let datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
+
+  const [, files] = hasFiles(datasetFromUrl);
+  const fileToUpdate = files.find((file) => file.url.slice(-3) !== 'ttl');
+  const updatedFile = await overwriteFile(fileToUpdate.url, fileObject.file, {
+    fetch: session.fetch
+  });
+
+  const ttlFileDescription = buildThing(createThing({ name: updatedFile }))
+    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .build();
+
+  datasetFromUrl = setThing(datasetFromUrl, ttlFileDescription);
 };
 
 /**

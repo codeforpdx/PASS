@@ -4,6 +4,7 @@ import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, runNotification } from '../../utils';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { updateDocument } from '../../utils/session-core';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -59,12 +60,19 @@ const UploadDocumentForm = () => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
     } catch (_error) {
-      runNotification(
+      /* runNotification(
         'Submission failed. Reason: A previous file has already been saved to this type. Please delete the previous file if you wish to reupload.',
         7,
         state,
         dispatch
-      );
+      ); */
+      updateDocument(session, fileObject);
+
+      runNotification(`Updating file on Solid...`, 3, state, dispatch);
+
+      setTimeout(() => {
+        runNotification(`File "${fileObject.file.name}" updated on Solid.`, 7, state, dispatch);
+      }, 3000);
     }
 
     setTimeout(() => {
