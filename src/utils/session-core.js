@@ -12,7 +12,6 @@ import {
   getSolidDatasetWithAcl,
   getResourceAcl,
   overwriteFile,
-  getDatetime,
   saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
@@ -125,19 +124,19 @@ export const updateDocument = async (session, fileObject) => {
   }
 
   // Fetching and updating ttl file from container
-  // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  // console.log(solidDataset);
-  // let ttlFile = hasTTLFiles(solidDataset);
+  let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
+  console.log(solidDataset);
+  let ttlFile = hasTTLFiles(solidDataset);
 
-  // ttlFile = buildThing(ttlFile)
-  //   .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-  //   .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-  //   .build();
+  ttlFile = buildThing(ttlFile)
+    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .build();
 
-  // solidDataset = setThing(solidDataset, ttlFile);
-  // console.log(solidDataset);
+  solidDataset = setThing(solidDataset, ttlFile);
+  console.log(solidDataset);
 
-  // await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
+  await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
 };
 
 /**

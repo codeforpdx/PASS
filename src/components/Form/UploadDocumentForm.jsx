@@ -60,13 +60,17 @@ const UploadDocumentForm = () => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
     } catch {
-      await updateDocument(session, fileObject);
+      try {
+        await updateDocument(session, fileObject);
 
-      runNotification(`Updating file on Solid...`, 3, state, dispatch);
+        runNotification('Updating file on Solid...', 3, state, dispatch);
 
-      setTimeout(() => {
-        runNotification(`File "${fileObject.file.name}" updated on Solid.`, 7, state, dispatch);
-      }, 3000);
+        setTimeout(() => {
+          runNotification(`File "${fileObject.file.name}" updated on Solid.`, 7, state, dispatch);
+        }, 3000);
+      } catch {
+        runNotification('Update failed. Reason: Bad request', 3, state, dispatch);
+      }
     }
 
     setTimeout(() => {
