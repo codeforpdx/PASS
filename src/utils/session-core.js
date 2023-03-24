@@ -11,9 +11,9 @@ import {
   saveAclFor,
   getSolidDatasetWithAcl,
   getResourceAcl,
-  overwriteFile
-  // saveSolidDatasetAt,
-  // getThing
+  overwriteFile,
+  getDatetime,
+  saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -90,7 +90,7 @@ export const uploadDocument = async (session, fileObject) => {
 
   await placeFileInContainer(session, fileObject, documentUrl);
   const newTtlFile = buildThing(createThing({ name: 'document' }))
-    .addDatetime('https://schema.org/firstUploadedAt', new Date())
+    .addDatetime('https://schema.org/uploadDate', new Date())
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
@@ -117,22 +117,26 @@ export const uploadDocument = async (session, fileObject) => {
 
 export const updateDocument = async (session, fileObject) => {
   const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
-  await overwriteFile(`${documentUrl}${fileObject.file.name}`, fileObject.file, {
-    fetch: session.fetch
-  });
+
+  if (window.confirm(`File ${fileObject.file.name} exist on Solid, do you wish to update it?`)) {
+    await overwriteFile(`${documentUrl}${fileObject.file.name}`, fileObject.file, {
+      fetch: session.fetch
+    });
+  }
 
   // Fetching and updating ttl file from container
   // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
   // console.log(solidDataset);
-  //
-  // let datasetThing = getThing(solidDataset, documentUrl);
-  // datasetThing = buildThing(datasetThing)
-  //  .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-  //  .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-  //  .build();
-  //
-  // solidDataset = setThing(solidDataset, datasetThing);
-  //
+  // let ttlFile = hasTTLFiles(solidDataset);
+
+  // ttlFile = buildThing(ttlFile)
+  //   .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+  //   .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+  //   .build();
+
+  // solidDataset = setThing(solidDataset, ttlFile);
+  // console.log(solidDataset);
+
   // await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
 };
 

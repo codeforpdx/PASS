@@ -45,8 +45,8 @@ const UploadDocumentForm = () => {
 
     const fileObject = {
       type: docType,
-      date: expirationDate || '01/01/1800',
-      description: docDescription || 'No Description provided',
+      date: expirationDate || 'Not available',
+      description: docDescription || 'No description provided',
       file: state.file
     };
 
