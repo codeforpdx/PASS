@@ -59,14 +59,8 @@ const UploadDocumentForm = () => {
       setTimeout(() => {
         runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
-    } catch (_error) {
-      /* runNotification(
-        'Submission failed. Reason: A previous file has already been saved to this type. Please delete the previous file if you wish to reupload.',
-        7,
-        state,
-        dispatch
-      ); */
-      updateDocument(session, fileObject);
+    } catch {
+      await updateDocument(session, fileObject);
 
       runNotification(`Updating file on Solid...`, 3, state, dispatch);
 

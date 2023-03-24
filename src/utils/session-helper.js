@@ -53,13 +53,13 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  *
  * @memberof utils
  * @function hasTTLFiles
- * @param {string} containerUrl - URL of a Solid container
+ * @param {string} solidDataset - Solid's dataset object on Pod
  * @returns {object|null} ttlFiles or null - An object of the first ttl file in location or null,
  * if the ttl file does not exist
  */
 
-export const hasTTLFiles = (containerUrl) => {
-  const items = getThingAll(containerUrl);
+export const hasTTLFiles = (solidDataset) => {
+  const items = getThingAll(solidDataset);
   if (!items) {
     return null;
   }

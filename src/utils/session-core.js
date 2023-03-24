@@ -4,7 +4,6 @@ import {
   createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt,
   createSolidDataset,
   saveSolidDatasetInContainer,
   deleteContainer,
@@ -12,9 +11,9 @@ import {
   saveAclFor,
   getSolidDatasetWithAcl,
   getResourceAcl,
-  getThingAll,
-  overwriteFile,
-  getThing
+  overwriteFile
+  // saveSolidDatasetAt,
+  // getThing
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -82,47 +81,59 @@ export const uploadDocument = async (session, fileObject) => {
   const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
-  const storedFile = await placeFileInContainer(session, fileObject, documentUrl);
   const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-
   const ttlFile = hasTTLFiles(datasetFromUrl);
-  const ttlFileDescription = buildThing(createThing({ name: storedFile }))
+
+  if (ttlFile) {
+    throw new Error('Container already exist. Updating files inside...');
+  }
+
+  await placeFileInContainer(session, fileObject, documentUrl);
+  const newTtlFile = buildThing(createThing({ name: 'document' }))
+    .addDatetime('https://schema.org/firstUploadedAt', new Date())
     .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
     .build();
 
-  if (ttlFile !== null) {
-    throw new Error('Container already exist.');
-  } else {
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, ttlFileDescription);
+  let newSolidDataset = createSolidDataset();
+  newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
-    await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
-      fetch: session.fetch
-    });
+  await saveSolidDatasetInContainer(documentUrl, newSolidDataset, { fetch: session.fetch });
 
-    await createDocAclForUser(session, documentUrl);
-  }
+  await createDocAclForUser(session, documentUrl);
 };
+
+/**
+ * Function that update file to Pod on Solid
+ *
+ * @memberof utils
+ * @function updateDocument
+ * @param {Session} session - Solid's Session Object
+ * @param {fileObjectType} fileObject - Object containing information about file from form submission
+ * @returns {Promise} Promise - File update is handled via Solid libraries
+ */
 
 export const updateDocument = async (session, fileObject) => {
   const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
-  let datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-  const [, files] = hasFiles(datasetFromUrl);
-  const fileToUpdate = files.find((file) => file.url.slice(-3) !== 'ttl');
-  const updatedFile = await overwriteFile(fileToUpdate.url, fileObject.file, {
+  await overwriteFile(`${documentUrl}${fileObject.file.name}`, fileObject.file, {
     fetch: session.fetch
   });
 
-  const ttlFileDescription = buildThing(createThing({ name: updatedFile }))
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .build();
-
-  datasetFromUrl = setThing(datasetFromUrl, ttlFileDescription);
+  // Fetching and updating ttl file from container
+  // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
+  // console.log(solidDataset);
+  //
+  // let datasetThing = getThing(solidDataset, documentUrl);
+  // datasetThing = buildThing(datasetThing)
+  //  .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+  //  .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+  //  .build();
+  //
+  // solidDataset = setThing(solidDataset, datasetThing);
+  //
+  // await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
 };
 
 /**
