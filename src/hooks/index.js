@@ -45,7 +45,7 @@ export const useField = (type) => {
 };
 
 /**
- * Custom hook that provide the useStatusNotificationObject as the state and a
+ * Custom hook that provide the statusNotificationObject as the state and a
  * useReducer dispatch function to alter the state
  *
  * @memberof hooks
