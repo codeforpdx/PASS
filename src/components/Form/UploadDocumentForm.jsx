@@ -1,10 +1,9 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
-import { uploadDocument, runNotification } from '../../utils';
+import { uploadDocument, updateDocument, runNotification } from '../../utils';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { updateDocument } from '../../utils/session-core';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading

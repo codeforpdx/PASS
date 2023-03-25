@@ -83,10 +83,12 @@ export const uploadDocument = async (session, fileObject) => {
   const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
   const ttlFile = hasTTLFiles(datasetFromUrl);
 
+  // Guard clause will throw function if container already exist with ttl file
   if (ttlFile) {
     throw new Error('Container already exist. Updating files inside...');
   }
 
+  // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, documentUrl);
   const newTtlFile = buildThing(createThing({ name: 'document' }))
     .addDatetime('https://schema.org/uploadDate', new Date())
@@ -101,6 +103,7 @@ export const uploadDocument = async (session, fileObject) => {
 
   await saveSolidDatasetInContainer(documentUrl, newSolidDataset, { fetch: session.fetch });
 
+  // Generate ACL file for container
   await createDocAclForUser(session, documentUrl);
 };
 

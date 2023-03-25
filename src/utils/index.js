@@ -11,6 +11,7 @@ import docTypes from './form-helper';
 import runNotification from './notification-helper';
 import {
   uploadDocument,
+  updateDocument,
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
@@ -23,6 +24,7 @@ export {
   runNotification,
   SOLID_IDENTITY_PROVIDER,
   uploadDocument,
+  updateDocument,
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
