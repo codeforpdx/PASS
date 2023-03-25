@@ -8,6 +8,10 @@ import { useReducer, useState } from 'react';
 import statusReducer, { initialStatusState } from '../reducers/statusReducer';
 
 /**
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ */
+
+/**
  * @typedef {import('../typedefs').useFieldObject} useFieldObject
  */
 
@@ -22,7 +26,8 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  * @memberof hooks
  * @function useField
  * @param {string} type - Type attribute of HTML input element
- * @returns {useFieldObject} useFieldObject - An object that contains { type, value, onChange, clearValue }
+ * @returns {useFieldObject} useFieldObject - An object that contains { type, value,
+ * onChange, clearValue } (see {@link useFieldObject})
  */
 
 export const useField = (type) => {
@@ -51,7 +56,8 @@ export const useField = (type) => {
  * @memberof hooks
  * @function useStatusNotification
  * @returns {useStatusNotificationObject} useStatusNotificationObject - An object that
- * contains the StatusNotification state and React's useReducer dispatch function
+ * contains the StatusNotification state (see {@link statusNotificationObject}) and
+ * React's useReducer dispatch function
  */
 
 export const useStatusNotification = () => {

@@ -11,8 +11,9 @@ import StatusMessage from './StatusMessage';
  *
  * @memberof Notifications
  * @name StatusNotification
- * @param {statusNotificationProps} statusNotificationProps - A react prop that consist of notification,
- * statusType, defaultMessage, and locationUrl, which is optional (see {@link statusNotificationProps})
+ * @param {statusNotificationProps} statusNotificationProps - A react prop that consist
+ * of notification, statusType, defaultMessage, and locationUrl, which is optional
+ * (see {@link statusNotificationProps})
  */
 
 const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (

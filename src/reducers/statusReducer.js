@@ -13,7 +13,7 @@
  *
  * @memberof reducers
  * @name initialStatusState
- * @type {statusNotificationObject}
+ * @type {statusNotificationObject} (see {@link statusNotificationObject})
  */
 
 export const initialStatusState = {
@@ -27,7 +27,8 @@ export const initialStatusState = {
 /**
  * @memberof reducers
  * @function statusReducer
- * @param {statusNotificationObject} state - The state for status notification {@link statusNotificationObject}
+ * @param {statusNotificationObject} state - The state for status notification (see
+ * {@link statusNotificationObject})
  * @param {object} action - useReducer Object for useReducer hook containing
  * action.payload for useStatusNotification hook
  * @returns {statusNotificationObject} state - The updated state based on useReducer action
