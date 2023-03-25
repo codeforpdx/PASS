@@ -21,6 +21,10 @@ import {
  */
 
 /**
+ * @typedef {import('@inrupt/solid-client').SolidDataset} SolidDataset
+ */
+
+/**
  * The URL to a specific Solid Provider
  *
  * @name SOLID_IDENTITY_PROVIDER
@@ -53,7 +57,7 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  *
  * @memberof utils
  * @function hasTTLFiles
- * @param {string} solidDataset - Solid's dataset object on Pod
+ * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
  * @returns {object|null} ttlFiles or null - An object of the first ttl file in location or null,
  * if the ttl file does not exist
  */
@@ -77,7 +81,7 @@ export const hasTTLFiles = (solidDataset) => {
  *
  * @memberof utils
  * @function hasFiles
- * @param {string} solidDataset - Solid's dataset object on Pod
+ * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
  * @returns {Array|null} [directory, files] or null - an Array of Objects consisting of the
  * directory container and the rest of the files or null
  */
