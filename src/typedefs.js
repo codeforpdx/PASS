@@ -24,7 +24,7 @@ const React = require('react');
  * @property {string} notification - File status message
  * @property {string} statusType - Type of file status (i.e. file upload, file fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not triggered
- * @property {string} [locationUrl] - URL location of file, if exist
+ * @property {URL} [locationUrl] - URL location of file, if exist
  * @memberof typedefs
  */
 
@@ -49,7 +49,7 @@ const React = require('react');
  * @exports statusNotificationObject
  * @typedef statusNotificationObject
  * @type {object}
- * @property {string|null} documentUrl - Url link to document container
+ * @property {URL|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
  * @property {object|null} file - Object that includes file in question
@@ -66,7 +66,7 @@ const React = require('react');
  * @typedef useStatusNotificationObject
  * @type {object}
  * @property {statusNotificationObject} statusNotificationObject - An object consisting of the
- * state for status notifications
+ * state for status notifications (see {@link statusNotificationObject})
  * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch function
  * @memberof typedefs
  */
@@ -91,7 +91,8 @@ const React = require('react');
  * @typedef formSectionProps
  * @type {object}
  * @property {string} title - Title of form section
- * @property {statusNotificationObject} state - The state for status notification
+ * @property {statusNotificationObject} state - The state for status notification (see
+ * {@link statusNotificationObject})
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
  * @property {React.ReactElement} children - JSX Element of the wrapped form
