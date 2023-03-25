@@ -1,6 +1,11 @@
 # Changelog
 
-## v0.0.2 (March 22, 2023)
+## v0.0.2 (March 25, 2023)
+
+## Features
+
+- Added ability to update user's file on their Pod
+- Added confirmation window for updating user file on their Pod
 
 ## Fixes
 
@@ -8,11 +13,15 @@
 
 ## Dev Changes
 
+- Refactored UploadDocumentForm to perform both uploadDocument and updateDocument functions
+- Added updateDocument function in session-core.js for updating documents on user's Pod
+- Included typedefs.js to define type definitions for JSDoc
 - Refactored FormSection to include section title instead of inside its children component (#66)
 - Reformatted JSDoc to follow recommended linting rules from ESLint plugin for JSDoc (#66)
 
 ## Others
 
+- Correcting typos and typing for JSDoc
 - Deployed PASS to GitHub Pages with the link [https://codeforpdx.github.io/PASS/](https://codeforpdx.github.io/PASS/) (domain name will change in future updates) (#59)
 
 ---
