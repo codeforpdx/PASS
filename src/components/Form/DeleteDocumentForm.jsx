@@ -33,9 +33,11 @@ const DeleteDocumentForm = () => {
       setTimeout(() => {
         deleteDocumentContainer(session, documentUrl);
         runNotification('Removing file container from Pod...', 7, state, dispatch);
+        dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 

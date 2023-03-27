@@ -122,17 +122,38 @@ export const uploadDocument = async (session, fileObject) => {
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - File update is handled via Solid libraries
+ * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod, updates the file if
+ * confirmed, or if file doesn't exist, uploads new file to Solid Pod if confirmed
  */
 
 export const updateDocument = async (session, fileObject) => {
   const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
+  const fileName = fileObject.file.name;
+  const solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
-  if (window.confirm(`File ${fileObject.file.name} exist on Solid, do you wish to update it?`)) {
-    await overwriteFile(`${documentUrl}${fileObject.file.name}`, fileObject.file, {
-      fetch: session.fetch
-    });
+  // Checks for file in Solid Pod
+  const [, files] = hasFiles(solidDataset);
+  const fileExist = files.map((file) => file.url).includes(`${documentUrl}${fileName}`);
+
+  if (fileExist) {
+    if (window.confirm(`File ${fileName} exist in Pod container, do you wish to update it?`)) {
+      await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+    } else {
+      throw new Error('File update cancelled.');
+    }
+
+    return fileExist;
   }
+
+  if (
+    window.confirm(`File ${fileName} does not exist in Pod container, do you wish to upload it?`)
+  ) {
+    await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+  } else {
+    throw new Error('New file upload cancelled.');
+  }
+
+  return fileExist;
 
   // Fetching and updating ttl file from container
   // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });

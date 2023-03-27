@@ -39,7 +39,6 @@ const runNotification = (
   const timeout = setTimeout(() => {
     dispatch({ type: 'CLEAR_MESSAGE' });
     dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-    dispatch({ type: 'CLEAR_PROCESSING' });
   }, time * 1000);
 
   dispatch({ type: 'SET_TIMEOUT_ID', payload: timeout });

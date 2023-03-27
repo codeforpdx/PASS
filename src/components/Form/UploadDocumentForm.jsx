@@ -49,31 +49,40 @@ const UploadDocumentForm = () => {
       file: state.file
     };
 
+    const fileName = fileObject.file.name;
+
     try {
       await uploadDocument(session, fileObject);
 
-      runNotification(`Uploading "${fileObject.file.name}" to Solid...`, 3, state, dispatch);
+      runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
+        runNotification(`File "${fileName}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
     } catch {
       try {
-        await updateDocument(session, fileObject);
+        const fileExist = await updateDocument(session, fileObject);
 
-        runNotification('Updating file on Solid...', 3, state, dispatch);
+        runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
-        setTimeout(() => {
-          runNotification(`File "${fileObject.file.name}" updated on Solid.`, 7, state, dispatch);
-        }, 3000);
-      } catch {
-        runNotification('Update failed. Reason: Bad request', 3, state, dispatch);
+        if (fileExist) {
+          setTimeout(() => {
+            runNotification(`File "${fileName}" updated on Solid.`, 7, state, dispatch);
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            runNotification(`File "${fileName}" uploaded on Solid.`, 7, state, dispatch);
+          }, 3000);
+        }
+      } catch (error) {
+        runNotification(`Operation failed. Reason: ${error.message}`, 3, state, dispatch);
       }
     }
 
     setTimeout(() => {
       dispatch({ type: 'CLEAR_FILE' });
+      dispatch({ type: 'CLEAR_PROCESSING' });
       event.target.uploadDoctype.value = '';
       clearDescription();
     }, 7000);
