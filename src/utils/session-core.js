@@ -11,8 +11,8 @@ import {
   saveAclFor,
   getSolidDatasetWithAcl,
   getResourceAcl,
-  overwriteFile,
-  saveSolidDatasetAt
+  overwriteFile
+  // saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -102,6 +102,7 @@ export const uploadDocument = async (session, fileObject) => {
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
+  // Generate document.ttl file for container
   await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
     slugSuggestion: 'document.ttl',
     fetch: session.fetch
