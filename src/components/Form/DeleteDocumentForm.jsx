@@ -6,8 +6,8 @@ import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
 /**
- * DeleteDocumentForm Component - Component that generates the form for
- * deleting a specific document type from a user's Solid Pod via Solid Session
+ * DeleteDocumentForm Component - Component that generates the form for deleting
+ * a specific document type from a user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name DeleteDocumentForm
@@ -28,8 +28,8 @@ const DeleteDocumentForm = () => {
 
       runNotification('File being deleted from Pod...', 3, state, dispatch);
 
-      // Solid requires all files to be removed from container before it can be removed
-      // setTimeout lets deleteDocumentFile finish removing the files
+      // Solid requires all files to be removed from container before it can be
+      // removed setTimeout lets deleteDocumentFile finish removing the files
       setTimeout(() => {
         deleteDocumentContainer(session, documentUrl);
         runNotification('Removing file container from Pod...', 7, state, dispatch);

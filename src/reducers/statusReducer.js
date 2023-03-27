@@ -3,17 +3,19 @@
  */
 
 /**
- * The reducers module contains Redux-like reducers that assist with status notifications
+ * The reducers module contains Redux-like reducers that assist with status
+ * notifications
  *
  * @namespace reducers
  */
 
 /**
- * Initial state for useStatusNotification hook
+ * Initial state for useStatusNotification hook (see
+ * {@link statusNotificationObject})
  *
  * @memberof reducers
  * @name initialStatusState
- * @type {statusNotificationObject} (see {@link statusNotificationObject})
+ * @type {statusNotificationObject}
  */
 
 export const initialStatusState = {
@@ -27,11 +29,12 @@ export const initialStatusState = {
 /**
  * @memberof reducers
  * @function statusReducer
- * @param {statusNotificationObject} state - The state for status notification (see
- * {@link statusNotificationObject})
+ * @param {statusNotificationObject} state - The state for status notification
+ * (see {@link statusNotificationObject})
  * @param {object} action - useReducer Object for useReducer hook containing
  * action.payload for useStatusNotification hook
- * @returns {statusNotificationObject} state - The updated state based on useReducer action
+ * @returns {statusNotificationObject} state - The updated state based on
+ * useReducer action
  */
 
 const statusReducer = (state, action) => {

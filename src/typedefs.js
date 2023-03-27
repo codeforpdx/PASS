@@ -22,15 +22,17 @@ const React = require('react');
  * @typedef statusNotificationProps
  * @type {object}
  * @property {string} notification - File status message
- * @property {string} statusType - Type of file status (i.e. file upload, file fetch, file delete)
- * @property {string} defaultMessage - Default message when status is not triggered
+ * @property {string} statusType - Type of file status (i.e. file upload, file
+ * fetch, file delete)
+ * @property {string} defaultMessage - Default message when status is not
+ * triggered
  * @property {URL} [locationUrl] - URL location of file, if exist
  * @memberof typedefs
  */
 
 /**
- * An object containing the type, value, onChange function, and clearValue function for
- * the custom useField hook
+ * An object containing the type, value, onChange function, and clearValue
+ * function for the custom useField hook
  *
  * @exports useFieldObject
  * @typedef useFieldObject
@@ -38,13 +40,14 @@ const React = require('react');
  * @property {string} type - Type attribute of HTML input element
  * @property {string} value - The value of input element
  * @property {Function} onChange - Event handler for changes in input element
- * @property {Function} clearValue - Event handler that clears value set for input element
+ * @property {Function} clearValue - Event handler that clears value set for
+ * input element
  * @memberof typedefs
  */
 
 /**
- * An object containing the status notification state used for both the StatusNotification and
- * StatusMessage components
+ * An object containing the status notification state used for both the
+ * StatusNotification and StatusMessage components
  *
  * @exports statusNotificationObject
  * @typedef statusNotificationObject
@@ -59,15 +62,16 @@ const React = require('react');
  */
 
 /**
- * An object containing the status notification state and useReducer dispatch function from
- * the custom useStatusNotification hook
+ * An object containing the status notification state and useReducer dispatch
+ * function from the custom useStatusNotification hook
  *
  * @exports useStatusNotificationObject
  * @typedef useStatusNotificationObject
  * @type {object}
- * @property {statusNotificationObject} statusNotificationObject - An object consisting of the
- * state for status notifications (see {@link statusNotificationObject})
- * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch function
+ * @property {statusNotificationObject} statusNotificationObject - An object
+ * consisting of the state for status notifications (see {@link statusNotificationObject})
+ * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch
+ * function
  * @memberof typedefs
  */
 
@@ -76,11 +80,12 @@ const React = require('react');
  *
  * @exports fileObjectType
  * @typedef fileObjectType
+ * @type {object}
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
  * @property {string} description - Description of document
- * @property {object} file - An object which contain infomation about the file being uploaded
- * as well the document itself
+ * @property {object} file - An object which contain infomation about the file
+ * being uploaded as well the document itself
  * @memberof typedefs
  */
 
@@ -91,8 +96,8 @@ const React = require('react');
  * @typedef formSectionProps
  * @type {object}
  * @property {string} title - Title of form section
- * @property {statusNotificationObject} state - The state for status notification (see
- * {@link statusNotificationObject})
+ * @property {statusNotificationObject} state - The state for status notification
+ * (see {@link statusNotificationObject})
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
  * @property {React.ReactElement} children - JSX Element of the wrapped form

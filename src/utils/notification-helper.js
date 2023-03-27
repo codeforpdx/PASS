@@ -5,15 +5,19 @@ import React from 'react';
  */
 
 /**
- * Function that runs status messages provided a message, the duration (time in seconds),
- * the timeoutID of previous message (if exist), and the useReducer dispatch function
+ * Function that runs status messages provided a message, the duration (time in
+ * seconds), the timeoutID of previous message (if exist), and the useReducer
+ * dispatch function
  *
  * @memberof utils
  * @function runNotification
- * @param {string} message - File status message for upload, fetch, or delete file
+ * @param {string} message - File status message for upload, fetch, or delete
+ * file
  * @param {number} time - Duration of message in seconds
- * @param {statusNotificationObject} state - The {@link statusNotificationObject}
- * @param {React.DispatchWithoutAction} dispatch - useStatusNotification dispatch function
+ * @param {statusNotificationObject} state - The state related to status
+ * notifications (see {@link statusNotificationObject})
+ * @param {React.DispatchWithoutAction} dispatch - useStatusNotification
+ * dispatch function
  * @returns {void} Void - Status message is displayed via dispatch call
  */
 
@@ -23,7 +27,8 @@ const runNotification = (
   state,
   dispatch
 ) => {
-  // if local timeoutID exist, clear previous message and run new status notification message
+  // if local timeoutID exist, clear previous message and run new status
+  // notification message
   if (state.timeoutID) {
     clearTimeout(state.timeoutID);
   }

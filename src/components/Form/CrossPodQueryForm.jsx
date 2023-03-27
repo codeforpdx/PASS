@@ -6,8 +6,8 @@ import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
 /**
- * CrossPodQueryForm Component - Component that generates the form for cross pod search
- * for a specific document from another user's Solid Pod via Solid Session
+ * CrossPodQueryForm Component - Component that generates the form for cross pod
+ * search for a specific document from another user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name CrossPodQueryForm
