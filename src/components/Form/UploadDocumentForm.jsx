@@ -84,6 +84,7 @@ const UploadDocumentForm = () => {
       dispatch({ type: 'CLEAR_FILE' });
       dispatch({ type: 'CLEAR_PROCESSING' });
       event.target.uploadDoctype.value = '';
+      event.target.date.value = '';
       clearDescription();
     }, 7000);
   };
