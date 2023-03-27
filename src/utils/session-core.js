@@ -102,7 +102,10 @@ export const uploadDocument = async (session, fileObject) => {
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
-  await saveSolidDatasetInContainer(documentUrl, newSolidDataset, { fetch: session.fetch });
+  await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
+    slugSuggestion: 'document.ttl',
+    fetch: session.fetch
+  });
 
   // Generate ACL file for container
   await createDocAclForUser(session, documentUrl);
@@ -130,7 +133,6 @@ export const updateDocument = async (session, fileObject) => {
 
   // Fetching and updating ttl file from container
   let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  console.log(solidDataset);
   let ttlFile = hasTTLFiles(solidDataset);
 
   ttlFile = buildThing(ttlFile)
