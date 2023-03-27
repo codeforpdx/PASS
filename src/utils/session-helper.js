@@ -36,7 +36,7 @@ import {
  * The URL to a specific Solid Provider
  *
  * @name SOLID_IDENTITY_PROVIDER
- * @type {string}
+ * @type {URL}
  * @memberof utils
  */
 
