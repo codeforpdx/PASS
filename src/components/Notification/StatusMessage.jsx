@@ -5,12 +5,13 @@ import React from 'react';
  */
 
 /**
- * StatusMessage Component - Sub-component that shows status message for StatusNotification
+ * StatusMessage Component - Sub-component that shows status message for
+ * StatusNotification
  *
  * @memberof Notifications
  * @name StatusMessage
- * @param {statusMessageProps} statusMessageProps - A react prop that consist of notification,
- * and locationUrl, which is optional {@link statusMessageProps}
+ * @param {statusMessageProps} statusMessageProps - A react prop that consist of
+ * notification and locationUrl, which is optional (see {@link statusMessageProps})
  */
 
 const StatusMessage = ({ notification, locationUrl }) => {

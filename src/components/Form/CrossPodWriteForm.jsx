@@ -4,8 +4,8 @@ import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
 
 /**
- * CrossPodWriteForm Component - Component that generates the form for cross pod uploading
- * for a specific document to another user's Solid Pod via Solid Session
+ * CrossPodWriteForm Component - Component that generates the form for cross pod
+ * uploading for a specific document to another user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name CrossPodWriteForm
