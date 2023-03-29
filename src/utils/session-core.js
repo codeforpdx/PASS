@@ -108,6 +108,7 @@ export const uploadDocument = async (session, fileObject) => {
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
     slugSuggestion: 'document.ttl',
+    contentType: 'text/turtle',
     fetch: session.fetch
   });
 

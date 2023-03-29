@@ -8,7 +8,9 @@ import {
   setAgentDefaultAccess,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  saveSolidDatasetInContainer,
+  getThing
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
@@ -211,7 +213,8 @@ export const createDocAclForUser = async (session, documentUrl) => {
 
 /**
  * Function that updates ttl file in Solid container for endDate (expiration
- * date) and description
+ * date) and description while also including datetime of all instances when
+ * document was modified
  *
  * @memberof utils
  * @function updateTTLFile
@@ -222,18 +225,19 @@ export const createDocAclForUser = async (session, documentUrl) => {
  */
 
 export const updateTTLFile = async (session, documentUrl, fileObject) => {
-  // Fetching and updating ttl file from container
-  let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  let ttlFile = hasTTLFiles(solidDataset);
+  let solidDataset = await getSolidDataset(`${documentUrl}document.ttl`, { fetch: session.fetch });
+  let ttlFile = getThingAll(solidDataset)[0];
+
   ttlFile = buildThing(ttlFile)
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .addDatetime('https://schema.org/dateModified', new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
-  console.log(solidDataset);
+
   try {
-    await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
-  } catch {
+    await saveSolidDatasetAt(`${documentUrl}document.ttl`, solidDataset, { fetch: session.fetch });
+  } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
 };
