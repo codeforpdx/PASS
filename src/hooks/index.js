@@ -1,11 +1,16 @@
 /**
- * The hooks module contains custom hooks to assist with form handling or status notifications
+ * The hooks module contains custom hooks to assist with form handling or status
+ * notifications
  *
  * @namespace hooks
  */
 
 import { useReducer, useState } from 'react';
 import statusReducer, { initialStatusState } from '../reducers/statusReducer';
+
+/**
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ */
 
 /**
  * @typedef {import('../typedefs').useFieldObject} useFieldObject
@@ -16,13 +21,15 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  */
 
 /**
- * Custom hook that provide the value of input element, type attribute of HTML input element,
- * set value of input element onChange, and a clear value function
+ * Custom hook that provide the value of input element, type attribute of HTML
+ * input element, set value of input element onChange, and a clear value
+ * function
  *
  * @memberof hooks
  * @function useField
  * @param {string} type - Type attribute of HTML input element
- * @returns {useFieldObject} useFieldObject - An object that contains { type, value, onChange, clearValue }
+ * @returns {useFieldObject} useFieldObject - An object that contains { type,
+ * value, onChange, clearValue } (see {@link useFieldObject})
  */
 
 export const useField = (type) => {
@@ -50,8 +57,9 @@ export const useField = (type) => {
  *
  * @memberof hooks
  * @function useStatusNotification
- * @returns {useStatusNotificationObject} useStatusNotificationObject - An object that
- * contains the StatusNotification state and React's useReducer dispatch function
+ * @returns {useStatusNotificationObject} useStatusNotificationObject - An
+ * object that contains the StatusNotification state (see
+ * {@link statusNotificationObject}) and React's useReducer dispatch function
  */
 
 export const useStatusNotification = () => {

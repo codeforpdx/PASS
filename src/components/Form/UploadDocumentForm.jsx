@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
-import { uploadDocument, runNotification } from '../../utils';
+import { uploadDocument, updateDocument, runNotification } from '../../utils';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -44,32 +44,47 @@ const UploadDocumentForm = () => {
 
     const fileObject = {
       type: docType,
-      date: expirationDate || '01/01/1800',
-      description: docDescription || 'No Description provided',
+      date: expirationDate || 'Not available',
+      description: docDescription || 'No description provided',
       file: state.file
     };
+
+    const fileName = fileObject.file.name;
 
     try {
       await uploadDocument(session, fileObject);
 
-      runNotification(`Uploading "${fileObject.file.name}" to Solid...`, 3, state, dispatch);
+      runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileObject.file.name}" uploaded to Solid.`, 7, state, dispatch);
+        runNotification(`File "${fileName}" uploaded to Solid.`, 7, state, dispatch);
       }, 3000);
-    } catch (_error) {
-      runNotification(
-        'Submission failed. Reason: A previous file has already been saved to this type. Please delete the previous file if you wish to reupload.',
-        7,
-        state,
-        dispatch
-      );
+    } catch {
+      try {
+        const fileExist = await updateDocument(session, fileObject);
+
+        runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
+
+        if (fileExist) {
+          setTimeout(() => {
+            runNotification(`File "${fileName}" updated on Solid.`, 7, state, dispatch);
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            runNotification(`File "${fileName}" uploaded on Solid.`, 7, state, dispatch);
+          }, 3000);
+        }
+      } catch (error) {
+        runNotification(`Operation failed. Reason: ${error.message}`, 3, state, dispatch);
+      }
     }
 
     setTimeout(() => {
       dispatch({ type: 'CLEAR_FILE' });
+      dispatch({ type: 'CLEAR_PROCESSING' });
       event.target.uploadDoctype.value = '';
+      event.target.date.value = '';
       clearDescription();
     }, 7000);
   };

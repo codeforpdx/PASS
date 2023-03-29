@@ -6,8 +6,8 @@ import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
 /**
- * CrossPodQueryForm Component - Component that generates the form for cross pod search
- * for a specific document from another user's Solid Pod via Solid Session
+ * CrossPodQueryForm Component - Component that generates the form for cross pod
+ * search for a specific document from another user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name CrossPodQueryForm
@@ -26,6 +26,7 @@ const CrossPodQueryForm = () => {
 
     if (!podUrl) {
       runNotification('Search failed. Reason: Pod URL not provided.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
 
@@ -41,11 +42,13 @@ const CrossPodQueryForm = () => {
       // setTimeout is used to let fetchDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! Document located at: ', 7, state, dispatch);
+        runNotification('Document found! Document located at: ', 3, state, dispatch);
+        dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 

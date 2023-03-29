@@ -27,6 +27,7 @@ const SetAclPermissionForm = () => {
 
     if (!podUrl) {
       runNotification('Set permissions failed. Reason: Pod URL not provided.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
 
@@ -37,11 +38,13 @@ const SetAclPermissionForm = () => {
         state,
         dispatch
       );
+      dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
 
     if (!permissionType) {
       runNotification('Set permissions failed. Reason: Permissions not set.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
 
@@ -54,8 +57,10 @@ const SetAclPermissionForm = () => {
         state,
         dispatch
       );
+      dispatch({ type: 'CLEAR_PROCESSING' });
     } catch (error) {
       runNotification('Set permissions failed. Reason: File not found.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 

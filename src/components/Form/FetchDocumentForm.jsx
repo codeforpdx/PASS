@@ -36,10 +36,12 @@ const FetchDocumentForm = () => {
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! Document located at: ', 7, state, dispatch);
+        dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 

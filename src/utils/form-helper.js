@@ -1,5 +1,6 @@
 /**
- * Document Types is an array of strings that represent the different document types for upload, fetch, or delete
+ * Document Types is an array of strings that represent the different document
+ * types for upload, fetch, or delete
  *
  * @memberof utils
  * @name docTypes
