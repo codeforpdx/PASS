@@ -5,8 +5,12 @@ import {
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess
+  setAgentDefaultAccess,
+  buildThing,
+  setThing,
+  saveSolidDatasetAt
 } from '@inrupt/solid-client';
+import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -203,4 +207,35 @@ export const createDocAclForUser = async (session, documentUrl) => {
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that updates ttl file in Solid container for endDate (expiration
+ * date) and description while also including datetime of all instances when
+ * document was modified
+ *
+ * @memberof utils
+ * @function updateTTLFile
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} documentUrl - Url link to document container
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ */
+
+export const updateTTLFile = async (session, documentUrl, fileObject) => {
+  let solidDataset = await getSolidDataset(`${documentUrl}document.ttl`, { fetch: session.fetch });
+  let ttlFile = getThingAll(solidDataset)[0];
+
+  ttlFile = buildThing(ttlFile)
+    .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .addDatetime('https://schema.org/dateModified', new Date())
+    .build();
+  solidDataset = setThing(solidDataset, ttlFile);
+
+  try {
+    await saveSolidDatasetAt(`${documentUrl}document.ttl`, solidDataset, { fetch: session.fetch });
+  } catch (error) {
+    throw new Error('Failed to update ttl file.');
+  }
 };
