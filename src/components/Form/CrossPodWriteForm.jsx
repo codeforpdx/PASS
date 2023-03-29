@@ -6,8 +6,8 @@ import DocumentSelection from './DocumentSelection';
 /**
  * CrossPodWriteForm Component - Component that generates the form for cross pod uploading
  * for a specific document to another user's Solid Pod via Solid Session
+ *
  * @memberof Forms
- * @component
  * @name CrossPodWriteForm
  */
 
@@ -62,8 +62,8 @@ const CrossPodWriteForm = () => {
           <input
             id="cross-upload-doctype"
             type="file"
-            name="file"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
+            name="crossUploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
           <button type="submit">Upload to Pod</button>

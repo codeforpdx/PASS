@@ -8,23 +8,21 @@ import FormSection from './FormSection';
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
+ *
  * @memberof Forms
- * @component
  * @name UploadDocumentForm
  */
 
 const UploadDocumentForm = () => {
   const { session } = useSession();
-  // Combined state for file upload with useReducer
   const { state, dispatch } = useStatusNotification();
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
-    if (event.target.files) {
+    if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     } else {
       dispatch({ type: 'CLEAR_FILE' });
-      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     }
   };
 
@@ -71,7 +69,7 @@ const UploadDocumentForm = () => {
 
     setTimeout(() => {
       dispatch({ type: 'CLEAR_FILE' });
-      event.target.file.value = '';
+      event.target.uploadDoctype.value = '';
       clearDescription();
     }, 7000);
   };
@@ -81,8 +79,12 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <FormSection state={state} statusType="Writing status" defaultMessage="To be uploaded...">
-      <strong>Upload Document</strong>
+    <FormSection
+      title="Upload Document"
+      state={state}
+      statusType="Writing status"
+      defaultMessage="To be uploaded..."
+    >
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="upload-doc">Select document type to upload: </label>
@@ -103,8 +105,8 @@ const UploadDocumentForm = () => {
           <input
             id="upload-doctype"
             type="file"
-            name="file"
-            accept=".pdf, .docx., .doc, .txt, .rtf"
+            name="uploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
           <button disabled={state.processing} type="submit">

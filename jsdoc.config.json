@@ -3,6 +3,14 @@
     "include": ["src"],
     "exclude": ["node_modules", "public"]
   },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  },
+  "plugins": ["node_modules/jsdoc-tsimport-plugin/index.js"],
+  "settings": {
+    "jsdoc": { "mode": "typescript" }
+  },
   "opts": {
     "destination": "docs",
     "recurse": true

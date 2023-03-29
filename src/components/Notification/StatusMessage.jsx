@@ -1,22 +1,20 @@
 import React from 'react';
 
 /**
- * @typedef {Object} statusMessageProps
- * @property {String} notification - File status message
- * @property {String} [locationUrl] - URL location of file, if exist
+ * @typedef {import('../../typedefs').statusMessageProps} statusMessageProps
  */
 
 /**
  * StatusMessage Component - Sub-component that shows status message for StatusNotification
+ *
  * @memberof Notifications
- * @component
  * @name StatusMessage
  * @param {statusMessageProps} statusMessageProps - A react prop that consist of notification,
- * and locationUrl, which is optional
+ * and locationUrl, which is optional {@link statusMessageProps}
  */
 
 const StatusMessage = ({ notification, locationUrl }) => {
-  if (notification) {
+  if (locationUrl) {
     return (
       <dd className="labelStatus" role="alert">
         {notification}{' '}

@@ -19,8 +19,8 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 /**
  * Login Component - Component that generates Login section for users to a
  * Solid Pod via Solid Session
+ *
  * @memberof Login
- * @component
  * @name Login
  */
 

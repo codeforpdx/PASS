@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.0.2 (March 22, 2023)
+
+## Fixes
+
+- Fixed typo for input elements in Form component relating to file upload (#65)
+
+## Dev Changes
+
+- Refactored FormSection to include section title instead of inside its children component (#66)
+- Reformatted JSDoc to follow recommended linting rules from ESLint plugin for JSDoc (#66)
+
+## Others
+
+- Deployed PASS to GitHub Pages with the link [https://codeforpdx.github.io/PASS/](https://codeforpdx.github.io/PASS/) (domain name will change in future updates) (#59)
+
+---
+
 ## v0.0.1 (March 18, 2023)
 
 ## Features
