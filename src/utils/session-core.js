@@ -12,7 +12,6 @@ import {
   getSolidDatasetWithAcl,
   getResourceAcl,
   overwriteFile
-  // saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {

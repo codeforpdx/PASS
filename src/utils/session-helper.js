@@ -8,9 +8,7 @@ import {
   setAgentDefaultAccess,
   buildThing,
   setThing,
-  saveSolidDatasetAt,
-  saveSolidDatasetInContainer,
-  getThing
+  saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
