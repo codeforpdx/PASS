@@ -21,7 +21,8 @@ import {
   placeFileInContainer,
   hasFiles,
   hasTTLFiles,
-  createDocAclForUser
+  createDocAclForUser,
+  updateTTLFile
 } from './session-helper';
 
 /**
@@ -138,6 +139,7 @@ export const updateDocument = async (session, fileObject) => {
   if (fileExist) {
     if (window.confirm(`File ${fileName} exist in Pod container, do you wish to update it?`)) {
       await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+      await updateTTLFile(session, documentUrl, fileObject);
     } else {
       throw new Error('File update cancelled.');
     }
@@ -149,25 +151,12 @@ export const updateDocument = async (session, fileObject) => {
     window.confirm(`File ${fileName} does not exist in Pod container, do you wish to upload it?`)
   ) {
     await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+    await updateTTLFile(session, documentUrl, fileObject);
   } else {
     throw new Error('New file upload cancelled.');
   }
 
   return fileExist;
-
-  // Fetching and updating ttl file from container
-  // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  // let ttlFile = hasTTLFiles(solidDataset);
-
-  // ttlFile = buildThing(ttlFile)
-  //   .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-  //   .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-  //   .build();
-
-  // solidDataset = setThing(solidDataset, ttlFile);
-  // console.log(solidDataset);
-
-  // await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
 };
 
 /**

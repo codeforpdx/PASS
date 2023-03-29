@@ -5,8 +5,12 @@ import {
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess
+  setAgentDefaultAccess,
+  buildThing,
+  setThing,
+  saveSolidDatasetAt
 } from '@inrupt/solid-client';
+import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -203,4 +207,33 @@ export const createDocAclForUser = async (session, documentUrl) => {
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that updates ttl file in Solid container for endDate (expiration
+ * date) and description
+ *
+ * @memberof utils
+ * @function updateTTLFile
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} documentUrl - Url link to document container
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ */
+
+export const updateTTLFile = async (session, documentUrl, fileObject) => {
+  // Fetching and updating ttl file from container
+  let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
+  let ttlFile = hasTTLFiles(solidDataset);
+  ttlFile = buildThing(ttlFile)
+    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .build();
+  solidDataset = setThing(solidDataset, ttlFile);
+  console.log(solidDataset);
+  try {
+    await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
+  } catch {
+    throw new Error('Failed to update ttl file.');
+  }
 };
