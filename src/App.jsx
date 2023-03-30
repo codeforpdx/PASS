@@ -10,7 +10,7 @@ import {
   SetAclPermissionForm
 } from './components/Form';
 import ManageUsers from './components/Form/ManageUsers';
-import SelectUserContext from './contexts/context';
+import SelectUserContext from './contexts/selectUserContext';
 
 const AppHeader = () => (
   <header>

@@ -4,7 +4,7 @@ import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import SelectUserContext from '../../contexts/context';
+import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod

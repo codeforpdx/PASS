@@ -4,7 +4,7 @@ import { runNotification, setDocAclPermission } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import SelectUserContext from '../../contexts/context';
+import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
