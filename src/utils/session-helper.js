@@ -127,7 +127,7 @@ export const hasFiles = (solidDataset) => {
  * specific file type, if exist on user's Pod
  *
  * @memberof utils
- * @function fetchUrl
+ * @function fetchContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
@@ -137,7 +137,7 @@ export const hasFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const fetchContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);

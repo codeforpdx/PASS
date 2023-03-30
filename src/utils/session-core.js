@@ -18,7 +18,7 @@ import {
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
-  fetchUrl,
+  fetchContainerUrl,
   setupAcl,
   placeFileInContainer,
   hasFiles,
@@ -50,7 +50,7 @@ import {
  */
 
 export const setDocAclPermission = async (session, fileType, accessType, otherPodUrl) => {
-  const documentUrl = fetchUrl(session, fileType, 'self-fetch');
+  const documentUrl = fetchContainerUrl(session, fileType, 'self-fetch');
 
   const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
 
@@ -82,7 +82,7 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  */
 
 export const getUsersFromPod = async (session) => {
-  const userContainerUrl = fetchUrl(session, 'none', 'self-fetch');
+  const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
   const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
@@ -106,7 +106,7 @@ export const getUsersFromPod = async (session) => {
  */
 
 export const deleteUserFromPod = async (session, otherPodUrl) => {
-  const userContainerUrl = fetchUrl(session, 'none', 'self-fetch');
+  const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
@@ -139,7 +139,7 @@ export const deleteUserFromPod = async (session, otherPodUrl) => {
  */
 
 export const addUserToPod = async (session, otherPodUrl) => {
-  const userContainerUrl = fetchUrl(session, 'none', 'self-fetch');
+  const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
   const otherPodUrlFull = `https://${otherPodUrl}/`;
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
@@ -196,7 +196,7 @@ export const addUserToPod = async (session, otherPodUrl) => {
 
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (session, fileObject) => {
-  const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
+  const documentUrl = fetchContainerUrl(session, fileObject.type, 'self-fetch');
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
@@ -244,7 +244,7 @@ export const uploadDocument = async (session, fileObject) => {
  */
 
 export const updateDocument = async (session, fileObject) => {
-  const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
+  const documentUrl = fetchContainerUrl(session, fileObject.type, 'self-fetch');
   const fileName = fileObject.file.name;
   const solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
@@ -292,7 +292,7 @@ export const updateDocument = async (session, fileObject) => {
  */
 
 export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl = '') => {
-  const documentUrl = fetchUrl(session, fileType, fetchType, otherPodUrl);
+  const documentUrl = fetchContainerUrl(session, fileType, fetchType, otherPodUrl);
 
   try {
     await getSolidDataset(documentUrl, { fetch: session.fetch });
@@ -316,7 +316,7 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
-  const documentUrl = fetchUrl(session, fileType, 'self-fetch');
+  const documentUrl = fetchContainerUrl(session, fileType, 'self-fetch');
   const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   // Solid requires all files within Pod container must be deleted before
