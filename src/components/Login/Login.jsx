@@ -4,11 +4,13 @@ import { LoginButton } from '@inrupt/solid-ui-react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 // import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import theme from '../../theme';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
@@ -25,37 +27,6 @@ const Login = () => {
   useEffect(() => {
     setCurrentUrl(window.location.href);
   }, [setCurrentUrl]);
-
-  // const theme = createTheme();
-  const theme = createTheme({
-    palette: {
-      primary: {
-        light: '##039686',
-        main: '#017969',
-        dark: '##004d3e',
-        contrastText: '#fff'
-      },
-      secondary: {
-        light: '#b32126',
-        main: '#961020',
-        dark: '#790111',
-        contrastText: '#fff'
-      },
-      tertiary: {
-        light: '#29ab4c',
-        main: '#128a38',
-        dark: '#005a1a',
-        contrastText: '#fff'
-      },
-      status: {
-        danger: '#e53e3e'
-      },
-      neutral: {
-        main: '#64748B',
-        contrastText: '#fff'
-      }
-    }
-  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -80,28 +51,37 @@ const Login = () => {
             marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            textAlign: 'center'
           }}
         >
-          <section id="login" className="panel">
-            <label id="labelLogin" htmlFor="btnLogin">
-              Click the following login button to log into your pod at [
-              <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-                {SOLID_IDENTITY_PROVIDER}
-              </a>
-              ]:{' '}
-            </label>
-            <LoginButton
-              oidcIssuer={SOLID_IDENTITY_PROVIDER}
-              redirectUrl={currentUrl}
-              onError={console.error}
-            >
-              <Button variant="contained" type="submit" color="secondary" size="large">
-                Login
-              </Button>
-            </LoginButton>
-            <p>Not logged in</p>
-          </section>
+          <Paper
+            elevation={2}
+            // sx={{ padding: '20px' }}
+          >
+            {/* sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }} */}
+            <section id="login" className="panel">
+              <label id="labelLogin" htmlFor="btnLogin">
+                Click the following login button to log into your pod at [
+                <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+                  {SOLID_IDENTITY_PROVIDER}
+                </a>
+                ]:{' '}
+              </label>
+
+              <LoginButton
+                oidcIssuer={SOLID_IDENTITY_PROVIDER}
+                redirectUrl={currentUrl}
+                onError={console.error}
+              >
+                <br />
+                <Button variant="contained" type="submit" color="secondary" size="large">
+                  Login
+                </Button>
+              </LoginButton>
+              <p>Not logged in</p>
+            </section>
+          </Paper>
         </Box>
       </Container>
     </ThemeProvider>

@@ -25,7 +25,8 @@ const Logout = () => {
             marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            textAlign: 'center'
           }}
         >
           <section id="logout" className="panel">
