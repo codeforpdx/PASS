@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login, Logout } from './components/Login';
 import {
@@ -10,6 +10,7 @@ import {
   SetAclPermissionForm
 } from './components/Form';
 import ManageUsers from './components/Form/ManageUsers';
+import SelectUserContext from './contexts/context';
 
 const AppHeader = () => (
   <header>
@@ -19,6 +20,8 @@ const AppHeader = () => (
 
 const App = () => {
   const { session } = useSession();
+  const [selectedUser, setSelectedUser] = useState('');
+  const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
 
   return (
     <>
@@ -27,14 +30,16 @@ const App = () => {
         <Login />
       ) : (
         <main>
-          <Logout />
-          <ManageUsers />
-          <UploadDocumentForm />
-          <FetchDocumentForm />
-          <DeleteDocumentForm />
-          <SetAclPermissionForm />
-          <CrossPodQueryForm />
-          <CrossPodWriteForm />
+          <SelectUserContext.Provider value={selectedUserObject}>
+            <Logout />
+            <ManageUsers />
+            <UploadDocumentForm />
+            <FetchDocumentForm />
+            <DeleteDocumentForm />
+            <SetAclPermissionForm />
+            <CrossPodQueryForm />
+            <CrossPodWriteForm />
+          </SelectUserContext.Provider>
         </main>
       )}
     </>

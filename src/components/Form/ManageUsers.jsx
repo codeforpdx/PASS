@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
 import FormSection from './FormSection';
 import { runNotification, addUserToPod, getUsersFromPod, deleteUserFromPod } from '../../utils';
+import SelectUserContext from '../../contexts/context';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
@@ -17,6 +18,7 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUser, ...user } = useField('text');
   const [userList, setUserList] = useState([]);
+  const { setSelectedUser } = useContext(SelectUserContext);
 
   // Event handler for fetching users list
   const handleGetUser = async () => {
@@ -34,11 +36,25 @@ const ManageUsers = () => {
     }
   };
 
+  // Event handler for selecting user from users list
+  const handleSelectUser = async (event) => {
+    event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+    const otherPodUrl = event.target.selectUser.value;
+
+    setSelectedUser(otherPodUrl);
+    runNotification(`Selected user "${otherPodUrl}" from users list.`, 3, state, dispatch);
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_PROCESSING' });
+    }, 3000);
+  };
+
   // Event handler for deleting user from users list
   const handleDeleteUser = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const otherPodUrl = event.target.user.value;
+    const otherPodUrl = event.target.deleteUser.value;
 
     try {
       const listUsers = await deleteUserFromPod(session, otherPodUrl);
@@ -104,8 +120,17 @@ const ManageUsers = () => {
       </button>{' '}
       <br />
       <br />
+      <form onSubmit={handleSelectUser}>
+        <select name="selectUser">
+          {userList.map((userPodUrL) => (
+            <option key={userPodUrL}>{userPodUrL}</option>
+          ))}
+        </select>{' '}
+        <button type="submit">Select User</button>
+      </form>
+      <br />
       <form onSubmit={handleDeleteUser}>
-        <select name="user">
+        <select name="deleteUser">
           {userList.map((userPodUrL) => (
             <option key={userPodUrL}>{userPodUrL}</option>
           ))}
