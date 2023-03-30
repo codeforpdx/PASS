@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Card from '@mui/material/Card';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -57,30 +58,33 @@ const CrossPodQueryForm = () => {
   };
 
   return (
-    <FormSection
-      title="Cross Pod Search"
-      state={state}
-      statusType="Search status"
-      defaultMessage="To be searched..."
-    >
-      <form onSubmit={handleCrossPodQuery} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doc">
-            Please input a user's Pod URL you wish to search from (i.e., username.opencommons.net):{' '}
-          </label>
-          <br />
-          <br />
-          <input id="cross-search-doc" size="60" type="text" name="crossPodQuery" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="cross-search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Search Pod
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Card>
+      <FormSection
+        title="Cross Pod Search"
+        state={state}
+        statusType="Search status"
+        defaultMessage="To be searched..."
+      >
+        <form onSubmit={handleCrossPodQuery} autoComplete="off">
+          <div style={formRowStyle}>
+            <label htmlFor="cross-search-doc">
+              Please input a user's Pod URL you wish to search from (i.e.,
+              username.opencommons.net):{' '}
+            </label>
+            <br />
+            <br />
+            <input id="cross-search-doc" size="60" type="text" name="crossPodQuery" />
+          </div>
+          <div style={formRowStyle}>
+            <label htmlFor="cross-search-doctype">Select document type to search: </label>
+            <DocumentSelection htmlId="cross-search-doctype" />{' '}
+            <button disabled={state.processing} type="submit">
+              Search Pod
+            </button>
+          </div>
+        </form>
+      </FormSection>
+    </Card>
   );
 };
 

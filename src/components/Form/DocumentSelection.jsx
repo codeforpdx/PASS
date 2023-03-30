@@ -1,5 +1,6 @@
 import React from 'react';
 import docTypes from '../../utils/form-helper';
+import Card from '@mui/material/Card';
 
 /**
  * DocumentSelection Component - Sub-component that generates the dropdown

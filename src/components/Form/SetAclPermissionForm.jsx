@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Card from '@mui/material/Card';
 import { runNotification, setDocAclPermission } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -69,37 +70,39 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <FormSection
-      title="Permission to Files"
-      state={state}
-      statusType="Permission status"
-      defaultMessage="To be set..."
-    >
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">
-            Paste other user's pod url (i.e., username.opencommons.net):{' '}
-          </label>
-          <br />
-          <br />
-          <input id="set-acl-to" size="60" type="text" name="setAclTo" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{' '}
-        </div>
-        <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
-        <button disabled={state.processing} type="submit">
-          Set Permission
-        </button>
-      </form>
-    </FormSection>
+    <Card>
+      <FormSection
+        title="Permission to Files"
+        state={state}
+        statusType="Permission status"
+        defaultMessage="To be set..."
+      >
+        <form onSubmit={handleAclPermission} autoComplete="off">
+          <div style={formRowStyle}>
+            <label htmlFor="set-acl-to">
+              Paste other user's pod url (i.e., username.opencommons.net):{' '}
+            </label>
+            <br />
+            <br />
+            <input id="set-acl-to" size="60" type="text" name="setAclTo" />
+          </div>
+          <div style={formRowStyle}>
+            <label htmlFor="set-acl-doctype">Select document type: </label>
+            <DocumentSelection htmlId="set-acl-doctype" />{' '}
+          </div>
+          <div style={formRowStyle}>
+            <p>Select permission setting:</p>
+            <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
+            <label htmlFor="set-acl-perm-give">Give</label>
+            <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
+            <label htmlFor="set-acl-perm-revoke">Revoke</label>
+          </div>
+          <button disabled={state.processing} type="submit">
+            Set Permission
+          </button>
+        </form>
+      </FormSection>
+    </Card>
   );
 };
 

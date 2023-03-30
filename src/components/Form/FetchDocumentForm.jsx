@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Card from '@mui/material/Card';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -50,22 +51,24 @@ const FetchDocumentForm = () => {
   };
 
   return (
-    <FormSection
-      title="Search Document"
-      state={state}
-      statusType="Search status"
-      defaultMessage="To be searched..."
-    >
-      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Get Document
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Card>
+      <FormSection
+        title="Search Document"
+        state={state}
+        statusType="Search status"
+        defaultMessage="To be searched..."
+      >
+        <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+          <div style={formRowStyle}>
+            <label htmlFor="search-doctype">Select document type to search: </label>
+            <DocumentSelection htmlId="search-doctype" />{' '}
+            <button disabled={state.processing} type="submit">
+              Get Document
+            </button>
+          </div>
+        </form>
+      </FormSection>
+    </Card>
   );
 };
 

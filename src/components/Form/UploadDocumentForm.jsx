@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from '@mui/material/Card';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
@@ -94,42 +95,44 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <FormSection
-      title="Upload Document"
-      state={state}
-      statusType="Writing status"
-      defaultMessage="To be uploaded..."
-    >
-      <form onSubmit={handleFormSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button disabled={state.processing} type="submit">
-            Upload file
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Card variant="outlined">
+      <FormSection
+        title="Upload Document"
+        state={state}
+        statusType="Writing status"
+        defaultMessage="To be uploaded..."
+      >
+        <form onSubmit={handleFormSubmission} autoComplete="off">
+          <div style={formRowStyle}>
+            <label htmlFor="upload-doc">Select document type to upload: </label>
+            <DocumentSelection htmlId="upload-doc" />
+          </div>
+          <div style={formRowStyle}>
+            <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+            <input id="upload-doc-expiration" name="date" type="date" />
+          </div>
+          <div style={formRowStyle}>
+            <label htmlFor="upload-doc-desc">Enter description: </label>
+            <br />
+            <br />
+            <textarea id="upload-doc-desc" name="description" {...description} />
+          </div>
+          <div style={formRowStyle}>
+            <label htmlFor="upload-doctype">File to upload: </label>
+            <input
+              id="upload-doctype"
+              type="file"
+              name="uploadDoctype"
+              accept=".pdf, .docx, .doc, .txt, .rtf"
+              onChange={handleFileChange}
+            />
+            <button disabled={state.processing} type="submit">
+              Upload file
+            </button>
+          </div>
+        </form>
+      </FormSection>
+    </Card>
   );
 };
 
