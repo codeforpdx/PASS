@@ -20,6 +20,27 @@ const ManageUsers = () => {
   const [userList, setUserList] = useState([]);
   const { setSelectedUser } = useContext(SelectUserContext);
 
+  // Event handler for adding user from users list
+  const handleAddUser = async (event) => {
+    event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+    const otherPodUrl = event.target.addUser.value;
+
+    if (!otherPodUrl) {
+      runNotification(`Operation failed. Reason: No URL provided`, 3, state, dispatch);
+    } else {
+      const listUsers = await addUserToPod(session, otherPodUrl);
+      setUserList(listUsers);
+
+      runNotification(`Adding user "${otherPodUrl}" to Solid...`, 3, state, dispatch);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+        clearUser();
+      }, 3000);
+    }
+  };
+
   // Event handler for fetching users list
   const handleGetUser = async () => {
     try {
@@ -28,10 +49,10 @@ const ManageUsers = () => {
         throw new Error('No users in list');
       }
 
-      runNotification('Getting user list from Solid...', 3, state, dispatch);
+      runNotification('Getting users list from Solid...', 3, state, dispatch);
       setUserList(listUsers);
     } catch {
-      runNotification(`Operation failed. Reason: User's list is empty.`, 3, state, dispatch);
+      runNotification(`Operation failed. Reason: Users list is empty.`, 3, state, dispatch);
       setUserList([]);
     }
   };
@@ -66,7 +87,7 @@ const ManageUsers = () => {
 
       runNotification(`Deleting user "${otherPodUrl}" from Solid...`, 3, state, dispatch);
     } catch {
-      runNotification(`Operation failed. Reason: User's list is empty.`, 3, state, dispatch);
+      runNotification(`Operation failed. Reason: Users list is empty.`, 3, state, dispatch);
       setUserList([]);
     }
 
@@ -74,27 +95,6 @@ const ManageUsers = () => {
       dispatch({ type: 'CLEAR_PROCESSING' });
       clearUser();
     }, 3000);
-  };
-
-  // Event handler for adding user from users list
-  const handleAddUser = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
-    const otherPodUrl = event.target.addUser.value;
-
-    if (!otherPodUrl) {
-      runNotification(`Operation failed. Reason: No URL provided`, 3, state, dispatch);
-    } else {
-      const listUsers = await addUserToPod(session, otherPodUrl);
-      setUserList(listUsers);
-
-      runNotification(`Adding user "${otherPodUrl}" to Solid...`, 3, state, dispatch);
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-        clearUser();
-      }, 3000);
-    }
   };
 
   const formRowStyle = {
