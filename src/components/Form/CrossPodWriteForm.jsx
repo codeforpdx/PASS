@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import SelectUserContext from '../../contexts/context';
 import { useField } from '../../hooks';
 import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
@@ -14,6 +15,7 @@ import DocumentSelection from './DocumentSelection';
 const CrossPodWriteForm = () => {
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
   const [file, setFile] = useState([]);
+  const { selectedUser } = useContext(SelectUserContext);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -22,7 +24,7 @@ const CrossPodWriteForm = () => {
   const handleCrossPodUpload = (event) => {
     event.preventDefault();
     // dummy calls for now
-    console.log(event.target.crossPodUpload.value);
+    console.log(selectedUser);
     console.log(event.target.document.value);
     console.log(event.target.date.value);
     console.log(event.target.description.value);
@@ -38,10 +40,9 @@ const CrossPodWriteForm = () => {
       <strong>Cross Pod Upload</strong>
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">
-            Please input a user's Pod URL you wish to upload to:{' '}
-          </label>
-          <input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
+          <p>
+            Other user's Pod you wish to upload to: <em>{selectedUser}</em>
+          </p>
         </div>
         <div style={formRowStyle}>
           <label htmlFor="cross-upload-doctype">Choose document type to upload: </label>
