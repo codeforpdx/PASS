@@ -152,6 +152,8 @@ export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
       return `${POD_URL}Passport/`;
     case 'Drivers License':
       return `${POD_URL}Drivers%20License/`;
+    case 'none':
+      return `${POD_URL}Users/`;
     default:
       return null;
   }

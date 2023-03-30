@@ -9,6 +9,7 @@ import {
   CrossPodWriteForm,
   SetAclPermissionForm
 } from './components/Form';
+import ManageUsers from './components/Form/ManageUsers';
 
 const AppHeader = () => (
   <header>
@@ -27,6 +28,7 @@ const App = () => {
       ) : (
         <main>
           <Logout />
+          <ManageUsers />
           <UploadDocumentForm />
           <FetchDocumentForm />
           <DeleteDocumentForm />

@@ -16,7 +16,10 @@ import {
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
-  setDocAclPermission
+  setDocAclPermission,
+  addUserToPod,
+  getUsersFromPod,
+  deleteUserFromPod
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -29,5 +32,8 @@ export {
   fetchDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
-  setDocAclPermission
+  setDocAclPermission,
+  addUserToPod,
+  getUsersFromPod,
+  deleteUserFromPod
 };
