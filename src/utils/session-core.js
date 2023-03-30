@@ -144,9 +144,9 @@ export const addUserToPod = async (session, otherPodUrl) => {
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  const ttlFile = hasTTLFiles(datasetFromUrl);
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
-  if (ttlFile) {
+  if (ttlFileExists) {
     let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
       fetch: session.fetch
     });
@@ -200,10 +200,10 @@ export const uploadDocument = async (session, fileObject) => {
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  const ttlFile = hasTTLFiles(datasetFromUrl);
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
   // Guard clause will throw function if container already exist with ttl file
-  if (ttlFile) {
+  if (ttlFileExists) {
     throw new Error('Container already exist. Updating files inside...');
   }
 

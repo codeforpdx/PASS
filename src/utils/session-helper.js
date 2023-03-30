@@ -73,22 +73,22 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  * @memberof utils
  * @function hasTTLFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {object|null} ttlFiles or null - An object of the first ttl file in
- * location or null, if the ttl file does not exist
+ * @returns {boolean} Boolean - An boolean on whether a ttl file exist from
+ * dataset
  */
 
 export const hasTTLFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
-    return null;
+    return false;
   }
 
   const ttlFiles = items.find((item) => item.url.slice(-3) === 'ttl');
   if (ttlFiles) {
-    return ttlFiles;
+    return true;
   }
 
-  return null;
+  return false;
 };
 
 /**
