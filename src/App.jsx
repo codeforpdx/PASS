@@ -10,13 +10,8 @@ import {
   CrossPodWriteForm,
   SetAclPermissionForm
 } from './components/Form';
+import Mockup from './components/Form/Mockup';
 import NavBar from './components/Form/NavBar';
-
-// const AppHeader = () => (
-//   <header>
-//     <h2>Getting Started with PASS</h2>
-//   </header>
-// );
 
 const AppFooter = (props) => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,9 +28,12 @@ const App = () => {
 
   return (
     <>
-      {/* <AppHeader /> */}
+      <div />
       {!session.info.isLoggedIn ? (
-        <Login />
+        <>
+          {/* <Login /> */}
+          <Mockup />
+        </>
       ) : (
         <main>
           <NavBar />
@@ -46,9 +44,9 @@ const App = () => {
           <SetAclPermissionForm />
           <CrossPodQueryForm />
           <CrossPodWriteForm />
-          <AppFooter />
         </main>
       )}
+      <AppFooter />
     </>
   );
 };
