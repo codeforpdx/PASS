@@ -142,7 +142,7 @@ export const fetchContainerUrl = (session, fileType, fetchType, otherPodUrl) => 
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
   } else {
-    POD_URL = otherPodUrl;
+    POD_URL = `https://${otherPodUrl}/`;
   }
 
   switch (fileType) {

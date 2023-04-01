@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
-import { useStatusNotification } from '../../hooks';
+import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -16,6 +16,7 @@ import FormSection from './FormSection';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const { clearValue: clearUserUrl, ...userUrl } = useField('text');
 
   // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
@@ -43,11 +44,13 @@ const CrossPodQueryForm = () => {
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! Document located at: ', 3, state, dispatch);
+        clearUserUrl();
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
+      clearUserUrl();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
@@ -70,7 +73,7 @@ const CrossPodQueryForm = () => {
           </label>
           <br />
           <br />
-          <input id="cross-search-doc" size="60" type="text" name="crossPodQuery" />
+          <input id="cross-search-doc" size="60" name="crossPodQuery" {...userUrl} />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doctype">Select document type to search: </label>

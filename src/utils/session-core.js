@@ -71,6 +71,44 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 };
 
 /**
+ * Function that creates a Users container in the user's Pod when logging in for
+ * the first time and creates a userlist.ttl file inside to store a users list
+ *
+ * @memberof utils
+ * @function generateUsersList
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates a users list for Pod upon log if
+ * user's Pod does not have the container Users
+ */
+
+export const generateUsersList = async (session) => {
+  const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
+  await createContainerAt(userContainerUrl, { fetch: session.fetch });
+
+  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
+
+  if (!ttlFileExists) {
+    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
+      .addStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify([]))
+      .build();
+
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
+
+    // Generate document.ttl file for container
+    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'userlist.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+
+    // Generate ACL file for container
+    await createDocAclForUser(session, userContainerUrl);
+  }
+};
+
+/**
  * Function that gets a list of users from their Solid Pod stored inside the
  * Solid container named User
  *
@@ -83,13 +121,18 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 
 export const getUsersFromPod = async (session) => {
   const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
-  const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-    fetch: session.fetch
-  });
+  let userList;
+  try {
+    const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+      fetch: session.fetch
+    });
 
-  const ttlFileThing = getThingAll(solidDataset)[0];
-  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
-  const userList = JSON.parse(userListString);
+    const ttlFileThing = getThingAll(solidDataset)[0];
+    const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
+    userList = JSON.parse(userListString);
+  } catch {
+    userList = [];
+  }
 
   return userList;
 };
@@ -143,45 +186,22 @@ export const deleteUserFromPod = async (session, userToDelete) => {
 
 export const addUserToPod = async (session, userObject) => {
   const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
-  await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
-  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
+  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+    fetch: session.fetch
+  });
+  let ttlFileThing = getThingAll(solidDataset)[0];
+  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
+  const userListParsed = JSON.parse(userListString).concat(userObject);
 
-  if (ttlFileExists) {
-    let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-      fetch: session.fetch
-    });
-    let ttlFileThing = getThingAll(solidDataset)[0];
-    const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
-    const userList = JSON.parse(userListString).concat(userObject);
+  ttlFileThing = buildThing(ttlFileThing)
+    .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userListParsed))
+    .build();
+  solidDataset = setThing(solidDataset, ttlFileThing);
 
-    ttlFileThing = buildThing(ttlFileThing)
-      .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userList))
-      .build();
-    solidDataset = setThing(solidDataset, ttlFileThing);
-
-    await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
-      fetch: session.fetch
-    });
-  } else {
-    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify([userObject]))
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-      slugSuggestion: 'userlist.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await createDocAclForUser(session, userContainerUrl);
-  }
+  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
+    fetch: session.fetch
+  });
 
   const userList = await getUsersFromPod(session);
   return userList;

@@ -1,8 +1,9 @@
-import React, { /* useContext, */ useState } from 'react';
+import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
 import FormSection from './FormSection';
-import { runNotification, addUserToPod, getUsersFromPod, deleteUserFromPod } from '../../utils';
+import { runNotification, addUserToPod } from '../../utils';
+import { UserListContext } from '../../contexts';
 // import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
@@ -18,8 +19,8 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserName, ...userName } = useField('text');
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
-  const [userList, setUserList] = useState([]);
   // const { setSelectedUser } = useContext(SelectUserContext);
+  const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
   const handleAddUser = async (event) => {
@@ -27,65 +28,34 @@ const ManageUsers = () => {
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
       name: event.target.addUserName.value,
-      url: `https://${event.target.addUserUrl.value}`,
+      url: event.target.addUserUrl.value,
       dateCreated: new Date()
     };
 
     if (!userObject.url) {
       runNotification(`Operation failed. Reason: No URL provided`, 3, state, dispatch);
-    } else if (!userObject.name) {
+      return;
+    }
+
+    if (!userObject.name) {
       runNotification(`Operation failed. Reason: User's name is not provided`, 3, state, dispatch);
-    } else {
-      const listUsers = await addUserToPod(session, userObject);
-      setUserList(listUsers);
-
-      runNotification(`Adding user "${userObject.name}" to Solid...`, 3, state, dispatch);
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-        clearUserName();
-        clearUserUrl();
-      }, 3000);
+      return;
     }
-  };
 
-  // Event handler for fetching users list
-  const handleGetUser = async () => {
-    try {
-      const listUsers = await getUsersFromPod(session);
-      if (listUsers.length === 0) {
-        throw new Error('No users in list');
-      }
+    const listUsers = await addUserToPod(session, userObject);
+    setUserList(listUsers);
 
-      runNotification('Getting users list from Solid...', 3, state, dispatch);
-      setUserList(listUsers);
-    } catch {
-      runNotification(`Operation failed. Reason: Users list is empty.`, 3, state, dispatch);
-      setUserList([]);
-    }
-  };
+    runNotification(`Adding user "${userObject.name}" to Solid...`, 3, state, dispatch);
 
-  // Event handler for deleting user from users list
-  const handleDeleteUser = async (userToDelete) => {
-    if (
-      window.confirm(
-        `You're about to delete user ${userToDelete} from users list, do you wish to continue?`
-      )
-    ) {
-      const listUsers = await deleteUserFromPod(session, userToDelete);
-
-      runNotification(`Deleting user "${userToDelete}" from Solid...`, 3, state, dispatch);
-      setUserList(listUsers);
-    }
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_PROCESSING' });
+      clearUserName();
+      clearUserUrl();
+    }, 3000);
   };
 
   const formRowStyle = {
     margin: '20px 0'
-  };
-
-  const tableStyle = {
-    width: '100%',
-    textAlign: 'center'
   };
 
   return (
@@ -97,52 +67,23 @@ const ManageUsers = () => {
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
         <div>
-          <label htmlFor="add-user-name">Type user's name: </label>
+          <label htmlFor="add-user-name">User's name (i.e. John Doe): </label>
           <input id="add-user-name" name="addUserName" {...userName} />{' '}
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-url">Type other user's Pod URL to add to user's list: </label>
-          <input id="add-user-url" name="addUserUrl" {...userUrl} />{' '}
+          <label htmlFor="add-user-url">
+            Add Pod URL to users list (i.e., username.opencommons.net):{' '}
+          </label>
+          <br />
+          <br />
+          <input id="add-user-url" name="addUserUrl" size="60" {...userUrl} />{' '}
         </div>
         <br />
-        <button type="submit">Add User</button>
+        <button type="submit" disabled={state.processing}>
+          Add User
+        </button>
       </form>
-      <span>Refresh users list from Pod: </span>
-      <button type="button" onClick={handleGetUser}>
-        Refresh Users
-      </button>{' '}
-      <br />
-      <br />
-      <table style={tableStyle}>
-        <tr>
-          <th>Name</th>
-          <th>Pod URL</th>
-          <th>Date Created</th>
-          <th>Select User</th>
-          <th>Delete User</th>
-        </tr>
-        {userList
-          ? userList.map((user) => (
-              <tr key={user.url}>
-                <td>{user.name}</td>
-                <td>{user.url}</td>
-                <td>{user.dateCreated}</td>
-                <td>
-                  <button type="button" onClick={() => console.log(user.name)}>
-                    select
-                  </button>
-                </td>
-                <td>
-                  <button type="button" onClick={() => handleDeleteUser(user.name)}>
-                    delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          : null}
-      </table>
-      <br />
     </FormSection>
   );
 };

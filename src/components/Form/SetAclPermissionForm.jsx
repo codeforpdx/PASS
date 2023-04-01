@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React /* , { useContext } */ from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { runNotification, setDocAclPermission } from '../../utils';
-import { useStatusNotification } from '../../hooks';
+import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import SelectUserContext from '../../contexts/selectUserContext';
+// import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
@@ -17,14 +17,15 @@ import SelectUserContext from '../../contexts/selectUserContext';
 const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectUserContext);
+  const { clearValue: clearUrl, ...user } = useField('text');
+  // const { selectedUser } = useContext(SelectUserContext);
 
   // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
-    const podUrl = selectedUser;
+    const podUrl = event.target.setAclTo.value;
     const permissionType = event.target.setAclPerms.value;
 
     if (!podUrl) {
@@ -64,6 +65,10 @@ const SetAclPermissionForm = () => {
       runNotification('Set permissions failed. Reason: File not found.', 3, state, dispatch);
       dispatch({ type: 'CLEAR_PROCESSING' });
     }
+
+    setTimeout(() => {
+      clearUrl();
+    }, 7000);
   };
 
   const formRowStyle = {
@@ -79,9 +84,10 @@ const SetAclPermissionForm = () => {
     >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
-          <p>
-            Set permissions to: <em>{selectedUser}</em>
-          </p>
+          <label htmlFor="set-acl-to">Set permissions to (i.e., username.opencommons.net): </label>
+          <br />
+          <br />
+          <input id="set-acl-to" size="60" name="setAclTo" {...user} />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="set-acl-doctype">Select document type: </label>

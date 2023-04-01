@@ -19,7 +19,8 @@ import {
   setDocAclPermission,
   addUserToPod,
   getUsersFromPod,
-  deleteUserFromPod
+  deleteUserFromPod,
+  fetchContainerUrl
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -35,5 +36,6 @@ export {
   setDocAclPermission,
   addUserToPod,
   getUsersFromPod,
-  deleteUserFromPod
+  deleteUserFromPod,
+  fetchContainerUrl
 };
