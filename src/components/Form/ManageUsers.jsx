@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { /* useContext, */ useState } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
 import FormSection from './FormSection';
 import { runNotification, addUserToPod, getUsersFromPod, deleteUserFromPod } from '../../utils';
-import SelectUserContext from '../../contexts/selectUserContext';
+// import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
@@ -19,7 +19,7 @@ const ManageUsers = () => {
   const { clearValue: clearUserName, ...userName } = useField('text');
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
   const [userList, setUserList] = useState([]);
-  const { setSelectedUser } = useContext(SelectUserContext);
+  // const { setSelectedUser } = useContext(SelectUserContext);
 
   // Event handler for adding user from users list
   const handleAddUser = async (event) => {
