@@ -231,7 +231,7 @@ export const updateTTLFile = async (session, documentUrl, fileObject) => {
   ttlFile = buildThing(ttlFile)
     .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .addDatetime('https://schema.org/dateModified', new Date())
+    .addDatetime(SCHEMA_INRUPT.dateModified, new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 

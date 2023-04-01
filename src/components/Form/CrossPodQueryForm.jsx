@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { fetchDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import SelectUserContext from '../../contexts/selectUserContext';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod
@@ -17,14 +16,13 @@ import SelectUserContext from '../../contexts/selectUserContext';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectUserContext);
 
   // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
-    const podUrl = selectedUser;
+    const podUrl = event.target.crossPodQuery.value;
 
     if (!podUrl) {
       runNotification('Search failed. Reason: Pod URL not provided.', 3, state, dispatch);
@@ -67,9 +65,12 @@ const CrossPodQueryForm = () => {
     >
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
-          <p>
-            Search document from: <em>{selectedUser}</em>
-          </p>
+          <label htmlFor="cross-search-doc">
+            Search document from (i.e., username.opencommons.net):{' '}
+          </label>
+          <br />
+          <br />
+          <input id="cross-search-doc" size="60" type="text" name="crossPodQuery" />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doctype">Select document type to search: </label>

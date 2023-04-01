@@ -14,7 +14,7 @@ import {
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
-  getStringNoLocaleAll
+  getStringNoLocale
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -88,7 +88,8 @@ export const getUsersFromPod = async (session) => {
   });
 
   const ttlFileThing = getThingAll(solidDataset)[0];
-  const userList = getStringNoLocaleAll(ttlFileThing, SCHEMA_INRUPT.Person);
+  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
+  const userList = JSON.parse(userListString);
 
   return userList;
 };
@@ -100,20 +101,22 @@ export const getUsersFromPod = async (session) => {
  * @memberof utils
  * @function deleteUserFromPod
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} otherPodUrl - Url to other user's Pod
+ * @param {string} userToDelete - Name of user to be removed from list
  * @returns {Promise} Promise - Removes user with otherPodUrl from users list in
  * their Solid Pod
  */
 
-export const deleteUserFromPod = async (session, otherPodUrl) => {
+export const deleteUserFromPod = async (session, userToDelete) => {
   const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
   let ttlFileThing = getThingAll(solidDataset)[0];
+  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
+  const userListParsed = JSON.parse(userListString).filter((user) => user.name !== userToDelete);
 
   ttlFileThing = buildThing(ttlFileThing)
-    .removeStringNoLocale(SCHEMA_INRUPT.Person, otherPodUrl)
+    .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userListParsed))
     .build();
   solidDataset = setThing(solidDataset, ttlFileThing);
 
@@ -133,14 +136,13 @@ export const deleteUserFromPod = async (session, otherPodUrl) => {
  * @memberof utils
  * @function addUserToPod
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} otherPodUrl - Url to other user's Pod
- * @returns {Promise} Promise - Removes user with otherPodUrl from users list in
+ * @param {object} userObject - Object containing the user's name and Pod URL
+ * @returns {Promise} Promise - Adds users with otherPodUrl from users list in
  * their Solid Pod
  */
 
-export const addUserToPod = async (session, otherPodUrl) => {
+export const addUserToPod = async (session, userObject) => {
   const userContainerUrl = fetchContainerUrl(session, 'none', 'self-fetch');
-  const otherPodUrlFull = `https://${otherPodUrl}/`;
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
@@ -151,9 +153,11 @@ export const addUserToPod = async (session, otherPodUrl) => {
       fetch: session.fetch
     });
     let ttlFileThing = getThingAll(solidDataset)[0];
+    const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
+    const userList = JSON.parse(userListString).concat(userObject);
 
     ttlFileThing = buildThing(ttlFileThing)
-      .addStringNoLocale(SCHEMA_INRUPT.Person, otherPodUrlFull)
+      .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userList))
       .build();
     solidDataset = setThing(solidDataset, ttlFileThing);
 
@@ -162,7 +166,7 @@ export const addUserToPod = async (session, otherPodUrl) => {
     });
   } else {
     const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(SCHEMA_INRUPT.Person, otherPodUrlFull)
+      .addStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify([userObject]))
       .build();
 
     let newSolidDataset = createSolidDataset();
