@@ -21,7 +21,7 @@ import {
   fetchContainerUrl,
   setupAcl,
   placeFileInContainer,
-  hasFiles,
+  getContainerUrlAndFiles,
   hasTTLFiles,
   createDocAclForUser,
   updateTTLFile
@@ -263,17 +263,18 @@ export const uploadDocument = async (session, fileObject) => {
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod, updates the file if
- * confirmed, or if file doesn't exist, uploads new file to Solid Pod if confirmed
+ * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod,
+ * updates the file if confirmed, or if file doesn't exist, uploads new file to
+ * Solid Pod if confirmed
  */
 
 export const updateDocument = async (session, fileObject) => {
   const documentUrl = fetchContainerUrl(session, fileObject.type, 'self-fetch');
-  const fileName = fileObject.file.name;
   const solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   // Checks for file in Solid Pod
-  const [, files] = hasFiles(solidDataset);
+  const [, files] = getContainerUrlAndFiles(solidDataset);
+  const fileName = fileObject.file.name;
   const fileExist = files.map((file) => file.url).includes(`${documentUrl}${fileName}`);
 
   if (fileExist) {
@@ -345,7 +346,7 @@ export const deleteDocumentFile = async (session, fileType) => {
 
   // Solid requires all files within Pod container must be deleted before
   // the container itself can be deleted from Pod
-  const [container, files] = hasFiles(fetched);
+  const [container, files] = getContainerUrlAndFiles(fetched);
   files.filter(async (file) => {
     if (!file.url.slice(-3).includes('/')) {
       await deleteFile(file.url, { fetch: session.fetch });

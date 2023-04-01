@@ -95,14 +95,14 @@ export const hasTTLFiles = (solidDataset) => {
  * Function checks if Solid dataset on Pod contains any files
  *
  * @memberof utils
- * @function hasFiles
+ * @function getContainerUrlAndFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
  * {@link SolidDataset})
  * @returns {Array|null} [directory, files] or null - an Array of Objects
  * consisting of the directory container URL and the rest of the files or null
  */
 
-export const hasFiles = (solidDataset) => {
+export const getContainerUrlAndFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
     return null;
@@ -231,7 +231,7 @@ export const updateTTLFile = async (session, documentUrl, fileObject) => {
   ttlFile = buildThing(ttlFile)
     .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .addDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 
