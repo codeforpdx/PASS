@@ -77,8 +77,8 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  * @memberof utils
  * @function generateUsersList
  * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Generates a users list for Pod upon log if
- * user's Pod does not have the container Users
+ * @returns {Promise} Promise - Generates a users list for Pod upon log in if
+ * user's Pod does not have the container Users with userlist.ttl to begin with
  */
 
 export const generateUsersList = async (session) => {

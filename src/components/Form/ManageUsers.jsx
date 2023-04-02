@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
-import FormSection from './FormSection';
 import { runNotification, addUserToPod } from '../../utils';
-import { UserListContext } from '../../contexts';
-// import SelectUserContext from '../../contexts/selectUserContext';
+import FormSection from './FormSection';
+import { UserListContext /* , SelectUserContext */ } from '../../contexts';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's

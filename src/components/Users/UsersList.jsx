@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { runNotification, deleteUserFromPod } from '../../utils';
-import { SelectUserContext, UserListContext } from '../../contexts';
 import { useStatusNotification } from '../../hooks';
+import { runNotification, deleteUserFromPod } from '../../utils';
 import FormSection from '../Form/FormSection';
+import { SelectUserContext, UserListContext } from '../../contexts';
 
 const UsersList = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { setSelectedUser } = useContext(SelectUserContext);
   const { userList, setUserList } = useContext(UserListContext);
 
   // Event handler for deleting user from users list
@@ -16,8 +16,6 @@ const UsersList = () => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
     setSelectedUser(userToSelect);
   };
-
-  console.log(selectedUser);
 
   // Event handler for deleting user from users list
   const handleDeleteUser = async (userToDelete) => {
