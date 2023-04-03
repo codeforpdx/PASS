@@ -97,7 +97,7 @@ const UploadDocumentForm = () => {
     <FormSection
       title="Upload Document"
       state={state}
-      statusType="Writing status"
+      statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">

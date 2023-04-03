@@ -11,7 +11,7 @@ const UsersList = () => {
   const { setSelectedUser } = useContext(SelectUserContext);
   const { userList, setUserList } = useContext(UserListContext);
 
-  // Event handler for deleting user from users list
+  // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
     setSelectedUser(userToSelect);
@@ -44,7 +44,7 @@ const UsersList = () => {
           <tr>
             <th>Name</th>
             <th>Pod URL</th>
-            <th>Date Created</th>
+            <th>Last Active Date</th>
             <th>Select User</th>
             <th>Delete User</th>
           </tr>
@@ -55,7 +55,7 @@ const UsersList = () => {
                 <tr key={user.url}>
                   <td>{user.name}</td>
                   <td>{user.url}</td>
-                  <td>{user.dateCreated}</td>
+                  <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
                   <td>
                     <button type="button" onClick={() => handleSelectUser(user.name)}>
                       select

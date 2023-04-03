@@ -27,8 +27,7 @@ const ManageUsers = () => {
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
       name: event.target.addUserName.value,
-      url: event.target.addUserUrl.value,
-      dateCreated: new Date()
+      url: event.target.addUserUrl.value
     };
 
     if (!userObject.url) {

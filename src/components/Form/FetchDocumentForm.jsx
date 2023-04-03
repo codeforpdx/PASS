@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { fetchDocuments, runNotification } from '../../utils';
+import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -24,7 +24,7 @@ const FetchDocumentForm = () => {
     const docType = event.target.document.value;
 
     try {
-      const documentUrl = await fetchDocuments(session, docType, 'self-fetch');
+      const documentUrl = await getDocuments(session, docType, 'self-fetch');
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -32,7 +32,7 @@ const FetchDocumentForm = () => {
 
       runNotification('Locating document...', 3, state, dispatch);
 
-      // setTimeout is used to let fetchDocuments complete its fetch
+      // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! Document located at: ', 7, state, dispatch);

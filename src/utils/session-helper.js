@@ -8,7 +8,8 @@ import {
   setAgentDefaultAccess,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  getDatetime
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
@@ -73,7 +74,7 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  * @memberof utils
  * @function hasTTLFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {boolean} Boolean - An boolean on whether a ttl file exist from
+ * @returns {boolean} Boolean - A boolean on whether a ttl file exist from
  * dataset
  */
 
@@ -98,7 +99,7 @@ export const hasTTLFiles = (solidDataset) => {
  * @function getContainerUrlAndFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
  * {@link SolidDataset})
- * @returns {Array|null} [directory, files] or null - an Array of Objects
+ * @returns {Array|null} [directory, files] or null - An Array of Objects
  * consisting of the directory container URL and the rest of the files or null
  */
 
@@ -127,7 +128,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * specific file type, if exist on user's Pod
  *
  * @memberof utils
- * @function fetchContainerUrl
+ * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
@@ -137,7 +138,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const fetchContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
@@ -240,4 +241,36 @@ export const updateTTLFile = async (session, documentUrl, fileObject) => {
   } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
+};
+
+/**
+ * Function that fetches a user's last active time on their Solid Pod
+ *
+ * @memberof utils
+ * @function getUserListActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {Array[userListObject]} userList - An array of {@link userListObject}
+ * which stores the name and their Pod URL
+ * @returns {Promise} Promise - An array of users with last active time included
+ * to user list
+ */
+
+export const getUserListActivity = async (session, userList) => {
+  const userListWithTime = await Promise.all(
+    userList.map(async (user) => {
+      try {
+        const solidDataset = await getSolidDataset(`https://${user.url}/public/active.ttl`, {
+          fetch: session.fetch
+        });
+        const activeTTLThing = getThingAll(solidDataset)[0];
+        const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
+        user.dateModified = lastActiveTime;
+        return user;
+      } catch {
+        return user;
+      }
+    })
+  );
+
+  return userListWithTime;
 };

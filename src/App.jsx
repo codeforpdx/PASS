@@ -12,8 +12,12 @@ import {
 } from './components/Form';
 import UsersList from './components/Users/UsersList';
 import { SelectUserContext, UserListContext } from './contexts';
-import { getUsersFromPod } from './utils';
-import { generateUsersList } from './utils/session-core';
+import {
+  getUsersFromPod,
+  generateActivityTTL,
+  generateUsersList,
+  updateUserActivity
+} from './utils';
 
 const AppHeader = () => (
   <header>
@@ -37,6 +41,8 @@ const App = () => {
      */
     async function fetchData() {
       await generateUsersList(session);
+      await generateActivityTTL(session);
+      await updateUserActivity(session);
       try {
         const listUsers = await getUsersFromPod(session);
         setUserList(listUsers);

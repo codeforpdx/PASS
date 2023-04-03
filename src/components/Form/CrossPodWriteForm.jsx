@@ -70,7 +70,7 @@ const CrossPodWriteForm = () => {
       </form>
       <StatusNotification
         notification=""
-        statusType="Writing status"
+        statusType="Upload status"
         defaultMessage="To be uploaded..."
       />
     </section>

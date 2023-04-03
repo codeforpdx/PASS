@@ -13,13 +13,16 @@ import runNotification from './notification-helper';
 import {
   uploadDocument,
   updateDocument,
-  fetchDocuments,
+  getDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
+  generateUsersList,
   addUserToPod,
   getUsersFromPod,
-  deleteUserFromPod
+  deleteUserFromPod,
+  generateActivityTTL,
+  updateUserActivity
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -29,11 +32,14 @@ export {
   SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   updateDocument,
-  fetchDocuments,
+  getDocuments,
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
+  generateUsersList,
   addUserToPod,
   getUsersFromPod,
-  deleteUserFromPod
+  deleteUserFromPod,
+  generateActivityTTL,
+  updateUserActivity
 };
