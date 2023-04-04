@@ -12,15 +12,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
-import CheckIcon from '@mui/icons-material/Check';
-import ToggleButton from '@mui/material/ToggleButton';
-import Icon from '@mui/material/Icon';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+// import CheckIcon from '@mui/icons-material/Check';
+// import ToggleButton from '@mui/material/ToggleButton';
+// import Icon from '@mui/material/Icon';
+// import StarIcon from '@mui/icons-material/Star';
+// import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { ThemeProvider } from '@mui/material/styles';
+import Footer from './Footer';
 import NavBar from './NavBar';
+import theme from '../../theme';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'id', headerName: 'ID', width: 50 },
   { field: 'firstName', headerName: 'First Name', width: 130 },
   { field: 'lastName', headerName: 'Last Name', width: 130 },
   {
@@ -37,28 +40,28 @@ const rows = [
     lastName: 'Smith',
     firstName: 'John',
     dateCreated: 'Jan 1, 2023',
-    priority: <StarIcon />
+    priority: '⭐'
   },
   {
     id: 2,
     lastName: 'Smith',
     firstName: 'Jane',
     dateCreated: 'Jan 1, 2023',
-    priority: <StarBorderIcon />
+    priority: ''
   },
   {
     id: 3,
     lastName: 'Smith',
     firstName: 'Jane',
     dateCreated: 'Jan 1, 2023',
-    priority: <StarBorderIcon />
+    priority: ''
   },
   { id: 4, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
-  { id: 5, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023' },
-  { id: 6, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023' },
-  { id: 7, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023' },
-  { id: 8, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
-  { id: 9, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023' }
+  { id: 5, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '' },
+  { id: 6, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
+  { id: 7, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023', priority: '' },
+  { id: 8, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '' },
+  { id: 9, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023', priority: '⭐' }
 ];
 
 const modalStyle = {
@@ -73,16 +76,20 @@ const modalStyle = {
   p: 4
 };
 
+// const addUser = () => {};
+
 const Mockup = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [selected, setSelected] = React.useState(false);
+  // const [selected, setSelected] = React.useState(false);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <NavBar />
       {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
+      {/* <StarIcon /> */}
+      {/* <StarBorderIcon /> */}
       <br />
       {/* ----- BUTTON ROW ----- */}
       <div>
@@ -122,7 +129,7 @@ const Mockup = () => {
           </Modal>
           <br />
           {/* ----- TOGGLE BUTTON ----- */}
-          <ToggleButton
+          {/* <ToggleButton
             value="check"
             selected={selected}
             onChange={() => {
@@ -130,7 +137,7 @@ const Mockup = () => {
             }}
           >
             <CheckIcon />
-          </ToggleButton>
+          </ToggleButton> */}
         </Typography>
       </div>
       {/* ----- DATA GRID ----- */}
@@ -145,7 +152,9 @@ const Mockup = () => {
           />
         </div>
       </Box>
-    </>
+      {/* ----- FOOTER ----- */}
+      <Footer />
+    </ThemeProvider>
   );
 };
 
