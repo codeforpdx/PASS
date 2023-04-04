@@ -18,9 +18,7 @@ const Logout = () => {
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
-        <LogoutButton>
-          <button type="submit">Logout</button>
-        </LogoutButton>
+        <LogoutButton />
         <p className="labelStatus" role="alert">
           Your session is now logged in with the WebID [
           <a href={session.info.webId} target="_blank" rel="noreferrer">

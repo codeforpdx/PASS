@@ -3,7 +3,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
 import { runNotification, addUserToPod } from '../../utils';
 import FormSection from './FormSection';
-import { UserListContext /* , SelectUserContext */ } from '../../contexts';
+import { UserListContext } from '../../contexts';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
@@ -18,7 +18,6 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserName, ...userName } = useField('text');
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
-  // const { setSelectedUser } = useContext(SelectUserContext);
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
