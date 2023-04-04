@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 //     variant="body2"
 //     color="text.secondary"
 //     align="center"
-//     sx={{
+//     sx={{ 
 //       position: 'fixed',
 //       bottom: 0,
 //       left: 0,
