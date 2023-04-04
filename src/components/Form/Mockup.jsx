@@ -6,43 +6,67 @@ import Box from '@mui/material/Box';
 // import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import SendIcon from '@mui/icons-material/Send';
 import { DataGrid } from '@mui/x-data-grid';
 import Modal from '@mui/material/Modal';
+import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
+import ToggleButton from '@mui/material/ToggleButton';
+import Icon from '@mui/material/Icon';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import NavBar from './NavBar';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
+  { field: 'firstName', headerName: 'First Name', width: 130 },
+  { field: 'lastName', headerName: 'Last Name', width: 130 },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90
+    field: 'dateCreated',
+    headerName: 'Date Created',
+    width: 130
   },
-  { field: 'priority', headerName: 'Priority', type: 'checkbox', width: 75 }
+  { field: 'priority', headerName: 'Priority', width: 75 }
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, priority: 'Y' },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 }
+  {
+    id: 1,
+    lastName: 'Smith',
+    firstName: 'John',
+    dateCreated: 'Jan 1, 2023',
+    priority: <StarIcon />
+  },
+  {
+    id: 2,
+    lastName: 'Smith',
+    firstName: 'Jane',
+    dateCreated: 'Jan 1, 2023',
+    priority: <StarBorderIcon />
+  },
+  {
+    id: 3,
+    lastName: 'Smith',
+    firstName: 'Jane',
+    dateCreated: 'Jan 1, 2023',
+    priority: <StarBorderIcon />
+  },
+  { id: 4, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
+  { id: 5, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023' },
+  { id: 6, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023' },
+  { id: 7, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023' },
+  { id: 8, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
+  { id: 9, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023' }
 ];
 
-const style = {
+const modalStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 350,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -53,37 +77,65 @@ const Mockup = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [selected, setSelected] = React.useState(false);
 
   return (
     <>
       <NavBar />
+      {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
       <br />
-      <Button variant="outlined" startIcon={<DeleteIcon />} disabled>
-        Delete
-      </Button>
+      {/* ----- BUTTON ROW ----- */}
       <div>
-        <Button onClick={handleOpen}>Open modal</Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+        <Typography
+          component="h2"
+          variant="h5"
+          color="inherit"
+          align="right"
+          noWrap
+          sx={{ flex: 1 }}
         >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-          {/* <Button variant="outlined" startIcon={<DeleteIcon />} disabled>
-            Delete
-          </Button> */}
-        </Modal>
+          <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            <Button startIcon={<AddIcon />}>Add</Button>
+            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleOpen}>
+              Delete
+            </Button>
+          </ButtonGroup>
+          {/* ----- MODAL ----- */}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyle} align="center">
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Are you sure you want to delete?
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                WARNING: This action cannot be undone!
+              </Typography>
+              <br />
+              <Button variant="contained" onClick={handleClose}>
+                Confirm
+              </Button>
+            </Box>
+          </Modal>
+          <br />
+          {/* ----- TOGGLE BUTTON ----- */}
+          <ToggleButton
+            value="check"
+            selected={selected}
+            onChange={() => {
+              setSelected(!selected);
+            }}
+          >
+            <CheckIcon />
+          </ToggleButton>
+        </Typography>
       </div>
+      {/* ----- DATA GRID ----- */}
       <Box sx={{ width: '100%' }}>
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 500 }}>
           <DataGrid
             rows={rows}
             columns={columns}

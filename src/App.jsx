@@ -14,7 +14,21 @@ import Mockup from './components/Form/Mockup';
 import NavBar from './components/Form/NavBar';
 
 const AppFooter = (props) => (
-  <Typography variant="body2" color="text.secondary" align="center" {...props}>
+  <Typography
+    variant="body2"
+    color="text.secondary"
+    align="center"
+    sx={{
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      marginBottom: '20px',
+      marginTop: '20px',
+      padding: '10 10 10 10'
+    }}
+    {...props}
+  >
     {'Copyright © '}
     <Link color="inherit" href="https://github.com/codeforpdx/PASS">
       codeForPDX
