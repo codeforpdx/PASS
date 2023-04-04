@@ -19,6 +19,10 @@ import {
   updateUserActivity
 } from './utils';
 
+/**
+ * @typedef {import("./typedefs").userListObject} userListObject
+ */
+
 const AppHeader = () => (
   <header>
     <h2>Getting Started with PASS</h2>
@@ -28,6 +32,7 @@ const AppHeader = () => (
 const App = () => {
   const { session } = useSession();
   const [selectedUser, setSelectedUser] = useState('');
+  /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);

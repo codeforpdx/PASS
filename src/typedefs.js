@@ -105,7 +105,7 @@ const React = require('react');
  */
 
 /**
- *
+ * An object that stores the user's name and their Pod URL
  *
  * @exports userListObject
  * @typedef userListObject
