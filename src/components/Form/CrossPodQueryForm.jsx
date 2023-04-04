@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getDocuments, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { SelectUserContext } from '../../contexts';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod
@@ -17,13 +18,18 @@ const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
+  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
-    const podUrl = event.target.crossPodQuery.value;
+    let podUrl = event.target.crossPodQuery.value;
+
+    if (!podUrl) {
+      podUrl = selectedUser;
+    }
 
     if (!podUrl) {
       runNotification('Search failed. Reason: Pod URL not provided.', 3, state, dispatch);
@@ -45,12 +51,14 @@ const CrossPodQueryForm = () => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! Document located at: ', 3, state, dispatch);
         clearUserUrl();
+        setSelectedUser('');
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
       runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
       clearUserUrl();
+      setSelectedUser('');
       dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
@@ -73,7 +81,13 @@ const CrossPodQueryForm = () => {
           </label>
           <br />
           <br />
-          <input id="cross-search-doc" size="60" name="crossPodQuery" {...userUrl} />
+          <input
+            id="cross-search-doc"
+            size="60"
+            name="crossPodQuery"
+            {...userUrl}
+            placeholder={selectedUser}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="cross-search-doctype">Select document type to search: </label>

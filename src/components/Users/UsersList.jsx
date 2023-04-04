@@ -12,9 +12,9 @@ const UsersList = () => {
   const { userList, setUserList } = useContext(UserListContext);
 
   // Event handler for selecting user from users list
-  const handleSelectUser = async (userToSelect) => {
+  const handleSelectUser = async (userToSelect, selectedUserUrl) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(userToSelect);
+    setSelectedUser(selectedUserUrl);
   };
 
   // Event handler for deleting user from users list
@@ -57,7 +57,7 @@ const UsersList = () => {
                   <td>{user.url}</td>
                   <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
                   <td>
-                    <button type="button" onClick={() => handleSelectUser(user.name)}>
+                    <button type="button" onClick={() => handleSelectUser(user.name, user.url)}>
                       select
                     </button>
                   </td>
