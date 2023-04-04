@@ -27,7 +27,6 @@ const Login = () => {
           </a>
           ]:{' '}
         </label>
-        <br />
         <LoginButton
           oidcIssuer={SOLID_IDENTITY_PROVIDER}
           redirectUrl={currentUrl}
