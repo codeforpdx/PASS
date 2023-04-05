@@ -120,6 +120,7 @@ export const uploadDocument = async (session, fileObject) => {
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .addUrl(SCHEMA_INRUPT.url, `${documentUrl}${fileObject.file.name}`)
     .build();
 
   let newSolidDataset = createSolidDataset();
