@@ -15,7 +15,7 @@ const Logout = () => {
   const { currentUrl } = useContext(RouterContext);
 
   const handleLogout = () => {
-    window.location.href = `${currentUrl.split('home')[0]}`;
+    window.location.href = `${currentUrl.split('PASS')[0]}PASS/`;
   };
 
   return (

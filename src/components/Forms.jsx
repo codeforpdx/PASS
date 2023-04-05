@@ -5,17 +5,15 @@ import {
   DeleteDocumentForm,
   CrossPodQueryForm,
   CrossPodWriteForm,
-  SetAclPermissionForm,
-  ManageUsers
+  SetAclPermissionForm
 } from './Form';
 import { Logout } from './Login';
-import UsersList from './Users/UsersList';
 
 /**
- * Home Component - Component that generates Home section for PASS
+ * Forms Component - Component that generates Forms section for PASS
  *
  * @memberof GlobalComponents
- * @name Home
+ * @name Forms
  */
 
 const Home = () => (
@@ -24,8 +22,6 @@ const Home = () => (
     <UploadDocumentForm />
     <FetchDocumentForm />
     <DeleteDocumentForm />
-    <ManageUsers />
-    <UsersList />
     <SetAclPermissionForm />
     <CrossPodQueryForm />
     <CrossPodWriteForm />

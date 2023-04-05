@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import AppHeader from './components/AppHeader';
-import Home from './components/Home';
+import Forms from './components/Forms';
+import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
 import {
   getUsersFromPod,
@@ -23,7 +24,7 @@ const App = () => {
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
-  }, [currentUrl]);
+  }, [setCurrentUrl]);
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
@@ -58,26 +59,44 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <>
-      <AppHeader />
-      {!session.info.isLoggedIn ? (
-        <Login currentUrl={currentUrl} />
-      ) : (
-        <main>
-          <RouterContext.Provider value={currentUrlObject}>
-            <SelectUserContext.Provider value={selectedUserObject}>
-              <UserListContext.Provider value={userListObject}>
-                <Router>
-                  <Routes>
-                    <Route path="/PASS/home" element={<Home />} />
-                  </Routes>
-                </Router>
-              </UserListContext.Provider>
-            </SelectUserContext.Provider>
-          </RouterContext.Provider>
-        </main>
-      )}
-    </>
+    <RouterContext.Provider value={currentUrlObject}>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <Router>
+            <Routes>
+              <Route
+                exact
+                path="/PASS/"
+                element={
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <Login currentUrl={currentUrl} />
+                  </>
+                }
+              />
+              <Route
+                path="/PASS/home/"
+                element={
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <UserSection />
+                  </>
+                }
+              />
+              <Route
+                path="/PASS/forms/"
+                element={
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <Forms />
+                  </>
+                }
+              />
+            </Routes>
+          </Router>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </RouterContext.Provider>
   );
 };
 
