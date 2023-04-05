@@ -5,6 +5,14 @@ import { runNotification, deleteUserFromPod } from '../../utils';
 import FormSection from '../Form/FormSection';
 import { SelectUserContext, UserListContext } from '../../contexts';
 
+/**
+ * UsersList Component - Component that generates UsersList section for PASS
+ * which interfaces with Solid Pod to fetch user list
+ *
+ * @memberof Users
+ * @name UsersList
+ */
+
 const UsersList = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();

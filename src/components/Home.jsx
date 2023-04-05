@@ -11,6 +11,13 @@ import {
 import { Logout } from './Login';
 import UsersList from './Users/UsersList';
 
+/**
+ * Home Component - Component that generates Home section for PASS
+ *
+ * @memberof GlobalComponents
+ * @name Home
+ */
+
 const Home = () => (
   <>
     <Logout />
