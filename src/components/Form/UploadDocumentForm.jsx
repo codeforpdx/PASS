@@ -29,6 +29,12 @@ const UploadDocumentForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
+  const clearInputFields = () => {
+    clearDescription();
+    dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  };
+
   // Event handler for form/document submission to Pod
   const handleFormSubmission = async (event) => {
     event.preventDefault();
@@ -38,7 +44,10 @@ const UploadDocumentForm = () => {
     const docDescription = event.target.description.value;
 
     if (!state.file) {
-      runNotification('Submission failed. Reason: missing file', 2, state, dispatch);
+      runNotification('Submission failed. Reason: missing file', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
       return;
     }
 
@@ -58,7 +67,12 @@ const UploadDocumentForm = () => {
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileName}" uploaded to Solid.`, 7, state, dispatch);
+        runNotification(`File "${fileName}" uploaded to Solid.`, 5, state, dispatch);
+        setTimeout(() => {
+          event.target.uploadDoctype.value = '';
+          event.target.date.value = '';
+          clearInputFields();
+        }, 3000);
       }, 3000);
     } catch {
       try {
@@ -68,25 +82,32 @@ const UploadDocumentForm = () => {
 
         if (fileExist) {
           setTimeout(() => {
-            runNotification(`File "${fileName}" updated on Solid.`, 7, state, dispatch);
+            runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+            setTimeout(() => {
+              event.target.uploadDoctype.value = '';
+              event.target.date.value = '';
+              clearInputFields();
+            }, 3000);
           }, 3000);
         } else {
           setTimeout(() => {
-            runNotification(`File "${fileName}" uploaded on Solid.`, 7, state, dispatch);
+            runNotification(`File "${fileName}" uploaded on Solid.`, 5, state, dispatch);
+            setTimeout(() => {
+              event.target.uploadDoctype.value = '';
+              event.target.date.value = '';
+              clearInputFields();
+            }, 3000);
           }, 3000);
         }
       } catch (error) {
-        runNotification(`Operation failed. Reason: ${error.message}`, 3, state, dispatch);
+        runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
+        setTimeout(() => {
+          event.target.uploadDoctype.value = '';
+          event.target.date.value = '';
+          clearInputFields();
+        }, 3000);
       }
     }
-
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_FILE' });
-      dispatch({ type: 'CLEAR_PROCESSING' });
-      event.target.uploadDoctype.value = '';
-      event.target.date.value = '';
-      clearDescription();
-    }, 7000);
   };
 
   const formRowStyle = {

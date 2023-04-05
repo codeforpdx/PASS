@@ -20,6 +20,12 @@ const SetAclPermissionForm = () => {
   const { clearValue: clearUrl, ...user } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
+  const clearInputFields = () => {
+    clearUrl();
+    setSelectedUser('');
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  };
+
   // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
@@ -33,28 +39,31 @@ const SetAclPermissionForm = () => {
     }
 
     if (!podUrl) {
-      runNotification('Set permissions failed. Reason: Pod URL not provided.', 3, state, dispatch);
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Set permissions failed. Reason: Pod URL not provided.', 5, state, dispatch);
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
       return;
     }
 
     if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
-        3,
+        5,
         state,
         dispatch
       );
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
       return;
     }
 
     if (!permissionType) {
-      runNotification('Set permissions failed. Reason: Permissions not set.', 3, state, dispatch);
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Set permissions failed. Reason: Permissions not set.', 5, state, dispatch);
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
       return;
     }
 
@@ -63,22 +72,19 @@ const SetAclPermissionForm = () => {
 
       runNotification(
         `${permissionType} permission to ${podUrl} for ${docType}.`,
-        7,
+        5,
         state,
         dispatch
       );
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
     } catch (error) {
-      runNotification('Set permissions failed. Reason: File not found.', 3, state, dispatch);
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
     }
-
-    setTimeout(() => {
-      clearUrl();
-      setSelectedUser('');
-    }, 7000);
   };
 
   const formRowStyle = {

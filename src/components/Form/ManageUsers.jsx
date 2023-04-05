@@ -30,24 +30,30 @@ const ManageUsers = () => {
     };
 
     if (!userObject.url) {
-      runNotification(`Operation failed. Reason: No URL provided`, 3, state, dispatch);
+      runNotification(`Operation failed. Reason: No URL provided`, 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
       return;
     }
 
     if (!userObject.name) {
-      runNotification(`Operation failed. Reason: User's name is not provided`, 3, state, dispatch);
+      runNotification(`Operation failed. Reason: User's name is not provided`, 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
       return;
     }
 
     const listUsers = await addUserToPod(session, userObject);
     setUserList(listUsers);
 
-    runNotification(`Adding user "${userObject.name}" to Solid...`, 3, state, dispatch);
+    runNotification(`Adding user "${userObject.name}" to Solid...`, 5, state, dispatch);
 
     setTimeout(() => {
-      dispatch({ type: 'CLEAR_PROCESSING' });
       clearUserName();
       clearUserUrl();
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
   };
 

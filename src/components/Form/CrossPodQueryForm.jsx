@@ -20,6 +20,13 @@ const CrossPodQueryForm = () => {
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
+  // Clean up function for clearing input fields after submission
+  const clearInputFields = () => {
+    clearUserUrl();
+    setSelectedUser('');
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  };
+
   // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
@@ -32,8 +39,10 @@ const CrossPodQueryForm = () => {
     }
 
     if (!podUrl) {
-      runNotification('Search failed. Reason: Pod URL not provided.', 3, state, dispatch);
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Search failed. Reason: Pod URL not provided.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
       return;
     }
 
@@ -50,16 +59,14 @@ const CrossPodQueryForm = () => {
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! Document located at: ', 3, state, dispatch);
-        clearUserUrl();
-        setSelectedUser('');
-        dispatch({ type: 'CLEAR_PROCESSING' });
+        clearInputFields();
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
-      clearUserUrl();
-      setSelectedUser('');
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Search failed. Reason: Document not found.', 5, state, dispatch);
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
     }
   };
 
