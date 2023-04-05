@@ -1,10 +1,29 @@
 # Changelog
 
-## v0.0.2 (March 29, 2023)
+## v0.0.3 (Coming soon)
 
 ## Features
 
-- Added ability to update ttl file when updating content in their Pod (#71)
+- Merging UI with existing functionality
+- Major UI updates with Material UI
+
+## Fixes
+
+## Dev Changes
+
+## Others
+
+---
+
+## v0.0.2 (April 5, 2023)
+
+## Features
+
+- Developed a basic navbar for navigating between user list (i.e. home screen) and handle document forms when logged in (#74)
+- Created login tracker to keep track of user's last active date from PASS (#74)
+- Added ability for users to select other users from the user list (#74)
+- Created a user list and the ability for users to add/remove users from said list and save this information on their Pod (#74)
+- Added ability to update user's ttl file on their Pod if they're updating a document (#71)
 - Added ability to update user's file on their Pod (#70)
 - Added confirmation window for updating user file on their Pod (#70)
 
@@ -14,7 +33,10 @@
 
 ## Dev Changes
 
-- updateDocument now updates ttl files as well (#71)
+- Introduced routing to PASS in preparation for dedicated pages different functionalities in the application (#74)
+- Created React Contexts for user list, selected user, and browser routing (#74)
+- Reorganized session-core with multiline comments separating major functional sections (#74)
+- New components has been created for user list and its functionalities (#74)
 - uploadDocument function also renames ttl file to 'document.ttl' (#70)
 - Refactored UploadDocumentForm to perform both uploadDocument and updateDocument functions (#70)
 - Added updateDocument function in session-core.js for updating documents on user's Pod (#70)
@@ -24,7 +46,7 @@
 
 ## Others
 
-- Correcting typos and typing for JSDoc (#70)
+- Correcting typos and typing for JSDoc (#70, #74)
 - Deployed PASS to GitHub Pages with the link [https://codeforpdx.github.io/PASS/](https://codeforpdx.github.io/PASS/) (domain name will change in future updates) (#59)
 
 ---
