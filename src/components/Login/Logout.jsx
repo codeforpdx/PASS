@@ -1,5 +1,6 @@
-import React from 'react';
-import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
+import React, { useContext } from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
+import RouterContext from '../../contexts/routerContext';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -11,6 +12,11 @@ import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 
 const Logout = () => {
   const { session } = useSession();
+  const { currentUrl } = useContext(RouterContext);
+
+  const handleLogout = () => {
+    window.location.href = `${currentUrl.split('home')[0]}`;
+  };
 
   return (
     <section id="logout" className="panel">
@@ -18,7 +24,9 @@ const Logout = () => {
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
-        <LogoutButton />
+        <button type="button" onClick={handleLogout}>
+          Log Out
+        </button>
         <p className="labelStatus" role="alert">
           Your session is now logged in with the WebID [
           <a href={session.info.webId} target="_blank" rel="noreferrer">

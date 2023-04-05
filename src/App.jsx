@@ -1,16 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
-import { Login, Logout } from './components/Login';
-import {
-  UploadDocumentForm,
-  FetchDocumentForm,
-  DeleteDocumentForm,
-  CrossPodQueryForm,
-  CrossPodWriteForm,
-  SetAclPermissionForm,
-  ManageUsers
-} from './components/Form';
-import UsersList from './components/Users/UsersList';
+import { Login } from './components/Login';
+import AppHeader from './components/AppHeader';
+import Home from './components/Home';
 import { SelectUserContext, UserListContext } from './contexts';
 import {
   getUsersFromPod,
@@ -18,22 +11,25 @@ import {
   generateUsersList,
   updateUserActivity
 } from './utils';
+import RouterContext from './contexts/routerContext';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
  */
 
-const AppHeader = () => (
-  <header>
-    <h2>Getting Started with PASS</h2>
-  </header>
-);
-
 const App = () => {
   const { session } = useSession();
+  const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, [currentUrl]);
+
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
+
+  const currentUrlObject = useMemo(() => ({ currentUrl, setCurrentUrl }), [setCurrentUrl]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
@@ -65,22 +61,20 @@ const App = () => {
     <>
       <AppHeader />
       {!session.info.isLoggedIn ? (
-        <Login />
+        <Login currentUrl={currentUrl} />
       ) : (
         <main>
-          <SelectUserContext.Provider value={selectedUserObject}>
-            <UserListContext.Provider value={userListObject}>
-              <Logout />
-              <UploadDocumentForm />
-              <FetchDocumentForm />
-              <DeleteDocumentForm />
-              <ManageUsers />
-              <UsersList />
-              <SetAclPermissionForm />
-              <CrossPodQueryForm />
-              <CrossPodWriteForm />
-            </UserListContext.Provider>
-          </SelectUserContext.Provider>
+          <RouterContext.Provider value={currentUrlObject}>
+            <SelectUserContext.Provider value={selectedUserObject}>
+              <UserListContext.Provider value={userListObject}>
+                <Router>
+                  <Routes>
+                    <Route path="/PASS/home" element={<Home />} />
+                  </Routes>
+                </Router>
+              </UserListContext.Provider>
+            </SelectUserContext.Provider>
+          </RouterContext.Provider>
         </main>
       )}
     </>

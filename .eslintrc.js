@@ -22,6 +22,7 @@ module.exports = {
     'arrow-body-style': ['error', 'as-needed'],
     'no-param-reassign': ['error', { props: false }],
     'jsdoc/valid-types': 'off',
-    'no-alert': 'off'
+    'no-alert': 'off',
+    'import/no-extraneous-dependencies': 'off'
   }
 };
