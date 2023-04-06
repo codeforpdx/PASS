@@ -1,9 +1,10 @@
 # Changelog
 
-## v0.0.2 (March 26, 2023)
+## v0.0.2 (March 29, 2023)
 
 ## Features
 
+- Added ability to update ttl file when updating content in their Pod (#71)
 - Added ability to update user's file on their Pod (#70)
 - Added confirmation window for updating user file on their Pod (#70)
 
@@ -13,6 +14,7 @@
 
 ## Dev Changes
 
+- updateDocument now updates ttl files as well (#71)
 - uploadDocument function also renames ttl file to 'document.ttl' (#70)
 - Refactored UploadDocumentForm to perform both uploadDocument and updateDocument functions (#70)
 - Added updateDocument function in session-core.js for updating documents on user's Pod (#70)
