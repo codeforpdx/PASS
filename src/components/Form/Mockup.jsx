@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 // import Paper from '@mui/material/Paper';
 // import Stack from '@mui/material/Stack';
 // import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -18,6 +19,12 @@ import AddIcon from '@mui/icons-material/Add';
 // import StarIcon from '@mui/icons-material/Star';
 // import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Footer from './Footer';
 import NavBar from './NavBar';
 import theme from '../../theme';
@@ -27,9 +34,9 @@ const columns = [
   { field: 'firstName', headerName: 'First Name', width: 130 },
   { field: 'lastName', headerName: 'Last Name', width: 130 },
   {
-    field: 'dateCreated',
-    headerName: 'Date Created',
-    width: 130
+    field: 'dateModified',
+    headerName: 'Date Modified',
+    width: 175
   },
   { field: 'priority', headerName: 'Priority', width: 75 }
 ];
@@ -39,29 +46,41 @@ const rows = [
     id: 1,
     lastName: 'Smith',
     firstName: 'John',
-    dateCreated: 'Jan 1, 2023',
+    dateModified: '1/26/2023 1:27 AM',
     priority: '⭐'
   },
   {
     id: 2,
     lastName: 'Smith',
     firstName: 'Jane',
-    dateCreated: 'Jan 1, 2023',
+    dateModified: '1/26/2023 1:27 AM',
     priority: ''
   },
   {
     id: 3,
     lastName: 'Smith',
     firstName: 'Jane',
-    dateCreated: 'Jan 1, 2023',
+    dateModified: '1/26/2023 1:27 AM',
     priority: ''
   },
-  { id: 4, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
-  { id: 5, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '' },
-  { id: 6, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '⭐' },
-  { id: 7, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023', priority: '' },
-  { id: 8, lastName: 'Smith', firstName: 'John', dateCreated: 'Jan 1, 2023', priority: '' },
-  { id: 9, lastName: 'Smith', firstName: 'Jane', dateCreated: 'Jan 1, 2023', priority: '⭐' }
+  {
+    id: 4,
+    lastName: 'Smith',
+    firstName: 'John',
+    dateModified: '1/26/2023 1:27 AM',
+    priority: '⭐'
+  },
+  { id: 5, lastName: 'Smith', firstName: 'John', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  {
+    id: 6,
+    lastName: 'Smith',
+    firstName: 'John',
+    dateModified: '1/26/2023 1:27 AM',
+    priority: '⭐'
+  },
+  { id: 7, lastName: 'Smith', firstName: 'Jane', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 8, lastName: 'Smith', firstName: 'John', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 9, lastName: 'Smith', firstName: 'Jane', dateModified: '1/26/2023 1:27 AM', priority: '⭐' }
 ];
 
 const modalStyle = {
@@ -76,22 +95,31 @@ const modalStyle = {
   p: 4
 };
 
-// const addUser = () => {};
-
 const Mockup = () => {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const handleOpen2 = () => setOpen2(true);
   const handleClose = () => setOpen(false);
+  const handleClose2 = () => setOpen2(false);
   // const [selected, setSelected] = React.useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password')
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
       {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
-      {/* <StarIcon /> */}
-      {/* <StarBorderIcon /> */}
       <br />
       {/* ----- BUTTON ROW ----- */}
+
       <div>
         <Typography
           component="h2"
@@ -102,12 +130,75 @@ const Mockup = () => {
           sx={{ flex: 1 }}
         >
           <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button startIcon={<AddIcon />}>Add</Button>
+            <Button startIcon={<AddIcon />} onClick={handleOpen2}>
+              Add
+            </Button>
             <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleOpen}>
               Delete
             </Button>
           </ButtonGroup>
+
           {/* ----- MODAL ----- */}
+          <div>
+            <Dialog open={open2} onClose={handleClose2}>
+              <DialogTitle align="center">Add new client</DialogTitle>
+              <DialogContent>
+                <DialogContentText>Enter new client details below</DialogContentText>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="firstName"
+                      required
+                      fullWidth
+                      id="firstName"
+                      label="First Name"
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="lastName"
+                      label="Last Name"
+                      name="lastName"
+                      autoComplete="family-name"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="new-password"
+                    />
+                  </Grid>
+                </Grid>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose2}>Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained">
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+
           <Modal
             open={open}
             onClose={handleClose}
@@ -127,17 +218,9 @@ const Mockup = () => {
               </Button>
             </Box>
           </Modal>
+
           <br />
-          {/* ----- TOGGLE BUTTON ----- */}
-          {/* <ToggleButton
-            value="check"
-            selected={selected}
-            onChange={() => {
-              setSelected(!selected);
-            }}
-          >
-            <CheckIcon />
-          </ToggleButton> */}
+
         </Typography>
       </div>
       {/* ----- DATA GRID ----- */}

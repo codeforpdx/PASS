@@ -9,8 +9,8 @@ import {
   CrossPodWriteForm,
   SetAclPermissionForm
 } from './components/Form';
-import Footer from './components/Form/Footer';
-import Mockup from './components/Form/Mockup';
+import AppFooter from './components/Form/Footer';
+// import Mockup from './components/Form/Mockup';
 import NavBar from './components/Form/NavBar';
 
 const App = () => {
@@ -21,11 +21,11 @@ const App = () => {
       <div />
       {!session.info.isLoggedIn ? (
         <>
-          {/* <Login /> */}
-          <Mockup />
+          <Login />
+          {/* <Mockup /> */}
         </>
       ) : (
-        <main>
+        <>
           <NavBar />
           <Logout />
           <UploadDocumentForm />
@@ -34,10 +34,9 @@ const App = () => {
           <SetAclPermissionForm />
           <CrossPodQueryForm />
           <CrossPodWriteForm />
-        </main>
+        </>
       )}
-      {/* <AppFooter /> */}
-      <Footer />
+      <AppFooter />
     </>
   );
 };
