@@ -25,6 +25,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Fab from '@mui/material/Fab';
+// import EditIcon from '@mui/icons-material/Edit';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import NavigationIcon from '@mui/icons-material/Navigation';
 import Footer from './Footer';
 import NavBar from './NavBar';
 import theme from '../../theme';
@@ -119,7 +123,6 @@ const Mockup = () => {
       {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
       <br />
       {/* ----- BUTTON ROW ----- */}
-
       <div>
         <Typography
           component="h2"
@@ -220,7 +223,6 @@ const Mockup = () => {
           </Modal>
 
           <br />
-
         </Typography>
       </div>
       {/* ----- DATA GRID ----- */}
@@ -235,6 +237,10 @@ const Mockup = () => {
           />
         </div>
       </Box>
+      {/* ----- FLOATING ACTION BUTTON ----- */}
+      <Fab color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
       {/* ----- FOOTER ----- */}
       <Footer />
     </ThemeProvider>

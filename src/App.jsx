@@ -10,7 +10,7 @@ import {
   SetAclPermissionForm
 } from './components/Form';
 import AppFooter from './components/Form/Footer';
-// import Mockup from './components/Form/Mockup';
+import Mockup from './components/Form/Mockup';
 import NavBar from './components/Form/NavBar';
 
 const App = () => {
@@ -21,8 +21,8 @@ const App = () => {
       <div />
       {!session.info.isLoggedIn ? (
         <>
-          <Login />
-          {/* <Mockup /> */}
+          {/* <Login /> */}
+          <Mockup />
         </>
       ) : (
         <>
