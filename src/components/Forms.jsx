@@ -16,7 +16,7 @@ import { Logout } from './Login';
  * @name Forms
  */
 
-const Home = () => (
+const Forms = () => (
   <>
     <Logout />
     <UploadDocumentForm />
@@ -28,4 +28,4 @@ const Home = () => (
   </>
 );
 
-export default Home;
+export default Forms;

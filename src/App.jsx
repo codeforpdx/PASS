@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import AppHeader from './components/AppHeader';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
-import { SelectUserContext, UserListContext } from './contexts';
+import { SelectUserContext, UserListContext, RouterContext } from './contexts';
 import {
   getUsersFromPod,
   generateActivityTTL,
   generateUsersList,
   updateUserActivity
 } from './utils';
-import RouterContext from './contexts/routerContext';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -68,28 +67,40 @@ const App = () => {
                 exact
                 path="/PASS/"
                 element={
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <Login currentUrl={currentUrl} />
-                  </>
+                  session.info.isLoggedIn ? (
+                    <Navigate to="/PASS/home" />
+                  ) : (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <Login currentUrl={currentUrl} />
+                    </>
+                  )
                 }
               />
               <Route
                 path="/PASS/home/"
                 element={
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <UserSection />
-                  </>
+                  session.info.isLoggedIn ? (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <UserSection />
+                    </>
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
                 }
               />
               <Route
                 path="/PASS/forms/"
                 element={
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <Forms />
-                  </>
+                  session.info.isLoggedIn ? (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <Forms />
+                    </>
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
                 }
               />
             </Routes>

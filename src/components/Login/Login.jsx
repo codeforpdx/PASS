@@ -22,7 +22,7 @@ const Login = ({ currentUrl }) => (
       </label>
       <LoginButton
         oidcIssuer={SOLID_IDENTITY_PROVIDER}
-        redirectUrl={`${currentUrl}home/`}
+        redirectUrl={currentUrl}
         onError={console.error}
       />
       <p>Not logged in</p>
