@@ -4,9 +4,11 @@ import DeleteDocumentForm from './DeleteDocumentForm';
 import CrossPodQueryForm from './CrossPodQueryForm';
 import CrossPodWriteForm from './CrossPodWriteForm';
 import SetAclPermissionForm from './SetAclPermissionForm';
+import ManageUsers from './ManageUsers';
 
 /**
  * Components and functions related to Forms within project PASS
+ *
  * @namespace Forms
  */
 
@@ -16,5 +18,6 @@ export {
   DeleteDocumentForm,
   CrossPodQueryForm,
   CrossPodWriteForm,
-  SetAclPermissionForm
+  SetAclPermissionForm,
+  ManageUsers
 };

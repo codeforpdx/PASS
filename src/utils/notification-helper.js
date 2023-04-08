@@ -1,17 +1,24 @@
+import React from 'react';
+
 /**
- * @typedef {import("../reducers/statusReducer").statusNotificationObject} statusNotificationObject
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
  */
 
 /**
- * Function that runs status messages provided a message, the duration (time in seconds),
- * the timeoutID of previous message (if exist), and the useReducer dispatch function
+ * Function that runs status messages provided a message, the duration (time in
+ * seconds), the timeoutID of previous message (if exist), and the useReducer
+ * dispatch function
+ *
  * @memberof utils
  * @function runNotification
- * @param {String} message - File status message for upload, fetch, or delete file
- * @param {Number} time - Duration of message in seconds
- * @param {statusNotificationObject} state - useStatusNotificationObject
- * @param {React.DispatchWithoutAction} dispatch - useStatusNotification dispatch function
- * @returns {Void} Void - Status message is displayed via dispatch call
+ * @param {string} message - File status message for upload, fetch, or delete
+ * file
+ * @param {number} time - Duration of message in seconds
+ * @param {statusNotificationObject} state - The state related to status
+ * notifications (see {@link statusNotificationObject})
+ * @param {React.DispatchWithoutAction} dispatch - useStatusNotification
+ * dispatch function
+ * @returns {void} Void - Status message is displayed via dispatch call
  */
 
 const runNotification = (
@@ -20,7 +27,8 @@ const runNotification = (
   state,
   dispatch
 ) => {
-  // if local timeoutID exist, clear previous message and run new status notification message
+  // if local timeoutID exist, clear previous message and run new status
+  // notification message
   if (state.timeoutID) {
     clearTimeout(state.timeoutID);
   }
@@ -31,7 +39,6 @@ const runNotification = (
   const timeout = setTimeout(() => {
     dispatch({ type: 'CLEAR_MESSAGE' });
     dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-    dispatch({ type: 'CLEAR_PROCESSING' });
   }, time * 1000);
 
   dispatch({ type: 'SET_TIMEOUT_ID', payload: timeout });

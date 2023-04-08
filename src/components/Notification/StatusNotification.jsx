@@ -2,21 +2,18 @@ import React from 'react';
 import StatusMessage from './StatusMessage';
 
 /**
- * @typedef {Object} statusNotificationProps
- * @property {String} notification - File status message
- * @property {String} statusType - Type of file status (i.e. file upload, file fetch, file delete)
- * @property {String} defaultMessage - Default message when status is not triggered
- * @property {String} [locationUrl] - URL location of file, if exist
+ * @typedef {import("../../typedefs").statusNotificationProps} statusNotificationProps
  */
 
 /**
- * StatusNotification Component - Component that renders status notification and message
- * for file upload, search, delete, etc.
+ * StatusNotification Component - Component that renders status notification and
+ * message for file upload, search, delete, etc.
+ *
  * @memberof Notifications
- * @component
  * @name StatusNotification
- * @param {statusNotificationProps} statusNotificationProps - A react prop that consist of notification,
- * statusType, defaultMessage, and locationUrl, which is optional
+ * @param {statusNotificationProps} statusNotificationProps - A react prop that
+ * consist of notification, statusType, defaultMessage, and locationUrl, which
+ * is optional (see {@link statusNotificationProps})
  */
 
 const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (

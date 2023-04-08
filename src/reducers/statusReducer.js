@@ -1,19 +1,21 @@
 /**
- * The reducers module contains Redux-like reducers that assist with status notifications
+ * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ */
+
+/**
+ * The reducers module contains Redux-like reducers that assist with status
+ * notifications
+ *
  * @namespace reducers
  */
 
 /**
- * Initial state for useStatusNotification hook
+ * Initial state for useStatusNotification hook (see
+ * {@link statusNotificationObject})
+ *
  * @memberof reducers
  * @name initialStatusState
- * @typedef {Object} statusNotificationObject
- * @property {String|null} documentUrl - Url link to document container
- * @property {String} message - Status message for file upload, query, or deletion
- * @property {String|null} timeoutID - Timeout ID for status message
- * @property {Object|null} file - Object that includes file in question
- * @property {Boolean} processing - Boolean on whether application is uploading,
- * fetching, querying data from Solid
+ * @type {statusNotificationObject}
  */
 
 export const initialStatusState = {
@@ -28,9 +30,11 @@ export const initialStatusState = {
  * @memberof reducers
  * @function statusReducer
  * @param {statusNotificationObject} state - The state for status notification
- * @param {Object} action - useReducer Object for useReducer hook containing
+ * (see {@link statusNotificationObject})
+ * @param {object} action - useReducer Object for useReducer hook containing
  * action.payload for useStatusNotification hook
- * @return {statusNotificationObject} state - The updated state based on useReducer action
+ * @returns {statusNotificationObject} state - The updated state based on
+ * useReducer action
  */
 
 const statusReducer = (state, action) => {
@@ -56,7 +60,7 @@ const statusReducer = (state, action) => {
     case 'CLEAR_PROCESSING':
       return { ...state, processing: false };
     default:
-      throw new Error('No action');
+      return initialStatusState;
   }
 };
 
