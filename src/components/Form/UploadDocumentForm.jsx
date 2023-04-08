@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from '@mui/material/Card';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
@@ -30,6 +29,12 @@ const UploadDocumentForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
+  const clearInputFields = () => {
+    clearDescription();
+    dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  };
+
   // Event handler for form/document submission to Pod
   const handleFormSubmission = async (event) => {
     event.preventDefault();
@@ -39,7 +44,10 @@ const UploadDocumentForm = () => {
     const docDescription = event.target.description.value;
 
     if (!state.file) {
-      runNotification('Submission failed. Reason: missing file', 2, state, dispatch);
+      runNotification('Submission failed. Reason: missing file', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
       return;
     }
 
@@ -59,7 +67,12 @@ const UploadDocumentForm = () => {
 
       // setTimeout is used to let uploadDocument finish its upload to user's Pod
       setTimeout(() => {
-        runNotification(`File "${fileName}" uploaded to Solid.`, 7, state, dispatch);
+        runNotification(`File "${fileName}" uploaded to Solid.`, 5, state, dispatch);
+        setTimeout(() => {
+          event.target.uploadDoctype.value = '';
+          event.target.date.value = '';
+          clearInputFields();
+        }, 3000);
       }, 3000);
     } catch {
       try {
@@ -69,25 +82,32 @@ const UploadDocumentForm = () => {
 
         if (fileExist) {
           setTimeout(() => {
-            runNotification(`File "${fileName}" updated on Solid.`, 7, state, dispatch);
+            runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+            setTimeout(() => {
+              event.target.uploadDoctype.value = '';
+              event.target.date.value = '';
+              clearInputFields();
+            }, 3000);
           }, 3000);
         } else {
           setTimeout(() => {
-            runNotification(`File "${fileName}" uploaded on Solid.`, 7, state, dispatch);
+            runNotification(`File "${fileName}" uploaded on Solid.`, 5, state, dispatch);
+            setTimeout(() => {
+              event.target.uploadDoctype.value = '';
+              event.target.date.value = '';
+              clearInputFields();
+            }, 3000);
           }, 3000);
         }
       } catch (error) {
-        runNotification(`Operation failed. Reason: ${error.message}`, 3, state, dispatch);
+        runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
+        setTimeout(() => {
+          event.target.uploadDoctype.value = '';
+          event.target.date.value = '';
+          clearInputFields();
+        }, 3000);
       }
     }
-
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_FILE' });
-      dispatch({ type: 'CLEAR_PROCESSING' });
-      event.target.uploadDoctype.value = '';
-      event.target.date.value = '';
-      clearDescription();
-    }, 7000);
   };
 
   const formRowStyle = {
@@ -95,44 +115,42 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <Card variant="outlined">
-      <FormSection
-        title="Upload Document"
-        state={state}
-        statusType="Writing status"
-        defaultMessage="To be uploaded..."
-      >
-        <form onSubmit={handleFormSubmission} autoComplete="off">
-          <div style={formRowStyle}>
-            <label htmlFor="upload-doc">Select document type to upload: </label>
-            <DocumentSelection htmlId="upload-doc" />
-          </div>
-          <div style={formRowStyle}>
-            <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-            <input id="upload-doc-expiration" name="date" type="date" />
-          </div>
-          <div style={formRowStyle}>
-            <label htmlFor="upload-doc-desc">Enter description: </label>
-            <br />
-            <br />
-            <textarea id="upload-doc-desc" name="description" {...description} />
-          </div>
-          <div style={formRowStyle}>
-            <label htmlFor="upload-doctype">File to upload: </label>
-            <input
-              id="upload-doctype"
-              type="file"
-              name="uploadDoctype"
-              accept=".pdf, .docx, .doc, .txt, .rtf"
-              onChange={handleFileChange}
-            />
-            <button disabled={state.processing} type="submit">
-              Upload file
-            </button>
-          </div>
-        </form>
-      </FormSection>
-    </Card>
+    <FormSection
+      title="Upload Document"
+      state={state}
+      statusType="Upload status"
+      defaultMessage="To be uploaded..."
+    >
+      <form onSubmit={handleFormSubmission} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <DocumentSelection htmlId="upload-doc" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+          <input id="upload-doc-expiration" name="date" type="date" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-desc">Enter description: </label>
+          <br />
+          <br />
+          <textarea id="upload-doc-desc" name="description" {...description} />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doctype">File to upload: </label>
+          <input
+            id="upload-doctype"
+            type="file"
+            name="uploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf"
+            onChange={handleFileChange}
+          />
+          <button disabled={state.processing} type="submit">
+            Upload file
+          </button>
+        </div>
+      </form>
+    </FormSection>
   );
 };
 

@@ -1,10 +1,11 @@
-import React from 'react';
-import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
+import React, { useContext } from 'react';
+import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
+// import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+// import Card from '@mui/material/Card';
+// import Container from '@mui/material/Container';
 // import CssBaseline from '@mui/material/CssBaseline';
+import RouterContext from '../../contexts';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -16,43 +17,28 @@ import Container from '@mui/material/Container';
 
 const Logout = () => {
   const { session } = useSession();
+  const { currentUrl } = useContext(RouterContext);
+
+  const handleLogout = () => {
+    window.location.href = `${currentUrl.split('PASS')[0]}PASS/`;
+  };
 
   return (
-    <Card variant="outlined">
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 5,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center'
-          }}
-        >
-          <section id="logout" className="panel">
-            <div className="row">
-              <label id="labelLogout" htmlFor="btnLogout">
-                Click the following logout button to log out of your pod:{' '}
-              </label>
-              <LogoutButton>
-                {/* <button type="submit">Logout</button> */}
-                <Button variant="contained" type="submit" color="error" size="large">
-                  Logout
-                </Button>{' '}
-              </LogoutButton>
-
-              <p className="labelStatus" role="alert">
-                Your session is now logged in with the WebID [
-                <a href={session.info.webId} target="_blank" rel="noreferrer">
-                  {session.info.webId}
-                </a>
-                ].
-              </p>
-            </div>
-          </section>
-        </Box>
-      </Container>
-    </Card>
+    <section id="logout" className="panel">
+      <div className="row">
+        <label id="labelLogout" htmlFor="btnLogout">
+          Click the following logout button to log out of your pod:{' '}
+        </label>
+        <LogoutButton onLogout={handleLogout} />
+        <p className="labelStatus" role="alert">
+          Your session is now logged in with the WebID [
+          <a href={session.info.webId} target="_blank" rel="noreferrer">
+            {session.info.webId}
+          </a>
+          ].
+        </p>
+      </div>
+    </section>
   );
 };
 

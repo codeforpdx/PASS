@@ -90,7 +90,7 @@ const React = require('react');
  */
 
 /**
- *  A React props object for FormSection component
+ * A React props object for FormSection component
  *
  * @exports formSectionProps
  * @typedef formSectionProps
@@ -101,6 +101,17 @@ const React = require('react');
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
  * @property {React.ReactElement} children - JSX Element of the wrapped form
+ * @memberof typedefs
+ */
+
+/**
+ * An object that stores the user's name and their Pod URL
+ *
+ * @exports userListObject
+ * @typedef userListObject
+ * @type {object}
+ * @property {string} name - Name of user
+ * @property {URL} podURL - URL of user's Solid Pod
  * @memberof typedefs
  */
 

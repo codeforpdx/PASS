@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import Card from '@mui/material/Card';
-import { fetchDocuments, runNotification } from '../../utils';
+import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -25,7 +24,7 @@ const FetchDocumentForm = () => {
     const docType = event.target.document.value;
 
     try {
-      const documentUrl = await fetchDocuments(session, docType, 'self-fetch');
+      const documentUrl = await getDocuments(session, docType, 'self-fetch');
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -33,16 +32,20 @@ const FetchDocumentForm = () => {
 
       runNotification('Locating document...', 3, state, dispatch);
 
-      // setTimeout is used to let fetchDocuments complete its fetch
+      // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! Document located at: ', 7, state, dispatch);
-        dispatch({ type: 'CLEAR_PROCESSING' });
+        runNotification('Document found! Document located at: ', 5, state, dispatch);
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_PROCESSING' });
+        }, 3000);
       }, 3000);
     } catch (_error) {
       dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found.', 3, state, dispatch);
-      dispatch({ type: 'CLEAR_PROCESSING' });
+      runNotification('Search failed. Reason: Document not found.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
     }
   };
 
@@ -51,7 +54,6 @@ const FetchDocumentForm = () => {
   };
 
   return (
-    <Card>
       <FormSection
         title="Search Document"
         state={state}
@@ -68,7 +70,6 @@ const FetchDocumentForm = () => {
           </div>
         </form>
       </FormSection>
-    </Card>
   );
 };
 
