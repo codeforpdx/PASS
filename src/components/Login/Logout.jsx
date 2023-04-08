@@ -5,7 +5,7 @@ import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
 // import Card from '@mui/material/Card';
 // import Container from '@mui/material/Container';
 // import CssBaseline from '@mui/material/CssBaseline';
-import RouterContext from '../../contexts';
+import { RouterContext } from '../../contexts';
 
 /**
  * Logout Component - Component that generates Logout section for users to a

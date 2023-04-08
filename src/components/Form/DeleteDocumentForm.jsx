@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import Card from '@mui/material/Card';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -51,24 +50,22 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <Card>
-      <FormSection
-        title="Delete Document"
-        state={state}
-        statusType="Deletion status"
-        defaultMessage="To be deleted..."
-      >
-        <form onSubmit={handleDeleteDocument} autoComplete="off">
-          <div style={formRowStyle}>
-            <label htmlFor="delete-doctype">Select document type to delete: </label>
-            <DocumentSelection htmlId="delete-doctype" />{' '}
-            <button disabled={state.processing} type="submit">
-              Delete Document
-            </button>
-          </div>
-        </form>
-      </FormSection>
-    </Card>
+    <FormSection
+      title="Delete Document"
+      state={state}
+      statusType="Deletion status"
+      defaultMessage="To be deleted..."
+    >
+      <form onSubmit={handleDeleteDocument} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="delete-doctype">Select document type to delete: </label>
+          <DocumentSelection htmlId="delete-doctype" />{' '}
+          <button disabled={state.processing} type="submit">
+            Delete Document
+          </button>
+        </div>
+      </form>
+    </FormSection>
   );
 };
 

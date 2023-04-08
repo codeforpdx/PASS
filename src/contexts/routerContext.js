@@ -7,6 +7,6 @@ import { createContext } from 'react';
  * @memberof contexts
  */
 
-const RouterContext = createContext('');
+const RouterContext = createContext([]);
 
 export default RouterContext;

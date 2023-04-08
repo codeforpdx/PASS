@@ -3,7 +3,7 @@ import UserListContext from './userListContext';
 import RouterContext from './routerContext';
 
 /**
- * The contexts moedule contains React Contexts that helps with user management
+ * The contexts module contains React Contexts that helps with user management
  * and selection
  *
  * @namespace contexts
