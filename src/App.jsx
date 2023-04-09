@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import AppHeader from './components/AppHeader';
@@ -22,7 +23,11 @@ const App = () => {
   const [currentUrl, setCurrentUrl] = useState(window.location.href);
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
+    handleIncomingRedirect({
+      restorePreviousSession: true
+    }).then(() => {
+      setCurrentUrl(window.location.href);
+    });
   }, [setCurrentUrl]);
 
   const [selectedUser, setSelectedUser] = useState('');
