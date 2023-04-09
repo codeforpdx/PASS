@@ -28,6 +28,7 @@ const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   const currentUrlObject = useMemo(() => ({ currentUrl, setCurrentUrl }), [setCurrentUrl]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
@@ -47,8 +48,10 @@ const App = () => {
       try {
         const listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
+        setLoadingUsers(true);
       } catch {
         setUserList([]);
+        setLoadingUsers(false);
       }
     }
 
@@ -68,7 +71,7 @@ const App = () => {
                 path="/PASS/"
                 element={
                   session.info.isLoggedIn ? (
-                    <Navigate to="/PASS/home" />
+                    <Navigate to="/PASS/home/" />
                   ) : (
                     <>
                       <AppHeader isLoggedIn={session.info.isLoggedIn} />
@@ -83,7 +86,7 @@ const App = () => {
                   session.info.isLoggedIn ? (
                     <>
                       <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                      <UserSection />
+                      <UserSection loadingUsers={loadingUsers} />
                     </>
                   ) : (
                     <Navigate to="/PASS/" />

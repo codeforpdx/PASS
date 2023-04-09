@@ -10,11 +10,20 @@ import { Logout } from '../Login';
  * @name UserSection
  */
 
-const UserSection = () => (
+const UserSection = ({ loadingUsers }) => (
   <>
     <Logout />
     <ManageUsers />
-    <UsersList />
+    {loadingUsers ? (
+      <UsersList />
+    ) : (
+      <section className="panel">
+        <strong>Users List</strong>
+        <br />
+        <br />
+        <div style={{ marginBottom: '20px', textAlign: 'center' }}>Loading users list...</div>
+      </section>
+    )}
   </>
 );
 
