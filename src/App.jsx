@@ -5,11 +5,13 @@ import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
+import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
   generateActivityTTL,
   generateUsersList,
-  updateUserActivity
+  updateUserActivity,
+  SOLID_IDENTITY_PROVIDER
 } from './utils';
 
 /**
@@ -18,6 +20,25 @@ import {
 
 const App = () => {
   const { session } = useSession();
+  const redirectUrl = useRedirectUrl();
+  const [restore, setRestore] = useState(false);
+
+  useEffect(() => {
+    const performanceEntries = window.performance.getEntriesByType('navigation');
+    if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
+      setRestore(true);
+    }
+
+    if (restore && localStorage.getItem('loggedIn')) {
+      console.log('restoring session');
+      session.login({
+        oidcIssuer: SOLID_IDENTITY_PROVIDER,
+        redirectUrl,
+        onError: console.error
+      });
+    }
+  }, [restore]);
+
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);

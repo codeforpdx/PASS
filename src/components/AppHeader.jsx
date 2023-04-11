@@ -1,6 +1,6 @@
-import { useSession } from '@inrupt/solid-ui-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSession } from '@inrupt/solid-ui-react';
 
 /**
  * AppHeader Component - Component that generates AppHeader section for PASS
