@@ -107,6 +107,7 @@ const App = () => {
                 )
               }
             />
+            <Route path="*" element={<Navigate to="/PASS/" />} />
           </Routes>
         </UserListContext.Provider>
       </SelectUserContext.Provider>
