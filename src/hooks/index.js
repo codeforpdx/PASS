@@ -68,6 +68,16 @@ export const useStatusNotification = () => {
   return { state, dispatch };
 };
 
+/**
+ * Custom hook that provides the redirect URL for Solid session login and stores
+ * it in localStorage if it doesn't exist there
+ *
+ * @memberof hooks
+ * @function useRedirectUrl
+ * @returns {URL} redirectUrl - A string containing the redirect URL for Solid
+ * session login
+ */
+
 export const useRedirectUrl = () => {
   const [redirectUrl, setRedirectUrl] = useState('');
 

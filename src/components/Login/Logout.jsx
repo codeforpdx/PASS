@@ -12,6 +12,7 @@ import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
 const Logout = () => {
   const { session } = useSession();
 
+  // Event handler for logging out of PASS and removing items from localStorage
   const handleLogout = () => {
     localStorage.removeItem('redirectUrl');
     localStorage.removeItem('issuerConfig:https://opencommons.net');
