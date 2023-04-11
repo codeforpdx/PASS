@@ -59,7 +59,7 @@ const App = () => {
             path="/PASS/"
             element={
               session.info.isLoggedIn ? (
-                <Navigate to="/PASS/home" />
+                <Navigate to="/PASS/home/" />
               ) : (
                 <>
                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
