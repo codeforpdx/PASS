@@ -20,11 +20,7 @@ const Login = () => (
         </a>
         ]:{' '}
       </label>
-      <LoginButton
-        oidcIssuer={SOLID_IDENTITY_PROVIDER}
-        redirectUrl={window.location.href}
-        onError={console.error}
-      />
+      <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} onError={console.error} />
       <p>Not logged in</p>
     </div>
   </section>
