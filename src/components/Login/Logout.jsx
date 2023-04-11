@@ -12,10 +12,10 @@ import RouterContext from '../../contexts/routerContext';
 
 const Logout = () => {
   const { session } = useSession();
-  const { currentUrl } = useContext(RouterContext);
+  const { redirectUrl } = useContext(RouterContext);
 
   const handleLogout = () => {
-    window.location.href = `${currentUrl.split('PASS')[0]}PASS/`;
+    window.location.href = `${redirectUrl.split('PASS')[0]}PASS/`;
   };
 
   return (

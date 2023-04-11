@@ -20,21 +20,21 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  const [currentUrl, setCurrentUrl] = useState(window.location.href);
+  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
 
   useEffect(() => {
     handleIncomingRedirect({
-      restorePreviousSession: true
+      restorePreviousSession: false
     }).then(() => {
-      setCurrentUrl(window.location.href);
+      setRedirectUrl(window.location.href);
     });
-  }, [currentUrl]);
+  }, [redirectUrl]);
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
 
-  const currentUrlObject = useMemo(() => ({ currentUrl, setCurrentUrl }), [setCurrentUrl]);
+  const redirectUrlObject = useMemo(() => ({ redirectUrl, setRedirectUrl }), [setRedirectUrl]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
@@ -63,7 +63,7 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <RouterContext.Provider value={currentUrlObject}>
+    <RouterContext.Provider value={redirectUrlObject}>
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContext.Provider value={userListObject}>
           <Routes>
@@ -76,7 +76,7 @@ const App = () => {
                 ) : (
                   <>
                     <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <Login currentUrl={currentUrl} />
+                    <Login redirectUrl={redirectUrl} />
                   </>
                 )
               }
