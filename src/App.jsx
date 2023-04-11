@@ -12,6 +12,7 @@ import {
   generateUsersList,
   updateUserActivity
 } from './utils';
+import { useRedirectUrl } from './hooks';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -19,6 +20,8 @@ import {
 
 const App = () => {
   const { session } = useSession();
+  const redirectUrl = useRedirectUrl();
+
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
@@ -63,7 +66,7 @@ const App = () => {
               ) : (
                 <>
                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                  <Login />
+                  <Login redirectUrl={redirectUrl} />
                 </>
               )
             }

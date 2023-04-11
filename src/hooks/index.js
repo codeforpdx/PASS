@@ -5,7 +5,7 @@
  * @namespace hooks
  */
 
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import statusReducer, { initialStatusState } from '../reducers/statusReducer';
 
 /**
@@ -66,4 +66,19 @@ export const useStatusNotification = () => {
   const [state, dispatch] = useReducer(statusReducer, initialStatusState);
 
   return { state, dispatch };
+};
+
+export const useRedirectUrl = () => {
+  const [redirectUrl, setRedirectUrl] = useState('');
+
+  useEffect(() => {
+    if (!localStorage.getItem('redirectUrl')) {
+      localStorage.setItem('redirectUrl', window.location.href);
+      setRedirectUrl(window.location.href);
+    } else {
+      setRedirectUrl(localStorage.getItem('redirectUrl'));
+    }
+  }, [redirectUrl]);
+
+  return redirectUrl;
 };
