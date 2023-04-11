@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
-import AppHeader from './components/AppHeader';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
@@ -57,42 +56,15 @@ const App = () => {
           <Route
             exact
             path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate to="/PASS/home/" />
-              ) : (
-                <>
-                  <AppHeader />
-                  <Login />
-                </>
-              )
-            }
+            element={session.info.isLoggedIn ? <Navigate to="/PASS/home/" /> : <Login />}
           />
           <Route
             path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <>
-                  <AppHeader />
-                  <UserSection />
-                </>
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
+            element={session.info.isLoggedIn ? <UserSection /> : <Navigate to="/PASS/" />}
           />
           <Route
             path="/PASS/forms/"
-            element={
-              session.info.isLoggedIn ? (
-                <>
-                  <AppHeader />
-                  <Forms />
-                </>
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
+            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
           />
           <Route path="*" element={<Navigate to="/PASS/" />} />
         </Routes>
