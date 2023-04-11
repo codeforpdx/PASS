@@ -1,3 +1,4 @@
+import { useSession } from '@inrupt/solid-ui-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,9 @@ import { Link } from 'react-router-dom';
  * @name AppHeader
  */
 
-const AppHeader = ({ isLoggedIn }) => {
+const AppHeader = () => {
+  const { session } = useSession();
+
   const headerStyle = {
     width: '100%',
     gap: '20px',
@@ -20,7 +23,7 @@ const AppHeader = ({ isLoggedIn }) => {
   return (
     <header style={headerStyle}>
       <h2>Getting Started with PASS</h2>
-      {isLoggedIn ? (
+      {session.info.isLoggedIn ? (
         <>
           <Link to="/PASS/home/">Home</Link>
           <Link to="/PASS/forms/">Forms</Link>
