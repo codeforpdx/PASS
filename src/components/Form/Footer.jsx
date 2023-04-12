@@ -18,9 +18,10 @@ const AppFooter = (props) => (
         bottom: 0,
         left: 0,
         right: 0,
-        marginBottom: '20px',
-        marginTop: '20px',
-        padding: '10 10 10 10'
+        marginBottom: '10px',
+        marginTop: '10px',
+        padding: '10 10 10 10',
+        borderTop: '1px solid black'
       }}
       {...props}
     >

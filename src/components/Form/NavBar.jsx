@@ -165,7 +165,7 @@ const NavBar = () => {
         <AppBar position="static" color="primary">
           <Toolbar>
             <Typography
-              variant="h6"
+              variant="h4"
               noWrap
               component="div"
               // sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex' } }}
@@ -180,8 +180,15 @@ const NavBar = () => {
             </Search> */}
             <Box sx={{ flexGrow: 1 }} />
             <MenuItem>
-              <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <Button startIcon={<AddIcon />}>Add</Button>
+              <ButtonGroup
+                variant="contained"
+                aria-label="outlined primary button group"
+                // sx={{ color: 'brown' }}
+                color="inherit"
+              >
+                <Button startIcon={<AddIcon />} color="secondary">
+                  Add
+                </Button>
               </ButtonGroup>
             </MenuItem>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

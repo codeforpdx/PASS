@@ -13,7 +13,7 @@ import {
   updateUserActivity
 } from './utils';
 // import Mockup from './components/Form/Mockup';
-import MockupHomeScreen from './components/Form/MockupHoneScreen';
+import MockupHomeScreen from './components/Form/MockupHomeScreen';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject

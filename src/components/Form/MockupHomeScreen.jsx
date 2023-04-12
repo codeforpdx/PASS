@@ -1,33 +1,32 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-// import Checkbox from '@mui/material/Checkbox';
-// import Paper from '@mui/material/Paper';
-// import Stack from '@mui/material/Stack';
-// import { styled } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import SendIcon from '@mui/icons-material/Send';
+import SendIcon from '@mui/icons-material/Send';
 import { DataGrid } from '@mui/x-data-grid';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
-// import CheckIcon from '@mui/icons-material/Check';
-// import ToggleButton from '@mui/material/ToggleButton';
-// import Icon from '@mui/material/Icon';
-// import StarIcon from '@mui/icons-material/Star';
-// import StarBorderIcon from '@mui/icons-material/StarBorder';
+import CheckIcon from '@mui/icons-material/Check';
+import ToggleButton from '@mui/material/ToggleButton';
+import Icon from '@mui/material/Icon';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// import Fab from '@mui/material/Fab';
-// import EditIcon from '@mui/icons-material/Edit';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import NavigationIcon from '@mui/icons-material/Navigation';
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavigationIcon from '@mui/icons-material/Navigation';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -47,16 +46,17 @@ import theme from '../../theme';
 
 const Search = styled('div')(() => ({
   position: 'relative',
+  color: 'primary',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.1),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25)
+    backgroundColor: alpha(theme.palette.common.black, 0.05)
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginRight: theme.spacing(0),
+  marginLeft: theme.spacing(0),
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(0),
     width: 'auto'
   }
 }));
@@ -87,12 +87,13 @@ const StyledInputBase = styled(InputBase)(() => ({
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 50 },
-  { field: 'firstName', headerName: 'First Name', width: 130 },
-  { field: 'lastName', headerName: 'Last Name', width: 130 },
+  // { field: 'firstName', headerName: 'First Name', width: 130 },
+  // { field: 'lastName', headerName: 'Last Name', width: 130 },
+  { field: 'name', headerName: 'Name', width: 150 },
   {
     field: 'dateModified',
     headerName: 'Date Modified',
-    width: 175
+    width: 130
   },
   { field: 'priority', headerName: 'Priority', width: 75 }
 ];
@@ -100,43 +101,38 @@ const columns = [
 const rows = [
   {
     id: 1,
-    lastName: 'Smith',
-    firstName: 'John',
+    name: 'John Smith',
     dateModified: '1/26/2023 1:27 AM',
     priority: '⭐'
   },
   {
     id: 2,
-    lastName: 'Smith',
-    firstName: 'Jane',
+    name: 'Jane Smithlongerlastnametotest',
     dateModified: '1/26/2023 1:27 AM',
     priority: ''
   },
   {
     id: 3,
-    lastName: 'Smith',
-    firstName: 'Jane',
+    name: 'Jane Smith',
     dateModified: '1/26/2023 1:27 AM',
     priority: ''
   },
   {
     id: 4,
-    lastName: 'Smith',
-    firstName: 'John',
+    name: 'John Smith',
     dateModified: '1/26/2023 1:27 AM',
     priority: '⭐'
   },
-  { id: 5, lastName: 'Smith', firstName: 'John', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 5, name: 'John Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
   {
     id: 6,
-    lastName: 'Smith',
-    firstName: 'John',
+    name: 'John Smith',
     dateModified: '1/26/2023 1:27 AM',
     priority: '⭐'
   },
-  { id: 7, lastName: 'Smith', firstName: 'Jane', dateModified: '1/26/2023 1:27 AM', priority: '' },
-  { id: 8, lastName: 'Smith', firstName: 'John', dateModified: '1/26/2023 1:27 AM', priority: '' },
-  { id: 9, lastName: 'Smith', firstName: 'Jane', dateModified: '1/26/2023 1:27 AM', priority: '⭐' }
+  { id: 7, name: 'Jane Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 8, name: 'John Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 9, name: 'Jane Smith', dateModified: '1/26/2023 1:27 AM', priority: '⭐' }
 ];
 
 const modalStyle = {
@@ -154,8 +150,8 @@ const modalStyle = {
 const Mockup = () => {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleOpen2 = () => setOpen2(true);
+  // const handleOpen = () => setOpen(true);
+  // const handleOpen2 = () => setOpen2(true);
   const handleClose = () => setOpen(false);
   const handleClose2 = () => setOpen2(false);
   // const [selected, setSelected] = React.useState(false);
@@ -173,7 +169,27 @@ const Mockup = () => {
     <ThemeProvider theme={theme}>
       <NavBar />
       {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
-      <br />
+      {/* <br /> */}
+      <Typography
+        variant="h5"
+        noWrap
+        component="div"
+        // align="center"
+        sx={{
+          // backgroundColor: 'white',
+          // position: 'fixed',
+          // bottom: 0,
+          // left: 0,
+          // right: 0,
+          margin: '10px 10px -15px 10px',
+          // padding: '10 10 10 10',
+          fontWeight: 'bold',
+          position: 'relative'
+        }}
+      >
+        My Cases
+      </Typography>
+
       {/* ----- BUTTON ROW ----- */}
       <div>
         <Typography
@@ -193,7 +209,7 @@ const Mockup = () => {
             </Button>
           </ButtonGroup> */}
 
-          {/* ----- MODAL ----- */}
+          {/* ----- NEW CLIENT DIALOG BOX ----- */}
           <div>
             <Dialog open={open2} onClose={handleClose2}>
               <DialogTitle align="center">Add new client</DialogTitle>
@@ -254,6 +270,7 @@ const Mockup = () => {
             </Dialog>
           </div>
 
+          {/* ----- DELETE CLIENT MODAL ----- */}
           <Modal
             open={open}
             onClose={handleClose}
@@ -277,28 +294,33 @@ const Mockup = () => {
           <br />
         </Typography>
       </div>
+
+      {/* ----- SEARCH BAR ----- */}
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
       </Search>
+
       {/* ----- DATA GRID ----- */}
       <Box sx={{ width: '100%' }}>
-        <div style={{ height: '70vh' }}>
+        <div style={{ height: '90vh' }}>
           <DataGrid
             rows={rows}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
+            // checkboxSelection
           />
         </div>
       </Box>
+
       {/* ----- FLOATING ACTION BUTTON ----- */}
       {/* <Fab color="primary" aria-label="add">
         <AddIcon />
       </Fab> */}
+
       {/* ----- FOOTER ----- */}
       <Footer />
     </ThemeProvider>
