@@ -292,7 +292,9 @@ export const generateUsersList = async (session) => {
 
   if (!ttlFileExists) {
     const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale('https://schema.org/ListItem', 'List of users')
+      .addStringNoLocale(SCHEMA_INRUPT.name, 'Users List')
+      .addStringNoLocale(SCHEMA_INRUPT.description, 'A list of users')
+      .addUrl(SCHEMA_INRUPT.url, `${userContainerUrl}userlist.ttl`)
       .build();
 
     let newSolidDataset = createSolidDataset();
