@@ -12,9 +12,8 @@ import {
   generateUsersList,
   updateUserActivity
 } from './utils';
-// import AppFooter from './components/Form/Footer';
 // import Mockup from './components/Form/Mockup';
-// import NavBar from './components/Form/NavBar';
+import MockupHomeScreen from './components/Form/MockupHoneScreen';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -61,56 +60,60 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <RouterContext.Provider value={currentUrlObject}>
-      <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContext.Provider value={userListObject}>
-          <Router>
-            <Routes>
-              <Route
-                exact
-                path="/PASS/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Navigate to="/PASS/home" />
-                  ) : (
-                    <>
-                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                      <Login currentUrl={currentUrl} />
-                    </>
-                  )
-                }
-              />
-              <Route
-                path="/PASS/home/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <>
-                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                      <UserSection />
-                    </>
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/forms/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <>
-                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                      <Forms />
-                    </>
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-            </Routes>
-          </Router>
-        </UserListContext.Provider>
-      </SelectUserContext.Provider>
-    </RouterContext.Provider>
+    <>
+      <MockupHomeScreen />
+      <p></p>
+    </>
+    // <RouterContext.Provider value={currentUrlObject}>
+    //   <SelectUserContext.Provider value={selectedUserObject}>
+    //     <UserListContext.Provider value={userListObject}>
+    //       <Router>
+    //         <Routes>
+    //           <Route
+    //             exact
+    //             path="/PASS/"
+    //             element={
+    //               session.info.isLoggedIn ? (
+    //                 <Navigate to="/PASS/home" />
+    //               ) : (
+    //                 <>
+    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
+    //                   <Login currentUrl={currentUrl} />
+    //                 </>
+    //               )
+    //             }
+    //           />
+    //           <Route
+    //             path="/PASS/home/"
+    //             element={
+    //               session.info.isLoggedIn ? (
+    //                 <>
+    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
+    //                   <UserSection />
+    //                 </>
+    //               ) : (
+    //                 <Navigate to="/PASS/" />
+    //               )
+    //             }
+    //           />
+    //           <Route
+    //             path="/PASS/forms/"
+    //             element={
+    //               session.info.isLoggedIn ? (
+    //                 <>
+    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
+    //                   <Forms />
+    //                 </>
+    //               ) : (
+    //                 <Navigate to="/PASS/" />
+    //               )
+    //             }
+    //           />
+    //         </Routes>
+    //       </Router>
+    //     </UserListContext.Provider>
+    //   </SelectUserContext.Provider>
+    // </RouterContext.Provider>
   );
 };
 
