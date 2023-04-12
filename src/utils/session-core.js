@@ -123,8 +123,16 @@ export const uploadDocument = async (session, fileObject) => {
     .addUrl(SCHEMA_INRUPT.url, `${documentUrl}${fileObject.file.name}`)
     .build();
 
+  // const clientInfoThing = buildThing(createThing({ name: 'owner' }))
+  //   .addStringNoLocale(SCHEMA_INRUPT.givenName, 'Alice')
+  //   .addStringNoLocale(SCHEMA_INRUPT.familyName, 'Young')
+  //   .addUrl('https://schema.org/owns', `${documentUrl}${fileObject.file.name}`)
+  //   .addUrl(SCHEMA_INRUPT.url, 'https://testuser.opencommons.net/profile/card#me')
+  //   .build();
+
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
+  // newSolidDataset = setThing(newSolidDataset, clientInfoThing);
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
