@@ -14,7 +14,9 @@ import {
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
-  getStringNoLocale
+  getStringNoLocale,
+  getUrl,
+  removeThing
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -290,7 +292,7 @@ export const generateUsersList = async (session) => {
 
   if (!ttlFileExists) {
     const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify([]))
+      .addStringNoLocale('https://schema.org/ListItem', 'List of users')
       .build();
 
     let newSolidDataset = createSolidDataset();
@@ -321,15 +323,23 @@ export const generateUsersList = async (session) => {
 
 export const getUsersFromPod = async (session) => {
   const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
-  let userList;
+  let userList = [];
   try {
     const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
       fetch: session.fetch
     });
 
-    const ttlFileThing = getThingAll(solidDataset)[0];
-    const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
-    userList = JSON.parse(userListString);
+    const ttlFileThing = getThingAll(solidDataset);
+    const allUsersThing = ttlFileThing.filter((thing) => !thing.url.includes('#userlist'));
+    allUsersThing.forEach((userThing) => {
+      const person = getStringNoLocale(userThing, SCHEMA_INRUPT.Person);
+      const givenName = getStringNoLocale(userThing, SCHEMA_INRUPT.givenName);
+      const familyName = getStringNoLocale(userThing, SCHEMA_INRUPT.familyName);
+      const podUrl = getUrl(userThing, SCHEMA_INRUPT.url);
+
+      userList.push({ person, givenName, familyName, podUrl });
+    });
+
     userList = await getUserListActivity(session, userList);
   } catch {
     userList = [];
@@ -350,19 +360,18 @@ export const getUsersFromPod = async (session) => {
  * their Solid Pod
  */
 
-export const deleteUserFromPod = async (session, userToDelete) => {
+export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
   const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
-  let ttlFileThing = getThingAll(solidDataset)[0];
-  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
-  const userListParsed = JSON.parse(userListString).filter((user) => user.name !== userToDelete);
+  const ttlFileThing = getThingAll(solidDataset);
+  const usernameString = userToDeleteUrl.split('.')[0].split('/')[2];
+  const userToDeleteThing = ttlFileThing.find((thing) =>
+    thing.url.includes(`#${userToDelete.replace(' ', '%20')}%20${usernameString}`)
+  );
 
-  ttlFileThing = buildThing(ttlFileThing)
-    .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userListParsed))
-    .build();
-  solidDataset = setThing(solidDataset, ttlFileThing);
+  solidDataset = removeThing(solidDataset, userToDeleteThing);
 
   await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
     fetch: session.fetch
@@ -391,14 +400,17 @@ export const addUserToPod = async (session, userObject) => {
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
-  let ttlFileThing = getThingAll(solidDataset)[0];
-  const userListString = getStringNoLocale(ttlFileThing, SCHEMA_INRUPT.Person);
-  const userListParsed = JSON.parse(userListString).concat(userObject);
 
-  ttlFileThing = buildThing(ttlFileThing)
-    .setStringNoLocale(SCHEMA_INRUPT.Person, JSON.stringify(userListParsed))
+  const newUserThing = buildThing(
+    createThing({ name: `${userObject.givenName} ${userObject.url.split('.')[0]}` })
+  )
+    .addStringNoLocale(SCHEMA_INRUPT.Person, `${userObject.givenName} ${userObject.familyName}`)
+    .addStringNoLocale(SCHEMA_INRUPT.givenName, userObject.givenName)
+    .addStringNoLocale(SCHEMA_INRUPT.familyName, userObject.familyName)
+    .addUrl(SCHEMA_INRUPT.url, `https://${userObject.url}/`)
     .build();
-  solidDataset = setThing(solidDataset, ttlFileThing);
+
+  solidDataset = setThing(solidDataset, newUserThing);
 
   await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
     fetch: session.fetch
