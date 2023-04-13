@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   UploadDocumentForm,
   FetchDocumentForm,
@@ -8,6 +9,7 @@ import {
   SetAclPermissionForm
 } from './Form';
 import { Logout } from './Login';
+import AppHeader from './AppHeader';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -16,16 +18,23 @@ import { Logout } from './Login';
  * @name Forms
  */
 
-const Forms = () => (
-  <>
-    <Logout />
-    <UploadDocumentForm />
-    <FetchDocumentForm />
-    <DeleteDocumentForm />
-    <SetAclPermissionForm />
-    <CrossPodQueryForm />
-    <CrossPodWriteForm />
-  </>
-);
+const Forms = () => {
+  const location = useLocation();
+
+  localStorage.setItem('restorePath', location.pathname);
+
+  return (
+    <>
+      <AppHeader />
+      <Logout />
+      <UploadDocumentForm />
+      <FetchDocumentForm />
+      <DeleteDocumentForm />
+      <SetAclPermissionForm />
+      <CrossPodQueryForm />
+      <CrossPodWriteForm />
+    </>
+  );
+};
 
 export default Forms;

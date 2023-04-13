@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
-import RouterContext from '../../contexts/routerContext';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -12,10 +11,14 @@ import RouterContext from '../../contexts/routerContext';
 
 const Logout = () => {
   const { session } = useSession();
-  const { currentUrl } = useContext(RouterContext);
+  localStorage.setItem('loggedIn', true);
 
+  // Event handler for logging out of PASS and removing items from localStorage
   const handleLogout = () => {
-    window.location.href = `${currentUrl.split('PASS')[0]}PASS/`;
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('redirectUrl');
+    localStorage.removeItem('restorePath');
+    localStorage.removeItem('issuerConfig:https://opencommons.net');
   };
 
   return (

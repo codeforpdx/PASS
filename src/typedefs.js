@@ -112,6 +112,7 @@ const React = require('react');
  * @type {object}
  * @property {string} name - Name of user
  * @property {URL} podURL - URL of user's Solid Pod
+ * @property {Date|null} dateModified - The last active date using PASS
  * @memberof typedefs
  */
 
