@@ -77,7 +77,19 @@ const App = () => {
           <Route
             exact
             path="/PASS/"
-            element={session.info.isLoggedIn ? <Navigate to="/PASS/home/" /> : <Login />}
+            element={
+              session.info.isLoggedIn ? (
+                <Navigate
+                  to={
+                    !localStorage.getItem('restorePath')
+                      ? '/PASS/home/'
+                      : localStorage.getItem('restorePath')
+                  }
+                />
+              ) : (
+                <Login />
+              )
+            }
           />
           <Route
             path="/PASS/home/"

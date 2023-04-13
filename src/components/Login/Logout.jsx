@@ -17,6 +17,7 @@ const Logout = () => {
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('redirectUrl');
+    localStorage.removeItem('restorePath');
     localStorage.removeItem('issuerConfig:https://opencommons.net');
   };
 
