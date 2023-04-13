@@ -1,17 +1,25 @@
 # Changelog
 
-## v0.0.3 (Coming soon)
+## v0.0.3 (April 12, 2023)
 
 ## Features
 
-- Merging UI with existing functionality
-- Major UI updates with Material UI
+- Allow users to log back into PASS when browser is accidentally refreshed and users have not explicitly logged out (#81)
+- (Coming soon) Major UI updates with Material UI (#75)
 
 ## Fixes
 
 ## Dev Changes
 
+- Moved Router from App.jsx to index.jsx (#81)
+- Created useEffect for "session restore" with PASS, current solution involves a workaround that logs users into a new Solid session when browser refreshes (#81)
+- Refactored UserSection, Login, and Forms component to include AppHeader (#81)
+- Replaced routerContext with custom useRedirectUrl hook (#81)
+- Streamlined and simplified routing with React Router (#81)
+
 ## Others
+
+- (Coming soon) Merging UI with existing functionality (#75)
 
 ---
 
