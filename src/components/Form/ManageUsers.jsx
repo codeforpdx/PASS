@@ -16,7 +16,8 @@ import { UserListContext } from '../../contexts';
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserName, ...userName } = useField('text');
+  const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
+  const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
   const { setUserList } = useContext(UserListContext);
 
@@ -25,7 +26,8 @@ const ManageUsers = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
-      name: event.target.addUserName.value,
+      givenName: event.target.addUserGivenName.value,
+      familyName: event.target.addUserFamilyName.value,
       url: event.target.addUserUrl.value
     };
 
@@ -37,8 +39,26 @@ const ManageUsers = () => {
       return;
     }
 
-    if (!userObject.name) {
-      runNotification(`Operation failed. Reason: User's name is not provided`, 5, state, dispatch);
+    if (!userObject.givenName) {
+      runNotification(
+        `Operation failed. Reason: User's first/given name is not provided`,
+        5,
+        state,
+        dispatch
+      );
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    if (!userObject.familyName) {
+      runNotification(
+        `Operation failed. Reason: User's last/family name is not provided`,
+        5,
+        state,
+        dispatch
+      );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -48,10 +68,16 @@ const ManageUsers = () => {
     const listUsers = await addUserToPod(session, userObject);
     setUserList(listUsers);
 
-    runNotification(`Adding user "${userObject.name}" to Solid...`, 5, state, dispatch);
+    runNotification(
+      `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+      5,
+      state,
+      dispatch
+    );
 
     setTimeout(() => {
-      clearUserName();
+      clearUserGivenName();
+      clearUserFamilyName();
       clearUserUrl();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
@@ -70,8 +96,13 @@ const ManageUsers = () => {
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
         <div>
-          <label htmlFor="add-user-name">User's name (i.e. John Doe): </label>
-          <input id="add-user-name" name="addUserName" {...userName} />{' '}
+          <label htmlFor="add-user-given-name">User's first/given name: </label>
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
+        </div>
+        <br />
+        <div>
+          <label htmlFor="add-user-last-name">User's last/family name: </label>
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
         </div>
         <br />
         <div>

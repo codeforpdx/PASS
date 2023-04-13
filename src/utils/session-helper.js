@@ -259,9 +259,12 @@ export const getUserListActivity = async (session, userList) => {
   const userListWithTime = await Promise.all(
     userList.map(async (user) => {
       try {
-        const solidDataset = await getSolidDataset(`https://${user.url}/public/active.ttl`, {
-          fetch: session.fetch
-        });
+        const solidDataset = await getSolidDataset(
+          `${user.podUrl.split('profile')[0]}public/active.ttl`,
+          {
+            fetch: session.fetch
+          }
+        );
         const activeTTLThing = getThingAll(solidDataset)[0];
         const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
         user.dateModified = lastActiveTime;
