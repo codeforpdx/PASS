@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { ManageUsers } from '../Form';
 import UsersList from './UsersList';
 import { Logout } from '../Login';
+import AppHeader from '../AppHeader';
 
 /**
  * Users Component - Component that generates Users section for PASS
@@ -10,21 +12,19 @@ import { Logout } from '../Login';
  * @name UserSection
  */
 
-const UserSection = ({ loadingUsers }) => (
-  <>
-    <Logout />
-    <ManageUsers />
-    {loadingUsers ? (
+const UserSection = () => {
+  const location = useLocation();
+
+  localStorage.setItem('restorePath', location.pathname);
+
+  return (
+    <>
+      <AppHeader />
+      <Logout />
+      <ManageUsers />
       <UsersList />
-    ) : (
-      <section className="panel">
-        <strong>Users List</strong>
-        <br />
-        <br />
-        <div style={{ marginBottom: '20px', textAlign: 'center' }}>Loading users list...</div>
-      </section>
-    )}
-  </>
-);
+    </>
+  );
+};
 
 export default UserSection;

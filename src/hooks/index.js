@@ -5,7 +5,7 @@
  * @namespace hooks
  */
 
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import statusReducer, { initialStatusState } from '../reducers/statusReducer';
 
 /**
@@ -66,4 +66,29 @@ export const useStatusNotification = () => {
   const [state, dispatch] = useReducer(statusReducer, initialStatusState);
 
   return { state, dispatch };
+};
+
+/**
+ * Custom hook that provides the redirect URL for Solid session login and stores
+ * it in localStorage if it doesn't exist there
+ *
+ * @memberof hooks
+ * @function useRedirectUrl
+ * @returns {URL} redirectUrl - A string containing the redirect URL for Solid
+ * session login
+ */
+
+export const useRedirectUrl = () => {
+  const [redirectUrl, setRedirectUrl] = useState('');
+
+  useEffect(() => {
+    if (!localStorage.getItem('redirectUrl')) {
+      localStorage.setItem('redirectUrl', window.location.href);
+      setRedirectUrl(window.location.href);
+    } else {
+      setRedirectUrl(localStorage.getItem('redirectUrl'));
+    }
+  }, [redirectUrl]);
+
+  return redirectUrl;
 };
