@@ -42,6 +42,7 @@ const App = () => {
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
@@ -60,8 +61,10 @@ const App = () => {
       try {
         const listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
+        setLoadingUsers(true);
       } catch {
         setUserList([]);
+        setLoadingUsers(false);
       }
     }
 
