@@ -11,6 +11,7 @@ import {
   generateActivityTTL,
   generateUsersList,
   updateUserActivity,
+  getUserListActivity,
   SOLID_IDENTITY_PROVIDER
 } from './utils';
 
@@ -43,6 +44,7 @@ const App = () => {
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingActive, setLoadingActive] = useState(false);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
@@ -59,12 +61,17 @@ const App = () => {
       await generateActivityTTL(session);
       await updateUserActivity(session);
       try {
-        const listUsers = await getUsersFromPod(session);
+        let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
         setLoadingUsers(true);
+        setLoadingActive(true);
+        listUsers = await getUserListActivity(session, listUsers);
+        setUserList(listUsers);
+        setLoadingActive(false);
       } catch {
         setUserList([]);
         setLoadingUsers(false);
+        setLoadingActive(false);
       }
     }
 
@@ -96,7 +103,13 @@ const App = () => {
           />
           <Route
             path="/PASS/home/"
-            element={session.info.isLoggedIn ? <UserSection /> : <Navigate to="/PASS/" />}
+            element={
+              session.info.isLoggedIn ? (
+                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+              ) : (
+                <Navigate to="/PASS/" />
+              )
+            }
           />
           <Route
             path="/PASS/forms/"
