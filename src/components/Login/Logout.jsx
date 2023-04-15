@@ -23,13 +23,15 @@ const Logout = () => {
           Logout
         </button>
         {showConfirmation ? (
-          <div>
-            <p>Are you sure you want to log out?</p>
-            <LogoutButton>
-              <button>Yes</button>
-            </LogoutButton>
-            <button onClick={() => setShowConfirmation(false)}>No</button>
-          </div>
+          <dialog open>
+            <p>Do you want to log out of your pod now?</p>
+            <div>
+              <LogoutButton>
+                <button>Logout</button>
+              </LogoutButton>
+            </div>
+            <button onClick={() => setShowConfirmation(false)}>Cancel</button>
+          </dialog>
         ) : (
           <p></p>
         )}
