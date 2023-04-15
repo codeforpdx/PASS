@@ -12,6 +12,15 @@ import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 const Logout = () => {
   const { session } = useSession();
   const [showConfirmation, setShowConfirmation] = useState(false);
+  localStorage.setItem('loggedIn', true);
+
+  // Event handler for logging out of PASS and removing items from localStorage
+  const handleLogout = () => {
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('redirectUrl');
+    localStorage.removeItem('restorePath');
+    localStorage.removeItem('issuerConfig:https://opencommons.net');
+  };
 
   return (
     <section id="logout" className="panel">
@@ -24,16 +33,16 @@ const Logout = () => {
         </button>
         {showConfirmation ? (
           <dialog open>
-            <p>Do you want to log out of your pod now?</p>
+            <p>Do you want to log out now?</p>
             <div>
-              <LogoutButton>
+              <LogoutButton onLogout={handleLogout}>
                 <button>Logout</button>
               </LogoutButton>
             </div>
             <button onClick={() => setShowConfirmation(false)}>Cancel</button>
           </dialog>
         ) : (
-          <p></p>
+          <div></div>
         )}
         <p className="labelStatus" role="alert">
           Your session is now logged in with the WebID [

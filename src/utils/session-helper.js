@@ -5,8 +5,13 @@ import {
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
-  setAgentDefaultAccess
+  setAgentDefaultAccess,
+  buildThing,
+  setThing,
+  saveSolidDatasetAt,
+  getDatetime
 } from '@inrupt/solid-client';
+import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -69,36 +74,36 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  * @memberof utils
  * @function hasTTLFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {object|null} ttlFiles or null - An object of the first ttl file in
- * location or null, if the ttl file does not exist
+ * @returns {boolean} Boolean - A boolean on whether a ttl file exist from
+ * dataset
  */
 
 export const hasTTLFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
-    return null;
+    return false;
   }
 
   const ttlFiles = items.find((item) => item.url.slice(-3) === 'ttl');
   if (ttlFiles) {
-    return ttlFiles;
+    return true;
   }
 
-  return null;
+  return false;
 };
 
 /**
  * Function checks if Solid dataset on Pod contains any files
  *
  * @memberof utils
- * @function hasFiles
+ * @function getContainerUrlAndFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
  * {@link SolidDataset})
- * @returns {Array|null} [directory, files] or null - an Array of Objects
+ * @returns {Array|null} [directory, files] or null - An Array of Objects
  * consisting of the directory container URL and the rest of the files or null
  */
 
-export const hasFiles = (solidDataset) => {
+export const getContainerUrlAndFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
     return null;
@@ -123,7 +128,7 @@ export const hasFiles = (solidDataset) => {
  * specific file type, if exist on user's Pod
  *
  * @memberof utils
- * @function fetchUrl
+ * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
@@ -133,7 +138,7 @@ export const hasFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
@@ -148,6 +153,8 @@ export const fetchUrl = (session, fileType, fetchType, otherPodUrl) => {
       return `${POD_URL}Passport/`;
     case 'Drivers License':
       return `${POD_URL}Drivers%20License/`;
+    case 'none':
+      return `${POD_URL}Users/`;
     default:
       return null;
   }
@@ -203,4 +210,70 @@ export const createDocAclForUser = async (session, documentUrl) => {
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that updates ttl file in Solid container for endDate (expiration
+ * date) and description while also including datetime of all instances when
+ * document was modified
+ *
+ * @memberof utils
+ * @function updateTTLFile
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} documentUrl - Url link to document container
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ */
+
+export const updateTTLFile = async (session, documentUrl, fileObject) => {
+  let solidDataset = await getSolidDataset(`${documentUrl}document.ttl`, { fetch: session.fetch });
+  let ttlFile = getThingAll(solidDataset)[0];
+
+  ttlFile = buildThing(ttlFile)
+    .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
+    .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .build();
+  solidDataset = setThing(solidDataset, ttlFile);
+
+  try {
+    await saveSolidDatasetAt(`${documentUrl}document.ttl`, solidDataset, { fetch: session.fetch });
+  } catch (error) {
+    throw new Error('Failed to update ttl file.');
+  }
+};
+
+/**
+ * Function that fetches a user's last active time on their Solid Pod
+ *
+ * @memberof utils
+ * @function getUserListActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {Array[userListObject]} userList - An array of {@link userListObject}
+ * which stores the name and their Pod URL
+ * @returns {Promise} Promise - An array of users with last active time included
+ * to user list
+ */
+
+export const getUserListActivity = async (session, userList) => {
+  const userListWithTime = await Promise.all(
+    userList.map(async (user) => {
+      try {
+        const solidDataset = await getSolidDataset(
+          `${user.podUrl.split('profile')[0]}public/active.ttl`,
+          {
+            fetch: session.fetch
+          }
+        );
+        const activeTTLThing = getThingAll(solidDataset)[0];
+        const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
+        user.dateModified = lastActiveTime;
+        return user;
+      } catch {
+        return user;
+      }
+    })
+  );
+
+  return userListWithTime;
 };

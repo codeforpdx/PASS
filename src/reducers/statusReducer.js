@@ -60,7 +60,7 @@ const statusReducer = (state, action) => {
     case 'CLEAR_PROCESSING':
       return { ...state, processing: false };
     default:
-      throw new Error('No action');
+      return initialStatusState;
   }
 };
 

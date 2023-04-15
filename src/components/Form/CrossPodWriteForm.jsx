@@ -22,7 +22,6 @@ const CrossPodWriteForm = () => {
   const handleCrossPodUpload = (event) => {
     event.preventDefault();
     // dummy calls for now
-    console.log(event.target.crossPodUpload.value);
     console.log(event.target.document.value);
     console.log(event.target.date.value);
     console.log(event.target.description.value);
@@ -38,9 +37,9 @@ const CrossPodWriteForm = () => {
       <strong>Cross Pod Upload</strong>
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">
-            Please input a user's Pod URL you wish to upload to:{' '}
-          </label>
+          <label htmlFor="cross-upload-doc">Other user's Pod you wish to upload to: </label>
+          <br />
+          <br />
           <input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
         </div>
         <div style={formRowStyle}>
@@ -71,7 +70,7 @@ const CrossPodWriteForm = () => {
       </form>
       <StatusNotification
         notification=""
-        statusType="Writing status"
+        statusType="Upload status"
         defaultMessage="To be uploaded..."
       />
     </section>

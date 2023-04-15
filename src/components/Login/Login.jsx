@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { LoginButton } from '@inrupt/solid-ui-react';
+import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+import AppHeader from '../AppHeader';
 
 /**
  * Login Component - Component that generates Login section for users to a
@@ -11,32 +13,29 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
  */
 
 const Login = () => {
-  const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
-
-  useEffect(() => {
-    setCurrentUrl(window.location.href);
-  }, [setCurrentUrl]);
+  const redirectUrl = useRedirectUrl();
 
   return (
-    <section id="login" className="panel">
-      <div className="row">
-        <label id="labelLogin" htmlFor="btnLogin">
-          Click the following login button to log into your pod at [
-          <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-            {SOLID_IDENTITY_PROVIDER}
-          </a>
-          ]:{' '}
-        </label>
-        <LoginButton
-          oidcIssuer={SOLID_IDENTITY_PROVIDER}
-          redirectUrl={currentUrl}
-          onError={console.error}
-        >
-          <button type="submit">Login</button>
-        </LoginButton>
-        <p>Not logged in</p>
-      </div>
-    </section>
+    <>
+      <AppHeader />
+      <section id="login" className="panel">
+        <div className="row">
+          <label id="labelLogin" htmlFor="btnLogin">
+            Click the following login button to log into your pod at [
+            <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+              {SOLID_IDENTITY_PROVIDER}
+            </a>
+            ]:{' '}
+          </label>
+          <LoginButton
+            oidcIssuer={SOLID_IDENTITY_PROVIDER}
+            redirectUrl={redirectUrl}
+            onError={console.error}
+          />
+          <p>Not logged in</p>
+        </div>
+      </section>
+    </>
   );
 };
 

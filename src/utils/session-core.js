@@ -11,17 +11,23 @@ import {
   saveAclFor,
   getSolidDatasetWithAcl,
   getResourceAcl,
-  overwriteFile
-  // saveSolidDatasetAt
+  overwriteFile,
+  getThingAll,
+  saveSolidDatasetAt,
+  getStringNoLocale,
+  getUrl,
+  removeThing
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
-  fetchUrl,
+  getContainerUrl,
   setupAcl,
   placeFileInContainer,
-  hasFiles,
+  getContainerUrlAndFiles,
   hasTTLFiles,
-  createDocAclForUser
+  createDocAclForUser,
+  updateTTLFile,
+  getUserListActivity
 } from './session-helper';
 
 /**
@@ -31,6 +37,16 @@ import {
 /**
  * @typedef {import('../typedefs').fileObjectType} fileObjectType
  */
+
+/**
+ * @typedef {import("../typedefs").userListObject} userListObject
+ */
+
+/*
+  File Permissions Section
+
+  Functions here deals primarily setting ACL permissions to other users
+*/
 
 /**
  * Function that sets permissions for a user's document container's ACL file
@@ -47,7 +63,7 @@ import {
  */
 
 export const setDocAclPermission = async (session, fileType, accessType, otherPodUrl) => {
-  const documentUrl = fetchUrl(session, fileType, 'self-fetch');
+  const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
 
   const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
 
@@ -67,6 +83,13 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
   await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
 };
 
+/*
+  File Management Section
+
+  Functions here deal primarily with file handling to Solid Pod via PASS (i.e,
+  file uploads, file search, file deletion, etc.)
+*/
+
 /**
  * Function that uploads file to Pod on Solid
  *
@@ -80,14 +103,14 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
 
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (session, fileObject) => {
-  const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
+  const documentUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   await createContainerAt(documentUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  const ttlFile = hasTTLFiles(datasetFromUrl);
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
   // Guard clause will throw function if container already exist with ttl file
-  if (ttlFile) {
+  if (ttlFileExists) {
     throw new Error('Container already exist. Updating files inside...');
   }
 
@@ -99,14 +122,24 @@ export const uploadDocument = async (session, fileObject) => {
     .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
     .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
     .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
+    .addUrl(SCHEMA_INRUPT.url, `${documentUrl}${fileObject.file.name}`)
     .build();
+
+  // const clientInfoThing = buildThing(createThing({ name: 'owner' }))
+  //   .addStringNoLocale(SCHEMA_INRUPT.givenName, 'Alice')
+  //   .addStringNoLocale(SCHEMA_INRUPT.familyName, 'Young')
+  //   .addUrl('https://schema.org/owns', `${documentUrl}${fileObject.file.name}`)
+  //   .addUrl(SCHEMA_INRUPT.url, 'https://testuser.opencommons.net/profile/card#me')
+  //   .build();
 
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
+  // newSolidDataset = setThing(newSolidDataset, clientInfoThing);
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(documentUrl, newSolidDataset, {
     slugSuggestion: 'document.ttl',
+    contentType: 'text/turtle',
     fetch: session.fetch
   });
 
@@ -122,22 +155,24 @@ export const uploadDocument = async (session, fileObject) => {
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod, updates the file if
- * confirmed, or if file doesn't exist, uploads new file to Solid Pod if confirmed
+ * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod,
+ * updates the file if confirmed, or if file doesn't exist, uploads new file to
+ * Solid Pod if confirmed
  */
 
 export const updateDocument = async (session, fileObject) => {
-  const documentUrl = fetchUrl(session, fileObject.type, 'self-fetch');
-  const fileName = fileObject.file.name;
+  const documentUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   const solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   // Checks for file in Solid Pod
-  const [, files] = hasFiles(solidDataset);
+  const [, files] = getContainerUrlAndFiles(solidDataset);
+  const fileName = fileObject.file.name;
   const fileExist = files.map((file) => file.url).includes(`${documentUrl}${fileName}`);
 
   if (fileExist) {
     if (window.confirm(`File ${fileName} exist in Pod container, do you wish to update it?`)) {
       await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+      await updateTTLFile(session, documentUrl, fileObject);
     } else {
       throw new Error('File update cancelled.');
     }
@@ -149,25 +184,12 @@ export const updateDocument = async (session, fileObject) => {
     window.confirm(`File ${fileName} does not exist in Pod container, do you wish to upload it?`)
   ) {
     await overwriteFile(`${documentUrl}${fileName}`, fileObject.file, { fetch: session.fetch });
+    await updateTTLFile(session, documentUrl, fileObject);
   } else {
     throw new Error('New file upload cancelled.');
   }
 
   return fileExist;
-
-  // Fetching and updating ttl file from container
-  // let solidDataset = await getSolidDataset(documentUrl, { fetch: session.fetch });
-  // let ttlFile = hasTTLFiles(solidDataset);
-
-  // ttlFile = buildThing(ttlFile)
-  //   .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-  //   .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-  //   .build();
-
-  // solidDataset = setThing(solidDataset, ttlFile);
-  // console.log(solidDataset);
-
-  // await saveSolidDatasetAt(documentUrl, solidDataset, { fetch: session.fetch });
 };
 
 /**
@@ -175,7 +197,7 @@ export const updateDocument = async (session, fileObject) => {
  * uploaded to a user's Pod on Solid, if exist
  *
  * @memberof utils
- * @function fetchDocuments
+ * @function getDocuments
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
@@ -186,11 +208,12 @@ export const updateDocument = async (session, fileObject) => {
  * the document, if exist, or throws an Error
  */
 
-export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl = '') => {
-  const documentUrl = fetchUrl(session, fileType, fetchType, otherPodUrl);
+export const getDocuments = async (session, fileType, fetchType, otherPodUrl = '') => {
+  const documentUrl = getContainerUrl(session, fileType, fetchType, otherPodUrl);
 
   try {
     await getSolidDataset(documentUrl, { fetch: session.fetch });
+
     return documentUrl;
   } catch (error) {
     throw new Error('No data found');
@@ -211,12 +234,13 @@ export const fetchDocuments = async (session, fileType, fetchType, otherPodUrl =
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
-  const documentUrl = fetchUrl(session, fileType, 'self-fetch');
+  const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
+
   const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
   // Solid requires all files within Pod container must be deleted before
   // the container itself can be deleted from Pod
-  const [container, files] = hasFiles(fetched);
+  const [container, files] = getContainerUrlAndFiles(fetched);
   files.filter(async (file) => {
     if (!file.url.slice(-3).includes('/')) {
       await deleteFile(file.url, { fetch: session.fetch });
@@ -240,4 +264,230 @@ export const deleteDocumentFile = async (session, fileType) => {
 
 export const deleteDocumentContainer = async (session, documentUrl) => {
   await deleteContainer(documentUrl, { fetch: session.fetch });
+};
+
+/*
+  User List Section
+
+  Functions here deal primarily with the user list from Solid Pod and from PASS
+*/
+
+/**
+ * Function that creates a Users container in the user's Pod when logging in for
+ * the first time and creates a userlist.ttl file inside to store a users list
+ *
+ * @memberof utils
+ * @function generateUsersList
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates a users list for Pod upon log in if
+ * user's Pod does not have the container Users with userlist.ttl to begin with
+ */
+
+export const generateUsersList = async (session) => {
+  const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
+  await createContainerAt(userContainerUrl, { fetch: session.fetch });
+
+  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
+
+  if (!ttlFileExists) {
+    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
+      .addStringNoLocale(SCHEMA_INRUPT.name, 'Users List')
+      .addStringNoLocale(SCHEMA_INRUPT.description, 'A list of users')
+      .addUrl(SCHEMA_INRUPT.url, `${userContainerUrl}userlist.ttl`)
+      .build();
+
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
+
+    // Generate document.ttl file for container
+    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'userlist.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+
+    // Generate ACL file for container
+    await createDocAclForUser(session, userContainerUrl);
+  }
+};
+
+/**
+ * Function that gets a list of users from their Solid Pod stored inside the
+ * Solid container named User
+ *
+ * @memberof utils
+ * @function getUsersFromPod
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - An array of users from their Pod into PASS, if
+ * users list exist
+ */
+
+export const getUsersFromPod = async (session) => {
+  const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
+  let userList = [];
+  try {
+    const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+      fetch: session.fetch
+    });
+
+    const ttlFileThing = getThingAll(solidDataset);
+    const allUsersThing = ttlFileThing.filter((thing) => !thing.url.includes('#userlist'));
+    allUsersThing.forEach((userThing) => {
+      const person = getStringNoLocale(userThing, SCHEMA_INRUPT.Person);
+      const givenName = getStringNoLocale(userThing, SCHEMA_INRUPT.givenName);
+      const familyName = getStringNoLocale(userThing, SCHEMA_INRUPT.familyName);
+      const podUrl = getUrl(userThing, SCHEMA_INRUPT.url);
+
+      userList.push({ person, givenName, familyName, podUrl });
+    });
+
+    userList = await getUserListActivity(session, userList);
+  } catch {
+    userList = [];
+  }
+
+  return userList;
+};
+
+/**
+ * Function that removes a user from the users list from their Solid Pod stored
+ * inside the Solid container named User
+ *
+ * @memberof utils
+ * @function deleteUserFromPod
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {string} userToDelete - Name of user to be removed from list
+ * @returns {Promise} Promise - Removes user with otherPodUrl from users list in
+ * their Solid Pod
+ */
+
+export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
+  const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
+  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+    fetch: session.fetch
+  });
+  const ttlFileThing = getThingAll(solidDataset);
+  const usernameString = userToDeleteUrl.split('.')[0].split('/')[2];
+  const userToDeleteThing = ttlFileThing.find((thing) =>
+    thing.url.includes(`#${userToDelete.replace(' ', '%20')}%20${usernameString}`)
+  );
+
+  solidDataset = removeThing(solidDataset, userToDeleteThing);
+
+  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
+    fetch: session.fetch
+  });
+
+  const userList = await getUsersFromPod(session);
+  return userList;
+};
+
+/**
+ * Function that adds a user from the users list from their Solid Pod stored
+ * inside the Solid container named User, or create the container User with the
+ * user if container doesn't exist to begin with
+ *
+ * @memberof utils
+ * @function addUserToPod
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} userObject - Object containing the user's name and Pod URL
+ * @returns {Promise} Promise - Adds users with otherPodUrl from users list in
+ * their Solid Pod
+ */
+
+export const addUserToPod = async (session, userObject) => {
+  const userContainerUrl = getContainerUrl(session, 'none', 'self-fetch');
+
+  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+    fetch: session.fetch
+  });
+
+  const newUserThing = buildThing(
+    createThing({ name: `${userObject.givenName} ${userObject.url.split('.')[0]}` })
+  )
+    .addStringNoLocale(SCHEMA_INRUPT.Person, `${userObject.givenName} ${userObject.familyName}`)
+    .addStringNoLocale(SCHEMA_INRUPT.givenName, userObject.givenName)
+    .addStringNoLocale(SCHEMA_INRUPT.familyName, userObject.familyName)
+    .addUrl(SCHEMA_INRUPT.url, `https://${userObject.url}/`)
+    .build();
+
+  solidDataset = setThing(solidDataset, newUserThing);
+
+  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
+    fetch: session.fetch
+  });
+
+  const userList = await getUsersFromPod(session);
+  return userList;
+};
+
+/*
+  User Activity Section
+
+  Functions here deal primarily with user activity on PASS
+*/
+
+/**
+ * Function that creates an active.ttl file inside public container to store
+ * only the time of the latest user's activity
+ *
+ * @memberof utils
+ * @function generateActivtyTTL
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates active.ttl inside public which stores
+ * the time of their latest activity on their Pod through PASS
+ */
+
+export const generateActivityTTL = async (session) => {
+  const POD_URL = String(session.info.webId.split('profile')[0]);
+  const publicContainerUrl = `${POD_URL}public/`;
+  const datasetFromUrl = await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
+  const ttlFileExists = hasTTLFiles(datasetFromUrl);
+
+  if (!ttlFileExists) {
+    const newTtlFile = buildThing(createThing({ name: 'active' }))
+      .addDatetime(SCHEMA_INRUPT.dateModified, new Date())
+      .build();
+
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
+
+    // Generate document.ttl file for container
+    await saveSolidDatasetInContainer(publicContainerUrl, newSolidDataset, {
+      slugSuggestion: 'active.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+
+    // Generate ACL file for container
+    await createDocAclForUser(session, publicContainerUrl);
+  }
+};
+
+/**
+ * Function that updates a user's last active time on Solid Pod
+ *
+ * @memberof utils
+ * @function updateUserActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ */
+
+export const updateUserActivity = async (session) => {
+  const POD_URL = String(session.info.webId.split('profile')[0]);
+  const publicContainerUrl = `${POD_URL}public/`;
+  let solidDataset = await getSolidDataset(`${publicContainerUrl}active.ttl`, {
+    fetch: session.fetch
+  });
+
+  let ttlFileThing = getThingAll(solidDataset)[0];
+  ttlFileThing = buildThing(ttlFileThing)
+    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .build();
+  solidDataset = setThing(solidDataset, ttlFileThing);
+
+  await saveSolidDatasetAt(`${publicContainerUrl}active.ttl`, solidDataset, {
+    fetch: session.fetch
+  });
 };
