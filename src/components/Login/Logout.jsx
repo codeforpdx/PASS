@@ -1,5 +1,5 @@
-import React from 'react';
-import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
+import React, { useState } from 'react';
+import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -11,6 +11,7 @@ import { LogoutButton, useSession } from '@inrupt/solid-ui-react';
 
 const Logout = () => {
   const { session } = useSession();
+  const [showConfirmation, setShowConfirmation] = useState(false);
   localStorage.setItem('loggedIn', true);
 
   // Event handler for logging out of PASS and removing items from localStorage
@@ -27,7 +28,18 @@ const Logout = () => {
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
-        <LogoutButton onLogout={handleLogout} />
+        <button type="button" onClick={() => setShowConfirmation(true)}>
+          Log Out
+        </button>
+        <dialog open={showConfirmation}>
+          <p>Do you want to log out now?</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+            <LogoutButton onLogout={handleLogout} />
+            <button type="button" onClick={() => setShowConfirmation(false)}>
+              Cancel
+            </button>
+          </div>
+        </dialog>
         <p className="labelStatus" role="alert">
           Your session is now logged in with the WebID [
           <a href={session.info.webId} target="_blank" rel="noreferrer">
