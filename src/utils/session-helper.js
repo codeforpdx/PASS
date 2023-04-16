@@ -8,8 +8,7 @@ import {
   setAgentDefaultAccess,
   buildThing,
   setThing,
-  saveSolidDatasetAt,
-  getDatetime
+  saveSolidDatasetAt
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
@@ -241,39 +240,4 @@ export const updateTTLFile = async (session, documentUrl, fileObject) => {
   } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
-};
-
-/**
- * Function that fetches a user's last active time on their Solid Pod
- *
- * @memberof utils
- * @function getUserListActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {Array[userListObject]} userList - An array of {@link userListObject}
- * which stores the name and their Pod URL
- * @returns {Promise} Promise - An array of users with last active time included
- * to user list
- */
-
-export const getUserListActivity = async (session, userList) => {
-  const userListWithTime = await Promise.all(
-    userList.map(async (user) => {
-      try {
-        const solidDataset = await getSolidDataset(
-          `${user.podUrl.split('profile')[0]}public/active.ttl`,
-          {
-            fetch: session.fetch
-          }
-        );
-        const activeTTLThing = getThingAll(solidDataset)[0];
-        const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
-        user.dateModified = lastActiveTime;
-        return user;
-      } catch {
-        return user;
-      }
-    })
-  );
-
-  return userListWithTime;
 };

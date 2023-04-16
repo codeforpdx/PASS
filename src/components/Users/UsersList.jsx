@@ -13,7 +13,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
  * @name UsersList
  */
 
-const UsersList = () => {
+const UsersList = ({ loadingActive }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
@@ -69,7 +69,11 @@ const UsersList = () => {
                       {user.podUrl}
                     </a>
                   </td>
-                  <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
+                  {loadingActive ? (
+                    <td>Loading...</td>
+                  ) : (
+                    <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
+                  )}
                   <td>
                     <button
                       type="button"

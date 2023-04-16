@@ -16,7 +16,8 @@ import {
   saveSolidDatasetAt,
   getStringNoLocale,
   getUrl,
-  removeThing
+  removeThing,
+  getDatetime
 } from '@inrupt/solid-client';
 import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 import {
@@ -26,8 +27,7 @@ import {
   getContainerUrlAndFiles,
   hasTTLFiles,
   createDocAclForUser,
-  updateTTLFile,
-  getUserListActivity
+  updateTTLFile
 } from './session-helper';
 
 /**
@@ -313,6 +313,41 @@ export const generateUsersList = async (session) => {
 };
 
 /**
+ * Function that fetches a user's last active time on their Solid Pod
+ *
+ * @memberof utils
+ * @function getUserListActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {Array[userListObject]} userList - An array of {@link userListObject}
+ * which stores the name and their Pod URL
+ * @returns {Promise} Promise - An array of users with last active time included
+ * to user list
+ */
+
+export const getUserListActivity = async (session, userList) => {
+  const userListWithTime = await Promise.all(
+    userList.map(async (user) => {
+      try {
+        const solidDataset = await getSolidDataset(
+          `${user.podUrl.split('profile')[0]}public/active.ttl`,
+          {
+            fetch: session.fetch
+          }
+        );
+        const activeTTLThing = getThingAll(solidDataset)[0];
+        const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
+        user.dateModified = lastActiveTime;
+        return user;
+      } catch {
+        return user;
+      }
+    })
+  );
+
+  return userListWithTime;
+};
+
+/**
  * Function that gets a list of users from their Solid Pod stored inside the
  * Solid container named User
  *
@@ -341,8 +376,6 @@ export const getUsersFromPod = async (session) => {
 
       userList.push({ person, givenName, familyName, podUrl });
     });
-
-    userList = await getUserListActivity(session, userList);
   } catch {
     userList = [];
   }
