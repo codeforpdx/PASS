@@ -28,22 +28,18 @@ const Logout = () => {
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
-        <button type="submit" onClick={() => setShowConfirmation(true)}>
-          Logout
+        <button type="button" onClick={() => setShowConfirmation(true)}>
+          Log Out
         </button>
-        {showConfirmation ? (
-          <dialog open>
-            <p>Do you want to log out now?</p>
-            <div>
-              <LogoutButton onLogout={handleLogout}>
-                <button>Logout</button>
-              </LogoutButton>
-            </div>
-            <button onClick={() => setShowConfirmation(false)}>Cancel</button>
-          </dialog>
-        ) : (
-          <div></div>
-        )}
+        <dialog open={showConfirmation}>
+          <p>Do you want to log out now?</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+            <LogoutButton onLogout={handleLogout} />
+            <button type="button" onClick={() => setShowConfirmation(false)}>
+              Cancel
+            </button>
+          </div>
+        </dialog>
         <p className="labelStatus" role="alert">
           Your session is now logged in with the WebID [
           <a href={session.info.webId} target="_blank" rel="noreferrer">
