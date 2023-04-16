@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,7 +10,6 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import { DataGrid } from '@mui/x-data-grid';
 import Modal from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
@@ -40,9 +40,13 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
+import { randomName, randomUpdatedDate } from '@mui/x-data-grid-generator';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import Footer from './Footer';
 import NavBar from './NavBar';
 import theme from '../../theme';
+
+// ----- SEARCH BAR COMPONENTS -----
 
 const Search = styled('div')(() => ({
   position: 'relative',
@@ -80,60 +84,75 @@ const StyledInputBase = styled(InputBase)(() => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch'
+      width: '50ch'
     }
   }
 }));
 
+// ----- COLUMNS -----
+
 const columns = [
-  { field: 'id', headerName: 'ID', width: 50 },
-  // { field: 'firstName', headerName: 'First Name', width: 130 },
-  // { field: 'lastName', headerName: 'Last Name', width: 130 },
-  { field: 'name', headerName: 'Name', width: 150 },
+  { field: 'id', headerName: 'ID', type: 'number', width: 50 },
+  { field: 'name', headerName: 'Name', type: 'string', width: 150 },
   {
     field: 'dateModified',
     headerName: 'Date Modified',
-    width: 130
+    type: 'dateTime',
+    width: 150
   },
-  { field: 'priority', headerName: 'Priority', width: 75 }
+  { field: 'isPriority', headerName: 'Priority', type: 'boolean', width: 75 },
+  {
+    field: 'TEST',
+    headerName: 'SELECT TEST',
+    type: 'singleSelect',
+    width: 120,
+    valueOptions: ['Bulgaria', 'Netherlands', 'France', 'United Kingdom', 'Spain', 'Brazil']
+  }
 ];
+
+// ----- ROWS -----
 
 const rows = [
   {
     id: 1,
-    name: 'John Smith',
-    dateModified: '1/26/2023 1:27 AM',
-    priority: '⭐'
+    name: 'test name',
+    dateModified: randomUpdatedDate(),
+    isPriority: true,
+    TEST: 'Spain'
   },
   {
     id: 2,
-    name: 'Jane Smithlongerlastnametotest',
-    dateModified: '1/26/2023 1:27 AM',
-    priority: ''
+    name: 'test name',
+    dateModified: randomUpdatedDate(),
+    isPriority: false,
+    TEST: 'France'
   },
   {
     id: 3,
-    name: 'Jane Smith',
-    dateModified: '1/26/2023 1:27 AM',
-    priority: ''
+    name: 'test name',
+    dateModified: randomUpdatedDate(),
+    isPriority: true,
+    TEST: 'Brazil'
   },
   {
     id: 4,
-    name: 'John Smith',
-    dateModified: '1/26/2023 1:27 AM',
-    priority: '⭐'
+    name: 'test name',
+    dateModified: randomUpdatedDate(),
+    isPriority: true
   },
-  { id: 5, name: 'John Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
+  { id: 5, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
   {
     id: 6,
-    name: 'John Smith',
-    dateModified: '1/26/2023 1:27 AM',
-    priority: '⭐'
+    name: 'test name',
+    dateModified: randomUpdatedDate(),
+    isPriority: true
   },
-  { id: 7, name: 'Jane Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
-  { id: 8, name: 'John Smith', dateModified: '1/26/2023 1:27 AM', priority: '' },
-  { id: 9, name: 'Jane Smith', dateModified: '1/26/2023 1:27 AM', priority: '⭐' }
+  { id: 7, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 8, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 9, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false }
 ];
+
+// ----- MODAL STYLE -----
 
 const modalStyle = {
   position: 'absolute',
@@ -146,6 +165,25 @@ const modalStyle = {
   boxShadow: 24,
   p: 4
 };
+
+// ----- TYPESCRIPT VERSION -----
+// const togglePriority = React.useCallback(
+//   (id: GridRowId) => () => {
+//     setRows((prevRows) =>
+//       prevRows.map((row) => (row.id === id ? { ...row, isAdmin: !row.isAdmin } : row))
+//     );
+//   },
+//   []
+// );
+
+// const togglePriority = React.useCallback(
+//   (id) => () => {
+//     setRows((prevRows) =>
+//       prevRows.map((row) => (row.id === id ? { ...row, isPriority: !row.isPriority } : row))
+//     );
+//   },
+//   []
+// );
 
 const Mockup = () => {
   const [open, setOpen] = React.useState(false);
@@ -304,16 +342,16 @@ const Mockup = () => {
       </Search>
 
       {/* ----- DATA GRID ----- */}
-      <Box sx={{ width: '100%' }}>
-        <div style={{ height: '90vh' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            // checkboxSelection
-          />
-        </div>
+      <Box sx={{ width: '100%', height: '90vh' }}>
+        {/* <div style={{ height: '90vh' }}> */}
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          // checkboxSelection
+        />
+        {/* </div> */}
       </Box>
 
       {/* ----- FLOATING ACTION BUTTON ----- */}
@@ -326,5 +364,13 @@ const Mockup = () => {
     </ThemeProvider>
   );
 };
+
+// const Mockup = () => {
+//   return (
+//     <div style={{ height: 300, width: '100%' }}>
+//       <DataGrid columns={columns} rows={rows} />
+//     </div>
+//   );
+// };
 
 export default Mockup;
