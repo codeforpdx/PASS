@@ -1,16 +1,18 @@
 # Changelog
 
-## v0.0.3 (April 12, 2023)
+## v0.0.3 (April 16, 2023)
 
 ## Features
 
-- Allow users to log back into PASS when browser is accidentally refreshed and users have not explicitly logged out (#81)
+- Included basic dialog modal for logout confirmation (#85)
+- Allow users to log back into PASS when browser is accidentally refreshed when users have not explicitly logged out (#81)
 - (Coming soon) Major UI updates with Material UI (#75)
 
 ## Fixes
 
 ## Dev Changes
 
+- Functions and components for users list is refactored to loaded asynchronously from one another (#84)
 - Moved Router from App.jsx to index.jsx (#81)
 - Created useEffect for "session restore" with PASS, current solution involves a workaround that logs users into a new Solid session when browser refreshes (#81)
 - Refactored UserSection, Login, and Forms component to include AppHeader (#81)
