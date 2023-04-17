@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     /**
      * A function that generates a Users container if logging in for the first
-     * time and initalizes the list of users from Solid
+     * time and initializes the list of users from Solid
      *
      * @function fetchData
      */

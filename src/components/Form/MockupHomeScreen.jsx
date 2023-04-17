@@ -89,50 +89,29 @@ const StyledInputBase = styled(InputBase)(() => ({
   }
 }));
 
-// ----- COLUMNS -----
-
-const columns = [
-  { field: 'id', headerName: 'ID', type: 'number', width: 50 },
-  { field: 'name', headerName: 'Name', type: 'string', width: 150 },
-  {
-    field: 'dateModified',
-    headerName: 'Date Modified',
-    type: 'dateTime',
-    width: 150
-  },
-  { field: 'isPriority', headerName: 'Priority', type: 'boolean', width: 75 },
-  {
-    field: 'TEST',
-    headerName: 'SELECT TEST',
-    type: 'singleSelect',
-    width: 120,
-    valueOptions: ['Bulgaria', 'Netherlands', 'France', 'United Kingdom', 'Spain', 'Brazil']
-  }
-];
-
 // ----- ROWS -----
 
-const rows = [
+const rowTestData = [
   {
     id: 1,
     name: 'test name',
     dateModified: randomUpdatedDate(),
-    isPriority: true,
-    TEST: 'Spain'
+    TEST: 'Spain',
+    isPriority: true
   },
   {
     id: 2,
     name: 'test name',
     dateModified: randomUpdatedDate(),
-    isPriority: false,
-    TEST: 'France'
+    TEST: 'France',
+    isPriority: false
   },
   {
     id: 3,
     name: 'test name',
     dateModified: randomUpdatedDate(),
-    isPriority: true,
-    TEST: 'Brazil'
+    TEST: 'Brazil',
+    isPriority: true
   },
   {
     id: 4,
@@ -166,25 +145,6 @@ const modalStyle = {
   p: 4
 };
 
-// ----- TYPESCRIPT VERSION -----
-// const togglePriority = React.useCallback(
-//   (id: GridRowId) => () => {
-//     setRows((prevRows) =>
-//       prevRows.map((row) => (row.id === id ? { ...row, isAdmin: !row.isAdmin } : row))
-//     );
-//   },
-//   []
-// );
-
-// const togglePriority = React.useCallback(
-//   (id) => () => {
-//     setRows((prevRows) =>
-//       prevRows.map((row) => (row.id === id ? { ...row, isPriority: !row.isPriority } : row))
-//     );
-//   },
-//   []
-// );
-
 const Mockup = () => {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
@@ -193,6 +153,29 @@ const Mockup = () => {
   const handleClose = () => setOpen(false);
   const handleClose2 = () => setOpen2(false);
   // const [selected, setSelected] = React.useState(false);
+  const [rows, setRows] = React.useState(rowTestData);
+
+  // ----- GRID ACTIONS -----
+
+  const deleteClient = React.useCallback(
+    (id) => () => {
+      setTimeout(() => {
+        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
+    },
+    []
+  );
+
+  const togglePriority = React.useCallback(
+    (id) => () => {
+      setRows((prevRows) =>
+        prevRows.map((row) => (row.id === id ? { ...row, isPriority: !row.isPriority } : row))
+      );
+    },
+    []
+  );
+
+  // ----- SUBMIT NEW CLIENT -----
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -203,24 +186,58 @@ const Mockup = () => {
     });
   };
 
+  // ----- COLUMNS -----
+
+  const columns = React.useMemo(
+    () => [
+      { field: 'id', headerName: 'ID', type: 'number', width: 50 },
+      { field: 'name', headerName: 'Name', type: 'string', width: 150 },
+      {
+        field: 'dateModified',
+        headerName: 'Date Modified',
+        type: 'dateTime',
+        width: 150
+      },
+      {
+        field: 'TEST',
+        headerName: 'SELECT TEST',
+        type: 'singleSelect',
+        width: 120,
+        valueOptions: ['Bulgaria', 'Netherlands', 'France', 'United Kingdom', 'Spain', 'Brazil']
+      },
+      { field: 'isPriority', headerName: 'Priority', type: 'boolean', width: 75 },
+      {
+        field: 'actions',
+        type: 'actions',
+        width: 80,
+        getActions: (params) => [
+          <GridActionsCellItem
+            icon={<CheckIcon />}
+            label="Toggle Priority"
+            onClick={togglePriority(params.id)}
+            showInMenu
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={deleteClient(params.id)}
+            showInMenu
+          />
+        ]
+      }
+    ],
+    [togglePriority]
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
-      {/* <Icon baseClassName="fas" className="fa-plus-circle" color="primary" /> */}
-      {/* <br /> */}
       <Typography
         variant="h5"
         noWrap
         component="div"
-        // align="center"
         sx={{
-          // backgroundColor: 'white',
-          // position: 'fixed',
-          // bottom: 0,
-          // left: 0,
-          // right: 0,
           margin: '10px 10px -15px 10px',
-          // padding: '10 10 10 10',
           fontWeight: 'bold',
           position: 'relative'
         }}
@@ -238,15 +255,6 @@ const Mockup = () => {
           noWrap
           sx={{ flex: 1 }}
         >
-          {/* <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button startIcon={<AddIcon />} onClick={handleOpen2}>
-              Add
-            </Button>
-            <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleOpen}>
-              Delete
-            </Button>
-          </ButtonGroup> */}
-
           {/* ----- NEW CLIENT DIALOG BOX ----- */}
           <div>
             <Dialog open={open2} onClose={handleClose2}>
@@ -343,7 +351,6 @@ const Mockup = () => {
 
       {/* ----- DATA GRID ----- */}
       <Box sx={{ width: '100%', height: '90vh' }}>
-        {/* <div style={{ height: '90vh' }}> */}
         <DataGrid
           rows={rows}
           columns={columns}
@@ -351,26 +358,12 @@ const Mockup = () => {
           rowsPerPageOptions={[5]}
           // checkboxSelection
         />
-        {/* </div> */}
       </Box>
-
-      {/* ----- FLOATING ACTION BUTTON ----- */}
-      {/* <Fab color="primary" aria-label="add">
-        <AddIcon />
-      </Fab> */}
 
       {/* ----- FOOTER ----- */}
       <Footer />
     </ThemeProvider>
   );
 };
-
-// const Mockup = () => {
-//   return (
-//     <div style={{ height: 300, width: '100%' }}>
-//       <DataGrid columns={columns} rows={rows} />
-//     </div>
-//   );
-// };
 
 export default Mockup;
