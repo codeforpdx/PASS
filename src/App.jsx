@@ -15,7 +15,6 @@ import {
 } from './utils';
 // import Mockup from './components/Form/Mockup';
 import MockupHomeScreen from './components/Form/MockupHomeScreen';
-import MuiTemplate from './components/Form/MuiTemplate';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -62,10 +61,8 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <>
-      <MockupHomeScreen />
-      {/* <MuiTemplate /> */}
-    </>
+    <MockupHomeScreen />
+
     // <RouterContext.Provider value={currentUrlObject}>
     //   <SelectUserContext.Provider value={selectedUserObject}>
     //     <UserListContext.Provider value={userListObject}>

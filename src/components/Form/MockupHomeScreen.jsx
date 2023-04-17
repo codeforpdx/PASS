@@ -9,9 +9,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
 import Modal from '@mui/material/Modal';
-import AddIcon from '@mui/icons-material/Add';
+// import SendIcon from '@mui/icons-material/Send';
+// import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ToggleButton from '@mui/material/ToggleButton';
 import Icon from '@mui/material/Icon';
@@ -23,13 +23,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Fab from '@mui/material/Fab';
+// import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import NavigationIcon from '@mui/icons-material/Navigation';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import NavigationIcon from '@mui/icons-material/Navigation';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
@@ -40,7 +40,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
-import { randomName, randomUpdatedDate } from '@mui/x-data-grid-generator';
+import { randomTraderName, randomUpdatedDate } from '@mui/x-data-grid-generator';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import Footer from './Footer';
 import NavBar from './NavBar';
@@ -94,41 +94,41 @@ const StyledInputBase = styled(InputBase)(() => ({
 const rowTestData = [
   {
     id: 1,
-    name: 'test name',
+    name: randomTraderName(),
     dateModified: randomUpdatedDate(),
-    TEST: 'Spain',
+    currentStatus: 'Completed',
     isPriority: true
   },
   {
     id: 2,
-    name: 'test name',
+    name: randomTraderName(),
     dateModified: randomUpdatedDate(),
-    TEST: 'France',
+    currentStatus: 'To Do',
     isPriority: false
   },
   {
     id: 3,
-    name: 'test name',
+    name: randomTraderName(),
     dateModified: randomUpdatedDate(),
-    TEST: 'Brazil',
+    currentStatus: 'In Progress',
     isPriority: true
   },
   {
     id: 4,
-    name: 'test name',
+    name: randomTraderName(),
     dateModified: randomUpdatedDate(),
     isPriority: true
   },
-  { id: 5, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 5, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
   {
     id: 6,
-    name: 'test name',
+    name: randomTraderName(),
     dateModified: randomUpdatedDate(),
     isPriority: true
   },
-  { id: 7, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
-  { id: 8, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false },
-  { id: 9, name: 'test name', dateModified: randomUpdatedDate(), isPriority: false }
+  { id: 7, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 8, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 9, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false }
 ];
 
 // ----- MODAL STYLE -----
@@ -157,11 +157,9 @@ const Mockup = () => {
 
   // ----- GRID ACTIONS -----
 
-  const deleteClient = React.useCallback(
+  const editClient = React.useCallback(
     (id) => () => {
-      setTimeout(() => {
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
+      console.log('Edited!');
     },
     []
   );
@@ -171,6 +169,22 @@ const Mockup = () => {
       setRows((prevRows) =>
         prevRows.map((row) => (row.id === id ? { ...row, isPriority: !row.isPriority } : row))
       );
+    },
+    []
+  );
+
+  // const changeStatus = React.useCallback(
+  //   (id) => () => {
+  //     console.log('Status changed!');
+  //   },
+  //   []
+  // );
+
+  const deleteClient = React.useCallback(
+    (id) => () => {
+      setTimeout(() => {
+        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+      });
     },
     []
   );
@@ -199,11 +213,11 @@ const Mockup = () => {
         width: 150
       },
       {
-        field: 'TEST',
-        headerName: 'SELECT TEST',
+        field: 'currentStatus',
+        headerName: 'Status',
         type: 'singleSelect',
-        width: 120,
-        valueOptions: ['Bulgaria', 'Netherlands', 'France', 'United Kingdom', 'Spain', 'Brazil']
+        width: 100,
+        valueOptions: ['Completed', 'In Progress', 'To Do']
       },
       { field: 'isPriority', headerName: 'Priority', type: 'boolean', width: 75 },
       {
@@ -212,11 +226,23 @@ const Mockup = () => {
         width: 80,
         getActions: (params) => [
           <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit Client"
+            onClick={editClient(params.id)}
+            showInMenu
+          />,
+          <GridActionsCellItem
             icon={<CheckIcon />}
             label="Toggle Priority"
             onClick={togglePriority(params.id)}
             showInMenu
           />,
+          // <GridActionsCellItem
+          //   icon={<StarBorderIcon />}
+          //   label="Change Status"
+          //   onClick={changeStatus(params.id)}
+          //   showInMenu
+          // />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
@@ -350,7 +376,7 @@ const Mockup = () => {
       </Search>
 
       {/* ----- DATA GRID ----- */}
-      <Box sx={{ width: '100%', height: '90vh' }}>
+      <Box sx={{ width: '100%', height: '70vh' }}>
         <DataGrid
           rows={rows}
           columns={columns}

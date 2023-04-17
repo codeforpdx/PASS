@@ -1,37 +1,43 @@
 import * as React from 'react';
-// import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import theme from '../../theme';
 
-const AppFooter = (props) => (
+const Footer = () => (
   <ThemeProvider theme={theme}>
-    {/* <CssBaseline /> */}
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
+    <Box
       sx={{
-        backgroundColor: 'white',
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        marginBottom: '10px',
-        marginTop: '10px',
-        padding: '10 10 10 10',
-        borderTop: '1px solid black'
+        display: 'flex',
+        flexDirection: 'column'
+        // minHeight: '100vh'
       }}
-      {...props}
     >
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.codeforpdx.org/">
-        codeForPDX
-      </Link>{' '}
-      {new Date().getFullYear()}
-    </Typography>
+      <CssBaseline />
+      <Box
+        component="footer"
+        sx={{
+          py: 1,
+          px: 2,
+          mt: 'auto'
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography variant="body1">footer details</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {'Copyright © '}
+            <Link color="inherit" href="https://www.codeforpdx.org/" target="_blank">
+              codeForPDX
+            </Link>{' '}
+            {new Date().getFullYear()}
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
   </ThemeProvider>
 );
 
-export default AppFooter;
+export default Footer;
