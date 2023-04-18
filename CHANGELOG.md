@@ -21,6 +21,7 @@
 
 ## Others
 
+- Included dependencies for rollup-plugin-visualizer to check build bundle size
 - (Coming soon) Merging UI with existing functionality (#75)
 
 ---
