@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.0.3 (April 16, 2023)
+## v0.0.3 (April 18, 2023)
 
 ## Features
 
@@ -21,7 +21,8 @@
 
 ## Others
 
-- Included dependencies for rollup-plugin-visualizer to check build bundle size
+- Included dependencies for rollup-plugin-visualizer to check on production build bundle size locally
+- Removed the following unused dependencies from package.json: @inrupt/solid-client-authn-browser, buffer, eslint-config-node, eslint-plugin-node, jsdoc-tsimport-plugin, string_decoder
 - (Coming soon) Merging UI with existing functionality (#75)
 
 ---
