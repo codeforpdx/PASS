@@ -43,7 +43,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { randomTraderName, randomUpdatedDate } from '@mui/x-data-grid-generator';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import Footer from './Footer';
-import NavBar from './NavBar';
+import NavBar from '../NavBar/NavBar';
 import theme from '../../theme';
 
 // ----- SEARCH BAR COMPONENTS -----
@@ -145,7 +145,7 @@ const modalStyle = {
   p: 4
 };
 
-const Mockup = () => {
+const HomeScreen = () => {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
   // const handleOpen = () => setOpen(true);
@@ -392,4 +392,4 @@ const Mockup = () => {
   );
 };
 
-export default Mockup;
+export default HomeScreen;

@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import * as React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSession } from '@inrupt/solid-ui-react';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
@@ -19,104 +21,31 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import Logout from '../Login/Logout';
+
 // eslint-disable-next-line import/extensions
 import theme from '../../theme.js';
+import NavMenu from './NavMenu';
+import NavMenuMobile from './NavMenuMobile';
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    console.log('Closed!');
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  const [openMenu, setOpenMenu] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElMobile, setAnchorElMobile] = useState(null);
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      {/* <MenuItem onClick={handleMenuClose}>Add</MenuItem> */}
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
   const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpenMenu(true);
+  };
+
+  const handleOpenMobileMenu = (event) => {
+    setAnchorElMobile(event.currentTarget);
+    setOpenMobileMenu(true);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -131,6 +60,11 @@ const NavBar = () => {
             >
               PASS
             </Typography>
+            <div className="navLinks" style={{ display: 'flex', gap: '20px', margin: '0 20px' }}>
+              <Link to="/PASS/home/">Home</Link>
+              <Link to="/PASS/forms/">Forms</Link>
+              <Logout />
+            </div>
             <Box sx={{ flexGrow: 1 }} />
             <MenuItem>
               <ButtonGroup
@@ -161,7 +95,7 @@ const NavBar = () => {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                onClick={handleOpenMenu}
                 color="inherit"
               >
                 <AccountCircle />
@@ -173,7 +107,7 @@ const NavBar = () => {
                 aria-label="show more"
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
+                onClick={handleOpenMobileMenu}
                 color="inherit"
               >
                 <MoreIcon />
@@ -181,8 +115,24 @@ const NavBar = () => {
             </Box>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
+        {openMobileMenu ? (
+          <NavMenuMobile
+            mobileMenuId={mobileMenuId}
+            openMobileMenu={openMobileMenu}
+            setOpenMobileMenu={setOpenMobileMenu}
+            anchorElMobile={anchorElMobile}
+            setAnchorElMobile={setAnchorElMobile}
+          />
+        ) : null}
+        {openMenu ? (
+          <NavMenu
+            menuId={menuId}
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+          />
+        ) : null}
       </Box>
     </ThemeProvider>
   );
