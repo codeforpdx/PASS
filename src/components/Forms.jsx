@@ -7,7 +7,9 @@ import {
   CrossPodWriteForm,
   SetAclPermissionForm
 } from './Form';
-import { Logout } from './Login';
+import NavBar from './NavBar/NavBar';
+import { ThemeProvider } from '@emotion/react';
+import theme from '../theme';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -18,7 +20,7 @@ import { Logout } from './Login';
 
 const Forms = () => (
   <>
-    <Logout />
+    <NavBar />
     <UploadDocumentForm />
     <FetchDocumentForm />
     <DeleteDocumentForm />

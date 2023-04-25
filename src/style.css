@@ -48,3 +48,31 @@ dl {
 dd {
   font-weight: bold;
 } */
+
+a,
+button,
+p,
+div {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+.navLinks > a {
+  color: white;
+  text-decoration: none;
+  transition: 0.5s;
+  font-weight: 600;
+}
+
+.navLinks > a:hover {
+  color: orange;
+}
+
+.navLogin > button {
+  background-color: #017969;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}

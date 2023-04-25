@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
-import AppHeader from './components/AppHeader';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext, RouterContext } from './contexts';
@@ -14,7 +13,7 @@ import {
   updateUserActivity
 } from './utils';
 // import Mockup from './components/Form/Mockup';
-import MockupHomeScreen from './components/Form/MockupHomeScreen';
+import HomeScreen from './components/Form/HomeScreen';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -61,58 +60,44 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <MockupHomeScreen />
-
-    // <RouterContext.Provider value={currentUrlObject}>
-    //   <SelectUserContext.Provider value={selectedUserObject}>
-    //     <UserListContext.Provider value={userListObject}>
-    //       <Router>
-    //         <Routes>
-    //           <Route
-    //             exact
-    //             path="/PASS/"
-    //             element={
-    //               session.info.isLoggedIn ? (
-    //                 <Navigate to="/PASS/home" />
-    //               ) : (
-    //                 <>
-    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
-    //                   <Login currentUrl={currentUrl} />
-    //                 </>
-    //               )
-    //             }
-    //           />
-    //           <Route
-    //             path="/PASS/home/"
-    //             element={
-    //               session.info.isLoggedIn ? (
-    //                 <>
-    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
-    //                   <UserSection />
-    //                 </>
-    //               ) : (
-    //                 <Navigate to="/PASS/" />
-    //               )
-    //             }
-    //           />
-    //           <Route
-    //             path="/PASS/forms/"
-    //             element={
-    //               session.info.isLoggedIn ? (
-    //                 <>
-    //                   <AppHeader isLoggedIn={session.info.isLoggedIn} />
-    //                   <Forms />
-    //                 </>
-    //               ) : (
-    //                 <Navigate to="/PASS/" />
-    //               )
-    //             }
-    //           />
-    //         </Routes>
-    //       </Router>
-    //     </UserListContext.Provider>
-    //   </SelectUserContext.Provider>
-    // </RouterContext.Provider>
+    <RouterContext.Provider value={currentUrlObject}>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <Router>
+            <Routes>
+              <Route
+                exact
+                path="/PASS/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <Navigate to="/PASS/home" />
+                  ) : (
+                    <Login currentUrl={currentUrl} />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/home/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <>
+                      <HomeScreen />
+                      <UserSection />
+                    </>
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/forms/"
+                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+              />
+            </Routes>
+          </Router>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </RouterContext.Provider>
   );
 };
 
