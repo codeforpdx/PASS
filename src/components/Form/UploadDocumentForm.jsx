@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
 import DocumentSelection from './DocumentSelection';
@@ -17,7 +20,7 @@ const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
-  // Initalized state for file upload
+  // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
@@ -115,42 +118,57 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <FormSection
-      title="Upload Document"
-      state={state}
-      statusType="Upload status"
-      defaultMessage="To be uploaded..."
-    >
-      <form onSubmit={handleFormSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button disabled={state.processing} type="submit">
-            Upload file
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Container component="" maxWidth="">
+      <Box
+        sx={{
+          marginTop: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          // alignItems: 'center',
+          // textAlign: 'center',
+          padding: '5px'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Upload Document"
+            state={state}
+            statusType="Upload status"
+            defaultMessage="To be uploaded..."
+          >
+            <form onSubmit={handleFormSubmission} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="upload-doc">Select document type to upload: </label>
+                <DocumentSelection htmlId="upload-doc" />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+                <input id="upload-doc-expiration" name="date" type="date" />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="upload-doc-desc">Enter description: </label>
+                <br />
+                <br />
+                <textarea id="upload-doc-desc" name="description" {...description} />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="upload-doctype">File to upload: </label>
+                <input
+                  id="upload-doctype"
+                  type="file"
+                  name="uploadDoctype"
+                  accept=".pdf, .docx, .doc, .txt, .rtf"
+                  onChange={handleFileChange}
+                />
+                <button disabled={state.processing} type="submit">
+                  Upload file
+                </button>
+              </div>
+            </form>
+          </FormSection>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

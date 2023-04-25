@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
@@ -12,7 +11,6 @@ import {
   generateUsersList,
   updateUserActivity
 } from './utils';
-// import Mockup from './components/Form/Mockup';
 import HomeScreen from './components/Form/HomeScreen';
 
 /**

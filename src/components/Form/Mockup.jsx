@@ -30,7 +30,7 @@ import Fab from '@mui/material/Fab';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import NavigationIcon from '@mui/icons-material/Navigation';
 import Footer from './Footer';
-import NavBar from './NavBar';
+import NavBar from '../NavBar/NavBar';
 import theme from '../../theme';
 
 const columns = [

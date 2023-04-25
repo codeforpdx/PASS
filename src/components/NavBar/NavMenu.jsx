@@ -2,6 +2,7 @@ import React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSession } from '@inrupt/solid-ui-react';
+import Logout from '../Login/Logout';
 
 const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
   const { session } = useSession();
@@ -40,6 +41,9 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
         </a>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem>
+        <Logout />
+      </MenuItem>
     </Menu>
   );
 };

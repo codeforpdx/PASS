@@ -24,9 +24,9 @@ const Login = ({ currentUrl }) => (
   <ThemeProvider theme={theme}>
     {/* <CssBaseline /> */}
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Getting Started with PASS
           </Typography>
         </Toolbar>

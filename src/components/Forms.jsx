@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider } from '@emotion/react';
 import {
   UploadDocumentForm,
   FetchDocumentForm,
@@ -8,8 +9,8 @@ import {
   SetAclPermissionForm
 } from './Form';
 import NavBar from './NavBar/NavBar';
-import { ThemeProvider } from '@emotion/react';
 import theme from '../theme';
+import Footer from "./Form/Footer";
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -19,7 +20,7 @@ import theme from '../theme';
  */
 
 const Forms = () => (
-  <>
+  <ThemeProvider theme={theme}>
     <NavBar />
     <UploadDocumentForm />
     <FetchDocumentForm />
@@ -27,7 +28,8 @@ const Forms = () => (
     <SetAclPermissionForm />
     <CrossPodQueryForm />
     <CrossPodWriteForm />
-  </>
+    <Footer />
+  </ThemeProvider>
 );
 
 export default Forms;

@@ -66,12 +66,12 @@ const UsersList = () => {
                   <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
                   <td>
                     <button type="button" onClick={() => handleSelectUser(user.name, user.url)}>
-                      select
+                      Select
                     </button>
                   </td>
                   <td>
                     <button type="button" onClick={() => handleDeleteUser(user.name)}>
-                      delete
+                      Delete
                     </button>
                   </td>
                 </tr>

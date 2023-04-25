@@ -97,6 +97,7 @@ const rowTestData = [
     person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     currentStatus: 'Completed',
+    podUrl: 'Click here',
     isPriority: true
   },
   {
@@ -104,6 +105,7 @@ const rowTestData = [
     person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     currentStatus: 'To Do',
+    podUrl: 'Click here',
     isPriority: false
   },
   {
@@ -212,7 +214,7 @@ const HomeScreen = () => {
         field: 'dateModified',
         headerName: 'Date Modified',
         type: 'dateTime',
-        width: 150
+        width: 175
       },
       {
         field: 'currentStatus',

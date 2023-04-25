@@ -8,17 +8,17 @@ import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
+// import InputBase from '@mui/material/InputBase';
 import MailIcon from '@mui/icons-material/Mail';
-import Menu from '@mui/material/Menu';
+// import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Logout from '../Login/Logout';
@@ -63,21 +63,21 @@ const NavBar = () => {
             <div className="navLinks" style={{ display: 'flex', gap: '20px', margin: '0 20px' }}>
               <Link to="/PASS/home/">Home</Link>
               <Link to="/PASS/forms/">Forms</Link>
-              <Logout />
+              {/* <Logout /> */}
             </div>
-            <Box sx={{ flexGrow: 1 }} />
-            <MenuItem>
-              <ButtonGroup
-                variant="contained"
-                aria-label="outlined primary button group"
-                // sx={{ color: 'brown' }}
-                color="inherit"
-              >
-                <Button startIcon={<AddIcon />} color="secondary">
-                  Add
-                </Button>
-              </ButtonGroup>
-            </MenuItem>
+            <Box sx={{ flexGrow: 1 }}>
+              <MenuItem>
+                <ButtonGroup
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                  color="inherit"
+                >
+                  <Button startIcon={<AddIcon />} color="secondary">
+                    Add
+                  </Button>
+                </ButtonGroup>
+              </MenuItem>
+            </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="error">
