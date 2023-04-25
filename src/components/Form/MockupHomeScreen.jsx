@@ -94,41 +94,41 @@ const StyledInputBase = styled(InputBase)(() => ({
 const rowTestData = [
   {
     id: 1,
-    name: randomTraderName(),
+    person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     currentStatus: 'Completed',
     isPriority: true
   },
   {
     id: 2,
-    name: randomTraderName(),
+    person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     currentStatus: 'To Do',
     isPriority: false
   },
   {
     id: 3,
-    name: randomTraderName(),
+    person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     currentStatus: 'In Progress',
     isPriority: true
   },
   {
     id: 4,
-    name: randomTraderName(),
+    person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     isPriority: true
   },
-  { id: 5, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 5, person: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
   {
     id: 6,
-    name: randomTraderName(),
+    person: randomTraderName(),
     dateModified: randomUpdatedDate(),
     isPriority: true
   },
-  { id: 7, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
-  { id: 8, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
-  { id: 9, name: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false }
+  { id: 7, person: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 8, person: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false },
+  { id: 9, person: randomTraderName(), dateModified: randomUpdatedDate(), isPriority: false }
 ];
 
 // ----- MODAL STYLE -----
@@ -205,7 +205,9 @@ const Mockup = () => {
   const columns = React.useMemo(
     () => [
       { field: 'id', headerName: 'ID', type: 'number', width: 50 },
-      { field: 'name', headerName: 'Name', type: 'string', width: 150 },
+      // { field: 'familyName', headerName: 'Last Name', type: 'string', width: 75 },
+      // { field: 'givenName', headerName: 'First Name', type: 'string', width: 75 },
+      { field: 'person', headerName: 'Name', type: 'string', width: 150 },
       {
         field: 'dateModified',
         headerName: 'Date Modified',
@@ -219,6 +221,7 @@ const Mockup = () => {
         width: 100,
         valueOptions: ['Completed', 'In Progress', 'To Do']
       },
+      { field: 'podUrl', headerName: 'Pod URL', type: 'string', width: 150 },
       { field: 'isPriority', headerName: 'Priority', type: 'boolean', width: 75 },
       {
         field: 'actions',
@@ -382,7 +385,7 @@ const Mockup = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          // checkboxSelection
+          checkboxSelection
         />
       </Box>
 
