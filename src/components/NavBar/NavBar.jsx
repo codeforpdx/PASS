@@ -66,6 +66,19 @@ const NavBar = () => {
               {/* <Logout /> */}
             </div>
             <Box sx={{ flexGrow: 1 }}>
+              {/* <MenuItem>
+                <ButtonGroup
+                  variant="contained"
+                  aria-label="outlined primary button group"
+                  color="inherit"
+                >
+                  <Button startIcon={<AddIcon />} color="secondary">
+                    Add
+                  </Button>
+                </ButtonGroup>
+              </MenuItem> */}
+            </Box>
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <MenuItem>
                 <ButtonGroup
                   variant="contained"
@@ -77,8 +90,6 @@ const NavBar = () => {
                   </Button>
                 </ButtonGroup>
               </MenuItem>
-            </Box>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="error">
                   <MailIcon />

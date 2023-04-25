@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { useField } from '../../hooks';
 import { StatusNotification } from '../Notification';
 import DocumentSelection from './DocumentSelection';
@@ -33,47 +36,63 @@ const CrossPodWriteForm = () => {
   };
 
   return (
-    <section className="panel">
-      <strong>Cross Pod Upload</strong>
-      <form onSubmit={handleCrossPodUpload} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Other user's Pod you wish to upload to: </label>
-          <br />
-          <br />
-          <input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doctype">Choose document type to upload: </label>
-          <DocumentSelection htmlId="cross-upload-doctype" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="cross-upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc-desc">Enter description:</label>
-          <br />
-          <br />
-          <textarea id="cross-upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doctype">File to upload: </label>
-          <input
-            id="cross-upload-doctype"
-            type="file"
-            name="crossUploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <button type="submit">Upload to Pod</button>
-        </div>
-      </form>
-      <StatusNotification
-        notification=""
-        statusType="Upload status"
-        defaultMessage="To be uploaded..."
-      />
-    </section>
+    <Container component="main" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <section className="panel">
+            <strong>Cross Pod Upload</strong>
+            <form onSubmit={handleCrossPodUpload} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="cross-upload-doc">Other user's Pod you wish to upload to: </label>
+                <br />
+                <br />
+                <input id="cross-upload-doc" size="60" type="text" name="crossPodUpload" />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="cross-upload-doctype">Choose document type to upload: </label>
+                <DocumentSelection htmlId="cross-upload-doctype" />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="cross-upload-doc-expiration">
+                  Expiration date (if applicable):{' '}
+                </label>
+                <input id="cross-upload-doc-expiration" name="date" type="date" />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="cross-upload-doc-desc">Enter description:</label>
+                <br />
+                <br />
+                <textarea id="cross-upload-doc-desc" name="description" {...description} />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="cross-upload-doctype">File to upload: </label>
+                <input
+                  id="cross-upload-doctype"
+                  type="file"
+                  name="crossUploadDoctype"
+                  accept=".pdf, .docx, .doc, .txt, .rtf"
+                  onChange={handleFileChange}
+                />
+                <button type="submit">Upload to Pod</button>
+              </div>
+            </form>
+            <StatusNotification
+              notification=""
+              statusType="Upload status"
+              defaultMessage="To be uploaded..."
+            />
+          </section>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

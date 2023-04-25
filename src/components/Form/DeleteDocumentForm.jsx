@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -50,22 +53,36 @@ const DeleteDocumentForm = () => {
   };
 
   return (
-    <FormSection
-      title="Delete Document"
-      state={state}
-      statusType="Deletion status"
-      defaultMessage="To be deleted..."
-    >
-      <form onSubmit={handleDeleteDocument} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="delete-doctype">Select document type to delete: </label>
-          <DocumentSelection htmlId="delete-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Delete Document
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Container component="main" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Delete Document"
+            state={state}
+            statusType="Deletion status"
+            defaultMessage="To be deleted..."
+          >
+            <form onSubmit={handleDeleteDocument} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="delete-doctype">Select document type to delete: </label>
+                <DocumentSelection htmlId="delete-doctype" />{' '}
+                <button disabled={state.processing} type="submit">
+                  Delete Document
+                </button>
+              </div>
+            </form>
+          </FormSection>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

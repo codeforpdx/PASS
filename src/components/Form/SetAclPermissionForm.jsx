@@ -1,4 +1,7 @@
 import React, { useContext } from 'react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { useSession } from '@inrupt/solid-ui-react';
 import { runNotification, setDocAclPermission } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
@@ -92,35 +95,57 @@ const SetAclPermissionForm = () => {
   };
 
   return (
-    <FormSection
-      title="Permission to Files"
-      state={state}
-      statusType="Permission status"
-      defaultMessage="To be set..."
-    >
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to (i.e., username.opencommons.net): </label>
-          <br />
-          <br />
-          <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{' '}
-        </div>
-        <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
-        <button disabled={state.processing} type="submit">
-          Set Permission
-        </button>
-      </form>
-    </FormSection>
+    <Container component="main" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Permission to Files"
+            state={state}
+            statusType="Permission status"
+            defaultMessage="To be set..."
+          >
+            <form onSubmit={handleAclPermission} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="set-acl-to">
+                  Set permissions to (i.e., username.opencommons.net):{' '}
+                </label>
+                <br />
+                <br />
+                <input
+                  id="set-acl-to"
+                  size="60"
+                  name="setAclTo"
+                  {...user}
+                  placeholder={selectedUser}
+                />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="set-acl-doctype">Select document type: </label>
+                <DocumentSelection htmlId="set-acl-doctype" />{' '}
+              </div>
+              <div style={formRowStyle}>
+                <p>Select permission setting:</p>
+                <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
+                <label htmlFor="set-acl-perm-give">Give</label>
+                <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
+                <label htmlFor="set-acl-perm-revoke">Revoke</label>
+              </div>
+              <button disabled={state.processing} type="submit">
+                Set Permission
+              </button>
+            </form>
+          </FormSection>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

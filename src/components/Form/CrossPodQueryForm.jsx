@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { getDocuments, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -75,36 +78,50 @@ const CrossPodQueryForm = () => {
   };
 
   return (
-    <FormSection
-      title="Cross Pod Search"
-      state={state}
-      statusType="Search status"
-      defaultMessage="To be searched..."
-    >
-      <form onSubmit={handleCrossPodQuery} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doc">
-            Search document from (i.e., username.opencommons.net):{' '}
-          </label>
-          <br />
-          <br />
-          <input
-            id="cross-search-doc"
-            size="60"
-            name="crossPodQuery"
-            {...userUrl}
-            placeholder={selectedUser}
-          />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="cross-search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Search Pod
-          </button>
-        </div>
-      </form>
-    </FormSection>
+    <Container component="main" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Cross Pod Search"
+            state={state}
+            statusType="Search status"
+            defaultMessage="To be searched..."
+          >
+            <form onSubmit={handleCrossPodQuery} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="cross-search-doc">
+                  Search document from (i.e., username.opencommons.net):{' '}
+                </label>
+                <br />
+                <br />
+                <input
+                  id="cross-search-doc"
+                  size="60"
+                  name="crossPodQuery"
+                  {...userUrl}
+                  placeholder={selectedUser}
+                />
+              </div>
+              <div style={formRowStyle}>
+                <label htmlFor="cross-search-doctype">Select document type to search: </label>
+                <DocumentSelection htmlId="cross-search-doctype" />{' '}
+                <button disabled={state.processing} type="submit">
+                  Search Pod
+                </button>
+              </div>
+            </form>
+          </FormSection>{' '}
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

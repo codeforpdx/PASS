@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -54,22 +57,36 @@ const FetchDocumentForm = () => {
   };
 
   return (
-      <FormSection
-        title="Search Document"
-        state={state}
-        statusType="Search status"
-        defaultMessage="To be searched..."
+    <Container component="" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
       >
-        <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
-          <div style={formRowStyle}>
-            <label htmlFor="search-doctype">Select document type to search: </label>
-            <DocumentSelection htmlId="search-doctype" />{' '}
-            <button disabled={state.processing} type="submit">
-              Get Document
-            </button>
-          </div>
-        </form>
-      </FormSection>
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Search Document"
+            state={state}
+            statusType="Search status"
+            defaultMessage="To be searched..."
+          >
+            <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+              <div style={formRowStyle}>
+                <label htmlFor="search-doctype">Select document type to search: </label>
+                <DocumentSelection htmlId="search-doctype" />{' '}
+                <button disabled={state.processing} type="submit">
+                  Get Document
+                </button>
+              </div>
+            </form>
+          </FormSection>{' '}
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

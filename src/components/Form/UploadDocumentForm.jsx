@@ -118,15 +118,14 @@ const UploadDocumentForm = () => {
   };
 
   return (
-    <Container component="" maxWidth="">
+    <Container component="main" maxWidth="">
       <Box
         sx={{
-          marginTop: 5,
+          margin: 1,
           display: 'flex',
           flexDirection: 'column',
-          // alignItems: 'center',
-          // textAlign: 'center',
-          padding: '5px'
+          padding: '5px',
+          width: '95vw'
         }}
       >
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
