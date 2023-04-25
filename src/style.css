@@ -69,10 +69,10 @@ div {
 }
 
 .navLogin > button {
-  background-color: #017969;
-  color: white;
   border: none;
   cursor: pointer;
-  font-weight: 600;
   font-size: 16px;
+  padding: 3px 0;
+  margin: 0;
+  background-color: white;
 }

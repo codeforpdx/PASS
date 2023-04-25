@@ -2,11 +2,13 @@ import React from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MailIcon from '@mui/icons-material/Mail';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useSession } from '@inrupt/solid-ui-react';
+import Logout from '../Login/Logout';
 
 const NavMenuMobile = ({
   mobileMenuId,
@@ -74,6 +76,18 @@ const NavMenuMobile = ({
         >
           Profile
         </a>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
+        <Logout />
       </MenuItem>
     </Menu>
   );
