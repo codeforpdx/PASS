@@ -115,7 +115,7 @@ const App = () => {
             path="/PASS/forms/"
             element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
           />
-          <Route path="*" element={<Navigate to="/PASS/" />} />
+          {/* <Route path="*" element={<Navigate to="/PASS/" />} /> */}
         </Routes>
       </UserListContext.Provider>
     </SelectUserContext.Provider>
