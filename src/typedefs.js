@@ -110,11 +110,8 @@ const React = require('react');
  * @exports userListObject
  * @typedef userListObject
  * @type {object}
- * @property {string} person - Full name of user
- * @property {string} givenName - First/given name of user
- * @property {string} familyName - Last/family name of user
+ * @property {string} name - Name of user
  * @property {URL} podURL - URL of user's Solid Pod
- * @property {Date|null} dateModified - The last active date using PASS
  * @memberof typedefs
  */
 

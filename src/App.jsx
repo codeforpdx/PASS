@@ -1,19 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
+import AppHeader from './components/AppHeader';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
-import { SelectUserContext, UserListContext } from './contexts';
+import { SelectUserContext, UserListContext, RouterContext } from './contexts';
 import {
   getUsersFromPod,
   generateActivityTTL,
   generateUsersList,
-  updateUserActivity,
-  getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
+  updateUserActivity
 } from './utils';
-import { useRedirectUrl } from './hooks';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -21,31 +19,17 @@ import { useRedirectUrl } from './hooks';
 
 const App = () => {
   const { session } = useSession();
-  const redirectUrl = useRedirectUrl();
-  const [restore, setRestore] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState(window.location.href);
 
   useEffect(() => {
-    const performanceEntries = window.performance.getEntriesByType('navigation');
-    if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
-      setRestore(true);
-    }
-
-    if (restore && localStorage.getItem('loggedIn')) {
-      console.log('restoring session');
-      session.login({
-        oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl,
-        onError: console.error
-      });
-    }
-  }, [restore]);
+    setCurrentUrl(window.location.href);
+  }, [setCurrentUrl]);
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
   const [userList, setUserList] = useState([]);
-  const [loadingUsers, setLoadingUsers] = useState(false);
-  const [loadingActive, setLoadingActive] = useState(false);
 
+  const currentUrlObject = useMemo(() => ({ currentUrl, setCurrentUrl }), [setCurrentUrl]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
@@ -61,17 +45,10 @@ const App = () => {
       await generateActivityTTL(session);
       await updateUserActivity(session);
       try {
-        let listUsers = await getUsersFromPod(session);
+        const listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
-        setLoadingUsers(true);
-        setLoadingActive(true);
-        listUsers = await getUserListActivity(session, listUsers);
-        setUserList(listUsers);
-        setLoadingActive(false);
       } catch {
         setUserList([]);
-        setLoadingUsers(false);
-        setLoadingActive(false);
       }
     }
 
@@ -81,44 +58,56 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <SelectUserContext.Provider value={selectedUserObject}>
-      <UserListContext.Provider value={userListObject}>
-        <Routes>
-          <Route
-            exact
-            path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate
-                  to={
-                    !localStorage.getItem('restorePath')
-                      ? '/PASS/home/'
-                      : localStorage.getItem('restorePath')
-                  }
-                />
-              ) : (
-                <Login redirectUrl={redirectUrl} />
-              )
-            }
-          />
-          <Route
-            path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
-          />
-          <Route
-            path="/PASS/forms/"
-            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-          />
-          <Route path="*" element={<Navigate to="/PASS/" />} />
-        </Routes>
-      </UserListContext.Provider>
-    </SelectUserContext.Provider>
+    <RouterContext.Provider value={currentUrlObject}>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <Router>
+            <Routes>
+              <Route
+                exact
+                path="/PASS/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <Navigate to="/PASS/home" />
+                  ) : (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <Login currentUrl={currentUrl} />
+                    </>
+                  )
+                }
+              />
+              <Route
+                path="/PASS/home/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <UserSection />
+                    </>
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/forms/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <>
+                      <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                      <Forms />
+                    </>
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
+              />
+            </Routes>
+          </Router>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </RouterContext.Provider>
   );
 };
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSession } from '@inrupt/solid-ui-react';
 
 /**
  * AppHeader Component - Component that generates AppHeader section for PASS
@@ -9,9 +8,7 @@ import { useSession } from '@inrupt/solid-ui-react';
  * @name AppHeader
  */
 
-const AppHeader = () => {
-  const { session } = useSession();
-
+const AppHeader = ({ isLoggedIn }) => {
   const headerStyle = {
     width: '100%',
     gap: '20px',
@@ -23,7 +20,7 @@ const AppHeader = () => {
   return (
     <header style={headerStyle}>
       <h2>Getting Started with PASS</h2>
-      {session.info.isLoggedIn ? (
+      {isLoggedIn ? (
         <>
           <Link to="/PASS/home/">Home</Link>
           <Link to="/PASS/forms/">Forms</Link>

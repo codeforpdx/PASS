@@ -1,34 +1,17 @@
 # Changelog
 
-## v0.0.4 (Coming soon)
-
-- (Coming soon) Major UI updates with Material UI (#75)
-- (Coming soon) Merging UI with existing functionality (#75)
-
----
-
-## v0.0.3 (April 25, 2023)
+## v0.0.3 (Coming soon)
 
 ## Features
 
-- Included basic dialog modal for logout confirmation (#85)
-- Allow users to log back into PASS when browser is accidentally refreshed when users have not explicitly logged out (#81)
+- Merging UI with existing functionality
+- Major UI updates with Material UI
 
 ## Fixes
 
 ## Dev Changes
 
-- Functions and components for users list is refactored to loaded asynchronously from one another (#84)
-- Moved Router from App.jsx to index.jsx (#81)
-- Created useEffect for "session restore" with PASS, current solution involves a workaround that logs users into a new Solid session when browser refreshes (#81)
-- Refactored UserSection, Login, and Forms component to include AppHeader (#81)
-- Replaced routerContext with custom useRedirectUrl hook (#81)
-- Streamlined and simplified routing with React Router (#81)
-
 ## Others
-
-- Included dependencies for rollup-plugin-visualizer to check on production build bundle size locally
-- Removed the following unused dependencies from package.json: @inrupt/solid-client-authn-browser, buffer, eslint-config-node, eslint-plugin-node, jsdoc-tsimport-plugin, string_decoder
 
 ---
 
