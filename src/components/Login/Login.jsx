@@ -10,7 +10,7 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
  * @name Login
  */
 
-const Login = ({ currentUrl }) => (
+const Login = ({ redirectUrl }) => (
   <section id="login" className="panel">
     <div className="row">
       <label id="labelLogin" htmlFor="btnLogin">
@@ -22,7 +22,7 @@ const Login = ({ currentUrl }) => (
       </label>
       <LoginButton
         oidcIssuer={SOLID_IDENTITY_PROVIDER}
-        redirectUrl={currentUrl}
+        redirectUrl={redirectUrl}
         onError={console.error}
       />
       <p>Not logged in</p>

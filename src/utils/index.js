@@ -22,7 +22,8 @@ import {
   getUsersFromPod,
   deleteUserFromPod,
   generateActivityTTL,
-  updateUserActivity
+  updateUserActivity,
+  getUserListActivity
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -41,5 +42,6 @@ export {
   getUsersFromPod,
   deleteUserFromPod,
   generateActivityTTL,
-  updateUserActivity
+  updateUserActivity,
+  getUserListActivity
 };
