@@ -20,7 +20,6 @@
   "license": "MIT",
   "dependencies": {
     "@inrupt/solid-client": "^1.24.0",
-    "@inrupt/solid-client-authn-browser": "^1.15.0",
     "@inrupt/solid-ui-react": "^2.8.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "fs-extra": "^11.1.0",

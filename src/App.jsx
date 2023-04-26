@@ -21,7 +21,13 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  const redirectUrl = useRedirectUrl();
+  // const redirectUrl = useRedirectUrl();
+  const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, [setCurrentUrl]);
+
   const [restore, setRestore] = useState(false);
 
   useEffect(() => {
@@ -34,7 +40,7 @@ const App = () => {
       console.log('restoring session');
       session.login({
         oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl,
+        redirectUrl: currentUrl,
         onError: console.error
       });
     }
@@ -97,7 +103,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login />
+                <Login currentUrl={currentUrl} />
               )
             }
           />
