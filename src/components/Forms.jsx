@@ -8,6 +8,7 @@ import {
   SetAclPermissionForm
 } from './Form';
 import { Logout } from './Login';
+import AppHeader from './AppHeader';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -18,6 +19,7 @@ import { Logout } from './Login';
 
 const Forms = () => (
   <>
+    <AppHeader />
     <Logout />
     <UploadDocumentForm />
     <FetchDocumentForm />
