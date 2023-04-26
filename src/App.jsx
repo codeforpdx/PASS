@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
@@ -14,6 +13,7 @@ import {
   getUserListActivity,
   SOLID_IDENTITY_PROVIDER
 } from './utils';
+import { useRedirectUrl } from './hooks';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -21,14 +21,7 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
-
-  useEffect(() => {
-    handleIncomingRedirect().then(() => {
-      setRedirectUrl(window.location.href);
-    });
-  }, [setRedirectUrl]);
-
+  const redirectUrl = useRedirectUrl();
   const [restore, setRestore] = useState(false);
 
   useEffect(() => {
@@ -104,7 +97,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login redirectUrl={redirectUrl} setRedirectUrl={setRedirectUrl} />
+                <Login redirectUrl={redirectUrl} />
               )
             }
           />
