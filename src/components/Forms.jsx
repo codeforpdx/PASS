@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   UploadDocumentForm,
   FetchDocumentForm,
@@ -17,17 +18,23 @@ import AppHeader from './AppHeader';
  * @name Forms
  */
 
-const Forms = () => (
-  <>
-    <AppHeader />
-    <Logout />
-    <UploadDocumentForm />
-    <FetchDocumentForm />
-    <DeleteDocumentForm />
-    <SetAclPermissionForm />
-    <CrossPodQueryForm />
-    <CrossPodWriteForm />
-  </>
-);
+const Forms = () => {
+  const location = useLocation();
+
+  localStorage.setItem('restorePath', location.pathname);
+
+  return (
+    <>
+      <AppHeader />
+      <Logout />
+      <UploadDocumentForm />
+      <FetchDocumentForm />
+      <DeleteDocumentForm />
+      <SetAclPermissionForm />
+      <CrossPodQueryForm />
+      <CrossPodWriteForm />
+    </>
+  );
+};
 
 export default Forms;
