@@ -1,5 +1,6 @@
 {
   "name": "pass",
+  "homepage": ".",
   "version": "0.0.3",
   "description": "",
   "scripts": {
