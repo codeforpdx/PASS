@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
-import { runNotification, addUserToPod } from '../../utils';
+import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
 import FormSection from './FormSection';
 import { UserListContext } from '../../contexts';
 
@@ -65,7 +65,9 @@ const ManageUsers = () => {
       return;
     }
 
-    const listUsers = await addUserToPod(session, userObject);
+    let listUsers = await addUserToPod(session, userObject);
+    listUsers = await getUserListActivity(session, listUsers);
+
     setUserList(listUsers);
 
     runNotification(

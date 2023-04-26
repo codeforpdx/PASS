@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification } from '../../hooks';
-import { runNotification, deleteUserFromPod } from '../../utils';
+import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
 import FormSection from '../Form/FormSection';
 import { SelectUserContext, UserListContext } from '../../contexts';
 
@@ -33,7 +33,8 @@ const UsersList = ({ loadingActive }) => {
       )
     ) {
       runNotification(`Deleting user "${userToDeleteFullName}" from Solid...`, 3, state, dispatch);
-      const listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
+      let listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
+      listUsers = await getUserListActivity(session, listUsers);
 
       setUserList(listUsers);
     }
