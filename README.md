@@ -25,7 +25,7 @@ In Portland, housing insecure individuals struggle to maintain documentation, wh
    - Can create verified documents
    - Able to share verified documents with individuals
    - Might require several users
-
+ 
 ## Tech Overview
 
 Initially built out use-cases in Vanilla JavaScript to determine Solid and Inrupt functionality. Currently beginning to build out the PASS application in React.
