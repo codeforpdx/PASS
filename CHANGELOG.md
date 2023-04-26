@@ -1,12 +1,18 @@
 # Changelog
 
-## v0.0.3 (April 18, 2023)
+## v0.0.4 (Coming soon)
+
+- (Coming soon) Major UI updates with Material UI (#75)
+- (Coming soon) Merging UI with existing functionality (#75)
+
+---
+
+## v0.0.3 (April 25, 2023)
 
 ## Features
 
 - Included basic dialog modal for logout confirmation (#85)
 - Allow users to log back into PASS when browser is accidentally refreshed when users have not explicitly logged out (#81)
-- (Coming soon) Major UI updates with Material UI (#75)
 
 ## Fixes
 
@@ -23,7 +29,6 @@
 
 - Included dependencies for rollup-plugin-visualizer to check on production build bundle size locally
 - Removed the following unused dependencies from package.json: @inrupt/solid-client-authn-browser, buffer, eslint-config-node, eslint-plugin-node, jsdoc-tsimport-plugin, string_decoder
-- (Coming soon) Merging UI with existing functionality (#75)
 
 ---
 
