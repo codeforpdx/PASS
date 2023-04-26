@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification } from '../../hooks';
-import { runNotification, deleteUserFromPod } from '../../utils';
+import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
 import FormSection from '../Form/FormSection';
 import { SelectUserContext, UserListContext } from '../../contexts';
 
@@ -13,7 +13,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
  * @name UsersList
  */
 
-const UsersList = () => {
+const UsersList = ({ loadingActive }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
@@ -22,19 +22,20 @@ const UsersList = () => {
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedUserUrl);
+    setSelectedUser(selectedUserUrl.split('/')[2]);
   };
 
   // Event handler for deleting user from users list
-  const handleDeleteUser = async (userToDelete) => {
+  const handleDeleteUser = async (userToDeleteFullName, userToDelete, userToDeleteUrl) => {
     if (
       window.confirm(
-        `You're about to delete user ${userToDelete} from users list, do you wish to continue?`
+        `You're about to delete user ${userToDeleteFullName} from users list, do you wish to continue?`
       )
     ) {
-      const listUsers = await deleteUserFromPod(session, userToDelete);
+      runNotification(`Deleting user "${userToDeleteFullName}" from Solid...`, 3, state, dispatch);
+      let listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
+      listUsers = await getUserListActivity(session, listUsers);
 
-      runNotification(`Deleting user "${userToDelete}" from Solid...`, 3, state, dispatch);
       setUserList(listUsers);
     }
   };
@@ -50,7 +51,8 @@ const UsersList = () => {
       <table style={tableStyle}>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Pod URL</th>
             <th>Last Active Date</th>
             <th>Select User</th>
@@ -60,17 +62,32 @@ const UsersList = () => {
         <tbody>
           {userList
             ? userList.map((user) => (
-                <tr key={user.url}>
-                  <td>{user.name}</td>
-                  <td>{user.url}</td>
-                  <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
+                <tr key={user.podUrl}>
+                  <td>{user.givenName}</td>
+                  <td>{user.familyName}</td>
                   <td>
-                    <button type="button" onClick={() => handleSelectUser(user.name, user.url)}>
+                    <a href={user.podUrl} target="_blank" rel="noreferrer">
+                      {user.podUrl}
+                    </a>
+                  </td>
+                  {loadingActive ? (
+                    <td>Loading...</td>
+                  ) : (
+                    <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
+                  )}
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectUser(user.person, user.podUrl)}
+                    >
                       select
                     </button>
                   </td>
                   <td>
-                    <button type="button" onClick={() => handleDeleteUser(user.name)}>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteUser(user.person, user.givenName, user.podUrl)}
+                    >
                       delete
                     </button>
                   </td>
