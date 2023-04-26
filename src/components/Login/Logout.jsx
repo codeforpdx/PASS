@@ -16,10 +16,12 @@ const Logout = () => {
 
   // Event handler for logging out of PASS and removing items from localStorage
   const handleLogout = () => {
+    session.logout();
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('redirectUrl');
     localStorage.removeItem('restorePath');
     localStorage.removeItem('issuerConfig:https://opencommons.net');
+    window.location.reload();
   };
 
   return (

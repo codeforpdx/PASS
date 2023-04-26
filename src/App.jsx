@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { handleIncomingRedirect } from '@inrupt/solid-client-authn-browser';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
-import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
   generateActivityTTL,
@@ -21,12 +21,13 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  // const redirectUrl = useRedirectUrl();
-  const [currentUrl, setCurrentUrl] = useState('http://localhost:3000');
+  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
-  }, [setCurrentUrl]);
+    handleIncomingRedirect().then(() => {
+      setRedirectUrl(window.location.href);
+    });
+  }, [setRedirectUrl]);
 
   const [restore, setRestore] = useState(false);
 
@@ -40,7 +41,7 @@ const App = () => {
       console.log('restoring session');
       session.login({
         oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl: currentUrl,
+        redirectUrl,
         onError: console.error
       });
     }
@@ -103,7 +104,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login currentUrl={currentUrl} />
+                <Login redirectUrl={redirectUrl} setRedirectUrl={setRedirectUrl} />
               )
             }
           />

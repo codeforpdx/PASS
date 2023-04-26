@@ -1,6 +1,5 @@
 import React from 'react';
 import { LoginButton } from '@inrupt/solid-ui-react';
-import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import AppHeader from '../AppHeader';
 
@@ -12,7 +11,7 @@ import AppHeader from '../AppHeader';
  * @name Login
  */
 
-const Login = ({ currentUrl }) => (
+const Login = ({ redirectUrl }) => (
   <>
     <AppHeader />
     <section id="login" className="panel">
@@ -26,7 +25,7 @@ const Login = ({ currentUrl }) => (
         </label>
         <LoginButton
           oidcIssuer={SOLID_IDENTITY_PROVIDER}
-          redirectUrl={currentUrl}
+          redirectUrl={redirectUrl}
           onError={console.error}
         />
         <p>Not logged in</p>
