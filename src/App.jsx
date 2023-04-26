@@ -26,6 +26,7 @@ const App = () => {
   const [restore, setRestore] = useState(false);
 
   useEffect(() => {
+    console.log(session.info);
     setRedirectUrl(window.location.href);
   }, [setRedirectUrl]);
 
