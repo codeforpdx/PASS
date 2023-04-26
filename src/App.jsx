@@ -5,6 +5,7 @@ import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
+import AppHeader from './components/AppHeader';
 import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
@@ -96,15 +97,12 @@ const App = () => {
               path="/PASS/"
               element={
                 session.info.isLoggedIn ? (
-                  <Navigate
-                    to={
-                      !localStorage.getItem('restorePath')
-                        ? '/PASS/home/'
-                        : localStorage.getItem('restorePath')
-                    }
-                  />
+                  <Navigate to="/PASS/home" />
                 ) : (
-                  <Login redirectUrl={redirectUrl} />
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <Login redirectUrl={redirectUrl} />
+                  </>
                 )
               }
             />
@@ -112,7 +110,10 @@ const App = () => {
               path="/PASS/home/"
               element={
                 session.info.isLoggedIn ? (
-                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                  </>
                 ) : (
                   <Navigate to="/PASS/" />
                 )
@@ -120,9 +121,17 @@ const App = () => {
             />
             <Route
               path="/PASS/forms/"
-              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+              element={
+                session.info.isLoggedIn ? (
+                  <>
+                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
+                    <Forms />
+                  </>
+                ) : (
+                  <Navigate to="/PASS/" />
+                )
+              }
             />
-            {/* <Route path="*" element={<Navigate to="/PASS/" />} /> */}
           </Routes>
         </Router>
       </UserListContext.Provider>
