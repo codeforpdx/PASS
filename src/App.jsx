@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
-import AppHeader from './components/AppHeader';
 import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
@@ -22,14 +21,8 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  // const redirectUrl = useRedirectUrl();
-  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
+  const redirectUrl = useRedirectUrl();
   const [restore, setRestore] = useState(false);
-
-  useEffect(() => {
-    console.log(session.info);
-    setRedirectUrl(window.location.href);
-  }, [setRedirectUrl]);
 
   useEffect(() => {
     const performanceEntries = window.performance.getEntriesByType('navigation');
@@ -90,50 +83,40 @@ const App = () => {
   return (
     <SelectUserContext.Provider value={selectedUserObject}>
       <UserListContext.Provider value={userListObject}>
-        <Router>
-          <Routes>
-            <Route
-              exact
-              path="/PASS/"
-              element={
-                session.info.isLoggedIn ? (
-                  <Navigate to="/PASS/home" />
-                ) : (
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <Login redirectUrl={redirectUrl} />
-                  </>
-                )
-              }
-            />
-            <Route
-              path="/PASS/home/"
-              element={
-                session.info.isLoggedIn ? (
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                  </>
-                ) : (
-                  <Navigate to="/PASS/" />
-                )
-              }
-            />
-            <Route
-              path="/PASS/forms/"
-              element={
-                session.info.isLoggedIn ? (
-                  <>
-                    <AppHeader isLoggedIn={session.info.isLoggedIn} />
-                    <Forms />
-                  </>
-                ) : (
-                  <Navigate to="/PASS/" />
-                )
-              }
-            />
-          </Routes>
-        </Router>
+        <Routes>
+          <Route
+            exact
+            path="/PASS/"
+            element={
+              session.info.isLoggedIn ? (
+                <Navigate
+                  to={
+                    !localStorage.getItem('restorePath')
+                      ? '/PASS/home/'
+                      : localStorage.getItem('restorePath')
+                  }
+                />
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/PASS/home/"
+            element={
+              session.info.isLoggedIn ? (
+                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+              ) : (
+                <Navigate to="/PASS/" />
+              )
+            }
+          />
+          <Route
+            path="/PASS/forms/"
+            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+          />
+          <Route path="*" element={<Navigate to="/PASS/" />} />
+        </Routes>
       </UserListContext.Provider>
     </SelectUserContext.Provider>
   );
