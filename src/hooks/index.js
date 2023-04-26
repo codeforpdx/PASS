@@ -79,7 +79,7 @@ export const useStatusNotification = () => {
  */
 
 export const useRedirectUrl = () => {
-  const [redirectUrl, setRedirectUrl] = useState('');
+  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
 
   useEffect(() => {
     if (!localStorage.getItem('redirectUrl')) {
