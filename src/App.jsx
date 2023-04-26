@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
@@ -88,40 +88,42 @@ const App = () => {
   return (
     <SelectUserContext.Provider value={selectedUserObject}>
       <UserListContext.Provider value={userListObject}>
-        <Routes>
-          <Route
-            exact
-            path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate
-                  to={
-                    !localStorage.getItem('restorePath')
-                      ? '/PASS/home/'
-                      : localStorage.getItem('restorePath')
-                  }
-                />
-              ) : (
-                <Login redirectUrl={redirectUrl} />
-              )
-            }
-          />
-          <Route
-            path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
-          />
-          <Route
-            path="/PASS/forms/"
-            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-          />
-          {/* <Route path="*" element={<Navigate to="/PASS/" />} /> */}
-        </Routes>
+        <Router>
+          <Routes>
+            <Route
+              exact
+              path="/PASS/"
+              element={
+                session.info.isLoggedIn ? (
+                  <Navigate
+                    to={
+                      !localStorage.getItem('restorePath')
+                        ? '/PASS/home/'
+                        : localStorage.getItem('restorePath')
+                    }
+                  />
+                ) : (
+                  <Login redirectUrl={redirectUrl} />
+                )
+              }
+            />
+            <Route
+              path="/PASS/home/"
+              element={
+                session.info.isLoggedIn ? (
+                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                ) : (
+                  <Navigate to="/PASS/" />
+                )
+              }
+            />
+            <Route
+              path="/PASS/forms/"
+              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+            />
+            {/* <Route path="*" element={<Navigate to="/PASS/" />} /> */}
+          </Routes>
+        </Router>
       </UserListContext.Provider>
     </SelectUserContext.Provider>
   );
