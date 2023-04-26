@@ -97,7 +97,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login redirectUrl={redirectUrl} />
+                <Login />
               )
             }
           />
