@@ -12,31 +12,29 @@ import AppHeader from '../AppHeader';
  * @name Login
  */
 
-const Login = () => {
-  const redirectUrl = useRedirectUrl();
+const Login = ({ redirectUrl }) => (
+  // const redirectUrl = useRedirectUrl();
 
-  return (
-    <>
-      <AppHeader />
-      <section id="login" className="panel">
-        <div className="row">
-          <label id="labelLogin" htmlFor="btnLogin">
-            Click the following login button to log into your pod at [
-            <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-              {SOLID_IDENTITY_PROVIDER}
-            </a>
-            ]:{' '}
-          </label>
-          <LoginButton
-            oidcIssuer={SOLID_IDENTITY_PROVIDER}
-            redirectUrl={redirectUrl}
-            onError={console.error}
-          />
-          <p>Not logged in</p>
-        </div>
-      </section>
-    </>
-  );
-};
+  <>
+    <AppHeader />
+    <section id="login" className="panel">
+      <div className="row">
+        <label id="labelLogin" htmlFor="btnLogin">
+          Click the following login button to log into your pod at [
+          <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+            {SOLID_IDENTITY_PROVIDER}
+          </a>
+          ]:{' '}
+        </label>
+        <LoginButton
+          oidcIssuer={SOLID_IDENTITY_PROVIDER}
+          redirectUrl={redirectUrl}
+          onError={console.error}
+        />
+        <p>Not logged in</p>
+      </div>
+    </section>
+  </>
+);
 
 export default Login;

@@ -11,7 +11,9 @@
     "lint": "eslint src/**/*.js[x]",
     "lint:fix": "eslint --fix src/**/*.js[x]",
     "prettier:check": "prettier --check src/**/*.js src/**/*.jsx",
-    "prettier:run": "prettier --write src/**/*.js --write src/**/*.jsx"
+    "prettier:run": "prettier --write src/**/*.js --write src/**/*.jsx",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +46,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
     "jsdoc": "^4.0.0",
     "prettier": "^2.8.4",
     "rollup-plugin-visualizer": "^5.9.0",

@@ -21,8 +21,13 @@ import {
 
 const App = () => {
   const { session } = useSession();
-  const redirectUrl = useRedirectUrl();
+  // const redirectUrl = useRedirectUrl();
+  const [redirectUrl, setRedirectUrl] = useState(window.location.href);
   const [restore, setRestore] = useState(false);
+
+  useEffect(() => {
+    setRedirectUrl(window.location.href);
+  }, [setRedirectUrl]);
 
   useEffect(() => {
     const performanceEntries = window.performance.getEntriesByType('navigation');
@@ -97,7 +102,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login />
+                <Login redirectUrl={redirectUrl} />
               )
             }
           />
@@ -115,7 +120,7 @@ const App = () => {
             path="/PASS/forms/"
             element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
           />
-          {/* <Route path="*" element={<Navigate to="/PASS/" />} /> */}
+          <Route path="*" element={<Navigate to="/PASS/" />} />
         </Routes>
       </UserListContext.Provider>
     </SelectUserContext.Provider>
