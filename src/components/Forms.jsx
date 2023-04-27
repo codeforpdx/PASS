@@ -6,7 +6,9 @@ import {
   DeleteDocumentForm,
   CrossPodQueryForm,
   CrossPodWriteForm,
-  SetAclPermissionForm
+  SetAclPermissionForm,
+  SetAclPermsDocContainerForm,
+  CheckAclPermsDocContainerForm
 } from './Form';
 import { Logout } from './Login';
 import AppHeader from './AppHeader';
@@ -30,6 +32,8 @@ const Forms = () => {
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
+      <SetAclPermsDocContainerForm />
+      <CheckAclPermsDocContainerForm />
       <SetAclPermissionForm />
       <CrossPodQueryForm />
       <CrossPodWriteForm />
