@@ -44,7 +44,9 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
  * @memberof utils
  */
 
-export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
+// Vite exposes static env variables in the `import.meta.env` object
+// https://vitejs.dev/guide/env-and-mode.html
+export const SOLID_IDENTITY_PROVIDER = import.meta.env.VITE_SOLID_IDENTITY_PROVIDER;
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
