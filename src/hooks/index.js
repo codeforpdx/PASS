@@ -83,8 +83,8 @@ export const useRedirectUrl = () => {
 
   useEffect(() => {
     if (!localStorage.getItem('redirectUrl')) {
-      localStorage.setItem('redirectUrl', window.location.href);
-      setRedirectUrl(window.location.href);
+      localStorage.setItem('redirectUrl', window.location.href.split('#')[0]);
+      setRedirectUrl(window.location.href.split('#')[0]);
     } else {
       setRedirectUrl(localStorage.getItem('redirectUrl'));
     }
