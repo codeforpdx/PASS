@@ -5,7 +5,9 @@ import { LogoutButton } from '@inrupt/solid-ui-react';
 // import Card from '@mui/material/Card';
 // import Container from '@mui/material/Container';
 // import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 import { RouterContext } from '../../contexts';
+import theme from '../../theme';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -23,9 +25,11 @@ const Logout = () => {
   };
 
   return (
-    <section className="navLogin" style={{ display: 'flex', gap: '20px' }}>
-      <LogoutButton onLogout={handleLogout} />
-    </section>
+    <ThemeProvider theme={theme}>
+      <section className="navLogin" style={{ display: 'flex', gap: '20px' }}>
+        <LogoutButton onLogout={handleLogout} />
+      </section>
+    </ThemeProvider>
   );
 };
 

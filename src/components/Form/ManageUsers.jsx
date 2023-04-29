@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { useStatusNotification, useField } from '../../hooks';
 import { runNotification, addUserToPod } from '../../utils';
 import FormSection from './FormSection';
@@ -62,32 +65,46 @@ const ManageUsers = () => {
   };
 
   return (
-    <FormSection
-      title="Manage Users"
-      state={state}
-      statusType="Status"
-      defaultMessage="To be added..."
-    >
-      <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
-        <div>
-          <label htmlFor="add-user-name">User's name (i.e. John Doe): </label>
-          <input id="add-user-name" name="addUserName" {...userName} />{' '}
-        </div>
-        <br />
-        <div>
-          <label htmlFor="add-user-url">
-            Add Pod URL to users list (i.e., username.opencommons.net):{' '}
-          </label>
-          <br />
-          <br />
-          <input id="add-user-url" name="addUserUrl" size="60" {...userUrl} />{' '}
-        </div>
-        <br />
-        <button type="submit" disabled={state.processing}>
-          Add User
-        </button>
-      </form>
-    </FormSection>
+    <Container component="" maxWidth="">
+      <Box
+        sx={{
+          margin: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '5px',
+          width: '95vw'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <FormSection
+            title="Manage Users"
+            state={state}
+            statusType="Status"
+            defaultMessage="To be added..."
+          >
+            <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
+              <div>
+                <label htmlFor="add-user-name">User's name (i.e. John Doe): </label>
+                <input id="add-user-name" name="addUserName" {...userName} />{' '}
+              </div>
+              <br />
+              <div>
+                <label htmlFor="add-user-url">
+                  Add Pod URL to users list (i.e., username.opencommons.net):{' '}
+                </label>
+                <br />
+                <br />
+                <input id="add-user-url" name="addUserUrl" size="60" {...userUrl} />{' '}
+              </div>
+              <br />
+              <button type="submit" disabled={state.processing}>
+                Add User
+              </button>
+            </form>
+          </FormSection>
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 

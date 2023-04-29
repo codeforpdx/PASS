@@ -237,7 +237,7 @@ const HomeScreen = () => {
             showInMenu
           />,
           <GridActionsCellItem
-            icon={<CheckIcon />}
+            icon={<StarIcon />}
             label="Toggle Priority"
             onClick={togglePriority(params.id)}
             showInMenu
@@ -388,6 +388,7 @@ const HomeScreen = () => {
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
+          autoHeight
         />
       </Box>
 
