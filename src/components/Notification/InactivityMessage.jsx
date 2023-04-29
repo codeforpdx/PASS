@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { Modal, Button } from '@mui/base';
+import { LogoutButton } from '@inrupt/solid-ui-react';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
@@ -32,7 +34,7 @@ const InactivityMessage = () => {
   
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 180000)
+      }, 1000)
     }
   
     const handleUserActivity = () => {
@@ -43,11 +45,13 @@ const InactivityMessage = () => {
   
     window.addEventListener('mousedown', handleUserActivity);
     window.addEventListener('mousemove', handleUserActivity);    
+    window.addEventListener('touchstart', handleUserActivity);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('mousedown', handleUserActivity);
       window.removeEventListener('mousemove', handleUserActivity);
+      window.removeEventListener('touchstart', handleUserActivity);
     }    
   }, [])
 
@@ -63,25 +67,66 @@ const InactivityMessage = () => {
   
 
   return (
-    <Modal open={showPopup && activeUser} 
-      style={{ display: 'flex', backgroundColor: 'white', 
-               alignItems: 'center', borderRadius: '10px', position: 'fixed',
-               top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 99 }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '50px', border: '2px solid black', borderRadius: '10px' }}>
+    <StyledModal open={showPopup && activeUser}>
+      <StyledContainer>
         <p>You've been inactive for a few minutes now. Would you like to log out?</p>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <Button onClick={() => setShowPopup(false)} style={{ width: '100px', backgroundColor: 'white', borderColor: 'black', borderRadius: '5px', cursor: 'pointer' }}>
+        <ButtonsContainer>
+          <StyledButton onClick={() => setShowPopup(false)}>
             Continue Session
-          </Button>
-          <Button onClick={() => handleLogout()} variant='contained' style={{ width: '100px', backgroundColor: '#4287f5', color: 'white', borderColor: 'black', borderRadius: '5px', cursor: 'pointer' }}>
-            Log Out
-          </Button>
-        </div>
-      </div>
-    </Modal>
+          </StyledButton>
+          <LogoutButton onLogout={handleLogout}>
+            <StyledLogoutButton>
+              Log Out
+            </StyledLogoutButton>
+          </LogoutButton>
+        </ButtonsContainer>
+      </StyledContainer>
+    </StyledModal>
     )
 }
 
+const StyledButton = styled(Button)({
+  width: '100px',
+  backgroundColor: 'white', 
+  borderColor: 'black', 
+  borderRadius: '5px', 
+  cursor: 'pointer',
+  '&:hover': {
+    filter: 'brightness(0.9)',
+  },
+});
+
+const StyledLogoutButton = styled(StyledButton)({
+  backgroundColor: '#4287f5', 
+  height: '100%', 
+  color: '#fff'
+})
+
+const StyledModal = styled(Modal)({
+  display: 'flex', 
+  backgroundColor: 'white', 
+  alignItems: 'center', 
+  borderRadius: '10px', 
+  position: 'fixed',
+  top: '50%', 
+  left: '50%', 
+  transform: 'translate(-50%, -50%)', 
+  zIndex: 99
+});
+
+const StyledContainer = styled('div')({
+  display: 'flex', 
+  flexDirection: 'column', 
+  alignItems: 'center', 
+  textAlign: 'center',
+  padding: '50px', 
+  border: '2px solid black', 
+  borderRadius: '10px'
+});
+
+const ButtonsContainer = styled('div')({
+  display: 'flex', 
+  gap: '20px'
+});
 
 export default InactivityMessage;
