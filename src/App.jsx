@@ -41,7 +41,7 @@ const App = () => {
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
+  /** @type {useState<userListObject[]>} */
   const [userList, setUserList] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
