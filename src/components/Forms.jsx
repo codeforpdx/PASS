@@ -10,6 +10,7 @@ import {
 } from './Form';
 import { Logout } from './Login';
 import AppHeader from './AppHeader';
+import { InactivityMessage } from './Notification';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -33,6 +34,7 @@ const Forms = () => {
       <SetAclPermissionForm />
       <CrossPodQueryForm />
       <CrossPodWriteForm />
+      <InactivityMessage />
     </>
   );
 };
