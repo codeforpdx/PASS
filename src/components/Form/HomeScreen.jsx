@@ -175,13 +175,6 @@ const HomeScreen = () => {
     []
   );
 
-  // const changeStatus = React.useCallback(
-  //   (id) => () => {
-  //     console.log('Status changed!');
-  //   },
-  //   []
-  // );
-
   const deleteClient = React.useCallback(
     (id) => () => {
       setTimeout(() => {
@@ -237,17 +230,11 @@ const HomeScreen = () => {
             showInMenu
           />,
           <GridActionsCellItem
-            icon={<StarIcon />}
+            icon={<CheckIcon />}
             label="Toggle Priority"
             onClick={togglePriority(params.id)}
             showInMenu
           />,
-          // <GridActionsCellItem
-          //   icon={<StarBorderIcon />}
-          //   label="Change Status"
-          //   onClick={changeStatus(params.id)}
-          //   showInMenu
-          // />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
@@ -277,6 +264,7 @@ const HomeScreen = () => {
       </Typography>
 
       {/* ----- BUTTON ROW ----- */}
+
       <div>
         <Typography
           component="h2"
@@ -287,67 +275,67 @@ const HomeScreen = () => {
           sx={{ flex: 1 }}
         >
           {/* ----- NEW CLIENT DIALOG BOX ----- */}
-          <div>
-            <Dialog open={open2} onClose={handleClose2}>
-              <DialogTitle align="center">Add new client</DialogTitle>
-              <DialogContent>
-                <DialogContentText>Enter new client details below</DialogContentText>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="given-name"
-                      name="firstName"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                    />
-                  </Grid>
+          <Dialog open={open2} onClose={handleClose2}>
+            <DialogTitle align="center">Add new client</DialogTitle>
+            <DialogContent>
+              <DialogContentText>Enter new client details below</DialogContentText>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="firstName"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                  />
                 </Grid>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose2}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained">
-                  Submit
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="family-name"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose2}>Cancel</Button>
+              <Button onClick={handleSubmit} variant="contained">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
 
           {/* ----- DELETE CLIENT MODAL ----- */}
+
           <Modal
             open={open}
             onClose={handleClose}
@@ -373,6 +361,7 @@ const HomeScreen = () => {
       </div>
 
       {/* ----- SEARCH BAR ----- */}
+
       <Search>
         <SearchIconWrapper>
           <SearchIcon />
@@ -381,6 +370,7 @@ const HomeScreen = () => {
       </Search>
 
       {/* ----- DATA GRID ----- */}
+
       <Box sx={{ width: '100%', height: '70vh' }}>
         <DataGrid
           rows={rows}
@@ -393,6 +383,7 @@ const HomeScreen = () => {
       </Box>
 
       {/* ----- FOOTER ----- */}
+
       <Footer />
     </ThemeProvider>
   );
