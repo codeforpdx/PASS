@@ -19,10 +19,6 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 // import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -43,6 +39,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { randomTraderName, randomUpdatedDate } from '@mui/x-data-grid-generator';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import Footer from './Footer';
+import ManageUsers from './ManageUsers';
 import NavBar from '../NavBar/NavBar';
 import theme from '../../theme';
 
@@ -161,7 +158,9 @@ const HomeScreen = () => {
 
   const editClient = React.useCallback(
     (id) => () => {
-      console.log('Edited!');
+      console.log('Client edited!');
+      console.log(ManageUsers());
+      console.log(ManageUsers);
     },
     []
   );
@@ -177,9 +176,30 @@ const HomeScreen = () => {
 
   const deleteClient = React.useCallback(
     (id) => () => {
-      setTimeout(() => {
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
+      console.log('Client deleted!');
+      // setTimeout(() => {
+      //   setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+      // });
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle} align="center">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to delete?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            WARNING: This action cannot be undone!
+          </Typography>
+          <br />
+          <Button variant="contained" onClick={handleClose}>
+            Confirm
+          </Button>
+        </Box>
+      </Modal>;
     },
     []
   );
@@ -200,8 +220,6 @@ const HomeScreen = () => {
   const columns = React.useMemo(
     () => [
       { field: 'id', headerName: 'ID', type: 'number', width: 50 },
-      // { field: 'familyName', headerName: 'Last Name', type: 'string', width: 75 },
-      // { field: 'givenName', headerName: 'First Name', type: 'string', width: 75 },
       { field: 'person', headerName: 'Name', type: 'string', width: 150 },
       {
         field: 'dateModified',
@@ -274,69 +292,9 @@ const HomeScreen = () => {
           noWrap
           sx={{ flex: 1 }}
         >
-          {/* ----- NEW CLIENT DIALOG BOX ----- */}
-
-          <Dialog open={open2} onClose={handleClose2}>
-            <DialogTitle align="center">Add new client</DialogTitle>
-            <DialogContent>
-              <DialogContentText>Enter new client details below</DialogContentText>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                  />
-                </Grid>
-              </Grid>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose2}>Cancel</Button>
-              <Button onClick={handleSubmit} variant="contained">
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-
           {/* ----- DELETE CLIENT MODAL ----- */}
 
-          <Modal
+          {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
@@ -354,7 +312,7 @@ const HomeScreen = () => {
                 Confirm
               </Button>
             </Box>
-          </Modal>
+          </Modal> */}
 
           <br />
         </Typography>
