@@ -3,3 +3,4 @@
 /docs
 !/docs/README.md
 /dist
+.env
