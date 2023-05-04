@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
-import { LogoutButton } from '@inrupt/solid-ui-react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
+import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 // import Box from '@mui/material/Box';
 // import Button from '@mui/material/Button';
 // import Card from '@mui/material/Card';
 // import Container from '@mui/material/Container';
 // import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { RouterContext } from '../../contexts';
+// import { RouterContext } from '../../contexts';
 import theme from '../../theme';
-import React, { useState } from 'react';
-import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 
 /**
  * Logout Component - Component that generates Logout section for users to a

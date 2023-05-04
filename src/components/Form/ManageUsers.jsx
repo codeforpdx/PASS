@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -129,7 +131,7 @@ const ManageUsers = () => {
                 <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
                   <div>
                     <label htmlFor="add-user-name">User's name (i.e. John Doe): </label>
-                    <input id="add-user-name" name="addUserName" {...userName} />{' '}
+                    <input id="add-user-name" name="addUserName" {...userGivenName} />{' '}
                   </div>
                   <br />
                   <div>
@@ -150,12 +152,12 @@ const ManageUsers = () => {
           </Box>
         </Container>
       </DialogContent>
-      <DialogActions>
+      {/* <DialogActions>
         <Button onClick={handleClose2}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained">
           Submit
         </Button>
-      </DialogActions>
+      </DialogActions> */}
     </Dialog>
   );
 };

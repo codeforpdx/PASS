@@ -14,7 +14,7 @@ import {
   getUserListActivity,
   SOLID_IDENTITY_PROVIDER
 } from './utils';
-import HomeScreen from './components/Form/HomeScreen';
+// import HomeScreen from './components/Form/HomeScreen';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -82,44 +82,44 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <RouterContext.Provider value={currentUrlObject}>
-      <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContext.Provider value={userListObject}>
-          <Router>
-            <Routes>
-              <Route
-                exact
-                path="/PASS/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Navigate to="/PASS/home" />
-                  ) : (
-                    <Login currentUrl={currentUrl} />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/home/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <>
-                      <HomeScreen />
-                      <UserSection />
-                    </>
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/forms/"
-                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-              />
-            </Routes>
-          </Router>
-        </UserListContext.Provider>
-      </SelectUserContext.Provider>
-    </RouterContext.Provider>
+    <SelectUserContext.Provider value={selectedUserObject}>
+      <UserListContext.Provider value={userListObject}>
+        <Routes>
+          <Route
+            exact
+            path="/PASS/"
+            element={
+              session.info.isLoggedIn ? (
+                <Navigate
+                  to={
+                    !localStorage.getItem('restorePath')
+                      ? '/PASS/home/'
+                      : localStorage.getItem('restorePath')
+                  }
+                />
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/PASS/home/"
+            element={
+              session.info.isLoggedIn ? (
+                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+              ) : (
+                <Navigate to="/PASS/" />
+              )
+            }
+          />
+          <Route
+            path="/PASS/forms/"
+            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+          />
+          <Route path="*" element={<Navigate to="/PASS/" />} />
+        </Routes>
+      </UserListContext.Provider>
+    </SelectUserContext.Provider>
   );
 };
 
