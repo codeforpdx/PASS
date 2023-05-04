@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useStatusNotification, useField } from '../../hooks';
-import { runNotification, addUserToPod } from '../../utils';
+import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
 import FormSection from './FormSection';
 import { UserListContext } from '../../contexts';
 
@@ -24,7 +24,8 @@ import { UserListContext } from '../../contexts';
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserName, ...userName } = useField('text');
+  const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
+  const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
   const { clearValue: clearUserUrl, ...userUrl } = useField('text');
   const { setUserList } = useContext(UserListContext);
 
@@ -40,7 +41,8 @@ const ManageUsers = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
-      name: event.target.addUserName.value,
+      givenName: event.target.addUserGivenName.value,
+      familyName: event.target.addUserFamilyName.value,
       url: event.target.addUserUrl.value
     };
 
@@ -52,21 +54,47 @@ const ManageUsers = () => {
       return;
     }
 
-    if (!userObject.name) {
-      runNotification(`Operation failed. Reason: User's name is not provided`, 5, state, dispatch);
+    if (!userObject.givenName) {
+      runNotification(
+        `Operation failed. Reason: User's first/given name is not provided`,
+        5,
+        state,
+        dispatch
+      );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
       return;
     }
 
-    const listUsers = await addUserToPod(session, userObject);
+    if (!userObject.familyName) {
+      runNotification(
+        `Operation failed. Reason: User's last/family name is not provided`,
+        5,
+        state,
+        dispatch
+      );
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    let listUsers = await addUserToPod(session, userObject);
+    listUsers = await getUserListActivity(session, listUsers);
+
     setUserList(listUsers);
 
-    runNotification(`Adding user "${userObject.name}" to Solid...`, 5, state, dispatch);
+    runNotification(
+      `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+      5,
+      state,
+      dispatch
+    );
 
     setTimeout(() => {
-      clearUserName();
+      clearUserGivenName();
+      clearUserFamilyName();
       clearUserUrl();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);

@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useStatusNotification } from '../../hooks';
-import { runNotification, deleteUserFromPod } from '../../utils';
+import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
 import FormSection from '../Form/FormSection';
 import { SelectUserContext, UserListContext } from '../../contexts';
 
@@ -16,7 +16,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
  * @name UsersList
  */
 
-const UsersList = () => {
+const UsersList = ({ loadingActive }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
@@ -25,19 +25,20 @@ const UsersList = () => {
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedUserUrl);
+    setSelectedUser(selectedUserUrl.split('/')[2]);
   };
 
   // Event handler for deleting user from users list
-  const handleDeleteUser = async (userToDelete) => {
+  const handleDeleteUser = async (userToDeleteFullName, userToDelete, userToDeleteUrl) => {
     if (
       window.confirm(
-        `You're about to delete user ${userToDelete} from users list, do you wish to continue?`
+        `You're about to delete user ${userToDeleteFullName} from users list, do you wish to continue?`
       )
     ) {
-      const listUsers = await deleteUserFromPod(session, userToDelete);
+      runNotification(`Deleting user "${userToDeleteFullName}" from Solid...`, 3, state, dispatch);
+      let listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
+      listUsers = await getUserListActivity(session, listUsers);
 
-      runNotification(`Deleting user "${userToDelete}" from Solid...`, 3, state, dispatch);
       setUserList(listUsers);
     }
   };

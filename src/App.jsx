@@ -1,15 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { UserSection } from './components/Users';
-import { SelectUserContext, UserListContext, RouterContext } from './contexts';
+import { SelectUserContext, UserListContext } from './contexts';
+import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
   generateActivityTTL,
   generateUsersList,
-  updateUserActivity
+  updateUserActivity,
+  getUserListActivity,
+  SOLID_IDENTITY_PROVIDER
 } from './utils';
 import HomeScreen from './components/Form/HomeScreen';
 
@@ -19,17 +22,31 @@ import HomeScreen from './components/Form/HomeScreen';
 
 const App = () => {
   const { session } = useSession();
-  const [currentUrl, setCurrentUrl] = useState(window.location.href);
+  const redirectUrl = useRedirectUrl();
+  const [restore, setRestore] = useState(false);
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
-  }, [setCurrentUrl]);
+    const performanceEntries = window.performance.getEntriesByType('navigation');
+    if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
+      setRestore(true);
+    }
+
+    if (restore && localStorage.getItem('loggedIn')) {
+      console.log('restoring session');
+      session.login({
+        oidcIssuer: SOLID_IDENTITY_PROVIDER,
+        redirectUrl,
+        onError: console.error
+      });
+    }
+  }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
+  /** @type {useState<userListObject[]>} */
   const [userList, setUserList] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingActive, setLoadingActive] = useState(false);
 
-  const currentUrlObject = useMemo(() => ({ currentUrl, setCurrentUrl }), [setCurrentUrl]);
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
@@ -45,10 +62,17 @@ const App = () => {
       await generateActivityTTL(session);
       await updateUserActivity(session);
       try {
-        const listUsers = await getUsersFromPod(session);
+        let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
+        setLoadingUsers(true);
+        setLoadingActive(true);
+        listUsers = await getUserListActivity(session, listUsers);
+        setUserList(listUsers);
+        setLoadingActive(false);
       } catch {
         setUserList([]);
+        setLoadingUsers(false);
+        setLoadingActive(false);
       }
     }
 

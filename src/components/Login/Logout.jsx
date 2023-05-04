@@ -8,6 +8,8 @@ import { LogoutButton } from '@inrupt/solid-ui-react';
 import { ThemeProvider } from '@mui/material/styles';
 import { RouterContext } from '../../contexts';
 import theme from '../../theme';
+import React, { useState } from 'react';
+import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -18,18 +20,45 @@ import theme from '../../theme';
  */
 
 const Logout = () => {
-  const { currentUrl } = useContext(RouterContext);
+  const { session } = useSession();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  localStorage.setItem('loggedIn', true);
 
+  // Event handler for logging out of PASS and removing items from localStorage
   const handleLogout = () => {
-    window.location.href = `${currentUrl.split('PASS')[0]}PASS/`;
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('redirectUrl');
+    localStorage.removeItem('restorePath');
+    localStorage.removeItem('issuerConfig:https://opencommons.net');
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <section className="navLogin" style={{ display: 'flex', gap: '20px' }}>
-        <LogoutButton onLogout={handleLogout} />
-      </section>
-    </ThemeProvider>
+    <section id="logout" className="panel">
+      <div className="row">
+        <label id="labelLogout" htmlFor="btnLogout">
+          Click the following logout button to log out of your pod:{' '}
+        </label>
+        <button type="button" onClick={() => setShowConfirmation(true)}>
+          Log Out
+        </button>
+        <dialog open={showConfirmation}>
+          <p>Do you want to log out now?</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+            <LogoutButton onLogout={handleLogout} />
+            <button type="button" onClick={() => setShowConfirmation(false)}>
+              Cancel
+            </button>
+          </div>
+        </dialog>
+        <p className="labelStatus" role="alert">
+          Your session is now logged in with the WebID [
+          <a href={session.info.webId} target="_blank" rel="noreferrer">
+            {session.info.webId}
+          </a>
+          ].
+        </p>
+      </div>
+    </section>
   );
 };
 
