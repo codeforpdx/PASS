@@ -1,9 +1,28 @@
 # Changelog
 
-## v0.0.4 (Coming soon)
+## v0.0.4 (May 1, 2023)
 
-- (Coming soon) Major UI updates with Material UI (#75)
-- (Coming soon) Merging UI with existing functionality (#75)
+## Features
+
+- Included inactivity notification popup that appears after 3 minutes of inactivity (#101)
+- (In review) Included ability to perform cross-pod uploading/updating of files in another user's Documents container if given access (#97)
+- (In review) Included permissions setting to a dedicated Documents container on user's Solid Pod (#97)
+- (In progress) Major UI updates with Material UI (#75)
+
+## Fixes
+
+- Fixed typings for userListObject in JSDoc (#100)
+- Created caching for npm dependencies (#97)
+- Updating corrupted package-lock file from repo (#96)
+
+## Dev Changes
+
+- (In review) Replacing BrowserRouter with HashRouter for compatibility issues with GitHub Pages (#103)
+- Begin incorporating Material UI libraries to existing build with inactivity popup (#101)
+
+## Others
+
+- (In progress) Update existing UI with Material UI for existing functionality (#75)
 
 ---
 

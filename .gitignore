@@ -3,4 +3,5 @@
 /docs
 !/docs/README.md
 /dist
+.env
 bundleStats.html

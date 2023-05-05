@@ -474,7 +474,7 @@ export const generateUsersList = async (session) => {
  * @memberof utils
  * @function getUserListActivity
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {Array[userListObject]} userList - An array of {@link userListObject}
+ * @param {userListObject[]} userList - An array of {@link userListObject}
  * which stores the name and their Pod URL
  * @returns {Promise} Promise - An array of users with last active time included
  * to user list
