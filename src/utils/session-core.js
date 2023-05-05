@@ -204,8 +204,10 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
     fetch: session.fetch
   });
 
-  // Generate ACL file for container
-  await createDocAclForUser(session, containerUrl);
+  if (uploadType === 'self') {
+    // Generate ACL file for container
+    await createDocAclForUser(session, containerUrl);
+  }
 };
 
 /**
