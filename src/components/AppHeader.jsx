@@ -38,15 +38,16 @@ const AppHeader = () => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="primary">
           <Toolbar>
-            <Typography variant="h4" noWrap component="div" sx={{ flexGrow: 1 }}>
-              PASS
-            </Typography>
             {session.info.isLoggedIn ? (
               <>
+                <Typography variant="h4" noWrap component="div">
+                  PASS
+                </Typography>{' '}
                 <ButtonGroup
                   variant="contained"
                   aria-label="outlined primary button group"
                   color="inherit"
+                  sx={{ margin: '0 0 0 20px' }}
                 >
                   <Button>
                     <Link to="/PASS/home/">Home</Link>
@@ -55,7 +56,7 @@ const AppHeader = () => {
                     <Link to="/PASS/forms/">Forms</Link>
                   </Button>
                 </ButtonGroup>
-
+                <Box sx={{ flexGrow: 1 }} />
                 <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
                   <MenuItem>
                     <Button
@@ -69,7 +70,11 @@ const AppHeader = () => {
                   </MenuItem>
                 </Box>
               </>
-            ) : null}
+            ) : (
+              <Typography variant="h4" noWrap component="div">
+                Getting started with PASS
+              </Typography>
+            )}
           </Toolbar>
         </AppBar>
       </Box>

@@ -18,7 +18,8 @@ const Footer = () => (
       sx={{
         py: 1,
         px: 2,
-        mt: 'auto'
+        mt: 'auto',
+        textAlign: 'center'
       }}
     >
       <Container maxWidth="sm">
