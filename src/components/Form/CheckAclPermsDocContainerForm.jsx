@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { checkContainerPermission, runNotification } from '../../utils';
+import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import FormSection from './FormSection';
 import { SelectUserContext } from '../../contexts';
@@ -30,15 +30,15 @@ const CheckAclPermsDocContainerForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    let podUrl = event.target.setAclTo.value;
+    let podUsername = event.target.setAclTo.value;
 
-    if (!podUrl) {
-      podUrl = selectedUser;
+    if (!podUsername) {
+      podUsername = selectedUser;
     }
 
-    if (!podUrl) {
+    if (!podUsername) {
       runNotification(
-        'Check permissions failed. Reason: Pod URL not provided.',
+        'Check permissions failed. Reason: Username not provided.',
         5,
         state,
         dispatch
@@ -49,7 +49,10 @@ const CheckAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
+    if (
+      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
+      String(session.info.webId.split('profile')[0])
+    ) {
       runNotification(
         'Check permissions failed. Reason: User already have access to their own Documents container.',
         5,
@@ -63,7 +66,7 @@ const CheckAclPermsDocContainerForm = () => {
     }
 
     try {
-      const containerUrl = await checkContainerPermission(session, podUrl);
+      const containerUrl = await checkContainerPermission(session, podUsername);
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -97,9 +100,7 @@ const CheckAclPermsDocContainerForm = () => {
     >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">
-            Check permissions to other user's Documents container (i.e., username.opencommons.net):{' '}
-          </label>
+          <label htmlFor="set-acl-to">Check permissions to username's Documents container: </label>
           <br />
           <br />
           <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />

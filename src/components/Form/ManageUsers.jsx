@@ -1,7 +1,12 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useStatusNotification, useField } from '../../hooks';
-import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
+import {
+  runNotification,
+  addUserToPod,
+  getUserListActivity,
+  SOLID_IDENTITY_PROVIDER
+} from '../../utils';
 import FormSection from './FormSection';
 import { UserListContext } from '../../contexts';
 
@@ -18,7 +23,7 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const { clearValue: clearUserUrl, ...userUrl } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
@@ -28,11 +33,11 @@ const ManageUsers = () => {
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      url: event.target.addUserUrl.value
+      username: event.target.addUsername.value
     };
 
-    if (!userObject.url) {
-      runNotification(`Operation failed. Reason: No URL provided`, 5, state, dispatch);
+    if (!userObject.username) {
+      runNotification(`Operation failed. Reason: No username provided`, 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -80,7 +85,7 @@ const ManageUsers = () => {
     setTimeout(() => {
       clearUserGivenName();
       clearUserFamilyName();
-      clearUserUrl();
+      clearUsername();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
   };
@@ -108,12 +113,13 @@ const ManageUsers = () => {
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-url">
-            Add Pod URL to users list (i.e., username.opencommons.net):{' '}
+          <label htmlFor="add-username">
+            Add username to users list (i.e., username without{' '}
+            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
           </label>
           <br />
           <br />
-          <input id="add-user-url" name="addUserUrl" size="60" {...userUrl} />{' '}
+          <input id="add-username" name="addUsername" size="60" {...username} />{' '}
         </div>
         <br />
         <button type="submit" disabled={state.processing}>

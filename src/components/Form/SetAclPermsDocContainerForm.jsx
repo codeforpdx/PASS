@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { runNotification, setDocContainerAclPermission } from '../../utils';
+import {
+  SOLID_IDENTITY_PROVIDER,
+  runNotification,
+  setDocContainerAclPermission
+} from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import FormSection from './FormSection';
 import { SelectUserContext } from '../../contexts';
@@ -31,21 +35,24 @@ const SetAclPermsDocContainerForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const permissionType = event.target.setAclPerms.value;
-    let podUrl = event.target.setAclTo.value;
+    let podUsername = event.target.setAclTo.value;
 
-    if (!podUrl) {
-      podUrl = selectedUser;
+    if (!podUsername) {
+      podUsername = selectedUser;
     }
 
-    if (!podUrl) {
-      runNotification('Set permissions failed. Reason: Pod URL not provided.', 5, state, dispatch);
+    if (!podUsername) {
+      runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
       }, 3000);
       return;
     }
 
-    if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
+    if (
+      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
+      String(session.info.webId.split('profile')[0])
+    ) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
@@ -67,10 +74,10 @@ const SetAclPermsDocContainerForm = () => {
     }
 
     try {
-      await setDocContainerAclPermission(session, permissionType, podUrl);
+      await setDocContainerAclPermission(session, permissionType, podUsername);
 
       runNotification(
-        `${permissionType} permission to ${podUrl} for Documents Container.`,
+        `${permissionType} permission to ${podUsername} for Documents Container.`,
         5,
         state,
         dispatch
@@ -99,7 +106,7 @@ const SetAclPermsDocContainerForm = () => {
     >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to (i.e., username.opencommons.net): </label>
+          <label htmlFor="set-acl-to">Set permissions to username: </label>
           <br />
           <br />
           <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />

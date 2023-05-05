@@ -44,7 +44,8 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
  * @memberof utils
  */
 
-export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
+// export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
+export const SOLID_IDENTITY_PROVIDER = 'https://solidcommunity.net';
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
@@ -132,17 +133,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
  * other Pods, or "cross-fetch")
- * @param {URL} otherPodUrl - Url to other user's Pod or empty string
+ * @param {URL} otherPodUsername - Username to other user's Pod or empty string
  * @returns {URL|null} url or null - A url of where the container that stores
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
   } else {
-    POD_URL = `https://${otherPodUrl}/`;
+    POD_URL = `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
   }
 
   switch (fileType) {

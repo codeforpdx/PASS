@@ -17,7 +17,7 @@ import { SelectUserContext } from '../../contexts';
 const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserUrl, ...userUrl } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   // Initalized state for file upload
@@ -34,7 +34,7 @@ const CrossPodWriteForm = () => {
 
   const clearInputFields = () => {
     clearDescription();
-    clearUserUrl();
+    clearUsername();
     setSelectedUser('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
@@ -47,14 +47,14 @@ const CrossPodWriteForm = () => {
     const docType = event.target.document.value;
     const expirationDate = event.target.date.value;
     const docDescription = event.target.description.value;
-    let podUrl = event.target.crossPodUpload.value;
+    let podUsername = event.target.crossPodUpload.value;
 
-    if (!podUrl) {
-      podUrl = selectedUser;
+    if (!podUsername) {
+      podUsername = selectedUser;
     }
 
-    if (!podUrl) {
-      runNotification('Search failed. Reason: Pod URL not provided.', 5, state, dispatch);
+    if (!podUsername) {
+      runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -79,7 +79,7 @@ const CrossPodWriteForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, 'cross', fileObject, podUrl);
+      await uploadDocument(session, 'cross', fileObject, podUsername);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -94,7 +94,7 @@ const CrossPodWriteForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, 'cross', fileObject, podUrl);
+        const fileExist = await updateDocument(session, 'cross', fileObject, podUsername);
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
@@ -141,16 +141,14 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">
-            Search document from (i.e., username.opencommons.net):{' '}
-          </label>
+          <label htmlFor="cross-upload-doc">Search document from username: </label>
           <br />
           <br />
           <input
             id="cross-upload-doc"
             size="60"
             name="crossPodUpload"
-            {...userUrl}
+            {...username}
             placeholder={selectedUser}
           />
         </div>
