@@ -116,10 +116,10 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
   let accessObject;
   switch (accessType) {
     case 'Give':
-      accessObject = { read: true, write: true, append: true, control: true };
+      accessObject = { read: true, write: true, append: true };
       break;
     default:
-      accessObject = { read: false, write: false, append: false, control: false };
+      accessObject = { read: false, write: false, append: false };
       break;
   }
 
