@@ -25,6 +25,7 @@
     "@inrupt/solid-client-authn-browser": "^1.12.3",
     "@inrupt/solid-ui-react": "^2.8.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/system": "^5.12.1",

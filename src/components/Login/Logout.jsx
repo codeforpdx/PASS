@@ -1,5 +1,17 @@
+// React Imports
 import React, { useState } from 'react';
-import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
+// Solid Imports
+import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import LogoutIcon from '@mui/icons-material/Logout';
+// Custom Component Imports
+import LogoutModal from './LogoutModal';
+
+
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -9,45 +21,59 @@ import { useSession, LogoutButton } from '@inrupt/solid-ui-react';
  * @name Logout
  */
 
-const Logout = () => {
-  const { session } = useSession();
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  localStorage.setItem('loggedIn', true);
 
-  // Event handler for logging out of PASS and removing items from localStorage
+
+const Logout = () => {
+
+  const { session } = useSession();
+  localStorage.setItem('loggedIn', true);
+  // state for LogoutModal popup
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('redirectUrl');
     localStorage.removeItem('restorePath');
     localStorage.removeItem('issuerConfig:https://opencommons.net');
+    setShowConfirmation(false);
   };
+
 
   return (
     <section id="logout" className="panel">
-      <div className="row">
+      <Box className="row">
+
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
-        <button type="button" onClick={() => setShowConfirmation(true)}>
+        <Button
+          id="btnLogout"
+          variant="outlined"
+          size="small"
+          type="button"
+          color="error"
+          endIcon={<LogoutIcon />}
+          onClick={() => setShowConfirmation(true)}
+        >
           Log Out
-        </button>
-        <dialog open={showConfirmation}>
-          <p>Do you want to log out now?</p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-            <LogoutButton onLogout={handleLogout} />
-            <button type="button" onClick={() => setShowConfirmation(false)}>
-              Cancel
-            </button>
-          </div>
-        </dialog>
-        <p className="labelStatus" role="alert">
+        </Button>
+
+        <Typography variant="body1" className="labelStatus" role="alert">
           Your session is now logged in with the WebID [
-          <a href={session.info.webId} target="_blank" rel="noreferrer">
+          <Link href={session.info.webId} target="_blank" rel="noreferrer">
             {session.info.webId}
-          </a>
+          </Link>
           ].
-        </p>
-      </div>
+        </Typography>
+
+        {/* modal/popup renders when showConfirmation state is true */}
+        <LogoutModal
+          showConfirmation={showConfirmation}
+          setShowConfirmation={setShowConfirmation}
+          handleLogout={handleLogout}
+        />
+      </Box>
     </section>
   );
 };
