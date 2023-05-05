@@ -4,6 +4,8 @@ import DeleteDocumentForm from './DeleteDocumentForm';
 import CrossPodQueryForm from './CrossPodQueryForm';
 import CrossPodWriteForm from './CrossPodWriteForm';
 import SetAclPermissionForm from './SetAclPermissionForm';
+import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
+import CheckAclPermsDocContainerForm from './CheckAclPermsDocContainerForm';
 import ManageUsers from './ManageUsers';
 
 /**
@@ -19,5 +21,7 @@ export {
   CrossPodQueryForm,
   CrossPodWriteForm,
   SetAclPermissionForm,
+  SetAclPermsDocContainerForm,
+  CheckAclPermsDocContainerForm,
   ManageUsers
 };

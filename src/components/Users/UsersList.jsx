@@ -22,7 +22,7 @@ const UsersList = ({ loadingActive }) => {
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedUserUrl.split('/')[2]);
+    setSelectedUser(selectedUserUrl.split('/')[2].split('.')[0]);
   };
 
   // Event handler for deleting user from users list

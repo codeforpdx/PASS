@@ -61,7 +61,7 @@ const UploadDocumentForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, fileObject);
+      await uploadDocument(session, 'self', fileObject);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -76,7 +76,7 @@ const UploadDocumentForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, fileObject);
+        const fileExist = await updateDocument(session, 'self', fileObject);
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 

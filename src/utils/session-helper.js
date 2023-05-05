@@ -136,17 +136,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
  * other Pods, or "cross-fetch")
- * @param {URL} otherPodUrl - Url to other user's Pod or empty string
+ * @param {URL} otherPodUsername - Username to other user's Pod or empty string
  * @returns {URL|null} url or null - A url of where the container that stores
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
   } else {
-    POD_URL = `https://${otherPodUrl}/`;
+    POD_URL = `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
   }
 
   switch (fileType) {
@@ -156,8 +156,10 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
       return `${POD_URL}Passport/`;
     case 'Drivers License':
       return `${POD_URL}Drivers%20License/`;
-    case 'none':
+    case 'Users':
       return `${POD_URL}Users/`;
+    case 'Documents':
+      return `${POD_URL}Documents/`;
     default:
       return null;
   }
@@ -223,13 +225,13 @@ export const createDocAclForUser = async (session, documentUrl) => {
  * @memberof utils
  * @function updateTTLFile
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {URL} documentUrl - Url link to document container
+ * @param {URL} containerUrl - Url link to document container
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  */
 
-export const updateTTLFile = async (session, documentUrl, fileObject) => {
-  let solidDataset = await getSolidDataset(`${documentUrl}document.ttl`, { fetch: session.fetch });
+export const updateTTLFile = async (session, containerUrl, fileObject) => {
+  let solidDataset = await getSolidDataset(`${containerUrl}document.ttl`, { fetch: session.fetch });
   let ttlFile = getThingAll(solidDataset)[0];
 
   ttlFile = buildThing(ttlFile)
@@ -240,7 +242,7 @@ export const updateTTLFile = async (session, documentUrl, fileObject) => {
   solidDataset = setThing(solidDataset, ttlFile);
 
   try {
-    await saveSolidDatasetAt(`${documentUrl}document.ttl`, solidDataset, { fetch: session.fetch });
+    await saveSolidDatasetAt(`${containerUrl}document.ttl`, solidDataset, { fetch: session.fetch });
   } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
