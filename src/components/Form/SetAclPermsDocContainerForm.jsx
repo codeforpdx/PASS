@@ -21,11 +21,11 @@ import { SelectUserContext } from '../../contexts';
 const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUrl, ...user } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   const clearInputFields = () => {
-    clearUrl();
+    clearUsername();
     setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
@@ -109,7 +109,13 @@ const SetAclPermsDocContainerForm = () => {
           <label htmlFor="set-acl-to">Set permissions to username: </label>
           <br />
           <br />
-          <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
+          <input
+            id="set-acl-to"
+            size="60"
+            name="setAclTo"
+            {...username}
+            placeholder={selectedUser}
+          />
         </div>
         <div style={formRowStyle}>
           <p>Select permission setting:</p>
