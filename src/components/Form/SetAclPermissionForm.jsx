@@ -98,11 +98,9 @@ const SetAclPermissionForm = () => {
     <Container component="main" maxWidth="">
       <Box
         sx={{
-          margin: 1,
+          marginTop: 1,
           display: 'flex',
-          flexDirection: 'column',
-          padding: '5px',
-          width: '95vw'
+          flexDirection: 'column'
         }}
       >
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
@@ -121,7 +119,7 @@ const SetAclPermissionForm = () => {
                 <br />
                 <input
                   id="set-acl-to"
-                  size="60"
+                  size="50"
                   name="setAclTo"
                   {...user}
                   placeholder={selectedUser}

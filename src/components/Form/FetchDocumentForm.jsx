@@ -60,11 +60,9 @@ const FetchDocumentForm = () => {
     <Container component="" maxWidth="">
       <Box
         sx={{
-          margin: 1,
+          marginTop: 1,
           display: 'flex',
-          flexDirection: 'column',
-          padding: '5px',
-          width: '95vw'
+          flexDirection: 'column'
         }}
       >
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>

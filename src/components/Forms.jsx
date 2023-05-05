@@ -1,5 +1,4 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
 import { useLocation } from 'react-router-dom';
 import {
   UploadDocumentForm,
@@ -9,9 +8,7 @@ import {
   CrossPodWriteForm,
   SetAclPermissionForm
 } from './Form';
-import NavBar from './NavBar/NavBar';
-import theme from '../theme';
-import Footer from "./Form/Footer";
+// import NavBar from './NavBar/NavBar';
 import { Logout } from './Login';
 import AppHeader from './AppHeader';
 import { InactivityMessage } from './Notification';

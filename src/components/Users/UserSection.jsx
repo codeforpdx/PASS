@@ -33,7 +33,7 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>Loading users list...</div>
         </section>
       )}
-      <InactivityMessage />
+      {/* <InactivityMessage /> */}
     </>
   );
 };

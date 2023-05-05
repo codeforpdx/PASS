@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
-import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -29,6 +28,8 @@ import NavMenu from './NavMenu';
 import NavMenuMobile from './NavMenuMobile';
 
 const NavBar = () => {
+  const { session } = useSession();
+
   const [openMenu, setOpenMenu] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -48,8 +49,7 @@ const NavBar = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="primary">
           <Toolbar>
             <Typography
@@ -145,7 +145,6 @@ const NavBar = () => {
           />
         ) : null}
       </Box>
-    </ThemeProvider>
   );
 };
 

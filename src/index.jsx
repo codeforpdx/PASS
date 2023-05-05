@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { SessionProvider } from '@inrupt/solid-ui-react';
 import { ThemeProvider } from '@mui/material/styles';
 import App from './App';
-import './style.css';
+// import './style.css';
 import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

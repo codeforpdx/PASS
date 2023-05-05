@@ -14,7 +14,7 @@ import {
   getUserListActivity,
   SOLID_IDENTITY_PROVIDER
 } from './utils';
-// import HomeScreen from './components/Form/HomeScreen';
+import Footer from './components/Form/Footer';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -118,6 +118,7 @@ const App = () => {
           />
           <Route path="*" element={<Navigate to="/PASS/" />} />
         </Routes>
+        <Footer />
       </UserListContext.Provider>
     </SelectUserContext.Provider>
   );

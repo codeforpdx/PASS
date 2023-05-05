@@ -16,7 +16,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
  * @name UsersList
  */
 
-const UsersList = ({ loadingActive }) => {
+const UsersList = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
@@ -53,11 +53,9 @@ const UsersList = ({ loadingActive }) => {
     <Container component="" maxWidth="">
       <Box
         sx={{
-          margin: 1,
+          marginTop: 3,
           display: 'flex',
-          flexDirection: 'column',
-          padding: '5px',
-          width: '95vw'
+          flexDirection: 'column'
         }}
       >
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
