@@ -166,7 +166,7 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
 
   await createContainerAt(containerUrl, { fetch: session.fetch });
 
-  const documentUrl = `${containerUrl}${fileName}`;
+  const documentUrl = `${containerUrl}${fileName.replace(' ', '%20')}`;
   const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
