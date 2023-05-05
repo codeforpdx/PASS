@@ -12,7 +12,8 @@ import {
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
+  SOLID_IDENTITY_PROVIDER,
+  createDocumentContainer
 } from './utils';
 
 /**
@@ -60,6 +61,7 @@ const App = () => {
       await generateUsersList(session);
       await generateActivityTTL(session);
       await updateUserActivity(session);
+      await createDocumentContainer(session);
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
