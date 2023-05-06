@@ -3,7 +3,6 @@ import { LoginButton } from '@inrupt/solid-ui-react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
@@ -22,7 +21,6 @@ const Login = () => {
 
   return (
     <>
-      <CssBaseline />
       <AppHeader />
       <Container component="main" maxWidth="xs">
         <Box
