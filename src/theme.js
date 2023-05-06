@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    fontFamily: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto'].join(',')
+    fontFamily: ['Roboto', 'sans-serif'].join(',')
   },
   palette: {
     primary: {
