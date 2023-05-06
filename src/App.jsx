@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { Login } from './components/Login';
 import Forms from './components/Forms';
+import Inbox from './components/Inbox';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
 import { useRedirectUrl } from './hooks';
@@ -116,6 +117,10 @@ const App = () => {
           <Route
             path="/PASS/forms/"
             element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+          />
+          <Route
+            path="/PASS/inbox/"
+            element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
           />
           <Route path="*" element={<Navigate to="/PASS/" />} />
         </Routes>

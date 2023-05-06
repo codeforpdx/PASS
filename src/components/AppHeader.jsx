@@ -27,6 +27,7 @@ const AppHeader = () => {
         <>
           <Link to="/PASS/home/">Home</Link>
           <Link to="/PASS/forms/">Forms</Link>
+          <Link to="/PASS/inbox/">Inbox</Link>
         </>
       ) : null}
     </header>
