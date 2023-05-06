@@ -669,3 +669,47 @@ export const updateUserActivity = async (session) => {
     fetch: session.fetch
   });
 };
+
+/*
+  User Inbox Section
+
+  Functions here deal primarily with user inbox on PASS
+*/
+
+/**
+ * Function that sends a message to another user's Pod inbox
+ *
+ * @memberof utils
+ * @function sendMessageTTL
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} messageObject - An object containing inputs for the the message
+ * @param {string} otherPodUsername - The username of the other user you're sending a message to
+ * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ */
+
+export const sendMessageTTL = async (session, messageObject, otherPodUsername) => {
+  const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', otherPodUsername);
+  const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
+
+  const date = new Date();
+  const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
+  const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+
+  const newTtlFile = buildThing(createThing({ name: 'document' }))
+    .addDatetime('https://schema.org/uploadDate', date)
+    .addStringNoLocale(SCHEMA_INRUPT.name, messageObject.file.name)
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, messageObject.type)
+    .addStringNoLocale(SCHEMA_INRUPT.endDate, messageObject.date)
+    .addStringNoLocale(SCHEMA_INRUPT.description, messageObject.description)
+    .build();
+
+  let newSolidDataset = createSolidDataset();
+  newSolidDataset = setThing(newSolidDataset, newTtlFile);
+
+  // Generate document.ttl file for container
+  await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
+    slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
+    contentType: 'text/turtle',
+    fetch: session.fetch
+  });
+};
