@@ -46,8 +46,10 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
 // Vite exposes static env variables in the `import.meta.env` object
 // https://vitejs.dev/guide/env-and-mode.html
-const OIDUrl = import.meta.env.MODE === 'development' ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV : 
-  import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
+const OIDUrl =
+  import.meta.env.MODE === 'development'
+    ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
+    : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
 export const SOLID_IDENTITY_PROVIDER = OIDUrl;
 
 /**
