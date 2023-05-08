@@ -42,8 +42,8 @@ const NewMessage = () => {
 
       <StyledButton type="submit">Submit</StyledButton>
     </StyledForm>
-  )
-}
+  );
+};
 
 const StyledForm = styled('form')({
   display: 'grid',
@@ -73,6 +73,6 @@ const StyledTextArea = styled('textarea')({
 
 const StyledHeader = styled('h1')({
   gridColumn: 'span 2'
-})
+});
 
 export default NewMessage;

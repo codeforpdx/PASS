@@ -697,28 +697,46 @@ export const updateUserActivity = async (session) => {
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
- * @param {string} otherPodUsername - The username of the other user you're sending a message to
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
 
-export const sendMessageTTL = async (session, messageObject, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', otherPodUsername);
+export const sendMessageTTL = async (session, messageObject) => {
+  const containerUrl = getContainerUrl(
+    session,
+    'Inbox',
+    'cross-fetch',
+    messageObject.otherPodUsername
+  );
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
 
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
-  const newTtlFile = buildThing(createThing({ name: 'document' }))
+  const newMessageTTL = buildThing(createThing({ name: 'message' }))
     .addDatetime('https://schema.org/uploadDate', date)
-    .addStringNoLocale(SCHEMA_INRUPT.name, messageObject.file.name)
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, messageObject.type)
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, messageObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, messageObject.description)
+    .addStringNoLocale('https://schema.org/Message', messageObject.messageContent)
+    .build();
+
+  const senderInfo = buildThing(createThing({ name: 'sender' }))
+    .addStringNoLocale('https://schema.org/sender', messageObject.senderName)
+    .addUrl(SCHEMA_INRUPT.url, session.info.webId)
+    .build();
+
+  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
+    .addStringNoLocale('https://schema.org/recipient', messageObject.recipientName)
+    .addUrl(
+      SCHEMA_INRUPT.url,
+      `https://${messageObject.otherPodUsername}.${
+        SOLID_IDENTITY_PROVIDER.split('/')[2]
+      }/profile/card#me`
+    )
     .build();
 
   let newSolidDataset = createSolidDataset();
-  newSolidDataset = setThing(newSolidDataset, newTtlFile);
+  newSolidDataset = setThing(newSolidDataset, newMessageTTL);
+  newSolidDataset = setThing(newSolidDataset, senderInfo);
+  newSolidDataset = setThing(newSolidDataset, recipientInfo);
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
