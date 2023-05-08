@@ -12,6 +12,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
 /**
  * AppHeader Component - Component that generates AppHeader section for PASS
@@ -22,6 +27,16 @@ import Typography from '@mui/material/Typography';
 
 const AppHeader = () => {
   const { session } = useSession();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -34,26 +49,49 @@ const AppHeader = () => {
                 edge="start"
                 color="inherit"
                 aria-label="open drawer"
+                onClick={handleMenu}
                 sx={{ mr: 2 }}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h4" noWrap component="div">
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  <Button>My Account</Button>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link to="/PASS/home/">
+                    <Button>Home</Button>
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link to="/PASS/forms/">
+                    <Button>Forms</Button>
+                  </Link>
+                </MenuItem>
+              </Menu>
+              <Box sx={{ flexGrow: 1 }} />
+              <Typography
+                variant="h4"
+                noWrap
+                component="div"
+                sx={{ display: { xs: 'block', sm: 'block' } }}
+              >
                 PASS
               </Typography>
-              <ButtonGroup
-                variant="contained"
-                aria-label="outlined primary button group"
-                color="tertiary"
-                sx={{ margin: '0 0 0 20px' }}
-              >
-                <Link to="/PASS/home/">
-                  <Button>Home</Button>
-                </Link>
-                <Link to="/PASS/forms/">
-                  <Button>Forms</Button>
-                </Link>
-              </ButtonGroup>
               <Box sx={{ flexGrow: 1 }} />
               <IconButton size="large" color="inherit">
                 <SearchIcon />
