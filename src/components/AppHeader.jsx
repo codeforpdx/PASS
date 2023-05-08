@@ -1,13 +1,21 @@
+// React Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
 import { styled, alpha } from '@mui/material/styles';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddIcon from '@mui/icons-material/Add';
 import AppBar from '@mui/material/AppBar';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import HomeIcon from '@mui/icons-material/Home';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -57,9 +65,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '15ch',
+      width: '0ch',
       '&:focus': {
-        width: '30ch'
+        width: '40ch'
       }
     }
   }
@@ -109,20 +117,23 @@ const AppHeader = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
-                  <Button>My Account</Button>
+                  <Button startIcon={<AddIcon />}>Add Client</Button>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Button startIcon={<AccountCircleIcon />}>My Account</Button>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                   <Link to="/PASS/home/">
-                    <Button>Home</Button>
+                    <Button startIcon={<HomeIcon />}>Home</Button>
                   </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                   <Link to="/PASS/forms/">
-                    <Button>Forms</Button>
+                    <Button startIcon={<AssignmentIcon />}>Forms</Button>
                   </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
-                  <Button>Log out</Button>
+                  <Button startIcon={<LogoutIcon />}>Log out</Button>
                 </MenuItem>
               </Menu>
               <Box sx={{ flexGrow: 1 }} />
@@ -148,9 +159,13 @@ const AppHeader = () => {
               </IconButton>
             </>
           ) : (
-            <Typography variant="h4" noWrap component="div">
-              Getting started with PASS
-            </Typography>
+            <>
+              <Box sx={{ flexGrow: 1 }} />
+              <Typography variant="h4" noWrap component="div">
+                Getting started with PASS
+              </Typography>
+              <Box sx={{ flexGrow: 1 }} />
+            </>
           )}
         </Toolbar>
       </AppBar>
