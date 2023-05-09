@@ -76,6 +76,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AppHeader = () => {
   const { session } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElNotifications, setAnchorElNotifications] = React.useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -83,6 +84,14 @@ const AppHeader = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNotificationsMenu = (event) => {
+    setAnchorElNotifications(event.currentTarget);
+  };
+
+  const handleNotificationsClose = () => {
+    setAnchorElNotifications(null);
   };
 
   return (
@@ -117,7 +126,7 @@ const AppHeader = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
-                  <Button startIcon={<AddIcon />}>Add Client</Button>
+                  <Button startIcon={<AddIcon />}>Add</Button>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                   <Button startIcon={<AccountCircleIcon />}>My Account</Button>
@@ -152,11 +161,38 @@ const AppHeader = () => {
                 </SearchIconWrapper>
                 <StyledInputBase placeholder="Search" inputProps={{ 'aria-label': 'search' }} />
               </Search>
-              <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={handleNotificationsMenu}
+              >
                 <Badge badgeContent={17} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <Menu
+                id="menu-appbar-notifications"
+                anchorEl={anchorElNotifications}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorElNotifications)}
+                onClose={handleNotificationsClose}
+              >
+                <MenuItem onClick={handleNotificationsClose}>
+                  <p>Notification 1</p>
+                </MenuItem>
+                <MenuItem onClick={handleNotificationsClose}>
+                  <p>Notification 2</p>
+                </MenuItem>
+              </Menu>
             </>
           ) : (
             <>
