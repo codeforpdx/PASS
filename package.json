@@ -12,7 +12,7 @@
     "lint": "eslint 'src/**/*.js[x]'",
     "lint:fix": "eslint --fix 'src/**/*.js[x]'",
     "prettier:check": "prettier --check 'src/**/*.js' 'src/**/*.jsx'",
-    "prettier:run": "prettier --write 'src/**/*.js' --write 'src/**/*.jsx'",
+    "prettier:run": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
     "dev:pod": "community-solid-server"
   },
   "keywords": [],
