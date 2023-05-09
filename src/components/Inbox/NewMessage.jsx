@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useSession } from '@inrupt/solid-ui-react';
+import { sendMessageTTL } from '../../utils/session-core';
 
 /**
  * New Message Component - Component that allows user to write
@@ -10,11 +12,13 @@ import styled from 'styled-components';
  */
 
 const NewMessage = () => {
+  const { session } = useSession();
   // Structure of message will likely change
   const [message, setMessage] = useState({
-    authorName: '',
+    senderName: '',
     recipientName: '',
     recipientUsername: '',
+    title: '',
     message: ''
   });
 
@@ -27,13 +31,50 @@ const NewMessage = () => {
   };
 
   // Handles submit (awaiting functionality for this)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // TODO: add error messages for user
+    console.log(message);
+
+    if (!message.title) {
+      console.log('Operation failed. Reason: No message title inputed...');
+      return;
+    }
+
+    if (!message.senderName) {
+      console.log('Operation failed. Reason: No sender name inputed...');
+      return;
+    }
+
+    if (!message.recipientName) {
+      console.log('Operation failed. Reason: No recipient name inputed...');
+      return;
+    }
+
+    if (!message.recipientUsername) {
+      console.log('Operation failed. Reason: No username inputed...');
+      return;
+    }
+
+    if (!message.message) {
+      console.log('Operation failed. Reason: No message inputed...');
+      return;
+    }
+
+    try {
+      await sendMessageTTL(session, message);
+    } catch (error) {
+      // TODO: add error handling for when username does not exist
+      console.log(error);
+    }
   };
 
   return (
-    <StyledForm onSubmit={(e) => handleSubmit(e)}>
+    <StyledForm onSubmit={(e) => handleSubmit(e)} autoComplete="off">
       <StyledHeader>New Message</StyledHeader>
+      <label htmlFor="title">Message Title: </label>
+      <StyledInput type="text" name="title" id="title" onChange={(e) => handleChange(e)} />
+
       <label htmlFor="recipientUsername">Recipient Username: </label>
       <StyledInput
         type="text"
@@ -42,22 +83,22 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="recipientFullname">Recipient Full Name: </label>
+      <label htmlFor="recipientName">Recipient Full Name: </label>
       <StyledInput
         type="text"
-        name="recipientFullname"
-        id="recipientFullname"
+        name="recipientName"
+        id="recipientName"
         onChange={(e) => handleChange(e)}
       />
 
       <label htmlFor="message">Message: </label>
       <StyledTextArea name="message" id="message" onChange={(e) => handleChange(e)} />
 
-      <label htmlFor="authorName">Author Full Name: </label>
+      <label htmlFor="senderName">Sender Full Name: </label>
       <StyledInput
         type="text"
-        name="authorName"
-        id="authorName"
+        name="senderName"
+        id="senderName"
         onChange={(e) => handleChange(e)}
       />
 

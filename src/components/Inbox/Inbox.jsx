@@ -1,5 +1,7 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import AppHeader from '../AppHeader';
+import { Logout } from '../Login';
 import NewMessage from './NewMessage';
 
 /**
@@ -10,14 +12,21 @@ import NewMessage from './NewMessage';
  * @name Inbox
  */
 
-const Inbox = () => (
-  <>
-    <AppHeader />
-    <section id="inbox" className="panel">
-      <NewMessage />
-      <div>Placeholder; inbox contents will go here.</div>
-    </section>
-  </>
-);
+const Inbox = () => {
+  const location = useLocation();
+
+  localStorage.setItem('restorePath', location.pathname);
+
+  return (
+    <>
+      <AppHeader />
+      <Logout />
+      <section id="inbox" className="panel">
+        <NewMessage />
+        <div>Placeholder; inbox contents will go here.</div>
+      </section>
+    </>
+  );
+};
 
 export default Inbox;

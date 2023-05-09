@@ -705,7 +705,7 @@ export const sendMessageTTL = async (session, messageObject) => {
     session,
     'Inbox',
     'cross-fetch',
-    messageObject.otherPodUsername
+    messageObject.recipientUsername
   );
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
 
@@ -715,7 +715,8 @@ export const sendMessageTTL = async (session, messageObject) => {
 
   const newMessageTTL = buildThing(createThing({ name: 'message' }))
     .addDatetime('https://schema.org/uploadDate', date)
-    .addStringNoLocale('https://schema.org/Message', messageObject.messageContent)
+    .addStringNoLocale('https://schema.org/title', messageObject.title)
+    .addStringNoLocale('https://schema.org/Message', messageObject.message)
     .build();
 
   const senderInfo = buildThing(createThing({ name: 'sender' }))
@@ -727,7 +728,7 @@ export const sendMessageTTL = async (session, messageObject) => {
     .addStringNoLocale('https://schema.org/recipient', messageObject.recipientName)
     .addUrl(
       SCHEMA_INRUPT.url,
-      `https://${messageObject.otherPodUsername}.${
+      `https://${messageObject.recipientUsername}.${
         SOLID_IDENTITY_PROVIDER.split('/')[2]
       }/profile/card#me`
     )
