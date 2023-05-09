@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import AppHeader from '../AppHeader';
 import { Logout } from '../Login';
 import NewMessage from './NewMessage';
+import { InactivityMessage } from '../Notification';
 
 /**
  * Inbox Component - Component that generates Inbox section for users
@@ -25,6 +26,7 @@ const Inbox = () => {
         <NewMessage />
         <div>Placeholder; inbox contents will go here.</div>
       </section>
+      <InactivityMessage />
     </>
   );
 };
