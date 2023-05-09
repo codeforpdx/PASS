@@ -13,6 +13,17 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
+
+
+/**
+ * Footer Component - Footer Component for PASS
+ * 
+ * @memberof Footer
+ * @name Footer
+ */
+
+
+
 const Footer = () => {
   const theme = useTheme();
 
