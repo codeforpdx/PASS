@@ -14,8 +14,6 @@ import CheckIcon from '@mui/icons-material/Check';
 // SEE COMMENT IN COMPONENT BELOW for next import
 // import useMediaQuery from '@mui/material/useMediaQuery';
 
-
-
 /**
  * LogoutModal Component - Popup modal for users to confirm
  * they actually want to logout of their Solid Pod
@@ -23,8 +21,6 @@ import CheckIcon from '@mui/icons-material/Check';
  * @memberof Login
  * @name LogoutModal
  */
-
-
 
 const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) => (
   // when the MUI theme is Merged, this will make it so the popup is fullscreen on small devices
@@ -56,7 +52,12 @@ const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) =>
       </Button>
       {/* NECESSARY WRAPPER FOR SOLID/POD LOGOUT FUNCTIONALITY */}
       <LogoutButton onClick={handleLogout}>
-        <Button variant="outlined" color="success" endIcon={<CheckIcon />} sx={{marginLeft: '1rem'}}>
+        <Button
+          variant="outlined"
+          color="success"
+          endIcon={<CheckIcon />}
+          sx={{ marginLeft: '1rem' }}
+        >
           YES
         </Button>
       </LogoutButton>

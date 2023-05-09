@@ -10,18 +10,14 @@ import NewMessage from './NewMessage';
  * @name Inbox
  */
 
-const Inbox = () => {
-  return (
-    <>
-      <AppHeader />
-      <section id="inbox" className="panel">
-        <NewMessage />
-        <div>
-          Placeholder; inbox contents will go here.
-        </div>
-      </section>
-    </>
-  );
-};
+const Inbox = () => (
+  <>
+    <AppHeader />
+    <section id="inbox" className="panel">
+      <NewMessage />
+      <div>Placeholder; inbox contents will go here.</div>
+    </section>
+  </>
+);
 
 export default Inbox;
