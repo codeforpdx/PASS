@@ -11,8 +11,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 // Custom Component Imports
 import LogoutModal from './LogoutModal';
 
-
-
 /**
  * Logout Component - Component that generates Logout section for users to a
  * Solid Pod via Solid Session
@@ -21,12 +19,8 @@ import LogoutModal from './LogoutModal';
  * @name Logout
  */
 
-
-
 const Logout = () => {
-
   const { session } = useSession();
-  localStorage.setItem('loggedIn', true);
   // state for LogoutModal popup
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -39,11 +33,9 @@ const Logout = () => {
     setShowConfirmation(false);
   };
 
-
   return (
     <section id="logout" className="panel">
       <Box className="row">
-
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>
