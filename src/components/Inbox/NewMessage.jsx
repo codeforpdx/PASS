@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSession } from '@inrupt/solid-ui-react';
-import { sendMessageTTL } from '../../utils/session-core';
+import { sendMessageTTL } from '../../utils';
 
 /**
  * New Message Component - Component that allows user to write
