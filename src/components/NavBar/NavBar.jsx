@@ -15,6 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+// Custom Component Imports
+import NavMenu from './NavMenu';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
@@ -151,6 +153,15 @@ const NavBar = () => {
           )}
         </Toolbar>
       </AppBar>
+      {openMenu ? (
+        <NavMenu
+          menuId={menuId}
+          openMenu={openMenu}
+          setOpenMenu={setOpenMenu}
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+        />
+      ) : null}
     </Box>
   );
 };
