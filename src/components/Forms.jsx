@@ -11,7 +11,7 @@ import {
   CheckAclPermsDocContainerForm
 } from './Form';
 import { Logout } from './Login';
-import AppHeader from './AppHeader';
+import NavBar from './NavBar/NavBar';
 import { InactivityMessage } from './Notification';
 
 /**
@@ -28,7 +28,7 @@ const Forms = () => {
 
   return (
     <>
-      <AppHeader />
+      <NavBar />
       <Logout />
       <UploadDocumentForm />
       <FetchDocumentForm />
