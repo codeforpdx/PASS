@@ -13,16 +13,12 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-
-
 /**
  * Footer Component - Footer Component for PASS
- * 
+ *
  * @memberof Footer
  * @name Footer
  */
-
-
 
 const Footer = () => {
   const theme = useTheme();
@@ -40,7 +36,11 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Grid container columnSpacing={0} my={2}>
-          <Grid item xs={7} sx={{borderRight: 2, borderColor: theme.palette.tertiary.main, pr: 12}}>
+          <Grid
+            item
+            xs={7}
+            sx={{ borderRight: 2, borderColor: theme.palette.tertiary.main, pr: 12 }}
+          >
             <Typography variant="h5" color={`${theme.palette.tertiary.main}`}>
               Want to partner with PASS?
             </Typography>
@@ -54,7 +54,9 @@ const Footer = () => {
           </Grid>
           <Grid item xs={2}>
             <Typography color={`${theme.palette.tertiary.main}`}>PASS LOGO</Typography>
-            <Typography color="#fff" mb={5}>tagline</Typography>
+            <Typography color="#fff" mb={5}>
+              tagline
+            </Typography>
             <Typography color={`${theme.palette.tertiary.main}`}>Follow Us</Typography>
             <Link href="https://twitter.com/" target="_blank" rel="noopener" color="#fff" mr={1}>
               <TwitterIcon />
@@ -97,20 +99,12 @@ const Footer = () => {
               </Link>
             </Typography>
             <Typography variant="body2">
-              <Link
-                href="https://www.codeforpdx.org/"
-                underline="none"
-                color="#fff"
-              >
+              <Link href="https://www.codeforpdx.org/" underline="none" color="#fff">
                 Privacy Policy
               </Link>
             </Typography>
             <Typography variant="body2">
-              <Link
-                href="https://www.codeforpdx.org/"
-                underline="none"
-                color="#fff"
-              >
+              <Link href="https://www.codeforpdx.org/" underline="none" color="#fff">
                 Terms and Conditions
               </Link>
             </Typography>

@@ -95,7 +95,12 @@ const CrossPodWriteForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, UPLOAD_TYPES.CROSS, fileObject, podUsername);
+        const fileExist = await updateDocument(
+          session,
+          UPLOAD_TYPES.CROSS,
+          fileObject,
+          podUsername
+        );
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
