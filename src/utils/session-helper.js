@@ -252,7 +252,12 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   }
 };
 
+const createFileChecksum = async (fileObject) => {
+  const { file } = fileObject;
 
+  const text = await file.text(); // only hash the first megabyte
+  return sha256(text);
+};
 
 /**
  * Creates a TTL file corresponding to an uploaded document or resource
@@ -261,11 +266,11 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
  * @function createResourceTtlFile
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @param {documentUrl} String - url of uploaded document or resource
- * @returns {object} 
+ * @param documentUrl - url of uploaded document or resource
+ * @returns {object}
  */
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
-  let checksum = await createFileChecksum(fileObject);
+  const checksum = await createFileChecksum(fileObject);
 
   return buildThing(createThing({ name: 'document' }))
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
@@ -276,11 +281,4 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
-}
-
-const createFileChecksum = async (fileObject) => {
-  const file = fileObject.file;
-
-  const text = await file.text(); // only hash the first megabyte
-  return sha256(text);
-}
+};

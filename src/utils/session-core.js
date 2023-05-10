@@ -156,7 +156,6 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
 
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
-
   let containerUrl;
   const fileName = fileObject.file.name;
   if (uploadType === UPLOAD_TYPES.SELF) {
