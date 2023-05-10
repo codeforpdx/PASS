@@ -707,6 +707,8 @@ export const sendMessageTTL = async (session, messageObject) => {
     'cross-fetch',
     messageObject.recipientUsername
   );
+  const inboxUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
 
   const date = new Date();
@@ -739,8 +741,15 @@ export const sendMessageTTL = async (session, messageObject) => {
   newSolidDataset = setThing(newSolidDataset, senderInfo);
   newSolidDataset = setThing(newSolidDataset, recipientInfo);
 
-  // Generate document.ttl file for container
+  // Generate message TTL file for recipient container
   await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
+    slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
+    contentType: 'text/turtle',
+    fetch: session.fetch
+  });
+
+  // Generate message TTL file for recipient container
+  await saveSolidDatasetInContainer(inboxUrl, newSolidDataset, {
     slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
     contentType: 'text/turtle',
     fetch: session.fetch
