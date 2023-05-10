@@ -10,8 +10,7 @@ import Typography from '@mui/material/Typography';
 import LogoutIcon from '@mui/icons-material/Logout';
 // Custom Component Imports
 import LogoutModal from './LogoutModal';
-
-
+import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
  * Logout Component - Component that generates Logout section for users to a
@@ -21,12 +20,8 @@ import LogoutModal from './LogoutModal';
  * @name Logout
  */
 
-
-
 const Logout = () => {
-
   const { session } = useSession();
-  localStorage.setItem('loggedIn', true);
   // state for LogoutModal popup
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -35,15 +30,14 @@ const Logout = () => {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('redirectUrl');
     localStorage.removeItem('restorePath');
-    localStorage.removeItem('issuerConfig:https://opencommons.net');
+    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
+    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
     setShowConfirmation(false);
   };
-
 
   return (
     <section id="logout" className="panel">
       <Box className="row">
-
         <label id="labelLogout" htmlFor="btnLogout">
           Click the following logout button to log out of your pod:{' '}
         </label>

@@ -78,6 +78,7 @@ const App = () => {
     }
 
     if (session.info.isLoggedIn) {
+      localStorage.setItem('loggedIn', true);
       fetchData();
     }
   }, [session.info.isLoggedIn]);
