@@ -34,7 +34,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 1000);
+      }, 180000);
     };
 
     const handleUserActivity = () => {
