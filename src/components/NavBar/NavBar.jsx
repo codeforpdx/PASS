@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
@@ -8,8 +8,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+// import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -27,9 +27,9 @@ import NavMenu from './NavMenu';
 
 const NavBar = () => {
   const { session } = useSession();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorElNotifications, setAnchorElNotifications] = React.useState(null);
-  const [openMenu, setOpenMenu] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElNotifications, setAnchorElNotifications] = useState(null);
+  const [openMenu, setOpenMenu] = useState(false);
 
   const menuId = 'primary-search-account-menu';
 
@@ -56,32 +56,31 @@ const NavBar = () => {
                 PASS
               </Typography>
               <>
-                <Link to="/PASS/home/">
-                  <Button
-                    variant="contained"
-                    aria-label="outlined primary button group"
-                    color="tertiary"
-                  >
-                    Home
-                  </Button>
-                </Link>
-                <Link to="/PASS/forms/">
-                  <Button
-                    variant="contained"
-                    aria-label="outlined primary button group"
-                    color="tertiary"
-                  >
-                    Forms
-                  </Button>
-                </Link>
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component="div"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    '& > *': {
+                      m: 1
+                    }
+                  }}
+                >
+                  <Link to="/PASS/home/">Home</Link>
+                  <Link to="/PASS/forms/">Forms</Link>
+                </Typography>
+
                 <Box sx={{ flexGrow: 1 }} />
                 <IconButton
                   size="large"
-                  aria-label="show 17 new notifications"
+                  aria-label="show new notifications"
                   color="inherit"
                   onClick={handleNotificationsMenu}
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -99,6 +98,7 @@ const NavBar = () => {
                   }}
                   open={Boolean(anchorElNotifications)}
                   onClose={handleNotificationsClose}
+                  sx={{ marginTop: '40px' }}
                 >
                   <MenuItem onClick={handleNotificationsClose}>
                     <p>Notification 1</p>
@@ -118,28 +118,6 @@ const NavBar = () => {
                 >
                   <AccountCircle />
                 </IconButton>
-                <Menu
-                  id="menu-appbar-notifications"
-                  anchorEl={anchorElNotifications}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  open={Boolean(anchorElNotifications)}
-                  onClose={handleNotificationsClose}
-                >
-                  <MenuItem onClick={handleNotificationsClose}>
-                    <p>Notification 1</p>
-                  </MenuItem>
-                  <MenuItem onClick={handleNotificationsClose}>
-                    <p>Notification 2</p>
-                  </MenuItem>
-                </Menu>
               </>
             </>
           ) : (

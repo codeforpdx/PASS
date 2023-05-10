@@ -1,6 +1,7 @@
 import React from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSession } from '@inrupt/solid-ui-react';
@@ -8,7 +9,6 @@ import { useSession } from '@inrupt/solid-ui-react';
 const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
   const { session } = useSession();
   const handleMenuClose = () => {
-    console.log('Closed!');
     setOpenMenu(false);
     setAnchorEl(null);
   };
@@ -32,23 +32,23 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
       sx={{ marginTop: '40px' }}
     >
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <a
+        <Link
           href={session.info.webId}
           target="_blank"
           rel="noreferrer"
           style={{ textDecoration: 'none', color: 'black' }}
         >
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
           Profile
-        </a>
+        </Link>
       </MenuItem>
     </Menu>
   );
