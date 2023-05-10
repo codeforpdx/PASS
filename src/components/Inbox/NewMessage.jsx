@@ -13,7 +13,6 @@ import { sendMessageTTL } from '../../utils';
 
 const NewMessage = () => {
   const { session } = useSession();
-  // Structure of message will likely change
   const [message, setMessage] = useState({
     senderName: '',
     recipientName: '',
@@ -21,6 +20,7 @@ const NewMessage = () => {
     title: '',
     message: ''
   });
+  const [error, setError] = useState('');
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -33,40 +33,26 @@ const NewMessage = () => {
   // Handles submit (awaiting functionality for this)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: add error messages for user
-    console.log(message);
-
     if (!message.title) {
-      console.log('Operation failed. Reason: No message title inputed...');
-      return;
-    }
-
-    if (!message.senderName) {
-      console.log('Operation failed. Reason: No sender name inputed...');
-      return;
-    }
-
-    if (!message.recipientName) {
-      console.log('Operation failed. Reason: No recipient name inputed...');
-      return;
-    }
-
-    if (!message.recipientUsername) {
-      console.log('Operation failed. Reason: No username inputed...');
-      return;
-    }
-
-    if (!message.message) {
-      console.log('Operation failed. Reason: No message inputed...');
-      return;
-    }
-
-    try {
-      await sendMessageTTL(session, message);
-    } catch (error) {
-      // TODO: add error handling for when username does not exist
-      console.log(error);
-    }
+      setError('Please enter a value for Message Title')
+    } else if (!message.recipientUsername) {
+      setError('Please enter a value for Recipient Username')
+    } else if (!message.recipientName) {
+      setError('Please enter a value for Recipient Full Name')
+    } else if (!message.message) {
+      setError('Please enter a value for the Message')
+    } else if (!message.senderName) {
+      setError('Please enter a value for Sender Full Name')
+    } else {
+      try {
+        await sendMessageTTL(session, message);
+      } catch (err) {
+        // TODO: Remove console.log() before production
+        console.log(err);
+        // TODO: Make sure invalid username is the only possible error
+        setError('Recipient username does not exist');
+      };  
+    };
   };
 
   return (
@@ -103,6 +89,11 @@ const NewMessage = () => {
       />
 
       <StyledButton type="submit">Submit</StyledButton>
+
+      {
+        error &&
+        <StyledError>{error}</StyledError>
+      }
     </StyledForm>
   );
 };
@@ -124,6 +115,12 @@ const StyledButton = styled('button')({
   height: '30px',
   justifySelf: 'center',
   cursor: 'pointer'
+});
+
+const StyledError = styled('p')({
+  gridColumn: 'span 2',
+  fontStyle: 'italic',
+  color: 'red'
 });
 
 const StyledInput = styled('input')({
