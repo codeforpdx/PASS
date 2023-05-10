@@ -5,3 +5,4 @@
 /dist
 .env
 bundleStats.html
+local_temp_server_files/

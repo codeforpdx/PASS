@@ -2,6 +2,7 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
+import { UPLOAD_TYPES } from '../../constants';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -61,7 +62,7 @@ const UploadDocumentForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, 'self', fileObject);
+      await uploadDocument(session, UPLOAD_TYPES.SELF, fileObject);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -76,7 +77,7 @@ const UploadDocumentForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, 'self', fileObject);
+        const fileExist = await updateDocument(session, UPLOAD_TYPES.SELF, fileObject);
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
