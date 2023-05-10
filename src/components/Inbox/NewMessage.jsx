@@ -21,6 +21,7 @@ const NewMessage = () => {
     message: ''
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -34,35 +35,50 @@ const NewMessage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message.title) {
-      setError('Please enter a value for Message Title')
+      setError('Please enter a value for Message Title');
     } else if (!message.recipientUsername) {
-      setError('Please enter a value for Recipient Username')
+      setError('Please enter a value for Recipient Username');
     } else if (!message.recipientName) {
-      setError('Please enter a value for Recipient Full Name')
+      setError('Please enter a value for Recipient Full Name');
     } else if (!message.message) {
-      setError('Please enter a value for the Message')
+      setError('Please enter a value for the Message');
     } else if (!message.senderName) {
-      setError('Please enter a value for Sender Full Name')
+      setError('Please enter a value for Sender Full Name');
     } else {
       try {
         await sendMessageTTL(session, message);
+        setMessage({
+          senderName: '',
+          recipientName: '',
+          recipientUsername: '',
+          title: '',
+          message: ''
+        });
+        setSuccess(`Message successfully sent to ${message.recipientUsername}`);
       } catch (err) {
         // TODO: Remove console.log() before production
         console.log(err);
         // TODO: Make sure invalid username is the only possible error
         setError('Recipient username does not exist');
-      };  
-    };
+      }
+    }
   };
 
   return (
     <StyledForm onSubmit={(e) => handleSubmit(e)} autoComplete="off">
       <StyledHeader>New Message</StyledHeader>
       <label htmlFor="title">Message Title: </label>
-      <StyledInput type="text" name="title" id="title" onChange={(e) => handleChange(e)} />
+      <StyledInput
+        value={message.title}
+        type="text"
+        name="title"
+        id="title"
+        onChange={(e) => handleChange(e)}
+      />
 
       <label htmlFor="recipientUsername">Recipient Username: </label>
       <StyledInput
+        value={message.recipientUsername}
         type="text"
         name="recipientUsername"
         id="recipientUsername"
@@ -71,6 +87,7 @@ const NewMessage = () => {
 
       <label htmlFor="recipientName">Recipient Full Name: </label>
       <StyledInput
+        value={message.recipientName}
         type="text"
         name="recipientName"
         id="recipientName"
@@ -78,10 +95,16 @@ const NewMessage = () => {
       />
 
       <label htmlFor="message">Message: </label>
-      <StyledTextArea name="message" id="message" onChange={(e) => handleChange(e)} />
+      <StyledTextArea
+        value={message.message}
+        name="message"
+        id="message"
+        onChange={(e) => handleChange(e)}
+      />
 
       <label htmlFor="senderName">Sender Full Name: </label>
       <StyledInput
+        value={message.senderName}
         type="text"
         name="senderName"
         id="senderName"
@@ -90,10 +113,8 @@ const NewMessage = () => {
 
       <StyledButton type="submit">Submit</StyledButton>
 
-      {
-        error &&
-        <StyledError>{error}</StyledError>
-      }
+      {error && <StyledError>{error}</StyledError>}
+      {success && <StyledSuccess>{success}</StyledSuccess>}
     </StyledForm>
   );
 };
@@ -120,7 +141,15 @@ const StyledButton = styled('button')({
 const StyledError = styled('p')({
   gridColumn: 'span 2',
   fontStyle: 'italic',
-  color: 'red'
+  color: 'red',
+  justifySelf: 'center'
+});
+
+const StyledSuccess = styled('p')({
+  gridColumn: 'span 2',
+  fontStyle: 'italic',
+  color: 'green',
+  justifySelf: 'center'
 });
 
 const StyledInput = styled('input')({
