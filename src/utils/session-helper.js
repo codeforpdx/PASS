@@ -230,6 +230,8 @@ export const createDocAclForUser = async (session, documentUrl) => {
  * @param {URL} containerUrl - Url link to document container
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Perform an update to an existing document.ttl by
+ * setting a new expiration date, description, and date modified
  */
 
 export const updateTTLFile = async (session, containerUrl, fileObject) => {
