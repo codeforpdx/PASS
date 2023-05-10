@@ -9,14 +9,15 @@ import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-// import Link from '@mui/material/Link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import MoreIcon from '@mui/icons-material/MoreVert';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 // Custom Component Imports
 import NavMenu from './NavMenu';
+import NavMenuMobile from './NavMenuMobile';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
@@ -30,8 +31,11 @@ const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElNotifications, setAnchorElNotifications] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [anchorElMobile, setAnchorElMobile] = useState(null);
 
   const menuId = 'primary-search-account-menu';
+  const mobileMenuId = 'primary-search-account-menu-mobile';
 
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +48,11 @@ const NavBar = () => {
 
   const handleNotificationsClose = () => {
     setAnchorElNotifications(null);
+  };
+
+  const handleOpenMobileMenu = (event) => {
+    setAnchorElMobile(event.currentTarget);
+    setOpenMobileMenu(true);
   };
 
   return (
@@ -74,50 +83,64 @@ const NavBar = () => {
                 </Typography>
 
                 <Box sx={{ flexGrow: 1 }} />
-                <IconButton
-                  size="large"
-                  aria-label="show new notifications"
-                  color="inherit"
-                  onClick={handleNotificationsMenu}
-                >
-                  <Badge color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <Menu
-                  id="menu-appbar-notifications"
-                  anchorEl={anchorElNotifications}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  open={Boolean(anchorElNotifications)}
-                  onClose={handleNotificationsClose}
-                  sx={{ marginTop: '40px' }}
-                >
-                  <MenuItem onClick={handleNotificationsClose}>
-                    <p>Notification 1</p>
-                  </MenuItem>
-                  <MenuItem onClick={handleNotificationsClose}>
-                    <p>Notification 2</p>
-                  </MenuItem>
-                </Menu>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleOpenMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="show new notifications"
+                    color="inherit"
+                    onClick={handleNotificationsMenu}
+                  >
+                    <Badge color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar-notifications"
+                    anchorEl={anchorElNotifications}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    open={Boolean(anchorElNotifications)}
+                    onClose={handleNotificationsClose}
+                    sx={{ marginTop: '40px' }}
+                  >
+                    <MenuItem onClick={handleNotificationsClose}>
+                      <p>Notification 1</p>
+                    </MenuItem>
+                    <MenuItem onClick={handleNotificationsClose}>
+                      <p>Notification 2</p>
+                    </MenuItem>
+                  </Menu>
+                  <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleOpenMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </Box>
+                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="show more"
+                    aria-controls={mobileMenuId}
+                    aria-haspopup="true"
+                    onClick={handleOpenMobileMenu}
+                    color="inherit"
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
               </>
             </>
           ) : (
@@ -131,6 +154,15 @@ const NavBar = () => {
           )}
         </Toolbar>
       </AppBar>
+      {openMobileMenu ? (
+        <NavMenuMobile
+          mobileMenuId={mobileMenuId}
+          openMobileMenu={openMobileMenu}
+          setOpenMobileMenu={setOpenMobileMenu}
+          anchorElMobile={anchorElMobile}
+          setAnchorElMobile={setAnchorElMobile}
+        />
+      ) : null}
       {openMenu ? (
         <NavMenu
           menuId={menuId}
