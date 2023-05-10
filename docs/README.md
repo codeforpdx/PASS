@@ -101,14 +101,15 @@ To do so, you will need to edit the root `.env` file.
 
 2. Start the SOLID server in a shell window
 
-   ```shell
-   npm run dev:pod
-   ```
+```shell
+npm run dev:pod
+```
 
 3. In another shell, start PASS
-   ```shell
-   npm run dev
-   ```
+
+```shell
+npm run dev
+```
 
 You should now have a PASS application running at `localhost:5173`, which logs into a server located at `localhost:3000`
 

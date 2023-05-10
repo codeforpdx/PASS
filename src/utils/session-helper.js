@@ -252,6 +252,15 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   }
 };
 
+/**
+ * Function that generates checksum for uploaded file
+ *
+ * @memberof utils
+ * @function createFileChecksum
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Generates checksum for uploaded file using the SHA256 algorithm
+ */
 const createFileChecksum = async (fileObject) => {
   const { file } = fileObject;
 
@@ -266,7 +275,7 @@ const createFileChecksum = async (fileObject) => {
  * @function createResourceTtlFile
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @param documentUrl - url of uploaded document or resource
+ * @param {string} documentUrl - url of uploaded document or resource
  * @returns {object}
  */
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
