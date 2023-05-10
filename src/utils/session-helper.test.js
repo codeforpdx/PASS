@@ -1,23 +1,25 @@
 import { createResourceTtlFile } from "./session-helper";
 import { UPLOAD_TYPES } from "../constants";
+import { assert, expect, vi, it, describe } from 'vitest'
 
-test('Test Basic Resource TTL Creation Format', async () => {
-    const documentUrl = 'http://example.com';
-    const file = jest.fn();
 
-    const fileObjectMock = {
-        type: UPLOAD_TYPES.SELF,
-        description: "random description here",
-        date: "random date",
-        file: {
-            name: "file name",
-            file: {}
-        }
-    };
+describe("createResourceTtlFile", () => {
+  it('Has proper number of fields', async () => {
+      const documentUrl = 'http://example.com';
+      const mockText = vi.fn().mockResolvedValue("TEST DATA");
 
-    jest.spyOn(fileObjectMock.file.file, 'text').mockResolvedValue("REAL TEST DATA");
+      const fileObjectMock = {
+          type: UPLOAD_TYPES.SELF,
+          description: "random description here",
+          date: "random date",
+          file: {
+              name: "file name",
+              text: mockText
+          }
+      };
 
-    const ttl = await createResourceTtlFile(file_mock, documentUrl)
-
-    expect(ttl).toBe(5);
-})
+      const result = await createResourceTtlFile(fileObjectMock, documentUrl)
+      expect(mockText).toBeCalledTimes(1);
+      expect(Object.keys(result.predicates)).toHaveLength(7);
+  });
+});
