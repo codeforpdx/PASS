@@ -54,6 +54,7 @@ const NewMessage = () => {
           title: '',
           message: ''
         });
+        setError('');
         setSuccess(`Message successfully sent to ${message.recipientUsername}`);
       } catch (err) {
         // TODO: Remove console.log() before production
@@ -66,8 +67,10 @@ const NewMessage = () => {
 
   return (
     <StyledForm onSubmit={(e) => handleSubmit(e)} autoComplete="off">
+      <StyledNotice>* indicates a required field</StyledNotice>
+
       <StyledHeader>New Message</StyledHeader>
-      <label htmlFor="title">Message Title: </label>
+      <label htmlFor="title">Message Title*: </label>
       <StyledInput
         value={message.title}
         type="text"
@@ -76,7 +79,7 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="recipientUsername">Recipient Username: </label>
+      <label htmlFor="recipientUsername">Recipient Username*: </label>
       <StyledInput
         value={message.recipientUsername}
         type="text"
@@ -85,7 +88,7 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="recipientName">Recipient Full Name: </label>
+      <label htmlFor="recipientName">Recipient Full Name*: </label>
       <StyledInput
         value={message.recipientName}
         type="text"
@@ -94,7 +97,7 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="message">Message: </label>
+      <label htmlFor="message">Message*: </label>
       <StyledTextArea
         value={message.message}
         name="message"
@@ -102,7 +105,7 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="senderName">Sender Full Name: </label>
+      <label htmlFor="senderName">Sender Full Name*: </label>
       <StyledInput
         value={message.senderName}
         type="text"
@@ -128,6 +131,11 @@ const StyledForm = styled('form')({
   borderRadius: '8px',
   padding: '20px',
   alignItems: 'center'
+});
+
+const StyledNotice = styled('p')({
+  gridColumn: 'span 2',
+  fontStyle: 'italic'
 });
 
 const StyledButton = styled('button')({
