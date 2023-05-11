@@ -100,7 +100,9 @@ const CheckAclPermsDocContainerForm = () => {
     >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Check permissions to username's Documents container: </label>
+          <label htmlFor="set-acl-to">
+            Check permissions to username&apos;s Documents container:{' '}
+          </label>
           <br />
           <br />
           <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
