@@ -94,6 +94,7 @@ const ManageUsers = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Manage Users"
@@ -128,6 +129,7 @@ const ManageUsers = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default ManageUsers;

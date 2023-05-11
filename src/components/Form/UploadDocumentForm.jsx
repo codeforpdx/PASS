@@ -37,6 +37,7 @@ const UploadDocumentForm = () => {
   };
 
   // Event handler for form/document submission to Pod
+  /* eslint-disable no-param-reassign */
   const handleFormSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -110,11 +111,12 @@ const UploadDocumentForm = () => {
       }
     }
   };
+  /* eslint-enable no-param-reassign */
 
   const formRowStyle = {
     margin: '20px 0'
   };
-
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Upload Document"
@@ -153,6 +155,7 @@ const UploadDocumentForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default UploadDocumentForm;

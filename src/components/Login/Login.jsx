@@ -20,6 +20,7 @@ import Footer from '../Footer/Footer';
 const Login = () => {
   const redirectUrl = useRedirectUrl();
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <Box sx={{ minHeight: '100vh' }}>
       <AppHeader />
@@ -57,6 +58,7 @@ const Login = () => {
       <Footer />
     </Box>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default Login;

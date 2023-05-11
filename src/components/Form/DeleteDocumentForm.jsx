@@ -49,6 +49,7 @@ const DeleteDocumentForm = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Delete Document"
@@ -67,6 +68,7 @@ const DeleteDocumentForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-disable jsx-a11y/label-has-associated-control */
 };
 
 export default DeleteDocumentForm;
