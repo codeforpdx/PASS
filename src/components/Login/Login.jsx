@@ -21,7 +21,7 @@ const Login = () => {
   const redirectUrl = useRedirectUrl();
 
   return (
-    <Box sx={{minHeight: '100vh'}}>
+    <Box sx={{ minHeight: '100vh' }}>
       <AppHeader />
       <Container component="main" maxWidth="xs">
         <Box
