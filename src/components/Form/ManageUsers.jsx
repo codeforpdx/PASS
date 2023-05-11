@@ -103,12 +103,12 @@ const ManageUsers = () => {
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
         <div>
-          <label htmlFor="add-user-given-name">User's first/given name: </label>
+          <label htmlFor="add-user-given-name">First/given name: </label>
           <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-last-name">User's last/family name: </label>
+          <label htmlFor="add-user-last-name">Last/family name: </label>
           <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
         </div>
         <br />

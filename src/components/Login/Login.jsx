@@ -43,11 +43,7 @@ const Login = () => {
                 </a>
                 ]:{' '}
               </label>
-              <LoginButton
-                oidcIssuer={SOLID_IDENTITY_PROVIDER}
-                redirectUrl={redirectUrl}
-                onError={console.error}
-              >
+              <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
                 {' '}
                 <Button variant="contained" type="submit" color="secondary" size="large">
                   Login

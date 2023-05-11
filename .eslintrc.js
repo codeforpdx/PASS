@@ -1,28 +1,37 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
     es2021: true
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'plugin:jsdoc/recommended'],
   parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    },
-    ecmaVersion: 14
+    }
   },
-  plugins: ['prettier', 'jsdoc'],
+  plugins: [
+    'react',
+    'prettier',
+    'jsdoc'
+  ],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+    'prettier',
+    'plugin:jsdoc/recommended'
+  ],
   rules: {
     'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
-    'react/jsx-props-no-spreading': 'off',
-    'react/no-unescaped-entities': 'off',
     'react/prop-types': 'off',
-    'no-console': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
-    'arrow-body-style': ['error', 'as-needed'],
     'no-param-reassign': ['error', { props: false }],
-    'jsdoc/valid-types': 'off',
-    'no-alert': 'off',
-    'import/no-extraneous-dependencies': 'off'
+    'no-alert': 'off'
+  },
+  settings: {
+    'jsdoc': {
+      'mode': 'typescript'
+    }
   }
 };
