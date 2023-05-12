@@ -57,14 +57,13 @@ const NewMessage = () => {
         setError('');
         setSuccess(`Message successfully sent to ${message.recipientUsername}`);
       } catch (err) {
-        // TODO: Remove console.log() before production
-        console.log(err);
         // TODO: Make sure invalid username is the only possible error
         setError('Recipient username does not exist');
       }
     }
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <StyledForm onSubmit={(e) => handleSubmit(e)} autoComplete="off">
       <StyledNotice>* indicates a required field</StyledNotice>
@@ -120,6 +119,7 @@ const NewMessage = () => {
       {success && <StyledSuccess>{success}</StyledSuccess>}
     </StyledForm>
   );
+  /* eslint-disable jsx-a11y/label-has-associated-control */
 };
 
 const StyledForm = styled('form')({

@@ -39,6 +39,10 @@ import { RDF_PREDICATES } from '../constants';
  */
 
 /**
+ * @typedef {import('@inrupt/solid-client').ThingLocal} ThingLocal
+ */
+
+/**
  * The URL to a specific Solid Provider
  *
  * @name SOLID_IDENTITY_PROVIDER
@@ -263,7 +267,8 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
  * @function createFileChecksum
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - Generates checksum for uploaded file using the SHA256 algorithm
+ * @returns {Promise} Promise - Generates checksum for uploaded file using the
+ * SHA256 algorithm
  */
 const createFileChecksum = async (fileObject) => {
   const { file } = fileObject;
@@ -280,7 +285,8 @@ const createFileChecksum = async (fileObject) => {
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  * @param {string} documentUrl - url of uploaded document or resource
- * @returns {object}
+ * @returns {Promise} Promise - Perform action to generate a newly generated
+ * Thing from buildThing
  */
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
   const checksum = await createFileChecksum(fileObject);

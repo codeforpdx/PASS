@@ -478,8 +478,9 @@ export const getUserListActivity = async (session, userList) => {
         );
         const activeTTLThing = getThingAll(solidDataset)[0];
         const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
-        user.dateModified = lastActiveTime;
-        return user;
+        const updatedUser = user;
+        updatedUser.dateModified = lastActiveTime;
+        return updatedUser;
       } catch {
         return user;
       }

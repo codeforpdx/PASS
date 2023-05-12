@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import LogoutIcon from '@mui/icons-material/Logout';
 // Custom Component Imports
-import { LogoutModal } from './LogoutModal';
+import LogoutModal from './LogoutModal';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
