@@ -11,8 +11,10 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 // Custom Component Imports
@@ -29,10 +31,15 @@ import NavMenuMobile from './NavMenuMobile';
 const NavBar = () => {
   const { session } = useSession();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElMobile, setAnchorElMobile] = useState(null);
   const [anchorElNotifications, setAnchorElNotifications] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
-  const [anchorElMobile, setAnchorElMobile] = useState(null);
+  const [value, setValue] = useState('home');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const menuId = 'primary-search-account-menu';
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -65,23 +72,18 @@ const NavBar = () => {
                 PASS
               </Typography>
               <>
-                <Typography
-                  variant="h5"
-                  noWrap
-                  component="div"
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    '& > *': {
-                      m: 1
-                    }
-                  }}
-                >
-                  <Link to="/PASS/home/">Home</Link>
-                  <Link to="/PASS/forms/">Forms</Link>
-                </Typography>
-
+                <Box>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    textColor="inherit"
+                    indicatorColor="inherit"
+                    aria-label="tabs"
+                  >
+                    <Tab value="home" label="Home" component={Link} to="/PASS/home/" />
+                    <Tab value="forms" label="Forms" component={Link} to="/PASS/forms/" />
+                  </Tabs>
+                </Box>
                 <Box sx={{ flexGrow: 1 }} />
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                   <IconButton
@@ -89,6 +91,7 @@ const NavBar = () => {
                     aria-label="show new notifications"
                     color="inherit"
                     onClick={handleNotificationsMenu}
+                    edge="start"
                   >
                     <Badge color="error">
                       <NotificationsIcon />
@@ -138,7 +141,7 @@ const NavBar = () => {
                     onClick={handleOpenMobileMenu}
                     color="inherit"
                   >
-                    <MoreIcon />
+                    <MenuIcon />
                   </IconButton>
                 </Box>
               </>
@@ -154,7 +157,7 @@ const NavBar = () => {
           )}
         </Toolbar>
       </AppBar>
-      {openMobileMenu ? (
+      {openMobileMenu && (
         <NavMenuMobile
           mobileMenuId={mobileMenuId}
           openMobileMenu={openMobileMenu}
@@ -162,8 +165,8 @@ const NavBar = () => {
           anchorElMobile={anchorElMobile}
           setAnchorElMobile={setAnchorElMobile}
         />
-      ) : null}
-      {openMenu ? (
+      )}
+      {openMenu && (
         <NavMenu
           menuId={menuId}
           openMenu={openMenu}
@@ -171,7 +174,7 @@ const NavBar = () => {
           anchorEl={anchorEl}
           setAnchorEl={setAnchorEl}
         />
-      ) : null}
+      )}
     </Box>
   );
 };

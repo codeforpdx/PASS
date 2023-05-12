@@ -6,6 +6,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSession } from '@inrupt/solid-ui-react';
 
+/**
+ * NavMenu Component - Component that generates NavMenu section for PASS
+ *
+ * @memberof GlobalComponents
+ * @name NavMenu
+ */
+
 const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
   const { session } = useSession();
   const handleMenuClose = () => {
@@ -29,7 +36,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ marginTop: '40px' }}
+      sx={{ mt: 5 }}
     >
       <MenuItem>
         <Link
@@ -44,6 +51,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
             aria-controls="primary-search-account-menu"
             aria-haspopup="true"
             color="inherit"
+            edge="start"
           >
             <AccountCircle />
           </IconButton>

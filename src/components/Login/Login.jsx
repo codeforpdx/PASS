@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
-import NavBar from '../NavBar/NavBar';
+import { NavBar } from '../NavBar';
 import Footer from '../Footer/Footer';
 
 /**
