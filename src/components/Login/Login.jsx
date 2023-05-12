@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
-import AppHeader from '../AppHeader';
 import Footer from '../Footer/Footer';
 
 /**
@@ -23,7 +22,6 @@ const Login = () => {
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <Box sx={{ minHeight: '100vh' }}>
-      <AppHeader />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
