@@ -1,11 +1,18 @@
+# dependencies
 /node_modules
+
+# local
 .DS_Store
+
+# production
 /docs
 !/docs/README.md
 /dist
-.env
 bundleStats.html
 /localDevPodStorage
-local_temp_server_files/
-.vscode/
-coverage/
+/local_temp_server_files
+/.vscode
+/coverage
+
+# environment variables
+.env
