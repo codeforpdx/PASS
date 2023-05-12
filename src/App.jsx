@@ -33,11 +33,9 @@ const App = () => {
     }
 
     if (restore && localStorage.getItem('loggedIn')) {
-      console.log('restoring session');
       session.login({
         oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl,
-        onError: console.error
+        redirectUrl
       });
     }
   }, [restore]);
@@ -79,6 +77,7 @@ const App = () => {
     }
 
     if (session.info.isLoggedIn) {
+      localStorage.setItem('loggedIn', true);
       fetchData();
     }
   }, [session.info.isLoggedIn]);

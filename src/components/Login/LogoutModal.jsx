@@ -51,12 +51,13 @@ const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) =>
         NO
       </Button>
       {/* NECESSARY WRAPPER FOR SOLID/POD LOGOUT FUNCTIONALITY */}
-      <LogoutButton onClick={handleLogout}>
+      <LogoutButton>
         <Button
           variant="outlined"
           color="success"
           endIcon={<CheckIcon />}
           sx={{ marginLeft: '1rem' }}
+          onClick={handleLogout}
         >
           YES
         </Button>

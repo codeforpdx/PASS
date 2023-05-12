@@ -5,6 +5,7 @@ import DocumentSelection from './DocumentSelection';
 import { runNotification, updateDocument, uploadDocument } from '../../utils';
 import FormSection from './FormSection';
 import { SelectUserContext } from '../../contexts';
+import { UPLOAD_TYPES } from '../../constants';
 
 /**
  * CrossPodWriteForm Component - Component that generates the form for cross pod
@@ -41,6 +42,7 @@ const CrossPodWriteForm = () => {
   };
 
   // Event handler for form/document submission to Pod
+  /* eslint-disable no-param-reassign */
   const handleCrossPodUpload = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -79,7 +81,7 @@ const CrossPodWriteForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, 'cross', fileObject, podUsername);
+      await uploadDocument(session, UPLOAD_TYPES.CROSS, fileObject, podUsername);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -94,7 +96,12 @@ const CrossPodWriteForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, 'cross', fileObject, podUsername);
+        const fileExist = await updateDocument(
+          session,
+          UPLOAD_TYPES.CROSS,
+          fileObject,
+          podUsername
+        );
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
@@ -127,11 +134,13 @@ const CrossPodWriteForm = () => {
       }
     }
   };
+  /* eslint-enable no-param-reassign */
 
   const formRowStyle = {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Cross Pod Document Upload"
@@ -182,6 +191,7 @@ const CrossPodWriteForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default CrossPodWriteForm;

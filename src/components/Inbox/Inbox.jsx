@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import AppHeader from '../AppHeader';
 import { Logout } from '../Login';
 import NewMessage from './NewMessage';
 import { InactivityMessage } from '../Notification';
@@ -23,7 +22,6 @@ const Inbox = () => {
 
   return (
     <>
-      <AppHeader />
       <Logout />
       <section id="inbox" className="panel">
         <StyledButton onClick={() => (showForm ? setShowForm(false) : setShowForm(true))}>

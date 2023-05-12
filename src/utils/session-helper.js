@@ -6,11 +6,13 @@ import {
   setAgentResourceAccess,
   saveAclFor,
   setAgentDefaultAccess,
+  createThing,
   buildThing,
   setThing,
   saveSolidDatasetAt
 } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
+import sha256 from 'crypto-js/sha256';
+import { RDF_PREDICATES } from '../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -232,6 +234,8 @@ export const createDocAclForUser = async (session, documentUrl) => {
  * @param {URL} containerUrl - Url link to document container
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Perform an update to an existing document.ttl by
+ * setting a new expiration date, description, and date modified
  */
 
 export const updateTTLFile = async (session, containerUrl, fileObject) => {
@@ -239,9 +243,9 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   let ttlFile = getThingAll(solidDataset)[0];
 
   ttlFile = buildThing(ttlFile)
-    .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-    .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .setDatetime(RDF_PREDICATES.dateModified, new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 
@@ -250,4 +254,44 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
+};
+
+/**
+ * Function that generates checksum for uploaded file
+ *
+ * @memberof utils
+ * @function createFileChecksum
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Generates checksum for uploaded file using the SHA256 algorithm
+ */
+const createFileChecksum = async (fileObject) => {
+  const { file } = fileObject;
+
+  const text = await file.text(); // only hash the first megabyte
+  return sha256(text);
+};
+
+/**
+ * Creates a TTL file corresponding to an uploaded document or resource
+ *
+ * @memberof utils
+ * @function createResourceTtlFile
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ * @param {string} documentUrl - url of uploaded document or resource
+ * @returns {object}
+ */
+export const createResourceTtlFile = async (fileObject, documentUrl) => {
+  const checksum = await createFileChecksum(fileObject);
+
+  return buildThing(createThing({ name: 'document' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addUrl(RDF_PREDICATES.url, documentUrl)
+    .build();
 };
