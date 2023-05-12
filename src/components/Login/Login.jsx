@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import NavBar from '../NavBar/NavBar';
+import Footer from '../Footer/Footer';
 
 /**
  * Login Component - Component that generates Login section for users to a
@@ -20,7 +21,7 @@ const Login = () => {
   const redirectUrl = useRedirectUrl();
 
   return (
-    <>
+    <Box sx={{ minHeight: '100vh' }}>
       <NavBar />
       <Container component="main" maxWidth="xs">
         <Box
@@ -57,7 +58,8 @@ const Login = () => {
           </Paper>
         </Box>
       </Container>
-    </>
+      <Footer />
+    </Box>
   );
 };
 

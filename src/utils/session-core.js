@@ -19,7 +19,7 @@ import {
   removeThing,
   getDatetime
 } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
+import { RDF_PREDICATES, UPLOAD_TYPES } from '../constants';
 import {
   getContainerUrl,
   setupAcl,
@@ -27,6 +27,7 @@ import {
   getContainerUrlAndFiles,
   hasTTLFiles,
   createDocAclForUser,
+  createResourceTtlFile,
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER
 } from './session-helper';
@@ -157,7 +158,7 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
 export const uploadDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
   let containerUrl;
   const fileName = fileObject.file.name;
-  if (uploadType === 'self') {
+  if (uploadType === UPLOAD_TYPES.SELF) {
     containerUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   } else {
     containerUrl = getContainerUrl(session, 'Documents', 'cross-fetch', otherPodUsername);
@@ -172,30 +173,15 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
 
   // Guard clause will throw function if container already exist with ttl file
   if (ttlFileExists) {
-    throw new Error('Container already exist. Updating files inside...');
+    throw new Error('Container already exists');
   }
 
   // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, containerUrl);
-  const newTtlFile = buildThing(createThing({ name: 'document' }))
-    .addDatetime('https://schema.org/uploadDate', new Date())
-    .addStringNoLocale(SCHEMA_INRUPT.name, fileObject.file.name)
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, fileObject.type)
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .addUrl(SCHEMA_INRUPT.url, documentUrl)
-    .build();
-
-  // const clientInfoThing = buildThing(createThing({ name: 'owner' }))
-  //   .addStringNoLocale(SCHEMA_INRUPT.givenName, 'Alice')
-  //   .addStringNoLocale(SCHEMA_INRUPT.familyName, 'Young')
-  //   .addUrl('https://schema.org/owns', documentUrl)
-  //   .addUrl(SCHEMA_INRUPT.url, 'https://testuser.opencommons.net/profile/card#me')
-  //   .build();
+  const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
 
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
-  // newSolidDataset = setThing(newSolidDataset, clientInfoThing);
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
@@ -204,7 +190,7 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
     fetch: session.fetch
   });
 
-  if (uploadType === 'self') {
+  if (uploadType === UPLOAD_TYPES.SELF) {
     // Generate ACL file for container
     await createDocAclForUser(session, containerUrl);
   }
@@ -230,7 +216,7 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
 export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
   let containerUrl;
   const fileName = fileObject.file.name;
-  if (uploadType === 'self') {
+  if (uploadType === UPLOAD_TYPES.SELF) {
     containerUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   } else {
     containerUrl = getContainerUrl(session, 'Documents', 'cross-fetch', otherPodUsername);
@@ -399,9 +385,9 @@ export const createDocumentContainer = async (session) => {
     });
 
     const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
-      .addStringNoLocale(SCHEMA_INRUPT.name, 'Document Container')
-      .addStringNoLocale(SCHEMA_INRUPT.description, 'A container for documents')
-      .addUrl(SCHEMA_INRUPT.url, `${userContainerUrl}container.ttl`)
+      .addStringNoLocale(RDF_PREDICATES.name, 'Document Container')
+      .addStringNoLocale(RDF_PREDICATES.description, 'A container for documents')
+      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}container.ttl`)
       .build();
 
     let newSolidDataset = createSolidDataset();
@@ -448,9 +434,9 @@ export const generateUsersList = async (session) => {
 
   if (!ttlFileExists) {
     const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(SCHEMA_INRUPT.name, 'Users List')
-      .addStringNoLocale(SCHEMA_INRUPT.description, 'A list of users')
-      .addUrl(SCHEMA_INRUPT.url, `${userContainerUrl}userlist.ttl`)
+      .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
+      .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
+      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}userlist.ttl`)
       .build();
 
     let newSolidDataset = createSolidDataset();
@@ -491,7 +477,7 @@ export const getUserListActivity = async (session, userList) => {
           }
         );
         const activeTTLThing = getThingAll(solidDataset)[0];
-        const lastActiveTime = getDatetime(activeTTLThing, SCHEMA_INRUPT.dateModified);
+        const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
         user.dateModified = lastActiveTime;
         return user;
       } catch {
@@ -525,10 +511,10 @@ export const getUsersFromPod = async (session) => {
     const ttlFileThing = getThingAll(solidDataset);
     const allUsersThing = ttlFileThing.filter((thing) => !thing.url.includes('#userlist'));
     allUsersThing.forEach((userThing) => {
-      const person = getStringNoLocale(userThing, SCHEMA_INRUPT.Person);
-      const givenName = getStringNoLocale(userThing, SCHEMA_INRUPT.givenName);
-      const familyName = getStringNoLocale(userThing, SCHEMA_INRUPT.familyName);
-      const podUrl = getUrl(userThing, SCHEMA_INRUPT.url);
+      const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
+      const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
+      const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
+      const podUrl = getUrl(userThing, RDF_PREDICATES.url);
 
       userList.push({ person, givenName, familyName, podUrl });
     });
@@ -598,10 +584,10 @@ export const addUserToPod = async (session, userObject) => {
   const newUserThing = buildThing(
     createThing({ name: `${userObject.givenName} ${userObject.username}` })
   )
-    .addStringNoLocale(SCHEMA_INRUPT.Person, `${userObject.givenName} ${userObject.familyName}`)
-    .addStringNoLocale(SCHEMA_INRUPT.givenName, userObject.givenName)
-    .addStringNoLocale(SCHEMA_INRUPT.familyName, userObject.familyName)
-    .addUrl(SCHEMA_INRUPT.url, podUrl)
+    .addStringNoLocale(RDF_PREDICATES.Person, `${userObject.givenName} ${userObject.familyName}`)
+    .addStringNoLocale(RDF_PREDICATES.givenName, userObject.givenName)
+    .addStringNoLocale(RDF_PREDICATES.familyName, userObject.familyName)
+    .addUrl(RDF_PREDICATES.url, podUrl)
     .build();
 
   solidDataset = setThing(solidDataset, newUserThing);
@@ -639,7 +625,7 @@ export const generateActivityTTL = async (session) => {
 
   if (!ttlFileExists) {
     const newTtlFile = buildThing(createThing({ name: 'active' }))
-      .addDatetime(SCHEMA_INRUPT.dateModified, new Date())
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
       .build();
 
     let newSolidDataset = createSolidDataset();
@@ -675,7 +661,7 @@ export const updateUserActivity = async (session) => {
 
   let ttlFileThing = getThingAll(solidDataset)[0];
   ttlFileThing = buildThing(ttlFileThing)
-    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .setDatetime(RDF_PREDICATES.dateModified, new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFileThing);
 

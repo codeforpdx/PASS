@@ -5,6 +5,7 @@ import DocumentSelection from './DocumentSelection';
 import { runNotification, updateDocument, uploadDocument } from '../../utils';
 import FormSection from './FormSection';
 import { SelectUserContext } from '../../contexts';
+import { UPLOAD_TYPES } from '../../constants';
 
 /**
  * CrossPodWriteForm Component - Component that generates the form for cross pod
@@ -79,7 +80,7 @@ const CrossPodWriteForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, 'cross', fileObject, podUsername);
+      await uploadDocument(session, UPLOAD_TYPES.CROSS, fileObject, podUsername);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -94,7 +95,12 @@ const CrossPodWriteForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, 'cross', fileObject, podUsername);
+        const fileExist = await updateDocument(
+          session,
+          UPLOAD_TYPES.CROSS,
+          fileObject,
+          podUsername
+        );
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
