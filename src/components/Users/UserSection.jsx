@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { ManageUsers } from '../Form';
 import UsersList from './UsersList';
 import { Logout } from '../Login';
-import NavBar from '../NavBar/NavBar';
 import { InactivityMessage } from '../Notification';
 
 /**
@@ -20,7 +19,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
 
   return (
     <>
-      <NavBar />
       <Logout />
       <ManageUsers />
       {loadingUsers ? (

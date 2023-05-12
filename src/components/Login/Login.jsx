@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { useRedirectUrl } from '../../hooks';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
-import { NavBar } from '../NavBar';
 import Footer from '../Footer/Footer';
 
 /**
@@ -22,7 +21,6 @@ const Login = () => {
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
-      <NavBar />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

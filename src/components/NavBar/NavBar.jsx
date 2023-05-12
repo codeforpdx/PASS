@@ -35,10 +35,10 @@ const NavBar = () => {
   const [anchorElNotifications, setAnchorElNotifications] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
-  const [value, setValue] = useState('home');
+  const [tabValue, setTabValue] = useState('home');
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, newTabValue) => {
+    setTabValue(newTabValue);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -65,7 +65,7 @@ const NavBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
-        <Toolbar>
+        <Toolbar sx={{ minHeight: '64px' }}>
           {session.info.isLoggedIn ? (
             <>
               <Typography variant="h4" noWrap component="div" mr="10px">
@@ -74,10 +74,9 @@ const NavBar = () => {
               <>
                 <Box>
                   <Tabs
-                    value={value}
+                    value={tabValue}
                     onChange={handleChange}
                     textColor="inherit"
-                    indicatorColor="inherit"
                     aria-label="tabs"
                   >
                     <Tab value="home" label="Home" component={Link} to="/PASS/home/" />
