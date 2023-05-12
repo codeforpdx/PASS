@@ -703,18 +703,18 @@ export const sendMessageTTL = async (session, messageObject) => {
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
   const newMessageTTL = buildThing(createThing({ name: 'message' }))
-    .addDatetime('https://schema.org/uploadDate', date)
-    .addStringNoLocale('https://schema.org/title', messageObject.title)
-    .addStringNoLocale('https://schema.org/Message', messageObject.message)
+    .addDatetime(RDF_PREDICATES.uploadDate, date)
+    .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
+    .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
     .build();
 
   const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale('https://schema.org/sender', messageObject.senderName)
+    .addStringNoLocale(RDF_PREDICATES.sender, messageObject.senderName)
     .addUrl(RDF_PREDICATES.url, session.info.webId)
     .build();
 
   const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale('https://schema.org/recipient', messageObject.recipientName)
+    .addStringNoLocale(RDF_PREDICATES.recipient, messageObject.recipientName)
     .addUrl(
       RDF_PREDICATES.url,
       `https://${messageObject.recipientUsername}.${
@@ -735,7 +735,7 @@ export const sendMessageTTL = async (session, messageObject) => {
     fetch: session.fetch
   });
 
-  // Generate message TTL file for recipient container
+  // Generate message TTL file for sender container
   await saveSolidDatasetInContainer(inboxUrl, newSolidDataset, {
     slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
     contentType: 'text/turtle',
