@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Modal, Button } from '@mui/base';
+// MUI base UI imports; TODO: Update imports to @mui/material when re-styling
+import Modal from '@mui/base/Modal';
+import Button from '@mui/base/Button';
 import { LogoutButton } from '@inrupt/solid-ui-react';
+import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
@@ -14,8 +16,6 @@ import { LogoutButton } from '@inrupt/solid-ui-react';
  */
 
 const InactivityMessage = () => {
-  const navigate = useNavigate();
-
   const [showPopup, setShowPopup] = useState(false);
   const [activeUser, setActiveUser] = useState(false);
 
@@ -61,8 +61,8 @@ const InactivityMessage = () => {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('redirectUrl');
     localStorage.removeItem('restorePath');
-    localStorage.removeItem('issuerConfig:https://opencommons.net');
-    navigate('/');
+    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
+    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
   };
 
   return (
@@ -71,8 +71,8 @@ const InactivityMessage = () => {
         <p>You have been inactive for a few minutes now. Would you like to log out?</p>
         <ButtonsContainer>
           <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
-          <LogoutButton onLogout={handleLogout}>
-            <StyledLogoutButton>Log Out</StyledLogoutButton>
+          <LogoutButton>
+            <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
           </LogoutButton>
         </ButtonsContainer>
       </StyledContainer>
