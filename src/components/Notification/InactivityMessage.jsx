@@ -68,7 +68,7 @@ const InactivityMessage = () => {
   return (
     <StyledModal open={showPopup && activeUser}>
       <StyledContainer>
-        <p>You've been inactive for a few minutes now. Would you like to log out?</p>
+        <p>You have been inactive for a few minutes now. Would you like to log out?</p>
         <ButtonsContainer>
           <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
           <LogoutButton onLogout={handleLogout}>

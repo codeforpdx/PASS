@@ -19,6 +19,7 @@ import Footer from '../Footer/Footer';
 const Login = () => {
   const redirectUrl = useRedirectUrl();
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <Box sx={{ minHeight: '100vh' }}>
       <Container component="main" maxWidth="xs">
@@ -41,11 +42,7 @@ const Login = () => {
                 </a>
                 ]:{' '}
               </label>
-              <LoginButton
-                oidcIssuer={SOLID_IDENTITY_PROVIDER}
-                redirectUrl={redirectUrl}
-                onError={console.error}
-              >
+              <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
                 {' '}
                 <Button variant="contained" type="submit" color="secondary" size="large">
                   Login
@@ -59,6 +56,7 @@ const Login = () => {
       <Footer />
     </Box>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default Login;
