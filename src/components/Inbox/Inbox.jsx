@@ -15,17 +15,15 @@ import NewMessage from './NewMessage';
 const Inbox = () => {
   const location = useLocation();
 
-  const [showForm, setShowForm] = useState(false);
-
   localStorage.setItem('restorePath', location.pathname);
+
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <>
       <Logout />
       <section id="inbox" className="panel">
-        <StyledButton onClick={() => (showForm ? setShowForm(false) : setShowForm(true))}>
-          New Message
-        </StyledButton>
+        <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
         {showForm && <NewMessage />}
         <div>Placeholder; inbox contents will go here.</div>
       </section>
