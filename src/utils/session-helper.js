@@ -312,7 +312,7 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
  * @function getUserProfileName
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} webId - A user's Solid webId attached to Solid Pod
- * @return {Promise} Promise - Fetch user's name from their Solid Pod profile
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
  */
 
 export const getUserProfileName = async (session, webId) => {
