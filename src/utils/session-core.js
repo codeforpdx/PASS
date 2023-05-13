@@ -718,30 +718,19 @@ export const sendMessageTTL = async (session, messageObject) => {
 
   const recipientInfo = buildThing(createThing({ name: 'recipient' }))
     .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
-    .addUrl(
-      RDF_PREDICATES.url,
-      `https://${messageObject.recipientUsername}.${
-        SOLID_IDENTITY_PROVIDER.split('/')[2]
-      }/profile/card#me`
-    )
+    .addUrl(RDF_PREDICATES.url, recipientWebId)
     .build();
 
   let newSolidDataset = createSolidDataset();
-  newSolidDataset = setThing(newSolidDataset, newMessageTTL);
-  newSolidDataset = setThing(newSolidDataset, senderInfo);
-  newSolidDataset = setThing(newSolidDataset, recipientInfo);
-
-  // Generate message TTL file for recipient container
-  await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
-    slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
-    contentType: 'text/turtle',
-    fetch: session.fetch
+  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+    newSolidDataset = setThing(newSolidDataset, thing);
   });
 
-  // Generate message TTL file for sender container
-  await saveSolidDatasetInContainer(inboxUrl, newSolidDataset, {
-    slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
-    contentType: 'text/turtle',
-    fetch: session.fetch
+  [containerUrl, inboxUrl].forEach(async (inbox) => {
+    await saveSolidDatasetInContainer(inbox, newSolidDataset, {
+      slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
   });
 };

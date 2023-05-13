@@ -32,6 +32,7 @@ const NewMessage = () => {
   // Handles submit (awaiting functionality for this)
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!message.title) {
       setError('Please enter a value for Message Title');
     } else if (!message.recipientUsername) {
