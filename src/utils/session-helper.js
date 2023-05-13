@@ -9,7 +9,10 @@ import {
   createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  getProfileAll,
+  getThing,
+  getStringNoLocale
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import { RDF_PREDICATES } from '../constants';
@@ -300,4 +303,20 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function getUserProfileName
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} webId - A user's Solid webId attached to Solid Pod
+ * @return {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const getUserProfileName = async (session, webId) => {
+  const profile = await getProfileAll(webId, { fetch: session.fetch });
+  const profileDataThing = getThing(profile.webIdProfile, webId);
+  return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
 };

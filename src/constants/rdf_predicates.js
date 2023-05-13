@@ -6,7 +6,8 @@ const RDF_PREDICATES = {
   title: 'https://schema.org/title',
   message: 'https://schema.org/Message',
   recipient: 'https://schema.org/recipient',
-  sender: 'https://schema.org/sender'
+  sender: 'https://schema.org/sender',
+  profileName: 'http://xmlns.com/foaf/0.1/name'
 };
 
 export default RDF_PREDICATES;

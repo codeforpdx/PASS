@@ -29,7 +29,8 @@ import {
   createDocAclForUser,
   createResourceTtlFile,
   updateTTLFile,
-  SOLID_IDENTITY_PROVIDER
+  SOLID_IDENTITY_PROVIDER,
+  getUserProfileName
 } from './session-helper';
 
 /**
@@ -688,15 +689,17 @@ export const updateUserActivity = async (session) => {
  */
 
 export const sendMessageTTL = async (session, messageObject) => {
-  const containerUrl = getContainerUrl(
-    session,
-    'Inbox',
-    'cross-fetch',
-    messageObject.recipientUsername
-  );
+  const { title, message, recipientUsername } = messageObject;
+  const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', recipientUsername);
   const inboxUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
 
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
+  const recipientWebId = `https://${recipientUsername}.${
+    SOLID_IDENTITY_PROVIDER.split('/')[2]
+  }/profile/card#me`;
+
+  const senderName = await getUserProfileName(session, session.info.webId);
+  const recipientName = await getUserProfileName(session, recipientWebId);
 
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
@@ -704,17 +707,17 @@ export const sendMessageTTL = async (session, messageObject) => {
 
   const newMessageTTL = buildThing(createThing({ name: 'message' }))
     .addDatetime(RDF_PREDICATES.uploadDate, date)
-    .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
-    .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
+    .addStringNoLocale(RDF_PREDICATES.title, title)
+    .addStringNoLocale(RDF_PREDICATES.message, message)
     .build();
 
   const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale(RDF_PREDICATES.sender, messageObject.senderName)
+    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
     .addUrl(RDF_PREDICATES.url, session.info.webId)
     .build();
 
   const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale(RDF_PREDICATES.recipient, messageObject.recipientName)
+    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
     .addUrl(
       RDF_PREDICATES.url,
       `https://${messageObject.recipientUsername}.${

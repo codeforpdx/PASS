@@ -14,8 +14,6 @@ import { sendMessageTTL } from '../../utils';
 const NewMessage = () => {
   const { session } = useSession();
   const [message, setMessage] = useState({
-    senderName: '',
-    recipientName: '',
     recipientUsername: '',
     title: '',
     message: ''
@@ -38,18 +36,12 @@ const NewMessage = () => {
       setError('Please enter a value for Message Title');
     } else if (!message.recipientUsername) {
       setError('Please enter a value for Recipient Username');
-    } else if (!message.recipientName) {
-      setError('Please enter a value for Recipient Full Name');
     } else if (!message.message) {
       setError('Please enter a value for the Message');
-    } else if (!message.senderName) {
-      setError('Please enter a value for Sender Full Name');
     } else {
       try {
         await sendMessageTTL(session, message);
         setMessage({
-          senderName: '',
-          recipientName: '',
           recipientUsername: '',
           title: '',
           message: ''
@@ -87,29 +79,11 @@ const NewMessage = () => {
         onChange={(e) => handleChange(e)}
       />
 
-      <label htmlFor="recipientName">Recipient Full Name*: </label>
-      <StyledInput
-        value={message.recipientName}
-        type="text"
-        name="recipientName"
-        id="recipientName"
-        onChange={(e) => handleChange(e)}
-      />
-
       <label htmlFor="message">Message*: </label>
       <StyledTextArea
         value={message.message}
         name="message"
         id="message"
-        onChange={(e) => handleChange(e)}
-      />
-
-      <label htmlFor="senderName">Sender Full Name*: </label>
-      <StyledInput
-        value={message.senderName}
-        type="text"
-        name="senderName"
-        id="senderName"
         onChange={(e) => handleChange(e)}
       />
 
