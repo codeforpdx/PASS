@@ -12,7 +12,8 @@ import {
   saveSolidDatasetAt,
   getProfileAll,
   getThing,
-  getStringNoLocale
+  getStringNoLocale,
+  saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import { RDF_PREDICATES } from '../constants';
@@ -319,4 +320,24 @@ export const getUserProfileName = async (session, webId) => {
   const profile = await getProfileAll(webId, { fetch: session.fetch });
   const profileDataThing = getThing(profile.webIdProfile, webId);
   return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function saveMessageTTLInInbox
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} containerUrl - URL location of Pod container
+ * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
+ * @param {string} slug - The slug suggestion for the message file
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const saveMessageTTLInInbox = async (session, containerUrl, solidDatset, slug) => {
+  await saveSolidDatasetInContainer(containerUrl, solidDatset, {
+    slugSuggestion: `${slug}.ttl`,
+    contentType: 'text/turtle',
+    fetch: session.fetch
+  });
 };

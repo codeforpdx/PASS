@@ -30,7 +30,8 @@ import {
   createResourceTtlFile,
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
-  getUserProfileName
+  getUserProfileName,
+  saveMessageTTLInInbox
 } from './session-helper';
 
 /**
@@ -699,7 +700,13 @@ export const sendMessageTTL = async (session, messageObject) => {
   }/profile/card#me`;
 
   const senderName = await getUserProfileName(session, session.info.webId);
-  const recipientName = await getUserProfileName(session, recipientWebId);
+  let recipientName;
+
+  try {
+    recipientName = await getUserProfileName(session, recipientWebId);
+  } catch (error) {
+    throw new Error('Message failed to send. Reason: Recipient username not found');
+  }
 
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
@@ -726,11 +733,14 @@ export const sendMessageTTL = async (session, messageObject) => {
     newSolidDataset = setThing(newSolidDataset, thing);
   });
 
-  [containerUrl, inboxUrl].forEach(async (inbox) => {
-    await saveSolidDatasetInContainer(inbox, newSolidDataset, {
-      slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-  });
+  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+
+  try {
+    await Promise.all([
+      await saveMessageTTLInInbox(session, containerUrl, newSolidDataset, messageSlug),
+      await saveMessageTTLInInbox(session, inboxUrl, newSolidDataset, messageSlug)
+    ]);
+  } catch (error) {
+    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
+  }
 };
