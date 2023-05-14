@@ -51,7 +51,7 @@ const NewMessage = () => {
         setSuccess(`Message successfully sent to ${message.recipientUsername}`);
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
-        setError('Recipient username does not exist');
+        setError('Recipient username not found');
       }
     }
   };
