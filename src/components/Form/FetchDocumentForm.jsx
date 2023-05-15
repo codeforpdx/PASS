@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@mui/material/Button';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
@@ -64,10 +65,10 @@ const FetchDocumentForm = () => {
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
+          <DocumentSelection htmlId="search-doctype" />
+          <Button variant="contained" fullWidth disabled={state.processing} type="submit">
             Get Document
-          </button>
+          </Button>
         </div>
       </form>
     </FormSection>

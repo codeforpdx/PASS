@@ -1,4 +1,8 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { StatusNotification } from '../Notification';
 
 /**
@@ -16,16 +20,28 @@ import { StatusNotification } from '../Notification';
  */
 
 const FormSection = ({ title, state, statusType, defaultMessage, children }) => (
-  <section className="panel">
-    <strong>{title}</strong>
-    {children}
-    <StatusNotification
-      notification={state.message}
-      statusType={statusType}
-      defaultMessage={defaultMessage}
-      locationUrl={state.documentUrl}
-    />
-  </section>
+  <Container>
+    <Box
+      sx={{
+        marginTop: 3,
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+        <Typography display="flex" justifyContent="center" alignItems="center">
+          <strong>{title}</strong>
+        </Typography>
+        {children}
+        <StatusNotification
+          notification={state.message}
+          statusType={statusType}
+          defaultMessage={defaultMessage}
+          locationUrl={state.documentUrl}
+        />
+      </Paper>
+    </Box>
+  </Container>
 );
 
 export default FormSection;
