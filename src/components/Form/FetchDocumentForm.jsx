@@ -1,6 +1,15 @@
-import React from 'react';
-import Button from '@mui/material/Button';
+// React Imports
+import React, { useState } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+// Custom Component Imports
 import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -17,6 +26,12 @@ import FormSection from './FormSection';
 const FetchDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+
+  const [documentType, setdocumentType] = useState('');
+
+  const handleChange = (event) => {
+    setdocumentType(event.target.value);
+  };
 
   // Event handler for searching/fetching document
   const handleGetDocumentSubmission = async (event) => {
@@ -66,6 +81,24 @@ const FetchDocumentForm = () => {
         <div style={formRowStyle}>
           <label htmlFor="search-doctype">Select document type to search: </label>
           <DocumentSelection htmlId="search-doctype" />
+
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel id="select-document-type-label">Document Type</InputLabel>
+              <Select
+                labelId="select-document-type-label"
+                id="select-document-type"
+                value={documentType}
+                label="Document Type"
+                onChange={handleChange}
+              >
+                <MenuItem value="bankStatement">Bank Statement</MenuItem>
+                <MenuItem value="passport">Passport</MenuItem>
+                <MenuItem value="driversLicense">Driver&apos;s License</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
           <Button variant="contained" fullWidth disabled={state.processing} type="submit">
             Get Document
           </Button>
