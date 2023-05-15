@@ -12,6 +12,7 @@ import NewMessage from './NewMessage';
  * @name Inbox
  */
 
+<<<<<<< HEAD
 const Inbox = () => {
   const location = useLocation();
 
@@ -30,6 +31,16 @@ const Inbox = () => {
     </>
   );
 };
+=======
+const Inbox = () => (
+  <>
+    <AppHeader />
+    <section id="inbox" className="panel">
+      <div>Placeholder; inbox contents will go here.</div>
+    </section>
+  </>
+);
+>>>>>>> give keys to user
 
 const StyledButton = styled('button')({
   width: '150px',

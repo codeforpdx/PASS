@@ -289,8 +289,12 @@ const createFileChecksum = async (fileObject) => {
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  * @param {string} documentUrl - url of uploaded document or resource
+<<<<<<< HEAD
  * @returns {Promise} Promise - Perform action to generate a newly generated
  * Thing from buildThing
+=======
+ * @returns {Thing}
+>>>>>>> give keys to user
  */
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
   const checksum = await createFileChecksum(fileObject);
