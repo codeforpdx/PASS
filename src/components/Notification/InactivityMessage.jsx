@@ -22,7 +22,7 @@ const InactivityMessage = () => {
   // Checks for active user by looking for a loggedIn key in local storage
   useEffect(() => {
     const activeCheck = localStorage.getItem('loggedIn');
-    if (activeCheck) setActiveUser(true);
+    setActiveUser(activeCheck === 'true');
   }, []);
 
   // Toggles the popup after three minutes of inactivity

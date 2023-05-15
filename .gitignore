@@ -9,7 +9,6 @@
 !/docs/README.md
 /dist
 bundleStats.html
-/localDevPodStorage
 /local_temp_server_files
 /.vscode
 /coverage
