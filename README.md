@@ -10,7 +10,8 @@
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-[![All Contributors](https://img.shields.io/github/all-contributors/jared-krajewski/PASS?color=ee8449&style=flat-square)](#contributors)
+
+[![All Contributors](https://img.shields.io/github/all-contributors/Jared-Krajewski/PASS?color=ee8449&style=flat-square)](#contributors)
 
 
 
