@@ -21,40 +21,37 @@ const Login = () => {
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <Box sx={{ minHeight: '100vh' }}>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 5,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            padding: '20px'
-          }}
-        >
-          <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-            <section id="login">
-              <label id="labelLogin">
-                Click the following login button to log into your pod at [
-                <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-                  {SOLID_IDENTITY_PROVIDER}
-                </a>
-                ]:{' '}
-              </label>
-              <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
-                {' '}
-                <Button variant="contained" type="submit" color="secondary" size="large">
-                  Login
-                </Button>
-              </LoginButton>
-              <p>Not logged in</p>
-            </section>
-          </Paper>
-        </Box>
-      </Container>
-      <Footer />
-    </Box>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          padding: '20px'
+        }}
+      >
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <section id="login">
+            <label id="labelLogin">
+              Click the following login button to log into your pod at [
+              <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
+                {SOLID_IDENTITY_PROVIDER}
+              </a>
+              ]:{' '}
+            </label>
+            <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
+              {' '}
+              <Button variant="contained" type="submit" color="secondary" size="large">
+                Login
+              </Button>
+            </LoginButton>
+            <p>Not logged in</p>
+          </section>
+        </Paper>
+      </Box>
+    </Container>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
 };
