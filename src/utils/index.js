@@ -26,7 +26,8 @@ import {
   getUserListActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
-  checkContainerPermission
+  checkContainerPermission,
+  sendMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -49,5 +50,6 @@ export {
   getUserListActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
-  checkContainerPermission
+  checkContainerPermission,
+  sendMessageTTL
 };

@@ -9,7 +9,11 @@ import {
   createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  getProfileAll,
+  getThing,
+  getStringNoLocale,
+  saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import { RDF_PREDICATES } from '../constants';
@@ -36,6 +40,10 @@ import { RDF_PREDICATES } from '../constants';
 
 /**
  * @typedef {import('../typedefs').fileObjectType} fileObjectType
+ */
+
+/**
+ * @typedef {import('@inrupt/solid-client').ThingLocal} ThingLocal
  */
 
 /**
@@ -263,7 +271,8 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
  * @function createFileChecksum
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - Generates checksum for uploaded file using the SHA256 algorithm
+ * @returns {Promise} Promise - Generates checksum for uploaded file using the
+ * SHA256 algorithm
  */
 const createFileChecksum = async (fileObject) => {
   const { file } = fileObject;
@@ -280,7 +289,8 @@ const createFileChecksum = async (fileObject) => {
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  * @param {string} documentUrl - url of uploaded document or resource
- * @returns {object}
+ * @returns {Promise} Promise - Perform action to generate a newly generated
+ * Thing from buildThing
  */
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
   const checksum = await createFileChecksum(fileObject);
@@ -294,4 +304,40 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function getUserProfileName
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} webId - A user's Solid webId attached to Solid Pod
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const getUserProfileName = async (session, webId) => {
+  const profile = await getProfileAll(webId, { fetch: session.fetch });
+  const profileDataThing = getThing(profile.webIdProfile, webId);
+  return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function saveMessageTTLInInbox
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} containerUrl - URL location of Pod container
+ * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
+ * @param {string} slug - The slug suggestion for the message file
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const saveMessageTTLInInbox = async (session, containerUrl, solidDatset, slug) => {
+  await saveSolidDatasetInContainer(containerUrl, solidDatset, {
+    slugSuggestion: `${slug}.ttl`,
+    contentType: 'text/turtle',
+    fetch: session.fetch
+  });
 };

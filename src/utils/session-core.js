@@ -29,7 +29,9 @@ import {
   createDocAclForUser,
   createResourceTtlFile,
   updateTTLFile,
-  SOLID_IDENTITY_PROVIDER
+  SOLID_IDENTITY_PROVIDER,
+  getUserProfileName,
+  saveMessageTTLInInbox
 } from './session-helper';
 
 /**
@@ -478,8 +480,9 @@ export const getUserListActivity = async (session, userList) => {
         );
         const activeTTLThing = getThingAll(solidDataset)[0];
         const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
-        user.dateModified = lastActiveTime;
-        return user;
+        const updatedUser = user;
+        updatedUser.dateModified = lastActiveTime;
+        return updatedUser;
       } catch {
         return user;
       }
@@ -683,33 +686,61 @@ export const updateUserActivity = async (session) => {
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
- * @param {string} otherPodUsername - The username of the other user you're sending a message to
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
 
-export const sendMessageTTL = async (session, messageObject, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', otherPodUsername);
+export const sendMessageTTL = async (session, messageObject) => {
+  const { title, message, recipientUsername } = messageObject;
+  const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', recipientUsername);
+  const inboxUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
+  const recipientWebId = `https://${recipientUsername}.${
+    SOLID_IDENTITY_PROVIDER.split('/')[2]
+  }/profile/card#me`;
+
+  const senderName = await getUserProfileName(session, session.info.webId);
+  let recipientName;
+
+  try {
+    recipientName = await getUserProfileName(session, recipientWebId);
+  } catch (error) {
+    throw new Error('Message failed to send. Reason: Recipient username not found');
+  }
 
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
-  const newTtlFile = buildThing(createThing({ name: 'document' }))
-    .addDatetime('https://schema.org/uploadDate', date)
-    .addStringNoLocale(SCHEMA_INRUPT.name, messageObject.file.name)
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, messageObject.type)
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, messageObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, messageObject.description)
+  const newMessageTTL = buildThing(createThing({ name: 'message' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, date)
+    .addStringNoLocale(RDF_PREDICATES.title, title)
+    .addStringNoLocale(RDF_PREDICATES.message, message)
+    .build();
+
+  const senderInfo = buildThing(createThing({ name: 'sender' }))
+    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
+    .addUrl(RDF_PREDICATES.url, session.info.webId)
+    .build();
+
+  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
+    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
+    .addUrl(RDF_PREDICATES.url, recipientWebId)
     .build();
 
   let newSolidDataset = createSolidDataset();
-  newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-  // Generate document.ttl file for container
-  await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
-    slugSuggestion: `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}.ttl`,
-    contentType: 'text/turtle',
-    fetch: session.fetch
+  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+    newSolidDataset = setThing(newSolidDataset, thing);
   });
+
+  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+
+  try {
+    await Promise.all([
+      await saveMessageTTLInInbox(session, containerUrl, newSolidDataset, messageSlug),
+      await saveMessageTTLInInbox(session, inboxUrl, newSolidDataset, messageSlug)
+    ]);
+  } catch (error) {
+    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
+  }
 };
