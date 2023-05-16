@@ -9,6 +9,8 @@ import {
   universalAccess
 } from '@inrupt/solid-client';
 
+import { createDocAclForUser } from './session-helper';
+
 import { RDF_PREDICATES } from '../constants';
 
 const generateRsaKeyStrings = async () => {
@@ -54,6 +56,7 @@ const createPassUserCredentials = async () => {
 const savePassUserCredentials = async (dataSets, session) => {
   const privateKeyDataSet = dataSets.private;
   const publicKeyDataSet = dataSets.public;
+  const containerUrl = `${String(session.info.webId.split('profile')[0])}/PASS_Credentials/`;
   const privateKeyUrl = `${String(
     session.info.webId.split('profile')[0]
   )}/PASS_Credentials/private_key.ttl`;
@@ -68,19 +71,19 @@ const savePassUserCredentials = async (dataSets, session) => {
     fetch: session.fetch
   });
 
-  const privateKeyPublicAccess = {
-    read: false,
-    write: false,
-    append: false
-  };
   const publicKeyPublicAccess = {
     read: true,
     write: false,
     append: false
   };
 
-  await universalAccess.setPublicAccess(privateKeyUrl, privateKeyPublicAccess);
-  await universalAccess.setPublicAccess(publicKeyUrl, publicKeyPublicAccess);
+  await createDocAclForUser(session, containerUrl);
+  await createDocAclForUser(session, privateKeyUrl);
+  await createDocAclForUser(session, publicKeyUrl);
+
+  await universalAccess.setPublicAccess(publicKeyUrl, publicKeyPublicAccess, {
+    fetch: session.fetch
+  });
 };
 
 const getUserSigningKeyInternal = async (session) => {
