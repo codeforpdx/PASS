@@ -13,7 +13,7 @@ import {
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import { RDF_PREDICATES } from '../constants';
-
+// see sandbox/barcode_scanner/rdf_prediates.txt
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
  */
@@ -282,16 +282,20 @@ const createFileChecksum = async (fileObject) => {
  * @param {string} documentUrl - url of uploaded document or resource
  * @returns {object}
  */
-export const createResourceTtlFile = async (fileObject, documentUrl) => {
-  const checksum = await createFileChecksum(fileObject);
 
-  return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
-    .build();
-};
+// NOTE: this is where you'll have to change check for DL
+export const createResourceTtlFile = async (fileObject, documentUrl) =>
+  // if (fileObject.type === "Drivers License") {}
+  {
+    const checksum = await createFileChecksum(fileObject);
+
+    return buildThing(createThing({ name: 'document' }))
+      .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+      .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+      .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
+      .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+      .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+      .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+      .addUrl(RDF_PREDICATES.url, documentUrl)
+      .build();
+  };
