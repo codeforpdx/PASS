@@ -156,7 +156,6 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
 
 // Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
-  console.log('fileObject.type :=>', fileObject.type); // use this to test if DL is selected
   let containerUrl;
   const fileName = fileObject.file.name;
   if (uploadType === UPLOAD_TYPES.SELF) {
@@ -179,7 +178,7 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
 
   // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, containerUrl);
-  // this is probably where to look see utils/session-helper
+  // NOTE: consider putting your if (Drivers License) check here...
   const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
 
   let newSolidDataset = createSolidDataset();
