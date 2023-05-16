@@ -166,10 +166,8 @@ export const generateRsaSignature = async (key, data) => {
     messageData
   );
   // sign() returns an array buffer containing the raw bytes of the hash
-  // Convert these bytes into a string using TextDecoder
-  // TextDecoder defaults to utf-8
-  const signature = new TextDecoder().decode(arrayBuffer);
-  return signature;
+  // Convert these bytes into a base64 encoded string
+  return window.btoa(String.fromCharCode.apply(null, [...new Uint8Array(arrayBuffer)]));
 };
 
 export const signDocumentTtlFile = async (signingKey, dataSet, session, dataSetUrl) => {
@@ -186,4 +184,21 @@ export const signDocumentTtlFile = async (signingKey, dataSet, session, dataSetU
 
   const newSolidDataset = createSolidDataset();
   return setThing(newSolidDataset, signatureThing);
+};
+
+export const validateSignature = async (publicKey, signature, document) => {
+  // Convert signature from base64 string to arrayBuffer
+  const decodeSignature = (base64String) =>
+    Uint8Array.from(window.atob(base64String), (c) => c.charCodeAt(0));
+
+  const result = await window.crypto.subtle.verify(
+    {
+      name: 'RSA-PSS',
+      saltLength: 32
+    },
+    publicKey,
+    decodeSignature(signature),
+    new TextEncoder().encode(document)
+  );
+  return result;
 };
