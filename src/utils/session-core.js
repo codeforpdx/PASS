@@ -33,7 +33,7 @@ import {
   getUserProfileName,
   saveMessageTTLInInbox
 } from './session-helper';
-import getUserSigningKey from './credentials-helper';
+import { getUserSigningKey, signDocumentTtlFile } from './credentials-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -193,6 +193,9 @@ export const uploadDocument = async (
 
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
+  const signatureDataset = signingKey
+    ? await signDocumentTtlFile(signingKey, newSolidDataset, session, containerUrl)
+    : null;
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
@@ -200,6 +203,14 @@ export const uploadDocument = async (
     contentType: 'text/turtle',
     fetch: session.fetch
   });
+
+  if (signatureDataset) {
+    await saveSolidDatasetInContainer(containerUrl, signatureDataset, {
+      slugSuggestion: 'signature.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+  }
 
   if (uploadType === UPLOAD_TYPES.SELF) {
     // Generate ACL file for container

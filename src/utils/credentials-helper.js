@@ -5,6 +5,7 @@ import {
   buildThing,
   createThing,
   saveSolidDatasetAt,
+  saveSolidDatasetInContainer,
   setThing,
   universalAccess,
   getStringNoLocale
@@ -92,7 +93,10 @@ const getUserSigningKeyInternal = async (session) => {
     session.info.webId.split('profile')[0]
   )}/PASS_Credentials/private_key.ttl`;
   const dataSet = await getSolidDataset(privateKeyUrl, { fetch: session.fetch });
-  const keyString = getStringNoLocale(getThing(dataSet, `${privateKeyUrl}#privateKey`), RDF_PREDICATES.identifier);
+  const keyString = getStringNoLocale(
+    getThing(dataSet, `${privateKeyUrl}#privateKey`),
+    RDF_PREDICATES.identifier
+  );
   const key = await window.crypto.subtle.importKey(
     'jwk',
     JSON.parse(keyString),
@@ -101,9 +105,9 @@ const getUserSigningKeyInternal = async (session) => {
       hash: 'SHA-256'
     },
     false,
-    ["sign"]
+    ['sign']
   );
-  return key
+  return key;
 };
 
 const InitializePassUserCredentials = async (session) => {
@@ -119,7 +123,7 @@ const InitializePassUserCredentials = async (session) => {
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
-const getUserSigningKey = async (session) => {
+export const getUserSigningKey = async (session) => {
   let key = null;
   try {
     try {
@@ -132,7 +136,58 @@ const getUserSigningKey = async (session) => {
     key = null;
   }
   return key;
-
 };
 
-export default getUserSigningKey;
+export const serializeDataSet = async (ttlFile) => {
+  let serializedTtl = '';
+  const mockFetch = async (_url, { body }) => {
+    serializedTtl = body;
+    return new Response({}, { status: 200 });
+  };
+
+  // Inrupt's Solid client doesn't expose a Thing serializer,
+  // but it does expose a fetch in the saveSolidDatasetInContainer function
+  // that puts the serialized document in the body
+  try {
+    await saveSolidDatasetInContainer('ignored url', ttlFile, {
+      fetch: mockFetch
+    });
+  } catch {
+    return serializedTtl;
+  }
+
+  return serializedTtl;
+};
+
+export const generateRsaSignature = async (key, data) => {
+  const messageData = new TextEncoder().encode(data);
+  const arrayBuffer = await window.crypto.subtle.sign(
+    {
+      name: 'RSA-PSS',
+      saltLength: 32
+    },
+    key,
+    messageData
+  );
+  // sign() returns an array buffer containing the raw bytes of the hash
+  // Convert these bytes into a string using TextDecoder
+  // TextDecoder defaults to utf-8
+  const signature = new TextDecoder().decode(arrayBuffer);
+  return signature;
+};
+
+export const signDocumentTtlFile = async (signingKey, dataSet, session, dataSetUrl) => {
+  const serializedTtl = await serializeDataSet(dataSet);
+
+  const signature = await generateRsaSignature(signingKey, serializedTtl);
+  const verifier = session.info.webId;
+
+  const signatureThing = buildThing(createThing({ name: 'signature' }))
+    .addStringNoLocale(RDF_PREDICATES.identifier, signature)
+    .addUrl(RDF_PREDICATES.url, verifier)
+    .addUrl(RDF_PREDICATES.url, dataSetUrl)
+    .build();
+
+  const newSolidDataset = createSolidDataset();
+  return setThing(newSolidDataset, signatureThing);
+};
