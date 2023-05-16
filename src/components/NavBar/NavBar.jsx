@@ -81,6 +81,7 @@ const NavBar = () => {
                   >
                     <Tab value="home" label="Home" component={Link} to="/PASS/home/" />
                     <Tab value="forms" label="Forms" component={Link} to="/PASS/forms/" />
+                    <Tab value="inbox" label="Inbox" component={Link} to="/PASS/inbox/" />
                   </Tabs>
                 </Box>
                 <Box sx={{ flexGrow: 1 }} />

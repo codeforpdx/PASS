@@ -1,6 +1,6 @@
+import { expect, vi, it, describe } from 'vitest';
 import { createResourceTtlFile } from './session-helper';
 import { UPLOAD_TYPES } from '../constants';
-import { assert, expect, vi, it, describe } from 'vitest';
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
