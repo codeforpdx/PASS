@@ -1,7 +1,23 @@
-import { expect, it, describe } from 'vitest';
+import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
 import { webcrypto } from 'crypto';
-import { buildThing, createThing, createSolidDataset, setThing } from '@inrupt/solid-client';
-import { serializeDataSet, generateRsaSignature, validateSignature } from './credentials-helper';
+import {
+  buildThing,
+  createThing,
+  createSolidDataset,
+  setThing,
+  mockSolidDatasetFrom,
+  getSolidDataset,
+  saveAclFor,
+  saveSolidDatasetAt,
+  setAgentResourceAccess,
+  setAgentDefaultAccess
+} from '@inrupt/solid-client';
+import {
+  serializeDataSet,
+  generateRsaSignature,
+  validateSignature,
+  getUserSigningKey
+} from './credentials-helper';
 import { RDF_PREDICATES } from '../constants';
 
 describe('credentials', async () => {
@@ -20,8 +36,11 @@ describe('credentials', async () => {
     true,
     ['sign', 'verify']
   );
+  const privateKeySerialized = JSON.stringify(
+    await window.crypto.subtle.exportKey('jwk', privateKey)
+  );
 
-  const document = '<#document> <http://schema.org/name> "tim".';
+  const document = '<#document> <http://schema.org/name> "tim".\n';
 
   const b642ab = (base64String) =>
     Uint8Array.from(window.atob(base64String), (c) => c.charCodeAt(0));
@@ -35,7 +54,7 @@ describe('credentials', async () => {
       let newSolidDataset = createSolidDataset();
       newSolidDataset = setThing(newSolidDataset, thing);
 
-      const expectedResult = '<#document> <http://schema.org/name> "tim".\n';
+      const expectedResult = document;
 
       const result = await serializeDataSet(newSolidDataset);
 
@@ -73,6 +92,82 @@ describe('credentials', async () => {
     it('returns false when validating the signature for a different document', async () => {
       const hash = await generateRsaSignature(privateKey, document);
       expect(await validateSignature(publicKey, hash, 'new document')).toBe(false);
+    });
+  });
+
+  describe('getUserSigningKey', () => {
+    vi.mock('@inrupt/solid-client', async () => {
+      const actual = await vi.importActual('@inrupt/solid-client');
+      return {
+        ...actual,
+        saveAclFor: vi.fn(),
+        saveSolidDatasetAt: vi.fn(),
+        getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
+        setAgentResourceAccess: vi.fn(),
+        setAgentDefaultAccess: vi.fn()
+      };
+    });
+
+    let session;
+
+    beforeEach(() => {
+      session = {
+        fetch: vi.fn(),
+        info: {
+          webId: 'http://localhost:3000/profile'
+        }
+      };
+    });
+
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('fetches private key when key already exists', async () => {
+      // Return a mock dataset with the desired Thing
+      getSolidDataset.mockImplementationOnce((url) => {
+        const thing = buildThing(createThing({ name: 'privateKey' }))
+          .addStringNoLocale(RDF_PREDICATES.sha256, privateKeySerialized)
+          .build();
+
+        const dataSet = mockSolidDatasetFrom(url);
+        return Promise.resolve(setThing(dataSet, thing));
+      });
+
+      const key = await getUserSigningKey(session);
+      expect(key).toBeInstanceOf(webcrypto.CryptoKey);
+    });
+
+    it('creates keys when keys do not yet exist', async () => {
+      setAgentResourceAccess.mockReturnValue();
+      setAgentDefaultAccess.mockReturnValue();
+
+      // First call fails because private key does not exist
+      // Next calls create ACL documents
+      getSolidDataset
+        .mockRejectedValueOnce(new Error('Async error message'))
+        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)))
+        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)))
+        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)));
+
+      // Fifth call returns private key.
+      getSolidDataset.mockImplementationOnce((url) => {
+        const thing = buildThing(createThing({ name: 'privateKey' }))
+          .addStringNoLocale(RDF_PREDICATES.sha256, privateKeySerialized)
+          .build();
+
+        const dataSet = mockSolidDatasetFrom(url);
+        return Promise.resolve(setThing(dataSet, thing));
+      });
+
+      saveAclFor.mockResolvedValue();
+      saveSolidDatasetAt.mockResolvedValue();
+
+      const key = await getUserSigningKey(session);
+
+      expect(key).toBeInstanceOf(webcrypto.CryptoKey);
+      expect(saveSolidDatasetAt).toBeCalledTimes(2);
+      expect(saveAclFor).toBeCalledTimes(3);
     });
   });
 });
