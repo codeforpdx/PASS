@@ -7,8 +7,4 @@ import NewMessage from './NewMessage';
  * @namespace Inbox
  */
 
-<<<<<<< HEAD
 export { Inbox, NewMessage };
-=======
-export default Inbox;
->>>>>>> give keys to user
