@@ -7,7 +7,6 @@ import {
   saveSolidDatasetAt,
   saveSolidDatasetInContainer,
   setThing,
-  universalAccess,
   getStringNoLocale
 } from '@inrupt/solid-client';
 
@@ -40,12 +39,12 @@ const createPassUserCredentials = async () => {
   const { privateKey, publicKey } = await generateRsaKeyStrings();
 
   const privateKeyThing = buildThing(createThing({ name: 'privateKey' }))
-    .addStringNoLocale(RDF_PREDICATES.identifier, JSON.stringify(privateKey))
+    .addStringNoLocale(RDF_PREDICATES.sha256, JSON.stringify(privateKey))
     .build();
   const privateKeyDataSet = setThing(createSolidDataset(), privateKeyThing);
 
   const publicKeyThing = buildThing(createThing({ name: 'publicKey' }))
-    .addStringNoLocale(RDF_PREDICATES.identifier, JSON.stringify(publicKey))
+    .addStringNoLocale(RDF_PREDICATES.sha256, JSON.stringify(publicKey))
     .build();
   const publicKeyDataSet = setThing(createSolidDataset(), publicKeyThing);
 
@@ -58,13 +57,13 @@ const createPassUserCredentials = async () => {
 const savePassUserCredentials = async (dataSets, session) => {
   const privateKeyDataSet = dataSets.private;
   const publicKeyDataSet = dataSets.public;
-  const containerUrl = `${String(session.info.webId.split('profile')[0])}/PASS_Credentials/`;
+  const containerUrl = `${String(session.info.webId.split('profile')[0])}PASS_Credentials/`;
   const privateKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}/PASS_Credentials/private_key.ttl`;
+  )}PASS_Credentials/private_key.ttl`;
   const publicKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}/PASS_Credentials/public_key.ttl`;
+  )}PASS_Credentials/public_key.ttl`;
 
   await saveSolidDatasetAt(privateKeyUrl, privateKeyDataSet, {
     fetch: session.fetch
@@ -73,29 +72,26 @@ const savePassUserCredentials = async (dataSets, session) => {
     fetch: session.fetch
   });
 
-  const publicKeyPublicAccess = {
+  const keyAccessAcl = {
     read: true,
     write: false,
-    append: false
+    append: false,
+    control: true
   };
 
-  await createDocAclForUser(session, containerUrl);
-  await createDocAclForUser(session, privateKeyUrl);
-  await createDocAclForUser(session, publicKeyUrl);
-
-  await universalAccess.setPublicAccess(publicKeyUrl, publicKeyPublicAccess, {
-    fetch: session.fetch
-  });
+  await createDocAclForUser(session, containerUrl, keyAccessAcl);
+  await createDocAclForUser(session, privateKeyUrl, keyAccessAcl);
+  await createDocAclForUser(session, publicKeyUrl, keyAccessAcl);
 };
 
 const getUserSigningKeyInternal = async (session) => {
   const privateKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}/PASS_Credentials/private_key.ttl`;
+  )}PASS_Credentials/private_key.ttl`;
   const dataSet = await getSolidDataset(privateKeyUrl, { fetch: session.fetch });
   const keyString = getStringNoLocale(
     getThing(dataSet, `${privateKeyUrl}#privateKey`),
-    RDF_PREDICATES.identifier
+    RDF_PREDICATES.sha256
   );
   const key = await window.crypto.subtle.importKey(
     'jwk',
@@ -183,8 +179,8 @@ export const signDocumentTtlFile = async (signingKey, dataSet, session, dataSetU
   const verifier = session.info.webId;
 
   const signatureThing = buildThing(createThing({ name: 'signature' }))
-    .addStringNoLocale(RDF_PREDICATES.identifier, signature)
-    .addUrl(RDF_PREDICATES.url, verifier)
+    .addStringNoLocale(RDF_PREDICATES.sha256, signature)
+    .addUrl(RDF_PREDICATES.accountablePerson, verifier)
     .addUrl(RDF_PREDICATES.url, dataSetUrl)
     .build();
 
