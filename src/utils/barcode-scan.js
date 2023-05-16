@@ -29,18 +29,20 @@ const csvToJson = (csvData) => {
   // TODO: Clean up this logic later...
   const keys = [];
   const values = [];
-  const finalArr = [];
   rows.forEach((row) => {
     keys.push(row.substring(0, 3));
     values.push(row.substring(3, row.length));
   });
 
+  const obj = {};
   rows.forEach((row, i) => {
-    const obj = {};
-    obj[`${keys[i]}`] = `${values[i]}`;
-    finalArr.push(obj);
+    if (i === 0) {
+      obj.DCA = `${values[i]}`
+    } else {
+      obj[`${keys[i]}`] = `${values[i]}`;
+    }
   });
-  return finalArr;
+  return obj;
 };
 
 const getDriversLicenseData = async (file) => {
@@ -49,7 +51,7 @@ const getDriversLicenseData = async (file) => {
   let returnedData = '';
   if (decoded) {
     const jsonData = csvToJson(decoded);
-    returnedData = JSON.stringify(jsonData, null, 2);
+    returnedData = jsonData;
   } else {
     returnedData = new Error('Unable to decode file');
   }

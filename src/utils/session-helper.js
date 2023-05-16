@@ -274,34 +274,45 @@ const createFileChecksum = async (fileObject) => {
 };
 
 /**
- * Helper Function that returns TtlFile based off of image passed
+ * Helper Function that returns Driver's License ttl file based off of image passed
  *
  * @memberof utils
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {string} documentUrl - url of uploaded document or resource
  */
 
-const createDriversLicenseTtlFile = (fileObject) => {
-  // console.log('documentUrl :=>', documentUrl)
-  // use fileObject.file to retrieve barcode information
-  // NOTE: you cannot console.log here to check, so but you can from session-core.js
-  const driversLicenseData = getDriversLicenseData(fileObject.file);
-  // TODO: create a separate RDF_PREDICATES like constant specific to  DL info
-  // follow @timbot's recommendations on schema and investigate schema.org
-  // documentation even further
-  //
-  // TODO: Pass this information into another function like so:
-  //  return buildThing(createThing({ name: 'document' }))
-  // .addDatetime(RDF_PREDICATES.uploadDate, new Date())
-  // .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-  // .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
-  // .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-  // .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
-  // .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-  // .addUrl(RDF_PREDICATES.url, documentUrl)
-  // .build();
+const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
+  const dlData = await getDriversLicenseData(fileObject.file);
+  return buildThing(createThing({ name: 'document' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
+    .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
+    .addStringNoLocale(RDF_PREDICATES.expires, dlData.DBA)
+    .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
+    .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
+    .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
+    .addStringNoLocale(RDF_PREDICATES.dateIssued, dlData.DBD)
+    .addStringNoLocale(RDF_PREDICATES.dateOfBirth, dlData.DBB)
+    .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
+    .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
+    .addStringNoLocale(RDF_PREDICATES.height, dlData.DAU)
+    .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
+    .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
+    .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
+    .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
+    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
+    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
+    .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
 
-  return driversLicenseData;
+    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addUrl(RDF_PREDICATES.url, documentUrl)
+    .build();
 };
 
 /**
@@ -315,12 +326,11 @@ const createDriversLicenseTtlFile = (fileObject) => {
  * @returns {object}
  */
 
-// NOTE: this is where you'll have to change check for DL
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
   const checksum = await createFileChecksum(fileObject);
 
   if (fileObject.type === 'Drivers License') {
-    return createDriversLicenseTtlFile(fileObject, documentUrl);
+    return createDriversLicenseTtlFile(fileObject, documentUrl, checksum);
   }
 
   return buildThing(createThing({ name: 'document' }))

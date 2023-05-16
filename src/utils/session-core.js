@@ -178,7 +178,6 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
 
   // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, containerUrl);
-  // NOTE: consider putting your if (Drivers License) check here...
   const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
 
   let newSolidDataset = createSolidDataset();
@@ -698,10 +697,10 @@ export const sendMessageTTL = async (session, messageObject, otherPodUsername) =
 
   const newTtlFile = buildThing(createThing({ name: 'document' }))
     .addDatetime('https://schema.org/uploadDate', date)
-    .addStringNoLocale(SCHEMA_INRUPT.name, messageObject.file.name)
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, messageObject.type)
-    .addStringNoLocale(SCHEMA_INRUPT.endDate, messageObject.date)
-    .addStringNoLocale(SCHEMA_INRUPT.description, messageObject.description)
+    .addStringNoLocale(RDF_PREDICATES.name, messageObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.identifier, messageObject.type)
+    .addStringNoLocale(RDF_PREDICATES.endDate, messageObject.date)
+    .addStringNoLocale(RDF_PREDICATES.description, messageObject.description)
     .build();
 
   let newSolidDataset = createSolidDataset();

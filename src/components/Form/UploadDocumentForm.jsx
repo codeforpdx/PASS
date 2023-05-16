@@ -21,7 +21,6 @@ const UploadDocumentForm = () => {
   // Initalized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
-      console.log('event.target.files[0] :=>', event.target.files[0])
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
     } else {
       dispatch({ type: 'CLEAR_FILE' });
