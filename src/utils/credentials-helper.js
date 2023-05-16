@@ -6,7 +6,8 @@ import {
   createThing,
   saveSolidDatasetAt,
   setThing,
-  universalAccess
+  universalAccess,
+  getStringNoLocale
 } from '@inrupt/solid-client';
 
 import { createDocAclForUser } from './session-helper';
@@ -16,13 +17,13 @@ import { RDF_PREDICATES } from '../constants';
 const generateRsaKeyStrings = async () => {
   const { privateKey, publicKey } = await window.crypto.subtle.generateKey(
     {
-      name: 'RSA-OAEP',
+      name: 'RSA-PSS',
       modulusLength: 4096,
       publicExponent: new Uint8Array([1, 0, 1]),
       hash: 'SHA-256'
     },
     true,
-    ['encrypt', 'decrypt']
+    ['sign', 'verify']
   );
 
   const privateExported = await window.crypto.subtle.exportKey('jwk', privateKey);
@@ -91,7 +92,18 @@ const getUserSigningKeyInternal = async (session) => {
     session.info.webId.split('profile')[0]
   )}/PASS_Credentials/private_key.ttl`;
   const dataSet = await getSolidDataset(privateKeyUrl, { fetch: session.fetch });
-  return getThing(dataSet, `${privateKeyUrl}#key`);
+  const keyString = getStringNoLocale(getThing(dataSet, `${privateKeyUrl}#privateKey`), RDF_PREDICATES.identifier);
+  const key = await window.crypto.subtle.importKey(
+    'jwk',
+    JSON.parse(keyString),
+    {
+      name: 'RSA-PSS',
+      hash: 'SHA-256'
+    },
+    false,
+    ["sign"]
+  );
+  return key
 };
 
 const InitializePassUserCredentials = async (session) => {
@@ -112,14 +124,15 @@ const getUserSigningKey = async (session) => {
   try {
     try {
       key = await getUserSigningKeyInternal(session);
-    } catch (e) {
+    } catch {
       await InitializePassUserCredentials(session);
       key = await getUserSigningKeyInternal(session);
     }
   } catch {
-    return key;
+    key = null;
   }
   return key;
+
 };
 
 export default getUserSigningKey;
