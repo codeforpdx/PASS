@@ -6,14 +6,13 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
 /**
- * Login Component - Component that generates Login section for users to a
- * Solid Pod via Solid Session
+ * Home Component - Component that generates the home page of the PASS website/app
  *
  * @memberof Login
  * @name Login
  */
 
-const Login = () => (
+const Home = () => (
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
     <Container component="main" maxWidth="s">
@@ -37,4 +36,4 @@ const Login = () => (
   /* eslint-enable jsx-a11y/label-has-associated-control */
 )
 
-export default Login;
+export default Home;

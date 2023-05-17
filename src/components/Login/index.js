@@ -1,4 +1,3 @@
-import Login from './Login';
 import Logout from './Logout';
 import LogoutModal from './LogoutModal';
 
@@ -8,4 +7,4 @@ import LogoutModal from './LogoutModal';
  * @namespace Login
  */
 
-export { Login, Logout, LogoutModal };
+export { Logout, LogoutModal };
