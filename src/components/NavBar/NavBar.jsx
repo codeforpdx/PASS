@@ -19,7 +19,7 @@ import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 // Custom Component Imports
-import { LogoutModal } from '../Login';
+import { LogoutModal } from '../LogoutModal';
 import NavMenu from './NavMenu';
 import NavMenuMobile from './NavMenuMobile';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
