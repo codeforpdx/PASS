@@ -27,7 +27,6 @@ import NavMenuMobile from './NavMenuMobile';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import { useRedirectUrl } from '../../hooks';
 
-
 /**
  * NavBar Component - Component that generates NavBar section for PASS
  *
@@ -98,7 +97,6 @@ const NavBar = () => {
     setAnchorElNew(null);
   };
 
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -114,7 +112,7 @@ const NavBar = () => {
                   {/* will show on small screen (mobile view) */}
                   <Button
                     id="mobile-navigate-menu-button"
-                    aria-controls={openNavigateMenu ? "mobile-navigate-menu" : undefined}
+                    aria-controls={openNavigateMenu ? 'mobile-navigate-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={openNavigateMenu ? 'true' : undefined}
                     variant="contained"
@@ -129,34 +127,34 @@ const NavBar = () => {
                     elevation={0}
                     anchorOrigin={{
                       vertical: 'bottom',
-                      horizontal: 'right',
+                      horizontal: 'right'
                     }}
                     transformOrigin={{
                       vertical: 'top',
-                      horizontal: 'right',
+                      horizontal: 'right'
                     }}
                     id="mobile-navigate-menu"
                     MenuListProps={{
-                      'aria-labelledby': "mobile-navigate-menu-button",
+                      'aria-labelledby': 'mobile-navigate-menu-button'
                     }}
                     anchorEl={anchorElNew}
                     open={openNavigateMenu}
                     onClose={handleNavigateToMenuClose}
-                    sx={{backgroundColor: 'rgba(1, 121, 105, 0.2)'}}
+                    sx={{ backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
                   >
                     {navigateToMenuItems.map((item) => (
                       <MenuItem key={item.label} disableTouchRipple>
-                        <Button variant='text'>
+                        <Button variant="text">
                           <NavLink
                             to={item.path}
                             end
-                            style={({ isActive }) => (
-                              {
-                                fontWeight: isActive ? "bold" : "",
-                                color: isActive ? theme.palette.tertiary.main : theme.palette.primary.main,
-                                textDecoration: "none"
-                              }
-                            )}
+                            style={({ isActive }) => ({
+                              fontWeight: isActive ? 'bold' : '',
+                              color: isActive
+                                ? theme.palette.tertiary.main
+                                : theme.palette.primary.main,
+                              textDecoration: 'none'
+                            })}
                             onClick={handleNavigateToMenuClose}
                           >
                             {item.label}
