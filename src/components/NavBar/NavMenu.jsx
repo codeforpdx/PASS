@@ -1,10 +1,16 @@
+// React Imports
 import React from 'react';
+// Solid Imports
+import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useSession } from '@inrupt/solid-ui-react';
+import MenuList from '@mui/material/MenuList';
+
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -13,7 +19,7 @@ import { useSession } from '@inrupt/solid-ui-react';
  * @name NavMenu
  */
 
-const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
+const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
   const { session } = useSession();
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -38,26 +44,31 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl }) => {
       onClick={handleMenuClose}
       sx={{ mt: 5 }}
     >
-      <MenuItem>
-        <Link
-          href={session.info.webId}
-          target="_blank"
-          rel="noreferrer"
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-            edge="start"
+      <MenuList>
+        <MenuItem>
+          <Button
+            variant="text"
+            startIcon={<AccountCircle />}
+            href={session.info.webId}
+            target="_blank"
+            rel="noreferrer"
           >
-            <AccountCircle />
-          </IconButton>
-          Profile
-        </Link>
-      </MenuItem>
+            Profile
+          </Button>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Button
+            variant="text"
+            color="error"
+            startIcon={<LogoutIcon />}
+            onClick={() => setShowConfirmation(true)}
+          >
+            Logout
+          </Button>
+        </MenuItem>
+      </MenuList>
+      
     </Menu>
   );
 };

@@ -1,14 +1,18 @@
+// React Imports
 import React from 'react';
+// Solid Imports
+import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { useSession } from '@inrupt/solid-ui-react';
+import SettingsIcon from '@mui/icons-material/Settings';
+
 
 /**
  * NavMenuMobile Component - Component that generates NavMenuMobile section for PASS
@@ -22,7 +26,8 @@ const NavMenuMobile = ({
   openMobileMenu,
   setOpenMobileMenu,
   anchorElMobile,
-  setAnchorElMobile
+  setAnchorElMobile,
+  setShowConfirmation
 }) => {
   const { session } = useSession();
 
@@ -50,57 +55,38 @@ const NavMenuMobile = ({
       sx={{ mt: 5 }}
     >
       <MenuList>
-        <MenuItem onClick={handleMenuMobileClose}>
-          <IconButton size="large" aria-label="show new notifications" color="inherit">
-            <ListItemIcon>
-              <NotificationsIcon />
-            </ListItemIcon>
-            <ListItemText>Notifications</ListItemText>
-          </IconButton>
+        <MenuItem>
+          <Button variant="text" startIcon={<NotificationsIcon />} >
+            Notifications
+          </Button>
         </MenuItem>
-        <MenuItem onClick={handleMenuMobileClose}>
-          <Link
+        <MenuItem>
+          <Button
+            variant="text"
+            startIcon={<AccountCircle />}
             href={session.info.webId}
             target="_blank"
             rel="noreferrer"
-            style={{ textDecoration: 'none', color: 'black' }}
           >
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color="inherit"
-              edge="start"
-            >
-              <ListItemIcon>
-                <AccountCircle />
-              </ListItemIcon>
-              <ListItemText>Profile</ListItemText>
-            </IconButton>
-          </Link>
-        </MenuItem>
-
-        {/* <MenuItem onClick={handleMenuMobileClose}>
-          <Link
-            href={session.info.webId}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: 'none', color: 'black' }}
-          >
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color="inherit"
-              edge="start"
-            >
-              <AccountCircle />
-            </IconButton>
             Profile
-          </Link>
-        </MenuItem> */}
+          </Button>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <Button variant="text" startIcon={<SettingsIcon />} >
+            Settings
+          </Button>
+        </MenuItem>
+        <MenuItem>
+          <Button
+            variant="text"
+            color="error"
+            startIcon={<LogoutIcon />}
+            onClick={() => setShowConfirmation(true)}
+          >
+            Logout
+          </Button>
+        </MenuItem>
       </MenuList>
     </Menu>
   );
