@@ -13,14 +13,12 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-
 /**
  * NavMenuMobile Component - Component that generates NavMenuMobile section for PASS
  *
  * @memberof GlobalComponents
  * @name NavMenuMobile
  */
-
 
 const NavMenuMobile = ({
   mobileMenuId,
@@ -30,14 +28,12 @@ const NavMenuMobile = ({
   setAnchorElMobile,
   setShowConfirmation
 }) => {
-
   const { session } = useSession();
 
   const handleMenuMobileClose = () => {
     setOpenMobileMenu(false);
     setAnchorElMobile(null);
   };
-
 
   return (
     <Menu
@@ -59,10 +55,7 @@ const NavMenuMobile = ({
     >
       <MenuList>
         <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<NotificationsIcon />}
-          >
+          <Button variant="text" startIcon={<NotificationsIcon />}>
             Notifications
           </Button>
         </MenuItem>
@@ -79,10 +72,7 @@ const NavMenuMobile = ({
         </MenuItem>
         <Divider />
         <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<SettingsIcon />}
-          >
+          <Button variant="text" startIcon={<SettingsIcon />}>
             Settings
           </Button>
         </MenuItem>

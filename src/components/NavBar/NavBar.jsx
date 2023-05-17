@@ -79,7 +79,6 @@ const NavBar = () => {
     setShowConfirmation(false);
   };
 
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -199,9 +198,9 @@ const NavBar = () => {
       </Box>
       {/* modal/popup renders when showConfirmation state is true */}
       <LogoutModal
-      showConfirmation={showConfirmation}
-      setShowConfirmation={setShowConfirmation}
-      handleLogout={handleLogout}
+        showConfirmation={showConfirmation}
+        setShowConfirmation={setShowConfirmation}
+        handleLogout={handleLogout}
       />
     </>
   );

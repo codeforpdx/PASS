@@ -12,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
  *
@@ -20,23 +19,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
  * @name NavMenu
  */
 
-
-const NavMenu = ({
-  menuId,
-  openMenu,
-  setOpenMenu,
-  anchorEl,
-  setAnchorEl,
-  setShowConfirmation
-}) => {
-
+const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
   const { session } = useSession();
 
   const handleMenuClose = () => {
     setOpenMenu(false);
     setAnchorEl(null);
   };
-
 
   return (
     <Menu
@@ -70,10 +59,7 @@ const NavMenu = ({
         </MenuItem>
         <Divider />
         <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<SettingsIcon />}
-          >
+          <Button variant="text" startIcon={<SettingsIcon />}>
             Settings
           </Button>
         </MenuItem>
