@@ -49,7 +49,7 @@ const Inbox = () => {
 const StyledButton = styled('button')({
   width: '150px',
   height: '60px',
-  backgroundColor: '#4cb4c6',
+  backgroundColor: '#017969',
   borderColor: 'black',
   borderRadius: '5px',
   cursor: 'pointer',

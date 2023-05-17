@@ -15,6 +15,7 @@ import { getInboxMessageTTL } from '../../utils/session-core';
 
 const NewMessage = () => {
   const { session } = useSession();
+
   const [message, setMessage] = useState({
     recipientUsername: '',
     title: '',
