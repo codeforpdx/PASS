@@ -10,7 +10,6 @@ import {
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm
 } from './Form';
-import { Logout } from './Login';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -26,7 +25,6 @@ const Forms = () => {
 
   return (
     <>
-      <Logout />
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
