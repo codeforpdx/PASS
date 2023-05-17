@@ -1,17 +1,13 @@
 import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
 import makeHandleFormSubmission from './FormSubmissionHelper';
-import { UPLOAD_TYPES } from '../../../constants';
-import { runNotification, uploadDocument, updateDocument } from '../../../utils';
+import { UPLOAD_TYPES } from '../constants';
+import runNotification from './notification-helper';
+import { uploadDocument, updateDocument } from './session-core';
 
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
   const clearInputFieldsMock = vi.fn();
   const dispatchMock = vi.fn();
-  vi.mock('src/utils', () => ({
-    uploadDocument: vi.fn(),
-    updateDocument: vi.fn(),
-    runNotification: vi.fn()
-  }));
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -23,10 +19,12 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('../../../utils', () => ({
-      runNotification: vi.fn(),
+    vi.mock('./session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
+    }));
+    vi.mock('./notification-helper', () => ({
+      default: vi.fn()
     }));
     const stateMock = {
       file: null
@@ -55,10 +53,12 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('../../../utils', () => ({
-      runNotification: vi.fn(),
+    vi.mock('./session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
+    }));
+    vi.mock('./notification-helper', () => ({
+      default: vi.fn()
     }));
     const stateMock = {
       file: {

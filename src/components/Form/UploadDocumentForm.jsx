@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { UPLOAD_TYPES } from '../../constants';
-import makeHandleFormSubmission from './helpers/FormSubmissionHelper';
+import { makeHandleFormSubmission } from '../../utils';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 

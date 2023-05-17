@@ -1,5 +1,20 @@
-import { uploadDocument, updateDocument, runNotification } from '../../../utils';
+import { Session } from '@inrupt/solid-client-authn-browser';
+import runNotification from './notification-helper';
+import { uploadDocument, updateDocument } from './session-core';
 
+/**
+ * Makes a default handleFormSubmission function that can be used
+ * by form elements in PASS
+ *
+ * @memberof utils
+ * @function makeHandleFormSubmission
+ * @param {string} uploadType - Type of upload (cross, self, etc.) to perform
+ * @param {object} state - current state
+ * @param {object} dispatch - dispatch for actions
+ * @param {Session} session - current Solid session
+ * @param {Function} clearInputFields - function to call to clear form
+ * @returns {Function} A function that components can call to submit forms to PASS
+ */
 const makeHandleFormSubmission =
   (uploadType, state, dispatch, session, clearInputFields) =>
   async (event, crossPodUsername = '') => {

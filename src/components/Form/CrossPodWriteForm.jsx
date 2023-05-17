@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
-import { runNotification } from '../../utils';
+import { runNotification, makeHandleFormSubmission } from '../../utils';
 import FormSection from './FormSection';
-import makeHandleFormSubmission from './helpers/FormSubmissionHelper';
 import { SelectUserContext } from '../../contexts';
 import { UPLOAD_TYPES } from '../../constants';
 
