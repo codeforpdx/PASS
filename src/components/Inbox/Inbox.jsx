@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Logout } from '../Login';
 import NewMessage from './NewMessage';
 
 /**
@@ -20,14 +19,11 @@ const Inbox = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <>
-      <Logout />
-      <section id="inbox" className="panel">
-        <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
-        {showForm && <NewMessage />}
-        <div>Placeholder; inbox contents will go here.</div>
-      </section>
-    </>
+    <section id="inbox" className="panel">
+      <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
+      {showForm && <NewMessage />}
+      <div>Placeholder; inbox contents will go here.</div>
+    </section>
   );
 };
 
