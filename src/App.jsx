@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
-import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
@@ -16,6 +15,7 @@ import {
   SOLID_IDENTITY_PROVIDER,
   createDocumentContainer
 } from './utils';
+import Home from './routes/Home';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -99,7 +99,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login />
+                <Home />
               )
             }
           />
