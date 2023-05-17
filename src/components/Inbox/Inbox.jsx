@@ -36,7 +36,7 @@ const Inbox = () => {
       <Logout />
       <section id="inbox" className="panel">
         <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
-        {showForm && <NewMessage />}
+        {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
         <div>Placeholder; inbox contents will go here.</div>
         <button onClick={handleInboxRefresh} type="button">
           Refresh
