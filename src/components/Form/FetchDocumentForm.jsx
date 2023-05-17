@@ -6,9 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 // Custom Component Imports
 import { getDocuments, runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
@@ -37,7 +35,8 @@ const FetchDocumentForm = () => {
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
+    // const docType = event.target.document.value;
+    const docType = documentType;
 
     try {
       const documentUrl = await getDocuments(session, docType, 'self-fetch');
@@ -79,23 +78,16 @@ const FetchDocumentForm = () => {
     >
       <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" />
-
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
-              <InputLabel id="select-document-type-label">Document Type</InputLabel>
-              <Select
-                labelId="select-document-type-label"
-                id="select-document-type"
+              <InputLabel id="select-document-type-label">
+                <i>Select Document Type</i>
+              </InputLabel>
+              <DocumentSelection
+                htmlId="search-doctype"
                 value={documentType}
-                label="Document Type"
                 onChange={handleChange}
-              >
-                <MenuItem value="bankStatement">Bank Statement</MenuItem>
-                <MenuItem value="passport">Passport</MenuItem>
-                <MenuItem value="driversLicense">Driver&apos;s License</MenuItem>
-              </Select>
+              />
             </FormControl>
           </Box>
 

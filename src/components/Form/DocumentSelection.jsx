@@ -1,4 +1,6 @@
 import React from 'react';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import docTypes from '../../utils/form-helper';
 
 /**
@@ -9,12 +11,20 @@ import docTypes from '../../utils/form-helper';
  * @name DocumentSelection
  */
 
-const DocumentSelection = ({ htmlId }) => (
-  <select id={htmlId} name="document">
+const DocumentSelection = ({ htmlId, value, onChange }) => (
+  <Select
+    id={htmlId}
+    labelId={`${htmlId}-label`}
+    value={value}
+    label="Select Document Type"
+    onChange={onChange}
+  >
     {docTypes.map((doc) => (
-      <option key={doc.split(' ')[0]}>{doc}</option>
+      <MenuItem key={doc.split(' ')[0]} value={doc}>
+        {doc}
+      </MenuItem>
     ))}
-  </select>
+  </Select>
 );
 
 export default DocumentSelection;
