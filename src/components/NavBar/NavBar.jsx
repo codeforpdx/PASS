@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // Solid Imports
 import { useSession, LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -10,6 +10,7 @@ import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,12 +19,14 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 // Custom Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavMenu from './NavMenu';
 import NavMenuMobile from './NavMenuMobile';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import { useRedirectUrl } from '../../hooks';
+
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
@@ -33,6 +36,7 @@ import { useRedirectUrl } from '../../hooks';
  */
 
 const NavBar = () => {
+  const theme = useTheme();
   const { session } = useSession();
   const redirectUrl = useRedirectUrl();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -79,6 +83,22 @@ const NavBar = () => {
     setShowConfirmation(false);
   };
 
+  // for mobile view NAVIGATE TO... button
+  const navigateToMenuItems = [
+    { label: 'Home', path: '/PASS/home' },
+    { label: 'Forms', path: '/PASS/forms' },
+    { label: 'Inbox', path: '/PASS/inbox' }
+  ];
+  const [anchorElNew, setAnchorElNew] = useState(null);
+  const openNavigateMenu = Boolean(anchorElNew);
+  const handleNavigateToButtonClick = (event) => {
+    setAnchorElNew(event.currentTarget);
+  };
+  const handleNavigateToMenuClose = () => {
+    setAnchorElNew(null);
+  };
+
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -90,16 +110,76 @@ const NavBar = () => {
             {session.info.isLoggedIn ? (
               <>
                 <Box>
+                  {/* ------------START----------- */}
+                  {/* will show on small screen (mobile view) */}
+                  <Button
+                    id="mobile-navigate-menu-button"
+                    aria-controls={openNavigateMenu ? "mobile-navigate-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openNavigateMenu ? 'true' : undefined}
+                    variant="contained"
+                    disableElevation
+                    onClick={handleNavigateToButtonClick}
+                    endIcon={<KeyboardArrowDownIcon />}
+                    sx={{ display: { xs: 'flex', md: 'none' } }}
+                  >
+                    Navigate To...
+                  </Button>
+                  <Menu
+                    elevation={0}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    id="mobile-navigate-menu"
+                    MenuListProps={{
+                      'aria-labelledby': "mobile-navigate-menu-button",
+                    }}
+                    anchorEl={anchorElNew}
+                    open={openNavigateMenu}
+                    onClose={handleNavigateToMenuClose}
+                    sx={{backgroundColor: 'rgba(1, 121, 105, 0.2)'}}
+                  >
+                    {navigateToMenuItems.map((item) => (
+                      <MenuItem key={item.label} disableTouchRipple>
+                        <Button variant='text'>
+                          <NavLink
+                            to={item.path}
+                            end
+                            style={({ isActive }) => (
+                              {
+                                fontWeight: isActive ? "bold" : "",
+                                color: isActive ? theme.palette.tertiary.main : theme.palette.primary.main,
+                                textDecoration: "none"
+                              }
+                            )}
+                            onClick={handleNavigateToMenuClose}
+                          >
+                            {item.label}
+                          </NavLink>
+                        </Button>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                  {/* ------------END-------------- */}
+                  {/* -------------START---------- */}
+                  {/* will show on larger screen (tablet/desktop view) */}
                   <Tabs
                     value={tabValue}
                     onChange={handleChange}
                     textColor="inherit"
                     aria-label="tabs"
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
                   >
                     <Tab value="home" label="Home" component={Link} to="/PASS/home/" />
                     <Tab value="forms" label="Forms" component={Link} to="/PASS/forms/" />
                     <Tab value="inbox" label="Inbox" component={Link} to="/PASS/inbox/" />
                   </Tabs>
+                  {/* ------------END----------- */}
                 </Box>
                 <Box sx={{ flexGrow: 1 }} />
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
