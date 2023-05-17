@@ -43,7 +43,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ mt: 5 }}
+      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
         <MenuItem>

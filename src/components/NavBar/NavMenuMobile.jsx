@@ -51,7 +51,7 @@ const NavMenuMobile = ({
       open={openMobileMenu}
       onClick={handleMenuMobileClose}
       onClose={handleMenuMobileClose}
-      sx={{ mt: 5 }}
+      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
         <MenuItem>
