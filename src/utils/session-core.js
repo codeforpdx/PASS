@@ -680,6 +680,61 @@ export const updateUserActivity = async (session) => {
 */
 
 /**
+ * Function that gets a list of users from their Solid Pod stored inside the
+ * Solid container named User
+ *
+ * @memberof utils
+ * @function getInboxMessageTTL
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - An array of users from their Pod into PASS, if
+ * users list exist
+ */
+
+export const getInboxMessageTTL = async (session) => {
+  const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+  let messageList = [];
+  try {
+    const solidDataset = await getSolidDataset(inboxContainerUrl, {
+      fetch: session.fetch
+    });
+    const ttlFileThing = getThingAll(solidDataset);
+    const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
+
+    try {
+      const promises = allMessageThing.map(async (messageTTL) => {
+        const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
+
+        const messageTTLThing = getThingAll(messageDataset);
+
+        // Get data related to #message
+        const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
+        const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
+        const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
+        const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
+
+        // Get data related to #sender
+        const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
+        const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+
+        // Get data related to #sender
+        const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
+        const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
+
+        messageList.push({ message, title, uploadDate, sender, recipient });
+      });
+
+      await Promise.all(promises);
+    } catch (err) {
+      messageList = [];
+    }
+  } catch {
+    messageList = [];
+  }
+
+  return messageList;
+};
+
+/**
  * Function that sends a message to another user's Pod inbox
  *
  * @memberof utils

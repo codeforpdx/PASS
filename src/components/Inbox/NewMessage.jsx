@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useSession } from '@inrupt/solid-ui-react';
 import { sendMessageTTL } from '../../utils';
+import { InboxMessageContext } from '../../contexts';
+import { getInboxMessageTTL } from '../../utils/session-core';
 
 /**
  * New Message Component - Component that allows user to write
@@ -20,6 +22,7 @@ const NewMessage = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { setInboxList } = useContext(InboxMessageContext);
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -42,6 +45,10 @@ const NewMessage = () => {
     } else {
       try {
         await sendMessageTTL(session, message);
+        const inboxMessages = await getInboxMessageTTL(session);
+
+        setInboxList(inboxMessages);
+
         setMessage({
           recipientUsername: '',
           title: '',

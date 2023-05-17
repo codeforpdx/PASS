@@ -5,7 +5,7 @@ import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
-import { SelectUserContext, UserListContext } from './contexts';
+import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
 import { useRedirectUrl } from './hooks';
 import {
   getUsersFromPod,
@@ -19,6 +19,10 @@ import {
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
+ */
+
+/**
+ * @typedef {import("./typedefs").inboxListObject} inboxListObject
  */
 
 const App = () => {
@@ -41,13 +45,19 @@ const App = () => {
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {useState<userListObject[]>} */
-  const [userList, setUserList] = useState([]);
+  /** @type {userListObject[]} */
+  const initialUserList = [];
+  const [userList, setUserList] = useState(initialUserList);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
+
+  /** @type {inboxListObject[]} */
+  const initialInboxList = [];
+  const [inboxList, setInboxList] = useState(initialInboxList);
+  const inboxMessageObject = useMemo(() => ({ inboxList, setInboxList }), [inboxList]);
 
   useEffect(() => {
     /**
@@ -85,44 +95,46 @@ const App = () => {
   return (
     <SelectUserContext.Provider value={selectedUserObject}>
       <UserListContext.Provider value={userListObject}>
-        <Routes>
-          <Route
-            exact
-            path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate
-                  to={
-                    !localStorage.getItem('restorePath')
-                      ? '/PASS/home/'
-                      : localStorage.getItem('restorePath')
-                  }
-                />
-              ) : (
-                <Login />
-              )
-            }
-          />
-          <Route
-            path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
-          />
-          <Route
-            path="/PASS/forms/"
-            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-          />
-          <Route
-            path="/PASS/inbox/"
-            element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
-          />
-          <Route path="*" element={<Navigate to="/PASS/" />} />
-        </Routes>
+        <InboxMessageContext.Provider value={inboxMessageObject}>
+          <Routes>
+            <Route
+              exact
+              path="/PASS/"
+              element={
+                session.info.isLoggedIn ? (
+                  <Navigate
+                    to={
+                      !localStorage.getItem('restorePath')
+                        ? '/PASS/home/'
+                        : localStorage.getItem('restorePath')
+                    }
+                  />
+                ) : (
+                  <Login />
+                )
+              }
+            />
+            <Route
+              path="/PASS/home/"
+              element={
+                session.info.isLoggedIn ? (
+                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                ) : (
+                  <Navigate to="/PASS/" />
+                )
+              }
+            />
+            <Route
+              path="/PASS/forms/"
+              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+            />
+            <Route
+              path="/PASS/inbox/"
+              element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+            />
+            <Route path="*" element={<Navigate to="/PASS/" />} />
+          </Routes>
+        </InboxMessageContext.Provider>
       </UserListContext.Provider>
     </SelectUserContext.Provider>
   );

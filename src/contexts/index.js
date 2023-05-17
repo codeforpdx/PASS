@@ -1,5 +1,6 @@
 import SelectUserContext from './selectUserContext';
 import UserListContext from './userListContext';
+import InboxMessageContext from './inboxMessageContext';
 
 /**
  * The contexts moedule contains React Contexts that helps with user management
@@ -8,4 +9,4 @@ import UserListContext from './userListContext';
  * @namespace contexts
  */
 
-export { SelectUserContext, UserListContext };
+export { SelectUserContext, UserListContext, InboxMessageContext };
