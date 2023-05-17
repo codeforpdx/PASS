@@ -30,7 +30,8 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: `${theme.palette.primary.main}`
+        bgcolor: `${theme.palette.primary.main}`,
+        mt: '20px'
       }}
       py={5}
     >
