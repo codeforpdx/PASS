@@ -22,7 +22,7 @@ const NewMessage = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const { setInboxList } = useContext(InboxMessageContext);
+  const { inboxList, setInboxList } = useContext(InboxMessageContext);
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -45,9 +45,6 @@ const NewMessage = () => {
     } else {
       try {
         await sendMessageTTL(session, message);
-        const inboxMessages = await getInboxMessageTTL(session);
-
-        setInboxList(inboxMessages);
 
         setMessage({
           recipientUsername: '',
@@ -61,6 +58,9 @@ const NewMessage = () => {
         setError(err.message);
       }
     }
+
+    const inboxMessages = await getInboxMessageTTL(session, inboxList);
+    setInboxList(inboxMessages);
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */

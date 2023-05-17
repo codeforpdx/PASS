@@ -14,7 +14,8 @@ import {
   updateUserActivity,
   getUserListActivity,
   SOLID_IDENTITY_PROVIDER,
-  createDocumentContainer
+  createDocumentContainer,
+  getInboxMessageTTL
 } from './utils';
 
 /**
@@ -84,6 +85,9 @@ const App = () => {
         setLoadingUsers(false);
         setLoadingActive(false);
       }
+
+      const messagesInSolid = await getInboxMessageTTL(session, inboxList);
+      setInboxList(messagesInSolid);
     }
 
     if (session.info.isLoggedIn) {

@@ -27,7 +27,8 @@ import {
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
-  sendMessageTTL
+  sendMessageTTL,
+  getInboxMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -51,5 +52,6 @@ export {
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
-  sendMessageTTL
+  sendMessageTTL,
+  getInboxMessageTTL
 };

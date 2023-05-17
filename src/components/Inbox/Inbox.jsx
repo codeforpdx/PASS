@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import styled from 'styled-components';
 import { Logout } from '../Login';
 import NewMessage from './NewMessage';
-import { getInboxMessageTTL } from '../../utils/session-core';
 import { InboxMessageContext } from '../../contexts';
+import { getInboxMessageTTL } from '../../utils/session-core';
 
 /**
  * Inbox Component - Component that generates Inbox section for users
@@ -22,37 +22,14 @@ const Inbox = () => {
 
   const [showForm, setShowForm] = useState(false);
 
-  // TODO: turn off all eslist-disable after finishing new components for inbox
-  // inboxList is the list of message objects from Solid
-  // eslint-disable-next-line no-unused-vars
+  const { session } = useSession();
   const { inboxList, setInboxList } = useContext(InboxMessageContext);
 
-  // loadingMessages is the state used for loading
-  // eslint-disable-next-line no-unused-vars
-  const [loadingMessages, setLoadingMessages] = useState(false);
-  const { session } = useSession();
-
-  useEffect(() => {
-    /**
-     * A function that fetch the user's messages from their inbox
-     *
-     * @function getMessages
-     */
-    async function getMessages() {
-      try {
-        const messagesInSolid = await getInboxMessageTTL(session);
-        setInboxList(messagesInSolid);
-        setLoadingMessages(true);
-      } catch {
-        setInboxList([]);
-        setLoadingMessages(false);
-      }
-    }
-
-    if (session.info.isLoggedIn) {
-      getMessages();
-    }
-  }, [session.info.isLoggedIn]);
+  // Handler function for refreshing PASS inbox
+  const handleInboxRefresh = async () => {
+    const messagesInSolid = await getInboxMessageTTL(session, inboxList);
+    setInboxList(messagesInSolid);
+  };
 
   return (
     <>
@@ -61,6 +38,9 @@ const Inbox = () => {
         <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
         {showForm && <NewMessage />}
         <div>Placeholder; inbox contents will go here.</div>
+        <button onClick={handleInboxRefresh} type="button">
+          Refresh
+        </button>
       </section>
     </>
   );

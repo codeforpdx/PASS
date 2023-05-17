@@ -46,6 +46,10 @@ import {
  * @typedef {import("../typedefs").userListObject} userListObject
  */
 
+/**
+ * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ */
+
 /*
   File Permissions Section
 
@@ -686,11 +690,12 @@ export const updateUserActivity = async (session) => {
  * @memberof utils
  * @function getInboxMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {inboxListObject[]} inboxList - List of inbox messages
  * @returns {Promise} Promise - An array of users from their Pod into PASS, if
  * users list exist
  */
 
-export const getInboxMessageTTL = async (session) => {
+export const getInboxMessageTTL = async (session, inboxList) => {
   const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
   let messageList = [];
   try {
@@ -699,6 +704,11 @@ export const getInboxMessageTTL = async (session) => {
     });
     const ttlFileThing = getThingAll(solidDataset);
     const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
+
+    // Early return if length of inbox in both PASS and Solid is the same
+    if (allMessageThing.length === inboxList.length) {
+      return inboxList;
+    }
 
     try {
       const promises = allMessageThing.map(async (messageTTL) => {
@@ -725,10 +735,10 @@ export const getInboxMessageTTL = async (session) => {
 
       await Promise.all(promises);
     } catch (err) {
-      messageList = [];
+      messageList = inboxList;
     }
   } catch {
-    messageList = [];
+    messageList = inboxList;
   }
 
   return messageList;
