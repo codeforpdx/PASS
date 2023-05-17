@@ -20,12 +20,23 @@ import SettingsIcon from '@mui/icons-material/Settings';
  * @name NavMenu
  */
 
-const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
+
+const NavMenu = ({
+  menuId,
+  openMenu,
+  setOpenMenu,
+  anchorEl,
+  setAnchorEl,
+  setShowConfirmation
+}) => {
+
   const { session } = useSession();
+
   const handleMenuClose = () => {
     setOpenMenu(false);
     setAnchorEl(null);
   };
+
 
   return (
     <Menu
@@ -59,7 +70,10 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
         </MenuItem>
         <Divider />
         <MenuItem>
-          <Button variant="text" startIcon={<SettingsIcon />} >
+          <Button
+            variant="text"
+            startIcon={<SettingsIcon />}
+          >
             Settings
           </Button>
         </MenuItem>
@@ -74,7 +88,6 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           </Button>
         </MenuItem>
       </MenuList>
-      
     </Menu>
   );
 };

@@ -21,6 +21,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
  * @name NavMenuMobile
  */
 
+
 const NavMenuMobile = ({
   mobileMenuId,
   openMobileMenu,
@@ -29,12 +30,14 @@ const NavMenuMobile = ({
   setAnchorElMobile,
   setShowConfirmation
 }) => {
+
   const { session } = useSession();
 
   const handleMenuMobileClose = () => {
     setOpenMobileMenu(false);
     setAnchorElMobile(null);
   };
+
 
   return (
     <Menu
@@ -56,7 +59,10 @@ const NavMenuMobile = ({
     >
       <MenuList>
         <MenuItem>
-          <Button variant="text" startIcon={<NotificationsIcon />} >
+          <Button
+            variant="text"
+            startIcon={<NotificationsIcon />}
+          >
             Notifications
           </Button>
         </MenuItem>
@@ -73,7 +79,10 @@ const NavMenuMobile = ({
         </MenuItem>
         <Divider />
         <MenuItem>
-          <Button variant="text" startIcon={<SettingsIcon />} >
+          <Button
+            variant="text"
+            startIcon={<SettingsIcon />}
+          >
             Settings
           </Button>
         </MenuItem>
