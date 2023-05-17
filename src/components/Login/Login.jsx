@@ -1,11 +1,9 @@
+// React Imports
 import React from 'react';
-import { LoginButton } from '@inrupt/solid-ui-react';
-import Button from '@mui/material/Button';
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import { useRedirectUrl } from '../../hooks';
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
  * Login Component - Component that generates Login section for users to a
@@ -15,15 +13,13 @@ import { SOLID_IDENTITY_PROVIDER } from '../../utils';
  * @name Login
  */
 
-const Login = () => {
-  const redirectUrl = useRedirectUrl();
+const Login = () => (
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
-  return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="s">
       <Box
         sx={{
-          marginTop: 5,
+          marginTop: 18,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -32,27 +28,13 @@ const Login = () => {
         }}
       >
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-          <section id="login">
-            <label id="labelLogin">
-              Click the following login button to log into your pod at [
-              <a href={SOLID_IDENTITY_PROVIDER} target="_blank" rel="noreferrer">
-                {SOLID_IDENTITY_PROVIDER}
-              </a>
-              ]:{' '}
-            </label>
-            <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
-              {' '}
-              <Button variant="contained" type="submit" color="secondary" size="large">
-                Login
-              </Button>
-            </LoginButton>
-            <p>Not logged in</p>
+          <section id="home">
+            <h1>HOME PAGE</h1>
           </section>
         </Paper>
       </Box>
     </Container>
-  );
   /* eslint-enable jsx-a11y/label-has-associated-control */
-};
+)
 
 export default Login;
