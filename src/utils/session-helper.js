@@ -14,7 +14,7 @@ import {
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from './barcode-scan';
 import { RDF_PREDICATES } from '../constants';
-// see sandbox/barcode_scanner/rdf_prediates.txt
+
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
  */
