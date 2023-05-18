@@ -1,5 +1,13 @@
-import React, { useContext } from 'react';
+// React Imports
+import React, { useContext, useState } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+// Custom Component Imports
 import {
   SOLID_IDENTITY_PROVIDER,
   runNotification,
@@ -125,9 +133,15 @@ const SetAclPermsDocContainerForm = () => {
           <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
           <label htmlFor="set-acl-perm-revoke">Revoke</label>
         </div>
-        <button disabled={state.processing} type="submit">
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleAclPermission}
+        >
           Set Permission
-        </button>
+        </Button>
       </form>
     </FormSection>
   );

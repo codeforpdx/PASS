@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 // Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 // Custom Component Imports
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
@@ -133,10 +138,18 @@ const UploadDocumentForm = () => {
       defaultMessage="To be uploaded..."
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
-        </div>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth autoComplete="off">
+            <InputLabel id="upload-doctype">
+              <i>Select Document Type</i>
+            </InputLabel>
+            <DocumentSelection
+              htmlId="upload-doctype"
+              value={documentType}
+              onChange={handleChange}
+            />
+          </FormControl>
+        </Box>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
           <input id="upload-doc-expiration" name="date" type="date" />
@@ -156,9 +169,15 @@ const UploadDocumentForm = () => {
             accept=".pdf, .docx, .doc, .txt, .rtf"
             onChange={handleFileChange}
           />
-          <button disabled={state.processing} type="submit">
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={state.processing}
+            type="submit"
+            onClick={handleFormSubmission}
+          >
             Upload file
-          </button>
+          </Button>
         </div>
       </form>
     </FormSection>

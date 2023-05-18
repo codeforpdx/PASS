@@ -1,5 +1,13 @@
-import React, { useContext } from 'react';
+// React Imports
+import React, { useContext, useState } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+// Custom Component Imports
 import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import FormSection from './FormSection';
@@ -107,9 +115,15 @@ const CheckAclPermsDocContainerForm = () => {
           <br />
           <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
         </div>
-        <button disabled={state.processing} type="submit">
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleAclPermission}
+        >
           Check Permission
-        </button>
+        </Button>
       </form>
     </FormSection>
   );
