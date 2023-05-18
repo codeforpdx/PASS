@@ -696,7 +696,7 @@ export const sendMessageTTL = async (session, messageObject, otherPodUsername) =
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
   const newTtlFile = buildThing(createThing({ name: 'document' }))
-    .addDatetime('https://schema.org/uploadDate', date)
+    .addDatetime(RDF_PREDICATES.uploadDate, date)
     .addStringNoLocale(RDF_PREDICATES.name, messageObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, messageObject.type)
     .addStringNoLocale(RDF_PREDICATES.endDate, messageObject.date)
