@@ -166,7 +166,7 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
       return `${POD_URL}Bank%20Statement/`;
     case 'Passport':
       return `${POD_URL}Passport/`;
-    case 'Drivers License':
+    case "Driver's License":
       return `${POD_URL}Drivers%20License/`;
     case 'Users':
       return `${POD_URL}Users/`;
