@@ -64,10 +64,6 @@ const FetchDocumentForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -76,26 +72,23 @@ const FetchDocumentForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="select-document-type-label">
-                <i>Select Document Type</i>
-              </InputLabel>
-              <DocumentSelection
-                htmlId="search-doctype"
-                value={documentType}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </Box>
-
-          <Button variant="contained" fullWidth disabled={state.processing} type="submit">
-            Get Document
-          </Button>
-        </div>
-      </form>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth autoComplete="off">
+          <InputLabel id="select-document-type-label">
+            <i>Select Document Type</i>
+          </InputLabel>
+          <DocumentSelection htmlId="search-doctype" value={documentType} onChange={handleChange} />
+        </FormControl>
+      </Box>
+      <Button
+        variant="contained"
+        fullWidth
+        disabled={state.processing}
+        type="submit"
+        onClick={handleGetDocumentSubmission}
+      >
+        Get Document
+      </Button>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */

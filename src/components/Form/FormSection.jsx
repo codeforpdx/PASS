@@ -32,7 +32,12 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
       }}
     >
       <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-        <Typography display="flex" justifyContent="center" alignItems="center">
+        <Typography
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ margin: '0 0 20px 0' }}
+        >
           <strong>{title}</strong>
         </Typography>
         {children}

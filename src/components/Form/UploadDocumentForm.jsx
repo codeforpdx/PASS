@@ -1,5 +1,8 @@
-import React from 'react';
+// React Imports
+import React, { useState } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Custom Component Imports
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
 import { UPLOAD_TYPES } from '../../constants';
@@ -17,6 +20,11 @@ import FormSection from './FormSection';
 const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const [documentType, setdocumentType] = useState('');
+
+  const handleChange = (event) => {
+    setdocumentType(event.target.value);
+  };
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
@@ -41,7 +49,7 @@ const UploadDocumentForm = () => {
   const handleFormSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
+    const docType = documentType;
     const expirationDate = event.target.date.value;
     const docDescription = event.target.description.value;
 

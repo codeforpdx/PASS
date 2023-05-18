@@ -1,5 +1,9 @@
+// React Imports
 import React, { useContext } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+// Custom Component Imports
 import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';

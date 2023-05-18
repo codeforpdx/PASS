@@ -1,5 +1,8 @@
+// React Imports
 import React, { useContext } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Custom Component Imports
 import { useStatusNotification, useField } from '../../hooks';
 import {
   runNotification,

@@ -1,5 +1,8 @@
+// React Imports
 import React, { useContext } from 'react';
+// Solid Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Custom Component Imports
 import { useStatusNotification } from '../../hooks';
 import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
 import FormSection from '../Form/FormSection';
