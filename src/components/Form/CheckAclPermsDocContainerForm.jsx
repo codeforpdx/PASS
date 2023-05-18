@@ -115,15 +115,9 @@ const CheckAclPermsDocContainerForm = () => {
           <br />
           <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
         </div>
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleAclPermission}
-        >
+        <button disabled={state.processing} type="submit">
           Check Permission
-        </Button>
+        </button>
       </form>
     </FormSection>
   );

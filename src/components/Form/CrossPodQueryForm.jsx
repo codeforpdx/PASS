@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Custom Component Imports
 import { getDocuments, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
@@ -27,10 +28,11 @@ const CrossPodQueryForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
-  const [documentType, setdocumentType] = useState('');
+  const [documentType, setDocumentType] = useState('');
+  const [searchUser, setSearchUser] = useState('');
 
   const handleChange = (event) => {
-    setdocumentType(event.target.value);
+    setDocumentType(event.target.value);
   };
 
   // Clean up function for clearing input fields after submission
@@ -44,8 +46,8 @@ const CrossPodQueryForm = () => {
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
-    let podUsername = event.target.crossPodQuery.value;
+    const docType = documentType;
+    let podUsername = searchUser;
 
     if (!podUsername) {
       podUsername = selectedUser;
@@ -96,42 +98,46 @@ const CrossPodQueryForm = () => {
       defaultMessage="To be searched..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <div style={formRowStyle}>
-            <label htmlFor="cross-search-doc">Search document from username: </label>
-            <br />
-            <br />
-            <input
-              id="cross-search-doc"
-              size="60"
-              name="crossPodQuery"
-              {...username}
-              placeholder={selectedUser}
+        <div style={formRowStyle}>
+          <TextField
+            {...username}
+            label="Search document from username"
+            InputProps={{
+              type: 'search'
+            }}
+            id="cross-search-doc"
+            fullWidth
+            name="crossPodQuery"
+            placeholder={selectedUser}
+            value={searchUser}
+            onChange={(event) => {
+              setSearchUser(event.target.value);
+            }}
+          />
+          <br />
+          <br />
+          <FormControl fullWidth autoComplete="off">
+            <InputLabel id="cross-search-doctype">
+              <i>Select Document Type</i>
+            </InputLabel>
+            <DocumentSelection
+              htmlId="cross-search-doctype"
+              value={documentType}
+              onChange={handleChange}
             />
-          </div>
-          <div style={formRowStyle}>
-            <FormControl fullWidth autoComplete="off">
-              <InputLabel id="cross-search-doctype">
-                <i>Select Document Type</i>
-              </InputLabel>
-              <DocumentSelection
-                htmlId="cross-search-doctype"
-                value={documentType}
-                onChange={handleChange}
-              />
-            </FormControl>
-
-            <Button
-              variant="contained"
-              fullWidth
-              disabled={state.processing}
-              type="submit"
-              onClick={handleCrossPodQuery}
-            >
-              Search Pod
-            </Button>
-          </div>
-        </form>
+          </FormControl>
+          <br />
+          <br />
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={state.processing}
+            type="submit"
+            onClick={handleCrossPodQuery}
+          >
+            Search Pod
+          </Button>
+        </div>
       </Box>
     </FormSection>
   );
