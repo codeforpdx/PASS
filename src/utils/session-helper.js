@@ -6,11 +6,17 @@ import {
   setAgentResourceAccess,
   saveAclFor,
   setAgentDefaultAccess,
+  createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  getProfileAll,
+  getThing,
+  getStringNoLocale,
+  saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
-import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
+import sha256 from 'crypto-js/sha256';
+import { RDF_PREDICATES } from '../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -37,6 +43,10 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
  */
 
 /**
+ * @typedef {import('@inrupt/solid-client').ThingLocal} ThingLocal
+ */
+
+/**
  * The URL to a specific Solid Provider
  *
  * @name SOLID_IDENTITY_PROVIDER
@@ -44,7 +54,13 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
  * @memberof utils
  */
 
-export const SOLID_IDENTITY_PROVIDER = 'https://opencommons.net';
+// Vite exposes static env variables in the `import.meta.env` object
+// https://vitejs.dev/guide/env-and-mode.html
+const OIDUrl =
+  import.meta.env.MODE === 'development'
+    ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
+    : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
+export const SOLID_IDENTITY_PROVIDER = OIDUrl;
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
@@ -132,17 +148,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
  * other Pods, or "cross-fetch")
- * @param {URL} otherPodUrl - Url to other user's Pod or empty string
+ * @param {URL} otherPodUsername - Username to other user's Pod or empty string
  * @returns {URL|null} url or null - A url of where the container that stores
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
+export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
   let POD_URL;
   if (fetchType === 'self-fetch') {
     POD_URL = String(session.info.webId.split('profile')[0]);
   } else {
-    POD_URL = `https://${otherPodUrl}/`;
+    POD_URL = `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
   }
 
   switch (fileType) {
@@ -152,8 +168,12 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUrl) => {
       return `${POD_URL}Passport/`;
     case 'Drivers License':
       return `${POD_URL}Drivers%20License/`;
-    case 'none':
+    case 'Users':
       return `${POD_URL}Users/`;
+    case 'Documents':
+      return `${POD_URL}Documents/`;
+    case 'Inbox':
+      return `${POD_URL}inbox/`;
     default:
       return null;
   }
@@ -219,25 +239,105 @@ export const createDocAclForUser = async (session, documentUrl) => {
  * @memberof utils
  * @function updateTTLFile
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {URL} documentUrl - Url link to document container
+ * @param {URL} containerUrl - Url link to document container
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Perform an update to an existing document.ttl by
+ * setting a new expiration date, description, and date modified
  */
 
-export const updateTTLFile = async (session, documentUrl, fileObject) => {
-  let solidDataset = await getSolidDataset(`${documentUrl}document.ttl`, { fetch: session.fetch });
+export const updateTTLFile = async (session, containerUrl, fileObject) => {
+  let solidDataset = await getSolidDataset(`${containerUrl}document.ttl`, { fetch: session.fetch });
   let ttlFile = getThingAll(solidDataset)[0];
 
   ttlFile = buildThing(ttlFile)
-    .setStringNoLocale(SCHEMA_INRUPT.endDate, fileObject.date)
-    .setStringNoLocale(SCHEMA_INRUPT.description, fileObject.description)
-    .setDatetime(SCHEMA_INRUPT.dateModified, new Date())
+    .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .setDatetime(RDF_PREDICATES.dateModified, new Date())
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 
   try {
-    await saveSolidDatasetAt(`${documentUrl}document.ttl`, solidDataset, { fetch: session.fetch });
+    await saveSolidDatasetAt(`${containerUrl}document.ttl`, solidDataset, { fetch: session.fetch });
   } catch (error) {
     throw new Error('Failed to update ttl file.');
   }
+};
+
+/**
+ * Function that generates checksum for uploaded file
+ *
+ * @memberof utils
+ * @function createFileChecksum
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ * @returns {Promise} Promise - Generates checksum for uploaded file using the
+ * SHA256 algorithm
+ */
+const createFileChecksum = async (fileObject) => {
+  const { file } = fileObject;
+
+  const text = await file.text(); // only hash the first megabyte
+  return sha256(text);
+};
+
+/**
+ * Creates a TTL file corresponding to an uploaded document or resource
+ *
+ * @memberof utils
+ * @function createResourceTtlFile
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * from form submission (see {@link fileObjectType})
+ * @param {string} documentUrl - url of uploaded document or resource
+ * @returns {Promise} Promise - Perform action to generate a newly generated
+ * Thing from buildThing
+ */
+export const createResourceTtlFile = async (fileObject, documentUrl) => {
+  const checksum = await createFileChecksum(fileObject);
+
+  return buildThing(createThing({ name: 'document' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addUrl(RDF_PREDICATES.url, documentUrl)
+    .build();
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function getUserProfileName
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} webId - A user's Solid webId attached to Solid Pod
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const getUserProfileName = async (session, webId) => {
+  const profile = await getProfileAll(webId, { fetch: session.fetch });
+  const profileDataThing = getThing(profile.webIdProfile, webId);
+  return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
+};
+
+/**
+ * Gets user's name from profile using their webId
+ *
+ * @memberof utils
+ * @function saveMessageTTLInInbox
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} containerUrl - URL location of Pod container
+ * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
+ * @param {string} slug - The slug suggestion for the message file
+ * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ */
+
+export const saveMessageTTLInInbox = async (session, containerUrl, solidDatset, slug) => {
+  await saveSolidDatasetInContainer(containerUrl, solidDatset, {
+    slugSuggestion: `${slug}.ttl`,
+    contentType: 'text/turtle',
+    fetch: session.fetch
+  });
 };

@@ -1,20 +1,24 @@
 import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
-import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
+import {
+  SOLID_IDENTITY_PROVIDER,
+  runNotification,
+  setDocContainerAclPermission
+} from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
-import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 import { SelectUserContext } from '../../contexts';
 
 /**
- * SetAclPermissionForm Component - Component that generates the form for setting
- * document ACL permissions to another user's Solid Pod via Solid Session
+ * SetAclPermsDocContainerForm Component - Component that generates the form for
+ * setting ACL permissions to another user's Documents container in their Solid
+ * Pod via Solid Session
  *
  * @memberof Forms
- * @name SetAclPermissionForm
+ * @name SetAclPermsDocContainerForm
  */
 
-const SetAclPermissionForm = () => {
+const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
@@ -30,7 +34,6 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
     const permissionType = event.target.setAclPerms.value;
     let podUsername = event.target.setAclTo.value;
 
@@ -71,10 +74,10 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, docType, permissionType, podUsername);
+      await setDocContainerAclPermission(session, permissionType, podUsername);
 
       runNotification(
-        `${permissionType} permission to ${podUsername} for ${docType}.`,
+        `${permissionType} permission to ${podUsername} for Documents Container.`,
         5,
         state,
         dispatch
@@ -97,7 +100,7 @@ const SetAclPermissionForm = () => {
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
-      title="Permission to Files"
+      title="Permission to Documents Container"
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -116,10 +119,6 @@ const SetAclPermissionForm = () => {
           />
         </div>
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{' '}
-        </div>
-        <div style={formRowStyle}>
           <p>Select permission setting:</p>
           <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
           <label htmlFor="set-acl-perm-give">Give</label>
@@ -135,4 +134,4 @@ const SetAclPermissionForm = () => {
   /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
-export default SetAclPermissionForm;
+export default SetAclPermsDocContainerForm;

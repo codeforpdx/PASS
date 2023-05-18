@@ -6,10 +6,10 @@ import {
   DeleteDocumentForm,
   CrossPodQueryForm,
   CrossPodWriteForm,
-  SetAclPermissionForm
+  SetAclPermissionForm,
+  SetAclPermsDocContainerForm,
+  CheckAclPermsDocContainerForm
 } from './Form';
-import { Logout } from './Login';
-import AppHeader from './AppHeader';
 
 /**
  * Forms Component - Component that generates Forms section for PASS
@@ -25,11 +25,11 @@ const Forms = () => {
 
   return (
     <>
-      <AppHeader />
-      <Logout />
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
+      <SetAclPermsDocContainerForm />
+      <CheckAclPermsDocContainerForm />
       <SetAclPermissionForm />
       <CrossPodQueryForm />
       <CrossPodWriteForm />

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
+import { UPLOAD_TYPES } from '../../constants';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -36,6 +37,7 @@ const UploadDocumentForm = () => {
   };
 
   // Event handler for form/document submission to Pod
+  /* eslint-disable no-param-reassign */
   const handleFormSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -61,7 +63,7 @@ const UploadDocumentForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, fileObject);
+      await uploadDocument(session, UPLOAD_TYPES.SELF, fileObject);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -76,7 +78,7 @@ const UploadDocumentForm = () => {
       }, 3000);
     } catch {
       try {
-        const fileExist = await updateDocument(session, fileObject);
+        const fileExist = await updateDocument(session, UPLOAD_TYPES.SELF, fileObject);
 
         runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
 
@@ -109,11 +111,12 @@ const UploadDocumentForm = () => {
       }
     }
   };
+  /* eslint-enable no-param-reassign */
 
   const formRowStyle = {
     margin: '20px 0'
   };
-
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Upload Document"
@@ -152,6 +155,7 @@ const UploadDocumentForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default UploadDocumentForm;

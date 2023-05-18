@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
-import { Login } from './components/Login';
 import Forms from './components/Forms';
+import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
 import { SelectUserContext, UserListContext } from './contexts';
 import { useRedirectUrl } from './hooks';
@@ -12,8 +12,10 @@ import {
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
+  SOLID_IDENTITY_PROVIDER,
+  createDocumentContainer
 } from './utils';
+import Home from './routes/Home';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -31,17 +33,15 @@ const App = () => {
     }
 
     if (restore && localStorage.getItem('loggedIn')) {
-      console.log('restoring session');
       session.login({
         oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl,
-        onError: console.error
+        redirectUrl
       });
     }
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
+  /** @type {useState<userListObject[]>} */
   const [userList, setUserList] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
@@ -60,6 +60,7 @@ const App = () => {
       await generateUsersList(session);
       await generateActivityTTL(session);
       await updateUserActivity(session);
+      await createDocumentContainer(session);
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
@@ -76,6 +77,7 @@ const App = () => {
     }
 
     if (session.info.isLoggedIn) {
+      localStorage.setItem('loggedIn', true);
       fetchData();
     }
   }, [session.info.isLoggedIn]);
@@ -97,7 +99,7 @@ const App = () => {
                   }
                 />
               ) : (
-                <Login />
+                <Home />
               )
             }
           />
@@ -114,6 +116,10 @@ const App = () => {
           <Route
             path="/PASS/forms/"
             element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+          />
+          <Route
+            path="/PASS/inbox/"
+            element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
           />
           <Route path="*" element={<Navigate to="/PASS/" />} />
         </Routes>

@@ -23,7 +23,11 @@ import {
   deleteUserFromPod,
   generateActivityTTL,
   updateUserActivity,
-  getUserListActivity
+  getUserListActivity,
+  createDocumentContainer,
+  setDocContainerAclPermission,
+  checkContainerPermission,
+  sendMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 
@@ -43,5 +47,9 @@ export {
   deleteUserFromPod,
   generateActivityTTL,
   updateUserActivity,
-  getUserListActivity
+  getUserListActivity,
+  createDocumentContainer,
+  setDocContainerAclPermission,
+  checkContainerPermission,
+  sendMessageTTL
 };

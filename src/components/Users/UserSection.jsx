@@ -2,8 +2,6 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ManageUsers } from '../Form';
 import UsersList from './UsersList';
-import { Logout } from '../Login';
-import AppHeader from '../AppHeader';
 
 /**
  * Users Component - Component that generates Users section for PASS
@@ -19,8 +17,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
 
   return (
     <>
-      <AppHeader />
-      <Logout />
       <ManageUsers />
       {loadingUsers ? (
         <UsersList loadingActive={loadingActive} />
