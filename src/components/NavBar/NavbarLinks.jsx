@@ -14,12 +14,14 @@ import { useTheme } from '@mui/material/styles';
 const NavbarLinks = () => {
   const theme = useTheme();
 
-  // Navigate To... button and menu (small screens)
-  const navigateToMenuItems = [
+  // array of current nav links for menus
+  const routes = [
     { label: 'Home', path: '/PASS/home' },
     { label: 'Forms', path: '/PASS/forms' },
     { label: 'Inbox', path: '/PASS/inbox' }
   ];
+
+  // Navigate To... button and menu (small screens)
   const [anchorEl, setAnchorEl] = useState(null);
   const openNavigateToMenu = Boolean(anchorEl);
   const handleNavigateToButtonClick = (event) => {
@@ -71,7 +73,7 @@ const NavbarLinks = () => {
         onClose={handleNavigateToMenuClose}
         sx={{ backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
       >
-        {navigateToMenuItems.map((item) => (
+        {routes.map((item) => (
           <MenuItem key={item.label} disableTouchRipple>
             <Button variant="text">
               <NavLink
@@ -101,9 +103,15 @@ const NavbarLinks = () => {
         aria-label="tabs"
         sx={{ display: { xs: 'none', md: 'flex' } }}
       >
-        <Tab value="home" label="Home" component={NavLink} to="/PASS/home/" />
-        <Tab value="forms" label="Forms" component={NavLink} to="/PASS/forms/" />
-        <Tab value="inbox" label="Inbox" component={NavLink} to="/PASS/inbox/" />
+        {routes.map((item) => (
+          <Tab
+            key={`${item.label}Tab`}
+            value={item.label.toLowerCase()}
+            label={item.label}
+            component={NavLink}
+            to={item.path}
+          />
+        ))}
       </Tabs>
     </>
   );
