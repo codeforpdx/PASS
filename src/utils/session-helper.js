@@ -309,7 +309,7 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
     .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
 
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addDate(RDF_PREDICATES.endDate, new Date(fileObject.date))
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
     .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
