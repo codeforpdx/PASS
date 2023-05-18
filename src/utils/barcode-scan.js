@@ -37,7 +37,7 @@ const csvToJson = (csvData) => {
   const obj = {};
   rows.forEach((row, i) => {
     if (i === 0) {
-      obj.DCA = `${values[i]}`
+      obj.DCA = `${values[i]}`;
     } else {
       obj[`${keys[i]}`] = `${values[i]}`;
     }
