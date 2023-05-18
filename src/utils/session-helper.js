@@ -13,6 +13,7 @@ import {
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from './barcode-scan';
+import formattedDate from './barcode-date-parser';
 import { RDF_PREDICATES } from '../constants';
 
 /**
@@ -287,12 +288,12 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addStringNoLocale(RDF_PREDICATES.expires, dlData.DBA)
+    .addStringNoLocale(RDF_PREDICATES.expires, `${formattedDate(dlData.DBA)}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
     .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
     .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addStringNoLocale(RDF_PREDICATES.dateIssued, dlData.DBD)
-    .addStringNoLocale(RDF_PREDICATES.dateOfBirth, dlData.DBB)
+    .addStringNoLocale(RDF_PREDICATES.dateIssued, `${formattedDate(dlData.DBD)}`)
+    .addStringNoLocale(RDF_PREDICATES.dateOfBirth, `${formattedDate(dlData.DBB)}`)
     .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
     .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
     .addStringNoLocale(RDF_PREDICATES.height, dlData.DAU)
