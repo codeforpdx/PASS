@@ -23,14 +23,12 @@ import NavMenu from './NavMenu';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import { useRedirectUrl } from '../../hooks';
 
-
 /**
  * NavBar Component - Component that generates NavBar section for PASS
  *
  * @memberof GlobalComponents
  * @name NavBar
  */
-
 
 const NavBar = () => {
   const theme = useTheme();

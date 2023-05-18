@@ -1,7 +1,7 @@
 // React Imports
 import { React, useState } from 'react';
 // React Router Imports
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -15,7 +15,7 @@ const NavbarLinks = () => {
   const theme = useTheme();
 
   // array of current nav links for menus
-  const routes = [
+  const routesArray = [
     { label: 'Home', path: '/PASS/home' },
     { label: 'Forms', path: '/PASS/forms' },
     { label: 'Inbox', path: '/PASS/inbox' }
@@ -36,7 +36,6 @@ const NavbarLinks = () => {
   const handleChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
-
 
   return (
     <>
@@ -73,26 +72,27 @@ const NavbarLinks = () => {
         onClose={handleNavigateToMenuClose}
         sx={{ backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
       >
-        {routes.map((item) => (
-          <MenuItem key={item.label} disableTouchRipple>
-            <Button variant="text">
-              <NavLink
-                to={item.path}
-                end
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? 'bold' : '',
-                  color: isActive
-                    ? theme.palette.tertiary.main
-                    : theme.palette.primary.main,
-                  textDecoration: 'none'
-                })}
-                onClick={handleNavigateToMenuClose}
-              >
-                {item.label}
-              </NavLink>
-            </Button>
-          </MenuItem>
-        ))}
+        {routesArray.map((item) => {
+          const currentRoute = useLocation().pathname.includes(item.path);
+          return (
+            <MenuItem key={item.label} disableTouchRipple>
+              <Button variant="text">
+                <NavLink
+                  to={item.path}
+                  end
+                  style={{
+                    fontWeight: currentRoute ? 'bold' : '',
+                    color: currentRoute ? theme.palette.tertiary.main : theme.palette.primary.main,
+                    textDecoration: 'none'
+                  }}
+                  onClick={handleNavigateToMenuClose}
+                >
+                  {item.label}
+                </NavLink>
+              </Button>
+            </MenuItem>
+          );
+        })}
       </Menu>
 
       {/* will show on larger screen (tablet/desktop view) */}
@@ -103,7 +103,7 @@ const NavbarLinks = () => {
         aria-label="tabs"
         sx={{ display: { xs: 'none', md: 'flex' } }}
       >
-        {routes.map((item) => (
+        {routesArray.map((item) => (
           <Tab
             key={`${item.label}Tab`}
             value={item.label.toLowerCase()}
