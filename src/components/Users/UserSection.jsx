@@ -2,8 +2,6 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ManageUsers } from '../Form';
 import UsersList from './UsersList';
-import { Logout } from '../Login';
-import { InactivityMessage } from '../Notification';
 
 /**
  * Users Component - Component that generates Users section for PASS
@@ -19,7 +17,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
 
   return (
     <>
-      <Logout />
       <ManageUsers />
       {loadingUsers ? (
         <UsersList loadingActive={loadingActive} />
@@ -31,7 +28,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>Loading users list...</div>
         </section>
       )}
-      <InactivityMessage />
     </>
   );
 };

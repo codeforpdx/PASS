@@ -16,7 +16,12 @@ const RDF_PREDICATES = {
   State: 'https://schema.org/State',
   postalCode: 'https://schema.org/postalCode',
   Country: 'https://schema.org/Country',
-  additionalName: 'https://schema.org/additionalName'
+  additionalName: 'https://schema.org/additionalName',
+  title: 'https://schema.org/title',
+  message: 'https://schema.org/Message',
+  recipient: 'https://schema.org/recipient',
+  sender: 'https://schema.org/sender',
+  profileName: 'http://xmlns.com/foaf/0.1/name'
 };
 
 export default RDF_PREDICATES;
