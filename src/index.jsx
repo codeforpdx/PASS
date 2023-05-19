@@ -5,7 +5,6 @@ import { SessionProvider } from '@inrupt/solid-ui-react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
-// import Layout from './layouts/Layouts';
 import './style.css';
 import theme from './theme';
 
