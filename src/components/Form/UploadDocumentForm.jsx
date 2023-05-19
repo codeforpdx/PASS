@@ -34,6 +34,7 @@ const UploadDocumentForm = () => {
     event.target.reset();
     clearDescription();
     dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -64,7 +65,7 @@ const UploadDocumentForm = () => {
             id="verify-checkbox"
             type="checkbox"
             value={state.verifyFile}
-            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+            onClick={() => dispatch({ type: 'SET_VERIFY_FILE' })}
           />
         </label>
         <div style={formRowStyle}>

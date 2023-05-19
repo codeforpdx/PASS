@@ -41,7 +41,7 @@ const makeHandleFormSubmission =
     try {
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
-      await uploadDocument(session, uploadType, fileObject, crossPodUsername);
+      await uploadDocument(session, uploadType, fileObject, state.verifyFile, crossPodUsername);
 
       runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
       clearInputFields(event);
