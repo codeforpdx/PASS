@@ -63,7 +63,7 @@ const UploadDocumentForm = () => {
     const fileName = fileObject.file.name;
 
     try {
-      await uploadDocument(session, UPLOAD_TYPES.SELF, fileObject);
+      await uploadDocument(session, UPLOAD_TYPES.SELF, fileObject, state.verifyFile);
 
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
 
@@ -125,6 +125,15 @@ const UploadDocumentForm = () => {
       defaultMessage="To be uploaded..."
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">
+        <label htmlFor="verify-checkbox">
+          Verify File on upload:
+          <input
+            id="verify-checkbox"
+            type="checkbox"
+            value={state.verifyFile}
+            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+          />
+        </label>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc">Select document type to upload: </label>
           <DocumentSelection htmlId="upload-doc" />

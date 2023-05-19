@@ -21,7 +21,9 @@ const RDF_PREDICATES = {
   message: 'https://schema.org/Message',
   recipient: 'https://schema.org/recipient',
   sender: 'https://schema.org/sender',
-  profileName: 'http://xmlns.com/foaf/0.1/name'
+  profileName: 'http://xmlns.com/foaf/0.1/name',
+  sha256: 'https://schema.org/sha256',
+  accountablePerson: 'https://schema.org/accountablePerson'
 };
 
 export default RDF_PREDICATES;

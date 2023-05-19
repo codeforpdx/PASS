@@ -10,5 +10,8 @@ export default defineConfig({
       filename: 'bundleStats.html',
       open: true
     })
-  ]
+  ],
+  test: {
+    environment: 'jsdom'
+  }
 });
