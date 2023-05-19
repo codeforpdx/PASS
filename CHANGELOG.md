@@ -16,6 +16,7 @@
 
 ## Fixes
 
+- Fixed routing to /Documents/Drivers%20License/ for user's Pod by removing apostrophe from string during upload (#157)
 - Minor bug fix for state.verifyFile (#157)
 - Fixed pathing for Prettier and ESLint in scripts (#114, #122)
 - Fixed typings for userListObject in JSDoc (#100)
