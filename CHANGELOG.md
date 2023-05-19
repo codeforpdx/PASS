@@ -1,11 +1,13 @@
 # Changelog
 
-## v0.0.4 (May 12, 2023)
+## v0.0.4 (May 18, 2023)
 
 ## Features
 
+- Included cryptographically secure signatures to documents (#137)
+- Included new Inbox for PASS to allow users to send messages as TTL files (#128)
 - Included checksum for uploaded files on Solid Pods via PASS (#123)
-- Major UI updates with Materia UI, including NavBar, Footer, Login, LogoutModal, etc. (#107, #111, #116, #118)
+- Major UI updates with Materia UI, including NavBar, Footer, Login, LogoutModal, etc. (#107, #111, #116, #118, #141)
 - Created new Footer component for PASS (#118)
 - Included inactivity notification popup that appears after 3 minutes of inactivity (#101)
 - Included ability to perform cross-pod uploading/updating of files in another user's Documents container if given access (#97)
@@ -20,6 +22,7 @@
 
 ## Dev Changes
 
+- Refactored form submission for file uploads (#145)
 - Updating configuration for ESLint (#127)
 - Included linter as part of GitHub Actions (#123)
 - Created dedicated directory for constants and schemas called constants (#123)
@@ -28,6 +31,7 @@
 
 ## Others
 
+- Included new GitHub Actions workflow to add PASS project to issue on creation (#156)
 - Created local dev server, node scripts, and local .env for Community Solid Server (#106)
 
 ---
