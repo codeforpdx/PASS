@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Custom Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
-import NavlinksMenu from './NavbarLinks';
+import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 import { useRedirectUrl } from '../../hooks';
@@ -77,7 +77,7 @@ const NavBar = () => {
           {session.info.isLoggedIn ? (
             <>
               <Box>
-                <NavlinksMenu />
+                <NavbarLinks />
               </Box>
               <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
