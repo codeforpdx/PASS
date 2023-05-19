@@ -100,6 +100,7 @@ const NavbarLinks = () => {
         value={tabValue}
         onChange={handleChange}
         textColor="inherit"
+        indicatorColor="secondary"
         aria-label="tabs"
         sx={{ display: { xs: 'none', md: 'flex' } }}
       >
