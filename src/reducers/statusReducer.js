@@ -49,6 +49,8 @@ const statusReducer = (state, action) => {
       return { ...state, file: action.payload };
     case 'SET_PROCESSING':
       return { ...state, processing: true };
+    case 'TOGGLE_VERIFY_FILE':
+      return { ...state, verifyFile: !state.verifyFile };
     case 'CLEAR_DOCUMENT_LOCATION':
       return { ...state, documentUrl: null };
     case 'CLEAR_MESSAGE':
@@ -59,6 +61,8 @@ const statusReducer = (state, action) => {
       return { ...state, file: null };
     case 'CLEAR_PROCESSING':
       return { ...state, processing: false };
+    case 'CLEAR_VERIFY_FILE':
+      return { ...state, verifyFile: false };
     default:
       return initialStatusState;
   }

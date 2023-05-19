@@ -1,15 +1,17 @@
 // React Imports
 import React, { useState } from 'react';
-// Solid Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-// Custom Component Imports
+// Utility Imports
 import { getDocuments, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 

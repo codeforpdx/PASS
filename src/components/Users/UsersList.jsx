@@ -1,12 +1,15 @@
 // React Imports
 import React, { useContext } from 'react';
-// Solid Imports
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Custom Component Imports
-import { useStatusNotification } from '../../hooks';
+// Utility Imports
 import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
-import FormSection from '../Form/FormSection';
+// Custom Hook Imports
+import { useStatusNotification } from '../../hooks';
+// Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
+// Component Imports
+import FormSection from '../Form/FormSection';
 
 /**
  * UsersList Component - Component that generates UsersList section for PASS

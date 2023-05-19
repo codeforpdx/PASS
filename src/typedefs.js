@@ -58,6 +58,8 @@ const React = require('react');
  * @property {object|null} file - Object that includes file in question
  * @property {boolean} processing - Boolean on whether application is uploading,
  * fetching, querying data from Solid
+ * @property {boolean} verifyFile - Boolean on whether to verify file upon file
+ * upload
  * @memberof typedefs
  */
 

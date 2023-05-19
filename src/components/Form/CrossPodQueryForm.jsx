@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Solid Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -8,12 +8,15 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-// Custom Component Imports
+// Utility Imports
 import { getDocuments, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
+// Context Imports
+import { SelectUserContext } from '../../contexts';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { SelectUserContext } from '../../contexts';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod

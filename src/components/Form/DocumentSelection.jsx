@@ -3,7 +3,7 @@ import React from 'react';
 // Material UI Imports
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-// Custom Component Imports
+// Utility Imports
 import docTypes from '../../utils/form-helper';
 
 /**

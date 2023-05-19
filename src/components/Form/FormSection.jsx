@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-// Custom Component Imports
+// Component Imports
 import { StatusNotification } from '../Notification';
 
 /**
