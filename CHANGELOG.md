@@ -4,7 +4,7 @@
 
 ## Features
 
-- (Pending) Upload Driver's License into Solid through a barcode scanner (#139)
+- Upload Driver's License into Solid through a barcode scanner (#139)
 - Included cryptographically secure signatures to documents (#137)
 - Included new Inbox for PASS to allow users to send messages as TTL files (#128)
 - Included checksum for uploaded files on Solid Pods via PASS (#123)
