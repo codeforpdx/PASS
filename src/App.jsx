@@ -1,11 +1,9 @@
+// React Imports
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import Forms from './components/Forms';
-import { Inbox } from './components/Inbox';
-import { UserSection } from './components/Users';
-import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
-import { useRedirectUrl } from './hooks';
+// Utility Imports
 import {
   getUsersFromPod,
   generateActivityTTL,
@@ -16,7 +14,16 @@ import {
   createDocumentContainer,
   getInboxMessageTTL
 } from './utils';
+// Custom Hook Imports
+import { useRedirectUrl } from './hooks';
+// Context Imports
+import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
+// Page Imports
 import Home from './routes/Home';
+// Component Imports
+import Forms from './components/Forms';
+import { Inbox } from './components/Inbox';
+import { UserSection } from './components/Users';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -31,6 +38,7 @@ const App = () => {
   const redirectUrl = useRedirectUrl();
   const [restore, setRestore] = useState(false);
 
+  // useEffect to restoring PASS if refreshed in browser
   useEffect(() => {
     const performanceEntries = window.performance.getEntriesByType('navigation');
     if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {

@@ -1,7 +1,11 @@
+// React Imports
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Styling Imports
 import styled from 'styled-components';
+// Component Imports
 import NewMessage from './NewMessage';
 import { InboxMessageContext } from '../../contexts';
 import { getInboxMessageTTL } from '../../utils/session-core';

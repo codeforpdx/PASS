@@ -4,7 +4,7 @@
 
 ## Features
 
-- (Pending) Upload Driver's License into Solid through a barcode scanner (#139)
+- Upload Driver's License into Solid through a barcode scanner (#139)
 - Included cryptographically secure signatures to documents (#137)
 - Included new Inbox for PASS to allow users to send messages as TTL files (#128)
 - Included checksum for uploaded files on Solid Pods via PASS (#123)
@@ -16,6 +16,8 @@
 
 ## Fixes
 
+- Fixed routing to /Documents/Drivers%20License/ for user's Pod by removing apostrophe from string during upload (#157)
+- Minor bug fix for state.verifyFile (#157)
 - Fixed pathing for Prettier and ESLint in scripts (#114, #122)
 - Fixed typings for userListObject in JSDoc (#100)
 - Created caching for npm dependencies (#97)

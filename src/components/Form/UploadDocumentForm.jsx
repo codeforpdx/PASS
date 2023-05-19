@@ -1,8 +1,14 @@
+// React Imports
 import React from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { useField, useStatusNotification } from '../../hooks';
-import { UPLOAD_TYPES } from '../../constants';
+// Utility Imports
 import { makeHandleFormSubmission } from '../../utils';
+// Custom Hook Imports
+import { useField, useStatusNotification } from '../../hooks';
+// Constants Imports
+import { UPLOAD_TYPES } from '../../constants';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -34,6 +40,7 @@ const UploadDocumentForm = () => {
     event.target.reset();
     clearDescription();
     dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 

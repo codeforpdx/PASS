@@ -176,7 +176,7 @@ export const uploadDocument = async (
     containerUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   } else {
     containerUrl = getContainerUrl(session, 'Documents', 'cross-fetch', otherPodUsername);
-    containerUrl = `${containerUrl}${fileObject.type.replace(' ', '%20')}/`;
+    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '%20')}/`;
   }
 
   await createContainerAt(containerUrl, { fetch: session.fetch });

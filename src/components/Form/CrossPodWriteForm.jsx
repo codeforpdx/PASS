@@ -1,11 +1,18 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { useField, useStatusNotification } from '../../hooks';
-import DocumentSelection from './DocumentSelection';
+// Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
-import FormSection from './FormSection';
+// Custom Hook Imports
+import { useField, useStatusNotification } from '../../hooks';
+// Context Imports
 import { SelectUserContext } from '../../contexts';
+// Constants Imports
 import { UPLOAD_TYPES } from '../../constants';
+// Component Imports
+import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 
 /**
  * CrossPodWriteForm Component - Component that generates the form for cross pod
@@ -111,7 +118,7 @@ const CrossPodWriteForm = () => {
             id="upload-doctype"
             type="file"
             name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
+            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
             onChange={handleFileChange}
           />
           <button disabled={state.processing} type="submit">

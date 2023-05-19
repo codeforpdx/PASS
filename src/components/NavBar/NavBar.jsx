@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// Solid Imports
+// Inrupt Library Imports
 import { useSession, LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -18,12 +18,14 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-// Custom Component Imports
+// Utility Imports
+import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+// Custom Hook Imports
+import { useRedirectUrl } from '../../hooks';
+// Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavMenu from './NavMenu';
 import NavMenuMobile from './NavMenuMobile';
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
-import { useRedirectUrl } from '../../hooks';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
