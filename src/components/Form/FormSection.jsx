@@ -1,4 +1,6 @@
+// React Imports
 import React from 'react';
+// Component Imports
 import { StatusNotification } from '../Notification';
 
 /**

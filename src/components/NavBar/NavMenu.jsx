@@ -1,6 +1,6 @@
 // React Imports
 import React from 'react';
-// Solid Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';

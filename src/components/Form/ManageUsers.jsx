@@ -1,14 +1,20 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { useStatusNotification, useField } from '../../hooks';
+// Utility Imports
 import {
   runNotification,
   addUserToPod,
   getUserListActivity,
   SOLID_IDENTITY_PROVIDER
 } from '../../utils';
-import FormSection from './FormSection';
+// Custom Hook Imports
+import { useStatusNotification, useField } from '../../hooks';
+// Context Imports
 import { UserListContext } from '../../contexts';
+// Component Imports
+import FormSection from './FormSection';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
