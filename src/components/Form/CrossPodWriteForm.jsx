@@ -149,10 +149,6 @@ const CrossPodWriteForm = () => {
   };
   /* eslint-enable no-param-reassign */
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -163,7 +159,7 @@ const CrossPodWriteForm = () => {
     >
       <Box sx={{ minWidth: 120 }}>
         <form onSubmit={handleCrossPodUpload} autoComplete="off">
-          <div style={formRowStyle}>
+          <div>
             <label htmlFor="cross-upload-doc">Search document from username: </label>
             <br />
             <br />
@@ -175,25 +171,25 @@ const CrossPodWriteForm = () => {
               placeholder={selectedUser}
             />
           </div>
-          <div style={formRowStyle}>
+          <div>
             <FormControl fullWidth autoComplete="off">
               <InputLabel id="upload-doc">
                 <i>Select Document Type</i>
               </InputLabel>
               <DocumentSelection htmlId="upload-doc" value={documentType} onChange={handleChange} />
             </FormControl>
-          </div>{' '}
-          <div style={formRowStyle}>
+          </div>
+          <div>
             <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
             <input id="upload-doc-expiration" name="date" type="date" />
           </div>
-          <div style={formRowStyle}>
+          <div>
             <label htmlFor="upload-doc-desc">Enter description: </label>
             <br />
             <br />
             <textarea id="upload-doc-desc" name="description" {...description} />
           </div>
-          <div style={formRowStyle}>
+          <div>
             <label htmlFor="upload-doctype">File to upload: </label>
             <input
               id="upload-doctype"
@@ -202,16 +198,16 @@ const CrossPodWriteForm = () => {
               accept=".pdf, .docx, .doc, .txt, .rtf"
               onChange={handleFileChange}
             />
-            <Button
-              variant="contained"
-              fullWidth
-              disabled={state.processing}
-              type="submit"
-              onClick={handleCrossPodUpload}
-            >
-              Upload file
-            </Button>
           </div>
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={state.processing}
+            type="submit"
+            onClick={handleCrossPodUpload}
+          >
+            Upload file
+          </Button>
         </form>
       </Box>
     </FormSection>

@@ -29,7 +29,6 @@ const CrossPodQueryForm = () => {
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const [documentType, setDocumentType] = useState('');
-  const [searchUser, setSearchUser] = useState('');
 
   const handleChange = (event) => {
     setDocumentType(event.target.value);
@@ -47,7 +46,7 @@ const CrossPodQueryForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = documentType;
-    let podUsername = searchUser;
+    let podUsername = selectedUser;
 
     if (!podUsername) {
       podUsername = selectedUser;
@@ -85,10 +84,6 @@ const CrossPodQueryForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -98,7 +93,7 @@ const CrossPodQueryForm = () => {
       defaultMessage="To be searched..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <div style={formRowStyle}>
+        <FormControl fullWidth autoComplete="off">
           <TextField
             {...username}
             label="Search document from username"
@@ -109,35 +104,32 @@ const CrossPodQueryForm = () => {
             fullWidth
             name="crossPodQuery"
             placeholder={selectedUser}
-            value={searchUser}
             onChange={(event) => {
-              setSearchUser(event.target.value);
+              setSelectedUser(event.target.value);
             }}
           />
           <br />
           <br />
-          <FormControl fullWidth autoComplete="off">
-            <InputLabel id="cross-search-doctype">
-              <i>Select Document Type</i>
-            </InputLabel>
-            <DocumentSelection
-              htmlId="cross-search-doctype"
-              value={documentType}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            fullWidth
-            disabled={state.processing}
-            type="submit"
-            onClick={handleCrossPodQuery}
-          >
-            Search Pod
-          </Button>
-        </div>
+          <InputLabel id="cross-search-doctype">
+            <i>Select Document Type</i>
+          </InputLabel>
+          <DocumentSelection
+            htmlId="cross-search-doctype"
+            value={documentType}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <br />
+        <br />
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleCrossPodQuery}
+        >
+          Search Pod
+        </Button>
       </Box>
     </FormSection>
   );

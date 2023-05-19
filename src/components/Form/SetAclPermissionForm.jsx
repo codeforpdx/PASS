@@ -5,8 +5,13 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
 // Custom Component Imports
 import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
@@ -28,6 +33,7 @@ const SetAclPermissionForm = () => {
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const [documentType, setdocumentType] = useState('');
+  const [searchUser, setSearchUser] = useState('');
 
   const handleChange = (event) => {
     setdocumentType(event.target.value);
@@ -42,9 +48,9 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
+    const docType = documentType;
     const permissionType = event.target.setAclPerms.value;
-    let podUsername = event.target.setAclTo.value;
+    let podUsername = searchUser;
 
     if (!podUsername) {
       podUsername = selectedUser;
@@ -102,10 +108,6 @@ const SetAclPermissionForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -115,19 +117,24 @@ const SetAclPermissionForm = () => {
       defaultMessage="To be set..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to username: </label>
-          <br />
-          <br />
-          <input
-            id="set-acl-to"
-            size="60"
-            name="setAclTo"
-            {...username}
-            placeholder={selectedUser}
-          />
-        </div>
         <FormControl fullWidth autoComplete="off">
+          <TextField
+            {...username}
+            label="Search document from username"
+            InputProps={{
+              type: 'search'
+            }}
+            id="set-acl-to"
+            fullWidth
+            name="setAclTo"
+            placeholder={selectedUser}
+            value={searchUser}
+            onChange={(event) => {
+              setSearchUser(event.target.value);
+            }}
+          />
+          <br />
+          <br />
           <InputLabel id="set-acl-doctype">
             <i>Select Document Type</i>
           </InputLabel>
@@ -136,15 +143,34 @@ const SetAclPermissionForm = () => {
             value={documentType}
             onChange={handleChange}
           />
-        </FormControl>
-
-        <div style={formRowStyle}>
+          {/* <div style={formRowStyle}>
           <p>Select permission setting:</p>
           <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
           <label htmlFor="set-acl-perm-give">Give</label>
           <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
           <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
+        </div> */}
+          <br />
+          <br />
+          <FormLabel id="set-acl-permission">Select permission setting:</FormLabel>
+          <RadioGroup row aria-labelledby="set-acl-permission" name="row-radio-buttons-group">
+            <FormControlLabel
+              value="Give"
+              control={<Radio />}
+              label="Give"
+              id="set-acl-perm-give"
+              name="setAclPerms"
+            />
+            <FormControlLabel
+              value="Revoke"
+              control={<Radio />}
+              label="Revoke"
+              id="set-acl-perm-revoke"
+              name="setAclPerms"
+            />
+          </RadioGroup>
+        </FormControl>
+
         <Button
           variant="contained"
           fullWidth

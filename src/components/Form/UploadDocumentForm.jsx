@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Custom Component Imports
 import { useField, useStatusNotification } from '../../hooks';
 import { uploadDocument, updateDocument, runNotification } from '../../utils';
@@ -25,13 +26,13 @@ import FormSection from './FormSection';
 const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const [documentType, setdocumentType] = useState('');
+  const [documentType, setDocumentType] = useState('');
 
   const handleChange = (event) => {
-    setdocumentType(event.target.value);
+    setDocumentType(event.target.value);
   };
 
-  // Initalized state for file upload
+  // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
@@ -126,9 +127,6 @@ const UploadDocumentForm = () => {
   };
   /* eslint-enable no-param-reassign */
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -137,49 +135,55 @@ const UploadDocumentForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleFormSubmission} autoComplete="off">
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth autoComplete="off">
-            <InputLabel id="upload-doctype">
-              <i>Select Document Type</i>
-            </InputLabel>
-            <DocumentSelection
-              htmlId="upload-doctype"
-              value={documentType}
-              onChange={handleChange}
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth autoComplete="off">
+          <InputLabel id="upload-doctype">
+            <i>Select Document Type</i>
+          </InputLabel>
+          <DocumentSelection htmlId="upload-doctype" value={documentType} onChange={handleChange} />
+          <div>
+            <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+            <input id="upload-doc-expiration" name="date" type="date" />
+          </div>
+          <div>
+            <label htmlFor="upload-doc-desc">Enter description: </label>
+            <TextField
+              id="upload-doc-desc"
+              name="description"
+              {...description}
+              multiline
+              rows={4}
+              fullWidth
             />
-          </FormControl>
-        </Box>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
+          </div>
           <label htmlFor="upload-doctype">File to upload: </label>
-          <input
+          <Button
             id="upload-doctype"
             type="file"
             name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
-            onChange={handleFileChange}
-          />
-          <Button
+            onClick={handleFileChange}
             variant="contained"
             fullWidth
-            disabled={state.processing}
-            type="submit"
-            onClick={handleFormSubmission}
+            // component="label"
+            // labelId="upload-doctype"
+            // onClick={handleChange}
           >
-            Upload file
+            Choose File
+            <input hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple type="file" />
           </Button>
-        </div>
-      </form>
+          <br />
+          <br />
+        </FormControl>
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleFormSubmission}
+        >
+          Upload file
+        </Button>
+      </Box>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */

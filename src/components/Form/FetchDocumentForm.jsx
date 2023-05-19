@@ -79,16 +79,16 @@ const FetchDocumentForm = () => {
           </InputLabel>
           <DocumentSelection htmlId="search-doctype" value={documentType} onChange={handleChange} />
         </FormControl>
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleGetDocumentSubmission}
+        >
+          Get Document
+        </Button>
       </Box>
-      <Button
-        variant="contained"
-        fullWidth
-        disabled={state.processing}
-        type="submit"
-        onClick={handleGetDocumentSubmission}
-      >
-        Get Document
-      </Button>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
