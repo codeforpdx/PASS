@@ -65,7 +65,7 @@ const UploadDocumentForm = () => {
             id="verify-checkbox"
             type="checkbox"
             value={state.verifyFile}
-            onClick={() => dispatch({ type: 'SET_VERIFY_FILE' })}
+            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
           />
         </label>
         <div style={formRowStyle}>

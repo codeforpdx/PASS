@@ -16,6 +16,7 @@
 
 ## Fixes
 
+- Minor bug fix for state.verifyFile (#157)
 - Fixed pathing for Prettier and ESLint in scripts (#114, #122)
 - Fixed typings for userListObject in JSDoc (#100)
 - Created caching for npm dependencies (#97)
