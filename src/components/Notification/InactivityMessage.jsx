@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 // MUI base UI imports; TODO: Update imports to @mui/material when re-styling
-import Modal from '@mui/base/Modal';
 import Button from '@mui/base/Button';
 import { LogoutButton } from '@inrupt/solid-ui-react';
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
@@ -65,20 +64,33 @@ const InactivityMessage = () => {
     localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
   };
 
-  return (
-    <StyledModal open={showPopup && activeUser}>
-      <StyledContainer>
-        <p>You have been inactive for a few minutes now. Would you like to log out?</p>
-        <ButtonsContainer>
-          <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
-          <LogoutButton>
-            <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
-          </LogoutButton>
-        </ButtonsContainer>
-      </StyledContainer>
-    </StyledModal>
-  );
+  return showPopup && activeUser ? (
+    <StyledOverlay>
+      <StyledModal>
+        <StyledContainer>
+          <p>You have been inactive for a few minutes now. Would you like to log out?</p>
+          <ButtonsContainer>
+            <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
+            <LogoutButton>
+              <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
+            </LogoutButton>
+          </ButtonsContainer>
+        </StyledContainer>
+      </StyledModal>
+    </StyledOverlay>
+  ) : null;
 };
+
+const StyledOverlay = styled('div')({
+  height: '100vh',
+  width: '100vw',
+  backgroundColor: 'rgb(128, 128, 128, .7)',
+  backdropFilter: 'blur(2px)',
+  zIndex: 99,
+  top: '0%',
+  left: '0%',
+  position: 'fixed'
+});
 
 const StyledButton = styled(Button)({
   width: '100px',
@@ -92,12 +104,12 @@ const StyledButton = styled(Button)({
 });
 
 const StyledLogoutButton = styled(StyledButton)({
-  backgroundColor: '#4287f5',
+  backgroundColor: '#017969',
   height: '100%',
   color: '#fff'
 });
 
-const StyledModal = styled(Modal)({
+const StyledModal = styled('div')({
   display: 'flex',
   backgroundColor: 'white',
   alignItems: 'center',
