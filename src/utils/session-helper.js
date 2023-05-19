@@ -212,20 +212,24 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
  * @function createDocAclForUser
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} documentUrl - Url link to document container
+ * @param {object} accessObject - Access Object to use when creating the file
  * @returns {Promise} Promise - Generates ACL file for container and give user
  * access and control to it and its contents
  */
 
-export const createDocAclForUser = async (session, documentUrl) => {
-  const podResourceWithoutAcl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-  const resourceAcl = createAcl(podResourceWithoutAcl);
-  const accessObject = {
+export const createDocAclForUser = async (
+  session,
+  documentUrl,
+  accessObject = {
     read: true,
     append: true,
     write: true,
     control: true
-  };
+  }
+) => {
+  const podResourceWithoutAcl = await getSolidDataset(documentUrl, { fetch: session.fetch });
+
+  const resourceAcl = createAcl(podResourceWithoutAcl);
 
   const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
   await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
@@ -300,7 +304,7 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
     .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+    .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
