@@ -68,7 +68,9 @@ const NewMessage = ({ closeForm }) => {
   return (
     <StyledOverlay>
       <StyledForm onSubmit={(e) => handleSubmit(e)} autoComplete="off">
-        <CancelButton type='button' onClick={closeForm}>Cancel</CancelButton>
+        <CancelButton type="button" onClick={closeForm}>
+          Cancel
+        </CancelButton>
         <StyledNotice>* indicates a required field</StyledNotice>
 
         <StyledHeader>New Message</StyledHeader>
@@ -116,8 +118,8 @@ const StyledOverlay = styled('div')({
   zIndex: 99,
   top: '0%',
   left: '0%',
-  position: 'fixed',
-})
+  position: 'fixed'
+});
 
 const StyledForm = styled('form')({
   display: 'grid',
@@ -133,7 +135,7 @@ const StyledForm = styled('form')({
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  zIndex: 99,
+  zIndex: 99
 });
 
 const CancelButton = styled('button')({
@@ -149,7 +151,7 @@ const CancelButton = styled('button')({
   '&:hover': {
     filter: 'brightness(0.9)'
   }
-})
+});
 
 const StyledNotice = styled('p')({
   gridColumn: 'span 2',
