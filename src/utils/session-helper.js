@@ -16,6 +16,8 @@ import {
   saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
+import getDriversLicenseData from './barcode-scan';
+import formattedDate from './barcode-date-parser';
 import { RDF_PREDICATES } from '../constants';
 
 /**
@@ -286,6 +288,48 @@ const createFileChecksum = async (fileObject) => {
 };
 
 /**
+ * Helper Function that returns Driver's License ttl file based off of image passed
+ *
+ * @memberof utils
+ * @param {fileObjectType} fileObject - Object containing information about file
+ * @param {string} documentUrl - url of uploaded document or resource
+ */
+
+const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
+  const dlData = await getDriversLicenseData(fileObject.file);
+  return buildThing(createThing({ name: 'document' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
+    .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
+    .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
+    .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
+    .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
+    .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
+    .addDate(RDF_PREDICATES.dateIssued, new Date(`${formattedDate(dlData.DBD)}`))
+    .addDate(RDF_PREDICATES.dateOfBirth, new Date(`${formattedDate(dlData.DBB)}`))
+    .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
+    .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
+    .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
+    .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
+    .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
+    .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
+    .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
+    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
+    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
+    .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
+    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
+
+    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
+    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addUrl(RDF_PREDICATES.url, documentUrl)
+    .build();
+};
+
+/**
  * Creates a TTL file corresponding to an uploaded document or resource
  *
  * @memberof utils
@@ -296,8 +340,13 @@ const createFileChecksum = async (fileObject) => {
  * @returns {Promise} Promise - Perform action to generate a newly generated
  * Thing from buildThing
  */
+
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
   const checksum = await createFileChecksum(fileObject);
+
+  if (fileObject.type === "Driver's License") {
+    return createDriversLicenseTtlFile(fileObject, documentUrl, checksum);
+  }
 
   return buildThing(createThing({ name: 'document' }))
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
