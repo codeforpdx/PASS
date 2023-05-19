@@ -62,7 +62,7 @@ const OIDUrl =
   import.meta.env.MODE === 'development'
     ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
     : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
-export const SOLID_IDENTITY_PROVIDER = OIDUrl;
+export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
