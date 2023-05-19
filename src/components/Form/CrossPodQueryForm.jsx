@@ -95,21 +95,23 @@ const CrossPodQueryForm = () => {
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth autoComplete="off">
           <TextField
+            id="cross-search-doc"
+            name="crossPodQuery"
             {...username}
+            placeholder={selectedUser}
             label="Search document from username"
             InputProps={{
               type: 'search'
             }}
-            id="cross-search-doc"
             fullWidth
-            name="crossPodQuery"
-            placeholder={selectedUser}
             onChange={(event) => {
               setSelectedUser(event.target.value);
             }}
           />
-          <br />
-          <br />
+        </FormControl>
+        <br />
+        <br />
+        <FormControl fullWidth autoComplete="off">
           <InputLabel id="cross-search-doctype">
             <i>Select Document Type</i>
           </InputLabel>

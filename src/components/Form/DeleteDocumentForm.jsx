@@ -74,16 +74,18 @@ const DeleteDocumentForm = () => {
           </InputLabel>
           <DocumentSelection htmlId="delete-doctype" value={documentType} onChange={handleChange} />
         </FormControl>
+        <br />
+        <br />
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleDeleteDocument}
+        >
+          Delete Document
+        </Button>
       </Box>
-      <Button
-        variant="contained"
-        fullWidth
-        disabled={state.processing}
-        type="submit"
-        onClick={handleDeleteDocument}
-      >
-        Delete Document
-      </Button>
     </FormSection>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */

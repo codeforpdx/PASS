@@ -172,7 +172,6 @@ const UploadDocumentForm = () => {
             <input hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple type="file" />
           </Button>
           <br />
-          <br />
         </FormControl>
         <Button
           variant="contained"

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Custom Component Imports
 import { useField, useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
@@ -158,57 +159,59 @@ const CrossPodWriteForm = () => {
       defaultMessage="To be uploaded..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <form onSubmit={handleCrossPodUpload} autoComplete="off">
-          <div>
-            <label htmlFor="cross-upload-doc">Search document from username: </label>
-            <br />
-            <br />
-            <input
-              id="cross-upload-doc"
-              size="60"
-              name="crossPodUpload"
-              {...username}
-              placeholder={selectedUser}
-            />
-          </div>
-          <div>
-            <FormControl fullWidth autoComplete="off">
-              <InputLabel id="upload-doc">
-                <i>Select Document Type</i>
-              </InputLabel>
-              <DocumentSelection htmlId="upload-doc" value={documentType} onChange={handleChange} />
-            </FormControl>
-          </div>
-          <div>
-            <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-            <input id="upload-doc-expiration" name="date" type="date" />
-          </div>
-          <div>
-            <label htmlFor="upload-doc-desc">Enter description: </label>
-            <br />
-            <br />
-            <textarea id="upload-doc-desc" name="description" {...description} />
-          </div>
-          <div>
-            <label htmlFor="upload-doctype">File to upload: </label>
-            <input
-              id="upload-doctype"
-              type="file"
-              name="uploadDoctype"
-              accept=".pdf, .docx, .doc, .txt, .rtf"
-              onChange={handleFileChange}
-            />
-          </div>
-          <Button
-            variant="contained"
+        <FormControl fullWidth autoComplete="off">
+          <TextField
+            id="cross-search-doc"
+            name="crossPodQuery"
+            {...username}
+            placeholder={selectedUser}
+            label="Search document from username"
+            InputProps={{
+              type: 'search'
+            }}
             fullWidth
-            disabled={state.processing}
-            type="submit"
-            onClick={handleCrossPodUpload}
-          >
-            Upload file
-          </Button>
-        </form>
+            onChange={(event) => {
+              setSelectedUser(event.target.value);
+            }}
+          />
+        </FormControl>
+        <br />
+        <br />
+        <FormControl fullWidth autoComplete="off">
+          <InputLabel id="upload-doc">
+            <i>Select Document Type</i>
+          </InputLabel>
+          <DocumentSelection htmlId="upload-doc" value={documentType} onChange={handleChange} />
+        </FormControl>
+        <div>
+          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+          <input id="upload-doc-expiration" name="date" type="date" />
+        </div>
+        <div>
+          <label htmlFor="upload-doc-desc">Enter description: </label>
+          <br />
+          <br />
+          <textarea id="upload-doc-desc" name="description" {...description} />
+        </div>
+        <div>
+          <label htmlFor="upload-doctype">File to upload: </label>
+          <input
+            id="upload-doctype"
+            type="file"
+            name="uploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf"
+            onChange={handleFileChange}
+          />
+        </div>
+        <Button
+          variant="contained"
+          fullWidth
+          disabled={state.processing}
+          type="submit"
+          onClick={handleCrossPodUpload}
+        >
+          Upload file
+        </Button>
       </Box>
     </FormSection>
   );

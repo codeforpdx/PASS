@@ -74,11 +74,13 @@ const FetchDocumentForm = () => {
     >
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth autoComplete="off">
-          <InputLabel id="select-document-type-label">
+          <InputLabel id="search-doctype">
             <i>Select Document Type</i>
           </InputLabel>
           <DocumentSelection htmlId="search-doctype" value={documentType} onChange={handleChange} />
         </FormControl>
+        <br />
+        <br />
         <Button
           variant="contained"
           fullWidth

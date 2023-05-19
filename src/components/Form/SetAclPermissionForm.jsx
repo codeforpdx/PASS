@@ -133,8 +133,10 @@ const SetAclPermissionForm = () => {
               setSearchUser(event.target.value);
             }}
           />
-          <br />
-          <br />
+        </FormControl>
+        <br />
+        <br />
+        <FormControl fullWidth autoComplete="off">
           <InputLabel id="set-acl-doctype">
             <i>Select Document Type</i>
           </InputLabel>
@@ -143,15 +145,10 @@ const SetAclPermissionForm = () => {
             value={documentType}
             onChange={handleChange}
           />
-          {/* <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div> */}
-          <br />
-          <br />
+        </FormControl>
+        <br />
+        <br />
+        <FormControl fullWidth autoComplete="off">
           <FormLabel id="set-acl-permission">Select permission setting:</FormLabel>
           <RadioGroup row aria-labelledby="set-acl-permission" name="row-radio-buttons-group">
             <FormControlLabel
