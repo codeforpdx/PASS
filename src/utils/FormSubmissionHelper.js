@@ -1,6 +1,9 @@
-import { Session } from '@inrupt/solid-client-authn-browser';
 import runNotification from './notification-helper';
 import { uploadDocument, updateDocument } from './session-core';
+
+/**
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ */
 
 /**
  * Makes a default handleFormSubmission function that can be used

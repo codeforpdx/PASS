@@ -1,9 +1,15 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
 import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
-import FormSection from './FormSection';
+// Context Imports
 import { SelectUserContext } from '../../contexts';
+// Component Imports
+import FormSection from './FormSection';
 
 /**
  * CheckAclPermsDocContainerForm Component - Component that generates the form

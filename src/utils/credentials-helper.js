@@ -9,11 +9,12 @@ import {
   setThing,
   getStringNoLocale
 } from '@inrupt/solid-client';
-import { Session } from '@inrupt/solid-client-authn-browser';
-
 import { createDocAclForUser } from './session-helper';
-
 import { RDF_PREDICATES } from '../constants';
+
+/**
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ */
 
 const generateRsaKeyStrings = async () => {
   const { privateKey, publicKey } = await window.crypto.subtle.generateKey(
