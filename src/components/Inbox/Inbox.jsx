@@ -31,17 +31,14 @@ const Inbox = () => {
   };
 
   return (
-    <>
-      <Logout />
-      <section id="inbox" className="panel">
-        <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
-        {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
-        <div>Placeholder; inbox contents will go here.</div>
-        <button onClick={handleInboxRefresh} type="button">
-          Refresh
-        </button>
-      </section>
-    </>
+    <section id="inbox" className="panel">
+      <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+      <div>Placeholder; inbox contents will go here.</div>
+      <button onClick={handleInboxRefresh} type="button">
+        Refresh
+      </button>
+    </section>
   );
 };
 
