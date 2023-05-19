@@ -31,12 +31,6 @@ const NavbarLinks = () => {
     setAnchorEl(null);
   };
 
-  // Tabs (larger screens)
-  const [tabValue, setTabValue] = useState('home');
-  const handleChange = (event, newTabValue) => {
-    setTabValue(newTabValue);
-  };
-
   return (
     <>
       {/* will show on small screen (mobile view) */}
@@ -97,8 +91,7 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={tabValue}
-        onChange={handleChange}
+        value={useLocation().pathname.slice(6)}
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"
