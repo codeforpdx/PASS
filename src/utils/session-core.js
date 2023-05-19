@@ -33,6 +33,7 @@ import {
   getUserProfileName,
   saveMessageTTLInInbox
 } from './session-helper';
+import { getUserSigningKey, signDocumentTtlFile } from './credentials-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -155,13 +156,20 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
  * being used
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
+ * @param {boolean} verifyDocument - True if document submission should include user verification
  * @param {string} [otherPodUsername] - If cross pod interaction, this is the username of the
  * other user, set to an empty string by default
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
 
 // Main function to upload document to user's Pod on Solid
-export const uploadDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
+export const uploadDocument = async (
+  session,
+  uploadType,
+  fileObject,
+  verifyDocument,
+  otherPodUsername = ''
+) => {
   let containerUrl;
   const fileName = fileObject.file.name;
   if (uploadType === UPLOAD_TYPES.SELF) {
@@ -185,9 +193,13 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
   // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, containerUrl);
   const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
+  const signingKey = verifyDocument ? await getUserSigningKey(session) : null;
 
   let newSolidDataset = createSolidDataset();
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
+  const signatureDataset = signingKey
+    ? await signDocumentTtlFile(signingKey, newSolidDataset, session, containerUrl)
+    : null;
 
   // Generate document.ttl file for container
   await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
@@ -195,6 +207,14 @@ export const uploadDocument = async (session, uploadType, fileObject, otherPodUs
     contentType: 'text/turtle',
     fetch: session.fetch
   });
+
+  if (signatureDataset) {
+    await saveSolidDatasetInContainer(containerUrl, signatureDataset, {
+      slugSuggestion: 'signature.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+  }
 
   if (uploadType === UPLOAD_TYPES.SELF) {
     // Generate ACL file for container

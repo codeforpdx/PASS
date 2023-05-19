@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
-import { Login } from './components/Login';
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
@@ -17,6 +16,7 @@ import {
   createDocumentContainer,
   getInboxMessageTTL
 } from './utils';
+import Home from './routes/Home';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject

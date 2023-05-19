@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import styled from 'styled-components';
-import { Logout } from '../Login';
 import NewMessage from './NewMessage';
 import { InboxMessageContext } from '../../contexts';
 import { getInboxMessageTTL } from '../../utils/session-core';

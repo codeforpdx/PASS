@@ -59,6 +59,8 @@ const statusReducer = (state, action) => {
       return { ...state, file: null };
     case 'CLEAR_PROCESSING':
       return { ...state, processing: false };
+    case 'TOGGLE_VERIFY_FILE':
+      return { ...state, verifyFile: !state.verifyFile };
     default:
       return initialStatusState;
   }

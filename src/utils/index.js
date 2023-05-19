@@ -31,6 +31,7 @@ import {
   getInboxMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
+import makeHandleFormSubmission from './FormSubmissionHelper';
 
 export {
   docTypes,
@@ -53,5 +54,6 @@ export {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
-  getInboxMessageTTL
+  getInboxMessageTTL,
+  makeHandleFormSubmission
 };
