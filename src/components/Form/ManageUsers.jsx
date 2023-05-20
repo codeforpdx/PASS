@@ -30,6 +30,7 @@ const ManageUsers = () => {
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
   const { clearValue: clearUsername, ...username } = useField('text');
+  const { clearValue: clearWebId, ...webId } = useField('text');
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
@@ -37,39 +38,14 @@ const ManageUsers = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      username: event.target.addUsername.value
+      givenName: userGivenName.value,
+      familyName: userFamilyName.value,
+      username: username.value,
+      webId: webId.value
     };
 
-    if (!userObject.username) {
-      runNotification(`Operation failed. Reason: No username provided`, 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    if (!userObject.givenName) {
-      runNotification(
-        `Operation failed. Reason: User's first/given name is not provided`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    if (!userObject.familyName) {
-      runNotification(
-        `Operation failed. Reason: User's last/family name is not provided`,
-        5,
-        state,
-        dispatch
-      );
+    if (!userObject.username || !userObject.webId) {
+      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -89,9 +65,7 @@ const ManageUsers = () => {
     );
 
     setTimeout(() => {
-      clearUserGivenName();
-      clearUserFamilyName();
-      clearUsername();
+      event.target.reset();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
   };
@@ -110,25 +84,22 @@ const ManageUsers = () => {
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
         <div>
-          <label htmlFor="add-user-given-name">First/given name: </label>
-          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
+          <label htmlFor="add-user-given-name">First/given name:
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
+          </label>
         </div>
-        <br />
         <div>
-          <label htmlFor="add-user-last-name">Last/family name: </label>
-          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
+          <label htmlFor="add-user-last-name">Last/family name: 
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
+          </label>
         </div>
-        <br />
         <div>
           <label htmlFor="add-username">
-            Add username to users list (i.e., username without{' '}
-            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
+            Add username to users list (i.e., username without
+            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):
+            <input id="add-username" name="addUsername" size="60" {...username} />
           </label>
-          <br />
-          <br />
-          <input id="add-username" name="addUsername" size="25" {...username} />{' '}
         </div>
-        <br />
         <button type="submit" disabled={state.processing}>
           Add User
         </button>
