@@ -602,15 +602,13 @@ export const addUserToPod = async (session, userObject) => {
     fetch: session.fetch
   });
 
-  const podUrl = `https://${userObject.username}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
+  const { givenName, familyName, username, webId } = userObject;
 
-  const newUserThing = buildThing(
-    createThing({ name: `${userObject.givenName} ${userObject.username}` })
-  )
-    .addStringNoLocale(RDF_PREDICATES.Person, `${userObject.givenName} ${userObject.familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, userObject.givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, userObject.familyName)
-    .addUrl(RDF_PREDICATES.url, podUrl)
+  const newUserThing = buildThing(createThing({ name: `${givenName} ${username}` }))
+    .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
+    .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
+    .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
+    .addUrl(RDF_PREDICATES.url, webId)
     .build();
 
   solidDataset = setThing(solidDataset, newUserThing);

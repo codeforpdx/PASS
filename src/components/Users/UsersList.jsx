@@ -59,7 +59,7 @@ const UsersList = ({ loadingActive }) => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Pod URL</th>
+            <th>Web Id</th>
             <th>Last Active Date</th>
             <th>Select User</th>
             <th>Delete User</th>

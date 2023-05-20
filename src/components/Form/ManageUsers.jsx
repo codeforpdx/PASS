@@ -5,11 +5,7 @@ import { Lock, LockOpen } from '@mui/icons-material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import {
-  runNotification,
-  addUserToPod,
-  getUserListActivity
-} from '../../utils';
+import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
 
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
@@ -26,79 +22,102 @@ import FormSection from './FormSection';
  * @name ManageUsers
  */
 
-const WebIdEditButton = ({lockStatus, setLockStatus}) => (
-    <IconButton
-      onClick={(e) => {
-        e.preventDefault();
-        setLockStatus(!lockStatus);
-      }}
-    >
-      {lockStatus ? <LockOpen/> : <Lock/>}
-    </IconButton>
+const WebIdEditButton = ({ lockStatus, setLockStatus }) => (
+  <IconButton
+    onClick={(e) => {
+      e.preventDefault();
+      setLockStatus(!lockStatus);
+    }}
+  >
+    {lockStatus ? <LockOpen /> : <Lock />}
+  </IconButton>
 );
+
+const formRowStyle = {
+  margin: '20px 0'
+};
+
+const textFieldStyle = {
+  margin: '8px'
+};
+
+const clearProcessing = (dispatch) => {
+  setTimeout(() => {
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  }, 3000);
+};
+
+const sendUserToSolid = async (userObject, dispatch, session, state) => {
+  if (!userObject.username && !userObject.webId) {
+    runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
+    return;
+  }
+
+  dispatch({ type: 'SET_PROCESSING' });
+
+  runNotification(
+    `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+    5,
+    state,
+    dispatch
+  );
+  let listUsers = await addUserToPod(session, userObject);
+  listUsers = await getUserListActivity(session, listUsers);
+
+  runNotification(
+    `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+    5,
+    state,
+    dispatch
+  );
+
+  clearProcessing(dispatch);
+
+  await listUsers;
+};
+
+const renderWebId = (username) => {
+  const template = ['https://', '.solidcommunity.net/profile/card#me'];
+  return `${template[0]}${username}${template[1]}`;
+};
 
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { clearValue: clearWebId, ...webId } = useField('text');
-  const [ editWebId, setEditWebId ] = useState(false);
+  const [username, setUsername] = useState();
+  const [webId, setWebId] = useState('');
+  const [userEditingWebId, setUserEditingWebId] = useState(false);
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
   const handleAddUser = async (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
       givenName: userGivenName.value,
       familyName: userFamilyName.value,
-      username: username.value,
-      webId: webId.value
+      username,
+      webId
     };
 
-    if (!userObject.username && !userObject.webId) {
-      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    runNotification(
-      `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
-      5,
-      state,
-      dispatch
-    );
-    let listUsers = await addUserToPod(session, userObject);
-    listUsers = await getUserListActivity(session, listUsers);
-
-    runNotification(
-      `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
-      5,
-      state,
-      dispatch
-    );
+    const listUsers = await sendUserToSolid(userObject, dispatch, session, state);
 
     setUserList(listUsers);
-
-    setTimeout(() => {
-      clearUserFamilyName();
-      clearUserGivenName();
-      clearUsername();
-      dispatch({ type: 'CLEAR_PROCESSING' });
-    }, 3000);
+    clearUserFamilyName();
+    clearUserGivenName();
+    setUsername('');
+    setWebId('');
   };
 
-  const formRowStyle = {
-    margin: '20px 0',
+  const wrappedSetUsername = (value) => {
+    setUsername(value);
+    if (userEditingWebId) {
+      return;
+    }
+    const renderedWebId = renderWebId(value);
+    setWebId(renderedWebId);
   };
-
-  const textFieldStyle = {
-    margin: '8px'
-  }
 
   return (
     <FormSection
@@ -115,7 +134,7 @@ const ManageUsers = () => {
           variant="outlined"
           {...userGivenName}
         />
-        <br/>
+        <br />
         <TextField
           style={textFieldStyle}
           id="last-name-form"
@@ -123,33 +142,38 @@ const ManageUsers = () => {
           variant="outlined"
           {...userFamilyName}
         />
-        <br/>
+        <br />
         <TextField
           style={textFieldStyle}
           id="username-form"
           label="Username"
           variant="outlined"
-          {...username}
+          type="text"
+          value={username}
+          onChange={(e) => wrappedSetUsername(e.target.value)}
         />
         <TextField
           style={textFieldStyle}
           id="webId"
           label="WebId"
+          value={webId}
+          onChange={(e) => {
+            setWebId(e.target.value);
+          }}
           variant="outlined"
-          disabled={!editWebId}
+          disabled={!userEditingWebId}
           InputProps={{
             endAdornment: (
-              <InputAdornment position='end'>
-                <WebIdEditButton 
-                  lockStatus={editWebId}
-                  setLockStatus={setEditWebId}
+              <InputAdornment position="end">
+                <WebIdEditButton
+                  lockStatus={userEditingWebId}
+                  setLockStatus={setUserEditingWebId}
                 />
               </InputAdornment>
             )
           }}
-          {...webId}
         />
-        <br/>
+        <br />
         <Button
           style={textFieldStyle}
           variant="contained"
