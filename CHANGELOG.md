@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.0.4 (May 18, 2023)
+## v0.0.4 (May 19, 2023)
 
 ## Features
 
@@ -8,7 +8,7 @@
 - Included cryptographically secure signatures to documents (#137)
 - Included new Inbox for PASS to allow users to send messages as TTL files (#128)
 - Included checksum for uploaded files on Solid Pods via PASS (#123)
-- Major UI updates with Material UI, including NavBar, Footer, Login, LogoutModal, etc. (#107, #111, #116, #118, #141)
+- Major UI updates with Material UI, including NavBar, Footer, Login, LogoutModal, etc. (#107, #111, #116, #118, #141, #154, #166)
 - Created new Footer component for PASS (#118)
 - Included inactivity notification popup that appears after 3 minutes of inactivity (#101)
 - Included ability to perform cross-pod uploading/updating of files in another user's Documents container if given access (#97)
@@ -25,6 +25,8 @@
 
 ## Dev Changes
 
+- Refactored handleLogout and eventlisteners for inactivity notification (#166)
+- Refactored Navbar with MUI components (#156)
 - Refactored form submission for file uploads (#145)
 - Updating configuration for ESLint (#127)
 - Included linter as part of GitHub Actions (#123)
