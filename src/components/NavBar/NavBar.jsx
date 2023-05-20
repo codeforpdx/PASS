@@ -62,7 +62,7 @@ const NavBar = () => {
   // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
     removeKeys();
-    setShowConfirmation(false);
+    setShowConfirmationModal(false);
   };
 
   return (
