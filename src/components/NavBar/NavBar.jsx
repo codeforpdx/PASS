@@ -73,11 +73,17 @@ const NavBar = () => {
 
   // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('redirectUrl');
-    localStorage.removeItem('restorePath');
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
+    const keysToRemove = [
+      'loggedIn',
+      'redirectUrl',
+      'restorePath',
+      `issuerConfig:${SOLID_IDENTITY_PROVIDER}`,
+      `issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`
+    ];
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
     setShowConfirmation(false);
   };
 

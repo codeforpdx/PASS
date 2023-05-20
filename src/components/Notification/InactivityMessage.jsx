@@ -46,26 +46,34 @@ const InactivityMessage = () => {
 
     resetTimeout();
 
-    window.addEventListener('mousedown', handleUserActivity);
-    window.addEventListener('mousemove', handleUserActivity);
-    window.addEventListener('touchstart', handleUserActivity);
+    const eventTypes = ['mousedown', 'mousemove', 'touchstart'];
+
+    eventTypes.forEach((eventType) => {
+      window.addEventListener(eventType, handleUserActivity);
+    });
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('mousedown', handleUserActivity);
-      window.removeEventListener('mousemove', handleUserActivity);
-      window.removeEventListener('touchstart', handleUserActivity);
+      eventTypes.forEach((eventType) => {
+        window.removeEventListener(eventType, handleUserActivity);
+      });
     };
   }, []);
 
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
   const handleLogout = () => {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('redirectUrl');
-    localStorage.removeItem('restorePath');
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
+    const keysToRemove = [
+      'loggedIn',
+      'redirectUrl',
+      'restorePath',
+      `issuerConfig:${SOLID_IDENTITY_PROVIDER}`,
+      `issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`
+    ];
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   };
 
   return (
