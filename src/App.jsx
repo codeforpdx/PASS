@@ -24,6 +24,7 @@ import Home from './routes/Home';
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
+import Layout from './layouts/Layouts';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -105,9 +106,10 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <SelectUserContext.Provider value={selectedUserObject}>
-      <UserListContext.Provider value={userListObject}>
-        <InboxMessageContext.Provider value={inboxMessageObject}>
+    <Layout>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <InboxMessageContext.Provider value={inboxMessageObject}>
           <Routes>
             <Route
               exact
@@ -117,7 +119,7 @@ const App = () => {
                   <Navigate
                     to={
                       !localStorage.getItem('restorePath')
-                        ? '/PASS/home/'
+                        ? '/PASS/home'
                         : localStorage.getItem('restorePath')
                     }
                   />
@@ -127,7 +129,7 @@ const App = () => {
               }
             />
             <Route
-              path="/PASS/home/"
+              path="/PASS/home"
               element={
                 session.info.isLoggedIn ? (
                   <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
@@ -137,11 +139,11 @@ const App = () => {
               }
             />
             <Route
-              path="/PASS/forms/"
+              path="/PASS/forms"
               element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
             />
             <Route
-              path="/PASS/inbox/"
+              path="/PASS/inbox"
               element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
             />
             <Route path="*" element={<Navigate to="/PASS/" />} />

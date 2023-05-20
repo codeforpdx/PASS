@@ -10,7 +10,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
 // Component Imports
 import App from './App';
-import Layout from './layouts/Layouts';
 // Other Imports
 import './style.css';
 
@@ -21,9 +20,7 @@ root.render(
       <SessionProvider>
         <CssBaseline />
         <ThemeProvider theme={theme}>
-          <Layout>
-            <App />
-          </Layout>
+          <App />
         </ThemeProvider>
       </SessionProvider>
     </Router>

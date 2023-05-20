@@ -115,7 +115,7 @@ const SetAclPermissionForm = () => {
           <br />
           <input
             id="set-acl-to"
-            size="60"
+            size="25"
             name="setAclTo"
             {...username}
             placeholder={selectedUser}
