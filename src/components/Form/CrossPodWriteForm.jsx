@@ -1,13 +1,7 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -33,11 +27,6 @@ const CrossPodWriteForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
-  const [documentType, setdocumentType] = useState('');
-
-  const handleChange = (event) => {
-    setdocumentType(event.target.value);
-  };
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
@@ -84,6 +73,10 @@ const CrossPodWriteForm = () => {
     handleFormSubmit(event, podUsername);
   };
 
+  const formRowStyle = {
+    margin: '20px 0'
+  };
+
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -92,42 +85,34 @@ const CrossPodWriteForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth autoComplete="off">
-          <TextField
-            id="cross-search-doc"
-            name="crossPodQuery"
+      <form onSubmit={handleCrossPodUpload} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="cross-upload-doc">Search document from username: </label>
+          <br />
+          <br />
+          <input
+            id="cross-upload-doc"
+            size="25"
+            name="crossPodUpload"
             {...username}
             placeholder={selectedUser}
-            label="Search document from username"
-            InputProps={{
-              type: 'search'
-            }}
-            fullWidth
-            onChange={(event) => {
-              setSelectedUser(event.target.value);
-            }}
           />
-        </FormControl>
-        <br />
-        <br />
-        <FormControl fullWidth autoComplete="off">
-          <InputLabel id="upload-doc">
-            <i>Select Document Type</i>
-          </InputLabel>
-          <DocumentSelection htmlId="upload-doc" value={documentType} onChange={handleChange} />
-        </FormControl>
-        <div>
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <DocumentSelection htmlId="upload-doc" />
+        </div>
+        <div style={formRowStyle}>
           <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
           <input id="upload-doc-expiration" name="date" type="date" />
         </div>
-        <div>
+        <div style={formRowStyle}>
           <label htmlFor="upload-doc-desc">Enter description: </label>
           <br />
           <br />
           <textarea id="upload-doc-desc" name="description" {...description} />
         </div>
-        <div>
+        <div style={formRowStyle}>
           <label htmlFor="upload-doctype">File to upload: </label>
           <input
             id="upload-doctype"
@@ -136,17 +121,11 @@ const CrossPodWriteForm = () => {
             accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
             onChange={handleFileChange}
           />
+          <button disabled={state.processing} type="submit">
+            Upload file
+          </button>
         </div>
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleCrossPodUpload}
-        >
-          Upload file
-        </Button>
-      </Box>
+      </form>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */

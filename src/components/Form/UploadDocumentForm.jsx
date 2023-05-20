@@ -1,19 +1,7 @@
 // React Imports
-import React, { useState } from 'react';
+import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
 // Utility Imports
 import { makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -35,13 +23,8 @@ import FormSection from './FormSection';
 const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const [documentType, setDocumentType] = useState('');
 
-  const handleChange = (event) => {
-    setDocumentType(event.target.value);
-  };
-
-  // Initialized state for file upload
+  // Initalized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
@@ -70,6 +53,9 @@ const UploadDocumentForm = () => {
     clearInputFields
   );
 
+  const formRowStyle = {
+    margin: '20px 0'
+  };
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -78,72 +64,44 @@ const UploadDocumentForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth autoComplete="off">
-          <FormGroup aria-label="position" row>
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Verify File on upload:"
-              labelPlacement="start"
-              id="verify-checkbox"
-              type="checkbox"
-              value={state.verifyFile}
-              onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
-            />
-          </FormGroup>
-          <FormControl fullWidth autoComplete="off">
-            <InputLabel id="upload-doctype">
-              <i>Select Document Type</i>
-            </InputLabel>
-            <DocumentSelection
-              htmlId="upload-doctype"
-              value={documentType}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <br />
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker id="upload-doc-expiration" name="date" type="date" />
-          </LocalizationProvider>
-          <br />
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <TextField
-            id="upload-doc-desc"
-            name="description"
-            {...description}
-            multiline
-            rows={4}
-            fullWidth
+      <form onSubmit={handleFormSubmission} autoComplete="off">
+        <label htmlFor="verify-checkbox">
+          Verify File on upload:
+          <input
+            id="verify-checkbox"
+            type="checkbox"
+            value={state.verifyFile}
+            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
           />
-        </FormControl>
-        <br />
-        <br />
-        <label htmlFor="upload-doctype">File to upload: </label>
-        <Button
-          variant="contained"
-          fullWidth
-          type="file"
-          id="upload-doctype"
-          name="uploadDoctype"
-          accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-          onChange={handleFileChange}
-        >
-          Choose File
-          <input hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple type="file" />
-        </Button>
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          fullWidth
-          type="submit"
-          disabled={state.processing}
-          onClick={handleFormSubmission}
-        >
-          Upload file
-        </Button>
-      </Box>
+        </label>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <DocumentSelection htmlId="upload-doc" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+          <input id="upload-doc-expiration" name="date" type="date" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-desc">Enter description: </label>
+          <br />
+          <br />
+          <textarea id="upload-doc-desc" name="description" {...description} />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doctype">File to upload: </label>
+          <input
+            id="upload-doctype"
+            type="file"
+            name="uploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
+            onChange={handleFileChange}
+          />
+          <button disabled={state.processing} type="submit">
+            Upload file
+          </button>
+        </div>
+      </form>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */

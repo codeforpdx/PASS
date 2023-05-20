@@ -1,12 +1,7 @@
 // React Imports
-import React, { useState } from 'react';
+import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 // Utility Imports
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -27,17 +22,11 @@ const DeleteDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
-  const [documentType, setdocumentType] = useState('');
-
-  const handleChange = (event) => {
-    setdocumentType(event.target.value);
-  };
-
   // Event handler for deleting document
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = documentType;
+    const docType = event.target.document.value;
 
     try {
       const documentUrl = await deleteDocumentFile(session, docType);
@@ -61,6 +50,10 @@ const DeleteDocumentForm = () => {
     }
   };
 
+  const formRowStyle = {
+    margin: '20px 0'
+  };
+
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -69,25 +62,15 @@ const DeleteDocumentForm = () => {
       statusType="Deletion status"
       defaultMessage="To be deleted..."
     >
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth autoComplete="off">
-          <InputLabel id="delete-doctype">
-            <i>Select Document Type</i>
-          </InputLabel>
-          <DocumentSelection htmlId="delete-doctype" value={documentType} onChange={handleChange} />
-        </FormControl>
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleDeleteDocument}
-        >
-          Delete Document
-        </Button>
-      </Box>
+      <form onSubmit={handleDeleteDocument} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="delete-doctype">Select document type to delete: </label>
+          <DocumentSelection htmlId="delete-doctype" />{' '}
+          <button disabled={state.processing} type="submit">
+            Delete Document
+          </button>
+        </div>
+      </form>
     </FormSection>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */

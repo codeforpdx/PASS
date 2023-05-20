@@ -2,8 +2,6 @@
 import React, { useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import Button from '@mui/material/Button';
 // Utility Imports
 import {
   SOLID_IDENTITY_PROVIDER,
@@ -120,7 +118,7 @@ const SetAclPermsDocContainerForm = () => {
           <br />
           <input
             id="set-acl-to"
-            size="60"
+            size="25"
             name="setAclTo"
             {...username}
             placeholder={selectedUser}
@@ -133,15 +131,9 @@ const SetAclPermsDocContainerForm = () => {
           <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
           <label htmlFor="set-acl-perm-revoke">Revoke</label>
         </div>
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleAclPermission}
-        >
+        <button disabled={state.processing} type="submit">
           Set Permission
-        </Button>
+        </button>
       </form>
     </FormSection>
   );

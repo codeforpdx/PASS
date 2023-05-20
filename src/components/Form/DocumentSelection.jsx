@@ -1,8 +1,5 @@
 // React Imports
 import React from 'react';
-// Material UI Imports
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 // Utility Imports
 import docTypes from '../../utils/form-helper';
 
@@ -14,20 +11,12 @@ import docTypes from '../../utils/form-helper';
  * @name DocumentSelection
  */
 
-const DocumentSelection = ({ htmlId, value, onChange }) => (
-  <Select
-    id={htmlId}
-    labelId={`${htmlId}-label`}
-    value={value || ''}
-    label="Select Document Type"
-    onChange={onChange}
-  >
+const DocumentSelection = ({ htmlId }) => (
+  <select id={htmlId} name="document">
     {docTypes.map((doc) => (
-      <MenuItem key={doc.split(' ')[0]} value={doc}>
-        {doc}
-      </MenuItem>
+      <option key={doc.split(' ')[0]}>{doc}</option>
     ))}
-  </Select>
+  </select>
 );
 
 export default DocumentSelection;

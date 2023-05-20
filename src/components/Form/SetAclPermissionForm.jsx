@@ -1,16 +1,7 @@
-import React, { useContext, useState } from 'react';
-// Solid Imports
-import { useSession } from '@inrupt/solid-ui-react';
+// React Imports
+import React, { useContext } from 'react';
 // Inrupt Library Imports
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import TextField from '@mui/material/TextField';
+import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
 // Custom Hook Imports
@@ -34,12 +25,7 @@ const SetAclPermissionForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
-  const [documentType, setdocumentType] = useState('');
-  const [searchUser, setSearchUser] = useState('');
 
-  const handleChange = (event) => {
-    setdocumentType(event.target.value);
-  };
   const clearInputFields = () => {
     clearUsername();
     setSelectedUser('');
@@ -50,9 +36,9 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = documentType;
+    const docType = event.target.document.value;
     const permissionType = event.target.setAclPerms.value;
-    let podUsername = searchUser;
+    let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
       podUsername = selectedUser;
@@ -110,6 +96,10 @@ const SetAclPermissionForm = () => {
     }
   };
 
+  const formRowStyle = {
+    margin: '20px 0'
+  };
+
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -118,68 +108,34 @@ const SetAclPermissionForm = () => {
       statusType="Permission status"
       defaultMessage="To be set..."
     >
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth autoComplete="off">
-          <TextField
-            {...username}
-            label="Search document from username"
-            InputProps={{
-              type: 'search'
-            }}
+      <form onSubmit={handleAclPermission} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="set-acl-to">Set permissions to username: </label>
+          <br />
+          <br />
+          <input
             id="set-acl-to"
-            fullWidth
+            size="25"
             name="setAclTo"
+            {...username}
             placeholder={selectedUser}
-            value={searchUser}
-            onChange={(event) => {
-              setSearchUser(event.target.value);
-            }}
           />
-        </FormControl>
-        <br />
-        <br />
-        <FormControl fullWidth autoComplete="off">
-          <InputLabel id="set-acl-doctype">
-            <i>Select Document Type</i>
-          </InputLabel>
-          <DocumentSelection
-            htmlId="set-acl-doctype"
-            value={documentType}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <br />
-        <br />
-        <FormControl fullWidth autoComplete="off">
-          <FormLabel id="set-acl-permission">Select permission setting:</FormLabel>
-          <RadioGroup row aria-labelledby="set-acl-permission" name="row-radio-buttons-group">
-            <FormControlLabel
-              value="Give"
-              control={<Radio />}
-              label="Give"
-              id="set-acl-perm-give"
-              name="setAclPerms"
-            />
-            <FormControlLabel
-              value="Revoke"
-              control={<Radio />}
-              label="Revoke"
-              id="set-acl-perm-revoke"
-              name="setAclPerms"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleAclPermission}
-        >
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="set-acl-doctype">Select document type: </label>
+          <DocumentSelection htmlId="set-acl-doctype" />{' '}
+        </div>
+        <div style={formRowStyle}>
+          <p>Select permission setting:</p>
+          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
+          <label htmlFor="set-acl-perm-give">Give</label>
+          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
+          <label htmlFor="set-acl-perm-revoke">Revoke</label>
+        </div>
+        <button disabled={state.processing} type="submit">
           Set Permission
-        </Button>
-      </Box>
+        </button>
+      </form>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
