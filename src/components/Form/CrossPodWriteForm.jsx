@@ -92,7 +92,7 @@ const CrossPodWriteForm = () => {
           <br />
           <input
             id="cross-upload-doc"
-            size="60"
+            size="25"
             name="crossPodUpload"
             {...username}
             placeholder={selectedUser}
