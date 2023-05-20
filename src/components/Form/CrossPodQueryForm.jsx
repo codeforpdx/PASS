@@ -1,10 +1,16 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
 import { getDocuments, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
+// Context Imports
+import { SelectUserContext } from '../../contexts';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { SelectUserContext } from '../../contexts';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod

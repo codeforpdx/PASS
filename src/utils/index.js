@@ -30,6 +30,7 @@ import {
   sendMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
+import makeHandleFormSubmission from './FormSubmissionHelper';
 
 export {
   docTypes,
@@ -51,5 +52,6 @@ export {
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
-  sendMessageTTL
+  sendMessageTTL,
+  makeHandleFormSubmission
 };

@@ -1,8 +1,12 @@
+// React Imports
 import React, { useState, useEffect } from 'react';
+// Inrupt Library Imports
+import { LogoutButton } from '@inrupt/solid-ui-react';
+// Styling Imports
 import styled from 'styled-components';
 // MUI base UI imports; TODO: Update imports to @mui/material when re-styling
 import Button from '@mui/base/Button';
-import { LogoutButton } from '@inrupt/solid-ui-react';
+// Utility imports
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 
 /**
@@ -54,7 +58,7 @@ const InactivityMessage = () => {
     };
   }, []);
 
-  // Event handler for logging out of PASS and removing items from localStorageimport { LogoutButton } from '@inrupt/solid-ui-react';
+  // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');

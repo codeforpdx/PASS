@@ -1,6 +1,9 @@
+// React Imports
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+// Styling Imports
 import styled from 'styled-components';
+// Component Imports
 import NewMessage from './NewMessage';
 
 /**

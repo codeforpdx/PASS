@@ -1,8 +1,14 @@
+// React Imports
 import React from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
+import { makeHandleFormSubmission } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
-import { uploadDocument, updateDocument, runNotification } from '../../utils';
+// Constants Imports
 import { UPLOAD_TYPES } from '../../constants';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -30,88 +36,22 @@ const UploadDocumentForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
-  const clearInputFields = () => {
+  const clearInputFields = (event) => {
+    event.target.reset();
     clearDescription();
     dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
   // Event handler for form/document submission to Pod
-  /* eslint-disable no-param-reassign */
-  const handleFormSubmission = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
-    const expirationDate = event.target.date.value;
-    const docDescription = event.target.description.value;
-
-    if (!state.file) {
-      runNotification('Submission failed. Reason: missing file', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    const fileObject = {
-      type: docType,
-      date: expirationDate || 'Not available',
-      description: docDescription || 'No description provided',
-      file: state.file
-    };
-
-    const fileName = fileObject.file.name;
-
-    try {
-      await uploadDocument(session, UPLOAD_TYPES.SELF, fileObject);
-
-      runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
-
-      // setTimeout is used to let uploadDocument finish its upload to user's Pod
-      setTimeout(() => {
-        runNotification(`File "${fileName}" uploaded to Solid.`, 5, state, dispatch);
-        setTimeout(() => {
-          event.target.uploadDoctype.value = '';
-          event.target.date.value = '';
-          clearInputFields();
-        }, 3000);
-      }, 3000);
-    } catch {
-      try {
-        const fileExist = await updateDocument(session, UPLOAD_TYPES.SELF, fileObject);
-
-        runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
-
-        if (fileExist) {
-          setTimeout(() => {
-            runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
-            setTimeout(() => {
-              event.target.uploadDoctype.value = '';
-              event.target.date.value = '';
-              clearInputFields();
-            }, 3000);
-          }, 3000);
-        } else {
-          setTimeout(() => {
-            runNotification(`File "${fileName}" uploaded on Solid.`, 5, state, dispatch);
-            setTimeout(() => {
-              event.target.uploadDoctype.value = '';
-              event.target.date.value = '';
-              clearInputFields();
-            }, 3000);
-          }, 3000);
-        }
-      } catch (error) {
-        runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
-        setTimeout(() => {
-          event.target.uploadDoctype.value = '';
-          event.target.date.value = '';
-          clearInputFields();
-        }, 3000);
-      }
-    }
-  };
-  /* eslint-enable no-param-reassign */
+  const handleFormSubmission = makeHandleFormSubmission(
+    UPLOAD_TYPES.SELF,
+    state,
+    dispatch,
+    session,
+    clearInputFields
+  );
 
   const formRowStyle = {
     margin: '20px 0'
@@ -125,6 +65,15 @@ const UploadDocumentForm = () => {
       defaultMessage="To be uploaded..."
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">
+        <label htmlFor="verify-checkbox">
+          Verify File on upload:
+          <input
+            id="verify-checkbox"
+            type="checkbox"
+            value={state.verifyFile}
+            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+          />
+        </label>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc">Select document type to upload: </label>
           <DocumentSelection htmlId="upload-doc" />
@@ -145,7 +94,7 @@ const UploadDocumentForm = () => {
             id="upload-doctype"
             type="file"
             name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf"
+            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
             onChange={handleFileChange}
           />
           <button disabled={state.processing} type="submit">
