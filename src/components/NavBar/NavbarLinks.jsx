@@ -16,7 +16,7 @@ const NavbarLinks = () => {
 
   // Tabs workaround to match route on login
   let location = useLocation().pathname.slice(6);
-  if (location === 'home/' || location === '') {
+  if (location === '') {
     location = 'home';
   }
 

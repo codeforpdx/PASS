@@ -104,7 +104,7 @@ const App = () => {
                   <Navigate
                     to={
                       !localStorage.getItem('restorePath')
-                        ? '/PASS/home/'
+                        ? '/PASS/home'
                         : localStorage.getItem('restorePath')
                     }
                   />
@@ -114,7 +114,7 @@ const App = () => {
               }
             />
             <Route
-              path="/PASS/home/"
+              path="/PASS/home"
               element={
                 session.info.isLoggedIn ? (
                   <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
@@ -124,11 +124,11 @@ const App = () => {
               }
             />
             <Route
-              path="/PASS/forms/"
+              path="/PASS/forms"
               element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
             />
             <Route
-              path="/PASS/inbox/"
+              path="/PASS/inbox"
               element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
             />
             <Route path="*" element={<Navigate to="/PASS/" />} />
