@@ -21,17 +21,13 @@ const OidcLoginComponent = () => {
         label="Pod Server URL"
         variant="filled"
         value={oidcIssuer}
-        onChange={(e) => (setOidcIssuer(e.target.value))}
+        onChange={(e) => setOidcIssuer(e.target.value)}
         margin="normal"
-        InputProps={
-          {disableUnderline: true}
-        }
-        sx={
-          { 
-            backgroundColor: 'white',
-            borderRadius: '8px'
-          }
-        }
+        InputProps={{ disableUnderline: true }}
+        sx={{
+          backgroundColor: 'white',
+          borderRadius: '8px'
+        }}
       />
       <Box sx={{ marginRight: '32px' }} />
       <LoginButton oidcIssuer={oidcIssuer} redirectUrl={redirectUrl}>
