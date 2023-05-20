@@ -110,47 +110,48 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContext.Provider value={userListObject}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-          <Routes>
-            <Route
-              exact
-              path="/PASS/"
-              element={
-                session.info.isLoggedIn ? (
-                  <Navigate
-                    to={
-                      !localStorage.getItem('restorePath')
-                        ? '/PASS/home'
-                        : localStorage.getItem('restorePath')
-                    }
-                  />
-                ) : (
-                  <Home />
-                )
-              }
-            />
-            <Route
-              path="/PASS/home"
-              element={
-                session.info.isLoggedIn ? (
-                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                ) : (
-                  <Navigate to="/PASS/" />
-                )
-              }
-            />
-            <Route
-              path="/PASS/forms"
-              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-            />
-            <Route
-              path="/PASS/inbox"
-              element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
-            />
-            <Route path="*" element={<Navigate to="/PASS/" />} />
-          </Routes>
-        </InboxMessageContext.Provider>
-      </UserListContext.Provider>
-    </SelectUserContext.Provider>
+            <Routes>
+              <Route
+                exact
+                path="/PASS/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <Navigate
+                      to={
+                        !localStorage.getItem('restorePath')
+                          ? '/PASS/home'
+                          : localStorage.getItem('restorePath')
+                      }
+                    />
+                  ) : (
+                    <Home />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/home"
+                element={
+                  session.info.isLoggedIn ? (
+                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/forms"
+                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+              />
+              <Route
+                path="/PASS/inbox"
+                element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+              />
+              <Route path="*" element={<Navigate to="/PASS/" />} />
+            </Routes>
+          </InboxMessageContext.Provider>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </Layout>
   );
 };
 
