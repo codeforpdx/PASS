@@ -1,6 +1,7 @@
 // React Imports
-import React, { useContext } from 'react';
-import { TextField, Button} from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { Lock, LockOpen } from '@mui/icons-material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -25,6 +26,17 @@ import FormSection from './FormSection';
  * @name ManageUsers
  */
 
+const WebIdEditButton = ({lockStatus, setLockStatus}) => (
+    <IconButton
+      onClick={(e) => {
+        e.preventDefault();
+        setLockStatus(!lockStatus);
+      }}
+    >
+      {lockStatus ? <LockOpen/> : <Lock/>}
+    </IconButton>
+);
+
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
@@ -32,6 +44,7 @@ const ManageUsers = () => {
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
   const { clearValue: clearUsername, ...username } = useField('text');
   const { clearValue: clearWebId, ...webId } = useField('text');
+  const [ editWebId, setEditWebId ] = useState(false);
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
@@ -117,6 +130,24 @@ const ManageUsers = () => {
           label="Username"
           variant="outlined"
           {...username}
+        />
+        <TextField
+          style={textFieldStyle}
+          id="webId"
+          label="WebId"
+          variant="outlined"
+          disabled={!editWebId}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <WebIdEditButton 
+                  lockStatus={editWebId}
+                  setLockStatus={setEditWebId}
+                />
+              </InputAdornment>
+            )
+          }}
+          {...webId}
         />
         <br/>
         <Button
