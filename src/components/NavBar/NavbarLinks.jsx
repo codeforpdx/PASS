@@ -14,6 +14,12 @@ import { useTheme } from '@mui/material/styles';
 const NavbarLinks = () => {
   const theme = useTheme();
 
+  // Tabs workaround to match route on login
+  let location = useLocation().pathname.slice(6);
+  if (location === 'home/' || location === '') {
+    location = 'home';
+  }
+
   // array of current nav links for menus
   const routesArray = [
     { label: 'Home', path: '/PASS/home' },
@@ -91,7 +97,7 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={useLocation().pathname.slice(6)}
+        value={location}
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"
