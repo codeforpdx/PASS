@@ -17,7 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Utility Imports
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+import { SOLID_IDENTITY_PROVIDER, removeKeys } from '../../utils';
 // Custom Hook Imports
 import { useRedirectUrl } from '../../hooks';
 // Component Imports
@@ -61,11 +61,7 @@ const NavBar = () => {
 
   // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('redirectUrl');
-    localStorage.removeItem('restorePath');
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
+    removeKeys();
     setShowConfirmationModal(false);
   };
 

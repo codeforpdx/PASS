@@ -4,11 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { LogoutButton } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// Material UI Base Imports; TODO: Update imports to @mui/material when re-styling
-import Modal from '@mui/base/Modal';
+// Material UI Base imports; TODO: Update imports to @mui/material when re-styling
 import Button from '@mui/base/Button';
 // Utility imports
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
+import { removeKeys } from '../../utils';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
@@ -47,42 +46,56 @@ const InactivityMessage = () => {
 
     resetTimeout();
 
-    window.addEventListener('mousedown', handleUserActivity);
-    window.addEventListener('mousemove', handleUserActivity);
-    window.addEventListener('touchstart', handleUserActivity);
+    const eventTypes = ['mousedown', 'mousemove', 'touchstart'];
+
+    eventTypes.forEach((eventType) => {
+      window.addEventListener(eventType, handleUserActivity);
+    });
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('mousedown', handleUserActivity);
-      window.removeEventListener('mousemove', handleUserActivity);
-      window.removeEventListener('touchstart', handleUserActivity);
+      eventTypes.forEach((eventType) => {
+        window.removeEventListener(eventType, handleUserActivity);
+      });
     };
   }, []);
 
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
   const handleLogout = () => {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('redirectUrl');
-    localStorage.removeItem('restorePath');
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER}`);
-    localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
+    removeKeys();
   };
 
   return (
-    <StyledModal open={showPopup && activeUser}>
-      <StyledContainer>
-        <p>You have been inactive for a few minutes now. Would you like to log out?</p>
-        <ButtonsContainer>
-          <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
-          <LogoutButton>
-            <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
-          </LogoutButton>
-        </ButtonsContainer>
-      </StyledContainer>
-    </StyledModal>
+    showPopup &&
+    activeUser && (
+      <StyledOverlay>
+        <StyledModal>
+          <StyledContainer>
+            <p>You have been inactive for a few minutes now. Would you like to log out?</p>
+            <ButtonsContainer>
+              <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
+              <LogoutButton>
+                <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
+              </LogoutButton>
+            </ButtonsContainer>
+          </StyledContainer>
+        </StyledModal>
+      </StyledOverlay>
+    )
   );
 };
+
+const StyledOverlay = styled('div')({
+  height: '100vh',
+  width: '100vw',
+  backgroundColor: 'rgb(128, 128, 128, .7)',
+  backdropFilter: 'blur(2px)',
+  zIndex: 99,
+  top: '0%',
+  left: '0%',
+  position: 'fixed'
+});
 
 const StyledButton = styled(Button)({
   width: '100px',
@@ -96,12 +109,12 @@ const StyledButton = styled(Button)({
 });
 
 const StyledLogoutButton = styled(StyledButton)({
-  backgroundColor: '#4287f5',
+  backgroundColor: '#017969',
   height: '100%',
   color: '#fff'
 });
 
-const StyledModal = styled(Modal)({
+const StyledModal = styled('div')({
   display: 'flex',
   backgroundColor: 'white',
   alignItems: 'center',
