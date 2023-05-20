@@ -10,7 +10,6 @@ import {
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  SOLID_IDENTITY_PROVIDER,
   createDocumentContainer
 } from './utils';
 // Custom Hook Imports
@@ -43,7 +42,7 @@ const App = () => {
 
     if (restore && localStorage.getItem('loggedIn')) {
       session.login({
-        oidcIssuer: SOLID_IDENTITY_PROVIDER,
+        oidcIssuer: localStorage.getItem('oidcIssuer'),
         redirectUrl
       });
     }

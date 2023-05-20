@@ -4,6 +4,7 @@ const keysToRemove = [
   'loggedIn',
   'redirectUrl',
   'restorePath',
+  'oidcProvider',
   `issuerConfig:${SOLID_IDENTITY_PROVIDER}`,
   `issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`
 ];

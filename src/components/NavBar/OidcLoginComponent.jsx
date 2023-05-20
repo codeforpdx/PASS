@@ -73,7 +73,15 @@ const OidcLoginComponent = () => {
       />
       <Box sx={{ marginRight: '32px' }} />
       <LoginButton oidcIssuer={oidcIssuer} redirectUrl={redirectUrl}>
-        <Button variant="contained" type="submit" color="secondary" size="large">
+        <Button
+          variant="contained"
+          type="submit"
+          color="secondary"
+          size="large"
+          onClick={() => {
+            localStorage.setItem('oidcIssuer', oidcIssuer);
+          }}
+        >
           Login
         </Button>
       </LoginButton>
