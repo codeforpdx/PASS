@@ -1,14 +1,15 @@
 // React Imports
 import React, { useContext } from 'react';
+import { TextField, Button} from '@mui/material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import {
   runNotification,
   addUserToPod,
-  getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
+  getUserListActivity
 } from '../../utils';
+
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
@@ -44,7 +45,7 @@ const ManageUsers = () => {
       webId: webId.value
     };
 
-    if (!userObject.username || !userObject.webId) {
+    if (!userObject.username && !userObject.webId) {
       runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
@@ -52,61 +53,83 @@ const ManageUsers = () => {
       return;
     }
 
-    let listUsers = await addUserToPod(session, userObject);
-    listUsers = await getUserListActivity(session, listUsers);
-
-    setUserList(listUsers);
-
     runNotification(
       `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
       5,
       state,
       dispatch
     );
+    let listUsers = await addUserToPod(session, userObject);
+    listUsers = await getUserListActivity(session, listUsers);
+
+    runNotification(
+      `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+      5,
+      state,
+      dispatch
+    );
+
+    setUserList(listUsers);
 
     setTimeout(() => {
-      event.target.reset();
+      clearUserFamilyName();
+      clearUserGivenName();
+      clearUsername();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
   };
 
   const formRowStyle = {
-    margin: '20px 0'
+    margin: '20px 0',
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
+  const textFieldStyle = {
+    margin: '8px'
+  }
+
   return (
     <FormSection
-      title="Manage Users"
+      title="Add New User"
       state={state}
       statusType="Status"
       defaultMessage="To be added..."
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
-        <div>
-          <label htmlFor="add-user-given-name">First/given name:
-          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="add-user-last-name">Last/family name: 
-          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="add-username">
-            Add username to users list (i.e., username without
-            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):
-            <input id="add-username" name="addUsername" size="60" {...username} />
-          </label>
-        </div>
-        <button type="submit" disabled={state.processing}>
+        <TextField
+          style={textFieldStyle}
+          id="first-name-form"
+          label="First/Given Name"
+          variant="outlined"
+          {...userGivenName}
+        />
+        <br/>
+        <TextField
+          style={textFieldStyle}
+          id="last-name-form"
+          label="Last/Family Name"
+          variant="outlined"
+          {...userFamilyName}
+        />
+        <br/>
+        <TextField
+          style={textFieldStyle}
+          id="username-form"
+          label="Username"
+          variant="outlined"
+          {...username}
+        />
+        <br/>
+        <Button
+          style={textFieldStyle}
+          variant="contained"
+          type="submit"
+          disabled={state.processing}
+        >
           Add User
-        </button>
+        </Button>
       </form>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default ManageUsers;
