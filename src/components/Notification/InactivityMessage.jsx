@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { LogoutButton } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// MUI base UI imports; TODO: Update imports to @mui/material when re-styling
+// Material UI Base imports; TODO: Update imports to @mui/material when re-styling
 import Button from '@mui/base/Button';
 // Utility imports
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
@@ -68,21 +68,24 @@ const InactivityMessage = () => {
     localStorage.removeItem(`issuerConfig:${SOLID_IDENTITY_PROVIDER.slice(0, -1)}`);
   };
 
-  return showPopup && activeUser ? (
-    <StyledOverlay>
-      <StyledModal>
-        <StyledContainer>
-          <p>You have been inactive for a few minutes now. Would you like to log out?</p>
-          <ButtonsContainer>
-            <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
-            <LogoutButton>
-              <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
-            </LogoutButton>
-          </ButtonsContainer>
-        </StyledContainer>
-      </StyledModal>
-    </StyledOverlay>
-  ) : null;
+  return (
+    showPopup &&
+    activeUser && (
+      <StyledOverlay>
+        <StyledModal>
+          <StyledContainer>
+            <p>You have been inactive for a few minutes now. Would you like to log out?</p>
+            <ButtonsContainer>
+              <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
+              <LogoutButton>
+                <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
+              </LogoutButton>
+            </ButtonsContainer>
+          </StyledContainer>
+        </StyledModal>
+      </StyledOverlay>
+    )
+  );
 };
 
 const StyledOverlay = styled('div')({
