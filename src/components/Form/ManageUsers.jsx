@@ -126,7 +126,7 @@ const ManageUsers = () => {
           </label>
           <br />
           <br />
-          <input id="add-username" name="addUsername" size="60" {...username} />{' '}
+          <input id="add-username" name="addUsername" size="25" {...username} />{' '}
         </div>
         <br />
         <button type="submit" disabled={state.processing}>

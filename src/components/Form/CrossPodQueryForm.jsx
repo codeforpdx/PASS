@@ -95,7 +95,7 @@ const CrossPodQueryForm = () => {
           <br />
           <input
             id="cross-search-doc"
-            size="60"
+            size="25"
             name="crossPodQuery"
             {...username}
             placeholder={selectedUser}

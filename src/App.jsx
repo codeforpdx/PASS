@@ -23,6 +23,7 @@ import Home from './routes/Home';
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
 import { UserSection } from './components/Users';
+import Layout from './layouts/Layouts';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -91,48 +92,50 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return (
-    <SelectUserContext.Provider value={selectedUserObject}>
-      <UserListContext.Provider value={userListObject}>
-        <Routes>
-          <Route
-            exact
-            path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate
-                  to={
-                    !localStorage.getItem('restorePath')
-                      ? '/PASS/home/'
-                      : localStorage.getItem('restorePath')
-                  }
-                />
-              ) : (
-                <Home />
-              )
-            }
-          />
-          <Route
-            path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
-          />
-          <Route
-            path="/PASS/forms/"
-            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-          />
-          <Route
-            path="/PASS/inbox/"
-            element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
-          />
-          <Route path="*" element={<Navigate to="/PASS/" />} />
-        </Routes>
-      </UserListContext.Provider>
-    </SelectUserContext.Provider>
+    <Layout>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <Routes>
+            <Route
+              exact
+              path="/PASS/"
+              element={
+                session.info.isLoggedIn ? (
+                  <Navigate
+                    to={
+                      !localStorage.getItem('restorePath')
+                        ? '/PASS/home'
+                        : localStorage.getItem('restorePath')
+                    }
+                  />
+                ) : (
+                  <Home />
+                )
+              }
+            />
+            <Route
+              path="/PASS/home"
+              element={
+                session.info.isLoggedIn ? (
+                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                ) : (
+                  <Navigate to="/PASS/" />
+                )
+              }
+            />
+            <Route
+              path="/PASS/forms"
+              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+            />
+            <Route
+              path="/PASS/inbox"
+              element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+            />
+            <Route path="*" element={<Navigate to="/PASS/" />} />
+          </Routes>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </Layout>
   );
 };
 
