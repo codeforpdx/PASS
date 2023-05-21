@@ -4,9 +4,11 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Material Icons Imports
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -22,6 +24,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const Footer = () => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <Box
@@ -30,18 +33,23 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: `${theme.palette.primary.main}`
+        bgcolor: theme.palette.primary.main
       }}
       py={5}
     >
-      <Container maxWidth="lg">
-        <Grid container columnSpacing={0} my={2}>
-          <Grid
-            item
-            xs={7}
-            sx={{ borderRight: 2, borderColor: theme.palette.tertiary.main, pr: 12 }}
-          >
-            <Typography variant="h5" color={`${theme.palette.tertiary.main}`}>
+      <Container maxWidth={isSmallScreen ? "sm" : "lg"}>
+        <Stack
+          spacing={2}
+          divider={
+            <Divider
+              color={theme.palette.tertiary.main}
+              sx={{ height: '3px' }}
+            />
+          }
+        >
+          {/* CALL TO ACTION section */}
+          <Box>
+            <Typography variant="h5" color={theme.palette.tertiary.main}>
               Want to partner with PASS?
             </Typography>
             <Typography variant="body1" color="#fff">
@@ -51,65 +59,123 @@ const Footer = () => {
             <Button variant="contained" color="secondary" sx={{ my: '1rem' }}>
               Partnership Proposal
             </Button>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography color={`${theme.palette.tertiary.main}`}>PASS LOGO</Typography>
-            <Typography color="#fff" mb={5}>
-              tagline
-            </Typography>
-            <Typography color={`${theme.palette.tertiary.main}`}>Follow Us</Typography>
-            <Link href="https://twitter.com/" target="_blank" rel="noopener" color="#fff" mr={1}>
-              <TwitterIcon />
-            </Link>
-            <Link href="https://www.facebook.com/" target="_blank" rel="noopener" color="#fff">
-              <FacebookIcon />
-            </Link>
-            <Link
-              href="https://www.instagram.com/"
-              target="_blank"
-              rel="noopener"
-              color="#fff"
-              ml={1}
+          </Box>
+
+          {/* LOGO / FOLLOW US / BUILT BY section */}
+          <Box>
+            <Stack
+              direction={isSmallScreen ? "column" : "row"}
+              spacing={isSmallScreen ? 4 : 12}
+              justifyContent="space-around"
+              alignItems="center"
             >
-              <InstagramIcon />
-            </Link>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography color={`${theme.palette.tertiary.main}`}>Built By:</Typography>
-            <Link
-              href="https://www.codeforpdx.org/"
-              target="_blank"
-              rel="noopener"
-              underline="none"
+              <Stack>
+                <Typography color={theme.palette.tertiary.main}>PASS LOGO</Typography>
+                <Typography color="#fff">tagline</Typography>
+              </Stack>
+              <Stack>
+                <Typography color={theme.palette.tertiary.main}>Follow Us</Typography>
+                <Stack direction="row" spacing={1}>
+                  <Link
+                    href="https://twitter.com/"
+                    target="_blank"
+                    rel="noopener"
+                    color="#fff"
+                  >
+                    <TwitterIcon />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noopener"
+                    color="#fff"
+                  >
+                    <FacebookIcon />
+                  </Link>
+                  <Link
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noopener"
+                    color="#fff"
+                  >
+                    <InstagramIcon />
+                  </Link>
+                </Stack>
+              </Stack>
+              <Stack>
+                <Typography color={theme.palette.tertiary.main}>Built By:</Typography>
+                <Link
+                  href="https://www.codeforpdx.org/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <Typography variant="body2" color="#fff">
+                    C4PDX LOGO
+                  </Typography>
+                </Link>
+              </Stack>
+            </Stack>
+          </Box>
+
+          {/* COPYRIGHT / LINKS section */}
+          <Box>
+            <Stack
+              direction={isSmallScreen ? 'column-reverse' : 'row'}
+              spacing={2}
+              justifyContent="space-between"
+              divider={
+                <Divider
+                  color={theme.palette.tertiary.main}
+                  sx={{ display: { xs: 'flex', md: 'none' }, height: '3px' }}
+                />
+              }
             >
-              <Typography variant="body2" color="#fff">
-                C4PDX LOGO
+              <Typography variant="body2" color={theme.palette.tertiary.main}>
+                ©{new Date().getFullYear()}
+                <Link
+                  href="https://www.codeforpdx.org/"
+                  target="_blank"
+                  rel="noopener"
+                  underline="none"
+                  color={theme.palette.tertiary.main}
+                  ml={0.5}
+                >
+                  Code for PDX
+                </Link>
               </Typography>
-            </Link>
-            <Typography variant="body2" color={`${theme.palette.tertiary.main}`} mb={5}>
-              ©{new Date().getFullYear()}{' '}
-              <Link
-                href="https://www.codeforpdx.org/"
-                target="_blank"
-                rel="noopener"
-                underline="none"
-                color={`${theme.palette.tertiary.main}`}
+              <Stack
+                direction={isSmallScreen ? 'column' : 'row'}
+                spacing={isSmallScreen ? 0 : 2}
+                divider={
+                  <Divider
+                    color={theme.palette.tertiary.main}
+                    orientation="vertical"
+                    flexItem
+                  />
+                }
               >
-                Code for PDX
-              </Link>
-            </Typography>
-            <Typography variant="body2">
-              <Link href="https://www.codeforpdx.org/" underline="none" color="#fff">
-                Privacy Policy
-              </Link>
-            </Typography>
-            <Typography variant="body2">
-              <Link href="https://www.codeforpdx.org/" underline="none" color="#fff">
-                Terms and Conditions
-              </Link>
-            </Typography>
-          </Grid>
-        </Grid>
+                <Typography variant="body2">
+                  <Link
+                    href="https://www.codeforpdx.org/"
+                    underline="none"
+                    color={theme.palette.tertiary.main}
+                  >
+                    Privacy Policy
+                  </Link>
+                </Typography>
+                <Typography variant="body2">
+                  <Link
+                    href="https://www.codeforpdx.org/"
+                    underline="none"
+                    color={theme.palette.tertiary.main}
+                  >
+                    Terms and Conditions
+                  </Link>
+                </Typography>
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
       </Container>
     </Box>
   );
