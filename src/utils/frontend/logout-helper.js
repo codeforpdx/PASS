@@ -1,4 +1,4 @@
-import { SOLID_IDENTITY_PROVIDER } from './session-helper';
+import { SOLID_IDENTITY_PROVIDER } from '../solid/session-helper';
 
 const keysToRemove = [
   'loggedIn',

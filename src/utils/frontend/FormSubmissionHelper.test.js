@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
 import makeHandleFormSubmission from './FormSubmissionHelper';
-import { UPLOAD_TYPES } from '../constants';
+import { UPLOAD_TYPES } from '../../constants';
 import runNotification from './notification-helper';
-import { uploadDocument, updateDocument } from './session-core';
+import { uploadDocument, updateDocument } from '../solid/session-core';
 
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};

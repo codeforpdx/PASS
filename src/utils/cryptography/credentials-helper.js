@@ -9,8 +9,8 @@ import {
   setThing,
   getStringNoLocale
 } from '@inrupt/solid-client';
-import { createDocAclForUser } from './session-helper';
-import { RDF_PREDICATES } from '../constants';
+import { createDocAclForUser } from '../solid/session-helper';
+import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
