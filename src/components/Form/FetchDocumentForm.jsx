@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -27,18 +27,12 @@ const FetchDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
-  const [documentType, setdocumentType] = useState('');
-
-  const handleChange = (event) => {
-    setdocumentType(event.target.value);
-  };
-
   // Event handler for searching/fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     // const docType = event.target.document.value;
-    const docType = documentType;
+    const docType = event.target.document.value;
 
     try {
       const documentUrl = await getDocuments(session, docType, 'self-fetch');
@@ -75,23 +69,25 @@ const FetchDocumentForm = () => {
       defaultMessage="To be searched..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth autoComplete="off">
-          <InputLabel id="search-doctype">
-            <i>Select Document Type</i>
-          </InputLabel>
-          <DocumentSelection htmlId="search-doctype" value={documentType} onChange={handleChange} />
-        </FormControl>
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          fullWidth
-          disabled={state.processing}
-          type="submit"
-          onClick={handleGetDocumentSubmission}
-        >
-          Get Document
-        </Button>
+        <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="search-doctype">
+              <i>Select Document Type</i>
+            </InputLabel>
+            <DocumentSelection htmlId="search-doctype" />
+            <br />
+            <br />
+            <Button
+              variant="contained"
+              fullWidth
+              disabled={state.processing}
+              type="submit"
+              color="primary"
+            >
+              Get Document
+            </Button>
+          </FormControl>
+        </form>
       </Box>
     </FormSection>
   );
