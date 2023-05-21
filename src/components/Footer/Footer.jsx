@@ -15,26 +15,19 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-/**
- * Footer Component - Footer Component for PASS
- *
- * @memberof Footer
- * @name Footer
- */
-
-
 const theme = useTheme();
 const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+// top section of footer
 const RenderCallToActionSection = () => (
   <Box>
     <Typography variant="h5" color={theme.palette.tertiary.main}>
       Want to partner with PASS?
     </Typography>
     <Typography variant="body1" color="#fff">
-      If your organization is interested in partnering with PASS and would like to discuss
-      further, contact us below.
+      If your organization is interested in partnering with PASS and would like to discuss further,
+      contact us below.
     </Typography>
     <Button variant="contained" color="secondary" sx={{ my: '1rem' }}>
       Partnership Proposal
@@ -42,6 +35,7 @@ const RenderCallToActionSection = () => (
   </Box>
 );
 
+// middle section of footer
 const RenderCompanyInfoSection = () => (
   <Box>
     <Stack
@@ -80,6 +74,7 @@ const RenderCompanyInfoSection = () => (
   </Box>
 );
 
+// bottom section of footer
 const RenderCopyrightAndLinksSection = () => (
   <Box>
     <Stack
@@ -134,7 +129,13 @@ const RenderCopyrightAndLinksSection = () => (
   </Box>
 );
 
-// MAIN FUNCTION/RENDER RETURNED BY THIS FILE
+/**
+ * Footer Component - Footer Component for PASS
+ *
+ * @memberof Footer
+ * @name Footer
+ */
+
 const Footer = () => (
   <Box
     component="footer"
