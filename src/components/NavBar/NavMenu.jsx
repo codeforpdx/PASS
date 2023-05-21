@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 /**
@@ -43,9 +44,14 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ mt: 5 }}
+      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
+        <MenuItem sx={{ display: { md: 'none' } }}>
+          <Button variant="text" startIcon={<NotificationsIcon />}>
+            Notifications
+          </Button>
+        </MenuItem>
         <MenuItem>
           <Button
             variant="text"

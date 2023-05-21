@@ -1,6 +1,6 @@
 import NavBar from './NavBar';
+import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import NavMenuMobile from './NavMenuMobile';
 
 /**
  * Components and functions related to NavBar functionality within project PASS
@@ -8,4 +8,4 @@ import NavMenuMobile from './NavMenuMobile';
  * @namespace NavBar
  */
 
-export { NavBar, NavMenu, NavMenuMobile };
+export { NavBar, NavbarLinks, NavMenu };
