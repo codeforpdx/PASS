@@ -9,7 +9,7 @@
  */
 
 import docTypes from './form-helper';
-import runNotification from './notification-helper';
+import { runNotification, clearProcessing }from './notification-helper';
 import {
   uploadDocument,
   updateDocument,
@@ -36,6 +36,7 @@ import removeKeys from './logout-helper';
 export {
   docTypes,
   runNotification,
+  clearProcessing,
   SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   updateDocument,
