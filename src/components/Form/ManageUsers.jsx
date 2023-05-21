@@ -42,7 +42,6 @@ const textFieldStyle = {
 };
 
 const sendUserToSolid = async (userObject, dispatch, session, state, setUserList) => {
-
   if (!userObject.username && !userObject.webId) {
     runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
     return;
@@ -68,7 +67,6 @@ const sendUserToSolid = async (userObject, dispatch, session, state, setUserList
   );
 
   clearProcessing(dispatch);
-
 };
 
 const renderWebId = (username) => {
@@ -79,8 +77,8 @@ const renderWebId = (username) => {
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const [ givenName, setGivenName ] = useState('');
-  const [ familyName, setFamilyName ] = useState('');
+  const [givenName, setGivenName] = useState('');
+  const [familyName, setFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
   const [userEditingWebId, setUserEditingWebId] = useState(false);
@@ -145,11 +143,12 @@ const ManageUsers = () => {
           label="Username"
           variant="outlined"
           type="text"
-          helperText={`WebId: ${webId}`}
           value={username}
           onChange={(e) => wrappedSetUsername(e.target.value)}
         />
+        <br />
         <TextField
+          fullWidth
           style={textFieldStyle}
           id="webId"
           label="WebId"
@@ -167,7 +166,8 @@ const ManageUsers = () => {
                   setLockStatus={setUserEditingWebId}
                 />
               </InputAdornment>
-            )
+            ),
+            style: { width: `${webId.length > 40 ? `${webId.length * 9}px` : '300px'}` }
           }}
         />
         <br />

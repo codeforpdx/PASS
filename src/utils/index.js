@@ -9,7 +9,7 @@
  */
 
 import docTypes from './form-helper';
-import { runNotification, clearProcessing }from './notification-helper';
+import { runNotification, clearProcessing } from './notification-helper';
 import {
   uploadDocument,
   updateDocument,
