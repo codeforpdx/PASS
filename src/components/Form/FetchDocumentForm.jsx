@@ -31,7 +31,6 @@ const FetchDocumentForm = () => {
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    // const docType = event.target.document.value;
     const docType = event.target.document.value;
 
     try {
@@ -60,7 +59,6 @@ const FetchDocumentForm = () => {
     }
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Search Document"
@@ -90,7 +88,6 @@ const FetchDocumentForm = () => {
       </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default FetchDocumentForm;
