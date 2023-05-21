@@ -16,23 +16,23 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 // top section of footer
-const RenderCallToActionSection = ({ theme }) => (
-  <Box>
-    <Typography variant="h5" color={theme.palette.tertiary.main}>
+const RenderCallToActionSection = ({ isReallySmallScreen }) => (
+  <Stack width={isReallySmallScreen ? 1 : 3 / 5} alignItems="center" justifyContent="center">
+    <Typography variant="h5" color="tertiary.main">
       Want to partner with PASS?
     </Typography>
-    <Typography variant="body1" color="#fff">
+    <Typography variant="body1" color="#fff" sx={{ width: 3 / 4 }}>
       If your organization is interested in partnering with PASS and would like to discuss further,
       contact us below.
     </Typography>
-    <Button variant="contained" color="secondary" sx={{ my: '1rem' }}>
-      Partnership Proposal
+    <Button variant="contained" color="secondary" sx={{ my: '1rem', width: 1 / 2 }}>
+      Proposal
     </Button>
-  </Box>
+  </Stack>
 );
 
 // middle section of footer
-const RenderCompanyInfoSection = ({ theme, isReallySmallScreen, isSmallScreen }) => {
+const RenderCompanyInfoSection = ({ isReallySmallScreen }) => {
   const socialLinks = [
     {
       href: 'https://twitter.com/',
@@ -49,94 +49,84 @@ const RenderCompanyInfoSection = ({ theme, isReallySmallScreen, isSmallScreen })
   ];
 
   return (
-    <Box>
-      <Stack
-        direction={isReallySmallScreen ? 'column' : 'row'}
-        spacing={isSmallScreen ? 4 : 12}
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Stack>
-          <Typography color={theme.palette.tertiary.main}>PASS LOGO</Typography>
-          <Typography color="#fff">tagline</Typography>
+    <Stack
+      width={isReallySmallScreen ? 1 : 1 / 5}
+      spacing={2}
+      justifyContent="space-around"
+      alignItems="center"
+    >
+      <Box>
+        <Typography color="tertiary.main">PASS LOGO</Typography>
+        <Typography color="#fff">tagline</Typography>
+      </Box>
+      <Box>
+        <Typography color="tertiary.main">Follow Us</Typography>
+        <Stack direction="row" spacing={1}>
+          {socialLinks.map(({ href, icon }) => (
+            <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
+              {icon}
+            </Link>
+          ))}
         </Stack>
-        <Stack>
-          <Typography color={theme.palette.tertiary.main}>Follow Us</Typography>
-          <Stack direction="row" spacing={1}>
-            {socialLinks.map(({ href, icon }) => (
-              <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
-                {icon}
-              </Link>
-            ))}
-          </Stack>
-        </Stack>
-        <Stack>
-          <Typography color={theme.palette.tertiary.main}>Built By:</Typography>
-          <Link href="https://www.codeforpdx.org/" target="_blank" rel="noopener">
-            <Typography variant="body2" color="#fff">
-              C4PDX LOGO
-            </Typography>
-          </Link>
-        </Stack>
-      </Stack>
-    </Box>
+      </Box>
+      <Box>
+        <Typography color="tertiary.main">Built By:</Typography>
+        <Link href="https://www.codeforpdx.org/" target="_blank" rel="noopener">
+          <Typography variant="body2" color="#fff">
+            C4PDX LOGO
+          </Typography>
+        </Link>
+      </Box>
+    </Stack>
   );
 };
 
 // bottom section of footer
-const RenderCopyrightAndLinksSection = ({ theme, isSmallScreen }) => (
-  <Box>
+const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => {
+  const legalLinks = [
+    {
+      href: 'https://www.codeforpdx.org/',
+      title: 'Privacy Policy'
+    },
+    {
+      href: 'https://www.codeforpdx.org/',
+      title: 'Terms and Conditions'
+    },
+    {
+      href: 'https://www.codeforpdx.org/',
+      target: '_blank',
+      rel: 'noopenner',
+      ml: 0.5,
+      text: `©${new Date().getFullYear()}`,
+      title: 'Code for PDX'
+    }
+  ];
+
+  return (
     <Stack
-      direction={isSmallScreen ? 'column-reverse' : 'row'}
+      orientation="column"
+      width={isReallySmallScreen ? 1 : 1 / 5}
       spacing={2}
-      justifyContent="space-between"
-      divider={
-        <Divider
-          color={theme.palette.tertiary.main}
-          sx={{ display: { xs: 'flex', md: 'none' }, height: '3px' }}
-        />
-      }
+      justifyContent="space-around"
     >
-      <Typography variant="body2" color={theme.palette.tertiary.main}>
-        ©{new Date().getFullYear()}
-        <Link
-          href="https://www.codeforpdx.org/"
-          target="_blank"
-          rel="noopener"
-          underline="none"
-          color={theme.palette.tertiary.main}
-          ml={0.5}
-        >
-          Code for PDX
-        </Link>
-      </Typography>
-      <Stack
-        direction={isSmallScreen ? 'column' : 'row'}
-        spacing={isSmallScreen ? 0 : 2}
-        divider={<Divider color={theme.palette.tertiary.main} orientation="vertical" flexItem />}
-      >
-        <Typography variant="body2">
+      {legalLinks.map((link) => (
+        <Typography variant="body2" color="tertiary.main">
+          {link.text ?? null}
           <Link
-            href="https://www.codeforpdx.org/"
+            href={link.href}
             underline="none"
-            color={theme.palette.tertiary.main}
+            color="tertiary.main"
+            target={link.target ?? null}
+            rel={link.rel ?? null}
+            ml={link.ml ?? null}
           >
-            Privacy Policy
+            {link.title}
           </Link>
         </Typography>
-        <Typography variant="body2">
-          <Link
-            href="https://www.codeforpdx.org/"
-            underline="none"
-            color={theme.palette.tertiary.main}
-          >
-            Terms and Conditions
-          </Link>
-        </Typography>
-      </Stack>
+      ))}
     </Stack>
-  </Box>
-);
+  );
+};
 
 /**
  * Footer Component - Footer Component for PASS
@@ -157,22 +147,27 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: theme.palette.primary.main
+        bgcolor: 'primary.main'
       }}
       py={5}
     >
-      <Container maxWidth={isSmallScreen ? 'sm' : 'lg'}>
+      <Container maxWidth={isSmallScreen ? 'md' : 'lg'}>
         <Stack
-          spacing={2}
-          divider={<Divider color={theme.palette.tertiary.main} sx={{ height: '3px' }} />}
+          alignItems="center"
+          direction={isReallySmallScreen ? 'column' : 'row'}
+          spacing={isSmallScreen ? 1 : 4}
+          divider={
+            <Divider
+              orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
+              flexItem={isReallySmallScreen ? null : 'flexItem'}
+              color={theme.palette.tertiary.main}
+              sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
+            />
+          }
         >
-          <RenderCallToActionSection theme={theme} />
-          <RenderCompanyInfoSection
-            theme={theme}
-            isSmallScreen={isSmallScreen}
-            isReallySmallScreen={isReallySmallScreen}
-          />
-          <RenderCopyrightAndLinksSection theme={theme} isSmallScreen={isSmallScreen} />
+          <RenderCallToActionSection isReallySmallScreen={isReallySmallScreen} />
+          <RenderCompanyInfoSection isReallySmallScreen={isReallySmallScreen} />
+          <RenderCopyrightAndLinksSection isReallySmallScreen={isReallySmallScreen} />
         </Stack>
       </Container>
     </Box>
