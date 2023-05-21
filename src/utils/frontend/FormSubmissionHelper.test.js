@@ -19,7 +19,7 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('./session-core', () => ({
+    vi.mock('../solid/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
@@ -53,7 +53,7 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('./session-core', () => ({
+    vi.mock('../solid/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
