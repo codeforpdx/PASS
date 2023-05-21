@@ -5,10 +5,10 @@ import { Lock, LockOpen } from '@mui/icons-material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
+import { runNotification, addUserToPod, getUserListActivity, clearProcessing } from '../../utils';
 
 // Custom Hook Imports
-import { useStatusNotification, useField } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
@@ -41,13 +41,8 @@ const textFieldStyle = {
   margin: '8px'
 };
 
-const clearProcessing = (dispatch) => {
-  setTimeout(() => {
-    dispatch({ type: 'CLEAR_PROCESSING' });
-  }, 3000);
-};
+const sendUserToSolid = async (userObject, dispatch, session, state, setUserList) => {
 
-const sendUserToSolid = async (userObject, dispatch, session, state) => {
   if (!userObject.username && !userObject.webId) {
     runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
     return;
@@ -63,6 +58,7 @@ const sendUserToSolid = async (userObject, dispatch, session, state) => {
   );
   let listUsers = await addUserToPod(session, userObject);
   listUsers = await getUserListActivity(session, listUsers);
+  setUserList(listUsers);
 
   runNotification(
     `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
@@ -73,7 +69,6 @@ const sendUserToSolid = async (userObject, dispatch, session, state) => {
 
   clearProcessing(dispatch);
 
-  await listUsers;
 };
 
 const renderWebId = (username) => {
@@ -84,9 +79,9 @@ const renderWebId = (username) => {
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
-  const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const [username, setUsername] = useState();
+  const [ givenName, setGivenName ] = useState('');
+  const [ familyName, setFamilyName ] = useState('');
+  const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
   const [userEditingWebId, setUserEditingWebId] = useState(false);
   const { setUserList } = useContext(UserListContext);
@@ -95,17 +90,16 @@ const ManageUsers = () => {
   const handleAddUser = async (event) => {
     event.preventDefault();
     const userObject = {
-      givenName: userGivenName.value,
-      familyName: userFamilyName.value,
+      givenName,
+      familyName,
       username,
       webId
     };
 
-    const listUsers = await sendUserToSolid(userObject, dispatch, session, state);
+    await sendUserToSolid(userObject, dispatch, session, state, setUserList);
 
-    setUserList(listUsers);
-    clearUserFamilyName();
-    clearUserGivenName();
+    setFamilyName('');
+    setGivenName('');
     setUsername('');
     setWebId('');
   };
@@ -132,7 +126,8 @@ const ManageUsers = () => {
           id="first-name-form"
           label="First/Given Name"
           variant="outlined"
-          {...userGivenName}
+          value={givenName}
+          onChange={(e) => setGivenName(e.target.value)}
         />
         <br />
         <TextField
@@ -140,7 +135,8 @@ const ManageUsers = () => {
           id="last-name-form"
           label="Last/Family Name"
           variant="outlined"
-          {...userFamilyName}
+          value={familyName}
+          onChange={(e) => setFamilyName(e.target.value)}
         />
         <br />
         <TextField
@@ -149,6 +145,7 @@ const ManageUsers = () => {
           label="Username"
           variant="outlined"
           type="text"
+          helperText={`WebId: ${webId}`}
           value={username}
           onChange={(e) => wrappedSetUsername(e.target.value)}
         />

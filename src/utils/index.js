@@ -9,7 +9,7 @@
  */
 
 import docTypes from './frontend/form-helper';
-import runNotification from './frontend/notification-helper';
+import { runNotification, clearProcessing } from './frontend/notification-helper';
 import {
   uploadDocument,
   updateDocument,
@@ -37,6 +37,7 @@ import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 export {
   docTypes,
   runNotification,
+  clearProcessing,
   SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   updateDocument,
