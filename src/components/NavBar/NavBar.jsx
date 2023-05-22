@@ -15,8 +15,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-// Utility Imports
-import { removeKeys } from '../../utils';
 // Custom Hook Imports
 // Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
@@ -59,7 +57,7 @@ const NavBar = () => {
 
   // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
-    removeKeys();
+    localStorage.clear();
     setShowConfirmationModal(false);
   };
 

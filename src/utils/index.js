@@ -31,7 +31,6 @@ import {
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
 import makeHandleFormSubmission from './FormSubmissionHelper';
-import removeKeys from './logout-helper';
 
 export {
   docTypes,
@@ -55,6 +54,5 @@ export {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
-  makeHandleFormSubmission,
-  removeKeys
+  makeHandleFormSubmission
 };
