@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -90,16 +91,20 @@ const CrossPodQueryForm = () => {
     >
       <Box sx={{ minWidth: 120 }}>
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <InputLabel id="cross-search-doc">
-            <i>Search Document Document from Username: </i>
-          </InputLabel>
           <FormControl fullWidth variant="standard">
-            <input
+            <TextField
               id="cross-search-doc"
-              size="25"
               name="crossPodQuery"
               {...username}
               placeholder={selectedUser}
+              label="Search document from username"
+              InputProps={{
+                type: 'search'
+              }}
+              fullWidth
+              onChange={(event) => {
+                setSelectedUser(event.target.value);
+              }}
             />
           </FormControl>
           <InputLabel id="cross-search-doctype">
