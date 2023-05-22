@@ -66,6 +66,7 @@ With PASS we are looking into using RDF to link between pods and store metadata 
 | Brian H.         |            |                         |
 | Georgia          |            |                         |
 | Natalie M.       |            |                         |
+| Grac F.          |            |                         |
 
 ## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 
