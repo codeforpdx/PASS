@@ -9,7 +9,7 @@ import {
   setThing,
   getStringNoLocale
 } from '@inrupt/solid-client';
-import { createDocAclForUser } from '../solid/session-helper';
+import { createDocAclForUser } from '../network/session-helper';
 import { RDF_PREDICATES } from '../../constants';
 
 /**

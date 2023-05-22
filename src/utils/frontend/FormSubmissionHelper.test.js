@@ -2,7 +2,7 @@ import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
 import makeHandleFormSubmission from './FormSubmissionHelper';
 import { UPLOAD_TYPES } from '../../constants';
 import runNotification from './notification-helper';
-import { uploadDocument, updateDocument } from '../solid/session-core';
+import { uploadDocument, updateDocument } from '../network/session-core';
 
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
@@ -19,7 +19,7 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('../solid/session-core', () => ({
+    vi.mock('../network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
@@ -53,7 +53,7 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('../solid/session-core', () => ({
+    vi.mock('../network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));

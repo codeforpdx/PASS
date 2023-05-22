@@ -1,5 +1,5 @@
 import runNotification from './notification-helper';
-import { uploadDocument, updateDocument } from '../solid/session-core';
+import { uploadDocument, updateDocument } from '../network/session-core';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session

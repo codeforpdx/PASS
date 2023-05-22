@@ -28,8 +28,8 @@ import {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL
-} from './solid/session-core';
-import { SOLID_IDENTITY_PROVIDER } from './solid/session-helper';
+} from './network/session-core';
+import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 import removeKeys from './frontend/logout-helper';
 
