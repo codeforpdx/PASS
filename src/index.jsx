@@ -1,8 +1,16 @@
+// React Imports
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
+// Inrupt Library Imports
 import { SessionProvider } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme';
+// Component Imports
 import App from './App';
+// Other Imports
 import './style.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,7 +18,10 @@ root.render(
   <React.StrictMode>
     <Router>
       <SessionProvider>
-        <App />
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </SessionProvider>
     </Router>
   </React.StrictMode>

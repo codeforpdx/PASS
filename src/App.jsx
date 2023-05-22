@@ -1,19 +1,29 @@
+// React Imports
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { Login } from './components/Login';
-import Forms from './components/Forms';
-import { UserSection } from './components/Users';
-import { SelectUserContext, UserListContext } from './contexts';
-import { useRedirectUrl } from './hooks';
+// Utility Imports
 import {
   getUsersFromPod,
   generateActivityTTL,
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
+  SOLID_IDENTITY_PROVIDER,
+  createDocumentContainer
 } from './utils';
+// Custom Hook Imports
+import { useRedirectUrl } from './hooks';
+// Context Imports
+import { SelectUserContext, UserListContext } from './contexts';
+// Page Imports
+import Home from './routes/Home';
+// Component Imports
+import Forms from './components/Forms';
+import { Inbox } from './components/Inbox';
+import { UserSection } from './components/Users';
+import Layout from './layouts/Layouts';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -24,6 +34,7 @@ const App = () => {
   const redirectUrl = useRedirectUrl();
   const [restore, setRestore] = useState(false);
 
+  // useEffect to restoring PASS if refreshed in browser
   useEffect(() => {
     const performanceEntries = window.performance.getEntriesByType('navigation');
     if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
@@ -31,17 +42,15 @@ const App = () => {
     }
 
     if (restore && localStorage.getItem('loggedIn')) {
-      console.log('restoring session');
       session.login({
         oidcIssuer: SOLID_IDENTITY_PROVIDER,
-        redirectUrl,
-        onError: console.error
+        redirectUrl
       });
     }
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {[userListObject[], React.Dispatch<React.SetStateAction<userListObject[]>>]} */
+  /** @type {useState<userListObject[]>} */
   const [userList, setUserList] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
@@ -60,6 +69,7 @@ const App = () => {
       await generateUsersList(session);
       await generateActivityTTL(session);
       await updateUserActivity(session);
+      await createDocumentContainer(session);
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
@@ -76,49 +86,56 @@ const App = () => {
     }
 
     if (session.info.isLoggedIn) {
+      localStorage.setItem('loggedIn', true);
       fetchData();
     }
   }, [session.info.isLoggedIn]);
 
   return (
-    <SelectUserContext.Provider value={selectedUserObject}>
-      <UserListContext.Provider value={userListObject}>
-        <Routes>
-          <Route
-            exact
-            path="/PASS/"
-            element={
-              session.info.isLoggedIn ? (
-                <Navigate
-                  to={
-                    !localStorage.getItem('restorePath')
-                      ? '/PASS/home/'
-                      : localStorage.getItem('restorePath')
-                  }
-                />
-              ) : (
-                <Login />
-              )
-            }
-          />
-          <Route
-            path="/PASS/home/"
-            element={
-              session.info.isLoggedIn ? (
-                <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-              ) : (
-                <Navigate to="/PASS/" />
-              )
-            }
-          />
-          <Route
-            path="/PASS/forms/"
-            element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-          />
-          <Route path="*" element={<Navigate to="/PASS/" />} />
-        </Routes>
-      </UserListContext.Provider>
-    </SelectUserContext.Provider>
+    <Layout>
+      <SelectUserContext.Provider value={selectedUserObject}>
+        <UserListContext.Provider value={userListObject}>
+          <Routes>
+            <Route
+              exact
+              path="/PASS/"
+              element={
+                session.info.isLoggedIn ? (
+                  <Navigate
+                    to={
+                      !localStorage.getItem('restorePath')
+                        ? '/PASS/home'
+                        : localStorage.getItem('restorePath')
+                    }
+                  />
+                ) : (
+                  <Home />
+                )
+              }
+            />
+            <Route
+              path="/PASS/home"
+              element={
+                session.info.isLoggedIn ? (
+                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                ) : (
+                  <Navigate to="/PASS/" />
+                )
+              }
+            />
+            <Route
+              path="/PASS/forms"
+              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+            />
+            <Route
+              path="/PASS/inbox"
+              element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+            />
+            <Route path="*" element={<Navigate to="/PASS/" />} />
+          </Routes>
+        </UserListContext.Provider>
+      </SelectUserContext.Provider>
+    </Layout>
   );
 };
 

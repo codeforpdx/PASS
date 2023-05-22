@@ -23,9 +23,15 @@ import {
   deleteUserFromPod,
   generateActivityTTL,
   updateUserActivity,
-  getUserListActivity
+  getUserListActivity,
+  createDocumentContainer,
+  setDocContainerAclPermission,
+  checkContainerPermission,
+  sendMessageTTL
 } from './session-core';
 import { SOLID_IDENTITY_PROVIDER } from './session-helper';
+import makeHandleFormSubmission from './FormSubmissionHelper';
+import removeKeys from './logout-helper';
 
 export {
   docTypes,
@@ -43,5 +49,11 @@ export {
   deleteUserFromPod,
   generateActivityTTL,
   updateUserActivity,
-  getUserListActivity
+  getUserListActivity,
+  createDocumentContainer,
+  setDocContainerAclPermission,
+  checkContainerPermission,
+  sendMessageTTL,
+  makeHandleFormSubmission,
+  removeKeys
 };

@@ -1,9 +1,15 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { useStatusNotification } from '../../hooks';
+// Utility Imports
 import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
-import FormSection from '../Form/FormSection';
+// Custom Hook Imports
+import { useStatusNotification } from '../../hooks';
+// Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
+// Component Imports
+import FormSection from '../Form/FormSection';
 
 /**
  * UsersList Component - Component that generates UsersList section for PASS
@@ -22,7 +28,7 @@ const UsersList = ({ loadingActive }) => {
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
     runNotification(`User "${userToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedUserUrl.split('/')[2]);
+    setSelectedUser(selectedUserUrl.split('/')[2].split('.')[0]);
   };
 
   // Event handler for deleting user from users list

@@ -1,10 +1,16 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
 import { getDocuments, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
+// Context Imports
+import { SelectUserContext } from '../../contexts';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { SelectUserContext } from '../../contexts';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod
@@ -17,12 +23,12 @@ import { SelectUserContext } from '../../contexts';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserUrl, ...userUrl } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   // Clean up function for clearing input fields after submission
   const clearInputFields = () => {
-    clearUserUrl();
+    clearUsername();
     setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
@@ -32,14 +38,14 @@ const CrossPodQueryForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
-    let podUrl = event.target.crossPodQuery.value;
+    let podUsername = event.target.crossPodQuery.value;
 
-    if (!podUrl) {
-      podUrl = selectedUser;
+    if (!podUsername) {
+      podUsername = selectedUser;
     }
 
-    if (!podUrl) {
-      runNotification('Search failed. Reason: Pod URL not provided.', 5, state, dispatch);
+    if (!podUsername) {
+      runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -47,7 +53,7 @@ const CrossPodQueryForm = () => {
     }
 
     try {
-      const documentUrl = await getDocuments(session, docType, 'cross-fetch', podUrl);
+      const documentUrl = await getDocuments(session, docType, 'cross-fetch', podUsername);
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -74,6 +80,7 @@ const CrossPodQueryForm = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Cross Pod Search"
@@ -83,16 +90,14 @@ const CrossPodQueryForm = () => {
     >
       <form onSubmit={handleCrossPodQuery} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-search-doc">
-            Search document from (i.e., username.opencommons.net):{' '}
-          </label>
+          <label htmlFor="cross-search-doc">Search document from username: </label>
           <br />
           <br />
           <input
             id="cross-search-doc"
-            size="60"
+            size="25"
             name="crossPodQuery"
-            {...userUrl}
+            {...username}
             placeholder={selectedUser}
           />
         </div>
@@ -106,6 +111,7 @@ const CrossPodQueryForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default CrossPodQueryForm;

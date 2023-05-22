@@ -1,10 +1,16 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-import { runNotification, setDocAclPermission } from '../../utils';
+// Utility Imports
+import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
+// Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
+// Context Imports
+import { SelectUserContext } from '../../contexts';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { SelectUserContext } from '../../contexts';
 
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
@@ -17,11 +23,11 @@ import { SelectUserContext } from '../../contexts';
 const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUrl, ...user } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   const clearInputFields = () => {
-    clearUrl();
+    clearUsername();
     setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
@@ -32,21 +38,24 @@ const SetAclPermissionForm = () => {
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
     const permissionType = event.target.setAclPerms.value;
-    let podUrl = event.target.setAclTo.value;
+    let podUsername = event.target.setAclTo.value;
 
-    if (!podUrl) {
-      podUrl = selectedUser;
+    if (!podUsername) {
+      podUsername = selectedUser;
     }
 
-    if (!podUrl) {
-      runNotification('Set permissions failed. Reason: Pod URL not provided.', 5, state, dispatch);
+    if (!podUsername) {
+      runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
       }, 3000);
       return;
     }
 
-    if (`https://${podUrl}/` === String(session.info.webId.split('profile')[0])) {
+    if (
+      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
+      String(session.info.webId.split('profile')[0])
+    ) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
@@ -68,10 +77,10 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, docType, permissionType, podUrl);
+      await setDocAclPermission(session, docType, permissionType, podUsername);
 
       runNotification(
-        `${permissionType} permission to ${podUrl} for ${docType}.`,
+        `${permissionType} permission to ${podUsername} for ${docType}.`,
         5,
         state,
         dispatch
@@ -91,6 +100,7 @@ const SetAclPermissionForm = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Permission to Files"
@@ -100,10 +110,16 @@ const SetAclPermissionForm = () => {
     >
       <form onSubmit={handleAclPermission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to (i.e., username.opencommons.net): </label>
+          <label htmlFor="set-acl-to">Set permissions to username: </label>
           <br />
           <br />
-          <input id="set-acl-to" size="60" name="setAclTo" {...user} placeholder={selectedUser} />
+          <input
+            id="set-acl-to"
+            size="25"
+            name="setAclTo"
+            {...username}
+            placeholder={selectedUser}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="set-acl-doctype">Select document type: </label>
@@ -122,6 +138,7 @@ const SetAclPermissionForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default SetAclPermissionForm;

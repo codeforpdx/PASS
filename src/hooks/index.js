@@ -82,9 +82,9 @@ export const useRedirectUrl = () => {
   const [redirectUrl, setRedirectUrl] = useState('');
 
   useEffect(() => {
-    if (!localStorage.getItem('redirectUrl')) {
-      localStorage.setItem('redirectUrl', window.location.href);
-      setRedirectUrl(window.location.href);
+    if (!localStorage.getItem('redirectUrl') && Boolean(localStorage.getItem('loggedIn'))) {
+      localStorage.setItem('redirectUrl', window.location.href.split('#')[0]);
+      setRedirectUrl(window.location.href.split('#')[0]);
     } else {
       setRedirectUrl(localStorage.getItem('redirectUrl'));
     }

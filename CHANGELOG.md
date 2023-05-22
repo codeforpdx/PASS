@@ -1,17 +1,68 @@
 # Changelog
 
-## v0.0.3 (Coming soon)
+## v0.0.4 (May 19, 2023)
 
 ## Features
 
-- Merging UI with existing functionality
-- Major UI updates with Material UI
+- Upload Driver's License into Solid through a barcode scanner (#139)
+- Included cryptographically secure signatures to documents (#137)
+- Included new Inbox for PASS to allow users to send messages as TTL files (#128)
+- Included checksum for uploaded files on Solid Pods via PASS (#123)
+- Major UI updates with Material UI, including NavBar, Footer, Login, LogoutModal, etc. (#107, #111, #116, #118, #141, #154, #166)
+- Created new Footer component for PASS (#118)
+- Included inactivity notification popup that appears after 3 minutes of inactivity (#101)
+- Included ability to perform cross-pod uploading/updating of files in another user's Documents container if given access (#97)
+- Included permissions setting to a dedicated Documents container on user's Solid Pod (#97)
+
+## Fixes
+
+- Fixed routing to /Documents/Drivers%20License/ for user's Pod by removing apostrophe from string during upload (#157)
+- Minor bug fix for state.verifyFile (#157)
+- Fixed pathing for Prettier and ESLint in scripts (#114, #122)
+- Fixed typings for userListObject in JSDoc (#100)
+- Created caching for npm dependencies (#97)
+- Updating corrupted package-lock file from repo (#96)
+
+## Dev Changes
+
+- Refactored handleLogout and eventlisteners for inactivity notification (#166)
+- Refactored Navbar with MUI components (#156)
+- Refactored form submission for file uploads (#145)
+- Updating configuration for ESLint (#127)
+- Included linter as part of GitHub Actions (#123)
+- Created dedicated directory for constants and schemas called constants (#123)
+- Replacing BrowserRouter with HashRouter for compatibility issues with GitHub Pages (#103)
+- Begin incorporating Material UI libraries to existing build with inactivity popup (#101)
+
+## Others
+
+- Included new GitHub Actions workflow to add PASS project to issue on creation (#156)
+- Created local dev server, node scripts, and local .env for Community Solid Server (#106)
+
+---
+
+## v0.0.3 (April 25, 2023)
+
+## Features
+
+- Included basic dialog modal for logout confirmation (#85)
+- Allow users to log back into PASS when browser is accidentally refreshed when users have not explicitly logged out (#81)
 
 ## Fixes
 
 ## Dev Changes
 
+- Functions and components for users list is refactored to loaded asynchronously from one another (#84)
+- Moved Router from App.jsx to index.jsx (#81)
+- Created useEffect for "session restore" with PASS, current solution involves a workaround that logs users into a new Solid session when browser refreshes (#81)
+- Refactored UserSection, Login, and Forms component to include AppHeader (#81)
+- Replaced routerContext with custom useRedirectUrl hook (#81)
+- Streamlined and simplified routing with React Router (#81)
+
 ## Others
+
+- Included dependencies for rollup-plugin-visualizer to check on production build bundle size locally
+- Removed the following unused dependencies from package.json: @inrupt/solid-client-authn-browser, buffer, eslint-config-node, eslint-plugin-node, jsdoc-tsimport-plugin, string_decoder
 
 ---
 

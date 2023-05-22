@@ -1,5 +1,17 @@
+# dependencies
 /node_modules
+
+# local
 .DS_Store
+
+# production
 /docs
 !/docs/README.md
 /dist
+bundleStats.html
+/local_temp_server_files
+/.vscode
+/coverage
+
+# environment variables
+.env

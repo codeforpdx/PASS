@@ -1,9 +1,20 @@
+// React Imports
 import React, { useContext } from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
+import {
+  runNotification,
+  addUserToPod,
+  getUserListActivity,
+  SOLID_IDENTITY_PROVIDER
+} from '../../utils';
+// Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
-import { runNotification, addUserToPod, getUserListActivity } from '../../utils';
-import FormSection from './FormSection';
+// Context Imports
 import { UserListContext } from '../../contexts';
+// Component Imports
+import FormSection from './FormSection';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
@@ -18,7 +29,7 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const { clearValue: clearUserUrl, ...userUrl } = useField('text');
+  const { clearValue: clearUsername, ...username } = useField('text');
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
@@ -28,11 +39,11 @@ const ManageUsers = () => {
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      url: event.target.addUserUrl.value
+      username: event.target.addUsername.value
     };
 
-    if (!userObject.url) {
-      runNotification(`Operation failed. Reason: No URL provided`, 5, state, dispatch);
+    if (!userObject.username) {
+      runNotification(`Operation failed. Reason: No username provided`, 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -80,7 +91,7 @@ const ManageUsers = () => {
     setTimeout(() => {
       clearUserGivenName();
       clearUserFamilyName();
-      clearUserUrl();
+      clearUsername();
       dispatch({ type: 'CLEAR_PROCESSING' });
     }, 3000);
   };
@@ -89,6 +100,7 @@ const ManageUsers = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Manage Users"
@@ -98,22 +110,23 @@ const ManageUsers = () => {
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
         <div>
-          <label htmlFor="add-user-given-name">User's first/given name: </label>
+          <label htmlFor="add-user-given-name">First/given name: </label>
           <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-last-name">User's last/family name: </label>
+          <label htmlFor="add-user-last-name">Last/family name: </label>
           <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-url">
-            Add Pod URL to users list (i.e., username.opencommons.net):{' '}
+          <label htmlFor="add-username">
+            Add username to users list (i.e., username without{' '}
+            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
           </label>
           <br />
           <br />
-          <input id="add-user-url" name="addUserUrl" size="60" {...userUrl} />{' '}
+          <input id="add-username" name="addUsername" size="25" {...username} />{' '}
         </div>
         <br />
         <button type="submit" disabled={state.processing}>
@@ -122,6 +135,7 @@ const ManageUsers = () => {
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default ManageUsers;

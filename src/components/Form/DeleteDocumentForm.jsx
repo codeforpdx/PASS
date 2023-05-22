@@ -1,7 +1,12 @@
+// React Imports
 import React from 'react';
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
+// Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
+// Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
@@ -49,6 +54,7 @@ const DeleteDocumentForm = () => {
     margin: '20px 0'
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Delete Document"
@@ -67,6 +73,7 @@ const DeleteDocumentForm = () => {
       </form>
     </FormSection>
   );
+  /* eslint-disable jsx-a11y/label-has-associated-control */
 };
 
 export default DeleteDocumentForm;

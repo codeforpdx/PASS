@@ -1,7 +1,7 @@
 # PASS - Personal Access System for Services
 
 [![Build status](https://github.com/codeforpdx/pass/actions/workflows/ci.yml/badge.svg)](https://github.com/codeforpdx/pass/actions?query=workflow%3ABuild)
-  
+
 ## Description
 
 In Portland, housing insecure individuals struggle to maintain documentation, which is often required to receive government and/or non-profit services. With PASS, we are building out an application to enable house insecure individuals to store their personal documents online in decentralized data stores, called Pods. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their documents. Verified organization will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod.
@@ -56,10 +56,17 @@ With PASS we are looking into using RDF to link between pods and store metadata 
 
 | Development Team | UX/UI Team | Project Management Team |
 | ---------------- | ---------- | ----------------------- |
-| Jared K.         | Gabby      | Flo                     |
-| Kevin M.         | Kyle       | Danica                  |
-| Ka Hung          |            | Wilfred                 |
-| Greg Witt        |            | Katharine               |
+| Jared K.         | Gabby P.   | Flo K.                  |
+| Kevin M.         | Kyle B.    | Danica B.               |
+| Ka Hung L.       | Laura U.   | Wilfred P.              |
+| Greg W.          | Shelby P.  | Katharine               |
+| Emily S.         | Andy W.    |                         |
+| Ben C.           | Scott B.   |                         |
+| Tim S.           | Zack       |                         |
+| Brian H.         | Nicholas   |                         |
+| Georgia          |            |                         |
+| Natalie M.       |            |                         |
+| Grac F.          |            |                         |
 
 ## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 
