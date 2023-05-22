@@ -23,7 +23,10 @@ const OidcLoginComponent = () => {
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
         margin="normal"
-        InputProps={{ disableUnderline: true }}
+        InputProps={{
+          disableUnderline: true,
+          'aria-label': 'OIDC Input Field'
+        }}
         sx={{
           backgroundColor: 'white',
           borderRadius: '8px'
@@ -36,6 +39,7 @@ const OidcLoginComponent = () => {
           type="submit"
           color="secondary"
           size="large"
+          aria-label="Login Button"
           onClick={() => {
             localStorage.setItem('oidcIssuer', oidcIssuer);
           }}
