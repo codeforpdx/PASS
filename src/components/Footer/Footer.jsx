@@ -110,7 +110,7 @@ const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => {
       justifyContent="space-around"
     >
       {legalLinks.map((link) => (
-        <Typography variant="body2" color="tertiary.main">
+        <Typography key={link.title} variant="body2" color="tertiary.main">
           {link.text ?? null}
           <Link
             href={link.href}
@@ -159,7 +159,7 @@ const Footer = () => {
           divider={
             <Divider
               orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
-              flexItem={isReallySmallScreen ? null : 'flexItem'}
+              flexItem={isReallySmallScreen ? null : true}
               color={theme.palette.tertiary.main}
               sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
             />
