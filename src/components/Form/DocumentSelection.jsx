@@ -1,6 +1,6 @@
 // React Imports
 import React from 'react';
-// Utiltiy Imports
+// Utility Imports
 import docTypes from '../../utils/form-helper';
 
 /**
