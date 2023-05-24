@@ -9,13 +9,13 @@ const renderFormFields = () => {
 
   return {
     container,
-    firstNameField: getByLabelText('First Name'),
-    familyNameField: getByLabelText('Family Name'),
-    userNameField: getByLabelText('Username'),
-    webIdField: getByLabelText('Web ID'),
-    submitButton: getByLabelText('User Creation Submit')
-  };
-};
+    firstNameField: getByLabelText("First Name"),
+    familyNameField: getByLabelText("Family Name"),
+    userNameField: getByLabelText("Username"),
+    webIdField: getByLabelText("Web ID"),
+    submitButton: getByLabelText("User Creation Submit")
+  }
+}
 
 afterEach(() => {
   vi.clearAllMocks();
