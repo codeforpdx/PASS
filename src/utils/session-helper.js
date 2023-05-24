@@ -290,9 +290,11 @@ const createFileChecksum = async (fileObject) => {
 /**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
+ * @function createDriversLicenseTtlFile
  * @memberof utils
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {string} documentUrl - url of uploaded document or resource
+ * @param {object} checksum - checksum for uplaoded file
  */
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
