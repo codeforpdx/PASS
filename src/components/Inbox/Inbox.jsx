@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // Component Imports
 import NewMessage from './NewMessage';
 import { InboxMessageContext } from '../../contexts';
-import { getInboxMessageTTL } from '../../utils/session-core';
+import { getInboxMessageTTL } from '../../utils/network/session-core';
 
 /**
  * Inbox Component - Component that generates Inbox section for users

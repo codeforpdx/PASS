@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // Utility Imports
 import { sendMessageTTL } from '../../utils';
 import { InboxMessageContext } from '../../contexts';
-import { getInboxMessageTTL } from '../../utils/session-core';
+import { getInboxMessageTTL } from '../../utils/network/session-core';
 
 /**
  * New Message Component - Component that allows user to write
