@@ -1,10 +1,12 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
+// Unique ID import
+import { v4 as uuidv4 } from 'uuid';
 // Component Imports
 import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
@@ -19,30 +21,14 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  * @name Inbox
  */
 
+// TODO:
+// 1. Possible bug - messages unsort after sending a message
 const Inbox = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
 
   const [showForm, setShowForm] = useState(false);
-  // messages currently filled with placeholder data
-  // Will be updated to pull data from user Inbox using Solid SDK
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      title: 'Message 1',
-      date: 'May 24, 2023',
-      author: 'Author 1',
-      contents: 'Hello, Inbox!'
-    },
-    {
-      id: 2,
-      title: 'Message 2',
-      date: 'May 22, 2023',
-      author: 'Author 2',
-      contents: 'Hello again, Inbox!'
-    }
-  ]);
 
   const { session } = useSession();
   const { inboxList, setInboxList } = useContext(InboxMessageContext);
@@ -53,23 +39,31 @@ const Inbox = () => {
     setInboxList(messagesInSolid);
   };
 
+  // Re-sorts messages upon inboxList updating
+  useEffect(() => {
+    const inboxCopy = inboxList;
+    inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
+    setInboxList(inboxCopy);
+  }, [inboxList]);
+
   return (
     <section
       id="inbox"
       className="panel"
       style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
     >
-      <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
+        <StyledButton onClick={handleInboxRefresh} type="button">
+          Refresh
+        </StyledButton>
+      </div>
       {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-        {messages.map((message) => (
-          // TODO: Update key to be truly unique
-          <MessagePreview key={message.id} message={message} />
+        {inboxList.map((message) => (
+          <MessagePreview key={uuidv4()} message={message} />
         ))}
       </div>
-      <button onClick={handleInboxRefresh} type="button" style={{ width: '150px', height: '50px' }}>
-        Refresh
-      </button>
     </section>
   );
 };

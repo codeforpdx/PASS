@@ -95,6 +95,7 @@ const App = () => {
       }
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
+      messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
       setInboxList(messagesInSolid);
     }
 

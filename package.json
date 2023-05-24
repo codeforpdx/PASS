@@ -41,7 +41,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "styled-components": "^5.3.10"
+    "styled-components": "^5.3.10",
+    "uuid": "^9.0.0"
   },
   "browserslist": [
     "last 3 and_chr versions",

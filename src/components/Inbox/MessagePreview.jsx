@@ -20,11 +20,11 @@ const MessagePreview = ({ message }) => {
 
   return (
     <StyledPreview onClick={() => handleClick()}>
-      <StyledDate>{message.date}</StyledDate>
+      <StyledDate>{message.uploadDate.toLocaleDateString()}</StyledDate>
       <StyledHeader>
-        {message.author} - {message.title}
+        {message.sender} - {message.title}
       </StyledHeader>
-      {showContents && <p>{message.contents}</p>}
+      {showContents && <p>{message.message}</p>}
     </StyledPreview>
   );
 };
