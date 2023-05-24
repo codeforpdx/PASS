@@ -1,5 +1,5 @@
 // React imports
-import React from 'react';
+import React, { useState } from 'react';
 // Styling Imports
 import styled from 'styled-components';
 
@@ -11,14 +11,23 @@ import styled from 'styled-components';
  * @name MessagePreview
  */
 
-const MessagePreview = ({ message }) => (
-  <StyledPreview>
-    <StyledDate>{message.date}</StyledDate>
-    <StyledHeader>
-      {message.author} - {message.title}
-    </StyledHeader>
-  </StyledPreview>
-);
+const MessagePreview = ({ message }) => {
+  const [showContents, setShowContents] = useState(false);
+
+  const handleClick = () => {
+    setShowContents(!showContents);
+  };
+
+  return (
+    <StyledPreview onClick={() => handleClick()}>
+      <StyledDate>{message.date}</StyledDate>
+      <StyledHeader>
+        {message.author} - {message.title}
+      </StyledHeader>
+      {showContents && <p>{message.contents}</p>}
+    </StyledPreview>
+  );
+};
 
 const StyledPreview = styled('div')({
   display: 'flex',
