@@ -19,7 +19,7 @@ import {
   removeThing,
   getDatetime
 } from '@inrupt/solid-client';
-import { RDF_PREDICATES, UPLOAD_TYPES } from '../constants';
+import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
 import {
   getContainerUrl,
   setupAcl,
@@ -33,18 +33,18 @@ import {
   getUserProfileName,
   saveMessageTTLInInbox
 } from './session-helper';
-import { getUserSigningKey, signDocumentTtlFile } from './credentials-helper';
+import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
 
 /**
- * @typedef {import('../typedefs').fileObjectType} fileObjectType
+ * @typedef {import('../../typedefs').fileObjectType} fileObjectType
  */
 
 /**
- * @typedef {import("../typedefs").userListObject} userListObject
+ * @typedef {import("../../typedefs").userListObject} userListObject
  */
 
 /*
