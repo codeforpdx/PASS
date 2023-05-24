@@ -17,8 +17,8 @@ import {
   generateRsaSignature,
   validateSignature,
   getUserSigningKey
-} from './credentials-helper';
-import { RDF_PREDICATES } from '../constants';
+} from '../../src/utils/cryptography/credentials-helper';
+import { RDF_PREDICATES } from '../../src/constants';
 
 describe('credentials', async () => {
   // Most of our tests should be in the JSDom browser environment

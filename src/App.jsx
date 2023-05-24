@@ -10,7 +10,6 @@ import {
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  SOLID_IDENTITY_PROVIDER,
   createDocumentContainer,
   getInboxMessageTTL
 } from './utils';
@@ -48,7 +47,7 @@ const App = () => {
 
     if (restore && localStorage.getItem('loggedIn')) {
       session.login({
-        oidcIssuer: SOLID_IDENTITY_PROVIDER,
+        oidcIssuer: localStorage.getItem('oidcIssuer'),
         redirectUrl
       });
     }

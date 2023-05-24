@@ -1,8 +1,11 @@
 import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
-import makeHandleFormSubmission from './FormSubmissionHelper';
-import { UPLOAD_TYPES } from '../constants';
-import runNotification from './notification-helper';
-import { uploadDocument, updateDocument } from './session-core';
+import {
+  makeHandleFormSubmission,
+  runNotification,
+  uploadDocument,
+  updateDocument
+} from '../../src/utils';
+import { UPLOAD_TYPES } from '../../src/constants';
 
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
@@ -19,11 +22,11 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('./session-core', () => ({
+    vi.mock('../../src/utils/network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
-    vi.mock('./notification-helper', () => ({
+    vi.mock('../../src/utils/frontend/notification-helper', () => ({
       default: vi.fn()
     }));
     const stateMock = {
@@ -53,11 +56,11 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('./session-core', () => ({
+    vi.mock('../../src/utils/network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
-    vi.mock('./notification-helper', () => ({
+    vi.mock('../../src/utils/frontend/notification-helper', () => ({
       default: vi.fn()
     }));
     const stateMock = {

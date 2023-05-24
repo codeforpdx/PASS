@@ -2,6 +2,11 @@
 import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -54,11 +59,6 @@ const FetchDocumentForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Search Document"
@@ -66,18 +66,28 @@ const FetchDocumentForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Get Document
-          </button>
-        </div>
-      </form>
+      <Box sx={{ minWidth: 120 }}>
+        <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+          <InputLabel id="search-doctype">
+            <i>Select Document Type</i>
+          </InputLabel>
+          <FormControl fullWidth variant="standard">
+            <DocumentSelection htmlId="search-doctype" />
+            <br />
+            <Button
+              variant="contained"
+              fullWidth
+              disabled={state.processing}
+              type="submit"
+              color="primary"
+            >
+              Get Document
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default FetchDocumentForm;

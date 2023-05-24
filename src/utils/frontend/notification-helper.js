@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * @typedef {import('../typedefs').statusNotificationObject} statusNotificationObject
+ * @typedef {import('../../typedefs').statusNotificationObject} statusNotificationObject
  */
 
 /**
