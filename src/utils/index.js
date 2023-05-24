@@ -54,6 +54,5 @@ export {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
-  makeHandleFormSubmission,
-  removeKeys
+  makeHandleFormSubmission
 };
