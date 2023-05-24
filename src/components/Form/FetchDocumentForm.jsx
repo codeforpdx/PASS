@@ -67,11 +67,11 @@ const FetchDocumentForm = () => {
       defaultMessage="To be searched..."
     >
       <Box sx={{ minWidth: 120 }}>
-        <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+        <form onSubmit={handleGetDocumentSubmission}>
           <InputLabel id="search-doctype">
             <i>Select Document Type</i>
           </InputLabel>
-          <FormControl fullWidth variant="standard">
+          <FormControl  variant="standard">
             <DocumentSelection htmlId="search-doctype" />
             <br />
             <Button
