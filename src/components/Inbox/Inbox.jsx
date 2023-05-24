@@ -7,6 +7,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import styled from 'styled-components';
 // Component Imports
 import NewMessage from './NewMessage';
+import MessagePreview from './MessagePreview';
 import { InboxMessageContext } from '../../contexts';
 import { getInboxMessageTTL } from '../../utils/network/session-core';
 
@@ -24,6 +25,24 @@ const Inbox = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   const [showForm, setShowForm] = useState(false);
+  // messages currently filled with placeholder data
+  // Will be updated to pull data from user Inbox using Solid SDK
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      title: 'Message 1',
+      date: 'May 24, 2023',
+      author: 'Author 1',
+      contents: 'Hello, Inbox!'
+    },
+    {
+      id: 2,
+      title: 'Message 2',
+      date: 'May 22, 2023',
+      author: 'Author 2',
+      contents: 'Hello again, Inbox!'
+    }
+  ]);
 
   const { session } = useSession();
   const { inboxList, setInboxList } = useContext(InboxMessageContext);
@@ -35,11 +54,20 @@ const Inbox = () => {
   };
 
   return (
-    <section id="inbox" className="panel">
+    <section
+      id="inbox"
+      className="panel"
+      style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+    >
       <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
       {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
-      <div>Placeholder; inbox contents will go here.</div>
-      <button onClick={handleInboxRefresh} type="button">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        {messages.map((message) => (
+          // TODO: Update key to be truly unique
+          <MessagePreview key={message.id} message={message} />
+        ))}
+      </div>
+      <button onClick={handleInboxRefresh} type="button" style={{ width: '150px', height: '50px' }}>
         Refresh
       </button>
     </section>

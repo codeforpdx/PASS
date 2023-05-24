@@ -1,5 +1,6 @@
 import Inbox from './Inbox';
 import NewMessage from './NewMessage';
+import MessagePreview from './MessagePreview';
 
 /**
  * Components and functions related to Inbox functionality within project PASS
@@ -7,4 +8,4 @@ import NewMessage from './NewMessage';
  * @namespace Inbox
  */
 
-export { Inbox, NewMessage };
+export { Inbox, NewMessage, MessagePreview };
