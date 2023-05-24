@@ -7,6 +7,7 @@
 # production
 /docs
 !/docs/README.md
+!/docs/ZXing_Barcode.md
 /dist
 bundleStats.html
 /local_temp_server_files
