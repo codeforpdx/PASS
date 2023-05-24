@@ -15,14 +15,12 @@ const OidcLoginComponent = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ flexGrow: 1 }} />
       <TextField
         type="text"
         label="Pod Server URL"
         variant="filled"
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
-        margin="normal"
         InputProps={{
           disableUnderline: true,
           'aria-label': 'OIDC Input Field'
