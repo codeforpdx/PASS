@@ -294,7 +294,7 @@ const createFileChecksum = async (fileObject) => {
  * @memberof utils
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {string} documentUrl - url of uploaded document or resource
- * @param {object} checksum - checksum for uplaoded file
+ * @param {object} checksum - checksum for uploaded file
  */
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
