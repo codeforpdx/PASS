@@ -1,5 +1,5 @@
 import { expect, vi, it, describe } from 'vitest';
-import { createResourceTtlFile } from '../../src/utils/session-helper';
+import { createResourceTtlFile } from '../../src/utils/network/session-helper';
 import { UPLOAD_TYPES } from '../../src/constants';
 
 describe('createResourceTtlFile', () => {
