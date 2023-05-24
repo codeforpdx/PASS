@@ -22,7 +22,6 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  */
 
 // TODO:
-// 1. Possible bug - messages unsort after sending a message
 const Inbox = () => {
   const location = useLocation();
 
@@ -58,7 +57,13 @@ const Inbox = () => {
           Refresh
         </StyledButton>
       </div>
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+      {showForm && (
+        <NewMessage
+          closeForm={() => setShowForm(!showForm)}
+          inboxList={inboxList}
+          setInboxList={setInboxList}
+        />
+      )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
         {inboxList.map((message) => (
           <MessagePreview key={uuidv4()} message={message} />

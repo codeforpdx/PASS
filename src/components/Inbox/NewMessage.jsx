@@ -1,12 +1,11 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Import
 import styled from 'styled-components';
 // Utility Imports
 import { sendMessageTTL } from '../../utils';
-import { InboxMessageContext } from '../../contexts';
 import { getInboxMessageTTL } from '../../utils/network/session-core';
 
 /**
@@ -17,7 +16,7 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  * @name NewMessage
  */
 
-const NewMessage = ({ closeForm }) => {
+const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
   const { session } = useSession();
 
   const [message, setMessage] = useState({
@@ -27,7 +26,6 @@ const NewMessage = ({ closeForm }) => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const { inboxList, setInboxList } = useContext(InboxMessageContext);
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -65,7 +63,9 @@ const NewMessage = ({ closeForm }) => {
     }
 
     const inboxMessages = await getInboxMessageTTL(session, inboxList);
-    setInboxList(inboxMessages);
+    const sortedInbox = inboxMessages;
+    sortedInbox.sort((a, b) => b.uploadDate - a.uploadDate);
+    setInboxList(sortedInbox);
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
