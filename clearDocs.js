@@ -7,7 +7,7 @@ const path = require('path');
 const docsDir = path.join(__dirname, 'docs');
 const tempDir = path.join(__dirname, 'temp');
 
-// Creates at temp directory if it doesn't exist
+// Creates a temp directory if it doesn't exist
 if (!fs.existsSync(tempDir)) {
   fs.mkdirSync(tempDir);
 }
