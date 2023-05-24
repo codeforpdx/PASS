@@ -1,6 +1,6 @@
 /* Simple script that removes all documents
  * within the docs folder except for all .md files */
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 
 // Defining path for both /docs and /temp
@@ -24,7 +24,7 @@ allMds.forEach((mdFile) => {
 /* Removes the docs directory and then renames
  * the temp directory as the docs directory,
  * now containing only the original .md files */
-fs.removeSync(docsDir);
+fs.rmSync(docsDir, { recursive: true, force: true });
 fs.renameSync(tempDir, docsDir, (err) => {
   if (err) {
     throw err;
