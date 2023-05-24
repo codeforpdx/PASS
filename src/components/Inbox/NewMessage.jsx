@@ -62,6 +62,7 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
       }
     }
 
+    // Re-sorts messages when new message is added to inboxList
     const inboxMessages = await getInboxMessageTTL(session, inboxList);
     const sortedInbox = inboxMessages;
     sortedInbox.sort((a, b) => b.uploadDate - a.uploadDate);
