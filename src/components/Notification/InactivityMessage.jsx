@@ -6,8 +6,6 @@ import { LogoutButton } from '@inrupt/solid-ui-react';
 import styled from 'styled-components';
 // Material UI Base imports; TODO: Update imports to @mui/material when re-styling
 import Button from '@mui/base/Button';
-// Utility imports
-import { removeKeys } from '../../utils';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
@@ -63,7 +61,7 @@ const InactivityMessage = () => {
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
   const handleLogout = () => {
-    removeKeys();
+    localStorage.clear();
   };
 
   return (
