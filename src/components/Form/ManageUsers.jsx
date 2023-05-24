@@ -122,6 +122,7 @@ const ManageUsers = () => {
         <TextField
           style={textFieldStyle}
           id="first-name-form"
+          aria-label="First Name"
           label="First/Given Name"
           variant="outlined"
           value={givenName}
@@ -131,6 +132,7 @@ const ManageUsers = () => {
         <TextField
           style={textFieldStyle}
           id="last-name-form"
+          aria-label="Family Name"
           label="Last/Family Name"
           variant="outlined"
           value={familyName}
@@ -141,6 +143,7 @@ const ManageUsers = () => {
           style={textFieldStyle}
           id="username-form"
           label="Username"
+          aria-label="Username"
           variant="outlined"
           type="text"
           value={username}
@@ -152,6 +155,7 @@ const ManageUsers = () => {
           style={textFieldStyle}
           id="webId"
           label="WebId"
+          aria-label="Web ID"
           value={webId}
           onChange={(e) => {
             setWebId(e.target.value);
@@ -174,6 +178,7 @@ const ManageUsers = () => {
         <Button
           style={textFieldStyle}
           variant="contained"
+          aria-label="User Creation Submit"
           type="submit"
           disabled={state.processing}
         >
