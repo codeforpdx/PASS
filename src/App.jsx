@@ -7,7 +7,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import {
   getUsersFromPod,
-  generateActivityTTL,
+  fetchUserActivity,
   fetchUsersList,
   updateUserActivity,
   getUserListActivity,
@@ -68,17 +68,19 @@ const App = () => {
      * @function fetchData
      */
     async function fetchData() {
-      const podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
+      setLoadingUsers(true);
+      setLoadingActive(true);
+      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
+      podUrl = podUrl || session.info.webId.split("profile")[0];
       setSignedInPod(podUrl);
       await fetchUsersList(session, podUrl);
-      await generateActivityTTL(session);
-      await updateUserActivity(session);
-      await createDocumentContainer(session);
+      await fetchUserActivity(session, podUrl);
+      await updateUserActivity(session, podUrl);
+      await createDocumentContainer(session, podUrl);
       try {
-        let listUsers = await getUsersFromPod(session);
+        let listUsers = await getUsersFromPod(session, podUrl);
+        setLoadingUsers(false)
         setUserList(listUsers);
-        setLoadingUsers(true);
-        setLoadingActive(true);
         listUsers = await getUserListActivity(session, listUsers);
         setUserList(listUsers);
         setLoadingActive(false);

@@ -385,9 +385,13 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  * documents being uploaded by authorized users
  */
 
-export const createDocumentContainer = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Documents', 'self-fetch');
-  await createContainerAt(userContainerUrl, { fetch: session.fetch });
+export const createDocumentContainer = async (session, podUrl) => {
+  const userContainerUrl = `${podUrl}Documents/`;
+  try {
+    await createContainerAt(userContainerUrl, { fetch: session.fetch });
+  } catch {
+    return;
+  }
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
@@ -400,7 +404,7 @@ export const createDocumentContainer = async (session) => {
     ];
 
     createContainerList.forEach(async (url) => {
-      await createContainerAt(url, { fetch: session.fetch });
+        await createContainerAt(url, { fetch: session.fetch });
     });
 
     const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
@@ -450,7 +454,7 @@ export const getUserListActivity = async (session, userList) => {
     userList.map(async (user) => {
       try {
         const solidDataset = await getSolidDataset(
-          `${user.podUrl.split('profile')[0]}public/active.ttl`,
+          `${user.podUrl}public/active.ttl`,
           {
             fetch: session.fetch
           }
@@ -474,36 +478,36 @@ export const getUserListActivity = async (session, userList) => {
  * only the time of the latest user's activity
  *
  * @memberof utils
- * @function generateActivtyTTL
+ * @function fetchUserActivity
  * @param {Session} session - Solid's Session Object {@link Session}
  * @returns {Promise} Promise - Generates active.ttl inside public which stores
  * the time of their latest activity on their Pod through PASS
  */
 
-export const generateActivityTTL = async (session) => {
-  const POD_URL = String(session.info.webId.split('profile')[0]);
-  const publicContainerUrl = `${POD_URL}public/`;
-  const datasetFromUrl = await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
-
-  if (!ttlFileExists) {
+export const fetchUserActivity = async (session, podUrl) => {
+  const activityHistoryUrl = `${podUrl}public/active.ttl`;
+  try {
+     await getSolidDataset(activityHistoryUrl, { fetch: session.fetch });
+  }
+  catch {
     const newTtlFile = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
-      .build();
+    .addDatetime(RDF_PREDICATES.dateModified, new Date())
+    .build();
 
     let newSolidDataset = createSolidDataset();
     newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
     // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(publicContainerUrl, newSolidDataset, {
-      slugSuggestion: 'active.ttl',
+    await saveSolidDatasetAt(activityHistoryUrl, newSolidDataset, {
       contentType: 'text/turtle',
       fetch: session.fetch
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, publicContainerUrl);
+    await createDocAclForUser(session, activityHistoryUrl);
   }
+
+
 };
 
 /**
@@ -515,9 +519,8 @@ export const generateActivityTTL = async (session) => {
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
 
-export const updateUserActivity = async (session) => {
-  const POD_URL = String(session.info.webId.split('profile')[0]);
-  const publicContainerUrl = `${POD_URL}public/`;
+export const updateUserActivity = async (session, podUrl) => {
+  const publicContainerUrl = `${podUrl}public/`;
   let solidDataset = await getSolidDataset(`${publicContainerUrl}active.ttl`, {
     fetch: session.fetch
   });

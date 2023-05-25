@@ -68,7 +68,7 @@ export const fetchUsersList = async (session, podUrl) => {
   }
 };
 
-const parseUserObjectFromThing = async (userThing) => {
+const parseUserObjectFromThing = (userThing) => {
   const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
@@ -88,8 +88,8 @@ const parseUserObjectFromThing = async (userThing) => {
  * users list exist
  */
 
-export const getUsersFromPod = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
+export const getUsersFromPod = async (session, podUrl) => {
+  const userContainerUrl = `${podUrl}Users/`
   let userList = [];
   try {
     const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
@@ -158,8 +158,8 @@ export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) 
  * their Solid Pod
  */
 
-export const addUserToPod = async (session, userObject) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
+export const addUserToPod = async (session, userObject, podUrl) => {
+  const userContainerUrl = `${podUrl}Users/`
 
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
@@ -167,14 +167,21 @@ export const addUserToPod = async (session, userObject) => {
 
   const { givenName, familyName, username, webId } = userObject;
 
-  const podUrl = (await getPodUrlAll(webId))[0]
+  let newUserPodUrl = null;
+  try {
+    [ newUserPodUrl ] = (await getPodUrlAll(webId));
+  } catch {
+    [ newUserPodUrl ] = webId.split("profile");
+  }
+
+  newUserPodUrl = newUserPodUrl || webId.split("profile")[0];
 
   const newUserThing = buildThing(createThing({ name: `${givenName} ${username}` }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
     .addUrl(RDF_PREDICATES.identifier, webId)
-    .addUrl(RDF_PREDICATES.URL, podUrl)
+    .addUrl(RDF_PREDICATES.URL, newUserPodUrl)
     .build();
 
   solidDataset = setThing(solidDataset, newUserThing);
@@ -183,6 +190,6 @@ export const addUserToPod = async (session, userObject) => {
     fetch: session.fetch
   });
 
-  const userList = await getUsersFromPod(session);
+  const userList = await getUsersFromPod(session, podUrl);
   return userList;
 };
