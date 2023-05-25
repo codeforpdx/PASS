@@ -1,6 +1,7 @@
 // React Imports
 import React, { useContext } from 'react';
 // Inrupt Imports
+import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
@@ -32,18 +33,22 @@ const UsersList = ({ loadingActive }) => {
   };
 
   // Event handler for deleting user from users list
-  const handleDeleteUser = async (userToDeleteFullName, userToDelete, userToDeleteUrl) => {
+  const handleDeleteUser = async (user) => {
     if (
-      window.confirm(
-        `You're about to delete user ${userToDeleteFullName} from users list, do you wish to continue?`
+      !window.confirm(
+        `You're about to delete user ${user.person} from users list, do you wish to continue?`
       )
     ) {
-      runNotification(`Deleting user "${userToDeleteFullName}" from Solid...`, 3, state, dispatch);
-      let listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
-      listUsers = await getUserListActivity(session, listUsers);
-
-      setUserList(listUsers);
+      return;
     }
+
+    let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
+    podUrl = podUrl || session.info.webId.split('profile')[0];
+    runNotification(`Deleting user "${user.person}" from Solid...`, 3, state, dispatch);
+    let listUsers = await deleteUserFromPod(session, user, podUrl);
+    listUsers = await getUserListActivity(session, listUsers);
+    runNotification(`User "${user.person}" deleted from Solid...`, 3, state, dispatch);
+    setUserList(listUsers);
   };
 
   const tableStyle = {
@@ -82,18 +87,12 @@ const UsersList = ({ loadingActive }) => {
                     <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
                   )}
                   <td>
-                    <button
-                      type="button"
-                      onClick={() => handleSelectUser(user.person, user.webId)}
-                    >
+                    <button type="button" onClick={() => handleSelectUser(user.person, user.webId)}>
                       select
                     </button>
                   </td>
                   <td>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteUser(user.person, user.givenName, user.webId)}
-                    >
+                    <button type="button" onClick={() => handleDeleteUser(user)}>
                       delete
                     </button>
                   </td>

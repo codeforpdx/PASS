@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 // Inrupt Imports
-import { getPodUrlAll } from "@inrupt/solid-client";
+import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import {
@@ -70,8 +70,8 @@ const App = () => {
     async function fetchData() {
       setLoadingUsers(true);
       setLoadingActive(true);
-      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
-      podUrl = podUrl || session.info.webId.split("profile")[0];
+      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
+      podUrl = podUrl || session.info.webId.split('profile')[0];
       setSignedInPod(podUrl);
       await fetchUsersList(session, podUrl);
       await fetchUserActivity(session, podUrl);
@@ -79,7 +79,7 @@ const App = () => {
       await createDocumentContainer(session, podUrl);
       try {
         let listUsers = await getUsersFromPod(session, podUrl);
-        setLoadingUsers(false)
+        setLoadingUsers(false);
         setUserList(listUsers);
         listUsers = await getUserListActivity(session, listUsers);
         setUserList(listUsers);

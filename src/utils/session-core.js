@@ -404,7 +404,7 @@ export const createDocumentContainer = async (session, podUrl) => {
     ];
 
     createContainerList.forEach(async (url) => {
-        await createContainerAt(url, { fetch: session.fetch });
+      await createContainerAt(url, { fetch: session.fetch });
     });
 
     const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
@@ -453,12 +453,9 @@ export const getUserListActivity = async (session, userList) => {
   const userListWithTime = await Promise.all(
     userList.map(async (user) => {
       try {
-        const solidDataset = await getSolidDataset(
-          `${user.podUrl}public/active.ttl`,
-          {
-            fetch: session.fetch
-          }
-        );
+        const solidDataset = await getSolidDataset(`${user.podUrl}public/active.ttl`, {
+          fetch: session.fetch
+        });
         const activeTTLThing = getThingAll(solidDataset)[0];
         const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
         const updatedUser = user;
@@ -487,12 +484,11 @@ export const getUserListActivity = async (session, userList) => {
 export const fetchUserActivity = async (session, podUrl) => {
   const activityHistoryUrl = `${podUrl}public/active.ttl`;
   try {
-     await getSolidDataset(activityHistoryUrl, { fetch: session.fetch });
-  }
-  catch {
+    await getSolidDataset(activityHistoryUrl, { fetch: session.fetch });
+  } catch {
     const newTtlFile = buildThing(createThing({ name: 'active' }))
-    .addDatetime(RDF_PREDICATES.dateModified, new Date())
-    .build();
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
 
     let newSolidDataset = createSolidDataset();
     newSolidDataset = setThing(newSolidDataset, newTtlFile);
@@ -506,8 +502,6 @@ export const fetchUserActivity = async (session, podUrl) => {
     // Generate ACL file for container
     await createDocAclForUser(session, activityHistoryUrl);
   }
-
-
 };
 
 /**
