@@ -16,9 +16,9 @@ import {
   saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
-import getDriversLicenseData from './barcode-scan';
-import formattedDate from './barcode-date-parser';
-import { RDF_PREDICATES } from '../constants';
+import getDriversLicenseData from '../barcode/barcode-scan';
+import formattedDate from '../barcode/barcode-date-parser';
+import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -41,7 +41,7 @@ import { RDF_PREDICATES } from '../constants';
  */
 
 /**
- * @typedef {import('../typedefs').fileObjectType} fileObjectType
+ * @typedef {import('../../typedefs').fileObjectType} fileObjectType
  */
 
 /**
