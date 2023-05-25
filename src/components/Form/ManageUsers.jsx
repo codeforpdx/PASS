@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
-import { getPodUrlAll } from "@inrupt/solid-client";
+import { getPodUrlAll } from '@inrupt/solid-client';
 import { Lock, LockOpen } from '@mui/icons-material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
@@ -49,7 +49,6 @@ const submitUser = async (userObject, session, podUrl) => {
 };
 
 const notifyStartSubmission = (userObject, state, dispatch) => {
-
   if (!userObject.username && !userObject.webId) {
     runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
     return;
@@ -63,11 +62,9 @@ const notifyStartSubmission = (userObject, state, dispatch) => {
     state,
     dispatch
   );
-
-}
+};
 
 const notifyEndSubmission = (userObject, state, dispatch) => {
-
   runNotification(
     `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
     5,
@@ -76,7 +73,7 @@ const notifyEndSubmission = (userObject, state, dispatch) => {
   );
 
   clearProcessing(dispatch);
-}
+};
 
 const renderWebId = (username) => {
   const template = ['https://', '.solidcommunity.net/profile/card#me'];
@@ -98,13 +95,13 @@ const ManageUsers = () => {
     setGivenName('');
     setUsername('');
     setWebId('');
-  }
+  };
 
   // Event handler for adding user from users list
   const handleAddUser = async (event) => {
     event.preventDefault();
-    let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
-    podUrl = podUrl || session.info.webId.split("profile")[0];
+    let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
+    podUrl = podUrl || session.info.webId.split('profile')[0];
     const userObject = {
       givenName,
       familyName,
@@ -112,8 +109,8 @@ const ManageUsers = () => {
       webId
     };
 
-    notifyStartSubmission(userObject, state, dispatch)
-    try{
+    notifyStartSubmission(userObject, state, dispatch);
+    try {
       const userList = await submitUser(userObject, session, podUrl);
       setUserList(userList);
     } finally {

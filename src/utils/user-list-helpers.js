@@ -12,10 +12,7 @@ import {
   getPodUrlAll
 } from '@inrupt/solid-client';
 
-import {
-  getContainerUrl,
-  createDocAclForUser
-} from './session-helper';
+import { createDocAclForUser } from './session-helper';
 
 import { RDF_PREDICATES } from '../constants';
 
@@ -45,7 +42,7 @@ const createUsersList = async (session, usersListUrl) => {
   // Generate ACL file for container
   await createDocAclForUser(session, usersListUrl);
   return usersListDataset;
-}
+};
 
 /**
  * Fetch users list from user's pod.
@@ -58,12 +55,11 @@ const createUsersList = async (session, usersListUrl) => {
  * @returns {Promise} Promise - resolves to a users list object
  */
 export const fetchUsersList = async (session, podUrl) => {
-  const usersListUrl = `${podUrl}Users/userlist.ttl`
+  const usersListUrl = `${podUrl}Users/userlist.ttl`;
 
   try {
     await getSolidDataset(usersListUrl, { fetch: session.fetch });
-  }
-  catch {
+  } catch {
     await createUsersList(session, usersListUrl);
   }
 };
@@ -74,8 +70,8 @@ const parseUserObjectFromThing = (userThing) => {
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
   const webId = getUrl(userThing, RDF_PREDICATES.identifier);
   const podUrl = getUrl(userThing, RDF_PREDICATES.url);
-  return {person, givenName, familyName, webId, podUrl};
-}
+  return { person, givenName, familyName, webId, podUrl };
+};
 
 /**
  * Function that gets a list of users from their Solid Pod stored inside the
@@ -89,7 +85,7 @@ const parseUserObjectFromThing = (userThing) => {
  */
 
 export const getUsersFromPod = async (session, podUrl) => {
-  const userContainerUrl = `${podUrl}Users/`
+  const userContainerUrl = `${podUrl}Users/`;
   let userList = [];
   try {
     const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
@@ -124,15 +120,14 @@ export const getUsersFromPod = async (session, podUrl) => {
  * their Solid Pod
  */
 
-export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
+export const deleteUserFromPod = async (session, user, podUrl) => {
+  const userContainerUrl = `${podUrl}Users/`;
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
   const ttlFileThing = getThingAll(solidDataset);
-  const usernameString = userToDeleteUrl.split('.')[0].split('/')[2];
-  const userToDeleteThing = ttlFileThing.find((thing) =>
-    thing.url.includes(`#${userToDelete.replace(' ', '%20')}%20${usernameString}`)
+  const userToDeleteThing = ttlFileThing.find(
+    (thing) => getUrl(thing, RDF_PREDICATES.identifier) === user.webId
   );
 
   solidDataset = removeThing(solidDataset, userToDeleteThing);
@@ -159,7 +154,7 @@ export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) 
  */
 
 export const addUserToPod = async (session, userObject, podUrl) => {
-  const userContainerUrl = `${podUrl}Users/`
+  const userContainerUrl = `${podUrl}Users/`;
 
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
@@ -169,14 +164,14 @@ export const addUserToPod = async (session, userObject, podUrl) => {
 
   let newUserPodUrl = null;
   try {
-    [ newUserPodUrl ] = (await getPodUrlAll(webId));
+    [newUserPodUrl] = await getPodUrlAll(webId);
   } catch {
-    [ newUserPodUrl ] = webId.split("profile");
+    [newUserPodUrl] = webId.split('profile');
   }
 
-  newUserPodUrl = newUserPodUrl || webId.split("profile")[0];
+  newUserPodUrl = newUserPodUrl || webId.split('profile')[0];
 
-  const newUserThing = buildThing(createThing({ name: `${givenName} ${username}` }))
+  const newUserThing = buildThing(createThing({ name: `${username}` }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
