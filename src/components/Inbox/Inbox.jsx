@@ -22,7 +22,7 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  */
 
 // TODO:
-const Inbox = () => {
+const Inbox = ({ loadMessages }) => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -64,11 +64,15 @@ const Inbox = () => {
           setInboxList={setInboxList}
         />
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-        {inboxList.map((message) => (
-          <MessagePreview key={uuidv4()} message={message} />
-        ))}
-      </div>
+      {loadMessages ? (
+        <div>Loading Messages...</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          {inboxList.map((message) => (
+            <MessagePreview key={uuidv4()} message={message} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

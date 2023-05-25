@@ -57,8 +57,9 @@ const App = () => {
   /** @type {userListObject[]} */
   const initialUserList = [];
   const [userList, setUserList] = useState(initialUserList);
-  const [loadingUsers, setLoadingUsers] = useState(false);
-  const [loadingActive, setLoadingActive] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingActive, setLoadingActive] = useState(true);
+  const [loadMessages, setLoadMessages] = useState(true);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
@@ -83,8 +84,7 @@ const App = () => {
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
-        setLoadingUsers(true);
-        setLoadingActive(true);
+        setLoadingUsers(false);
         listUsers = await getUserListActivity(session, listUsers);
         setUserList(listUsers);
         setLoadingActive(false);
@@ -97,6 +97,7 @@ const App = () => {
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
       setInboxList(messagesInSolid);
+      setLoadMessages(false);
     }
 
     if (session.info.isLoggedIn) {
@@ -144,7 +145,13 @@ const App = () => {
               />
               <Route
                 path="/PASS/inbox"
-                element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+                element={
+                  session.info.isLoggedIn ? (
+                    <Inbox loadMessages={loadMessages} />
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
               />
               <Route path="*" element={<Navigate to="/PASS/" />} />
             </Routes>
