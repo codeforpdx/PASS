@@ -8,7 +8,8 @@ import {
   saveSolidDatasetAt,
   getStringNoLocale,
   getUrl,
-  removeThing
+  removeThing,
+  getPodUrlAll
 } from '@inrupt/solid-client';
 
 import {
@@ -67,13 +68,13 @@ export const fetchUsersList = async (session, podUrl) => {
   }
 };
 
-const parseUserObjectFromThing = (userThing) => {
+const parseUserObjectFromThing = async (userThing) => {
   const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
-  const webId = getUrl(userThing, RDF_PREDICATES.url);
-
-  return {person, givenName, familyName, webId};
+  const webId = getUrl(userThing, RDF_PREDICATES.identifier);
+  const podUrl = getUrl(userThing, RDF_PREDICATES.url);
+  return {person, givenName, familyName, webId, podUrl};
 }
 
 /**
@@ -166,11 +167,14 @@ export const addUserToPod = async (session, userObject) => {
 
   const { givenName, familyName, username, webId } = userObject;
 
+  const podUrl = (await getPodUrlAll(webId))[0]
+
   const newUserThing = buildThing(createThing({ name: `${givenName} ${username}` }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
-    .addUrl(RDF_PREDICATES.url, webId)
+    .addUrl(RDF_PREDICATES.identifier, webId)
+    .addUrl(RDF_PREDICATES.URL, podUrl)
     .build();
 
   solidDataset = setThing(solidDataset, newUserThing);
