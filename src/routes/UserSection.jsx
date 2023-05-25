@@ -49,8 +49,9 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
         </Container>
       ) : (
         <UsersList loadingActive={loadingActive} />
-      )}
+      )}      
     </>
+
   );
 };
 
