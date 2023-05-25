@@ -68,7 +68,7 @@ const DeleteDocumentForm = () => {
             <i>Select Document Type to Delete:</i>
           </InputLabel>
           <FormControl variant="standard" fullWidth>
-            <DocumentSelection htmlId="search-doctype" />
+            <DocumentSelection htmlId="delete-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Delete Document
