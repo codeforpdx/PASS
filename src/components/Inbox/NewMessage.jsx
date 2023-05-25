@@ -79,7 +79,7 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
         <StyledNotice>* indicates a required field</StyledNotice>
 
         <StyledHeader>New Message</StyledHeader>
-        <label htmlFor="title">Message Title*: </label>
+        <label htmlFor="title">Subject*: </label>
         <StyledInput
           value={message.title}
           type="text"
@@ -88,7 +88,7 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
           onChange={(e) => handleChange(e)}
         />
 
-        <label htmlFor="recipientUsername">Recipient Username*: </label>
+        <label htmlFor="recipientUsername">To*: </label>
         <StyledInput
           value={message.recipientUsername}
           type="text"
