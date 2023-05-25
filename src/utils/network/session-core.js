@@ -8,9 +8,6 @@ import {
   saveSolidDatasetInContainer,
   deleteContainer,
   deleteFile,
-  saveAclFor,
-  getSolidDatasetWithAcl,
-  getResourceAcl,
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
@@ -22,11 +19,10 @@ import {
 import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
 import {
   getContainerUrl,
-  setupAcl,
   placeFileInContainer,
   getContainerUrlAndFiles,
   hasTTLFiles,
-  createDocAclForUser,
+  setDocAclForUser,
   createResourceTtlFile,
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
@@ -37,6 +33,10 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ */
+
+/**
+ * @typedef {import('@inrupt/solid-client').Access} Access
  */
 
 /**
@@ -60,25 +60,19 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  * @function setDocAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
+ * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
 
-export const setDocAclPermission = async (session, fileType, accessType, otherPodUsername) => {
+export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
-  const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
-
-  const resourceAcl = getResourceAcl(podResouceWithAcl);
   const webId = `https://${otherPodUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
-  const accessObject = accessType === 'Give' ? { read: true } : { read: false };
 
-  const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
-  await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
+  await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
 
 /**
@@ -87,15 +81,13 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  * @memberof utils
  * @function setDocContainerAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
+ * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
- * @returns {Promise} Promise - Sets permission for otherPodUsername for given
- * document type, if exists, or null
+ * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
+ * Documents container
  */
 
-export const setDocContainerAclPermission = async (session, accessType, otherPodUsername) => {
+export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
   const containerUrl = getContainerUrl(session, 'Documents', 'self-fetch');
   const urlsToSet = [
     containerUrl,
@@ -108,16 +100,8 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
 
-  const accessObject =
-    accessType === 'Give'
-      ? { read: true, write: true, append: true }
-      : { read: false, write: false, append: false };
-
   urlsToSet.forEach(async (url) => {
-    const podResourceWithAcl = await getSolidDatasetWithAcl(url, { fetch: session.fetch });
-    const resourceAcl = getResourceAcl(podResourceWithAcl);
-    const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
-    await saveAclFor(podResourceWithAcl, updatedAcl, { fetch: session.fetch });
+    await setDocAclForUser(session, url, 'update', webId, permissions);
   });
 };
 
@@ -203,7 +187,7 @@ export const uploadDocument = async (
 
   if (uploadType === UPLOAD_TYPES.SELF) {
     // Generate ACL file for new container
-    await createDocAclForUser(session, containerUrl);
+    await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
   }
 };
 
@@ -403,9 +387,9 @@ export const createDocumentContainer = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, userContainerUrl);
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
     createContainerList.forEach(async (url) => {
-      await createDocAclForUser(session, url);
+      await setDocAclForUser(session, url, 'create', session.info.webId);
     });
   }
 };
@@ -452,7 +436,7 @@ export const generateUsersList = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, userContainerUrl);
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
   }
 };
 
@@ -642,7 +626,7 @@ export const generateActivityTTL = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, publicContainerUrl);
+    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
   }
 };
 
