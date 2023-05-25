@@ -11,9 +11,6 @@ import {
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
-  getStringNoLocale,
-  getUrl,
-  removeThing,
   getDatetime
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
@@ -399,50 +396,10 @@ export const createDocumentContainer = async (session) => {
 };
 
 /*
-  User List Section
+  User Activity Section
 
-  Functions here deal primarily with the user list from Solid Pod and from PASS
+  Functions here deal primarily with user activity on PASS
 */
-
-/**
- * Function that creates a Users container in the user's Pod when logging in for
- * the first time and creates a userlist.ttl file inside to store a users list
- *
- * @memberof utils
- * @function generateUsersList
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Generates a users list for Pod upon log in if
- * user's Pod does not have the container Users with userlist.ttl to begin with
- */
-
-export const generateUsersList = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
-  await createContainerAt(userContainerUrl, { fetch: session.fetch });
-
-  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
-
-  if (!ttlFileExists) {
-    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
-      .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
-      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}userlist.ttl`)
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-      slugSuggestion: 'userlist.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-  }
-};
 
 /**
  * Function that fetches a user's last active time on their Solid Pod
@@ -479,121 +436,6 @@ export const getUserListActivity = async (session, userList) => {
 
   return userListWithTime;
 };
-
-/**
- * Function that gets a list of users from their Solid Pod stored inside the
- * Solid container named User
- *
- * @memberof utils
- * @function getUsersFromPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise<userListObject[]>} Promise - An array of users from their
- * Pod into PASS, if users list exist
- */
-
-export const getUsersFromPod = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
-  let userList = [];
-  try {
-    const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-      fetch: session.fetch
-    });
-
-    const ttlFileThing = getThingAll(solidDataset);
-    const allUsersThing = ttlFileThing.filter((thing) => !thing.url.includes('#userlist'));
-    allUsersThing.forEach((userThing) => {
-      const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
-      const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
-      const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
-      const podUrl = getUrl(userThing, RDF_PREDICATES.url);
-
-      userList.push({ person, givenName, familyName, podUrl });
-    });
-  } catch {
-    userList = [];
-  }
-
-  return userList;
-};
-
-/**
- * Function that removes a user from the users list from their Solid Pod stored
- * inside the Solid container named User
- *
- * @memberof utils
- * @function deleteUserFromPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} userToDelete - Name of user to be removed from list
- * @param {URL} userToDeleteUrl - URL of the user's Pod you wish to delete
- * @returns {Promise<userListObject[]>} userList - Removes user with userToDeleteUrl
- * from users list in their Solid Pod and returns userList
- */
-
-export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
-  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-    fetch: session.fetch
-  });
-  const ttlFileThing = getThingAll(solidDataset);
-  const usernameString = userToDeleteUrl.split('.')[0].split('/')[2];
-  const userToDeleteThing = ttlFileThing.find((thing) =>
-    thing.url.includes(`#${userToDelete.replace(' ', '%20')}%20${usernameString}`)
-  );
-
-  solidDataset = removeThing(solidDataset, userToDeleteThing);
-
-  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-
-  const userList = await getUsersFromPod(session);
-  return userList;
-};
-
-/**
- * Function that adds a user from the users list from their Solid Pod stored
- * inside the Solid container named User, or create the container User with the
- * user if container doesn't exist to begin with
- *
- * @memberof utils
- * @function addUserToPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {object} userObject - Object containing the user's name and Pod URL
- * @returns {Promise<userListObject[]>} userList - Adds users with their Pod URL
- * onto users list in their Solid Pod and returns userList
- */
-
-export const addUserToPod = async (session, userObject) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', 'self-fetch');
-
-  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-    fetch: session.fetch
-  });
-
-  const { givenName, familyName, username, webId } = userObject;
-
-  const newUserThing = buildThing(createThing({ name: `${givenName} ${username}` }))
-    .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
-    .addUrl(RDF_PREDICATES.url, webId)
-    .build();
-
-  solidDataset = setThing(solidDataset, newUserThing);
-
-  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-
-  const userList = await getUsersFromPod(session);
-  return userList;
-};
-
-/*
-  User Activity Section
-
-  Functions here deal primarily with user activity on PASS
-*/
 
 /**
  * Function that creates an active.ttl file inside public container to store

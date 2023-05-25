@@ -1,12 +1,13 @@
 // React Imports
 import React, { useEffect, useMemo, useState } from 'react';
 // Inrupt Imports
+import { getPodUrlAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import {
   getUsersFromPod,
   generateActivityTTL,
-  generateUsersList,
+  fetchUsersList,
   updateUserActivity,
   getUserListActivity,
   createDocumentContainer,
@@ -16,7 +17,7 @@ import {
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
+import { InboxMessageContext, SelectUserContext, UserListContext, SignedInPodContext } from './contexts';
 // Component Imports
 import Layout from './layouts/Layouts';
 import AppRoutes from './AppRoutes';
@@ -56,9 +57,11 @@ const App = () => {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingActive, setLoadingActive] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
+  const [signedInPod, setSignedInPod] = useState('');
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
+  const signedInPodMemo = useMemo(() => ({ signedInPod, setSignedInPod }), [signedInPod]);
 
   /** @type {inboxListObject[]} */
   const initialInboxList = [];
@@ -73,7 +76,9 @@ const App = () => {
      * @function fetchData
      */
     async function fetchData() {
-      await generateUsersList(session);
+      const podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
+      setSignedInPod(podUrl);
+      await fetchUsersList(session, podUrl);
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);

@@ -66,38 +66,40 @@ const UsersList = ({ loadingActive }) => {
           </tr>
         </thead>
         <tbody>
-          {userList &&
-            userList.map((user) => (
-              <tr key={user.podUrl}>
-                <td>{user.givenName}</td>
-                <td>{user.familyName}</td>
-                <td>
-                  <a href={user.podUrl} target="_blank" rel="noreferrer">
-                    {user.podUrl}
-                  </a>
-                </td>
-                {loadingActive ? (
-                  <td>Loading...</td>
-                ) : (
+          {userList
+            ? userList.map((user) => (
+                <tr key={user.webId}>
+                  <td>{user.givenName}</td>
+                  <td>{user.familyName}</td>
                   <td>
-                    {user.dateModified ? user.dateModified.toLocaleDateString() : 'Not available'}
+                    <a href={user.webId} target="_blank" rel="noreferrer">
+                      {user.webId}
+                    </a>
                   </td>
-                )}
-                <td>
-                  <button type="button" onClick={() => handleSelectUser(user.person, user.podUrl)}>
-                    select
-                  </button>
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteUser(user.person, user.givenName, user.podUrl)}
-                  >
-                    delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                  {loadingActive ? (
+                    <td>Loading...</td>
+                  ) : (
+                    <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
+                  )}
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectUser(user.person, user.webId)}
+                    >
+                      select
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteUser(user.person, user.givenName, user.webId)}
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
     </FormSection>
