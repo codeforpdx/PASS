@@ -8,8 +8,8 @@
  * @namespace utils
  */
 
-import docTypes from './form-helper';
-import runNotification from './notification-helper';
+import docTypes from './frontend/form-helper';
+import runNotification from './frontend/notification-helper';
 import {
   uploadDocument,
   updateDocument,
@@ -28,9 +28,9 @@ import {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL
-} from './session-core';
-import { SOLID_IDENTITY_PROVIDER } from './session-helper';
-import makeHandleFormSubmission from './FormSubmissionHelper';
+} from './network/session-core';
+import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
+import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
 export {
   docTypes,
