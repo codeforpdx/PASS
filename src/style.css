@@ -34,16 +34,12 @@ header {
   color: purple;
 }
 
-.display {
+/* .display {
   margin-left: 1rem;
   color: gray;
-}
+} */
 
-dl {
+/* dl {
   display: grid;
   grid-template-columns: max-content auto;
-}
-
-dd {
-  font-weight: bold;
-}
+} */

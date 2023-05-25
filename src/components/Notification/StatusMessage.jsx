@@ -1,5 +1,8 @@
 // React Imports
 import React from 'react';
+// Material UI Imports
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
 
 /**
  * @typedef {import('../../typedefs').statusMessageProps} statusMessageProps
@@ -18,19 +21,21 @@ import React from 'react';
 const StatusMessage = ({ notification, locationUrl }) => {
   if (locationUrl) {
     return (
-      <dd className="labelStatus" role="alert">
-        {notification}{' '}
+      <Typography variant="dd">
+        {notification}
         <a href={locationUrl} target="_blank" rel="noreferrer">
           {locationUrl}
         </a>
-      </dd>
+      </Typography>
     );
   }
 
   return (
-    <dd className="labelStatus" role="alert">
+    <Typography>
       {notification}
-    </dd>
+      <br />
+      <CircularProgress />
+    </Typography>
   );
 };
 
