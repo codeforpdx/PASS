@@ -68,12 +68,12 @@ const UsersList = ({ loadingActive }) => {
         <tbody>
           {userList
             ? userList.map((user) => (
-                <tr key={user.podUrl}>
+                <tr key={user.webId}>
                   <td>{user.givenName}</td>
                   <td>{user.familyName}</td>
                   <td>
-                    <a href={user.podUrl} target="_blank" rel="noreferrer">
-                      {user.podUrl}
+                    <a href={user.webId} target="_blank" rel="noreferrer">
+                      {user.webId}
                     </a>
                   </td>
                   {loadingActive ? (
@@ -84,7 +84,7 @@ const UsersList = ({ loadingActive }) => {
                   <td>
                     <button
                       type="button"
-                      onClick={() => handleSelectUser(user.person, user.podUrl)}
+                      onClick={() => handleSelectUser(user.person, user.webId)}
                     >
                       select
                     </button>
@@ -92,7 +92,7 @@ const UsersList = ({ loadingActive }) => {
                   <td>
                     <button
                       type="button"
-                      onClick={() => handleDeleteUser(user.person, user.givenName, user.podUrl)}
+                      onClick={() => handleDeleteUser(user.person, user.givenName, user.webId)}
                     >
                       delete
                     </button>

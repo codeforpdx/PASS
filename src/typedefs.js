@@ -115,7 +115,7 @@ const React = require('react');
  * @property {string} person - Full name of user
  * @property {string} givenName - First/given name of user
  * @property {string} familyName - Last/family name of user
- * @property {URL} podURL - URL of user's Solid Pod
+ * @property {URL} webId - A user's webId
  * @property {Date|null} dateModified - The last active date using PASS
  * @memberof typedefs
  */

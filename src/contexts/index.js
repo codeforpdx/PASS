@@ -1,5 +1,6 @@
 import SelectUserContext from './selectUserContext';
 import UserListContext from './userListContext';
+import SignedInPodContext from './signedInPodContext';
 
 /**
  * The contexts moedule contains React Contexts that helps with user management
@@ -8,4 +9,4 @@ import UserListContext from './userListContext';
  * @namespace contexts
  */
 
-export { SelectUserContext, UserListContext };
+export { SelectUserContext, UserListContext, SignedInPodContext };

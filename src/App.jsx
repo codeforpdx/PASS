@@ -2,12 +2,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 // Inrupt Imports
+import { getPodUrlAll } from "@inrupt/solid-client";
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import {
   getUsersFromPod,
   generateActivityTTL,
-  generateUsersList,
+  fetchUsersList,
   updateUserActivity,
   getUserListActivity,
   createDocumentContainer
@@ -15,7 +16,7 @@ import {
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { SelectUserContext, UserListContext } from './contexts';
+import { SelectUserContext, UserListContext, SignedInPodContext } from './contexts';
 // Page Imports
 import Home from './routes/Home';
 // Component Imports
@@ -53,9 +54,11 @@ const App = () => {
   const [userList, setUserList] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingActive, setLoadingActive] = useState(false);
+  const [signedInPod, setSignedInPod] = useState('');
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
   const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
+  const signedInPodMemo = useMemo(() => ({ signedInPod, setSignedInPod }), [signedInPod]);
 
   useEffect(() => {
     /**
@@ -65,7 +68,9 @@ const App = () => {
      * @function fetchData
      */
     async function fetchData() {
-      await generateUsersList(session);
+      const podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0]
+      setSignedInPod(podUrl);
+      await fetchUsersList(session, podUrl);
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);
@@ -94,44 +99,46 @@ const App = () => {
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContext.Provider value={userListObject}>
-          <Routes>
-            <Route
-              exact
-              path="/PASS/"
-              element={
-                session.info.isLoggedIn ? (
-                  <Navigate
-                    to={
-                      !localStorage.getItem('restorePath')
-                        ? '/PASS/home'
-                        : localStorage.getItem('restorePath')
-                    }
-                  />
-                ) : (
-                  <Home />
-                )
-              }
-            />
-            <Route
-              path="/PASS/home"
-              element={
-                session.info.isLoggedIn ? (
-                  <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                ) : (
-                  <Navigate to="/PASS/" />
-                )
-              }
-            />
-            <Route
-              path="/PASS/forms"
-              element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-            />
-            <Route
-              path="/PASS/inbox"
-              element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
-            />
-            <Route path="*" element={<Navigate to="/PASS/" />} />
-          </Routes>
+          <SignedInPodContext.Provider value={signedInPodMemo}>
+            <Routes>
+              <Route
+                exact
+                path="/PASS/"
+                element={
+                  session.info.isLoggedIn ? (
+                    <Navigate
+                      to={
+                        !localStorage.getItem('restorePath')
+                          ? '/PASS/home'
+                          : localStorage.getItem('restorePath')
+                      }
+                    />
+                  ) : (
+                    <Home />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/home"
+                element={
+                  session.info.isLoggedIn ? (
+                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                  ) : (
+                    <Navigate to="/PASS/" />
+                  )
+                }
+              />
+              <Route
+                path="/PASS/forms"
+                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
+              />
+              <Route
+                path="/PASS/inbox"
+                element={session.info.isLoggedIn ? <Inbox /> : <Navigate to="/PASS/" />}
+              />
+              <Route path="*" element={<Navigate to="/PASS/" />} />
+            </Routes>
+          </SignedInPodContext.Provider>
         </UserListContext.Provider>
       </SelectUserContext.Provider>
     </Layout>
