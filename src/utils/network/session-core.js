@@ -746,7 +746,7 @@ export const getInboxMessageTTL = async (session, inboxList) => {
         const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
         const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
 
-        // Get data related to #sender
+        // Get data related to #recipient
         const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
         const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
 
