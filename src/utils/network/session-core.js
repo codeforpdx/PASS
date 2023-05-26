@@ -668,15 +668,15 @@ export const updateUserActivity = async (session) => {
 */
 
 /**
- * Function that gets a list of users from their Solid Pod stored inside the
- * Solid container named User
+ * Function that gets list of inbox TTL file messages and returns the messages as
+ * JSON
  *
  * @memberof utils
  * @function getInboxMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {inboxListObject[]} inboxList - List of inbox messages
- * @returns {Promise} Promise - An array of users from their Pod into PASS, if
- * users list exist
+ * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
+ * from the user's inbox on Solid in JSON format
  */
 
 export const getInboxMessageTTL = async (session, inboxList) => {
