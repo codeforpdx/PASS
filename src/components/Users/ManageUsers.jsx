@@ -1,8 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { getPodUrlAll } from '@inrupt/solid-client';
-import { Lock, LockOpen } from '@mui/icons-material';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -13,7 +12,9 @@ import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from './FormSection';
+import SolidSignup from './SolidSignup';
+import ManualWebIdForm from './ManualWebIdForm';
+import FormSection from '../Form/FormSection';
 
 /**
  * ManageUsers Component - Component that allows users to manage other user's
@@ -22,17 +23,6 @@ import FormSection from './FormSection';
  * @memberof Forms
  * @name ManageUsers
  */
-
-const WebIdEditButton = ({ lockStatus, setLockStatus }) => (
-  <IconButton
-    onClick={(e) => {
-      e.preventDefault();
-      setLockStatus(!lockStatus);
-    }}
-  >
-    {lockStatus ? <LockOpen /> : <Lock />}
-  </IconButton>
-);
 
 const formRowStyle = {
   margin: '20px 0'
@@ -75,11 +65,6 @@ const notifyEndSubmission = (userObject, state, dispatch) => {
   clearProcessing(dispatch);
 };
 
-const renderWebId = (username) => {
-  const template = ['https://', '.solidcommunity.net/profile/card#me'];
-  return `${template[0]}${username}${template[1]}`;
-};
-
 const ManageUsers = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
@@ -87,7 +72,6 @@ const ManageUsers = () => {
   const [familyName, setFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const [userEditingWebId, setUserEditingWebId] = useState(false);
   const { setUserList } = useContext(UserListContext);
 
   const clearForm = () => {
@@ -119,15 +103,6 @@ const ManageUsers = () => {
     }
   };
 
-  const wrappedSetUsername = (value) => {
-    setUsername(value);
-    if (userEditingWebId) {
-      return;
-    }
-    const renderedWebId = renderWebId(value);
-    setWebId(renderedWebId);
-  };
-
   return (
     <FormSection
       title="Add New User"
@@ -136,6 +111,12 @@ const ManageUsers = () => {
       defaultMessage="To be added..."
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
+        <p>Register user for a new pod:</p>
+        <SolidSignup />
+        <br />
+        <hr />
+        <p>Or fill out information manually:</p>
+        <br />
         <TextField
           style={textFieldStyle}
           id="first-name-form"
@@ -156,40 +137,11 @@ const ManageUsers = () => {
           onChange={(e) => setFamilyName(e.target.value)}
         />
         <br />
-        <TextField
-          style={textFieldStyle}
-          id="username-form"
-          label="Username"
-          aria-label="Username"
-          variant="outlined"
-          type="text"
-          value={username}
-          onChange={(e) => wrappedSetUsername(e.target.value)}
-        />
-        <br />
-        <TextField
-          fullWidth
-          style={textFieldStyle}
-          id="webId"
-          label="WebId"
-          aria-label="Web ID"
-          value={webId}
-          onChange={(e) => {
-            setWebId(e.target.value);
-          }}
-          variant="outlined"
-          disabled={!userEditingWebId}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <WebIdEditButton
-                  lockStatus={userEditingWebId}
-                  setLockStatus={setUserEditingWebId}
-                />
-              </InputAdornment>
-            ),
-            style: { width: `${webId.length > 40 ? `${webId.length * 9}px` : '300px'}` }
-          }}
+        <ManualWebIdForm
+          webId={webId}
+          setWebId={setWebId}
+          username={username}
+          setUsername={setUsername}
         />
         <br />
         <Button
