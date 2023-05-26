@@ -747,5 +747,5 @@ export const createOutbox = async (session) => {
   await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
 
   // Generate ACL file for container
-  await createDocAclForUser(session, outboxContainerUrl);
+  await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
 };
