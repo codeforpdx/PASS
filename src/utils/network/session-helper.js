@@ -303,6 +303,7 @@ const createFileChecksum = async (fileObject) => {
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {string} documentUrl - url of uploaded document or resource
  * @param {object} checksum - checksum for uploaded file
+ * @returns {Promise} Promise - returns outputted data parsed into .ttl format
  */
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
