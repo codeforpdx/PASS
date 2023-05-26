@@ -37,7 +37,9 @@ const SetAclPermissionForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const docType = event.target.document.value;
-    const permissionType = event.target.setAclPerms.value;
+    const permissions = event.target.setAclPerms.value
+      ? { read: event.target.setAclPerms.value === 'Give' }
+      : undefined;
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
@@ -68,7 +70,7 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    if (!permissionType) {
+    if (permissions === undefined) {
       runNotification('Set permissions failed. Reason: Permissions not set.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
@@ -77,10 +79,10 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, docType, permissionType, podUsername);
+      await setDocAclPermission(session, docType, permissions, podUsername);
 
       runNotification(
-        `${permissionType} permission to ${podUsername} for ${docType}.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${podUsername} for ${docType}.`,
         5,
         state,
         dispatch
