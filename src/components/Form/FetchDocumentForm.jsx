@@ -45,7 +45,7 @@ const FetchDocumentForm = () => {
       // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found at: ', 5, state, dispatch);
+        runNotification('Document found! ', 5, state, dispatch);
         setTimeout(() => {
           dispatch({ type: 'CLEAR_PROCESSING' });
         }, 3000);

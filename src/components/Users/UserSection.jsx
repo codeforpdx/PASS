@@ -1,6 +1,12 @@
 // React Imports
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 // Component Imports
 import { ManageUsers } from '../Form';
 import UsersList from './UsersList';
@@ -23,12 +29,26 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
       {loadingUsers ? (
         <UsersList loadingActive={loadingActive} />
       ) : (
-        <section className="panel">
-          <strong>Users List</strong>
-          <br />
-          <br />
-          <div style={{ marginBottom: '20px', textAlign: 'center' }}>Loading users list...</div>
-        </section>
+        <Container>
+          <Box
+            sx={{
+              marginTop: 3,
+              minWidth: 120,
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+              <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
+                <strong>Users List</strong>
+                <br />
+                <br />
+                <div>Loading users list...</div>
+              </Typography>
+              <LinearProgress />
+            </Paper>
+          </Box>
+        </Container>
       )}
     </>
   );
