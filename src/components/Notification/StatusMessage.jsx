@@ -1,7 +1,6 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 
@@ -22,26 +21,17 @@ import Typography from '@mui/material/Typography';
 const StatusMessage = ({ notification, locationUrl }) => {
   if (locationUrl) {
     return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <Typography variant="dd">
-          {notification}
-          <a href={locationUrl} target="_blank" rel="noreferrer">
-            Click here.
-          </a>
-        </Typography>
-      </Box>
+      <Typography variant="dd">
+        {notification}
+        <a href={locationUrl} target="_blank" rel="noreferrer">
+          Click here.
+        </a>
+      </Typography>
     );
   }
 
   return (
-    <Box
+    <Typography
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -49,12 +39,10 @@ const StatusMessage = ({ notification, locationUrl }) => {
         alignItems: 'center'
       }}
     >
-      <Typography>
-        {notification}
-        <br />
-        <CircularProgress />
-      </Typography>
-    </Box>
+      {notification}
+      <br />
+      <CircularProgress />
+    </Typography>
   );
 };
 

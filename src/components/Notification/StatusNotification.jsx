@@ -1,7 +1,6 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import StatusMessage from './StatusMessage';
@@ -22,7 +21,7 @@ import StatusMessage from './StatusMessage';
  */
 
 const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (
-  <Box
+  <Typography
     sx={{
       marginTop: 3,
       display: 'flex',
@@ -31,15 +30,13 @@ const StatusNotification = ({ notification, statusType, defaultMessage, location
       alignItems: 'center'
     }}
   >
-    <Typography>
-      <>{statusType}:</>
-      {notification ? (
-        <StatusMessage notification={notification} locationUrl={locationUrl} />
-      ) : (
-        <div>{defaultMessage}</div>
-      )}
-    </Typography>
-  </Box>
+    <>{statusType}:</>
+    {notification ? (
+      <StatusMessage notification={notification} locationUrl={locationUrl} />
+    ) : (
+      <div>{defaultMessage}</div>
+    )}
+  </Typography>
 );
 
 export default StatusNotification;
