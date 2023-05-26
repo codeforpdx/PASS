@@ -13,7 +13,9 @@ import {
   getProfileAll,
   getThing,
   getStringNoLocale,
-  saveSolidDatasetInContainer
+  saveSolidDatasetInContainer,
+  getResourceAcl,
+  getSolidDatasetWithAcl
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -211,17 +213,21 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
  * container
  *
  * @memberof utils
- * @function createDocAclForUser
+ * @function setDocAclForUser
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} documentUrl - Url link to document container
- * @param {object} accessObject - Access Object to use when creating the file
+ * @param {string} generateType - A string for "create" or "update"
+ * @param {URL} webId - The webId of the user permissions are set to
+ * @param {Access} accessObject - Access Object to use when creating the file
  * @returns {Promise} Promise - Generates ACL file for container and give user
  * access and control to it and its contents
  */
 
-export const createDocAclForUser = async (
+export const setDocAclForUser = async (
   session,
   documentUrl,
+  generateType,
+  webId,
   accessObject = {
     read: true,
     append: true,
@@ -229,12 +235,14 @@ export const createDocAclForUser = async (
     control: true
   }
 ) => {
-  const podResourceWithoutAcl = await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-  const resourceAcl = createAcl(podResourceWithoutAcl);
-
-  const newAcl = setupAcl(resourceAcl, session.info.webId, accessObject);
-  await saveAclFor(podResourceWithoutAcl, newAcl, { fetch: session.fetch });
+  const podResource =
+    generateType === 'create'
+      ? await getSolidDataset(documentUrl, { fetch: session.fetch })
+      : await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
+  const resourceAcl =
+    generateType === 'create' ? createAcl(podResource) : getResourceAcl(podResource);
+  const newAcl = setupAcl(resourceAcl, webId, accessObject);
+  await saveAclFor(podResource, newAcl, { fetch: session.fetch });
 };
 
 /**
@@ -290,9 +298,12 @@ const createFileChecksum = async (fileObject) => {
 /**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
+ * @function createDriversLicenseTtlFile
  * @memberof utils
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {string} documentUrl - url of uploaded document or resource
+ * @param {object} checksum - checksum for uploaded file
+ * @returns {Promise} Promise - returns outputted data parsed into .ttl format
  */
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
