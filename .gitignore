@@ -10,7 +10,6 @@ docs/fonts/
 docs/scripts/
 docs/styles/
 
-# no changes added to commit (use "git add" and/or "git commit -a")
 /dist
 bundleStats.html
 /local_temp_server_files

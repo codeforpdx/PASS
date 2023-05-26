@@ -5,7 +5,7 @@ import { BrowserPDF417Reader } from '@zxing/browser';
  *
  * @memberof utils
  * @function readImageFile
- * @params {object} file - image to be read
+ * @param {object} file - image to be read
  * @returns {Promise} Promise - returns a Promise with base64 image
  */
 const readImageFile = async (file) => {
@@ -28,7 +28,7 @@ const readImageFile = async (file) => {
  * @memberof utils
  * @function decodeBarcode
  * @param {object} image - raw returned image data from readImageFile
- * @returns {Promise} string result.text - decoded text data barcode image
+ * @returns {Promise<string>} result.text - decoded text data barcode image
  */
 
 const decodeBarcode = async (image) => {
@@ -79,7 +79,7 @@ const csvToJson = (csvData) => {
  *
  * @memberof utils
  * @function getDriversLicenseData
- * @params {object} file - image to be read
+ * @param {object} file - image to be read
  * @returns {object} returnedData - JSON object containing scanned barcode data
  */
 const getDriversLicenseData = async (file) => {
