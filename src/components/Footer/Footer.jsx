@@ -143,13 +143,14 @@ const Footer = () => {
   return (
     <Box
       component="footer"
+      mt={3}
+      py={5}
       sx={{
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
         bgcolor: 'primary.main'
       }}
-      py={5}
     >
       <Container maxWidth={isSmallScreen ? 'md' : 'lg'}>
         <Stack

@@ -1,7 +1,7 @@
 // React Imports
 import React from 'react';
-// Utility Imports
-import docTypes from '../../utils/form-helper';
+// Utiltiy Imports
+import { docTypes } from '../../utils';
 
 /**
  * DocumentSelection Component - Sub-component that generates the dropdown

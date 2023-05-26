@@ -8,9 +8,6 @@ import {
   saveSolidDatasetInContainer,
   deleteContainer,
   deleteFile,
-  saveAclFor,
-  getSolidDatasetWithAcl,
-  getResourceAcl,
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
@@ -19,32 +16,35 @@ import {
   removeThing,
   getDatetime
 } from '@inrupt/solid-client';
-import { RDF_PREDICATES, UPLOAD_TYPES } from '../constants';
+import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
 import {
   getContainerUrl,
-  setupAcl,
   placeFileInContainer,
   getContainerUrlAndFiles,
   hasTTLFiles,
-  createDocAclForUser,
+  setDocAclForUser,
   createResourceTtlFile,
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
   saveMessageTTLInInbox
 } from './session-helper';
-import { getUserSigningKey, signDocumentTtlFile } from './credentials-helper';
+import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
 
 /**
- * @typedef {import('../typedefs').fileObjectType} fileObjectType
+ * @typedef {import('@inrupt/solid-client').Access} Access
  */
 
 /**
- * @typedef {import("../typedefs").userListObject} userListObject
+ * @typedef {import('../../typedefs').fileObjectType} fileObjectType
+ */
+
+/**
+ * @typedef {import("../../typedefs").userListObject} userListObject
  */
 
 /*
@@ -60,34 +60,19 @@ import { getUserSigningKey, signDocumentTtlFile } from './credentials-helper';
  * @function setDocAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
+ * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
 
-export const setDocAclPermission = async (session, fileType, accessType, otherPodUsername) => {
+export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
-
-  const podResouceWithAcl = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
-
-  const resourceAcl = getResourceAcl(podResouceWithAcl);
   const webId = `https://${otherPodUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
-  let accessObject;
-  switch (accessType) {
-    case 'Give':
-      accessObject = { read: true };
-      break;
-    default:
-      accessObject = { read: false };
-      break;
-  }
 
-  const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
-  await saveAclFor(podResouceWithAcl, updatedAcl, { fetch: session.fetch });
+  await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
 
 /**
@@ -96,15 +81,13 @@ export const setDocAclPermission = async (session, fileType, accessType, otherPo
  * @memberof utils
  * @function setDocContainerAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
+ * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
- * @returns {Promise} Promise - Sets permission for otherPodUsername for given
- * document type, if exists, or null
+ * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
+ * Documents container
  */
 
-export const setDocContainerAclPermission = async (session, accessType, otherPodUsername) => {
+export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
   const containerUrl = getContainerUrl(session, 'Documents', 'self-fetch');
   const urlsToSet = [
     containerUrl,
@@ -117,21 +100,8 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
 
-  let accessObject;
-  switch (accessType) {
-    case 'Give':
-      accessObject = { read: true, write: true, append: true };
-      break;
-    default:
-      accessObject = { read: false, write: false, append: false };
-      break;
-  }
-
   urlsToSet.forEach(async (url) => {
-    const podResourceWithAcl = await getSolidDatasetWithAcl(url, { fetch: session.fetch });
-    const resourceAcl = getResourceAcl(podResourceWithAcl);
-    const updatedAcl = setupAcl(resourceAcl, webId, accessObject);
-    await saveAclFor(podResourceWithAcl, updatedAcl, { fetch: session.fetch });
+    await setDocAclForUser(session, url, 'update', webId, permissions);
   });
 };
 
@@ -152,9 +122,10 @@ export const setDocContainerAclPermission = async (session, accessType, otherPod
  * being used
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @param {boolean} verifyDocument - True if document submission should include user verification
- * @param {string} [otherPodUsername] - If cross pod interaction, this is the username of the
- * other user, set to an empty string by default
+ * @param {boolean} verifyDocument - True if document submission should include
+ * user verification
+ * @param {string} [otherPodUsername] - If cross pod interaction, this is the
+ * username of the other user, set to an empty string by default
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
 
@@ -166,8 +137,9 @@ export const uploadDocument = async (
   verifyDocument,
   otherPodUsername = ''
 ) => {
-  let containerUrl;
   const fileName = fileObject.file.name;
+
+  let containerUrl;
   if (uploadType === UPLOAD_TYPES.SELF) {
     containerUrl = getContainerUrl(session, fileObject.type, 'self-fetch');
   } else {
@@ -182,8 +154,9 @@ export const uploadDocument = async (
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
   // Guard clause will throw function if container already exist with ttl file
+  // ttl file indicates update instead of upload document
   if (ttlFileExists) {
-    throw new Error('Container already exists');
+    throw new Error('TTL file already exists');
   }
 
   // Place file into Pod container and generate new ttl file for container
@@ -213,8 +186,8 @@ export const uploadDocument = async (
   }
 
   if (uploadType === UPLOAD_TYPES.SELF) {
-    // Generate ACL file for container
-    await createDocAclForUser(session, containerUrl);
+    // Generate ACL file for new container
+    await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
   }
 };
 
@@ -228,11 +201,11 @@ export const uploadDocument = async (
  * being used
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @param {string} [otherPodUsername] - If cross pod interaction, this is the URL of the
- * other user, set to an empty string by default
- * @returns {Promise} fileExist - A boolean for if file exist on Solid Pod,
- * updates the file if confirmed, or if file doesn't exist, uploads new file to
- * Solid Pod if confirmed
+ * @param {string} [otherPodUsername] - If cross pod interaction, this is the URL
+ * of the other user, set to an empty string by default
+ * @returns {Promise<boolean>} fileExist - A boolean for if file exist on Solid
+ * Pod and updates the file if accepted, or if file doesn't exist, uploads a new
+ * file to Solid Pod if accepted
  */
 
 export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
@@ -252,24 +225,15 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
   const [, files] = getContainerUrlAndFiles(solidDataset);
   const fileExist = files.map((file) => file.url).includes(documentUrl);
 
-  if (fileExist) {
-    if (window.confirm(`File ${fileName} exist in Pod container, do you wish to update it?`)) {
-      await overwriteFile(documentUrl, fileObject.file, { fetch: session.fetch });
-      await updateTTLFile(session, containerUrl, fileObject);
-    } else {
-      throw new Error('File update cancelled.');
-    }
+  const confirmationMessage = fileExist
+    ? `File ${fileName} exist in Pod container, do you wish to update it?`
+    : `File ${fileName} does not exist in Pod container, do you wish to upload it?`;
 
-    return fileExist;
-  }
-
-  if (
-    window.confirm(`File ${fileName} does not exist in Pod container, do you wish to upload it?`)
-  ) {
+  if (window.confirm(confirmationMessage)) {
     await overwriteFile(documentUrl, fileObject.file, { fetch: session.fetch });
     await updateTTLFile(session, containerUrl, fileObject);
   } else {
-    throw new Error('New file upload cancelled.');
+    throw new Error(fileExist ? 'File update cancelled.' : 'New file upload cancelled.');
   }
 
   return fileExist;
@@ -285,9 +249,9 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
  * other Pods, or "cross-fetch")
- * @param {string} [otherPodUsername] - Url to other user's Pod (set to empty string by
- * default)
- * @returns {Promise} Promise - Either a string containing the url location of
+ * @param {string} [otherPodUsername] - Url to other user's Pod (set to empty string
+ * by default)
+ * @returns {Promise<URL>} Promise - Either a string containing the url location of
  * the document, if exist, or throws an Error
  */
 
@@ -313,10 +277,10 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * @param {string} fileType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
  * other Pods, or "cross-fetch")
- * @param {string} [otherPodUsername] - Username to other user's Pod (set to empty string by
- * default)
- * @returns {Promise} Promise - Either a string containing the url location of
- * the container, if permitted, or throws an Error
+ * @param {string} [otherPodUsername] - Username to other user's Pod (set to empty
+ * string by default)
+ * @returns {Promise<URL>} Promise - Either a string containing the url location
+ * of the container, if permitted, or throws an Error
  */
 
 export const checkContainerPermission = async (session, otherPodUsername) => {
@@ -341,8 +305,8 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  * @function deleteDocuments
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
- * @returns {Promise} container.url - The URL of document container and the
- * response on whether document file is deleted, if exist, and delete all
+ * @returns {Promise<URL>} container.url - The URL of document container and the
+ * response on whether document file is deleted, if exist, then deletes all
  * existing files within it
  */
 
@@ -423,9 +387,9 @@ export const createDocumentContainer = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, userContainerUrl);
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
     createContainerList.forEach(async (url) => {
-      await createDocAclForUser(session, url);
+      await setDocAclForUser(session, url, 'create', session.info.webId);
     });
   }
 };
@@ -472,7 +436,7 @@ export const generateUsersList = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, userContainerUrl);
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
   }
 };
 
@@ -484,8 +448,8 @@ export const generateUsersList = async (session) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {userListObject[]} userList - An array of {@link userListObject}
  * which stores the name and their Pod URL
- * @returns {Promise} Promise - An array of users with last active time included
- * to user list
+ * @returns {Promise<userListObject[]>} Promise - An array of users with last active
+ * time included to user list
  */
 
 export const getUserListActivity = async (session, userList) => {
@@ -519,8 +483,8 @@ export const getUserListActivity = async (session, userList) => {
  * @memberof utils
  * @function getUsersFromPod
  * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - An array of users from their Pod into PASS, if
- * users list exist
+ * @returns {Promise<userListObject[]>} Promise - An array of users from their
+ * Pod into PASS, if users list exist
  */
 
 export const getUsersFromPod = async (session) => {
@@ -557,8 +521,8 @@ export const getUsersFromPod = async (session) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} userToDelete - Name of user to be removed from list
  * @param {URL} userToDeleteUrl - URL of the user's Pod you wish to delete
- * @returns {Promise} Promise - Removes user with userToDeleteUrl from users list in
- * their Solid Pod
+ * @returns {Promise<userListObject[]>} userList - Removes user with userToDeleteUrl
+ * from users list in their Solid Pod and returns userList
  */
 
 export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
@@ -591,8 +555,8 @@ export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) 
  * @function addUserToPod
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} userObject - Object containing the user's name and Pod URL
- * @returns {Promise} Promise - Adds users with their Pod URL onto users list in
- * their Solid Pod
+ * @returns {Promise<userListObject[]>} userList - Adds users with their Pod URL
+ * onto users list in their Solid Pod and returns userList
  */
 
 export const addUserToPod = async (session, userObject) => {
@@ -662,7 +626,7 @@ export const generateActivityTTL = async (session) => {
     });
 
     // Generate ACL file for container
-    await createDocAclForUser(session, publicContainerUrl);
+    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
   }
 };
 
@@ -700,13 +664,15 @@ export const updateUserActivity = async (session) => {
 */
 
 /**
- * Function that sends a message to another user's Pod inbox
+ * Function that sends a message to another user's Pod inbox and saves a copy in
+ * user's own inbox
  *
  * @memberof utils
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
- * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
+ * saves a copy on your inbox
  */
 
 export const sendMessageTTL = async (session, messageObject) => {
