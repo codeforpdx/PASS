@@ -87,7 +87,7 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Search document from username: </label>
+          <label htmlFor="cross-upload-doc">Upload document to username: </label>
           <br />
           <br />
           <input
