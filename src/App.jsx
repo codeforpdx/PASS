@@ -10,7 +10,8 @@ import {
   generateUsersList,
   updateUserActivity,
   getUserListActivity,
-  createDocumentContainer
+  createDocumentContainer,
+  createOutbox
 } from './utils';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
@@ -69,6 +70,7 @@ const App = () => {
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);
+      await createOutbox(session);
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
