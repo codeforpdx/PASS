@@ -17,7 +17,7 @@ import {
   generateRsaSignature,
   validateSignature,
   getUserSigningKey
-} from '../../src/utils/credentials-helper';
+} from '../../src/utils/cryptography/credentials-helper';
 import { RDF_PREDICATES } from '../../src/constants';
 
 describe('credentials', async () => {

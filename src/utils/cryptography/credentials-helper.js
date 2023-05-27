@@ -9,8 +9,8 @@ import {
   setThing,
   getStringNoLocale
 } from '@inrupt/solid-client';
-import { createDocAclForUser } from './session-helper';
-import { RDF_PREDICATES } from '../constants';
+import { setDocAclForUser } from '../network/session-helper';
+import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -81,9 +81,9 @@ const savePassUserCredentials = async (dataSets, session) => {
     control: true
   };
 
-  await createDocAclForUser(session, containerUrl, keyAccessAcl);
-  await createDocAclForUser(session, privateKeyUrl, keyAccessAcl);
-  await createDocAclForUser(session, publicKeyUrl, keyAccessAcl);
+  await setDocAclForUser(session, containerUrl, 'create', session.info.webId, keyAccessAcl);
+  await setDocAclForUser(session, privateKeyUrl, 'create', session.info.webId, keyAccessAcl);
+  await setDocAclForUser(session, publicKeyUrl, 'create', session.info.webId, keyAccessAcl);
 };
 
 const getUserSigningKeyInternal = async (session) => {

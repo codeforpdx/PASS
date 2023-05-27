@@ -22,11 +22,11 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('../../src/utils/session-core', () => ({
+    vi.mock('../../src/utils/network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
-    vi.mock('../../src/utils/notification-helper', () => ({
+    vi.mock('../../src/utils/frontend/notification-helper', () => ({
       default: vi.fn()
     }));
     const stateMock = {
@@ -56,11 +56,11 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('../../src/utils/session-core', () => ({
+    vi.mock('../../src/utils/network/session-core', () => ({
       updateDocument: vi.fn(),
       uploadDocument: vi.fn()
     }));
-    vi.mock('../../src/utils/notification-helper', () => ({
+    vi.mock('../../src/utils/frontend/notification-helper', () => ({
       default: vi.fn()
     }));
     const stateMock = {
