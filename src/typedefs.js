@@ -120,4 +120,18 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * An object that stores the user's name and their Pod URL
+ *
+ * @exports inboxListObject
+ * @typedef inboxListObject
+ * @type {object}
+ * @property {string} message - Inbox message content
+ * @property {string} title - Inbox message title
+ * @property {Date} uploadDate - Time of message sent
+ * @property {string} sender - Name of sender
+ * @property {string} recipient - Name of recipient
+ * @memberof typedefs
+ */
+
 exports.unused = {};

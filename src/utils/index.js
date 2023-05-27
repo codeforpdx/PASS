@@ -27,7 +27,8 @@ import {
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
-  sendMessageTTL
+  sendMessageTTL,
+  getInboxMessageTTL
 } from './network/session-core';
 import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
@@ -53,5 +54,6 @@ export {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
+  getInboxMessageTTL,
   makeHandleFormSubmission
 };
