@@ -1,8 +1,11 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import CircularProgress from '@mui/material/CircularProgress';
+// import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+
+// TODO: Need to discuss when to trigger CircularProgress animation
+// Add to in-progress responses but not in event of failure
 
 /**
  * @typedef {import('../../typedefs').statusMessageProps} statusMessageProps
@@ -40,8 +43,8 @@ const StatusMessage = ({ notification, locationUrl }) => {
       }}
     >
       {notification}
-      <br />
-      <CircularProgress />
+      {/* <br />
+      <CircularProgress /> */}
     </Typography>
   );
 };
