@@ -47,6 +47,10 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  * @typedef {import("../../typedefs").userListObject} userListObject
  */
 
+/**
+ * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ */
+
 /*
   File Permissions Section
 
@@ -662,6 +666,67 @@ export const updateUserActivity = async (session) => {
 
   Functions here deal primarily with user inbox on PASS
 */
+
+/**
+ * Function that gets list of inbox TTL file messages and returns the messages as
+ * JSON
+ *
+ * @memberof utils
+ * @function getInboxMessageTTL
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {inboxListObject[]} inboxList - List of inbox messages
+ * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
+ * from the user's inbox on Solid in JSON format
+ */
+
+export const getInboxMessageTTL = async (session, inboxList) => {
+  const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+  let messageList = [];
+  try {
+    const solidDataset = await getSolidDataset(inboxContainerUrl, {
+      fetch: session.fetch
+    });
+    const ttlFileThing = getThingAll(solidDataset);
+    const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
+
+    // Early return if length of inbox in both PASS and Solid is the same
+    if (allMessageThing.length === inboxList.length) {
+      return inboxList;
+    }
+
+    try {
+      const promises = allMessageThing.map(async (messageTTL) => {
+        const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
+
+        const messageTTLThing = getThingAll(messageDataset);
+
+        // Get data related to #message
+        const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
+        const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
+        const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
+        const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
+
+        // Get data related to #sender
+        const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
+        const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+
+        // Get data related to #recipient
+        const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
+        const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
+
+        messageList.push({ message, title, uploadDate, sender, recipient });
+      });
+
+      await Promise.all(promises);
+    } catch (err) {
+      messageList = inboxList;
+    }
+  } catch {
+    messageList = inboxList;
+  }
+
+  return messageList;
+};
 
 /**
  * Function that sends a message to another user's Pod inbox and saves a copy in
