@@ -22,31 +22,20 @@ import StatusMessage from './StatusMessage';
  */
 
 const StatusNotification = ({ notification, statusType, defaultMessage, locationUrl = '' }) => (
-  <Box>
-    <Typography
-      sx={{
-        marginTop: 3,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      {statusType}:
-    </Typography>
+  <Box
+    sx={{
+      marginTop: 3,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+  >
+    <Typography>{statusType}:</Typography>
     {notification ? (
       <StatusMessage notification={notification} locationUrl={locationUrl} />
     ) : (
-      <Typography
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        {defaultMessage}
-      </Typography>
+      <Typography>{defaultMessage}</Typography>
     )}
   </Box>
 );

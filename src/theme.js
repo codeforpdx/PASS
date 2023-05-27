@@ -2,9 +2,6 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    // button: {
-    //   fontStyle: 'italic'
-    // },
     fontFamily: 'Roboto, sans-serif',
     dd: { fontWeight: 'bold' },
     dl: {
