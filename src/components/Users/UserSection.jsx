@@ -43,7 +43,7 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
                 <strong>Users List</strong>
                 <br />
                 <br />
-                <div>Loading users list...</div>
+                Loading users list...
               </Typography>
               <LinearProgress />
             </Paper>

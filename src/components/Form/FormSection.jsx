@@ -40,7 +40,7 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
         <Typography
           display="flex"
           justifyContent="center"
-          // alignItems="center"
+          alignItems="center"
           sx={{ margin: '0 0 20px 0' }}
         >
           <strong>{title}</strong>

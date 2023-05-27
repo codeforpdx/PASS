@@ -24,9 +24,16 @@ import Typography from '@mui/material/Typography';
 const StatusMessage = ({ notification, locationUrl }) => {
   if (locationUrl) {
     return (
-      <Typography variant="dd">
+      <Typography
+        variant="dd"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         {notification}
-        <a href={locationUrl} target="_blank" rel="noreferrer">
+        <a href={locationUrl} target="_blank" rel="noreferrer" style={{ marginLeft: 3 }}>
           Click here.
         </a>
       </Typography>
