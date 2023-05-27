@@ -70,7 +70,7 @@ const CrossPodQueryForm = () => {
       // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! Document located at: ', 3, state, dispatch);
+        runNotification('Document found! ', 3, state, dispatch);
         clearInputFields();
       }, 3000);
     } catch (_error) {
@@ -89,7 +89,7 @@ const CrossPodQueryForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <Box sx={{ minWidth: 120 }}>
+      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
           <FormControl variant="standard" fullWidth>
             <TextField
@@ -105,9 +105,9 @@ const CrossPodQueryForm = () => {
             />
           </FormControl>
           <InputLabel id="cross-search-doctype">
-            <i>Select Document Type to Search: </i>
+            <em>Select Document Type to Search: </em>
           </InputLabel>
-          <FormControl variant="standard">
+          <FormControl variant="standard" fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
