@@ -51,6 +51,10 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
+ * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
+ */
+
+/**
  * The URL to a specific Solid Provider
  *
  * @name SOLID_IDENTITY_PROVIDER
@@ -93,8 +97,7 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  * @memberof utils
  * @function hasTTLFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {boolean} Boolean - A boolean on whether a ttl file exist from
- * dataset
+ * @returns {boolean} Boolean - A boolean on whether a ttl file exist from dataset
  */
 
 export const hasTTLFiles = (solidDataset) => {
@@ -103,12 +106,7 @@ export const hasTTLFiles = (solidDataset) => {
     return false;
   }
 
-  const ttlFiles = items.find((item) => item.url.slice(-3) === 'ttl');
-  if (ttlFiles) {
-    return true;
-  }
-
-  return false;
+  return items.some((item) => item.url.endsWith('ttl'));
 };
 
 /**
@@ -131,11 +129,11 @@ export const getContainerUrlAndFiles = (solidDataset) => {
   let directory = '';
   const files = [];
 
-  items.forEach((file) => {
-    if (!file.url.slice(-3).includes('/')) {
-      files.push(file);
+  items.forEach((item) => {
+    if (!item.url.endsWith('/')) {
+      files.push(item);
     } else {
-      directory = file;
+      directory = item;
     }
   });
 
@@ -158,12 +156,10 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  */
 
 export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
-  let POD_URL;
-  if (fetchType === 'self-fetch') {
-    POD_URL = String(session.info.webId.split('profile')[0]);
-  } else {
-    POD_URL = `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
-  }
+  const POD_URL =
+    fetchType === 'self-fetch'
+      ? String(session.info.webId.split('profile')[0])
+      : `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
 
   switch (fileType) {
     case 'Bank Statement':
@@ -287,8 +283,8 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
  * @function createFileChecksum
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - Generates checksum for uploaded file using the
- * SHA256 algorithm
+ * @returns {Promise<WordArray>} Promise - Generates checksum for uploaded file
+ * using the SHA256 algorithm
  */
 const createFileChecksum = async (fileObject) => {
   const { file } = fileObject;
@@ -302,10 +298,12 @@ const createFileChecksum = async (fileObject) => {
  *
  * @function createDriversLicenseTtlFile
  * @memberof utils
+ * @function createDriversLicenseTtlFile
  * @param {fileObjectType} fileObject - Object containing information about file
- * @param {string} documentUrl - url of uploaded document or resource
- * @param {object} checksum - checksum for uploaded file
- * @returns {Promise} Promise - returns outputted data parsed into .ttl format
+ * @param {URL} documentUrl - url of uploaded document or resource
+ * @param {WordArray} checksum - SHA256 checksum for verified uploads\
+ * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
+ * and returns a new TTL file Thing
  */
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
@@ -350,7 +348,7 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  * @param {string} documentUrl - url of uploaded document or resource
- * @returns {Promise} Promise - Perform action to generate a newly generated
+ * @returns {Promise<ThingLocal>} Promise - Perform action to generate a newly generated
  * Thing from buildThing
  */
 
