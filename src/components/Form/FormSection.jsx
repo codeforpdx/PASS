@@ -28,10 +28,15 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
       sx={{
         marginTop: 3,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
-      <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+      <Paper
+        elevation={2}
+        sx={{ display: 'inline-block', mx: '2px', padding: '20px', minWidth: '400px' }}
+      >
         <Typography
           display="flex"
           justifyContent="center"
