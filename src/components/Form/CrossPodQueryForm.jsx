@@ -98,14 +98,11 @@ const CrossPodQueryForm = () => {
               {...username}
               placeholder={selectedUser}
               label="Enter username"
-              InputProps={{
-                type: 'search'
-              }}
               required
             />
           </FormControl>
           <InputLabel id="cross-search-doctype">
-            <em>Select Document Type to Search: </em>
+            <em>Select Document Type: </em>
           </InputLabel>
           <FormControl variant="standard" fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />

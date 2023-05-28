@@ -75,7 +75,7 @@ const UploadDocumentForm = () => {
           />
         </label>
         <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <label htmlFor="upload-doc">Select Document Type: </label>
           <DocumentSelection htmlId="upload-doc" />
         </div>
         <div style={formRowStyle}>

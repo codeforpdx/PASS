@@ -65,7 +65,7 @@ const DeleteDocumentForm = () => {
       <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
         <form onSubmit={handleDeleteDocument}>
           <InputLabel id="delete-doctype">
-            <em>Select Document Type to Delete:</em>
+            <em>Select Document Type:</em>
           </InputLabel>
           <FormControl variant="standard" fullWidth>
             <DocumentSelection htmlId="delete-doctype" />
