@@ -27,8 +27,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
     <>
       <ManageUsers />
       {loadingUsers ? (
-        <UsersList loadingActive={loadingActive} />
-      ) : (
         <Container>
           <Box
             sx={{
@@ -49,6 +47,8 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
             </Paper>
           </Box>
         </Container>
+      ) : (
+        <UsersList loadingActive={loadingActive} />
       )}
     </>
   );
