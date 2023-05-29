@@ -387,18 +387,20 @@ export const getUserProfileName = async (session, webId) => {
 };
 
 /**
- * Gets user's name from profile using their webId
+ * A function that saves a message TTL file inside containerUrl and name it
+ * based on its slug suggestion
  *
  * @memberof utils
- * @function saveMessageTTLInInbox
+ * @function saveMessageTTL
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} containerUrl - URL location of Pod container
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
  * @param {string} slug - The slug suggestion for the message file
- * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ * @returns {Promise} Promise - Saves message TTL file inside containerUrl and
+ * name the TTL file based on its slug suggestion
  */
 
-export const saveMessageTTLInInbox = async (session, containerUrl, solidDatset, slug) => {
+export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) => {
   await saveSolidDatasetInContainer(containerUrl, solidDatset, {
     slugSuggestion: `${slug}.ttl`,
     contentType: 'text/turtle',

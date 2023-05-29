@@ -27,7 +27,7 @@ import {
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
-  saveMessageTTLInInbox
+  saveMessageTTL
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -789,8 +789,8 @@ export const sendMessageTTL = async (session, messageObject) => {
 
   try {
     await Promise.all([
-      await saveMessageTTLInInbox(session, containerUrl, newSolidDataset, messageSlug),
-      await saveMessageTTLInInbox(session, outboxUrl, newSolidDataset, messageSlug)
+      await saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
+      await saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
     ]);
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
