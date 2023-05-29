@@ -159,7 +159,7 @@ const NavBar = () => {
               <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ flexGrow: 1 }} />
               <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
-                <Button variant="contained" type="submit" color="secondary" size="large">
+                <Button variant="outline-success" type="submit" color="Success" size="large">
                   Login
                 </Button>
               </LoginButton>
