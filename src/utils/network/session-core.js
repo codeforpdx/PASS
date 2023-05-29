@@ -664,7 +664,7 @@ export const updateUserActivity = async (session) => {
 /*
   User Inbox Section
 
-  Functions here deal primarily with user inbox on PASS
+  Functions here deal primarily with user inbox/outbox on PASS
 */
 
 /**
@@ -794,4 +794,23 @@ export const sendMessageTTL = async (session, messageObject) => {
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
   }
+};
+
+/**
+ * Function that creates an outbox container in the user's Pod when logging in for
+ * the first time
+ *
+ * @memberof utils
+ * @function createOutbox
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
+ * user's Pod does not have the an outbox to begin with
+ */
+
+export const createOutbox = async (session) => {
+  const outboxContainerUrl = getContainerUrl(session, 'Outbox', 'self-fetch');
+  await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+
+  // Generate ACL file for container
+  await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
 };
