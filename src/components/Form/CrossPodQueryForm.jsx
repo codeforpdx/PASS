@@ -102,7 +102,7 @@ const CrossPodQueryForm = () => {
             />
           </FormControl>
           <InputLabel id="cross-search-doctype">
-            <em>Select Document Type: </em>
+            <em>Select Document Type</em>
           </InputLabel>
           <FormControl variant="standard" fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />
