@@ -91,7 +91,7 @@ const CrossPodQueryForm = () => {
     >
       <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <FormControl variant="standard" fullWidth>
+          <FormControl fullWidth>
             <TextField
               id="cross-search-doc"
               name="crossPodQuery"
@@ -104,7 +104,7 @@ const CrossPodQueryForm = () => {
           <InputLabel id="cross-search-doctype">
             <em>Select Document Type</em>
           </InputLabel>
-          <FormControl variant="standard" fullWidth>
+          <FormControl fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
