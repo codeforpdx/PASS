@@ -26,6 +26,7 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [successTimeout, setSuccessTimeout] = useState(false);
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -56,6 +57,10 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
         });
         setError('');
         setSuccess(`Message successfully sent to ${message.recipientUsername}`);
+        setSuccessTimeout(true);
+        setTimeout(() => {
+          setSuccessTimeout(false);
+        }, 10000);
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
         setError(err.message);
@@ -108,7 +113,7 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
         <StyledButton type="submit">Submit</StyledButton>
 
         {error && <StyledError>{error}</StyledError>}
-        {success && <StyledSuccess>{success}</StyledSuccess>}
+        {success && successTimeout && <StyledSuccess>{success}</StyledSuccess>}
       </StyledForm>
     </StyledOverlay>
   );
