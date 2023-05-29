@@ -11,6 +11,7 @@ import {
   updateUserActivity,
   getUserListActivity,
   createDocumentContainer,
+  createOutbox,
   getInboxMessageTTL
 } from './utils';
 // Custom Hook Imports
@@ -81,6 +82,7 @@ const App = () => {
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);
+      await createOutbox(session);
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);

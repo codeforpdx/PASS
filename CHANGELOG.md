@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.0.5 (May 28, 2023)
+
+## Features
+
+- Generate user outbox on log in if outbox does exist in user's Solid Pod (#186)
+- Allow users to choose different Solid Identity Providers when using PASS (#167)
+- Render user messages from their Solid inbox on PASS (#148)
+
+## Fixes
+
+- Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
+- Included corrections to JSDoc comments (#148, #179, #183, #184)
+
+## Dev Changes
+
+- Created function to generate an outbox container for users if it doesn't exist in their Solid Pod (#186)
+- Refactored set permission forms to pass in Access Object as a parameter to setDocAclPermission function (#183)
+- Updated all relevant components/functions using createDocAclForUser with new setDocAclForUser function (#183)
+- Optimized session-core functions (#183)
+- Included new JSDoc for new barcode scanner functions (#179)
+- Updated clearDoc.js and .gitignore to accomedate for new ZXing_barcaode.md (#179)
+- Updated/Enhanced UI for Footer, Inactivity Notification, and several Form components (#166, #172, #178, #180)
+- Organized utils directory into 4 subdirectories and rerouted import paths (#171)
+- Replaced removeKeys function with localStorage.clear (#167)
+- Included new unit tests for components and functions (#167, #183)
+- Replaced previous Login component with OidcLoginComponent (#167)
+- Created new test directory to store unit tests (#167)
+- Generate loading text for when user messages are being loaded from Solid (#148)
+- Removed types.d.ts in favor of better written JSDoc comments (#148)
+- Created new React Context and components for rendering inbox messages (#148)
+- Created new getInboxMessageTTL function to pull messages from Solid as JSON from TTLs (#148)
+
+## Others
+
+- Updated GitHub Actions to have lints and unit tests separate from building (#181)
+- Updated GitHub Actions to run newer GitHub Actions workflows and correct node version (#181)
+- Included new technical documentation for barcode scanner (#179)
+
+---
+
 ## v0.0.4 (May 19, 2023)
 
 ## Features

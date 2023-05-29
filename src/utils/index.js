@@ -28,6 +28,7 @@ import {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
+  createOutbox,
   getInboxMessageTTL
 } from './network/session-core';
 import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
@@ -54,6 +55,7 @@ export {
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
-  getInboxMessageTTL,
-  makeHandleFormSubmission
+  makeHandleFormSubmission,
+  createOutbox,
+  getInboxMessageTTL
 };

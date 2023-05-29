@@ -174,6 +174,8 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
       return `${POD_URL}Documents/`;
     case 'Inbox':
       return `${POD_URL}inbox/`;
+    case 'Outbox':
+      return `${POD_URL}outbox/`;
     default:
       return null;
   }
