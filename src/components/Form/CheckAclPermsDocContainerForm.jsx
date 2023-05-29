@@ -2,6 +2,11 @@
 import React, { useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Utility Imports
 import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -42,6 +47,7 @@ const CheckAclPermsDocContainerForm = () => {
       podUsername = selectedUser;
     }
 
+    // TODO: Determine if this is necessary as MUI provides its own verification
     if (!podUsername) {
       runNotification(
         'Check permissions failed. Reason: Username not provided.',
@@ -60,7 +66,7 @@ const CheckAclPermsDocContainerForm = () => {
       String(session.info.webId.split('profile')[0])
     ) {
       runNotification(
-        'Check permissions failed. Reason: User already have access to their own Documents container.',
+        'Check permissions failed. Reason: User already has access to their own Documents container.',
         5,
         state,
         dispatch
@@ -93,10 +99,6 @@ const CheckAclPermsDocContainerForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   return (
     <FormSection
       title="Check Permission to Documents Container"
@@ -104,19 +106,30 @@ const CheckAclPermsDocContainerForm = () => {
       statusType="Permission status"
       defaultMessage="To be set..."
     >
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">
-            Check permissions to username&apos;s Documents container:{' '}
-          </label>
-          <br />
-          <br />
-          <input id="set-acl-to" size="25" name="setAclTo" {...user} placeholder={selectedUser} />
-        </div>
-        <button disabled={state.processing} type="submit">
-          Check Permission
-        </button>
-      </form>
+      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
+        <form onSubmit={handleAclPermission} autoComplete="off">
+          <FormControl fullWidth>
+            <TextField
+              id="set-acl-to"
+              name="setAclTo"
+              {...user}
+              placeholder={selectedUser}
+              label="Search username"
+              required
+            />
+            <br />
+            <Button
+              variant="contained"
+              fullWidth
+              disabled={state.processing}
+              type="submit"
+              color="primary"
+            >
+              Check Permission
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
 };
