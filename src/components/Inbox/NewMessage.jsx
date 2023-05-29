@@ -6,7 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import styled from 'styled-components';
 // Utility Imports
 import { sendMessageTTL } from '../../utils';
-import { getInboxMessageTTL } from '../../utils/network/session-core';
+import { getMessageTTL } from '../../utils/network/session-core';
 
 /**
  * New Message Component - Component that allows user to write
@@ -16,7 +16,7 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  * @name NewMessage
  */
 
-const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
+const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
   const { session } = useSession();
 
   const [message, setMessage] = useState({
@@ -62,11 +62,11 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
       }
     }
 
-    // Re-sorts messages when new message is added to inboxList
-    const inboxMessages = await getInboxMessageTTL(session, inboxList);
-    const sortedInbox = inboxMessages;
-    sortedInbox.sort((a, b) => b.uploadDate - a.uploadDate);
-    setInboxList(sortedInbox);
+    // Re-sorts messages when new message is added to outboxList
+    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList);
+    const sortedOutbox = outboxMessages;
+    sortedOutbox.sort((a, b) => b.uploadDate - a.uploadDate);
+    setOutboxList(sortedOutbox);
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */

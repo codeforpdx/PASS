@@ -48,7 +48,7 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  */
 
 /**
- * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ * @typedef {import("../../typedefs").messageListObject} messageListObject
  */
 
 /*
@@ -662,9 +662,9 @@ export const updateUserActivity = async (session) => {
 };
 
 /*
-  User Inbox Section
+  User Message Section
 
-  Functions here deal primarily with user inbox/outbox on PASS
+  Functions here deal primarily with user messages on PASS
 */
 
 /**
@@ -672,26 +672,27 @@ export const updateUserActivity = async (session) => {
  * JSON
  *
  * @memberof utils
- * @function getInboxMessageTTL
+ * @function getMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {inboxListObject[]} inboxList - List of inbox messages
- * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
+ * @param {string} boxType - The message box being called "Inbox" or "Outbox"
+ * @param {messageListObject[]} listMessages - List of messages
+ * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
  */
 
-export const getInboxMessageTTL = async (session, inboxList) => {
-  const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+export const getMessageTTL = async (session, boxType, listMessages) => {
+  const messageBoxContainerUrl = getContainerUrl(session, boxType, 'self-fetch');
   let messageList = [];
   try {
-    const solidDataset = await getSolidDataset(inboxContainerUrl, {
+    const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
       fetch: session.fetch
     });
     const ttlFileThing = getThingAll(solidDataset);
     const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
 
     // Early return if length of inbox in both PASS and Solid is the same
-    if (allMessageThing.length === inboxList.length) {
-      return inboxList;
+    if (allMessageThing.length === listMessages.length) {
+      return listMessages;
     }
 
     try {
@@ -719,10 +720,10 @@ export const getInboxMessageTTL = async (session, inboxList) => {
 
       await Promise.all(promises);
     } catch (err) {
-      messageList = inboxList;
+      messageList = listMessages;
     }
   } catch {
-    messageList = inboxList;
+    messageList = listMessages;
   }
 
   return messageList;
@@ -743,7 +744,7 @@ export const getInboxMessageTTL = async (session, inboxList) => {
 export const sendMessageTTL = async (session, messageObject) => {
   const { title, message, recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', recipientUsername);
-  const inboxUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+  const outboxUrl = getContainerUrl(session, 'Outbox', 'self-fetch');
 
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
   const recipientWebId = `https://${recipientUsername}.${
@@ -789,7 +790,7 @@ export const sendMessageTTL = async (session, messageObject) => {
   try {
     await Promise.all([
       await saveMessageTTLInInbox(session, containerUrl, newSolidDataset, messageSlug),
-      await saveMessageTTLInInbox(session, inboxUrl, newSolidDataset, messageSlug)
+      await saveMessageTTLInInbox(session, outboxUrl, newSolidDataset, messageSlug)
     ]);
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
