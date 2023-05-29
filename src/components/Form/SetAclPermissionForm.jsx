@@ -124,7 +124,7 @@ const SetAclPermissionForm = () => {
           />
         </div>
         <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
+          <label htmlFor="set-acl-doctype">Select Document Type</label>
           <DocumentSelection htmlId="set-acl-doctype" />{' '}
         </div>
         <div style={formRowStyle}>
