@@ -3,7 +3,9 @@ import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import {Box, Container, Typography} from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 // Utility Imports
 import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
 // Custom Hook Imports
@@ -12,6 +14,7 @@ import { useStatusNotification } from '../../hooks';
 import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
+import ClientListTable from './ClientListTable';
 
 
 /**
@@ -28,13 +31,13 @@ const ClientList = ({ loadingActive }) => {
   const { setSelectedUser } = useContext(SelectUserContext);
   const { userList, setUserList } = useContext(UserListContext);
 
-  // Event handler for selecting user from users list
+  // Event handler for selecting client from client list
   const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
     runNotification(`User "${clientToSelect}" selected.`, 3, state, dispatch);
     setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
   };
 
-  // Event handler for deleting user from users list
+  // Event handler for deleting client from client list
   const handleDeleteClient = async (clientToDeleteFullName, clientToDelete, clientToDeleteUrl) => {
     if (
       window.confirm(
@@ -49,64 +52,19 @@ const ClientList = ({ loadingActive }) => {
     }
   };
 
-  const tableStyle = {
-    margin: '20px 0',
-    width: '100%',
-    textAlign: 'center'
-  };
-
+  
   return (
     <FormSection title="Clients" state={state} statusType="Status" defaultMessage="No actions">
       {userList.length ? (
-        // if Clients
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Pod URL</th>
-              <th>Last Active Date</th>
-              <th>Select User</th>
-              <th>Delete User</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userList &&
-              userList.map((client) => (
-                <tr key={client.podUrl}>
-                  <td>{client.givenName}</td>
-                  <td>{client.familyName}</td>
-                  <td>
-                    <a href={client.podUrl} target="_blank" rel="noreferrer">
-                      {client.podUrl}
-                    </a>
-                  </td>
-                  {loadingActive ? (
-                    <td>Loading...</td>
-                  ) : (
-                    <td>
-                      {client.dateModified ? client.dateModified.toLocaleDateString() : 'Not available'}
-                    </td>
-                  )}
-                  <td>
-                    <button type="button" onClick={() => handleSelectClient(client.person, client.podUrl)}>
-                      select
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
-                    >
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        // if clients
+        <ClientListTable
+          userList={userList}
+          loadingActive={loadingActive}
+          handleSelectClient={handleSelectClient}
+          handleDeleteClient={handleDeleteClient}
+        />
       ) : (
-        // if no Clients
+        // if no clients
         <Container>
           <Box
             sx={{
@@ -116,11 +74,11 @@ const ClientList = ({ loadingActive }) => {
               flexDirection: 'column'
             }}
           >
-            <Typography variant='h6' component='h2' mb={2} align='center' color='secondary'>
+            <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
               Add clients to your list
             </Typography>
           </Box>
-        </Container>       
+        </Container>
       )}
     </FormSection>
   );
