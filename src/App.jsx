@@ -22,7 +22,7 @@ import { InboxMessageContext, SelectUserContext, UserListContext } from './conte
 import Home from './routes/Home';
 // Component Imports
 import Forms from './components/Forms';
-import { Inbox, Outbox } from './components/Inbox';
+import { Inbox, Outbox } from './components/Messages';
 import { UserSection } from './components/Users';
 import Layout from './layouts/Layouts';
 import OutboxMessageContext from './contexts/outboxMessageContext';

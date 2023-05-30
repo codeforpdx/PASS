@@ -4,9 +4,9 @@ import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
 
 /**
- * Components and functions related to Inbox functionality within project PASS
+ * Components and functions related to Messages functionality within project PASS
  *
- * @namespace Inbox
+ * @namespace Messages
  */
 
 export { Inbox, Outbox, NewMessage, MessagePreview };
