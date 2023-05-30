@@ -1,4 +1,3 @@
-import Inbox from './Inbox';
 import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
 
@@ -8,4 +7,4 @@ import MessagePreview from './MessagePreview';
  * @namespace Inbox
  */
 
-export { Inbox, NewMessage, MessagePreview };
+export { NewMessage, MessagePreview };

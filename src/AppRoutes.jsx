@@ -3,10 +3,9 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Page Imports
 import Home from './routes/Home';
-// Component Imports
-import Forms from './components/Forms';
-import { Inbox } from './components/Inbox';
-import { UserSection } from './components/Users';
+import UserSection from './routes/UserSection';
+import Inbox from './routes/Inbox';
+import Forms from './routes/Forms';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;

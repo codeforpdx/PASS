@@ -5,19 +5,21 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// Unique ID import
+// Other Library Imports
 import { v4 as uuidv4 } from 'uuid';
+// Utility Imports
+import { getInboxMessageTTL } from '../utils';
+// Context Imports
+import { InboxMessageContext } from '../contexts';
 // Component Imports
-import NewMessage from './NewMessage';
-import MessagePreview from './MessagePreview';
-import { InboxMessageContext } from '../../contexts';
-import { getInboxMessageTTL } from '../../utils/network/session-core';
+import NewMessage from '../components/Inbox/NewMessage';
+import MessagePreview from '../components/Inbox/MessagePreview';
 
 /**
- * Inbox Component - Component that generates Inbox section for users
- * logged into a Solid Pod via Solid Session
+ * Inbox Page - Page that generates PASS Inbox for users logged into a Solid Pod
+ * via Solid Session
  *
- * @memberof Inbox
+ * @memberof Pages
  * @name Inbox
  */
 
