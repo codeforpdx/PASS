@@ -1,5 +1,6 @@
 // React Imports
 import React from 'react';
+// React Router Imports
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -9,16 +10,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import { ManageUsers } from '../Form';
-import UsersList from './UsersList';
+import ClientList from './ClientList';
 
 /**
- * Users Component - Component that generates Users section for PASS
+ * Clients Component - Component that generates Clients section for PASS
  *
  * @memberof GlobalComponents
- * @name UserSection
+ * @name Clients
  */
 
-const UserSection = ({ loadingUsers, loadingActive }) => {
+const Clients = ({ loadingUsers, loadingActive }) => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -37,21 +38,18 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
             }}
           >
             <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-              <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
-                <strong>Users List</strong>
-                <br />
-                <br />
-                Loading users list...
+              <Typography variant='h5' component='h2' mb={2} align='center'>
+                Loading clients...
               </Typography>
               <LinearProgress />
             </Paper>
           </Box>
         </Container>
       ) : (
-        <UsersList loadingActive={loadingActive} />
+        <ClientList loadingActive={loadingActive} />
       )}
     </>
   );
 };
 
-export default UserSection;
+export default Clients;

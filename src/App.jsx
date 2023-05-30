@@ -23,7 +23,7 @@ import Home from './routes/Home';
 // Component Imports
 import Forms from './components/Forms';
 import { Inbox } from './components/Inbox';
-import { UserSection } from './components/Users';
+import { Clients } from './components/Clients';
 import Layout from './layouts/Layouts';
 
 /**
@@ -122,7 +122,7 @@ const App = () => {
                     <Navigate
                       to={
                         !localStorage.getItem('restorePath')
-                          ? '/PASS/home'
+                          ? '/PASS/clients'
                           : localStorage.getItem('restorePath')
                       }
                     />
@@ -132,10 +132,10 @@ const App = () => {
                 }
               />
               <Route
-                path="/PASS/home"
+                path="/PASS/clients"
                 element={
                   session.info.isLoggedIn ? (
-                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
+                    <Clients loadingUsers={loadingUsers} loadingActive={loadingActive} />
                   ) : (
                     <Navigate to="/PASS/" />
                   )
