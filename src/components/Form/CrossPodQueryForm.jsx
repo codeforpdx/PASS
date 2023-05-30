@@ -89,7 +89,7 @@ const CrossPodQueryForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
+      <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
           <FormControl fullWidth>
             <TextField

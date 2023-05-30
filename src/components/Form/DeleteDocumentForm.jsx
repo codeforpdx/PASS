@@ -62,7 +62,7 @@ const DeleteDocumentForm = () => {
       statusType="Deletion status"
       defaultMessage="To be deleted..."
     >
-      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
+      <Box display="flex" justifyContent="center">
         <form onSubmit={handleDeleteDocument}>
           <InputLabel id="delete-doctype">
             <em>Select Document Type</em>

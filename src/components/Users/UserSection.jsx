@@ -31,7 +31,6 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
           <Box
             sx={{
               marginTop: 3,
-              minWidth: 120,
               display: 'flex',
               flexDirection: 'column'
             }}

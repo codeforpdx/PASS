@@ -106,7 +106,7 @@ const CheckAclPermsDocContainerForm = () => {
       statusType="Permission status"
       defaultMessage="To be set..."
     >
-      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
+      <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl fullWidth>
             <TextField
@@ -118,13 +118,7 @@ const CheckAclPermsDocContainerForm = () => {
               required
             />
             <br />
-            <Button
-              variant="contained"
-              fullWidth
-              disabled={state.processing}
-              type="submit"
-              color="primary"
-            >
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Check Permission
             </Button>
           </FormControl>
