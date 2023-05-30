@@ -44,7 +44,7 @@ const ClientList = ({ loadingActive }) => {
         `You're about to delete ${clientToDeleteFullName} from client list, do you wish to continue?`
       )
     ) {
-      runNotification(`Deleting ${clientToDeleteFullName} from Solid...`, 3, state, dispatch);
+      runNotification(`Deleting ${clientToDeleteFullName} from client list...`, 3, state, dispatch);
       let listUsers = await deleteUserFromPod(session, clientToDelete, clientToDeleteUrl);
       listUsers = await getUserListActivity(session, listUsers);
 
