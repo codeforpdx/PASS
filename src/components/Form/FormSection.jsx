@@ -41,9 +41,11 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
           display="flex"
           justifyContent="center"
           alignItems="center"
-          sx={{ margin: '0 0 20px 0' }}
+          mb={2}
+          variant='h5'
+          component='h3'
         >
-          <strong>{title}</strong>
+          {title}
         </Typography>
         {children}
         <StatusNotification
