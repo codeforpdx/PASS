@@ -11,7 +11,8 @@ import {
   overwriteFile,
   getThingAll,
   saveSolidDatasetAt,
-  getDatetime
+  getDatetime,
+  getStringNoLocale
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
 import {
@@ -468,7 +469,7 @@ export const fetchUserActivity = async (session, podUrl) => {
     });
 
     // Generate ACL file for container
-    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
+    await setDocAclForUser(session, activityHistoryUrl, 'create', session.info.webId);
   }
 };
 

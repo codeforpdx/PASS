@@ -17,7 +17,12 @@ import {
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { InboxMessageContext, SelectUserContext, UserListContext, SignedInPodContext } from './contexts';
+import {
+  InboxMessageContext,
+  SelectUserContext,
+  UserListContext,
+  SignedInPodContext
+} from './contexts';
 // Component Imports
 import Layout from './layouts/Layouts';
 import AppRoutes from './AppRoutes';
@@ -116,12 +121,14 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContext.Provider value={userListObject}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <AppRoutes
-              isLoggedIn={session.info.isLoggedIn}
-              loadingUsers={loadingUsers}
-              loadingActive={loadingActive}
-              loadMessages={loadMessages}
-            />
+            <SignedInPodContext.Provider value={signedInPodMemo}>
+              <AppRoutes
+                isLoggedIn={session.info.isLoggedIn}
+                loadingUsers={loadingUsers}
+                loadingActive={loadingActive}
+                loadMessages={loadMessages}
+              />
+            </SignedInPodContext.Provider>
           </InboxMessageContext.Provider>
         </UserListContext.Provider>
       </SelectUserContext.Provider>

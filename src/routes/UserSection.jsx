@@ -8,7 +8,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
-import { ManageUsers } from '../components/Form';
+import ManageUsers from '../components/Users/ManageUsers';
 import UsersList from '../components/Users/UsersList';
 
 /**
@@ -19,6 +19,29 @@ import UsersList from '../components/Users/UsersList';
  * @name UserSection
  */
 
+const LoadingIcon = () => (
+  <Container>
+    <Box
+      sx={{
+        marginTop: 3,
+        minWidth: 120,
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+        <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
+          <strong>Users List</strong>
+          <br />
+          <br />
+          Loading users list...
+        </Typography>
+        <LinearProgress />
+      </Paper>
+    </Box>
+  </Container>
+);
+
 const UserSection = ({ loadingUsers, loadingActive }) => {
   const location = useLocation();
 
@@ -27,31 +50,9 @@ const UserSection = ({ loadingUsers, loadingActive }) => {
   return (
     <>
       <ManageUsers />
-      {loadingUsers ? (
-        <Container>
-          <Box
-            sx={{
-              marginTop: 3,
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-              <Typography sx={{ marginBottom: '20px', textAlign: 'center' }}>
-                <strong>Users List</strong>
-                <br />
-                <br />
-                Loading users list...
-              </Typography>
-              <LinearProgress />
-            </Paper>
-          </Box>
-        </Container>
-      ) : (
-        <UsersList loadingActive={loadingActive} />
-      )}      
-    </>
 
+      {loadingUsers ? <LoadingIcon /> : <UsersList loadingActive={loadingActive} />}
+    </>
   );
 };
 

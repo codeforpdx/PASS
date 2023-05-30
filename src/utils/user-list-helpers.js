@@ -12,7 +12,7 @@ import {
   getPodUrlAll
 } from '@inrupt/solid-client';
 
-import { createDocAclForUser } from './session-helper';
+import { setDocAclForUser } from './network/session-helper';
 
 import { RDF_PREDICATES } from '../constants';
 
@@ -40,7 +40,7 @@ const createUsersList = async (session, usersListUrl) => {
   });
 
   // Generate ACL file for container
-  await createDocAclForUser(session, usersListUrl);
+  await setDocAclForUser(session, usersListUrl);
   return usersListDataset;
 };
 
@@ -136,7 +136,7 @@ export const deleteUserFromPod = async (session, user, podUrl) => {
     fetch: session.fetch
   });
 
-  const userList = await getUsersFromPod(session);
+  const userList = await getUsersFromPod(session, podUrl);
   return userList;
 };
 

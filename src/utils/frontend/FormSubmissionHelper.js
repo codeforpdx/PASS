@@ -1,4 +1,4 @@
-import runNotification from './notification-helper';
+import { runNotification } from './notification-helper';
 import { uploadDocument, updateDocument } from '../network/session-core';
 
 /**
