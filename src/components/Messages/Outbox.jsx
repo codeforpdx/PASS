@@ -5,10 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// Unique ID import
-import { v4 as uuidv4 } from 'uuid';
 // Component Imports
-import MessagePreview from './MessagePreview';
+import PaginatedMessages from './Pagination';
 import { OutboxMessageContext } from '../../contexts';
 import { getMessageTTL } from '../../utils/network/session-core';
 
@@ -20,7 +18,6 @@ import { getMessageTTL } from '../../utils/network/session-core';
  * @name Outbox
  */
 
-// TODO:
 const Outbox = ({ loadMessages }) => {
   const location = useLocation();
 
@@ -54,15 +51,7 @@ const Outbox = ({ loadMessages }) => {
           Refresh
         </StyledButton>
       </div>
-      {loadMessages ? (
-        <div>Loading Messages...</div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          {outboxList.map((message) => (
-            <MessagePreview key={uuidv4()} message={message} />
-          ))}
-        </div>
-      )}
+      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={outboxList} />}
     </section>
   );
 };
