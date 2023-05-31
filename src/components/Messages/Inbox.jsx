@@ -104,18 +104,47 @@ const PaginatedMessages = ({ messages }) => {
   return (
     <>
       <Messages currentMessages={currentMessages} />
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-      />
+      <PaginationContainer>
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+        />
+      </PaginationContainer>
     </>
   );
 };
+
+const PaginationContainer = styled.div`
+  ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li:not(:last-child) {
+    margin-right: 4px;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #eaeaea;
+    cursor: pointer;
+  }
+
+  a:active {
+    background-color: #555;
+    color: #fff;
+  }
+`;
 
 const StyledButton = styled('button')({
   width: '150px',
