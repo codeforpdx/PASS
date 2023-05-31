@@ -27,7 +27,8 @@ import {
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
-  saveMessageTTLInInbox
+  saveMessageTTLInInbox,
+  setDocAclForPublic
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -403,6 +404,31 @@ export const createDocumentContainer = async (session) => {
 
   Functions here deal primarily with the user list from Solid Pod and from PASS
 */
+
+/**
+ * Function that creates a public container in the user's Pod when logging in for
+ * the first time
+ *
+ * @memberof utils
+ * @function createPublicContainer
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates a public container for Pod upon log in
+ * if user's Pod does not have the an outbox to begin with
+ */
+
+export const createPublicContainer = async (session) => {
+  const publicContainerUrl = getContainerUrl(session, 'Public', 'self-fetch');
+
+  try {
+    await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(publicContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
+    await setDocAclForPublic(session, publicContainerUrl, { read: true });
+  }
+};
 
 /**
  * Function that creates a Users container in the user's Pod when logging in for
@@ -817,5 +843,30 @@ export const createOutbox = async (session) => {
 
     // Generate ACL file for container
     await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
+    await setDocAclForPublic(session, outboxContainerUrl, { append: true });
+  }
+};
+
+/**
+ * Function that creates an inbox container in the user's Pod when logging in for
+ * the first time
+ *
+ * @memberof utils
+ * @function createInbox
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
+ * user's Pod does not have the an outbox to begin with
+ */
+
+export const createInbox = async (session) => {
+  const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+
+  try {
+    await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(inboxContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
   }
 };

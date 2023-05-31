@@ -15,7 +15,9 @@ import {
   getStringNoLocale,
   saveSolidDatasetInContainer,
   getResourceAcl,
-  getSolidDatasetWithAcl
+  getSolidDatasetWithAcl,
+  setPublicResourceAccess,
+  setPublicDefaultAccess
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -176,6 +178,8 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
       return `${POD_URL}inbox/`;
     case 'Outbox':
       return `${POD_URL}outbox/`;
+    case 'Public':
+      return `${POD_URL}public/`;
     default:
       return null;
   }
@@ -241,6 +245,26 @@ export const setDocAclForUser = async (
     generateType === 'create' ? createAcl(podResource) : getResourceAcl(podResource);
   const newAcl = setupAcl(resourceAcl, webId, accessObject);
   await saveAclFor(podResource, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that sets up ACL file for container to public
+ *
+ * @memberof utils
+ * @function setDocAclForPublic
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} documentUrl - Url link to document container
+ * @param {Access} accessObject - Access Object to use when creating the file
+ * @returns {Promise} Promise - Generates ACL file for container and give user
+ * access and control to it and its contents
+ */
+
+export const setDocAclForPublic = async (session, documentUrl, accessObject) => {
+  const podResource = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
+  const resourceAcl = getResourceAcl(podResource);
+  let acl = setPublicResourceAccess(resourceAcl, accessObject);
+  acl = setPublicDefaultAccess(acl, accessObject);
+  await saveAclFor(podResource, acl, { fetch: session.fetch });
 };
 
 /**

@@ -11,7 +11,9 @@ import {
   getUserListActivity,
   createDocumentContainer,
   createOutbox,
-  getInboxMessageTTL
+  getInboxMessageTTL,
+  createPublicContainer,
+  createInbox
 } from './utils';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
@@ -73,10 +75,12 @@ const App = () => {
      * @function setupPod
      */
     async function setupPod() {
+      await createPublicContainer(session);
       await generateUsersList(session);
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);
+      await createInbox(session);
       await createOutbox(session);
 
       try {
