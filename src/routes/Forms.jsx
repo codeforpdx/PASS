@@ -11,12 +11,12 @@ import {
   SetAclPermissionForm,
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm
-} from './Form';
+} from '../components/Form';
 
 /**
- * Forms Component - Component that generates Forms section for PASS
+ * Forms Page - Component that generates Forms Page for PASS
  *
- * @memberof GlobalComponents
+ * @memberof Pages
  * @name Forms
  */
 
