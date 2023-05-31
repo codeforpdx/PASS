@@ -1,16 +1,13 @@
 // React Imports
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// Unique ID import
-import { v4 as uuidv4 } from 'uuid';
 // Component Imports
 import NewMessage from './NewMessage';
-import MessagePreview from './MessagePreview';
+import PaginatedMessages from './Pagination';
 import { InboxMessageContext, OutboxMessageContext } from '../../contexts';
 import { getMessageTTL } from '../../utils/network/session-core';
 
@@ -22,7 +19,6 @@ import { getMessageTTL } from '../../utils/network/session-core';
  * @name Inbox
  */
 
-// TODO: Style pagination and move it to outbox as well
 const Inbox = ({ loadMessages }) => {
   const location = useLocation();
 
@@ -67,84 +63,10 @@ const Inbox = ({ loadMessages }) => {
           setOutboxList={setOutboxList}
         />
       )}
-      {loadMessages ? (
-        <div>Loading Messages...</div>
-      ) : (
-        /* <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          {inboxList.map((message) => (
-            <MessagePreview key={uuidv4()} message={message} />
-          ))}
-        </div> */
-        <PaginatedMessages messages={inboxList} />
-      )}
+      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={inboxList} />}
     </section>
   );
 };
-
-// Helper component for displaying paginated results
-const Messages = ({ currentMessages }) =>
-  currentMessages &&
-  currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />);
-
-// Helper component for creating pagination
-const PaginatedMessages = ({ messages }) => {
-  const [offset, setOffset] = useState(0);
-  const itemsPerPage = 5;
-
-  const endOffset = offset + itemsPerPage;
-  const currentMessages = messages.slice(offset, endOffset);
-  const pageCount = Math.ceil(messages.length / itemsPerPage);
-
-  // Handle user changing page
-  const handlePageClick = (e) => {
-    const newOffset = (e.selected * itemsPerPage) % messages.length;
-    setOffset(newOffset);
-  };
-
-  return (
-    <>
-      <Messages currentMessages={currentMessages} />
-      <PaginationContainer>
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="next >"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={pageCount}
-          previousLabel="< previous"
-          renderOnZeroPageCount={null}
-        />
-      </PaginationContainer>
-    </>
-  );
-};
-
-const PaginationContainer = styled.div`
-  ul {
-    display: flex;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li:not(:last-child) {
-    margin-right: 4px;
-  }
-
-  a {
-    color: #000;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    background-color: #eaeaea;
-    cursor: pointer;
-  }
-
-  a:active {
-    background-color: #555;
-    color: #fff;
-  }
-`;
 
 const StyledButton = styled('button')({
   width: '150px',

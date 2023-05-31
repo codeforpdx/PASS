@@ -2,6 +2,7 @@ import Inbox from './Inbox';
 import Outbox from './Outbox';
 import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
+import PaginatedMessages from './Pagination';
 
 /**
  * Components and functions related to Messages functionality within project PASS
@@ -9,4 +10,4 @@ import MessagePreview from './MessagePreview';
  * @namespace Messages
  */
 
-export { Inbox, Outbox, NewMessage, MessagePreview };
+export { Inbox, Outbox, NewMessage, MessagePreview, PaginatedMessages };
