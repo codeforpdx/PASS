@@ -843,7 +843,6 @@ export const createOutbox = async (session) => {
 
     // Generate ACL file for container
     await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
-    await setDocAclForPublic(session, outboxContainerUrl, { append: true });
   }
 };
 
@@ -868,5 +867,6 @@ export const createInbox = async (session) => {
 
     // Generate ACL file for container
     await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
+    await setDocAclForPublic(session, inboxContainerUrl, { append: true });
   }
 };
