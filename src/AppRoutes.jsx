@@ -5,12 +5,19 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Home from './routes/Home';
 import UserSection from './routes/UserSection';
 import Inbox from './routes/Inbox';
+import Outbox from './routes/Outbox';
 import Forms from './routes/Forms';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;
 
-const AppRoutes = ({ isLoggedIn, loadingUsers, loadingActive, loadMessages }) => {
+const AppRoutes = ({
+  isLoggedIn,
+  loadingUsers,
+  loadingActive,
+  loadInboxMessages,
+  loadOutboxMessages
+}) => {
   const restorePath = localStorage.getItem('restorePath');
   const path = restorePath ?? '/PASS/home';
 
@@ -23,7 +30,8 @@ const AppRoutes = ({ isLoggedIn, loadingUsers, loadingActive, loadMessages }) =>
           element={<UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />}
         />
         <Route path="/PASS/forms" element={<Forms />} />
-        <Route path="/PASS/inbox" element={<Inbox loadMessages={loadMessages} />} />
+        <Route path="/PASS/inbox" element={<Inbox loadMessages={loadInboxMessages} />} />
+        <Route path="/PASS/outbox" element={<Outbox loadMessages={loadOutboxMessages} />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>
