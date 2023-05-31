@@ -11,8 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
-// SEE COMMENT IN COMPONENT BELOW for next import
-// import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 /**
  * LogoutModal Component - Popup modal for users to confirm
@@ -23,15 +22,12 @@ import CheckIcon from '@mui/icons-material/Check';
  */
 
 const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) => (
-  // when the MUI theme is Merged, this will make it so the popup is fullscreen on small devices
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   <Dialog
     open={showConfirmation}
     aria-labelledby="dialog-title"
     aria-describedby="dialog-description"
     onClose={() => setShowConfirmation(false)}
-    // fullScreen={fullScreen}
   >
     <DialogTitle id="dialog-tile">Log out?</DialogTitle>
 
