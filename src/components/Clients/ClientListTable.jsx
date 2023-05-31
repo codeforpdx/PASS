@@ -76,8 +76,7 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
       <Table aria-label="client list table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">First Name</StyledTableCell>
-            <StyledTableCell align="center">Last Name</StyledTableCell>
+            <StyledTableCell align="center">Client Name</StyledTableCell>
             <StyledTableCell align="center">Pod URL</StyledTableCell>
             <StyledTableCell align="center">Last Active Date</StyledTableCell>
             <StyledTableCell align="center">Pin To Top</StyledTableCell>
@@ -87,8 +86,7 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
         <TableBody>
           {userList.map((client) => (
             <StyledTableRow key={client.podUrl}>
-              <StyledTableCell align="center">{client.givenName}</StyledTableCell>
-              <StyledTableCell align="center">{client.familyName}</StyledTableCell>
+              <StyledTableCell align="center">{client.person}</StyledTableCell>
               <StyledTableCell align="center">
                 <Link
                   href={client.podUrl}
@@ -120,7 +118,7 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
                   // aria-label="account of current user"
                   // aria-controls={menuId}
                   // aria-haspopup="true"
-                  onClick={handleDeleteClient}
+                  onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
                   // color="inherit"
                 >
                   <DeleteOutlineOutlinedIcon />
