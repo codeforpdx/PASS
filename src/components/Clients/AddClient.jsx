@@ -14,17 +14,17 @@ import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from './FormSection';
+import FormSection from '../Form/FormSection';
 
 /**
- * ManageUsers Component - Component that allows users to manage other user's
+ * AddUsers Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Forms
- * @name ManageUsers
+ * @name AddClient
  */
 
-const ManageUsers = () => {
+const AddClient = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
@@ -103,7 +103,7 @@ const ManageUsers = () => {
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
-      title="Manage Users"
+      title="Add Client"
       state={state}
       statusType="Status"
       defaultMessage="To be added..."
@@ -138,4 +138,4 @@ const ManageUsers = () => {
   /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
-export default ManageUsers;
+export default AddClient;

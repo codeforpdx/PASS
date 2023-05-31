@@ -6,7 +6,6 @@ import CrossPodWriteForm from './CrossPodWriteForm';
 import SetAclPermissionForm from './SetAclPermissionForm';
 import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
 import CheckAclPermsDocContainerForm from './CheckAclPermsDocContainerForm';
-import ManageUsers from './ManageUsers';
 
 /**
  * Components and functions related to Forms within project PASS
@@ -23,5 +22,4 @@ export {
   SetAclPermissionForm,
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm,
-  ManageUsers
 };
