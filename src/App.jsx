@@ -72,17 +72,18 @@ const App = () => {
 
   useEffect(() => {
     /**
-     * A function that generates a Users container if logging in for the first
-     * time and initalizes the list of users from Solid
+     * A function that sets up a user's Pod if logging in for the first time or
+     * if containers are deleted and initializes user data from Solid Pod
      *
-     * @function fetchData
+     * @function setupPod
      */
-    async function fetchData() {
+    async function setupPod() {
       await generateUsersList(session);
       await generateActivityTTL(session);
       await updateUserActivity(session);
       await createDocumentContainer(session);
       await createOutbox(session);
+
       try {
         let listUsers = await getUsersFromPod(session);
         setUserList(listUsers);
@@ -104,7 +105,7 @@ const App = () => {
 
     if (session.info.isLoggedIn) {
       localStorage.setItem('loggedIn', true);
-      fetchData();
+      setupPod();
     }
   }, [session.info.isLoggedIn]);
 

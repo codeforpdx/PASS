@@ -362,44 +362,39 @@ export const createDocumentContainer = async (session) => {
   try {
     await getSolidDataset(userContainerUrl, { fetch: session.fetch });
   } catch {
-    const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
     await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
-    const ttlFileExists = hasTTLFiles(datasetFromUrl);
+    const createContainerList = [
+      `${userContainerUrl}Bank%20Statement/`,
+      `${userContainerUrl}Passport/`,
+      `${userContainerUrl}Drivers%20License/`
+    ];
 
-    if (!ttlFileExists) {
-      const createContainerList = [
-        `${userContainerUrl}Bank%20Statement/`,
-        `${userContainerUrl}Passport/`,
-        `${userContainerUrl}Drivers%20License/`
-      ];
+    createContainerList.forEach(async (url) => {
+      await createContainerAt(url, { fetch: session.fetch });
+    });
 
-      createContainerList.forEach(async (url) => {
-        await createContainerAt(url, { fetch: session.fetch });
-      });
+    const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
+      .addStringNoLocale(RDF_PREDICATES.name, 'Document Container')
+      .addStringNoLocale(RDF_PREDICATES.description, 'A container for documents')
+      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}container.ttl`)
+      .build();
 
-      const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
-        .addStringNoLocale(RDF_PREDICATES.name, 'Document Container')
-        .addStringNoLocale(RDF_PREDICATES.description, 'A container for documents')
-        .addUrl(RDF_PREDICATES.url, `${userContainerUrl}container.ttl`)
-        .build();
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
-      let newSolidDataset = createSolidDataset();
-      newSolidDataset = setThing(newSolidDataset, newTtlFile);
+    // Generate document.ttl file for container
+    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'container.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
 
-      // Generate document.ttl file for container
-      await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-        slugSuggestion: 'container.ttl',
-        contentType: 'text/turtle',
-        fetch: session.fetch
-      });
-
-      // Generate ACL file for container
-      await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-      createContainerList.forEach(async (url) => {
-        await setDocAclForUser(session, url, 'create', session.info.webId);
-      });
-    }
+    // Generate ACL file for container
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
+    createContainerList.forEach(async (url) => {
+      await setDocAclForUser(session, url, 'create', session.info.webId);
+    });
   }
 };
 
@@ -426,31 +421,26 @@ export const generateUsersList = async (session) => {
   try {
     await getSolidDataset(userContainerUrl, { fetch: session.fetch });
   } catch {
-    const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
     await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
-    const ttlFileExists = hasTTLFiles(datasetFromUrl);
+    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
+      .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
+      .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
+      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}userlist.ttl`)
+      .build();
 
-    if (!ttlFileExists) {
-      const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-        .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
-        .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
-        .addUrl(RDF_PREDICATES.url, `${userContainerUrl}userlist.ttl`)
-        .build();
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
 
-      let newSolidDataset = createSolidDataset();
-      newSolidDataset = setThing(newSolidDataset, newTtlFile);
+    // Generate document.ttl file for container
+    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'userlist.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
 
-      // Generate document.ttl file for container
-      await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-        slugSuggestion: 'userlist.ttl',
-        contentType: 'text/turtle',
-        fetch: session.fetch
-      });
-
-      // Generate ACL file for container
-      await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-    }
+    // Generate ACL file for container
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
   }
 };
 
