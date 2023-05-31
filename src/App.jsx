@@ -1,6 +1,5 @@
 // React Imports
 import React, { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -17,15 +16,15 @@ import {
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
-// Page Imports
-import Home from './routes/Home';
+import {
+  InboxMessageContext,
+  OutboxMessageContext,
+  SelectUserContext,
+  UserListContext
+} from './contexts';
 // Component Imports
-import Forms from './components/Forms';
-import { Inbox, Outbox } from './components/Messages';
-import { UserSection } from './components/Users';
 import Layout from './layouts/Layouts';
-import OutboxMessageContext from './contexts/outboxMessageContext';
+import AppRoutes from './AppRoutes';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -126,60 +125,13 @@ const App = () => {
         <UserListContext.Provider value={userListObject}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
             <OutboxMessageContext.Provider value={outboxMessageObject}>
-              <Routes>
-                <Route
-                  exact
-                  path="/PASS/"
-                  element={
-                    session.info.isLoggedIn ? (
-                      <Navigate
-                        to={
-                          !localStorage.getItem('restorePath')
-                            ? '/PASS/home'
-                            : localStorage.getItem('restorePath')
-                        }
-                      />
-                    ) : (
-                      <Home />
-                    )
-                  }
-                />
-                <Route
-                  path="/PASS/home"
-                  element={
-                    session.info.isLoggedIn ? (
-                      <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                    ) : (
-                      <Navigate to="/PASS/" />
-                    )
-                  }
-                />
-                <Route
-                  path="/PASS/forms"
-                  element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-                />
-                <Route
-                  path="/PASS/inbox"
-                  element={
-                    session.info.isLoggedIn ? (
-                      <Inbox loadMessages={loadInboxMessages} />
-                    ) : (
-                      <Navigate to="/PASS/" />
-                    )
-                  }
-                />
-                <Route
-                  path="/PASS/outbox"
-                  element={
-                    session.info.isLoggedIn ? (
-                      <Outbox loadMessages={loadOutboxMessages} />
-                    ) : (
-                      <Navigate to="/PASS/" />
-                    )
-                  }
-                />
-                <Route path="*" element={<Navigate to="/PASS/" />} />
-              </Routes>
+              <AppRoutes
+                isLoggedIn={session.info.isLoggedIn}
+                loadingUsers={loadingUsers}
+                loadingActive={loadingActive}
+                loadInboxMessages={loadInboxMessages}
+                loadOutboxMessages={loadOutboxMessages}
+              />
             </OutboxMessageContext.Provider>
           </InboxMessageContext.Provider>
         </UserListContext.Provider>

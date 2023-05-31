@@ -69,9 +69,9 @@ const FetchDocumentForm = () => {
       <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
         <form onSubmit={handleGetDocumentSubmission}>
           <InputLabel id="search-doctype">
-            <i>Select Document Type</i>
+            <em>Select Document Type</em>
           </InputLabel>
-          <FormControl variant="standard" fullWidth>
+          <FormControl fullWidth>
             <DocumentSelection htmlId="search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
