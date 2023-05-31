@@ -5,23 +5,13 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-<<<<<<<< HEAD:src/components/Messages/Inbox.jsx
-// Component Imports
-import NewMessage from './NewMessage';
-import PaginatedMessages from './Pagination';
-import { InboxMessageContext, OutboxMessageContext } from '../../contexts';
-import { getMessageTTL } from '../../utils/network/session-core';
-========
-// Other Library Imports
-import { v4 as uuidv4 } from 'uuid';
 // Utility Imports
-import { getInboxMessageTTL } from '../utils';
+import { getMessageTTL } from '../utils';
 // Context Imports
-import { InboxMessageContext } from '../contexts';
+import { InboxMessageContext, OutboxMessageContext } from '../contexts';
 // Component Imports
-import NewMessage from '../components/Inbox/NewMessage';
-import MessagePreview from '../components/Inbox/MessagePreview';
->>>>>>>> Development:src/routes/Inbox.jsx
+import NewMessage from '../components/Messages/NewMessage';
+import PaginatedMessages from '../components/Messages/Pagination';
 
 /**
  * Inbox Page - Page that generates PASS Inbox for users logged into a Solid Pod

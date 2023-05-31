@@ -1,5 +1,3 @@
-import Inbox from './Inbox';
-import Outbox from './Outbox';
 import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
 import PaginatedMessages from './Pagination';
@@ -10,4 +8,4 @@ import PaginatedMessages from './Pagination';
  * @namespace Messages
  */
 
-export { Inbox, Outbox, NewMessage, MessagePreview, PaginatedMessages };
+export { NewMessage, MessagePreview, PaginatedMessages };

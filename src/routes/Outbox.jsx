@@ -5,10 +5,12 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
+// Utility Imports
+import { getMessageTTL } from '../utils';
+// Context Imports
+import { OutboxMessageContext } from '../contexts';
 // Component Imports
-import PaginatedMessages from './Pagination';
-import { OutboxMessageContext } from '../../contexts';
-import { getMessageTTL } from '../../utils/network/session-core';
+import PaginatedMessages from '../components/Messages/Pagination';
 
 /**
  * Outbox Component - Component that generates Outbox section for users
