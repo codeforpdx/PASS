@@ -8,13 +8,14 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
-import { ManageUsers } from '../Form';
-import UsersList from './UsersList';
+import { ManageUsers } from '../components/Form';
+import UsersList from '../components/Users/UsersList';
 
 /**
- * Users Component - Component that generates Users section for PASS
+ * UserSection Page - Page that generates ManageUser and UserList components for
+ * PASS
  *
- * @memberof GlobalComponents
+ * @memberof Pages
  * @name UserSection
  */
 
