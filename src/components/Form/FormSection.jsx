@@ -32,7 +32,6 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
         justifyContent: 'center',
         alignItems: 'center'
       }}
-      
     >
       <Paper
         elevation={2}

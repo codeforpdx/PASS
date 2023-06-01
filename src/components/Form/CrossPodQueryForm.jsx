@@ -104,7 +104,7 @@ const CrossPodQueryForm = () => {
           <InputLabel id="cross-search-doctype">
             <em>Select Document Type</em>
           </InputLabel>
-          <FormControl>
+          <FormControl fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
