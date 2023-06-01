@@ -71,7 +71,7 @@ const FetchDocumentForm = () => {
           <InputLabel id="search-doctype">
             <em>Select Document Type</em>
           </InputLabel>
-          <FormControl fullWidth>
+          <FormControl>
             <DocumentSelection htmlId="search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">

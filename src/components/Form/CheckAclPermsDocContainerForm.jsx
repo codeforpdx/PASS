@@ -108,7 +108,7 @@ const CheckAclPermsDocContainerForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl fullWidth>
+          <FormControl>
             <TextField
               id="set-acl-to"
               name="setAclTo"
