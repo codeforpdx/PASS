@@ -3,4 +3,9 @@ const UPLOAD_TYPES = {
   CROSS: 'cross'
 };
 
-export default UPLOAD_TYPES;
+const FETCH_TYPES = {
+  SELF: 'self-fetch',
+  CROSS: 'cross-fetch'
+};
+
+export { UPLOAD_TYPES, FETCH_TYPES };
