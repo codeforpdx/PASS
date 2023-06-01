@@ -2,6 +2,16 @@
 import React, { useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 // Utility Imports
 import {
   SOLID_IDENTITY_PROVIDER,
@@ -107,10 +117,6 @@ const SetAclPermsDocContainerForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -119,30 +125,43 @@ const SetAclPermsDocContainerForm = () => {
       statusType="Permission status"
       defaultMessage="To be set..."
     >
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to username: </label>
-          <br />
-          <br />
-          <input
-            id="set-acl-to"
-            size="25"
-            name="setAclTo"
-            {...username}
-            placeholder={selectedUser}
-          />
-        </div>
-        <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
-        <button disabled={state.processing} type="submit">
-          Set Permission
-        </button>
-      </form>
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleAclPermission} autoComplete="off">
+          <FormControl fullWidth>
+            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
+            <TextField
+              id="set-acl-to"
+              name="setAclTo"
+              {...username}
+              placeholder={selectedUser}
+              label="Search username"
+              required
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <FormLabel id="set-acl-perm-label">Select permission setting:</FormLabel>
+            <RadioGroup row aria-labelledby="set-acl-perm-label" name="set-acl-perm">
+              <FormControlLabel
+                value="Give"
+                control={<Radio />}
+                label="Give"
+                id="set-acl-perm-give"
+                name="setAclPerms"
+              />
+              <FormControlLabel
+                value="Revoke"
+                control={<Radio />}
+                label="Revoke"
+                id="set-acl-perm-revoke"
+                name="setAclPerms"
+              />
+            </RadioGroup>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Set Permission
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
