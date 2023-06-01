@@ -16,7 +16,7 @@ import {
   removeThing,
   getDatetime
 } from '@inrupt/solid-client';
-import { RDF_PREDICATES, UPLOAD_TYPES, FETCH_TYPES } from '../../constants';
+import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
   placeFileInContainer,
@@ -71,7 +71,7 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  */
 
 export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
-  const documentUrl = getContainerUrl(session, fileType, FETCH_TYPES.SELF);
+  const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
   const webId = `https://${otherPodUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
@@ -92,7 +92,7 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  */
 
 export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Documents', FETCH_TYPES.SELF);
+  const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   const urlsToSet = [
     containerUrl,
     `${containerUrl}Bank%20Statement/`,
@@ -144,10 +144,10 @@ export const uploadDocument = async (
   const fileName = fileObject.file.name;
 
   let containerUrl;
-  if (uploadType === UPLOAD_TYPES.SELF) {
-    containerUrl = getContainerUrl(session, fileObject.type, FETCH_TYPES.SELF);
+  if (uploadType === INTERACTION_TYPES.SELF) {
+    containerUrl = getContainerUrl(session, fileObject.type, INTERACTION_TYPES.SELF);
   } else {
-    containerUrl = getContainerUrl(session, 'Documents', FETCH_TYPES.CROSS, otherPodUsername);
+    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
     containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '%20')}/`;
   }
 
@@ -189,7 +189,7 @@ export const uploadDocument = async (
     });
   }
 
-  if (uploadType === UPLOAD_TYPES.SELF) {
+  if (uploadType === INTERACTION_TYPES.SELF) {
     // Generate ACL file for new container
     await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
   }
@@ -215,10 +215,10 @@ export const uploadDocument = async (
 export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
   let containerUrl;
   const fileName = fileObject.file.name;
-  if (uploadType === UPLOAD_TYPES.SELF) {
-    containerUrl = getContainerUrl(session, fileObject.type, FETCH_TYPES.SELF);
+  if (uploadType === INTERACTION_TYPES.SELF) {
+    containerUrl = getContainerUrl(session, fileObject.type, INTERACTION_TYPES.SELF);
   } else {
-    containerUrl = getContainerUrl(session, 'Documents', FETCH_TYPES.CROSS, otherPodUsername);
+    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
     containerUrl = `${containerUrl}${fileObject.type.replace(' ', '%20')}/`;
   }
 
@@ -315,7 +315,7 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  */
 
 export const deleteDocumentFile = async (session, fileType) => {
-  const documentUrl = getContainerUrl(session, fileType, FETCH_TYPES.SELF);
+  const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
 
   const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
 
@@ -357,7 +357,7 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  */
 
 export const createDocumentContainer = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Documents', FETCH_TYPES.SELF);
+  const userContainerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
@@ -416,7 +416,7 @@ export const createDocumentContainer = async (session) => {
  */
 
 export const generateUsersList = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', FETCH_TYPES.SELF);
+  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
@@ -492,7 +492,7 @@ export const getUserListActivity = async (session, userList) => {
  */
 
 export const getUsersFromPod = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', FETCH_TYPES.SELF);
+  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
   let userList = [];
   try {
     const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
@@ -530,7 +530,7 @@ export const getUsersFromPod = async (session) => {
  */
 
 export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', FETCH_TYPES.SELF);
+  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
   });
@@ -564,7 +564,7 @@ export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) 
  */
 
 export const addUserToPod = async (session, userObject) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', FETCH_TYPES.SELF);
+  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
 
   let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
     fetch: session.fetch
@@ -680,7 +680,7 @@ export const updateUserActivity = async (session) => {
  */
 
 export const getInboxMessageTTL = async (session, inboxList) => {
-  const inboxContainerUrl = getContainerUrl(session, 'Inbox', FETCH_TYPES.SELF);
+  const inboxContainerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
   let messageList = [];
   try {
     const solidDataset = await getSolidDataset(inboxContainerUrl, {
@@ -742,8 +742,13 @@ export const getInboxMessageTTL = async (session, inboxList) => {
 
 export const sendMessageTTL = async (session, messageObject) => {
   const { title, message, recipientUsername } = messageObject;
-  const containerUrl = getContainerUrl(session, 'Inbox', FETCH_TYPES.CROSS, recipientUsername);
-  const inboxUrl = getContainerUrl(session, 'Inbox', FETCH_TYPES.SELF);
+  const containerUrl = getContainerUrl(
+    session,
+    'Inbox',
+    INTERACTION_TYPES.CROSS,
+    recipientUsername
+  );
+  const inboxUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
 
   const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
   const recipientWebId = `https://${recipientUsername}.${
@@ -808,7 +813,7 @@ export const sendMessageTTL = async (session, messageObject) => {
  */
 
 export const createOutbox = async (session) => {
-  const outboxContainerUrl = getContainerUrl(session, 'Outbox', FETCH_TYPES.SELF);
+  const outboxContainerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
   await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
 
   // Generate ACL file for container

@@ -148,8 +148,8 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
+ * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
+ * other Pods, or "cross")
  * @param {URL} otherPodUsername - Username to other user's Pod or empty string
  * @returns {URL|null} url or null - A url of where the container that stores
  * the file is located in or null, if container doesn't exist
@@ -157,7 +157,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
 
 export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
   const POD_URL =
-    fetchType === 'self-fetch'
+    fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
       : `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
 

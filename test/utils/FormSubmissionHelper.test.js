@@ -5,7 +5,7 @@ import {
   uploadDocument,
   updateDocument
 } from '../../src/utils';
-import { UPLOAD_TYPES } from '../../src/constants';
+import { INTERACTION_TYPES } from '../../src/constants';
 
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
@@ -33,7 +33,7 @@ describe('FormSubmissionHelper', async () => {
       file: null
     };
     const mockHandleSubmit = makeHandleFormSubmission(
-      UPLOAD_TYPES.SELF,
+      INTERACTION_TYPES.SELF,
       stateMock,
       dispatchMock,
       sessionMock,
@@ -69,7 +69,7 @@ describe('FormSubmissionHelper', async () => {
       }
     };
     const mockHandleSubmit = makeHandleFormSubmission(
-      UPLOAD_TYPES.SELF,
+      INTERACTION_TYPES.SELF,
       stateMock,
       dispatchMock,
       sessionMock,
