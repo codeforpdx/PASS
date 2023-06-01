@@ -8,6 +8,7 @@ import {
   saveSolidDatasetAt,
   getStringNoLocale,
   getUrl,
+  getDatetime,
   removeThing,
   getPodUrlAll
 } from '@inrupt/solid-client';
@@ -44,26 +45,6 @@ const createUsersList = async (session, usersListUrl) => {
   return usersListDataset;
 };
 
-/**
- * Fetch users list from user's pod.
- * If the list does not exist, create it.
- *
- * @memberof utils
- * @function fetchUsersList
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - Url of pod to fetch data from
- * @returns {Promise} Promise - resolves to a users list object
- */
-export const fetchUsersList = async (session, podUrl) => {
-  const usersListUrl = `${podUrl}Users/userlist.ttl`;
-
-  try {
-    await getSolidDataset(usersListUrl, { fetch: session.fetch });
-  } catch {
-    await createUsersList(session, usersListUrl);
-  }
-};
-
 const parseUserObjectFromThing = (userThing) => {
   const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
@@ -85,10 +66,10 @@ const parseUserObjectFromThing = (userThing) => {
  */
 
 export const getUsersFromPod = async (session, podUrl) => {
-  const userContainerUrl = `${podUrl}Users/`;
+  const userListUrl = `${podUrl}Users/userlist.ttl`;
   let userList = [];
   try {
-    const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
+    const solidDataset = await getSolidDataset(userListUrl, {
       fetch: session.fetch
     });
 
@@ -101,6 +82,7 @@ export const getUsersFromPod = async (session, podUrl) => {
       userList.push(userObject);
     });
   } catch {
+    await createUsersList(session, userListUrl);
     userList = [];
   }
 
@@ -187,4 +169,72 @@ export const addUserToPod = async (session, userObject, podUrl) => {
 
   const userList = await getUsersFromPod(session, podUrl);
   return userList;
+};
+
+/**
+ * Function that fetches a user's last active time on their Solid Pod
+ *
+ * @memberof utils
+ * @function getUserListActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {userListObject[]} userList - An array of {@link userListObject}
+ * which stores the name and their Pod URL
+ * @returns {Promise<userListObject[]>} Promise - An array of users with last active
+ * time included to user list
+ */
+
+export const getUserListActivity = async (session, userList) => {
+  const userListWithTime = await Promise.all(
+    userList.map(async (user) => {
+      try {
+        const solidDataset = await getSolidDataset(`${user.podUrl}public/active.ttl`, {
+          fetch: session.fetch
+        });
+        const activeTTLThing = getThingAll(solidDataset)[0];
+        const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
+        const updatedUser = user;
+        updatedUser.dateModified = lastActiveTime;
+        return updatedUser;
+      } catch {
+        return user;
+      }
+    })
+  );
+
+  return userListWithTime;
+};
+
+/**
+ * Function that updates a user's last active time on Solid Pod
+ *
+ * @memberof utils
+ * @function updateUserActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ */
+
+export const updateUserActivity = async (session, podUrl) => {
+  const activityDocUrl = `${podUrl}public/active.ttl`;
+  let activityDataset;
+
+  const updateAndSaveActivity = async () => {
+    const activity = buildThing(createThing({ name: 'active' }))
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
+    activityDataset = setThing(activityDataset, activity);
+
+    await saveSolidDatasetAt(activityDocUrl, activityDataset, {
+      fetch: session.fetch
+    });
+  };
+
+  try {
+    activityDataset = await getSolidDataset(activityDocUrl, { fetch: session.fetch });
+    await updateAndSaveActivity();
+  } catch {
+    activityDataset = createSolidDataset();
+    await updateAndSaveActivity();
+    await setDocAclForUser(session, activityDocUrl, 'create', session.info.webId);
+  }
 };

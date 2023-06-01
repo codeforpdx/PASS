@@ -10,7 +10,6 @@ import {
   deleteFile,
   overwriteFile,
   getThingAll,
-  saveSolidDatasetAt,
   getDatetime,
   getStringNoLocale
 } from '@inrupt/solid-client';
@@ -401,105 +400,6 @@ export const createDocumentContainer = async (session, podUrl) => {
 };
 
 /*
-  User Activity Section
-
-  Functions here deal primarily with user activity on PASS
-*/
-
-/**
- * Function that fetches a user's last active time on their Solid Pod
- *
- * @memberof utils
- * @function getUserListActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {userListObject[]} userList - An array of {@link userListObject}
- * which stores the name and their Pod URL
- * @returns {Promise<userListObject[]>} Promise - An array of users with last active
- * time included to user list
- */
-
-export const getUserListActivity = async (session, userList) => {
-  const userListWithTime = await Promise.all(
-    userList.map(async (user) => {
-      try {
-        const solidDataset = await getSolidDataset(`${user.podUrl}public/active.ttl`, {
-          fetch: session.fetch
-        });
-        const activeTTLThing = getThingAll(solidDataset)[0];
-        const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
-        const updatedUser = user;
-        updatedUser.dateModified = lastActiveTime;
-        return updatedUser;
-      } catch {
-        return user;
-      }
-    })
-  );
-
-  return userListWithTime;
-};
-
-/**
- * Function that creates an active.ttl file inside public container to store
- * only the time of the latest user's activity
- *
- * @memberof utils
- * @function fetchUserActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Generates active.ttl inside public which stores
- * the time of their latest activity on their Pod through PASS
- */
-
-export const fetchUserActivity = async (session, podUrl) => {
-  const activityHistoryUrl = `${podUrl}public/active.ttl`;
-  try {
-    await getSolidDataset(activityHistoryUrl, { fetch: session.fetch });
-  } catch {
-    const newTtlFile = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetAt(activityHistoryUrl, newSolidDataset, {
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, activityHistoryUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that updates a user's last active time on Solid Pod
- *
- * @memberof utils
- * @function updateUserActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
- */
-
-export const updateUserActivity = async (session, podUrl) => {
-  const publicContainerUrl = `${podUrl}public/`;
-  let solidDataset = await getSolidDataset(`${publicContainerUrl}active.ttl`, {
-    fetch: session.fetch
-  });
-
-  let ttlFileThing = getThingAll(solidDataset)[0];
-  ttlFileThing = buildThing(ttlFileThing)
-    .setDatetime(RDF_PREDICATES.dateModified, new Date())
-    .build();
-  solidDataset = setThing(solidDataset, ttlFileThing);
-
-  await saveSolidDatasetAt(`${publicContainerUrl}active.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-};
-
-/*
   User Inbox Section
 
   Functions here deal primarily with user inbox/outbox on PASS
@@ -647,8 +547,11 @@ export const sendMessageTTL = async (session, messageObject) => {
 
 export const createOutbox = async (session) => {
   const outboxContainerUrl = getContainerUrl(session, 'Outbox', 'self-fetch');
-  await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+  try {
+    await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+  } catch {
+    return;
+  }
 
-  // Generate ACL file for container
   await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
 };

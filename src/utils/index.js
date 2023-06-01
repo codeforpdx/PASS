@@ -17,23 +17,21 @@ import {
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
-  fetchUserActivity,
-  updateUserActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
   createOutbox,
-  getInboxMessageTTL,
-  getUserListActivity
+  getInboxMessageTTL
 } from './network/session-core';
 import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 import {
-  fetchUsersList,
   getUsersFromPod,
   deleteUserFromPod,
-  addUserToPod
+  addUserToPod,
+  updateUserActivity,
+  getUserListActivity
 } from './user-list-helpers';
 
 export {
@@ -48,7 +46,6 @@ export {
   deleteDocumentFile,
   setDocAclPermission,
   getUserListActivity,
-  fetchUserActivity,
   updateUserActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
@@ -57,7 +54,6 @@ export {
   makeHandleFormSubmission,
   createOutbox,
   getInboxMessageTTL,
-  fetchUsersList,
   getUsersFromPod,
   deleteUserFromPod,
   addUserToPod
