@@ -1,6 +1,5 @@
 // React Imports
 import React, { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -18,13 +17,9 @@ import {
 import { useRedirectUrl } from './hooks';
 // Context Imports
 import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
-// Page Imports
-import Home from './routes/Home';
 // Component Imports
-import Forms from './components/Forms';
-import { Inbox } from './components/Inbox';
-import { UserSection } from './components/Users';
 import Layout from './layouts/Layouts';
+import AppRoutes from './AppRoutes';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -113,50 +108,12 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContext.Provider value={userListObject}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <Routes>
-              <Route
-                exact
-                path="/PASS/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Navigate
-                      to={
-                        !localStorage.getItem('restorePath')
-                          ? '/PASS/home'
-                          : localStorage.getItem('restorePath')
-                      }
-                    />
-                  ) : (
-                    <Home />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/home"
-                element={
-                  session.info.isLoggedIn ? (
-                    <UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/forms"
-                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-              />
-              <Route
-                path="/PASS/inbox"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Inbox loadMessages={loadMessages} />
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route path="*" element={<Navigate to="/PASS/" />} />
-            </Routes>
+            <AppRoutes
+              isLoggedIn={session.info.isLoggedIn}
+              loadingUsers={loadingUsers}
+              loadingActive={loadingActive}
+              loadMessages={loadMessages}
+            />
           </InboxMessageContext.Provider>
         </UserListContext.Provider>
       </SelectUserContext.Provider>
