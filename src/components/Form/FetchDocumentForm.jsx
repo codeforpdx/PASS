@@ -66,7 +66,7 @@ const FetchDocumentForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <Box display="flex" justifyContent="center" sx={{ minWidth: 120 }}>
+      <Box display="flex" justifyContent="center">
         <form onSubmit={handleGetDocumentSubmission}>
           <InputLabel id="search-doctype">
             <em>Select Document Type</em>
