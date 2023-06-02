@@ -11,6 +11,8 @@ import FormControl from '@mui/material/FormControl';
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
+// Constants Imports
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -34,7 +36,7 @@ const FetchDocumentForm = () => {
     const docType = event.target.document.value;
 
     try {
-      const documentUrl = await getDocuments(session, docType, 'self-fetch');
+      const documentUrl = await getDocuments(session, docType, INTERACTION_TYPES.SELF);
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
