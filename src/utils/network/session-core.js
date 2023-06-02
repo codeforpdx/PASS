@@ -10,11 +10,8 @@ import {
   deleteFile,
   overwriteFile,
   getThingAll,
-  saveSolidDatasetAt,
-  getStringNoLocale,
-  getUrl,
-  removeThing,
-  getDatetime
+  getDatetime,
+  getStringNoLocale
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
 import {
@@ -69,7 +66,6 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-
 export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
   const webId = `https://${otherPodUsername}.${
@@ -90,7 +86,6 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
-
 export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
   const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   const urlsToSet = [
@@ -132,8 +127,6 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
  * username of the other user, set to an empty string by default
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
-
-// Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (
   session,
   uploadType,
@@ -211,7 +204,6 @@ export const uploadDocument = async (
  * Pod and updates the file if accepted, or if file doesn't exist, uploads a new
  * file to Solid Pod if accepted
  */
-
 export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
   let containerUrl;
   const fileName = fileObject.file.name;
@@ -258,7 +250,6 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
  * @returns {Promise<URL>} Promise - Either a string containing the url location of
  * the document, if exist, or throws an Error
  */
-
 export const getDocuments = async (session, fileType, fetchType, otherPodUsername = '') => {
   const documentUrl = getContainerUrl(session, fileType, fetchType, otherPodUsername);
 
@@ -278,15 +269,10 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * @memberof utils
  * @function checkContainerPermission
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
- * other Pods, or "cross")
- * @param {string} [otherPodUsername] - Username to other user's Pod (set to empty
- * string by default)
+ * @param {string} otherPodUsername - Username to other user's Pod
  * @returns {Promise<URL>} Promise - Either a string containing the url location
  * of the container, if permitted, or throws an Error
  */
-
 export const checkContainerPermission = async (session, otherPodUsername) => {
   const documentsContainerUrl = `https://${otherPodUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
@@ -313,7 +299,6 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  * response on whether document file is deleted, if exist, then deletes all
  * existing files within it
  */
-
 export const deleteDocumentFile = async (session, fileType) => {
   const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
 
@@ -342,7 +327,6 @@ export const deleteDocumentFile = async (session, fileType) => {
  * @returns {Promise} Promise - Perform action that deletes container completely
  * from Pod
  */
-
 export const deleteDocumentContainer = async (session, documentUrl) => {
   await deleteContainer(documentUrl, { fetch: session.fetch });
 };
@@ -356,8 +340,8 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  * documents being uploaded by authorized users
  */
 
-export const createDocumentContainer = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
+export const createDocumentContainer = async (session, podUrl) => {
+  const userContainerUrl = `${podUrl}Documents/`;
   await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
@@ -399,269 +383,6 @@ export const createDocumentContainer = async (session) => {
 };
 
 /*
-  User List Section
-
-  Functions here deal primarily with the user list from Solid Pod and from PASS
-*/
-
-/**
- * Function that creates a Users container in the user's Pod when logging in for
- * the first time and creates a userlist.ttl file inside to store a users list
- *
- * @memberof utils
- * @function generateUsersList
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Generates a users list for Pod upon log in if
- * user's Pod does not have the container Users with userlist.ttl to begin with
- */
-
-export const generateUsersList = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
-  await createContainerAt(userContainerUrl, { fetch: session.fetch });
-
-  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
-
-  if (!ttlFileExists) {
-    const newTtlFile = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
-      .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
-      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}userlist.ttl`)
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-      slugSuggestion: 'userlist.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that fetches a user's last active time on their Solid Pod
- *
- * @memberof utils
- * @function getUserListActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {userListObject[]} userList - An array of {@link userListObject}
- * which stores the name and their Pod URL
- * @returns {Promise<userListObject[]>} Promise - An array of users with last active
- * time included to user list
- */
-
-export const getUserListActivity = async (session, userList) => {
-  const userListWithTime = await Promise.all(
-    userList.map(async (user) => {
-      try {
-        const solidDataset = await getSolidDataset(
-          `${user.podUrl.split('profile')[0]}public/active.ttl`,
-          {
-            fetch: session.fetch
-          }
-        );
-        const activeTTLThing = getThingAll(solidDataset)[0];
-        const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
-        const updatedUser = user;
-        updatedUser.dateModified = lastActiveTime;
-        return updatedUser;
-      } catch {
-        return user;
-      }
-    })
-  );
-
-  return userListWithTime;
-};
-
-/**
- * Function that gets a list of users from their Solid Pod stored inside the
- * Solid container named User
- *
- * @memberof utils
- * @function getUsersFromPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise<userListObject[]>} Promise - An array of users from their
- * Pod into PASS, if users list exist
- */
-
-export const getUsersFromPod = async (session) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
-  let userList = [];
-  try {
-    const solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-      fetch: session.fetch
-    });
-
-    const ttlFileThing = getThingAll(solidDataset);
-    const allUsersThing = ttlFileThing.filter((thing) => !thing.url.includes('#userlist'));
-    allUsersThing.forEach((userThing) => {
-      const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
-      const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
-      const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
-      const podUrl = getUrl(userThing, RDF_PREDICATES.url);
-
-      userList.push({ person, givenName, familyName, podUrl });
-    });
-  } catch {
-    userList = [];
-  }
-
-  return userList;
-};
-
-/**
- * Function that removes a user from the users list from their Solid Pod stored
- * inside the Solid container named User
- *
- * @memberof utils
- * @function deleteUserFromPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} userToDelete - Name of user to be removed from list
- * @param {URL} userToDeleteUrl - URL of the user's Pod you wish to delete
- * @returns {Promise<userListObject[]>} userList - Removes user with userToDeleteUrl
- * from users list in their Solid Pod and returns userList
- */
-
-export const deleteUserFromPod = async (session, userToDelete, userToDeleteUrl) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
-  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-    fetch: session.fetch
-  });
-  const ttlFileThing = getThingAll(solidDataset);
-  const usernameString = userToDeleteUrl.split('.')[0].split('/')[2];
-  const userToDeleteThing = ttlFileThing.find((thing) =>
-    thing.url.includes(`#${userToDelete.replace(' ', '%20')}%20${usernameString}`)
-  );
-
-  solidDataset = removeThing(solidDataset, userToDeleteThing);
-
-  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-
-  const userList = await getUsersFromPod(session);
-  return userList;
-};
-
-/**
- * Function that adds a user from the users list from their Solid Pod stored
- * inside the Solid container named User, or create the container User with the
- * user if container doesn't exist to begin with
- *
- * @memberof utils
- * @function addUserToPod
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {object} userObject - Object containing the user's name and Pod URL
- * @returns {Promise<userListObject[]>} userList - Adds users with their Pod URL
- * onto users list in their Solid Pod and returns userList
- */
-
-export const addUserToPod = async (session, userObject) => {
-  const userContainerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
-
-  let solidDataset = await getSolidDataset(`${userContainerUrl}userlist.ttl`, {
-    fetch: session.fetch
-  });
-
-  const podUrl = `https://${userObject.username}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
-
-  const newUserThing = buildThing(
-    createThing({ name: `${userObject.givenName} ${userObject.username}` })
-  )
-    .addStringNoLocale(RDF_PREDICATES.Person, `${userObject.givenName} ${userObject.familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, userObject.givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, userObject.familyName)
-    .addUrl(RDF_PREDICATES.url, podUrl)
-    .build();
-
-  solidDataset = setThing(solidDataset, newUserThing);
-
-  await saveSolidDatasetAt(`${userContainerUrl}userlist.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-
-  const userList = await getUsersFromPod(session);
-  return userList;
-};
-
-/*
-  User Activity Section
-
-  Functions here deal primarily with user activity on PASS
-*/
-
-/**
- * Function that creates an active.ttl file inside public container to store
- * only the time of the latest user's activity
- *
- * @memberof utils
- * @function generateActivtyTTL
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Generates active.ttl inside public which stores
- * the time of their latest activity on their Pod through PASS
- */
-
-export const generateActivityTTL = async (session) => {
-  const POD_URL = String(session.info.webId.split('profile')[0]);
-  const publicContainerUrl = `${POD_URL}public/`;
-  const datasetFromUrl = await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
-
-  if (!ttlFileExists) {
-    const newTtlFile = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(publicContainerUrl, newSolidDataset, {
-      slugSuggestion: 'active.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that updates a user's last active time on Solid Pod
- *
- * @memberof utils
- * @function updateUserActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
- */
-
-export const updateUserActivity = async (session) => {
-  const POD_URL = String(session.info.webId.split('profile')[0]);
-  const publicContainerUrl = `${POD_URL}public/`;
-  let solidDataset = await getSolidDataset(`${publicContainerUrl}active.ttl`, {
-    fetch: session.fetch
-  });
-
-  let ttlFileThing = getThingAll(solidDataset)[0];
-  ttlFileThing = buildThing(ttlFileThing)
-    .setDatetime(RDF_PREDICATES.dateModified, new Date())
-    .build();
-  solidDataset = setThing(solidDataset, ttlFileThing);
-
-  await saveSolidDatasetAt(`${publicContainerUrl}active.ttl`, solidDataset, {
-    fetch: session.fetch
-  });
-};
-
-/*
   User Inbox Section
 
   Functions here deal primarily with user inbox/outbox on PASS
@@ -678,7 +399,6 @@ export const updateUserActivity = async (session) => {
  * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
  */
-
 export const getInboxMessageTTL = async (session, inboxList) => {
   const inboxContainerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
   let messageList = [];
@@ -739,7 +459,6 @@ export const getInboxMessageTTL = async (session, inboxList) => {
  * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
  * saves a copy on your inbox
  */
-
 export const sendMessageTTL = async (session, messageObject) => {
   const { title, message, recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(
@@ -811,11 +530,9 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
-
 export const createOutbox = async (session) => {
   const outboxContainerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
   await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
 
-  // Generate ACL file for container
   await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
 };
