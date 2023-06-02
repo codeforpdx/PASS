@@ -5,8 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Styling Import
 import styled from 'styled-components';
 // Utility Imports
-import { sendMessageTTL } from '../../utils';
-import { getMessageTTL } from '../../utils/network/session-core';
+import { sendMessageTTL, getMessageTTL } from '../../utils';
 
 /**
  * New Message Component - Component that allows user to write

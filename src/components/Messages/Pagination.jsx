@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 // Styling Imports
 import styled from 'styled-components';
-// Unique ID import
+// Other Library Imports
 import { v4 as uuidv4 } from 'uuid';
 // Component Imports
 import MessagePreview from './MessagePreview';
