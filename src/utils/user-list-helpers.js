@@ -50,7 +50,7 @@ const parseUserObjectFromThing = (userThing) => {
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
   const webId = getUrl(userThing, RDF_PREDICATES.identifier);
-  const podUrl = getUrl(userThing, RDF_PREDICATES.url);
+  const podUrl = getUrl(userThing, RDF_PREDICATES.URL);
   return { person, givenName, familyName, webId, podUrl };
 };
 
@@ -186,14 +186,14 @@ export const addUserToPod = async (session, userObject, podUrl) => {
 export const getUserListActivity = async (session, userList) => {
   const userListWithTime = await Promise.all(
     userList.map(async (user) => {
+      const activityUrl = `${user.podUrl}public/active.ttl`;
       try {
-        const solidDataset = await getSolidDataset(`${user.podUrl}public/active.ttl`, {
+        const solidDataset = await getSolidDataset(activityUrl, {
           fetch: session.fetch
         });
-        const activeTTLThing = getThingAll(solidDataset)[0];
-        const lastActiveTime = getDatetime(activeTTLThing, RDF_PREDICATES.dateModified);
+        const activeThing = getThingAll(solidDataset)[0];
         const updatedUser = user;
-        updatedUser.dateModified = lastActiveTime;
+        updatedUser.dateModified = getDatetime(activeThing, RDF_PREDICATES.dateModified);
         return updatedUser;
       } catch {
         return user;
@@ -235,6 +235,25 @@ export const updateUserActivity = async (session, podUrl) => {
   } catch {
     activityDataset = createSolidDataset();
     await updateAndSaveActivity();
-    await setDocAclForUser(session, activityDocUrl, 'create', session.info.webId);
+    const accessObject = {
+      read: true,
+      append: true,
+      write: true,
+      control: true
+    };
+    const publicAccessObject = {
+      read: true,
+      append: false,
+      write: false,
+      control: false
+    };
+    await setDocAclForUser(
+      session,
+      activityDocUrl,
+      'create',
+      session.info.webId,
+      accessObject,
+      publicAccessObject
+    );
   }
 };
