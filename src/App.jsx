@@ -9,9 +9,9 @@ import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { 
+import {
   InboxMessageContext,
-  OutboxMessageContext, 
+  OutboxMessageContext,
   SelectUserContext,
   UserListContextProvider
 } from './contexts';
