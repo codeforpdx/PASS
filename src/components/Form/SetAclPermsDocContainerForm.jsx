@@ -127,7 +127,7 @@ const SetAclPermsDocContainerForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl fullWidth>
+          <FormControl>
             <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
             <TextField
               id="set-acl-to"
@@ -138,7 +138,8 @@ const SetAclPermsDocContainerForm = () => {
               required
             />
           </FormControl>
-          <FormControl>
+          <br />
+          <FormControl fullWidth>
             <FormLabel id="set-acl-perm-label">Select permission setting:</FormLabel>
             <RadioGroup row aria-labelledby="set-acl-perm-label" name="set-acl-perm">
               <FormControlLabel
