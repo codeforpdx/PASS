@@ -193,10 +193,10 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
  * @param {string} webId - Solid webId
  * @param {Access} accessObject - Solid Access Object which sets ACL permission
  * for read, append, write, and control (see {@link Access})
+ * @param {Access} [publicAccessObject] - Access Object to set public permissions
  * @returns {AclDataset} - Solid Session Dataset with updated ACL file (see
  * {@link AclDataset})
  */
-
 export const setupAcl = (resourceWithAcl, webId, accessObject, publicAccessObject = null) => {
   // setAgentResourceAccess will set ACL for resource and setAgentDefaultAcess
   // will set ACL for resource container
@@ -217,12 +217,11 @@ export const setupAcl = (resourceWithAcl, webId, accessObject, publicAccessObjec
  * @param {URL} documentUrl - Url link to document container
  * @param {string} generateType - A string for "create" or "update"
  * @param {URL} webId - The webId of the user permissions are set to
- * @param {Access} accessObject - Access Object to set user permissions
- * @param {Access} publicAccessObject - Access Object to set public permissions
+ * @param {Access} [accessObject] - Access Object to set user permissions
+ * @param {Access} [publicAccessObject] - Access Object to set public permissions
  * @returns {Promise} Promise - Generates ACL file for container and give user
  * access and control to it and its contents
  */
-
 export const setDocAclForUser = async (
   session,
   documentUrl,

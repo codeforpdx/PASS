@@ -66,7 +66,6 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-
 export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
   const webId = `https://${otherPodUsername}.${
@@ -87,7 +86,6 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
-
 export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
   const containerUrl = getContainerUrl(session, 'Documents', 'self-fetch');
   const urlsToSet = [
@@ -129,8 +127,6 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
  * username of the other user, set to an empty string by default
  * @returns {Promise} Promise - File upload is handled via Solid libraries
  */
-
-// Main function to upload document to user's Pod on Solid
 export const uploadDocument = async (
   session,
   uploadType,
@@ -208,7 +204,6 @@ export const uploadDocument = async (
  * Pod and updates the file if accepted, or if file doesn't exist, uploads a new
  * file to Solid Pod if accepted
  */
-
 export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
   let containerUrl;
   const fileName = fileObject.file.name;
@@ -255,7 +250,6 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
  * @returns {Promise<URL>} Promise - Either a string containing the url location of
  * the document, if exist, or throws an Error
  */
-
 export const getDocuments = async (session, fileType, fetchType, otherPodUsername = '') => {
   const documentUrl = getContainerUrl(session, fileType, fetchType, otherPodUsername);
 
@@ -283,7 +277,6 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * @returns {Promise<URL>} Promise - Either a string containing the url location
  * of the container, if permitted, or throws an Error
  */
-
 export const checkContainerPermission = async (session, otherPodUsername) => {
   const documentsContainerUrl = `https://${otherPodUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
@@ -310,7 +303,6 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  * response on whether document file is deleted, if exist, then deletes all
  * existing files within it
  */
-
 export const deleteDocumentFile = async (session, fileType) => {
   const documentUrl = getContainerUrl(session, fileType, 'self-fetch');
 
@@ -339,7 +331,6 @@ export const deleteDocumentFile = async (session, fileType) => {
  * @returns {Promise} Promise - Perform action that deletes container completely
  * from Pod
  */
-
 export const deleteDocumentContainer = async (session, documentUrl) => {
   await deleteContainer(documentUrl, { fetch: session.fetch });
 };
@@ -355,11 +346,7 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
 
 export const createDocumentContainer = async (session, podUrl) => {
   const userContainerUrl = `${podUrl}Documents/`;
-  try {
-    await createContainerAt(userContainerUrl, { fetch: session.fetch });
-  } catch {
-    return;
-  }
+  await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
   const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
@@ -416,7 +403,6 @@ export const createDocumentContainer = async (session, podUrl) => {
  * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
  */
-
 export const getInboxMessageTTL = async (session, inboxList) => {
   const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
   let messageList = [];
@@ -477,7 +463,6 @@ export const getInboxMessageTTL = async (session, inboxList) => {
  * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
  * saves a copy on your inbox
  */
-
 export const sendMessageTTL = async (session, messageObject) => {
   const { title, message, recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(session, 'Inbox', 'cross-fetch', recipientUsername);
@@ -544,14 +529,9 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
-
 export const createOutbox = async (session) => {
   const outboxContainerUrl = getContainerUrl(session, 'Outbox', 'self-fetch');
-  try {
-    await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
-  } catch {
-    return;
-  }
+  await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
 
   await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
 };
