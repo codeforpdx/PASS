@@ -27,7 +27,7 @@ describe('FormSubmissionHelper', async () => {
       uploadDocument: vi.fn()
     }));
     vi.mock('../../src/utils/frontend/notification-helper', () => ({
-      runNotification: vi.fn()
+      default: vi.fn()
     }));
     const stateMock = {
       file: null
@@ -61,7 +61,7 @@ describe('FormSubmissionHelper', async () => {
       uploadDocument: vi.fn()
     }));
     vi.mock('../../src/utils/frontend/notification-helper', () => ({
-      runNotification: vi.fn()
+      default: vi.fn()
     }));
     const stateMock = {
       file: {

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { getPodUrlAll } from '@inrupt/solid-client';
-import { LoadUserList, addUser, removeUser } from '../models';
+import { LoadUserList, addUser, removeUser } from '../model-helpers';
 
 /**
  * @typedef {import("../typedefs").userListObject} userListObject

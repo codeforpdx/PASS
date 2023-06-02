@@ -30,7 +30,7 @@ import { parseUserFromThing, makeUserIntoThing } from './User';
  *
  * @memberof UserList
  * @function makeIntoDataset
- * @param {Array} usersList - an array of users objects to add to a dataset 
+ * @param {Array} usersList - an array of users objects to add to a dataset
  * @param {import('@inrupt/solid-client').SolidDataset} dataset - dataset to convert to array
  * @returns {object} An new userListObject containing any updates
  */

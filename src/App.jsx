@@ -5,16 +5,11 @@ import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { createDocumentContainer, createOutbox, getInboxMessageTTL } from './utils';
-import { updateUserActivity } from './models';
+import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import {
-  InboxMessageContext,
-  SelectUserContext,
-  UserListContextProvider,
-  SignedInPodContext
-} from './contexts';
+import { InboxMessageContext, SelectUserContext, UserListContextProvider } from './contexts';
 // Component Imports
 import Layout from './layouts/Layouts';
 import AppRoutes from './AppRoutes';
@@ -51,10 +46,8 @@ const App = () => {
   /** @type {userListObject[]} */
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
-  const [signedInPod, setSignedInPod] = useState('');
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-  const signedInPodMemo = useMemo(() => ({ signedInPod, setSignedInPod }), [signedInPod]);
 
   /** @type {inboxListObject[]} */
   const initialInboxList = [];
@@ -93,14 +86,12 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider session={session} setLoadingUsers={setLoadingUsers}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <SignedInPodContext.Provider value={signedInPodMemo}>
-              <AppRoutes
-                isLoggedIn={session.info.isLoggedIn}
-                loadingUsers={loadingUsers}
-                loadingActive={false}
-                loadMessages={loadMessages}
-              />
-            </SignedInPodContext.Provider>
+            <AppRoutes
+              isLoggedIn={session.info.isLoggedIn}
+              loadingUsers={loadingUsers}
+              loadingActive={false}
+              loadMessages={loadMessages}
+            />
           </InboxMessageContext.Provider>
         </UserListContextProvider>
       </SelectUserContext.Provider>

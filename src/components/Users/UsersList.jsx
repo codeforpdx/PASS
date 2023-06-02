@@ -62,34 +62,35 @@ const UsersList = ({ loadingActive }) => {
           </tr>
         </thead>
         <tbody>
-          {userListObject
-            ? userListObject.userList.map((user) => (
-                <tr key={user.webId}>
-                  <td>{user.givenName}</td>
-                  <td>{user.familyName}</td>
+          {userListObject &&
+            userListObject.userList.map((user) => (
+              <tr key={user.webId}>
+                <td>{user.givenName}</td>
+                <td>{user.familyName}</td>
+                <td>
+                  <a href={user.webId} target="_blank" rel="noreferrer">
+                    {user.webId}
+                  </a>
+                </td>
+                {loadingActive ? (
+                  <td>Loading...</td>
+                ) : (
                   <td>
-                    <a href={user.webId} target="_blank" rel="noreferrer">
-                      {user.webId}
-                    </a>
+                    {user.dateModified ? user.dateModified.toLocaleDateString() : 'Not available'}
                   </td>
-                  {loadingActive ? (
-                    <td>Loading...</td>
-                  ) : (
-                    <td>{user.dateModified ? user.dateModified.toLocaleDateString() : null}</td>
-                  )}
-                  <td>
-                    <button type="button" onClick={() => handleSelectUser(user.person, user.webId)}>
-                      select
-                    </button>
-                  </td>
-                  <td>
-                    <button type="button" onClick={() => handleDeleteUser(user)}>
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            : null}
+                )}
+                <td>
+                  <button type="button" onClick={() => handleSelectUser(user.person, user.webId)}>
+                    select
+                  </button>
+                </td>
+                <td>
+                  <button type="button" onClick={() => handleDeleteUser(user)}>
+                    delete
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </FormSection>
