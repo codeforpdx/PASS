@@ -196,16 +196,16 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
  * @param {string} webId - Solid webId
  * @param {Access} accessObject - Solid Access Object which sets ACL permission
  * for read, append, write, and control (see {@link Access})
+ * @param {Access} [publicAccessObject] - Access Object to set public permissions
  * @returns {AclDataset} - Solid Session Dataset with updated ACL file (see
  * {@link AclDataset})
  */
-
-export const setupAcl = (resourceWithAcl, webId, accessObject) => {
+export const setupAcl = (resourceWithAcl, webId, accessObject, publicAccessObject = null) => {
   // setAgentResourceAccess will set ACL for resource and setAgentDefaultAcess
   // will set ACL for resource container
   let acl = setAgentResourceAccess(resourceWithAcl, webId, accessObject);
   acl = setAgentDefaultAccess(acl, webId, accessObject);
-
+  acl = publicAccessObject ? setPublicResourceAccess(acl, publicAccessObject) : acl;
   return acl;
 };
 
@@ -220,11 +220,11 @@ export const setupAcl = (resourceWithAcl, webId, accessObject) => {
  * @param {URL} documentUrl - Url link to document container
  * @param {string} generateType - A string for "create" or "update"
  * @param {URL} webId - The webId of the user permissions are set to
- * @param {Access} accessObject - Access Object to use when creating the file
+ * @param {Access} [accessObject] - Access Object to set user permissions
+ * @param {Access} [publicAccessObject] - Access Object to set public permissions
  * @returns {Promise} Promise - Generates ACL file for container and give user
  * access and control to it and its contents
  */
-
 export const setDocAclForUser = async (
   session,
   documentUrl,
@@ -235,7 +235,8 @@ export const setDocAclForUser = async (
     append: true,
     write: true,
     control: true
-  }
+  },
+  publicAccessObject = null
 ) => {
   const podResource =
     generateType === 'create'
@@ -243,7 +244,7 @@ export const setDocAclForUser = async (
       : await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
   const resourceAcl =
     generateType === 'create' ? createAcl(podResource) : getResourceAcl(podResource);
-  const newAcl = setupAcl(resourceAcl, webId, accessObject);
+  const newAcl = setupAcl(resourceAcl, webId, accessObject, publicAccessObject);
   await saveAclFor(podResource, newAcl, { fetch: session.fetch });
 };
 

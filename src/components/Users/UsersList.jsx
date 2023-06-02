@@ -1,9 +1,7 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
+import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
@@ -20,10 +18,9 @@ import FormSection from '../Form/FormSection';
  */
 
 const UsersList = ({ loadingActive }) => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
-  const { userList, setUserList } = useContext(UserListContext);
+  const { userListObject, removeUser } = useContext(UserListContext);
 
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
@@ -32,18 +29,17 @@ const UsersList = ({ loadingActive }) => {
   };
 
   // Event handler for deleting user from users list
-  const handleDeleteUser = async (userToDeleteFullName, userToDelete, userToDeleteUrl) => {
+  const handleDeleteUser = async (user) => {
     if (
-      window.confirm(
-        `You're about to delete user ${userToDeleteFullName} from users list, do you wish to continue?`
+      !window.confirm(
+        `You're about to delete user ${user.person} from users list, do you wish to continue?`
       )
     ) {
-      runNotification(`Deleting user "${userToDeleteFullName}" from Solid...`, 3, state, dispatch);
-      let listUsers = await deleteUserFromPod(session, userToDelete, userToDeleteUrl);
-      listUsers = await getUserListActivity(session, listUsers);
-
-      setUserList(listUsers);
+      return;
     }
+    runNotification(`Deleting user "${user.person}" from Solid...`, 3, state, dispatch);
+    await removeUser(user);
+    runNotification(`User "${user.person}" deleted from Solid...`, 3, state, dispatch);
   };
 
   const tableStyle = {
@@ -59,21 +55,21 @@ const UsersList = ({ loadingActive }) => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Pod URL</th>
+            <th>Web Id</th>
             <th>Last Active Date</th>
             <th>Select User</th>
             <th>Delete User</th>
           </tr>
         </thead>
         <tbody>
-          {userList &&
-            userList.map((user) => (
-              <tr key={user.podUrl}>
+          {userListObject &&
+            userListObject.userList.map((user) => (
+              <tr key={user.webId}>
                 <td>{user.givenName}</td>
                 <td>{user.familyName}</td>
                 <td>
-                  <a href={user.podUrl} target="_blank" rel="noreferrer">
-                    {user.podUrl}
+                  <a href={user.webId} target="_blank" rel="noreferrer">
+                    {user.webId}
                   </a>
                 </td>
                 {loadingActive ? (
@@ -84,15 +80,12 @@ const UsersList = ({ loadingActive }) => {
                   </td>
                 )}
                 <td>
-                  <button type="button" onClick={() => handleSelectUser(user.person, user.podUrl)}>
+                  <button type="button" onClick={() => handleSelectUser(user.person, user.webId)}>
                     select
                   </button>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteUser(user.person, user.givenName, user.podUrl)}
-                  >
+                  <button type="button" onClick={() => handleDeleteUser(user)}>
                     delete
                   </button>
                 </td>

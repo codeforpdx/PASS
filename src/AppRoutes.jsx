@@ -10,7 +10,7 @@ import Forms from './routes/Forms';
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;
 
-const AppRoutes = ({ isLoggedIn, loadingUsers, loadingActive, loadMessages }) => {
+const AppRoutes = ({ isLoggedIn, loadingActive, loadMessages }) => {
   const restorePath = localStorage.getItem('restorePath');
   const path = restorePath ?? '/PASS/home';
 
@@ -18,10 +18,7 @@ const AppRoutes = ({ isLoggedIn, loadingUsers, loadingActive, loadMessages }) =>
     <Routes>
       <Route exact path="/PASS/" element={isLoggedIn ? <Navigate to={path} replace /> : <Home />} />
       <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-        <Route
-          path="/PASS/home"
-          element={<UserSection loadingUsers={loadingUsers} loadingActive={loadingActive} />}
-        />
+        <Route path="/PASS/home" element={<UserSection loadingActive={loadingActive} />} />
         <Route path="/PASS/forms" element={<Forms />} />
         <Route path="/PASS/inbox" element={<Inbox loadMessages={loadMessages} />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
