@@ -46,13 +46,13 @@ const ManageUsers = () => {
     const user = await createUser(session, userObject);
     await addUser(user);
   };
-  
+
   const notifyStartSubmission = (userObject) => {
     if (!userObject.username && !userObject.webId) {
       runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
     }
-  
+
     if (!userObject.givenName) {
       runNotification(
         `Operation failed. Reason: User's first/given name is not provided`,
@@ -65,7 +65,7 @@ const ManageUsers = () => {
       }, 3000);
       return;
     }
-  
+
     if (!userObject.familyName) {
       runNotification(
         `Operation failed. Reason: User's last/family name is not provided`,
@@ -78,9 +78,9 @@ const ManageUsers = () => {
       }, 3000);
       return;
     }
-  
+
     dispatch({ type: 'SET_PROCESSING' });
-  
+
     runNotification(
       `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
       5,

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { getPodUrlAll } from '@inrupt/solid-client';
-import { LoadUserList, addUser, removeUser } from '../model-helpers';
+import { loadUserList, addUser, removeUser } from '../model-helpers';
 
 /**
  * @typedef {import("../typedefs").userListObject} userListObject
@@ -35,7 +35,7 @@ export const UserListContextProvider = ({ setLoadingUsers, session, children }) 
       podUrl = podUrl || session.info.webId.split('profile')[0];
 
       setLoadingUsers(true);
-      setUserListObject(await LoadUserList(session, podUrl));
+      setUserListObject(await loadUserList(session, podUrl));
       setLoadingUsers(false);
     };
 

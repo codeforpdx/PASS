@@ -89,7 +89,7 @@ export const saveToPod = async (session, { dataset, listUrl }) => {
   const newDataset = await saveSolidDatasetAt(listUrl, dataset, {
     fetch: session.fetch
   });
-  const newList = await parseFromDataset(dataset);
+  const newList = await parseFromDataset(newDataset);
   return { dataset: newDataset, userList: newList, listUrl };
 };
 
@@ -141,23 +141,6 @@ export const removeUser = async (user, session, { userList, dataset, listUrl }) 
 };
 
 /**
- * Refreshes the list with any changes from the Pod
- * Not currently used
- *
- * @memberof UserList
- * @function refreshList
- * @param {Session} session - session to use for saving
- * @param {object} userListObject - object containing userList, dataset, and listUrl
- * @param {URL} userListObject.listUrl - Url of dataset to save to
- * @returns {object} An new userListObject containing any updates
- */
-export const refreshList = async (session, { listUrl }) => {
-  const newDataset = getSolidDataset(listUrl, { fetch: session.fetch });
-  const userList = await parseFromDataset(newDataset, session);
-  return { userList, dataset: newDataset, listUrl };
-};
-
-/**
  * Loads a user list from a given pod. If the list does not exist,
  * it createst the list.
  *
@@ -167,7 +150,7 @@ export const refreshList = async (session, { listUrl }) => {
  * @param {URL} podUrl - The url of the pod to load user list from
  * @returns {object} An new userListObject containing any updates
  */
-export const LoadUserList = async (session, podUrl) => {
+export const loadUserList = async (session, podUrl) => {
   const userListUrl = `${podUrl}Users/userlist.ttl`;
   let dataset;
   let userList;
