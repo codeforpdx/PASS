@@ -1,27 +1,35 @@
 # Changelog
 
-## v0.0.5 (May 28, 2023)
+## v0.0.5 (June 1, 2023)
 
 ## Features
 
+- (Pending) Generate PASS specific inbox and publics container if it doesn't exist upon login (#200)
+- (Pending) Render sent message in outbox (#190)
+- (Pending) Include pagination for messages in inbox/outbox (#190)
 - Generate user outbox on log in if outbox does exist in user's Solid Pod (#186)
+- (Draft) Using webIds instead of username as primary identifier (#169)
 - Allow users to choose different Solid Identity Providers when using PASS (#167)
 - Render user messages from their Solid inbox on PASS (#148)
 
 ## Fixes
 
 - Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
-- Included corrections to JSDoc comments (#148, #179, #183, #184)
+- Included corrections to JSDoc comments (#148, #179, #183, #184, #201)
 
 ## Dev Changes
 
+- (Pending) Refactoring custom hooks into individual files (#204)
+- (Pending) Replaced UPLOAD_TYPES with INTERACTION_TYPES (#202)
+- Refactored PASS routing with AppRoutes and ProtectedRoutes (#198)
 - Created function to generate an outbox container for users if it doesn't exist in their Solid Pod (#186)
+- Optimized session-helper functions (#184)
 - Refactored set permission forms to pass in Access Object as a parameter to setDocAclPermission function (#183)
 - Updated all relevant components/functions using createDocAclForUser with new setDocAclForUser function (#183)
 - Optimized session-core functions (#183)
 - Included new JSDoc for new barcode scanner functions (#179)
 - Updated clearDoc.js and .gitignore to accomedate for new ZXing_barcaode.md (#179)
-- Updated/Enhanced UI for Footer, Inactivity Notification, and several Form components (#166, #172, #178, #180)
+- Updated/Enhanced UI for Footer, Inactivity Notification, and several Form components (#166, #172, #178, #180, #187, #193, #206 - Pending)
 - Organized utils directory into 4 subdirectories and rerouted import paths (#171)
 - Replaced removeKeys function with localStorage.clear (#167)
 - Included new unit tests for components and functions (#167, #183)
