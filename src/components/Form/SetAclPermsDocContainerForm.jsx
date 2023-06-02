@@ -138,7 +138,7 @@ const SetAclPermsDocContainerForm = () => {
               required
             />
           </FormControl>
-          <FormControl fullWidth>
+          <FormControl>
             <FormLabel id="set-acl-perm-label">Select permission setting:</FormLabel>
             <RadioGroup row aria-labelledby="set-acl-perm-label" name="set-acl-perm">
               <FormControlLabel
