@@ -4,14 +4,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import {
-  getUsersFromPod,
-  updateUserActivity,
-  getUserListActivity,
-  createDocumentContainer,
-  createOutbox,
-  getInboxMessageTTL
-} from './utils';
+import { createDocumentContainer, createOutbox, getInboxMessageTTL } from './utils';
+import { updateUserActivity, UserList, LoadUserList } from './models';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
@@ -55,15 +49,18 @@ const App = () => {
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {userListObject[]} */
-  const initialUserList = [];
-  const [userList, setUserList] = useState(initialUserList);
+  const [userList, setUserList] = useState(new UserList({}, [], ''));
   const [loadingUsers, setLoadingUsers] = useState(true);
-  const [loadingActive, setLoadingActive] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
   const [signedInPod, setSignedInPod] = useState('');
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-  const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
+  const userListObject = useMemo(
+    () => ({
+      userList
+    }),
+    [userList.list]
+  );
   const signedInPodMemo = useMemo(() => ({ signedInPod, setSignedInPod }), [signedInPod]);
 
   /** @type {inboxListObject[]} */
@@ -85,20 +82,10 @@ const App = () => {
       await updateUserActivity(session, podUrl);
       await createDocumentContainer(session, podUrl);
       await createOutbox(session);
-      try {
-        setLoadingUsers(true);
-        setLoadingActive(true);
-        let listUsers = await getUsersFromPod(session, podUrl);
-        setLoadingUsers(false);
-        setUserList(listUsers);
-        listUsers = await getUserListActivity(session, listUsers);
-        setUserList(listUsers);
-        setLoadingActive(false);
-      } catch {
-        setUserList([]);
-        setLoadingUsers(false);
-        setLoadingActive(false);
-      }
+
+      setLoadingUsers(true);
+      setUserList(await LoadUserList(session, podUrl));
+      setLoadingUsers(false);
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
@@ -121,7 +108,7 @@ const App = () => {
               <AppRoutes
                 isLoggedIn={session.info.isLoggedIn}
                 loadingUsers={loadingUsers}
-                loadingActive={loadingActive}
+                loadingActive={false}
                 loadMessages={loadMessages}
               />
             </SignedInPodContext.Provider>

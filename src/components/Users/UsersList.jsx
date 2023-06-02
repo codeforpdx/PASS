@@ -1,10 +1,9 @@
 // React Imports
 import React, { useContext } from 'react';
 // Inrupt Imports
-import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
+import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
@@ -24,7 +23,7 @@ const UsersList = ({ loadingActive }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
-  const { userList, setUserList } = useContext(UserListContext);
+  const { userList } = useContext(UserListContext);
 
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
@@ -41,14 +40,10 @@ const UsersList = ({ loadingActive }) => {
     ) {
       return;
     }
-
-    let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
-    podUrl = podUrl || session.info.webId.split('profile')[0];
     runNotification(`Deleting user "${user.person}" from Solid...`, 3, state, dispatch);
-    let listUsers = await deleteUserFromPod(session, user, podUrl);
-    listUsers = await getUserListActivity(session, listUsers);
+    userList.removeUser(user);
+    await userList.saveToPod(session);
     runNotification(`User "${user.person}" deleted from Solid...`, 3, state, dispatch);
-    setUserList(listUsers);
   };
 
   const tableStyle = {
@@ -72,7 +67,7 @@ const UsersList = ({ loadingActive }) => {
         </thead>
         <tbody>
           {userList
-            ? userList.map((user) => (
+            ? userList.list.map((user) => (
                 <tr key={user.webId}>
                   <td>{user.givenName}</td>
                   <td>{user.familyName}</td>

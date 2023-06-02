@@ -1,11 +1,11 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 import { TextField, Button } from '@mui/material';
-import { getPodUrlAll } from '@inrupt/solid-client';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, addUserToPod, getUserListActivity, clearProcessing } from '../../utils';
+import { runNotification, clearProcessing } from '../../utils';
+import { createUser } from '../../models/User';
 
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
@@ -30,12 +30,6 @@ const formRowStyle = {
 
 const textFieldStyle = {
   margin: '8px'
-};
-
-const submitUser = async (userObject, session, podUrl) => {
-  let listUsers = await addUserToPod(session, userObject, podUrl);
-  listUsers = await getUserListActivity(session, listUsers);
-  return listUsers;
 };
 
 const notifyStartSubmission = (userObject, state, dispatch) => {
@@ -72,7 +66,7 @@ const ManageUsers = () => {
   const [familyName, setFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const { setUserList } = useContext(UserListContext);
+  const { userList } = useContext(UserListContext);
 
   const clearForm = () => {
     setFamilyName('');
@@ -81,11 +75,15 @@ const ManageUsers = () => {
     setWebId('');
   };
 
+  const submitUser = async (userObject) => {
+    const user = await createUser(session, userObject);
+    userList.addUser(user);
+    await userList.saveToPod(session);
+  };
+
   // Event handler for adding user from users list
   const handleAddUser = async (event) => {
     event.preventDefault();
-    let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
-    podUrl = podUrl || session.info.webId.split('profile')[0];
     const userObject = {
       givenName,
       familyName,
@@ -95,8 +93,7 @@ const ManageUsers = () => {
 
     notifyStartSubmission(userObject, state, dispatch);
     try {
-      const userList = await submitUser(userObject, session, podUrl);
-      setUserList(userList);
+      await submitUser(userObject);
     } finally {
       notifyEndSubmission(userObject, state, dispatch);
       clearForm();
