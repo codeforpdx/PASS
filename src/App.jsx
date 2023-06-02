@@ -1,26 +1,19 @@
 // React Imports
 import React, { useEffect, useMemo, useState } from 'react';
 // Inrupt Imports
+import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import {
-  getUsersFromPod,
-  generateActivityTTL,
-  generateUsersList,
-  updateUserActivity,
-  getUserListActivity,
-  createDocumentContainer,
-  createOutbox,
-  getMessageTTL
-} from './utils';
+import { createDocumentContainer, createOutbox, getMessageTTL } from './utils';
+import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import {
+import { 
   InboxMessageContext,
-  OutboxMessageContext,
+  OutboxMessageContext, 
   SelectUserContext,
-  UserListContext
+  UserListContextProvider
 } from './contexts';
 // Component Imports
 import Layout from './layouts/Layouts';
@@ -55,16 +48,10 @@ const App = () => {
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {userListObject[]} */
-  const initialUserList = [];
-  const [userList, setUserList] = useState(initialUserList);
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [loadingActive, setLoadingActive] = useState(true);
   const [loadInboxMessages, setLoadInboxMessages] = useState(true);
   const [loadOutboxMessages, setLoadOutboxMessages] = useState(true);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-  const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
   /** @type {messageListObject[]} */
   const initialInboxList = [];
@@ -84,23 +71,12 @@ const App = () => {
      * @function fetchData
      */
     async function fetchData() {
-      await generateUsersList(session);
-      await generateActivityTTL(session);
-      await updateUserActivity(session);
-      await createDocumentContainer(session);
+      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
+      podUrl = podUrl || session.info.webId.split('profile')[0];
+
+      await updateUserActivity(session, podUrl);
+      await createDocumentContainer(session, podUrl);
       await createOutbox(session);
-      try {
-        let listUsers = await getUsersFromPod(session);
-        setUserList(listUsers);
-        setLoadingUsers(false);
-        listUsers = await getUserListActivity(session, listUsers);
-        setUserList(listUsers);
-        setLoadingActive(false);
-      } catch {
-        setUserList([]);
-        setLoadingUsers(false);
-        setLoadingActive(false);
-      }
 
       const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList);
       messagesInboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
@@ -122,19 +98,18 @@ const App = () => {
   return (
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContext.Provider value={userListObject}>
+        <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
             <OutboxMessageContext.Provider value={outboxMessageObject}>
               <AppRoutes
                 isLoggedIn={session.info.isLoggedIn}
-                loadingUsers={loadingUsers}
-                loadingActive={loadingActive}
+                loadingActive={false}
                 loadInboxMessages={loadInboxMessages}
                 loadOutboxMessages={loadOutboxMessages}
               />
             </OutboxMessageContext.Provider>
           </InboxMessageContext.Provider>
-        </UserListContext.Provider>
+        </UserListContextProvider>
       </SelectUserContext.Provider>
     </Layout>
   );

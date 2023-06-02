@@ -1,5 +1,5 @@
 import SelectUserContext from './selectUserContext';
-import UserListContext from './userListContext';
+import UserListContext, { UserListContextProvider } from './userListContext';
 import InboxMessageContext from './inboxMessageContext';
 import OutboxMessageContext from './outboxMessageContext';
 
@@ -10,4 +10,4 @@ import OutboxMessageContext from './outboxMessageContext';
  * @namespace contexts
  */
 
-export { SelectUserContext, UserListContext, InboxMessageContext, OutboxMessageContext };
+export { SelectUserContext, UserListContext, InboxMessageContext, OutboxMessageContext, UserListContextProvider };
