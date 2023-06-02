@@ -22,57 +22,6 @@ exports[`When page loads > renders correctly 1`] = `
           autocomplete="off"
           style="margin: 20px 0px;"
         >
-          <p>
-            Register user for a new pod:
-          </p>
-          <div
-            style="display: flex; flex-direction: row; margin-left: 8px;"
-          >
-            <div
-              class="MuiFormControl-root MuiTextField-root css-1q1ral2-MuiFormControl-root-MuiTextField-root"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled css-o943dk-MuiFormLabel-root-MuiInputLabel-root"
-                data-shrink="true"
-                for=":r0:"
-                id=":r0:-label"
-              >
-                Pod Server URL
-              </label>
-              <div
-                aria-label="OIDC Input Field"
-                class="MuiInputBase-root MuiFilledInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1pw81iq-MuiInputBase-root-MuiFilledInput-root"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiFilledInput-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
-                  id=":r0:"
-                  type="text"
-                  value="https://solidcommunity.net/"
-                />
-              </div>
-            </div>
-            <div
-              class="MuiBox-root css-120gsus"
-            />
-            <button
-              aria-label="Login Button"
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge css-jh47zj-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              Sign Up for a Pod
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </div>
-          <br />
-          <hr />
-          <p>
-            Or fill out information manually:
-          </p>
-          <br />
           <div
             aria-label="First Name"
             class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"

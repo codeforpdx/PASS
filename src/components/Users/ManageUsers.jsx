@@ -111,12 +111,16 @@ const ManageUsers = () => {
       defaultMessage="To be added..."
     >
       <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
-        <p>Register user for a new pod:</p>
-        <SolidSignup />
-        <br />
-        <hr />
-        <p>Or fill out information manually:</p>
-        <br />
+        {import.meta.env.VITE_EXPERIMENTAL ? (
+          <>
+            <p>Register user for a new pod:</p>
+            <SolidSignup />
+            <br />
+            <hr />
+            <p>Or fill out information manually:</p>
+            <br />
+          </>
+        ) : null}
         <TextField
           style={textFieldStyle}
           id="first-name-form"
