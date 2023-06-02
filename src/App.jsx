@@ -5,14 +5,14 @@ import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { createDocumentContainer, createOutbox, getInboxMessageTTL } from './utils';
-import { updateUserActivity, UserList, LoadUserList } from './models';
+import { updateUserActivity } from './models';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
 import {
   InboxMessageContext,
   SelectUserContext,
-  UserListContext,
+  UserListContextProvider,
   SignedInPodContext
 } from './contexts';
 // Component Imports
@@ -49,18 +49,11 @@ const App = () => {
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {userListObject[]} */
-  const [userList, setUserList] = useState(new UserList({}, [], ''));
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
   const [signedInPod, setSignedInPod] = useState('');
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-  const userListObject = useMemo(
-    () => ({
-      userList
-    }),
-    [userList.list]
-  );
   const signedInPodMemo = useMemo(() => ({ signedInPod, setSignedInPod }), [signedInPod]);
 
   /** @type {inboxListObject[]} */
@@ -78,14 +71,10 @@ const App = () => {
     async function fetchData() {
       let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
       podUrl = podUrl || session.info.webId.split('profile')[0];
-      setSignedInPod(podUrl);
+
       await updateUserActivity(session, podUrl);
       await createDocumentContainer(session, podUrl);
       await createOutbox(session);
-
-      setLoadingUsers(true);
-      setUserList(await LoadUserList(session, podUrl));
-      setLoadingUsers(false);
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
@@ -102,7 +91,7 @@ const App = () => {
   return (
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContext.Provider value={userListObject}>
+        <UserListContextProvider session={session} setLoadingUsers={setLoadingUsers}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
             <SignedInPodContext.Provider value={signedInPodMemo}>
               <AppRoutes
@@ -113,7 +102,7 @@ const App = () => {
               />
             </SignedInPodContext.Provider>
           </InboxMessageContext.Provider>
-        </UserListContext.Provider>
+        </UserListContextProvider>
       </SelectUserContext.Provider>
     </Layout>
   );

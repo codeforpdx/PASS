@@ -1,7 +1,5 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Custom Hook Imports
@@ -20,10 +18,9 @@ import FormSection from '../Form/FormSection';
  */
 
 const UsersList = ({ loadingActive }) => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
-  const { userList } = useContext(UserListContext);
+  const { userListObject, removeUser } = useContext(UserListContext);
 
   // Event handler for selecting user from users list
   const handleSelectUser = async (userToSelect, selectedUserUrl) => {
@@ -41,8 +38,7 @@ const UsersList = ({ loadingActive }) => {
       return;
     }
     runNotification(`Deleting user "${user.person}" from Solid...`, 3, state, dispatch);
-    userList.removeUser(user);
-    await userList.saveToPod(session);
+    await removeUser(user);
     runNotification(`User "${user.person}" deleted from Solid...`, 3, state, dispatch);
   };
 
@@ -66,8 +62,8 @@ const UsersList = ({ loadingActive }) => {
           </tr>
         </thead>
         <tbody>
-          {userList
-            ? userList.list.map((user) => (
+          {userListObject
+            ? userListObject.userList.map((user) => (
                 <tr key={user.webId}>
                   <td>{user.givenName}</td>
                   <td>{user.familyName}</td>

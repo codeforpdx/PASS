@@ -66,7 +66,7 @@ const ManageUsers = () => {
   const [familyName, setFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const { userList } = useContext(UserListContext);
+  const { addUser } = useContext(UserListContext);
 
   const clearForm = () => {
     setFamilyName('');
@@ -77,8 +77,7 @@ const ManageUsers = () => {
 
   const submitUser = async (userObject) => {
     const user = await createUser(session, userObject);
-    userList.addUser(user);
-    await userList.saveToPod(session);
+    await addUser(user);
   };
 
   // Event handler for adding user from users list

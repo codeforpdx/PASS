@@ -23,105 +23,165 @@ import { parseUserFromThing, makeUserIntoThing } from './User';
 /**
  * @typedef {import("../typedefs").userListObject} userListObject
  */
-class UserList {
-  constructor(dataset, list, podUrl) {
-    this.dataset = dataset;
-    this.list = list;
-    this.listUrl = `${podUrl}Users/userlist.ttl`;
-  }
 
-  static makeIntoDataset(usersList, dataset = createSolidDataset()) {
-    const usersListHeader = buildThing(createThing({ name: 'userlist' }))
-      .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
-      .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
-      .build();
+/**
+ * Converts a users array into a userslist Thing stored in the provided dataset
+ * If no dataset is provided, a new one is created
+ *
+ * @memberof UserList
+ * @function makeIntoDataset
+ * @param {Array} usersList - an array of users objects to add to a dataset 
+ * @param {import('@inrupt/solid-client').SolidDataset} dataset - dataset to convert to array
+ * @returns {object} An new userListObject containing any updates
+ */
+const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
+  const usersListHeader = buildThing(createThing({ name: 'userlist' }))
+    .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
+    .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
+    .build();
 
-    let usersDataset = dataset;
-    usersDataset = setThing(usersDataset, usersListHeader);
-    usersList.forEach((user) => {
-      usersDataset = setThing(usersDataset, this.makeUserIntoThing(user));
-    });
+  let usersDataset = dataset;
+  usersDataset = setThing(usersDataset, usersListHeader);
+  usersList.forEach((user) => {
+    usersDataset = setThing(usersDataset, makeUserIntoThing(user));
+  });
 
-    return usersDataset;
-  }
+  return usersDataset;
+};
 
-  static async parseFromDataset(usersDataset, session) {
-    const userList = [];
-    const allUsersThing = getThingAll(usersDataset).filter(
-      (thing) => !thing.url.includes('#userlist')
-    );
-    await Promise.all(
-      allUsersThing.map(async (userThing) => {
-        const userObject = await parseUserFromThing(userThing, session);
-        userList.push(userObject);
-      })
-    );
+/**
+ * Converts a usersList dataset into an array of users.
+ * Also fetches the users' activity records
+ *
+ * @memberof UserList
+ * @function parseFromDataset
+ * @param {import('@inrupt/solid-client').SolidDataset} usersDataset - dataset to convert to array
+ * @param {Session} session - session to use for saving
+ * @returns {object} An new userListObject containing any updates
+ */
+const parseFromDataset = async (usersDataset, session) => {
+  const userList = [];
+  const allUsersThing = getThingAll(usersDataset).filter(
+    (thing) => !thing.url.includes('#userlist')
+  );
+  await Promise.all(
+    allUsersThing.map(async (userThing) => {
+      const userObject = await parseUserFromThing(userThing, session);
+      userList.push(userObject);
+    })
+  );
 
-    return userList;
-  }
+  return userList;
+};
 
-  /**
-   * Function that converts an array of users into a dataset,
-   * then saves that dataset to the requested pod
-   *
-   * @memberof utils
-   * @function saveUsersList
-   * @param {Session} session - Inrupt's session object
-   */
-  async saveToPod(session) {
-    this.dataset = await saveSolidDatasetAt(this.listUrl, this.dataset, {
-      fetch: session.fetch
-    });
-    this.list = await UserList.parseFromDataset(this.dataset);
-  }
+/**
+ * Saves a user list to the user's pod
+ *
+ * @memberof UserList
+ * @function saveToPod
+ * @param {Session} session - session to use for saving
+ * @param {object} userListObject - object containing userList, dataset, and listUrl
+ * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {URL} userListObject.listUrl - Url of dataset to save to
+ * @returns {object} An new userListObject containing any updates
+ */
+export const saveToPod = async (session, { dataset, listUrl }) => {
+  const newDataset = await saveSolidDatasetAt(listUrl, dataset, {
+    fetch: session.fetch
+  });
+  const newList = await parseFromDataset(dataset);
+  return { dataset: newDataset, userList: newList, listUrl };
+};
 
-  /**
-   * Function that adds a user from the users list from their Solid Pod stored
-   * inside the Solid container named User, or create the container User with the
-   * user if container doesn't exist to begin with
-   *
-   * @memberof utils
-   * @function addUserToUserList
-   * @param {object} user - User to add to the user list
-   */
+/**
+ * Adds a user to the existing user list and saves the list to the pod
+ *
+ * @memberof UserList
+ * @function addUser
+ * @param {object} user - User to add to the user list
+ * @param {Session} session - session to use for saving
+ * @param {object} userListObject - object containing userList, dataset, and listUrl
+ * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {URL} userListObject.listUrl - Url of dataset to save to
+ * @param {Array} userListObject.userList - array of Users
+ * @returns {object} An new userListObject containing any updates
+ */
+export const addUser = async (user, session, { userList, dataset, listUrl }) => {
+  const userThing = makeUserIntoThing(user);
+  const newUserObject = {
+    userList: userList.concat([user]),
+    dataset: setThing(dataset, userThing),
+    listUrl
+  };
+  const newObj = await saveToPod(session, newUserObject);
+  return newObj;
+};
 
-  addUser(user) {
-    this.list.push(user);
-    const userThing = makeUserIntoThing(user);
-    this.dataset = setThing(this.dataset, userThing);
-  }
+/**
+ * Removes a user from the existing list and saves it to the pod
+ *
+ * @memberof UserList
+ * @function removeUser
+ * @param {object} user - User to remove from the user list
+ * @param {Session} session - session to use for saving
+ * @param {object} userListObject - object containing userList, dataset, and listUrl
+ * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {URL} userListObject.listUrl - Url of dataset to save to
+ * @param {Array} userListObject.userList - array of Users
+ * @returns {object} An new userListObject containing any updates
+ */
+export const removeUser = async (user, session, { userList, dataset, listUrl }) => {
+  const newList = userList.filter((u) => u.webId !== user.webId);
+  const thingUrl = `${listUrl}#${user.username}`;
+  const thingToRemove = getThing(dataset, thingUrl);
+  const newDataset = removeThing(dataset, thingToRemove);
+  const newUserObject = { userList: newList, dataset: newDataset, listUrl };
+  const newObj = await saveToPod(session, newUserObject);
+  return newObj;
+};
 
-  removeUser(user) {
-    this.list = this.list.filter((u) => u.webId !== user.webId);
-    const thingUrl = `${this.listUrl}#${user.username}`;
-    const thingToRemove = getThing(this.dataset, thingUrl);
-    this.dataset = removeThing(this.dataset, thingToRemove);
-  }
+/**
+ * Refreshes the list with any changes from the Pod
+ * Not currently used
+ *
+ * @memberof UserList
+ * @function refreshList
+ * @param {Session} session - session to use for saving
+ * @param {object} userListObject - object containing userList, dataset, and listUrl
+ * @param {URL} userListObject.listUrl - Url of dataset to save to
+ * @returns {object} An new userListObject containing any updates
+ */
+export const refreshList = async (session, { listUrl }) => {
+  const newDataset = getSolidDataset(listUrl, { fetch: session.fetch });
+  const userList = await parseFromDataset(newDataset, session);
+  return { userList, dataset: newDataset, listUrl };
+};
 
-  async refreshList(session) {
-    const dataset = getSolidDataset(this.listUrl, { fetch: session.fetch });
-    const userList = await UserList.parseFromDataset(dataset, session);
-    this.dataset = dataset;
-    this.list = userList;
-  }
-}
-
+/**
+ * Loads a user list from a given pod. If the list does not exist,
+ * it createst the list.
+ *
+ * @memberof UserList
+ * @function LoadUserList
+ * @param {Session} session - session to use for saving
+ * @param {URL} podUrl - The url of the pod to load user list from
+ * @returns {object} An new userListObject containing any updates
+ */
 export const LoadUserList = async (session, podUrl) => {
   const userListUrl = `${podUrl}Users/userlist.ttl`;
   let dataset;
   let userList;
   try {
     dataset = await getSolidDataset(userListUrl, { fetch: session.fetch });
-    userList = await UserList.parseFromDataset(dataset, session);
+    userList = await parseFromDataset(dataset, session);
   } catch {
-    dataset = UserList.makeIntoDataset([]);
+    dataset = makeIntoDataset([]);
     dataset = await saveSolidDatasetAt(userListUrl, dataset, {
       fetch: session.fetch
     });
     userList = [];
     await setDocAclForUser(session, userListUrl, 'create', session.info.webId);
   }
-  return new UserList(dataset, userList, podUrl);
+  const listUrl = `${podUrl}Users/userlist.ttl`;
+  return { dataset, userList, listUrl };
 };
-
-export default UserList;

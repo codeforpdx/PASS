@@ -1,4 +1,4 @@
-import UserList, { LoadUserList } from './UserList';
+import { LoadUserList, addUser, removeUser, saveToPod } from './UserList';
 import { updateUserActivity } from './User';
 
-export { UserList, LoadUserList, updateUserActivity };
+export { LoadUserList, updateUserActivity, addUser, removeUser, saveToPod };

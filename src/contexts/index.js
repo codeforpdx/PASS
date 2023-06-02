@@ -1,5 +1,5 @@
 import SelectUserContext from './selectUserContext';
-import UserListContext from './userListContext';
+import UserListContext, { UserListContextProvider } from './userListContext';
 import InboxMessageContext from './inboxMessageContext';
 import SignedInPodContext from './signedInPodContext';
 
@@ -10,4 +10,10 @@ import SignedInPodContext from './signedInPodContext';
  * @namespace contexts
  */
 
-export { SelectUserContext, UserListContext, InboxMessageContext, SignedInPodContext };
+export {
+  SelectUserContext,
+  UserListContext,
+  InboxMessageContext,
+  SignedInPodContext,
+  UserListContextProvider
+};

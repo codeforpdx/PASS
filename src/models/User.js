@@ -22,12 +22,12 @@ import { setDocAclForUser } from '../utils/network/session-helper';
 /**
  * Function that updates a user's last active time on Solid Pod
  *
- * @memberof utils
+ * @memberof User
  * @function updateUserActivity
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - the url of the user's pod to update
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
-
 export const updateUserActivity = async (session, podUrl) => {
   const activityDocUrl = `${podUrl}public/active.ttl`;
   const accessObject = {
@@ -74,6 +74,15 @@ export const updateUserActivity = async (session, podUrl) => {
   }
 };
 
+/**
+ * Fetches the last time a user was active in pass
+ *
+ * @memberof User
+ * @function loadUserActivity
+ * @param {URL} podUrl - Url of user's pod to fetch from
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {string} last time the user was active in PASS
+ */
 const loadUserActivity = async (podUrl, session) => {
   const activityUrl = `${podUrl}public/active.ttl`;
   try {
@@ -87,6 +96,15 @@ const loadUserActivity = async (podUrl, session) => {
   }
 };
 
+/**
+ * Creates a user object from a provided form submission
+ *
+ * @memberof User
+ * @function createUser
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} userSubmission - an object from a form submission containing the user creation data
+ * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ */
 export const createUser = async (session, userSubmission) => {
   const { familyName, username, givenName, webId } = userSubmission;
 
@@ -110,6 +128,15 @@ export const createUser = async (session, userSubmission) => {
   };
 };
 
+/**
+ * Converts an inrupt Thing taken from the users list into a user object
+ *
+ * @memberof User
+ * @function parseUserFromThing
+ * @param {import('@inrupt/solid-client').Thing} userThing - the Thing to build the user from
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {object} user object
+ */
 export const parseUserFromThing = async (userThing, session) => {
   const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
@@ -121,6 +148,20 @@ export const parseUserFromThing = async (userThing, session) => {
   return { person, username, givenName, familyName, webId, podUrl, dateModified };
 };
 
+/**
+ * Convert a user object into an inrupt Thing
+ * to be stored in the users list
+ *
+ * @memberof User
+ * @function makeUserIntoThing
+ * @param {object} userObject - user object
+ * @param {string} userObject.username - username
+ * @param {string} userObject.givenName - given name
+ * @param {string} userObject.familyName - family name
+ * @param {string} userObject.webId - web id
+ * @param {string} userObject.podUrl - pod url
+ * @returns {import('@inrupt/solid-client').Thing} - resulting thing to be stored
+ */
 export const makeUserIntoThing = ({ username, givenName, familyName, webId, podUrl }) =>
   buildThing(createThing({ name: username }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
