@@ -269,11 +269,7 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * @memberof utils
  * @function checkContainerPermission
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self-fetch" or to
- * other Pods, or "cross-fetch")
- * @param {string} [otherPodUsername] - Username to other user's Pod (set to empty
- * string by default)
+ * @param {string} otherPodUsername - Username to other user's Pod
  * @returns {Promise<URL>} Promise - Either a string containing the url location
  * of the container, if permitted, or throws an Error
  */

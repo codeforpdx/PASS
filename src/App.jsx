@@ -44,7 +44,6 @@ const App = () => {
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {userListObject[]} */
-  const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
@@ -84,11 +83,10 @@ const App = () => {
   return (
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContextProvider session={session} setLoadingUsers={setLoadingUsers}>
+        <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
             <AppRoutes
               isLoggedIn={session.info.isLoggedIn}
-              loadingUsers={loadingUsers}
               loadingActive={false}
               loadMessages={loadMessages}
             />

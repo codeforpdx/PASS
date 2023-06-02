@@ -81,7 +81,7 @@ export const updateUserActivity = async (session, podUrl) => {
  * @function loadUserActivity
  * @param {URL} podUrl - Url of user's pod to fetch from
  * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {string} last time the user was active in PASS
+ * @returns {Promise<string>} last time the user was active in PASS
  */
 const loadUserActivity = async (podUrl, session) => {
   const activityUrl = `${podUrl}public/active.ttl`;
@@ -103,7 +103,7 @@ const loadUserActivity = async (podUrl, session) => {
  * @function createUser
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} userSubmission - an object from a form submission containing the user creation data
- * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
+ * @returns {Promise<object>} Promise - Updates last active time of user to lastActive.ttl
  */
 export const createUser = async (session, userSubmission) => {
   const { familyName, username, givenName, webId } = userSubmission;

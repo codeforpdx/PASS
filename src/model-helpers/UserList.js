@@ -89,7 +89,7 @@ export const saveToPod = async (session, { dataset, listUrl }) => {
   const newDataset = await saveSolidDatasetAt(listUrl, dataset, {
     fetch: session.fetch
   });
-  const newList = await parseFromDataset(newDataset);
+  const newList = await parseFromDataset(newDataset, session);
   return { dataset: newDataset, userList: newList, listUrl };
 };
 

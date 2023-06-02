@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import { ManageUsers } from '../components/Form';
+import { UserListContext } from '../contexts';
 import UsersList from '../components/Users/UsersList';
 
 /**
@@ -19,8 +20,9 @@ import UsersList from '../components/Users/UsersList';
  * @name UserSection
  */
 
-const UserSection = ({ loadingUsers, loadingActive }) => {
+const UserSection = ({ loadingActive }) => {
   const location = useLocation();
+  const { loadingUsers } = useContext(UserListContext);
 
   localStorage.setItem('restorePath', location.pathname);
 

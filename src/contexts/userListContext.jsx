@@ -18,15 +18,19 @@ const initialUserListContext = [];
 
 const UserListContext = createContext(initialUserListContext);
 
-export const UserListContextProvider = ({ setLoadingUsers, session, children }) => {
+export const UserListContextProvider = ({ session, children }) => {
   const [userListObject, setUserListObject] = useState({});
+  const [loadingUsers, setLoadingUsers] = useState(true);
+
   const userListMemo = useMemo(
     () => ({
       userListObject,
       addUser: async (user) => setUserListObject(await addUser(user, session, userListObject)),
-      removeUser: async (user) => setUserListObject(await removeUser(user, session, userListObject))
+      removeUser: async (user) =>
+        setUserListObject(await removeUser(user, session, userListObject)),
+      loadingUsers
     }),
-    [userListObject]
+    [userListObject, loadingUsers]
   );
 
   useEffect(() => {
@@ -34,9 +38,11 @@ export const UserListContextProvider = ({ setLoadingUsers, session, children }) 
       let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
       podUrl = podUrl || session.info.webId.split('profile')[0];
 
-      setLoadingUsers(true);
-      setUserListObject(await loadUserList(session, podUrl));
-      setLoadingUsers(false);
+      try {
+        setUserListObject(await loadUserList(session, podUrl));
+      } finally {
+        setLoadingUsers(false);
+      }
     };
 
     if (session.info.isLoggedIn) loadUsers();
