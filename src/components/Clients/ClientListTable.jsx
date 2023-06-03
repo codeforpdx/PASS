@@ -1,5 +1,5 @@
 // React Imports
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 // React Router Imports
 import { Link } from 'react-router-dom';
 // Material UI Imports
@@ -15,6 +15,9 @@ import Paper from '@mui/material/Paper';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+// Component Imports
+import { StatusNotification } from '../Notification';
+
 
 const StyledTableCell = styled(TableCell)(() => {
   const theme = useTheme();
@@ -42,6 +45,7 @@ const StyledTableRow = styled(TableRow)(() => {
   };
 });
 
+
 /**
  * ClientListTable Component - Component that generates table of clients from data within ClientList
  *
@@ -49,13 +53,21 @@ const StyledTableRow = styled(TableRow)(() => {
  * @name ClientListTable
  */
 
-const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
+const ClientListTable = ({
+  userList,
+  loadingActive,
+  handleDeleteClient,
+  state,
+  statusType,
+  defaultMessage
+}) => {
+
   const theme = useTheme();
+  // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
   const [pinned, setPinned] = useState(false);
 
   const determineDateModifiedCell = (client) => {
     let displayed;
-
     if (loadingActive) {
       displayed = 'Loading...';
     } else if (client.dateModified) {
@@ -63,24 +75,28 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
     } else {
       displayed = 'Not available';
     }
-
     return displayed;
   };
 
   const handlePinClick = () => {
+    // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
+    // TODO: add function to move the row to the top of list if priority: true
     setPinned(!pinned);
-  }
+  };
+
+  // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
+  const columnTitlesArray = ['Client', 'Pod URL', 'Last Activity', 'Pin', 'Delete'];
+
+
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '6rem' }}>
       <Table aria-label="client list table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">Client Name</StyledTableCell>
-            <StyledTableCell align="center">Pod URL</StyledTableCell>
-            <StyledTableCell align="center">Last Active Date</StyledTableCell>
-            <StyledTableCell align="center">Pin To Top</StyledTableCell>
-            <StyledTableCell align="center">Delete</StyledTableCell>
+            {columnTitlesArray.map((columnTitle) => (
+              <StyledTableCell align="center">{columnTitle}</StyledTableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -99,15 +115,8 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
               </StyledTableCell>
               <StyledTableCell align="center">{determineDateModifiedCell(client)}</StyledTableCell>
               <StyledTableCell align="center">
-                <IconButton
-                  size="large"
-                  edge="end"
-                  // aria-label="account of current user"
-                  // aria-controls={menuId}
-                  // aria-haspopup="true"
-                  onClick={handlePinClick}
-                  // color="inherit"
-                >
+                <IconButton size="large" edge="end" onClick={handlePinClick}>
+                  {/* TODO: change from a state to a key/value field of the .ttl file (priority: true/false) */}
                   {pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />}
                 </IconButton>
               </StyledTableCell>
@@ -115,11 +124,7 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
                 <IconButton
                   size="large"
                   edge="end"
-                  // aria-label="account of current user"
-                  // aria-controls={menuId}
-                  // aria-haspopup="true"
                   onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
-                  // color="inherit"
                 >
                   <DeleteOutlineOutlinedIcon />
                 </IconButton>
@@ -128,6 +133,12 @@ const ClientListTable = ({ userList, loadingActive, handleDeleteClient }) => {
           ))}
         </TableBody>
       </Table>
+      <StatusNotification
+        notification={state.message}
+        statusType={statusType}
+        defaultMessage={defaultMessage}
+        locationUrl={state.documentUrl}
+      />
     </TableContainer>
   );
 };
