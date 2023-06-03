@@ -1,4 +1,12 @@
-import { getSolidDataset, createContainerAt, mockSolidDatasetFrom } from '@inrupt/solid-client';
+import {
+  getSolidDataset,
+  createContainerAt,
+  mockSolidDatasetFrom,
+  mockThingFrom,
+  createSolidDataset,
+  setThing,
+  saveSolidDatasetInContainer
+} from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import { getContainerUrl } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
@@ -8,7 +16,8 @@ vi.mock('@inrupt/solid-client', async () => {
   return {
     ...actual,
     getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-    createContainerAt: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)))
+    createContainerAt: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
+    saveSolidDatasetInContainer: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)))
   };
 });
 
@@ -170,5 +179,71 @@ describe('create container logic for Solid', () => {
 
     expect(getSolidDatasetRejected).toBeCalled();
     expect(catchExecuted).toBe(true);
+  });
+});
+
+describe('createDocumentContainer', () => {
+  const userContainerUrl = 'https://pod.example.com/Documents/';
+
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('expect createContainerAt to be called 3 times', async () => {
+    const createContainerList = [
+      `${userContainerUrl}Bank%20Statement/`,
+      `${userContainerUrl}Passport/`,
+      `${userContainerUrl}Drivers%20License/`
+    ];
+
+    createContainerList.forEach(async (url) => {
+      await createContainerAt(url, { fetch: session.fetch });
+    });
+
+    expect(createContainerAt).toBeCalledTimes(3);
+  });
+
+  it('expect new TTL file to be created, set, and saved to container with ACL set', async () => {
+    const createContainerList = [
+      `${userContainerUrl}Bank%20Statement/`,
+      `${userContainerUrl}Passport/`,
+      `${userContainerUrl}Drivers%20License/`
+    ];
+
+    createContainerList.forEach(async (url) => {
+      await createContainerAt(url, { fetch: session.fetch });
+    });
+
+    const newTtlFile = mockThingFrom(userContainerUrl);
+
+    let newSolidDataset = createSolidDataset();
+    newSolidDataset = setThing(newSolidDataset, newTtlFile);
+
+    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'container.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+
+    expect(saveSolidDatasetInContainer).toBeCalledWith(userContainerUrl, newSolidDataset, {
+      slugSuggestion: 'container.ttl',
+      contentType: 'text/turtle',
+      fetch: session.fetch
+    });
+
+    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
+    createContainerList.forEach(async (url) => {
+      await setDocAclForUser(session, url, 'create', session.info.webId);
+    });
+
+    expect(setDocAclForUser).toBeCalledTimes(4);
   });
 });
