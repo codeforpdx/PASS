@@ -31,15 +31,19 @@ const Clients = ({ loadingUsers, loadingActive }) => {
 
   localStorage.setItem('restorePath', location.pathname);
 
+  
   return (
     loadingUsers ? (
       <Container>
         <Box
           sx={{
-            marginTop: 3,
-            minWidth: 120,
+            marginTop: 18,
+            marginBottom: 18,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            padding: '20px',
           }}
         >
           <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
@@ -52,8 +56,6 @@ const Clients = ({ loadingUsers, loadingActive }) => {
       </Container>
     ) : (
       <Container>
-        {/* <Box sx={{display: 'flex'}}> */}
-        {/* <Typography variant='h4' component='h1'>Clients</Typography> */}
         <Button
         variant="contained"
         color="secondary"
@@ -61,10 +63,10 @@ const Clients = ({ loadingUsers, loadingActive }) => {
         aria-label="Add Client Button"
         startIcon={<AddIcon />}
         onClick={() => setShowModal(true)}
+        sx={{marginTop: '3rem'}}
         >
           Add Client
         </Button>
-        {/* </Box> */}
         <ClientList loadingActive={loadingActive} />
         {/* modal/popup renders when showConfirmationModal state is true */}
         <AddClientModal

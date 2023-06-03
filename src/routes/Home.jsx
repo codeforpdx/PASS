@@ -18,6 +18,7 @@ const Home = () => (
     <Box
       sx={{
         marginTop: 18,
+        marginBottom: 18,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
