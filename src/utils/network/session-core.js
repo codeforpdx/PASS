@@ -394,7 +394,7 @@ export const createDocumentContainer = async (session, podUrl) => {
  */
 
 export const createPublicContainer = async (session) => {
-  const publicContainerUrl = getContainerUrl(session, 'Public', 'self-fetch');
+  const publicContainerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
 
   try {
     await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
@@ -581,7 +581,7 @@ export const createOutbox = async (session) => {
  */
 
 export const createInbox = async (session) => {
-  const inboxContainerUrl = getContainerUrl(session, 'Inbox', 'self-fetch');
+  const inboxContainerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
 
   try {
     await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
