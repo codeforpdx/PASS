@@ -15,7 +15,6 @@ vi.mock('@inrupt/solid-client', async () => {
 const getSolidDatasetRejected = vi.fn(() => Promise.reject(Error('dataset not found')));
 
 const mockPodUrl = 'https://pod.example.com/';
-const mockWebId2 = 'https://pod2.example.com/';
 const mockSolidIdentityProvider = 'https://example.com/';
 let session = {};
 
@@ -45,7 +44,92 @@ describe('setDocAclPermission', () => {
   });
 });
 
+const setDocAclForUser = vi.fn(() => Promise.resolve());
+
+describe('setDocContainerAclPermission', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('calls setDocAclForUser 4 times', async () => {
+    const otherPodUsername = 'pod2';
+    const permissions = { read: true, write: true, append: true, control: false };
+    const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
+    const urlsToSet = [
+      containerUrl,
+      `${containerUrl}Bank%20Statement/`,
+      `${containerUrl}Passport/`,
+      `${containerUrl}Drivers%20License/`
+    ];
+
+    const webId = `https://${otherPodUsername}.${
+      mockSolidIdentityProvider.split('/')[2]
+    }/profile/card#me`;
+
+    urlsToSet.forEach(async (url) => {
+      await setDocAclForUser(session, url, 'update', webId, permissions);
+    });
+
+    expect(setDocAclForUser).toBeCalledTimes(4);
+  });
+});
+
+describe('checkContainerPermission', () => {
+  const otherPodUsername = 'pod2';
+  const documentsContainerUrl = `https://${otherPodUsername}.${
+    mockSolidIdentityProvider.split('/')[2]
+  }/Documents/`;
+  let catchExecuted = false;
+
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('expect try block to be ran if getSolidDataset resolves', async () => {
+    try {
+      await getSolidDataset(documentsContainerUrl, { fetch: session.fetch });
+
+      expect(getSolidDataset).toBeCalled();
+    } catch {
+      catchExecuted = true;
+    }
+
+    expect(catchExecuted).toBe(false);
+  });
+
+  it('expect catch block to be ran if rejected', async () => {
+    try {
+      await getSolidDatasetRejected(documentsContainerUrl, { fetch: session.fetch });
+
+      expect(getSolidDataset).toBeCalled();
+    } catch {
+      catchExecuted = true;
+    }
+
+    expect(catchExecuted).toBe(true);
+  });
+});
+
 describe('create container logic for Solid', () => {
+  const documentUrl = `${mockPodUrl}Documents/`;
+  let catchExecuted = false;
+
   beforeEach(() => {
     session = {
       fetch: vi.fn()
@@ -56,9 +140,6 @@ describe('create container logic for Solid', () => {
   });
 
   it('run try only if container exists', async () => {
-    const documentUrl = `${mockPodUrl}Documents/`;
-    let catchExecuted = false;
-
     try {
       await getSolidDataset(documentUrl, { fetch: session.fetch });
       expect(getSolidDataset).toBeCalledWith(
@@ -75,9 +156,6 @@ describe('create container logic for Solid', () => {
   });
 
   it('executes catch if getSolidDataset fails', async () => {
-    const documentUrl = `${mockPodUrl}Documents/`;
-    let catchExecuted = false;
-
     try {
       await getSolidDatasetRejected(documentUrl, { fetch: session.fetch });
     } catch {
