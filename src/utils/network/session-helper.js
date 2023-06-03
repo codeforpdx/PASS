@@ -17,7 +17,8 @@ import {
   getResourceAcl,
   getSolidDatasetWithAcl,
   setPublicResourceAccess,
-  getDatetime
+  getDatetime,
+  createSolidDataset
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -438,4 +439,51 @@ export const parseMessageTTL = (messageTTLThing) => {
   const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
 
   return { message, title, uploadDate, sender, recipient };
+};
+
+/**
+ * A function that builds a new message TTL file to be sent
+ *
+ * @memberof utils
+ * @function buildMessageTTL
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {Date} date - JavaScript Date object
+ * @param {string} senderName - Name of sender
+ * @param {string} recipientName - Name of recipient
+ * @param {URL} recipientWebId - webId of recipient
+ * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @returns {object} messageObject - An object containinng the message content,
+ * title, uploadDate, sender, and recipient
+ */
+
+export const buildMessageTTL = (
+  session,
+  date,
+  messageObject,
+  senderName,
+  recipientName,
+  recipientWebId
+) => {
+  const newMessageTTL = buildThing(createThing({ name: 'message' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, date)
+    .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
+    .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
+    .build();
+
+  const senderInfo = buildThing(createThing({ name: 'sender' }))
+    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
+    .addUrl(RDF_PREDICATES.url, session.info.webId)
+    .build();
+
+  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
+    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
+    .addUrl(RDF_PREDICATES.url, recipientWebId)
+    .build();
+
+  let newSolidDataset = createSolidDataset();
+  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+    newSolidDataset = setThing(newSolidDataset, thing);
+  });
+
+  return newSolidDataset;
 };

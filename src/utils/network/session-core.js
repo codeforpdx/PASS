@@ -23,7 +23,8 @@ import {
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
   saveMessageTTL,
-  parseMessageTTL
+  parseMessageTTL,
+  buildMessageTTL
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -389,19 +390,20 @@ export const createDocumentContainer = async (session, podUrl) => {
 
 /**
  * Function that gets list of inbox TTL file messages and returns the messages as
- * JSON
+ * lists of objects
  *
  * @memberof utils
  * @function getMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} boxType - The message box being called "Inbox" or "Outbox"
  * @param {messageListObject[]} listMessages - List of messages
+ * @param {URL} podUrl - The pod URL of user
  * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
  */
 
-export const getMessageTTL = async (session, boxType, listMessages) => {
-  const messageBoxContainerUrl = getContainerUrl(session, boxType, INTERACTION_TYPES.SELF);
+export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
+  const messageBoxContainerUrl = `${podUrl}${boxType.toLocaleLowerCase()}/`;
   let messageList = [];
   try {
     const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
@@ -448,7 +450,7 @@ export const getMessageTTL = async (session, boxType, listMessages) => {
  * saves a copy on your inbox
  */
 export const sendMessageTTL = async (session, messageObject) => {
-  const { title, message, recipientUsername } = messageObject;
+  const { recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(
     session,
     'Inbox',
@@ -475,26 +477,14 @@ export const sendMessageTTL = async (session, messageObject) => {
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
-  const newMessageTTL = buildThing(createThing({ name: 'message' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, date)
-    .addStringNoLocale(RDF_PREDICATES.title, title)
-    .addStringNoLocale(RDF_PREDICATES.message, message)
-    .build();
-
-  const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
-    .addUrl(RDF_PREDICATES.url, session.info.webId)
-    .build();
-
-  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
-    .addUrl(RDF_PREDICATES.url, recipientWebId)
-    .build();
-
-  let newSolidDataset = createSolidDataset();
-  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
-    newSolidDataset = setThing(newSolidDataset, thing);
-  });
+  const newSolidDataset = buildMessageTTL(
+    session,
+    date,
+    messageObject,
+    senderName,
+    recipientName,
+    recipientWebId
+  );
 
   const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
 
@@ -515,11 +505,12 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @memberof utils
  * @function createOutbox
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The pod URL of user
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
-export const createOutbox = async (session) => {
-  const outboxContainerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
+export const createOutbox = async (session, podUrl) => {
+  const outboxContainerUrl = `${podUrl}outbox/`;
   await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
 
   await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
