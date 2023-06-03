@@ -5,8 +5,6 @@ import {
   setThing
 } from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
-import { getContainerUrl } from '../../src/utils/network/session-helper';
-import { INTERACTION_TYPES } from '../../src/constants';
 
 const getSolidDataset = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)));
 const createContainerAt = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)));
@@ -32,11 +30,10 @@ describe('setDocAclPermission', () => {
   });
 
   it('prints out correct documentUrl and webId for other user and calls setDocAclForUser', async () => {
-    const fileType = "Driver's License";
     const otherPodUsername = 'pod2';
     const permissions = { read: true };
 
-    const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
+    const documentUrl = 'https://pod.example.com/Drivers%20License/';
     const webId = `https://${otherPodUsername}.${
       mockSolidIdentityProvider.split('/')[2]
     }/profile/card#me`;
@@ -65,7 +62,7 @@ describe('setDocContainerAclPermission', () => {
   it('calls setDocAclForUser 4 times', async () => {
     const otherPodUsername = 'pod2';
     const permissions = { read: true, write: true, append: true, control: false };
-    const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
+    const containerUrl = 'https://pod.example.com/Documents/';
     const urlsToSet = [
       containerUrl,
       `${containerUrl}Bank%20Statement/`,
