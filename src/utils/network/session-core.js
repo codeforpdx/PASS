@@ -308,7 +308,7 @@ export const deleteDocumentFile = async (session, fileType) => {
   // the container itself can be deleted from Pod
   const [container, files] = getContainerUrlAndFiles(fetched);
   files.filter(async (file) => {
-    if (!file.url.slice(-3).includes('/')) {
+    if (!file.url.endsWith('/')) {
       await deleteFile(file.url, { fetch: session.fetch });
     }
   });
