@@ -16,7 +16,8 @@ import {
   saveSolidDatasetInContainer,
   getResourceAcl,
   getSolidDatasetWithAcl,
-  setPublicResourceAccess
+  setPublicResourceAccess,
+  getDatetime
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -408,4 +409,33 @@ export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) =
     contentType: 'text/turtle',
     fetch: session.fetch
   });
+};
+
+/**
+ * A function that parses a message TTL file from inbox or outbox and returns a
+ * messageObject
+ *
+ * @memberof utils
+ * @function parseMessageTTL
+ * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @returns {object} messageObject - An object containinng the message content,
+ * title, uploadDate, sender, and recipient
+ */
+
+export const parseMessageTTL = (messageTTLThing) => {
+  // Get data related to #message
+  const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
+  const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
+  const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
+  const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
+
+  // Get data related to #sender
+  const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
+  const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+
+  // Get data related to #recipient
+  const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
+  const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
+
+  return { message, title, uploadDate, sender, recipient };
 };

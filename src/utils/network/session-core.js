@@ -9,9 +9,7 @@ import {
   deleteContainer,
   deleteFile,
   overwriteFile,
-  getThingAll,
-  getDatetime,
-  getStringNoLocale
+  getThingAll
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, UPLOAD_TYPES } from '../../constants';
 import {
@@ -24,7 +22,8 @@ import {
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
-  saveMessageTTL
+  saveMessageTTL,
+  parseMessageTTL
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -402,14 +401,14 @@ export const createDocumentContainer = async (session, podUrl) => {
  */
 
 export const getMessageTTL = async (session, boxType, listMessages) => {
-  const messageBoxContainerUrl = getContainerUrl(session, boxType, 'self-fetch');
+  const messageBoxContainerUrl = getContainerUrl(session, boxType);
   let messageList = [];
   try {
     const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
       fetch: session.fetch
     });
     const ttlFileThing = getThingAll(solidDataset);
-    const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
+    const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
 
     // Early return if length of inbox in both PASS and Solid is the same
     if (allMessageThing.length === listMessages.length) {
@@ -421,22 +420,9 @@ export const getMessageTTL = async (session, boxType, listMessages) => {
         const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
 
         const messageTTLThing = getThingAll(messageDataset);
+        const parsedMessageObject = parseMessageTTL(messageTTLThing);
 
-        // Get data related to #message
-        const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
-        const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
-        const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
-        const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
-
-        // Get data related to #sender
-        const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
-        const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
-
-        // Get data related to #recipient
-        const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
-        const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
-
-        messageList.push({ message, title, uploadDate, sender, recipient });
+        messageList.push(parsedMessageObject);
       });
 
       await Promise.all(promises);
