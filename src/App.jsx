@@ -72,9 +72,9 @@ const App = () => {
 
       await updateUserActivity(session, podUrl);
       await createDocumentContainer(session, podUrl);
-      await createPublicContainer(session);
-      await createInbox(session);
-      await createOutbox(session);
+      await createPublicContainer(session, podUrl);
+      await createInbox(session, podUrl);
+      await createOutbox(session, podUrl);
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);

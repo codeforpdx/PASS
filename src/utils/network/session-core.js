@@ -336,6 +336,7 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  *
  * @memberof utils
  * @param {Session} session - Solid's Session Object
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Creates Documents container for storage of
  * documents being uploaded by authorized users
  */
@@ -389,12 +390,13 @@ export const createDocumentContainer = async (session, podUrl) => {
  * @memberof utils
  * @function createPublicContainer
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Generates a public container for Pod upon log in
  * if user's Pod does not have the an outbox to begin with
  */
 
-export const createPublicContainer = async (session) => {
-  const publicContainerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
+export const createPublicContainer = async (session, podUrl) => {
+  const publicContainerUrl = `${podUrl}public/`;
 
   try {
     await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
@@ -552,12 +554,12 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @memberof utils
  * @function createOutbox
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
-export const createOutbox = async (session) => {
-  const outboxContainerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
-  await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+export const createOutbox = async (session, podUrl) => {
+  const outboxContainerUrl = `${podUrl}outbox/`;
 
   try {
     await getSolidDataset(outboxContainerUrl, { fetch: session.fetch });
@@ -576,12 +578,13 @@ export const createOutbox = async (session) => {
  * @memberof utils
  * @function createInbox
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
 
-export const createInbox = async (session) => {
-  const inboxContainerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
+export const createInbox = async (session, podUrl) => {
+  const inboxContainerUrl = `${podUrl}inbox/`;
 
   try {
     await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
