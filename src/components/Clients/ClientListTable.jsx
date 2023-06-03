@@ -57,6 +57,7 @@ const StyledTableRow = styled(TableRow)(() => {
 const ClientListTable = ({
   userList,
   loadingActive,
+  handleSelectUser,
   handleDeleteClient,
   state,
   statusType,
@@ -66,6 +67,8 @@ const ClientListTable = ({
   const theme = useTheme();
   // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
   const [pinned, setPinned] = useState(false);
+  // TODO: determine better approach so all checkboxes don't get checked with a single one is checked.
+  const [selected, setSelected] = useState(false);
 
   const determineDateModifiedCell = (client) => {
     let displayed;
@@ -88,8 +91,7 @@ const ClientListTable = ({
   // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
   const columnTitlesArray = ['Select', 'Client', 'Pod URL', 'Last Activity', 'Pin', 'Delete'];
 
-  const [selected, setSelected] = React.useState([]);
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '6rem' }}>
@@ -103,16 +105,20 @@ const ClientListTable = ({
         </TableHead>
         <TableBody>
           {userList.map((client, index) => {
-            const isItemSelected = isSelected(client.person);
             const labelId = `clientlist-checkbox-${index}`;
             return (
             <StyledTableRow key={client.podUrl}>
               <StyledTableCell align="center">
                 <Checkbox
                   color="primary"
-                  checked={isItemSelected}
+                  // TODO: determine better approach so all checkboxes don't get checked with a single one is checked.
+                  checked={selected}
                   inputProps={{
                     'aria-labelledby': labelId,
+                  }}
+                  onClick={() => {
+                    setSelected(!selected);
+                    handleSelectUser(client.person, client.podUrl);
                   }}
                 />
               </StyledTableCell>
