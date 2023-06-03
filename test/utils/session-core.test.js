@@ -1,5 +1,7 @@
 import { getSolidDataset, createContainerAt, mockSolidDatasetFrom } from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
+import { getContainerUrl } from '../../src/utils/network/session-helper';
+import { INTERACTION_TYPES } from '../../src/constants';
 
 vi.mock('@inrupt/solid-client', async () => {
   const actual = await vi.importActual('@inrupt/solid-client');
@@ -13,7 +15,35 @@ vi.mock('@inrupt/solid-client', async () => {
 const getSolidDatasetRejected = vi.fn(() => Promise.reject(Error('dataset not found')));
 
 const mockPodUrl = 'https://pod.example.com/';
+const mockWebId2 = 'https://pod2.example.com/';
+const mockSolidIdentityProvider = 'https://example.com/';
 let session = {};
+
+describe('setDocAclPermission', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("prints out correct documentUrl for Driver's License and webId for other user", () => {
+    const fileType = "Driver's License";
+    const otherPodUsername = 'pod2';
+    const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
+    const webId = `https://${otherPodUsername}.${
+      mockSolidIdentityProvider.split('/')[2]
+    }/profile/card#me`;
+
+    expect(documentUrl).toBe('https://pod.example.com/Drivers%20License/');
+    expect(webId).toBe('https://pod2.example.com/profile/card#me');
+  });
+});
 
 describe('create container logic for Solid', () => {
   beforeEach(() => {
