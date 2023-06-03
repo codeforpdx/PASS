@@ -1,27 +1,18 @@
 import {
-  getSolidDataset,
-  createContainerAt,
   mockSolidDatasetFrom,
   mockThingFrom,
   createSolidDataset,
-  setThing,
-  saveSolidDatasetInContainer
+  setThing
 } from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import { getContainerUrl } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
 
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-    createContainerAt: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-    saveSolidDatasetInContainer: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)))
-  };
-});
-
+const getSolidDataset = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)));
+const createContainerAt = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)));
+const saveSolidDatasetInContainer = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)));
 const getSolidDatasetRejected = vi.fn(() => Promise.reject(Error('dataset not found')));
+const setDocAclForUser = vi.fn(() => Promise.resolve());
 
 const mockPodUrl = 'https://pod.example.com/';
 const mockSolidIdentityProvider = 'https://example.com/';
@@ -40,20 +31,23 @@ describe('setDocAclPermission', () => {
     vi.clearAllMocks();
   });
 
-  it("prints out correct documentUrl for Driver's License and webId for other user", () => {
+  it('prints out correct documentUrl and webId for other user and calls setDocAclForUser', async () => {
     const fileType = "Driver's License";
     const otherPodUsername = 'pod2';
+    const permissions = { read: true };
+
     const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
     const webId = `https://${otherPodUsername}.${
       mockSolidIdentityProvider.split('/')[2]
     }/profile/card#me`;
 
+    await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
+
+    expect(setDocAclForUser).toBeCalledWith(session, documentUrl, 'update', webId, permissions);
     expect(documentUrl).toBe('https://pod.example.com/Drivers%20License/');
     expect(webId).toBe('https://pod2.example.com/profile/card#me');
   });
 });
-
-const setDocAclForUser = vi.fn(() => Promise.resolve());
 
 describe('setDocContainerAclPermission', () => {
   beforeEach(() => {
