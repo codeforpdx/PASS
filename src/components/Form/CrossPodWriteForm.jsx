@@ -9,7 +9,7 @@ import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
-import { UPLOAD_TYPES } from '../../constants';
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -50,7 +50,7 @@ const CrossPodWriteForm = () => {
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
-    UPLOAD_TYPES.CROSS,
+    INTERACTION_TYPES.CROSS,
     state,
     dispatch,
     session,
