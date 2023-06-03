@@ -135,7 +135,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
     if (!item.url.endsWith('/')) {
       files.push(item);
     } else {
-      directory = item;
+      directory = item.url;
     }
   });
 
