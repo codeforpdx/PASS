@@ -13,7 +13,6 @@ import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from '../Form/FormSection';
 import ClientListTable from './ClientListTable';
 
 
@@ -54,33 +53,34 @@ const ClientList = ({ loadingActive }) => {
 
   
   return (
-    <FormSection title="Clients" state={state} statusType="Status" defaultMessage="No actions">
-      {userList.length ? (
-        // if clients
-        <ClientListTable
-          userList={userList}
-          loadingActive={loadingActive}
-          handleSelectClient={handleSelectClient}
-          handleDeleteClient={handleDeleteClient}
-        />
-      ) : (
-        // if no clients
-        <Container>
-          <Box
-            sx={{
-              marginTop: 3,
-              minWidth: 120,
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
-              Add clients to your list
-            </Typography>
-          </Box>
-        </Container>
-      )}
-    </FormSection>
+    userList.length ? (
+      // render if clients
+      <ClientListTable
+        userList={userList}
+        loadingActive={loadingActive}
+        handleSelectClient={handleSelectClient}
+        handleDeleteClient={handleDeleteClient}
+        state={state}
+        statusType="Status"
+        defaultMessage="No actions"
+      />
+    ) : (
+      // render if no clients
+      <Container>
+        <Box
+          sx={{
+            marginTop: 3,
+            minWidth: 120,
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
+            Add clients to your list
+          </Typography>
+        </Box>
+      </Container>
+    )
   );
 };
 
