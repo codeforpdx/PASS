@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // Material UI Imports
 import { styled, useTheme } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -85,9 +86,10 @@ const ClientListTable = ({
   };
 
   // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
-  const columnTitlesArray = ['Client', 'Pod URL', 'Last Activity', 'Pin', 'Delete'];
+  const columnTitlesArray = ['Select', 'Client', 'Pod URL', 'Last Activity', 'Pin', 'Delete'];
 
-
+  const [selected, setSelected] = React.useState([]);
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '6rem' }}>
@@ -100,9 +102,21 @@ const ClientListTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {userList.map((client) => (
+          {userList.map((client, index) => {
+            const isItemSelected = isSelected(client.person);
+            const labelId = `clientlist-checkbox-${index}`;
+            return (
             <StyledTableRow key={client.podUrl}>
-              <StyledTableCell align="center">{client.person}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Checkbox
+                  color="primary"
+                  checked={isItemSelected}
+                  inputProps={{
+                    'aria-labelledby': labelId,
+                  }}
+                />
+              </StyledTableCell>
+              <StyledTableCell align="center" id={labelId}>{client.person}</StyledTableCell>
               <StyledTableCell align="center">
                 <Link
                   href={client.podUrl}
@@ -130,7 +144,8 @@ const ClientListTable = ({
                 </IconButton>
               </StyledTableCell>
             </StyledTableRow>
-          ))}
+            );
+          })}
         </TableBody>
       </Table>
       <StatusNotification
