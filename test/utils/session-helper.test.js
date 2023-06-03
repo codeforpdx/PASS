@@ -104,42 +104,42 @@ describe('getContainerUrl', () => {
     vi.clearAllMocks();
   });
 
-  it('Calls the correct container URL to Bank Statement', () => {
+  it('Returns the correct container URL to Bank Statement', () => {
     const containerUrl = getContainerUrl(session, 'Bank Statement', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}Bank%20Statement/`);
   });
 
-  it('Calls the correct container URL to Passport', () => {
+  it('Returns the correct container URL to Passport', () => {
     const containerUrl = getContainerUrl(session, 'Passport', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}Passport/`);
   });
 
-  it("Calls the correct container URL to Driver's License", () => {
+  it("Returns the correct container URL to Driver's License", () => {
     const containerUrl = getContainerUrl(session, "Driver's License", INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}Drivers%20License/`);
   });
 
-  it('Calls the correct container URL to Users', () => {
+  it('Returns the correct container URL to Users', () => {
     const containerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}Users/`);
   });
 
-  it('Calls the correct container URL to Documents', () => {
+  it('Returns the correct container URL to Documents', () => {
     const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}Documents/`);
   });
 
-  it('Calls the correct container URL to inbox', () => {
+  it('Returns the correct container URL to inbox', () => {
     const containerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}inbox/`);
   });
 
-  it('Calls the correct container URL to outbox', () => {
+  it('Returns the correct container URL to outbox', () => {
     const containerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}outbox/`);
   });
 
-  it('Calls the correct container URL to public', () => {
+  it('Returns the correct container URL to public', () => {
     const containerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}public/`);
   });
