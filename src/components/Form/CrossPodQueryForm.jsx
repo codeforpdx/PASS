@@ -14,6 +14,8 @@ import { getDocuments, runNotification } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
+// Constants Imports
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -59,7 +61,12 @@ const CrossPodQueryForm = () => {
     }
 
     try {
-      const documentUrl = await getDocuments(session, docType, 'cross-fetch', podUsername);
+      const documentUrl = await getDocuments(
+        session,
+        docType,
+        INTERACTION_TYPES.CROSS,
+        podUsername
+      );
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
