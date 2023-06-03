@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
-import { ManageUsers } from '../Form';
+import AddClient from './AddClient';
 
 
 /**
@@ -28,7 +28,7 @@ const AddClientModal = ({ showModal, setShowModal }) => (
     <DialogTitle id="dialog-tile">Add Client</DialogTitle>
 
     <DialogContent>
-      <ManageUsers />
+      <AddClient />
     </DialogContent>
 
     <DialogActions>
@@ -38,7 +38,7 @@ const AddClientModal = ({ showModal, setShowModal }) => (
         endIcon={<ClearIcon />}
         onClick={() => setShowModal(false)}
       >
-        NO
+        CANCEL
       </Button>
       <Button
         variant="outlined"
@@ -47,7 +47,7 @@ const AddClientModal = ({ showModal, setShowModal }) => (
         onClick={() => setShowModal(false)}
         sx={{ marginLeft: '1rem' }}
       >
-        YES
+        ADD CLIENT
       </Button>
     </DialogActions>
   </Dialog>

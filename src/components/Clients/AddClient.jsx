@@ -16,8 +16,9 @@ import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
 
+
 /**
- * AddUsers Component - Component that allows users to add other user's
+ * AddClient Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Forms
@@ -33,7 +34,7 @@ const AddClient = () => {
   const { setUserList } = useContext(UserListContext);
 
   // Event handler for adding user from users list
-  const handleAddUser = async (event) => {
+  const handleAddClient = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
     const userObject = {
@@ -42,6 +43,7 @@ const AddClient = () => {
       username: event.target.addUsername.value
     };
 
+    // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username) {
       runNotification(`Operation failed. Reason: No username provided`, 5, state, dispatch);
       setTimeout(() => {
@@ -75,14 +77,14 @@ const AddClient = () => {
       }, 3000);
       return;
     }
+    // ===== END OF ERROR DISPLAY OPTIONS =====
 
     let listUsers = await addUserToPod(session, userObject);
     listUsers = await getUserListActivity(session, listUsers);
-
     setUserList(listUsers);
 
     runNotification(
-      `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+      `Adding user "${userObject.givenName} ${userObject.familyName}" to client list...`,
       5,
       state,
       dispatch
@@ -96,9 +98,6 @@ const AddClient = () => {
     }, 3000);
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
@@ -108,7 +107,7 @@ const AddClient = () => {
       statusType="Status"
       defaultMessage="To be added..."
     >
-      <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
+      <form onSubmit={handleAddClient} style={{marginTop: '20px', marginBottom: '20px'}} autoComplete="off">
         <div>
           <label htmlFor="add-user-given-name">First/given name: </label>
           <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
@@ -121,7 +120,7 @@ const AddClient = () => {
         <br />
         <div>
           <label htmlFor="add-username">
-            Add username to users list (i.e., username without{' '}
+            Add username to client list (i.e., username without{' '}
             {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
           </label>
           <br />
@@ -130,7 +129,7 @@ const AddClient = () => {
         </div>
         <br />
         <button type="submit" disabled={state.processing}>
-          Add User
+          Add Client
         </button>
       </form>
     </FormSection>
