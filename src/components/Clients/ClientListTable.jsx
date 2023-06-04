@@ -89,7 +89,7 @@ const ClientListTable = ({
   };
 
   // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
-  const columnTitlesArray = ['Select', 'Client', 'Pod URL', 'Last Activity', 'Pin', 'Delete'];
+  const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
 
   
 
