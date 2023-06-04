@@ -107,7 +107,7 @@ const ClientListTable = ({
           {userList.map((client, index) => {
             const labelId = `clientlist-checkbox-${index}`;
             return (
-            <StyledTableRow key={client.podUrl}>
+            <StyledTableRow key={client.webId}>
               <StyledTableCell align="center">
                 <Checkbox
                   color="primary"
@@ -125,12 +125,12 @@ const ClientListTable = ({
               <StyledTableCell align="center" id={labelId}>{client.person}</StyledTableCell>
               <StyledTableCell align="center">
                 <Link
-                  href={client.podUrl}
+                  href={client.webId}
                   target="_blank"
                   rel="noreferrer"
                   style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
                 >
-                  {client.podUrl}
+                  {client.webId}
                 </Link>
               </StyledTableCell>
               <StyledTableCell align="center">{determineDateModifiedCell(client)}</StyledTableCell>
