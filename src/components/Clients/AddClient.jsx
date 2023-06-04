@@ -16,7 +16,6 @@ import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
 
-
 /**
  * AddClient Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
@@ -98,7 +97,6 @@ const AddClient = () => {
     }, 3000);
   };
 
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -107,7 +105,11 @@ const AddClient = () => {
       statusType="Status"
       defaultMessage="To be added..."
     >
-      <form onSubmit={handleAddClient} style={{marginTop: '20px', marginBottom: '20px'}} autoComplete="off">
+      <form
+        onSubmit={handleAddClient}
+        style={{ marginTop: '20px', marginBottom: '20px' }}
+        autoComplete="off"
+      >
         <div>
           <label htmlFor="add-user-given-name">First/given name: </label>
           <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}

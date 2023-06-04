@@ -33,6 +33,7 @@ exports[`renders correctly 1`] = `
     class="MuiBox-root css-120gsus"
   />
   <div>
+    https://solidcommunity.net/
     <button
       aria-label="Login Button"
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
@@ -81,6 +82,7 @@ exports[`sets OIDC provider on login 1`] = `
     class="MuiBox-root css-120gsus"
   />
   <div>
+    oidc.provider.url
     <button
       aria-label="Login Button"
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1xnmwiw-MuiButtonBase-root-MuiButton-root"

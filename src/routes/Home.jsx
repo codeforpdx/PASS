@@ -6,10 +6,10 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
 /**
- * Home Component - Component that generates the home page of the PASS website/app
+ * Home Page - Page that generates the home page of the PASS website/app
  *
- * @memberof Login
- * @name Login
+ * @memberof Pages
+ * @name Home
  */
 
 const Home = () => (

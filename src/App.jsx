@@ -1,30 +1,18 @@
 // React Imports
 import React, { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
 // Inrupt Imports
+import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import {
-  getUsersFromPod,
-  generateActivityTTL,
-  generateUsersList,
-  updateUserActivity,
-  getUserListActivity,
-  createDocumentContainer,
-  createOutbox,
-  getInboxMessageTTL
-} from './utils';
+import { createDocumentContainer, createOutbox, getInboxMessageTTL } from './utils';
+import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { InboxMessageContext, SelectUserContext, UserListContext } from './contexts';
-// Page Imports
-import Home from './routes/Home';
+import { InboxMessageContext, SelectUserContext, UserListContextProvider } from './contexts';
 // Component Imports
-import Forms from './components/Forms';
-import { Inbox } from './components/Inbox';
-import { Clients } from './components/Clients';
 import Layout from './layouts/Layouts';
+import AppRoutes from './AppRoutes';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -56,14 +44,9 @@ const App = () => {
 
   const [selectedUser, setSelectedUser] = useState('');
   /** @type {userListObject[]} */
-  const initialUserList = [];
-  const [userList, setUserList] = useState(initialUserList);
-  const [loadingUsers, setLoadingUsers] = useState(true);
-  const [loadingActive, setLoadingActive] = useState(true);
   const [loadMessages, setLoadMessages] = useState(true);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-  const userListObject = useMemo(() => ({ userList, setUserList }), [userList]);
 
   /** @type {inboxListObject[]} */
   const initialInboxList = [];
@@ -78,23 +61,12 @@ const App = () => {
      * @function fetchData
      */
     async function fetchData() {
-      await generateUsersList(session);
-      await generateActivityTTL(session);
-      await updateUserActivity(session);
-      await createDocumentContainer(session);
+      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
+      podUrl = podUrl || session.info.webId.split('profile')[0];
+
+      await updateUserActivity(session, podUrl);
+      await createDocumentContainer(session, podUrl);
       await createOutbox(session);
-      try {
-        let listUsers = await getUsersFromPod(session);
-        setUserList(listUsers);
-        setLoadingUsers(false);
-        listUsers = await getUserListActivity(session, listUsers);
-        setUserList(listUsers);
-        setLoadingActive(false);
-      } catch {
-        setUserList([]);
-        setLoadingUsers(false);
-        setLoadingActive(false);
-      }
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
@@ -111,54 +83,15 @@ const App = () => {
   return (
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContext.Provider value={userListObject}>
+        <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <Routes>
-              <Route
-                exact
-                path="/PASS/"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Navigate
-                      to={
-                        !localStorage.getItem('restorePath')
-                          ? '/PASS/clients'
-                          : localStorage.getItem('restorePath')
-                      }
-                    />
-                  ) : (
-                    <Home />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/clients"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Clients loadingUsers={loadingUsers} loadingActive={loadingActive} />
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route
-                path="/PASS/forms"
-                element={session.info.isLoggedIn ? <Forms /> : <Navigate to="/PASS/" />}
-              />
-              <Route
-                path="/PASS/inbox"
-                element={
-                  session.info.isLoggedIn ? (
-                    <Inbox loadMessages={loadMessages} />
-                  ) : (
-                    <Navigate to="/PASS/" />
-                  )
-                }
-              />
-              <Route path="*" element={<Navigate to="/PASS/" />} />
-            </Routes>
+            <AppRoutes
+              isLoggedIn={session.info.isLoggedIn}
+              loadingActive={false}
+              loadMessages={loadMessages}
+            />
           </InboxMessageContext.Provider>
-        </UserListContext.Provider>
+        </UserListContextProvider>
       </SelectUserContext.Provider>
     </Layout>
   );
