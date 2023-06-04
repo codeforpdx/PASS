@@ -28,9 +28,11 @@ const Outbox = ({ loadMessages }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(OutboxMessageContext);
 
+  const podUrl = session.info.webId.split('profile')[0];
+
   // Handler function for refreshing PASS outbox
   const handleOutboxRefresh = async () => {
-    const messagesInSolid = await getMessageTTL(session, 'Outbox', outboxList);
+    const messagesInSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
     setOutboxList(messagesInSolid);
   };

@@ -32,9 +32,11 @@ const Inbox = ({ loadMessages }) => {
   const { inboxList, setInboxList } = useContext(InboxMessageContext);
   const { outboxList, setOutboxList } = useContext(OutboxMessageContext);
 
+  const podUrl = session.info.webId.split('profile')[0];
+
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
-    const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList);
+    const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(messagesInSolid);
   };

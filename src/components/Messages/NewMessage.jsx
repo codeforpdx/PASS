@@ -27,6 +27,8 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
 
+  const podUrl = session.info.webId.split('profile')[0];
+
   // Modifies message upon input
   const handleChange = (e) => {
     setMessage({
@@ -67,7 +69,7 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
     }
 
     // Re-sorts messages when new message is added to outboxList
-    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList);
+    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
     const sortedOutbox = outboxMessages;
     sortedOutbox.sort((a, b) => b.uploadDate - a.uploadDate);
     setOutboxList(sortedOutbox);
