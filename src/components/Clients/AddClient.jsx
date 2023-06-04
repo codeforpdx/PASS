@@ -1,20 +1,17 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import {
-  runNotification,
-  addUserToPod,
-  getUserListActivity,
-  SOLID_IDENTITY_PROVIDER
-} from '../../utils';
+import { runNotification, SOLID_IDENTITY_PROVIDER } from '../../utils';
+import { createUser } from '../../model-helpers/User';
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
+
 
 /**
  * AddClient Component - Component that allows users to add other user's
@@ -24,30 +21,36 @@ import FormSection from '../Form/FormSection';
  * @name AddClient
  */
 
+const renderWebId = (username) => {
+  const oidcProvider = SOLID_IDENTITY_PROVIDER.split('//')[1];
+  const template = ['https://', `.${oidcProvider}profile/card#me`];
+  return `${template[0]}${username}${template[1]}`;
+};
+
 const AddClient = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
   const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { setUserList } = useContext(UserListContext);
+  const [username, setUsername] = useState('');
+  const [webId, setWebId] = useState('');
+  const { addUser } = useContext(UserListContext);
 
-  // Event handler for adding user from users list
-  const handleAddClient = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
-    const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      username: event.target.addUsername.value
-    };
+  const wrappedSetUsername = (value) => {
+    setUsername(value);
+    const renderedWebId = renderWebId(value);
+    setWebId(renderedWebId);
+  };
 
+  const submitUser = async (userObject) => {
+    const user = await createUser(session, userObject);
+    await addUser(user);
+  };
+
+  const notifyStartSubmission = (userObject) => {
     // ===== START OF ERROR DISPLAY OPTIONS =====
-    if (!userObject.username) {
-      runNotification(`Operation failed. Reason: No username provided`, 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+    if (!userObject.username && !userObject.webId) {
+      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
     }
 
@@ -78,9 +81,7 @@ const AddClient = () => {
     }
     // ===== END OF ERROR DISPLAY OPTIONS =====
 
-    let listUsers = await addUserToPod(session, userObject);
-    listUsers = await getUserListActivity(session, listUsers);
-    setUserList(listUsers);
+    dispatch({ type: 'SET_PROCESSING' });
 
     runNotification(
       `Adding user "${userObject.givenName} ${userObject.familyName}" to client list...`,
@@ -88,13 +89,36 @@ const AddClient = () => {
       state,
       dispatch
     );
+  };
 
-    setTimeout(() => {
-      clearUserGivenName();
-      clearUserFamilyName();
-      clearUsername();
-      dispatch({ type: 'CLEAR_PROCESSING' });
-    }, 3000);
+  // Event handler for adding user from users list
+  const handleAddClient = async (event) => {
+    event.preventDefault();
+    const userObject = {
+      givenName: event.target.addUserGivenName.value,
+      familyName: event.target.addUserFamilyName.value,
+      username: event.target.addUsername.value,
+      webId: event.target.addWebId.value
+    };
+
+    notifyStartSubmission(userObject, state, dispatch);
+    try {
+      await submitUser(userObject);
+    } finally {
+      runNotification(
+        `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+        5,
+        state,
+        dispatch
+      );
+      setTimeout(() => {
+        clearUserGivenName();
+        clearUserFamilyName();
+        setUsername('');
+        setWebId('');
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+    }
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -127,8 +151,23 @@ const AddClient = () => {
           </label>
           <br />
           <br />
-          <input id="add-username" name="addUsername" size="25" {...username} />{' '}
+          <input id="add-username" name="addUsername" size="25" value={username} onChange={(e) => wrappedSetUsername(e.target.value)} />{' '}
         </div>
+        <br />
+        <label htmlFor="add-webId">
+          WebId:
+          <br />
+          <input
+            id="add-webId"
+            name="addWebId"
+            size="25"
+            type="text"
+            value={webId}
+            onChange={(e) => {
+              setWebId(e.target.value);
+            }}
+          />
+        </label>
         <br />
         <button type="submit" disabled={state.processing}>
           Add Client
