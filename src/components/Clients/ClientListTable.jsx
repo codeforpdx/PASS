@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // React Router Imports
 import { Link } from 'react-router-dom';
 // Material UI Imports
@@ -16,6 +16,12 @@ import Paper from '@mui/material/Paper';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+// Utility Imports
+import { runNotification } from '../../utils';
+// Custom Hook Imports
+import { useStatusNotification } from '../../hooks';
+// Context Imports
+import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
 import { StatusNotification } from '../Notification';
 
@@ -55,11 +61,7 @@ const StyledTableRow = styled(TableRow)(() => {
  */
 
 const ClientListTable = ({
-  userList,
   loadingActive,
-  handleSelectUser,
-  handleDeleteClient,
-  state,
   statusType,
   defaultMessage
 }) => {
@@ -69,7 +71,51 @@ const ClientListTable = ({
   const [pinned, setPinned] = useState(false);
   // TODO: determine better approach so all checkboxes don't get checked with a single one is checked.
   const [selected, setSelected] = useState(false);
+  const { state, dispatch } = useStatusNotification();
+  const { setSelectedUser } = useContext(SelectUserContext);
+  const { userListObject, removeUser } = useContext(UserListContext);
 
+  // Event handler for selecting client from client list
+  const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
+    runNotification(`Client "${clientToSelect}" selected.`, 3, state, dispatch);
+    setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
+  };
+
+  // Event handler for deleting client from client list
+  // const handleDeleteClient = async (clientToDeleteFullName, clientToDelete, clientToDeleteUrl) => {
+  //   if (
+  //     window.confirm(
+  //       `You're about to delete ${clientToDeleteFullName} from client list, do you wish to continue?`
+  //     )
+  //   ) {
+  //     runNotification(`Deleting ${clientToDeleteFullName} from client list...`, 3, state, dispatch);
+  //     let listUsers = await deleteUserFromPod(session, clientToDelete, clientToDeleteUrl);
+  //     listUsers = await getUserListActivity(session, listUsers);
+
+  //     setUserList(listUsers);
+  //   }
+  // };
+  const handleDeleteClient = async (client) => {
+    if (
+      !window.confirm(
+        `You're about to delete user ${client.person} from users list, do you wish to continue?`
+      )
+    ) {
+      return;
+    }
+    runNotification(`Deleting user "${client.person}" from Solid...`, 3, state, dispatch);
+    await removeUser(client);
+    runNotification(`User "${client.person}" deleted from Solid...`, 3, state, dispatch);
+  };
+
+  // Event handler for pinning client to top of table
+  const handlePinClick = () => {
+    // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
+    // TODO: add function to move the row to the top of list if priority: true
+    setPinned(!pinned);
+  };
+
+  // determine what gets rendered in the date modified cell of table
   const determineDateModifiedCell = (client) => {
     let displayed;
     if (loadingActive) {
@@ -82,11 +128,6 @@ const ClientListTable = ({
     return displayed;
   };
 
-  const handlePinClick = () => {
-    // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
-    // TODO: add function to move the row to the top of list if priority: true
-    setPinned(!pinned);
-  };
 
   // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
   const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
@@ -104,7 +145,8 @@ const ClientListTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {userList.map((client, index) => {
+          {userListObject &&
+            userListObject.userList.map((client, index) => {
             const labelId = `clientlist-checkbox-${index}`;
             return (
             <StyledTableRow key={client.webId}>
@@ -118,11 +160,14 @@ const ClientListTable = ({
                   }}
                   onClick={() => {
                     setSelected(!selected);
-                    handleSelectUser(client.person, client.podUrl);
+                    handleSelectClient(client.person, client.podUrl);
                   }}
                 />
               </StyledTableCell>
               <StyledTableCell align="center" id={labelId}>{client.person}</StyledTableCell>
+              {/* TODO: Switch this webId to being a small Notes section */}
+              {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
+              {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
               <StyledTableCell align="center">
                 <Link
                   href={client.webId}
@@ -144,7 +189,8 @@ const ClientListTable = ({
                 <IconButton
                   size="large"
                   edge="end"
-                  onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
+                  // onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
+                  onClick={() => handleDeleteClient(client)}
                 >
                   <DeleteOutlineOutlinedIcon />
                 </IconButton>

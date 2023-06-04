@@ -1,17 +1,11 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-// Utility Imports
-import { runNotification, deleteUserFromPod, getUserListActivity } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext, UserListContext } from '../../contexts';
+import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
 
@@ -25,42 +19,13 @@ import ClientListTable from './ClientListTable';
  */
 
 const ClientList = ({ loadingActive }) => {
-  const { session } = useSession();
-  const { state, dispatch } = useStatusNotification();
-  const { setSelectedUser } = useContext(SelectUserContext);
-  const { userList, setUserList } = useContext(UserListContext);
+  const { userList } = useContext(UserListContext);
 
-  // Event handler for selecting client from client list
-  const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
-    runNotification(`User "${clientToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
-  };
-
-  // Event handler for deleting client from client list
-  const handleDeleteClient = async (clientToDeleteFullName, clientToDelete, clientToDeleteUrl) => {
-    if (
-      window.confirm(
-        `You're about to delete ${clientToDeleteFullName} from client list, do you wish to continue?`
-      )
-    ) {
-      runNotification(`Deleting ${clientToDeleteFullName} from client list...`, 3, state, dispatch);
-      let listUsers = await deleteUserFromPod(session, clientToDelete, clientToDeleteUrl);
-      listUsers = await getUserListActivity(session, listUsers);
-
-      setUserList(listUsers);
-    }
-  };
-
-  
   return (
     userList.length ? (
       // render if clients
       <ClientListTable
-        userList={userList}
         loadingActive={loadingActive}
-        handleSelectClient={handleSelectClient}
-        handleDeleteClient={handleDeleteClient}
-        state={state}
         statusType="Status"
         defaultMessage="No actions"
       />
