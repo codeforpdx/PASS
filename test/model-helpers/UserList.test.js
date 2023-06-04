@@ -5,26 +5,17 @@ import {
   setThing,
   getSolidDataset,
   saveSolidDatasetAt,
-  saveAclFor
+  saveAclFor,
+  addMockResourceAclTo
 } from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import { loadUserList, addUser, removeUser, makeUserIntoThing } from '../../src/model-helpers';
 import { RDF_PREDICATES } from '../../src/constants';
 
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    saveAclFor: vi.fn(),
-    saveSolidDatasetAt: vi.fn(),
-    getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-    setAgentResourceAccess: vi.fn(),
-    setAgentDefaultAccess: vi.fn()
-  };
-});
+vi.mock('@inrupt/solid-client');
 
 const makeMockUserListDataset = (userList, url) => {
-  let dataset = mockSolidDatasetFrom(url);
+  let dataset = addMockResourceAclTo(mockSolidDatasetFrom(url));
   const usersListHeader = buildThing(createThing({ name: 'userlist' }))
     .addStringNoLocale(RDF_PREDICATES.name, 'Users List')
     .addStringNoLocale(RDF_PREDICATES.description, 'A list of users')
@@ -37,6 +28,8 @@ const makeMockUserListDataset = (userList, url) => {
 
   return dataset;
 };
+
+const mockDatasetTim = addMockResourceAclTo(mockSolidDatasetFrom('https://tim.example.com/'));
 
 const firstUser = {
   username: 'timbot',
@@ -78,7 +71,7 @@ describe('loadUserList', () => {
 
   it('loads a user list from a dataset', async () => {
     getSolidDataset.mockResolvedValueOnce(mockDataset);
-    getSolidDataset.mockResolvedValue(mockSolidDatasetFrom('https://tim.example.com/'));
+    getSolidDataset.mockResolvedValue(mockDatasetTim);
     const userListResult = await loadUserList(mockSession, 'https://james.example.com/');
     expect(userListResult.userList).toMatchObject(mockUserList);
     expect(userListResult.listUrl).toBe(mockUrl);
@@ -86,8 +79,8 @@ describe('loadUserList', () => {
   });
   it('creates a new dataset if no dataset is found', async () => {
     getSolidDataset.mockRejectedValueOnce(Error('random error message'));
-    getSolidDataset.mockResolvedValueOnce(mockSolidDatasetFrom('https://tim.example.com/'));
-    getSolidDataset.mockResolvedValue({});
+    getSolidDataset.mockResolvedValueOnce(mockDatasetTim);
+
     await loadUserList(mockSession, 'https://james.example.com/');
     expect(saveSolidDatasetAt).toBeCalledWith(
       'https://james.example.com/Users/userlist.ttl',
@@ -128,6 +121,7 @@ describe('addUser', () => {
     await addUser(newUser, mockSession, mockUserListObject);
     expect(saveSolidDatasetAt).toBeCalled();
   });
+
   it('returns a new user list object with the new user inside', async () => {
     saveSolidDatasetAt.mockResolvedValueOnce(
       makeMockUserListDataset(mockUserList.concat([newUser]), 'https://james.example.com/')

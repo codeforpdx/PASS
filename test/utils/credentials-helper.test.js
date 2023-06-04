@@ -9,8 +9,7 @@ import {
   getSolidDataset,
   saveAclFor,
   saveSolidDatasetAt,
-  setAgentResourceAccess,
-  setAgentDefaultAccess
+  addMockResourceAclTo
 } from '@inrupt/solid-client';
 import {
   serializeDataSet,
@@ -19,6 +18,8 @@ import {
   getUserSigningKey
 } from '../../src/utils/cryptography/credentials-helper';
 import { RDF_PREDICATES } from '../../src/constants';
+
+vi.mock('@inrupt/solid-client');
 
 describe('credentials', async () => {
   // Most of our tests should be in the JSDom browser environment
@@ -96,18 +97,6 @@ describe('credentials', async () => {
   });
 
   describe('getUserSigningKey', () => {
-    vi.mock('@inrupt/solid-client', async () => {
-      const actual = await vi.importActual('@inrupt/solid-client');
-      return {
-        ...actual,
-        saveAclFor: vi.fn(),
-        saveSolidDatasetAt: vi.fn(),
-        getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-        setAgentResourceAccess: vi.fn(),
-        setAgentDefaultAccess: vi.fn()
-      };
-    });
-
     let session;
 
     beforeEach(() => {
@@ -139,16 +128,16 @@ describe('credentials', async () => {
     });
 
     it('creates keys when keys do not yet exist', async () => {
-      setAgentResourceAccess.mockReturnValue();
-      setAgentDefaultAccess.mockReturnValue();
+      const mockDatasetCall = (url) =>
+        Promise.resolve(addMockResourceAclTo(mockSolidDatasetFrom(url)));
 
       // First call fails because private key does not exist
       // Next calls create ACL documents
       getSolidDataset
         .mockRejectedValueOnce(new Error('Async error message'))
-        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)))
-        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)))
-        .mockImplementationOnce((url) => Promise.resolve(mockSolidDatasetFrom(url)));
+        .mockImplementationOnce((url) => mockDatasetCall(url))
+        .mockImplementationOnce((url) => mockDatasetCall(url))
+        .mockImplementationOnce((url) => mockDatasetCall(url));
 
       // Fifth call returns private key.
       getSolidDataset.mockImplementationOnce((url) => {
@@ -159,9 +148,6 @@ describe('credentials', async () => {
         const dataSet = mockSolidDatasetFrom(url);
         return Promise.resolve(setThing(dataSet, thing));
       });
-
-      saveAclFor.mockResolvedValue();
-      saveSolidDatasetAt.mockResolvedValue();
 
       const key = await getUserSigningKey(session);
 
