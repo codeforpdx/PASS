@@ -44,7 +44,7 @@ export {
   checkContainerPermission,
   sendMessageTTL,
   makeHandleFormSubmission,
-  createOutbox,  
+  createOutbox,
   getMessageTTL,
   createPublicContainer,
   createInbox

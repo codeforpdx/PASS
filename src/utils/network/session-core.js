@@ -25,7 +25,6 @@ import {
   saveMessageTTL,
   parseMessageTTL,
   buildMessageTTL,
-  saveMessageTTLInInbox,
   setDocAclForPublic
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
