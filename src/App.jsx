@@ -17,6 +17,7 @@ import { useRedirectUrl } from './hooks';
 // Context Imports
 import { InboxMessageContext, SelectUserContext, UserListContextProvider } from './contexts';
 // Component Imports
+import Home from './routes/Home'
 import Layout from './layouts/Layouts';
 import AppRoutes from './AppRoutes';
 
@@ -88,21 +89,19 @@ const App = () => {
     }
   }, [session.info.isLoggedIn]);
 
-  return (
+  return session.info.isLoggedIn ? 
     <Layout>
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
             <AppRoutes
-              isLoggedIn={session.info.isLoggedIn}
               loadingActive={false}
               loadMessages={loadMessages}
             />
           </InboxMessageContext.Provider>
         </UserListContextProvider>
       </SelectUserContext.Provider>
-    </Layout>
-  );
+    </Layout> : <Home/>
 };
 
 export default App;
