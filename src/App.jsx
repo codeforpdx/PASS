@@ -42,11 +42,13 @@ const App = () => {
     if (session.info.isLoggedIn) localStorage.setItem('loggedIn', true);
   }, [session.info.isLoggedIn]);
 
-  return session.info.isLoggedIn ? 
+  return session.info.isLoggedIn ? (
     <SignedInUserContextProvider>
-      <Home/>
-    </SignedInUserContextProvider> : 
-    <LandingPage/>
+      <Home />
+    </SignedInUserContextProvider>
+  ) : (
+    <LandingPage />
+  );
 };
 
 export default App;

@@ -23,7 +23,6 @@ export const UserListContextProvider = ({ children }) => {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const { session } = useSession();
 
-
   const userListMemo = useMemo(
     () => ({
       userListObject,

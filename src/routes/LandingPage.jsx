@@ -15,7 +15,7 @@ import Layout from '../layouts/Layouts';
  * @returns {React.ReactElement} The landing page
  */
 const LandingPage = () => (
-  <Layout>
+  <Layout ariaLabel="Landing Page">
     <Container component="main" maxWidth="s">
       <Box
         sx={{

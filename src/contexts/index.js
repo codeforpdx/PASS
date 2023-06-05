@@ -10,4 +10,4 @@ import InboxMessageContext from './inboxMessageContext';
  */
 
 export { SelectUserContext, UserListContext, InboxMessageContext, UserListContextProvider };
-export * from './SignedInUserContext'
+export * from './SignedInUserContext';

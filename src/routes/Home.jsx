@@ -1,16 +1,26 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 
-import { InboxMessageContext, SelectUserContext, UserListContextProvider, SignedInUserContext } from '../contexts';
+import {
+  InboxMessageContext,
+  SelectUserContext,
+  UserListContextProvider,
+  SignedInUserContext
+} from '../contexts';
 
 // Utility Imports
-import { createDocumentContainer, createOutbox, getInboxMessageTTL } from '../utils';
+import {
+  createDocumentContainer,
+  createPublicContainer,
+  createOutbox,
+  createInbox,
+  getInboxMessageTTL
+} from '../utils';
 import { updateUserActivity } from '../model-helpers';
 import Layout from '../layouts/Layouts';
 import AppRoutes from '../AppRoutes';
 
 const Home = () => {
-
   const { session } = useSession();
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -31,28 +41,27 @@ const Home = () => {
     const fetchData = async () => {
       await Promise.all([
         updateUserActivity(session, podUrl),
+        createPublicContainer(session, podUrl),
         createDocumentContainer(session, podUrl),
-        createOutbox(session),
+        createOutbox(session, podUrl),
+        createInbox(session, podUrl),
         getInboxMessageTTL(session, inboxList).then((messages) => {
-          messages.sort((a,b) => b.uploadDate - a.uploadDate)
+          messages.sort((a, b) => b.uploadDate - a.uploadDate);
           setInboxList(messages);
           setLoadMessages(false);
         })
       ]);
-    }
+    };
 
     fetchData();
   }, []);
 
   return (
-    <Layout>
+    <Layout ariaLabel="Home Page">
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <AppRoutes
-              loadingActive={false}
-              loadMessages={loadMessages}
-            />
+            <AppRoutes loadingActive={false} loadMessages={loadMessages} />
           </InboxMessageContext.Provider>
         </UserListContextProvider>
       </SelectUserContext.Provider>
@@ -60,4 +69,4 @@ const Home = () => {
   );
 };
 
-export default Home
+export default Home;

@@ -42,8 +42,7 @@ export const SignedInUserContextProvider = ({ children }) => {
     loadUserInfo();
   }, [session]);
 
-  return !loadingUserInfo ? 
-    <SignedInUserContext.Provider value={userInfoMemo}>
-      {children}
-    </SignedInUserContext.Provider> : null
+  return !loadingUserInfo ? (
+    <SignedInUserContext.Provider value={userInfoMemo}>{children}</SignedInUserContext.Provider>
+  ) : null;
 };
