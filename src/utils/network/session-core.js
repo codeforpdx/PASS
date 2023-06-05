@@ -24,7 +24,8 @@ import {
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
-  saveMessageTTLInInbox
+  saveMessageTTLInInbox,
+  setDocAclForPublic
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -263,8 +264,7 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
 };
 
 /**
- * Function that fetch the URL of the container containing a specific file
- * uploaded to a user's Pod on Solid, if exist
+ * Function that checks the user's permission of another user's Documents container
  *
  * @memberof utils
  * @function checkContainerPermission
@@ -295,7 +295,7 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  * @function deleteDocuments
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
- * @returns {Promise<URL>} container.url - The URL of document container and the
+ * @returns {Promise<URL>} containerUrl - The URL of document container and the
  * response on whether document file is deleted, if exist, then deletes all
  * existing files within it
  */
@@ -306,14 +306,14 @@ export const deleteDocumentFile = async (session, fileType) => {
 
   // Solid requires all files within Pod container must be deleted before
   // the container itself can be deleted from Pod
-  const [container, files] = getContainerUrlAndFiles(fetched);
+  const [containerUrl, files] = getContainerUrlAndFiles(fetched);
   files.filter(async (file) => {
-    if (!file.url.slice(-3).includes('/')) {
+    if (!file.url.endsWith('/')) {
       await deleteFile(file.url, { fetch: session.fetch });
     }
   });
 
-  return container.url;
+  return containerUrl;
 };
 
 /**
@@ -336,18 +336,19 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  *
  * @memberof utils
  * @param {Session} session - Solid's Session Object
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Creates Documents container for storage of
  * documents being uploaded by authorized users
  */
 
 export const createDocumentContainer = async (session, podUrl) => {
   const userContainerUrl = `${podUrl}Documents/`;
-  await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
-  const datasetFromUrl = await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
+  try {
+    await getSolidDataset(userContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
-  if (!ttlFileExists) {
     const createContainerList = [
       `${userContainerUrl}Bank%20Statement/`,
       `${userContainerUrl}Passport/`,
@@ -379,6 +380,32 @@ export const createDocumentContainer = async (session, podUrl) => {
     createContainerList.forEach(async (url) => {
       await setDocAclForUser(session, url, 'create', session.info.webId);
     });
+  }
+};
+
+/**
+ * Function that creates a public container in the user's Pod when logging in for
+ * the first time
+ *
+ * @memberof utils
+ * @function createPublicContainer
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
+ * @returns {Promise} Promise - Generates a public container for Pod upon log in
+ * if user's Pod does not have the an outbox to begin with
+ */
+
+export const createPublicContainer = async (session, podUrl) => {
+  const publicContainerUrl = `${podUrl}public/`;
+
+  try {
+    await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(publicContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
+    await setDocAclForPublic(session, publicContainerUrl, { read: true });
   }
 };
 
@@ -527,12 +554,45 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @memberof utils
  * @function createOutbox
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
-export const createOutbox = async (session) => {
-  const outboxContainerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
-  await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+export const createOutbox = async (session, podUrl) => {
+  const outboxContainerUrl = `${podUrl}outbox/`;
 
-  await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
+  try {
+    await getSolidDataset(outboxContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
+  }
+};
+
+/**
+ * Function that creates an inbox container in the user's Pod when logging in for
+ * the first time
+ *
+ * @memberof utils
+ * @function createInbox
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
+ * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
+ * user's Pod does not have the an outbox to begin with
+ */
+
+export const createInbox = async (session, podUrl) => {
+  const inboxContainerUrl = `${podUrl}inbox/`;
+
+  try {
+    await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(inboxContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
+    await setDocAclForPublic(session, inboxContainerUrl, { append: true });
+  }
 };
