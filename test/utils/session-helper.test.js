@@ -1,9 +1,3 @@
-import {
-  addMockResourceAclTo,
-  createAcl,
-  getResourceAcl,
-  mockSolidDatasetFrom
-} from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import { createResourceTtlFile, getContainerUrl } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
