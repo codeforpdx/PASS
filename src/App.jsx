@@ -4,7 +4,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { createDocumentContainer, createOutbox, getInboxMessageTTL } from './utils';
+import {
+  createPublicContainer,
+  createDocumentContainer,
+  createOutbox,
+  createInbox,
+  getInboxMessageTTL
+} from './utils';
 import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
@@ -55,18 +61,20 @@ const App = () => {
 
   useEffect(() => {
     /**
-     * A function that generates a Users container if logging in for the first
-     * time and initalizes the list of users from Solid
+     * A function that sets up a user's Pod if logging in for the first time or
+     * if containers are deleted and initializes user data from Solid Pod
      *
-     * @function fetchData
+     * @function setupPod
      */
-    async function fetchData() {
+    async function setupPod() {
       let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
       podUrl = podUrl || session.info.webId.split('profile')[0];
 
       await updateUserActivity(session, podUrl);
       await createDocumentContainer(session, podUrl);
-      await createOutbox(session);
+      await createPublicContainer(session, podUrl);
+      await createInbox(session, podUrl);
+      await createOutbox(session, podUrl);
 
       const messagesInSolid = await getInboxMessageTTL(session, inboxList);
       messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
@@ -76,7 +84,7 @@ const App = () => {
 
     if (session.info.isLoggedIn) {
       localStorage.setItem('loggedIn', true);
-      fetchData();
+      setupPod();
     }
   }, [session.info.isLoggedIn]);
 

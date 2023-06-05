@@ -22,7 +22,9 @@ import {
   checkContainerPermission,
   sendMessageTTL,
   createOutbox,
-  getInboxMessageTTL
+  getInboxMessageTTL,
+  createPublicContainer,
+  createInbox
 } from './network/session-core';
 import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
@@ -43,5 +45,7 @@ export {
   sendMessageTTL,
   makeHandleFormSubmission,
   createOutbox,
-  getInboxMessageTTL
+  getInboxMessageTTL,
+  createPublicContainer,
+  createInbox
 };
