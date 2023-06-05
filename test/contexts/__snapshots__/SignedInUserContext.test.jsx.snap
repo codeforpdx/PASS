@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SignedInUserContext > fetches the user properties and passes them to the consumer 1`] = `
+<div>
+  <div>
+    https://example.com/pod/
+  </div>
+</div>
+`;

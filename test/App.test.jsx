@@ -69,4 +69,23 @@ describe('App', () => {
     const homePage = getByLabelText('Home Page');
     expect(homePage).not.toBe(null || undefined);
   });
+
+  it('calls session.login after page refresh', () => {
+    const login = vi.fn();
+    useSession.mockReturnValue({
+      session: {
+        login,
+        info: {
+          isLoggedIn: true,
+          webId: 'https://example.com/'
+        },
+        fetch: vi.fn()
+      }
+    });
+
+    vi.spyOn(window.performance, 'getEntriesByType').mockReturnValue([{ type: 'reload' }]);
+    render(<AppWithContexts />);
+    flushPromises();
+    expect(login).toBeCalled();
+  });
 });
