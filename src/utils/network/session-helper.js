@@ -456,6 +456,8 @@ export const parseMessageTTL = (messageTTLThing) => {
  * title, uploadDate, sender, and recipient
  */
 
+// TODO: potentially add other useful fields - see https://github.com/codeforpdx/PASS/pull/191#discussion_r1217249834
+
 export const buildMessageTTL = (
   session,
   date,
