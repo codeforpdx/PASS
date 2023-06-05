@@ -9,14 +9,7 @@ import {
 const mockPodUrl = 'https://pod.example.com/';
 let session = {};
 
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    getSolidDataset: vi.fn(() => Promise.resolve()),
-    deleteFile: vi.fn(() => Promise.resolve())
-  };
-});
+vi.mock('@inrupt/solid-client');
 
 vi.mock('../../src/utils/network/session-helper', async () => {
   const actual = await vi.importActual('../../src/utils/network/session-helper');

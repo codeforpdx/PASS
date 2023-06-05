@@ -1,4 +1,4 @@
-import { getThingAll } from '@inrupt/solid-client';
+import { addMockResourceAclTo, getThingAll, mockSolidDatasetFrom } from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import {
   createResourceTtlFile,
@@ -8,16 +8,10 @@ import {
 import { INTERACTION_TYPES } from '../../src/constants';
 
 const mockPodUrl = 'https://pod.example.com/';
-const mockSolidDataset = [];
+const mockSolidDataset = addMockResourceAclTo(mockSolidDatasetFrom(mockPodUrl));
 let session = {};
 
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    getThingAll: vi.fn(() => mockSolidDataset)
-  };
-});
+vi.mock('@inrupt/solid-client');
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
@@ -53,7 +47,7 @@ describe('hasTTLFiles', () => {
     vi.clearAllMocks();
   });
 
-  it("returns false if there's nothing in solidDataset", () => {
+  it("returns false if there's no TTL file in solidDataset", () => {
     const result = hasTTLFiles(mockSolidDataset);
     expect(result).toBe(false);
   });

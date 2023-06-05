@@ -104,11 +104,8 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
 
 export const hasTTLFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
-  if (!items) {
-    return false;
-  }
 
-  return items.some((item) => item.url.endsWith('ttl'));
+  return items.some((item) => item.url?.endsWith('ttl'));
 };
 
 /**
