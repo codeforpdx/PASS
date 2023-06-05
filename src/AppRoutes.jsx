@@ -16,7 +16,7 @@ const AppRoutes = ({ loadingActive, loadMessages }) => {
       <Route path="/PASS/home" element={<UserSection loadingActive={loadingActive} />} />
       <Route path="/PASS/forms" element={<Forms />} />
       <Route path="/PASS/inbox" element={<Inbox loadMessages={loadMessages} />} />
-      <Route path="*" element={<Navigate to={restorePath} replace />} />
+      <Route path="*" element={<Navigate to={path} replace />} />
     </Routes>
   );
 };

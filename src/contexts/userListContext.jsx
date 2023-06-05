@@ -1,4 +1,5 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 import { loadUserList, addUser, removeUser } from '../model-helpers';
 
@@ -15,12 +16,13 @@ const initialUserListContext = [];
  * @name UserListContext
  * @memberof contexts
  */
-
 const UserListContext = createContext(initialUserListContext);
 
-export const UserListContextProvider = ({ session, children }) => {
+export const UserListContextProvider = ({ children }) => {
   const [userListObject, setUserListObject] = useState({});
   const [loadingUsers, setLoadingUsers] = useState(true);
+  const { session } = useSession();
+
 
   const userListMemo = useMemo(
     () => ({
