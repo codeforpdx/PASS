@@ -1,9 +1,23 @@
+import { getThingAll } from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
-import { createResourceTtlFile, getContainerUrl } from '../../src/utils/network/session-helper';
+import {
+  createResourceTtlFile,
+  getContainerUrl,
+  hasTTLFiles
+} from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
 
 const mockPodUrl = 'https://pod.example.com/';
+const mockSolidDataset = [];
 let session = {};
+
+vi.mock('@inrupt/solid-client', async () => {
+  const actual = await vi.importActual('@inrupt/solid-client');
+  return {
+    ...actual,
+    getThingAll: vi.fn(() => mockSolidDataset)
+  };
+});
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
@@ -23,6 +37,37 @@ describe('createResourceTtlFile', () => {
     const result = await createResourceTtlFile(fileObjectMock, documentUrl);
     expect(mockText).toBeCalledTimes(1);
     expect(Object.keys(result.predicates)).toHaveLength(7);
+  });
+});
+
+describe('hasTTLFiles', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns false if there's nothing in solidDataset", () => {
+    const result = hasTTLFiles(mockSolidDataset);
+    expect(result).toBe(false);
+  });
+
+  it("returns true if there's something in solidDataset", () => {
+    getThingAll.mockReturnValue([
+      {
+        type: 'text/turtle',
+        url: 'https://pod.example.com/Passport/document.ttl',
+        predicates: {}
+      }
+    ]);
+    const result = hasTTLFiles(mockSolidDataset);
+    expect(result).toBe(true);
   });
 });
 
