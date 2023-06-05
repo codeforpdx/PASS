@@ -446,10 +446,11 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
  * saves a copy on your inbox
  */
-export const sendMessageTTL = async (session, messageObject) => {
+export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const { recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(
     session,
@@ -457,9 +458,9 @@ export const sendMessageTTL = async (session, messageObject) => {
     INTERACTION_TYPES.CROSS,
     recipientUsername
   );
-  const outboxUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
+  const outboxUrl = `${podUrl}outbox/`;
 
-  const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
+  const senderUsername = podUrl.split('/')[2].split('.')[0];
   const recipientWebId = `https://${recipientUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;

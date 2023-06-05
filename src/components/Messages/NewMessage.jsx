@@ -49,7 +49,7 @@ const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
       setError('Please enter a value for the Message');
     } else {
       try {
-        await sendMessageTTL(session, message);
+        await sendMessageTTL(session, message, podUrl);
 
         setMessage({
           recipientUsername: '',
