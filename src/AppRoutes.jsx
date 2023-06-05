@@ -12,7 +12,7 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
 
 const AppRoutes = ({ isLoggedIn, loadingActive, loadMessages }) => {
   const restorePath = localStorage.getItem('restorePath');
-  const path = restorePath ?? '/PASS/home';
+  const path = restorePath ?? '/PASS/clients';
 
   return (
     <Routes>
