@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { getPodUrlAll } from '@inrupt/solid-client';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 
-import { InboxMessageContext, SelectUserContext, UserListContextProvider } from '../contexts';
+import { InboxMessageContext, SelectUserContext, UserListContextProvider, SignedInUserContext } from '../contexts';
 
 // Utility Imports
 import { createDocumentContainer, createOutbox, getInboxMessageTTL } from '../utils';
@@ -13,14 +12,13 @@ import AppRoutes from '../AppRoutes';
 const Home = () => {
 
   const { session } = useSession();
+  const { podUrl } = useContext(SignedInUserContext);
 
   const [selectedUser, setSelectedUser] = useState('');
   const [loadMessages, setLoadMessages] = useState(true);
+  const [inboxList, setInboxList] = useState([]);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-
-  const initialInboxList = [];
-  const [inboxList, setInboxList] = useState(initialInboxList);
   const inboxMessageObject = useMemo(() => ({ inboxList, setInboxList }), [inboxList]);
 
   useEffect(() => {
@@ -30,18 +28,17 @@ const Home = () => {
      *
      * @function fetchData
      */
-    async function fetchData() {
-      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
-      podUrl = podUrl || session.info.webId.split('profile')[0];
-
-      await updateUserActivity(session, podUrl);
-      await createDocumentContainer(session, podUrl);
-      await createOutbox(session);
-
-      const messagesInSolid = await getInboxMessageTTL(session, inboxList);
-      messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-      setInboxList(messagesInSolid);
-      setLoadMessages(false);
+    const fetchData = async () => {
+      await Promise.all([
+        updateUserActivity(session, podUrl),
+        createDocumentContainer(session, podUrl),
+        createOutbox(session),
+        getInboxMessageTTL(session, inboxList).then((messages) => {
+          messages.sort((a,b) => b.uploadDate - a.uploadDate)
+          setInboxList(messages);
+          setLoadMessages(false);
+        })
+      ]);
     }
 
     fetchData();

@@ -5,11 +5,10 @@ import { useSession } from '@inrupt/solid-ui-react';
 
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
-// Context Imports
 // Component Imports
+import { SignedInUserContextProvider } from './contexts';
 import LandingPage from './routes/LandingPage';
 import Home from './routes/Home';
-
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -44,7 +43,10 @@ const App = () => {
   }, [session.info.isLoggedIn]);
 
   return session.info.isLoggedIn ? 
-    <Home/> : <LandingPage/>
+    <SignedInUserContextProvider>
+      <Home/>
+    </SignedInUserContextProvider> : 
+    <LandingPage/>
 };
 
 export default App;
