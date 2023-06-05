@@ -1,32 +1,12 @@
-import {
-  getPodUrlAll,
-  mockSolidDatasetFrom,
-  saveSolidDatasetAt,
-  getSolidDataset,
-  setAgentResourceAccess,
-  setPublicResourceAccess,
-  buildThing,
-  createThing
-} from '@inrupt/solid-client';
+import * as solidClient from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import { createUser, parseUserFromThing, updateUserActivity } from '../../src/model-helpers/User';
 import { RDF_PREDICATES } from '../../src/constants';
 
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    getPodUrlAll: vi.fn(),
-    saveAclFor: vi.fn(),
-    saveSolidDatasetAt: vi.fn(() => Promise.resolve()),
-    getSolidDataset: vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url))),
-    setAgentResourceAccess: vi.fn(),
-    setAgentDefaultAccess: vi.fn(),
-    setPublicResourceAccess: vi.fn()
-  };
-});
+vi.mock('@inrupt/solid-client');
 
 const mockPodUrl = 'https://pod.example.com/';
+const { getPodUrlAll, saveSolidDatasetAt, getSolidDataset, buildThing, createThing } = solidClient;
 let session = {};
 
 describe('createUser', () => {
@@ -80,6 +60,8 @@ describe('updateUserActivity', () => {
     );
   });
   it('creates new activity dataset if it does not exist', async () => {
+    vi.spyOn(solidClient, 'setAgentResourceAccess');
+    vi.spyOn(solidClient, 'setPublicResourceAccess');
     getSolidDataset.mockRejectedValueOnce(Error('dataset does not exist'));
     await updateUserActivity(session, mockPodUrl);
     expect(saveSolidDatasetAt).toBeCalledWith(
@@ -87,8 +69,8 @@ describe('updateUserActivity', () => {
       expect.objectContaining({ type: 'Dataset' }),
       expect.objectContaining({ fetch: session.fetch })
     );
-    expect(setAgentResourceAccess).toBeCalled();
-    expect(setPublicResourceAccess).toBeCalled();
+    expect(solidClient.setAgentResourceAccess).toBeCalled();
+    expect(solidClient.setPublicResourceAccess).toBeCalled();
   });
 });
 

@@ -1,12 +1,22 @@
 import {
   addMockResourceAclTo,
-  createAcl,
-  getResourceAcl,
-  mockSolidDatasetFrom
+  mockSolidDatasetFrom,
+  mockThingFrom,
+  setThing
 } from '@inrupt/solid-client';
-import { expect, vi, it, describe } from 'vitest';
-import { createResourceTtlFile } from '../../src/utils/network/session-helper';
+import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
+import {
+  createResourceTtlFile,
+  getContainerUrl,
+  hasTTLFiles
+} from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
+
+const mockPodUrl = 'https://pod.example.com/';
+const mockSolidDataset = addMockResourceAclTo(mockSolidDatasetFrom(mockPodUrl));
+let session = {};
+
+vi.mock('@inrupt/solid-client');
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
@@ -29,61 +39,82 @@ describe('createResourceTtlFile', () => {
   });
 });
 
-describe('setDocAclForUser', () => {
-  const documentUrl = 'https://example.com';
-  let generateType;
-  const mockPodResource = mockSolidDatasetFrom(documentUrl);
-  const mockPodResourceWithAcl = addMockResourceAclTo(mockPodResource);
-  const mockNewResourceAcl = createAcl(mockPodResource);
-  const mockResourceAcl = getResourceAcl(mockPodResourceWithAcl);
-
-  const getSolidDataset = vi.fn();
-  getSolidDataset.mockResolvedValue(mockPodResource);
-
-  const getSolidDatasetWithAcl = vi.fn();
-  getSolidDatasetWithAcl.mockResolvedValue(mockPodResourceWithAcl);
-
-  const mockCreateAcl = vi.fn();
-  mockCreateAcl.mockReturnValue(mockNewResourceAcl);
-
-  const mockGetResourceAcl = vi.fn();
-  mockGetResourceAcl.mockReturnValue(mockResourceAcl);
-
-  it("generate podResource and resourceAcl with generateType 'create'", async () => {
-    generateType = 'create';
-    const podResource =
-      generateType === 'create'
-        ? await getSolidDataset(documentUrl)
-        : await getSolidDatasetWithAcl(documentUrl);
-
-    expect(getSolidDataset).toHaveBeenCalledWith(documentUrl);
-    expect(podResource).toEqual(mockPodResource);
-
-    const resourceAcl =
-      generateType === 'create' ? mockCreateAcl(podResource) : mockGetResourceAcl(podResource);
-
-    expect(mockCreateAcl).toHaveBeenCalledWith(podResource);
-    expect(resourceAcl).toEqual(mockNewResourceAcl);
+describe('hasTTLFiles', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("generate podResource and resourceAcl with generateType 'update'", async () => {
-    generateType = 'update';
-    const podResource =
-      generateType === 'create'
-        ? await getSolidDataset(documentUrl)
-        : await getSolidDatasetWithAcl(documentUrl);
+  it("returns false if there's no TTL file in solidDataset", () => {
+    const result = hasTTLFiles(mockSolidDataset);
+    expect(result).toBe(false);
+  });
 
-    await expect(Promise.resolve(podResource)).resolves.toBe(
-      generateType === 'create' ? mockPodResource : mockPodResourceWithAcl
-    );
+  it("returns true if there's something in solidDataset", () => {
+    const thing = mockThingFrom('https://pod.example.com/example.ttl');
 
-    expect(getSolidDatasetWithAcl).toHaveBeenCalledWith(documentUrl);
-    expect(podResource).toEqual(mockPodResourceWithAcl);
+    const result = hasTTLFiles(setThing(mockSolidDataset, thing));
+    expect(result).toBe(true);
+  });
+});
 
-    const resourceAcl =
-      generateType === 'create' ? mockCreateAcl(podResource) : mockGetResourceAcl(podResource);
+describe('getContainerUrl', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    expect(mockGetResourceAcl).toHaveBeenCalledWith(podResource);
-    expect(resourceAcl).toEqual(mockResourceAcl);
+  it('Returns the correct container URL to Bank Statement', () => {
+    const containerUrl = getContainerUrl(session, 'Bank Statement', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}Bank%20Statement/`);
+  });
+
+  it('Returns the correct container URL to Passport', () => {
+    const containerUrl = getContainerUrl(session, 'Passport', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}Passport/`);
+  });
+
+  it("Returns the correct container URL to Driver's License", () => {
+    const containerUrl = getContainerUrl(session, "Driver's License", INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}Drivers%20License/`);
+  });
+
+  it('Returns the correct container URL to Users', () => {
+    const containerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}Users/`);
+  });
+
+  it('Returns the correct container URL to Documents', () => {
+    const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}Documents/`);
+  });
+
+  it('Returns the correct container URL to inbox', () => {
+    const containerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}inbox/`);
+  });
+
+  it('Returns the correct container URL to outbox', () => {
+    const containerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}outbox/`);
+  });
+
+  it('Returns the correct container URL to public', () => {
+    const containerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
+    expect(containerUrl).toBe(`${mockPodUrl}public/`);
   });
 });
