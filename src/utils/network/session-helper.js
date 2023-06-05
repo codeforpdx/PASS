@@ -17,6 +17,7 @@ import {
   getResourceAcl,
   getSolidDatasetWithAcl,
   setPublicResourceAccess,
+  setPublicDefaultAccess,
   getDatetime,
   createSolidDataset
 } from '@inrupt/solid-client';
@@ -105,11 +106,8 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
 
 export const hasTTLFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
-  if (!items) {
-    return false;
-  }
 
-  return items.some((item) => item.url.endsWith('ttl'));
+  return items.some((item) => item.url?.endsWith('ttl'));
 };
 
 /**
@@ -136,7 +134,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
     if (!item.url.endsWith('/')) {
       files.push(item);
     } else {
-      directory = item;
+      directory = item.url;
     }
   });
 
@@ -179,6 +177,8 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
       return `${POD_URL}inbox/`;
     case 'Outbox':
       return `${POD_URL}outbox/`;
+    case 'Public':
+      return `${POD_URL}public/`;
     default:
       return null;
   }
@@ -245,6 +245,26 @@ export const setDocAclForUser = async (
     generateType === 'create' ? createAcl(podResource) : getResourceAcl(podResource);
   const newAcl = setupAcl(resourceAcl, webId, accessObject, publicAccessObject);
   await saveAclFor(podResource, newAcl, { fetch: session.fetch });
+};
+
+/**
+ * Function that sets up ACL file for container to public
+ *
+ * @memberof utils
+ * @function setDocAclForPublic
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {URL} documentUrl - Url link to document container
+ * @param {Access} accessObject - Access Object to use when creating the file
+ * @returns {Promise} Promise - Generates ACL file for container and give user
+ * access and control to it and its contents
+ */
+
+export const setDocAclForPublic = async (session, documentUrl, accessObject) => {
+  const podResource = await getSolidDatasetWithAcl(documentUrl, { fetch: session.fetch });
+  const resourceAcl = getResourceAcl(podResource);
+  let acl = setPublicResourceAccess(resourceAcl, accessObject);
+  acl = setPublicDefaultAccess(acl, accessObject);
+  await saveAclFor(podResource, acl, { fetch: session.fetch });
 };
 
 /**
