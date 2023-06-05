@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { mockSolidDatasetFrom, addMockResourceAclTo, mockThingFrom } from '@inrupt/solid-client';
+import { mockSolidDatasetFrom, addMockResourceAclTo } from '@inrupt/solid-client';
 
 export * from '@inrupt/solid-client';
 
@@ -19,4 +19,3 @@ export const getSolidDataset = vi.fn((url) =>
   Promise.resolve(addMockResourceAclTo(mockSolidDatasetFrom(url)))
 );
 export const deleteFile = vi.fn(() => Promise.resolve());
-export const getThingAll = vi.fn((url) => [mockThingFrom(url)]);

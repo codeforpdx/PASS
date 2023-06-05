@@ -1,4 +1,9 @@
-import { addMockResourceAclTo, getThingAll, mockSolidDatasetFrom } from '@inrupt/solid-client';
+import {
+  addMockResourceAclTo,
+  getThingAll,
+  mockSolidDatasetFrom,
+  mockThingFrom
+} from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import {
   createResourceTtlFile,
@@ -12,6 +17,14 @@ const mockSolidDataset = addMockResourceAclTo(mockSolidDatasetFrom(mockPodUrl));
 let session = {};
 
 vi.mock('@inrupt/solid-client');
+
+vi.mock('@inrupt/solid-client', async () => {
+  const actual = await vi.importActual('@inrupt/solid-client');
+  return {
+    ...actual,
+    getThingAll: vi.fn((url) => [mockThingFrom(url)])
+  };
+});
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
