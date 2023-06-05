@@ -7,6 +7,15 @@ import {
 } from '../../src/utils';
 import { INTERACTION_TYPES } from '../../src/constants';
 
+vi.mock('../../src/utils/network/session-core', () => ({
+  updateDocument: vi.fn(),
+  uploadDocument: vi.fn()
+}));
+
+vi.mock('../../src/utils/frontend/notification-helper', () => ({
+  default: vi.fn()
+}));
+
 describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
   const clearInputFieldsMock = vi.fn();
@@ -22,13 +31,6 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Validations', () => {
-    vi.mock('../../src/utils/network/session-core', () => ({
-      updateDocument: vi.fn(),
-      uploadDocument: vi.fn()
-    }));
-    vi.mock('../../src/utils/frontend/notification-helper', () => ({
-      default: vi.fn()
-    }));
     const stateMock = {
       file: null
     };
@@ -56,13 +58,6 @@ describe('FormSubmissionHelper', async () => {
   });
 
   describe('Networking', () => {
-    vi.mock('../../src/utils/network/session-core', () => ({
-      updateDocument: vi.fn(),
-      uploadDocument: vi.fn()
-    }));
-    vi.mock('../../src/utils/frontend/notification-helper', () => ({
-      default: vi.fn()
-    }));
     const stateMock = {
       file: {
         name: 'mock'

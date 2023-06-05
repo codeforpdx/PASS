@@ -4,6 +4,16 @@ import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 
+vi.mock('@inrupt/solid-ui-react', () => ({
+  LoginButton: ({ children, oidcIssuer, redirectUrl }) => (
+    <div>
+      {oidcIssuer}
+      {redirectUrl}
+      {children}
+    </div>
+  )
+}));
+
 afterEach(() => {
   vi.clearAllMocks();
   cleanup();
@@ -15,15 +25,6 @@ it('renders correctly', () => {
 });
 
 it('sets OIDC provider on login', async () => {
-  vi.mock('@inrupt/solid-ui-react', () => ({
-    LoginButton: ({ children, oidcIssuer, redirectUrl }) => (
-      <div>
-        {oidcIssuer}
-        {redirectUrl}
-        {children}
-      </div>
-    )
-  }));
   const user = userEvent.setup();
   const { container, getByLabelText } = render(<OidcLoginComponent />);
   const input = getByLabelText('OIDC Input Field').querySelector('input');
