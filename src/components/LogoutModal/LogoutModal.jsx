@@ -12,7 +12,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
-
 /**
  * LogoutModal Component - Popup modal for users to confirm
  * they actually want to logout of their Solid Pod
@@ -22,7 +21,6 @@ import CheckIcon from '@mui/icons-material/Check';
  */
 
 const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) => (
-
   <Dialog
     open={showConfirmation}
     aria-labelledby="dialog-title"

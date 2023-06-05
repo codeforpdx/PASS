@@ -42,8 +42,8 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
           justifyContent="center"
           alignItems="center"
           mb={2}
-          variant='h5'
-          component='h3'
+          variant="h5"
+          component="h3"
         >
           {title}
         </Typography>

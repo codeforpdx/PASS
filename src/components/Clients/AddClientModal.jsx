@@ -10,7 +10,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import AddClient from './AddClient';
 
-
 /**
  * AddClientModal Component - Popup modal for users to add a client to their client list
  *
@@ -19,12 +18,7 @@ import AddClient from './AddClient';
  */
 
 const AddClientModal = ({ showModal, setShowModal }) => (
-
-  <Dialog
-    open={showModal}
-    aria-labelledby="dialog-title"
-    onClose={() => setShowModal(false)}
-  >
+  <Dialog open={showModal} aria-labelledby="dialog-title" onClose={() => setShowModal(false)}>
     <DialogTitle id="dialog-tile">Add Client</DialogTitle>
 
     <DialogContent>

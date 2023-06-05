@@ -12,7 +12,6 @@ import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
 
-
 /**
  * AddClient Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
@@ -84,14 +83,14 @@ const AddClient = () => {
     dispatch({ type: 'SET_PROCESSING' });
 
     runNotification(
-      `Adding user "${userObject.givenName} ${userObject.familyName}" to client list...`,
+      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
       5,
       state,
       dispatch
     );
   };
 
-  // Event handler for adding user from users list
+  // Event handler for adding client to users list
   const handleAddClient = async (event) => {
     event.preventDefault();
     const userObject = {
@@ -106,7 +105,7 @@ const AddClient = () => {
       await submitUser(userObject);
     } finally {
       runNotification(
-        `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
         5,
         state,
         dispatch
@@ -151,7 +150,13 @@ const AddClient = () => {
           </label>
           <br />
           <br />
-          <input id="add-username" name="addUsername" size="25" value={username} onChange={(e) => wrappedSetUsername(e.target.value)} />{' '}
+          <input
+            id="add-username"
+            name="addUsername"
+            size="25"
+            value={username}
+            onChange={(e) => wrappedSetUsername(e.target.value)}
+          />{' '}
         </div>
         <br />
         <label htmlFor="add-webId">

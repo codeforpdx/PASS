@@ -14,14 +14,12 @@ import Typography from '@mui/material/Typography';
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
 
-
 /**
  * Clients Component - Component that generates Clients section for PASS
  *
  * @memberof GlobalComponents
  * @name Clients
  */
-
 
 const Clients = ({ loadingUsers, loadingActive }) => {
   // state for AddClientModal component
@@ -30,7 +28,6 @@ const Clients = ({ loadingUsers, loadingActive }) => {
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
 
-  
   return loadingUsers ? (
     <Container>
       <Box

@@ -21,5 +21,5 @@ export {
   CrossPodWriteForm,
   SetAclPermissionForm,
   SetAclPermsDocContainerForm,
-  CheckAclPermsDocContainerForm,
+  CheckAclPermsDocContainerForm
 };
