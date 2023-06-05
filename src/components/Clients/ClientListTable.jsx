@@ -25,34 +25,6 @@ import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
 import { StatusNotification } from '../Notification';
 
-
-const StyledTableCell = styled(TableCell)(() => {
-  const theme = useTheme();
-  return {
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-    }
-  };
-});
-
-const StyledTableRow = styled(TableRow)(() => {
-  const theme = useTheme();
-  return {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.primary.slight
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0
-    }
-  };
-});
-
-
 /**
  * ClientListTable Component - Component that generates table of clients from data within ClientList
  *
@@ -60,20 +32,17 @@ const StyledTableRow = styled(TableRow)(() => {
  * @name ClientListTable
  */
 
-const ClientListTable = ({
-  loadingActive,
-  statusType,
-  defaultMessage
-}) => {
-
+const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
   const theme = useTheme();
-  // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
-  const [pinned, setPinned] = useState(false);
-  // TODO: determine better approach so all checkboxes don't get checked with a single one is checked.
-  const [selected, setSelected] = useState(false);
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
   const { userListObject, removeUser } = useContext(UserListContext);
+  // ***** TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
+  const [pinned, setPinned] = useState(false);
+  // ***** TODO: determine better approach so all checkboxes don't get checked with a single one is checked
+  const [selected, setSelected] = useState(false);
+  // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
+  const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
 
   // Event handler for selecting client from client list
   const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
@@ -82,38 +51,36 @@ const ClientListTable = ({
   };
 
   // Event handler for deleting client from client list
-  // const handleDeleteClient = async (clientToDeleteFullName, clientToDelete, clientToDeleteUrl) => {
-  //   if (
-  //     window.confirm(
-  //       `You're about to delete ${clientToDeleteFullName} from client list, do you wish to continue?`
-  //     )
-  //   ) {
-  //     runNotification(`Deleting ${clientToDeleteFullName} from client list...`, 3, state, dispatch);
-  //     let listUsers = await deleteUserFromPod(session, clientToDelete, clientToDeleteUrl);
-  //     listUsers = await getUserListActivity(session, listUsers);
-
-  //     setUserList(listUsers);
-  //   }
-  // };
   const handleDeleteClient = async (client) => {
     if (
       !window.confirm(
-        `You're about to delete user ${client.person} from users list, do you wish to continue?`
+        `You're about to delete ${client.person} from your client list, do you wish to continue?`
       )
     ) {
       return;
     }
-    runNotification(`Deleting user "${client.person}" from Solid...`, 3, state, dispatch);
+    runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
     await removeUser(client);
-    runNotification(`User "${client.person}" deleted from Solid...`, 3, state, dispatch);
+    runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
   };
 
   // Event handler for pinning client to top of table
   const handlePinClick = () => {
-    // TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
-    // TODO: add function to move the row to the top of list if priority: true
+    // ***** TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
+    // ***** TODO: add function to move the row to the top of list if priority: true
     setPinned(!pinned);
   };
+
+  // determine what gets rendered in the table head
+  const columnTitles = columnTitlesArray.map((columnTitle) => (
+    <StyledTableCell key={columnTitle} align="center">
+      {columnTitle}
+    </StyledTableCell>
+  ));
+
+  // determine what icon gets rendered in the pinned column
+  // ***** TODO: change from a state to a key/value field of the .ttl file (priority: true/false)
+  const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
   // determine what gets rendered in the date modified cell of table
   const determineDateModifiedCell = (client) => {
@@ -128,77 +95,65 @@ const ClientListTable = ({
     return displayed;
   };
 
+  // determine what gets rendered in the table body
+  const tableCells = userListObject?.userList.map((client, index) => {
+    const labelId = `clientlist-checkbox-${index}`;
+    return (
+      <StyledTableRow key={client.webId}>
+        <StyledTableCell align="center">
+          <Checkbox
+            color="primary"
+            // ***** TODO: determine better approach so all checkboxes don't get checked when a single box is checked.
+            checked={selected}
+            inputProps={{
+              'aria-labelledby': labelId
+            }}
+            onClick={() => {
+              setSelected(!selected);
+              handleSelectClient(client.person, client.podUrl);
+            }}
+          />
+        </StyledTableCell>
+        <StyledTableCell align="center" id={labelId}>
+          {client.person}
+        </StyledTableCell>
+        {/* ***** TODO: Switch this webId to being a small Notes section */}
+        {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
+        {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
+        <StyledTableCell align="center">
+          <Link
+            href={client.webId}
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+          >
+            {client.webId}
+          </Link>
+        </StyledTableCell>
+        <StyledTableCell align="center">{determineDateModifiedCell(client)}</StyledTableCell>
+        <StyledTableCell align="center">
+          <IconButton size="large" edge="end" onClick={handlePinClick}>
+            {/* ***** TODO: change from a state to a key/value field of the .ttl file (priority: true/false) */}
+            {pinnedIcon}
+          </IconButton>
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          <IconButton size="large" edge="end" onClick={() => handleDeleteClient(client)}>
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+        </StyledTableCell>
+      </StyledTableRow>
+    );
+  });
 
-  // ======= MAKE ANY COLUMN HEADER CHANGES HERE =======
-  const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
-
-  
-
+  // ======= MAIN RENDER/DISPLAY OF COMPONENT =======
   return (
-    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '6rem' }}>
+    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="client list table">
         <TableHead>
-          <TableRow>
-            {columnTitlesArray.map((columnTitle) => (
-              <StyledTableCell align="center">{columnTitle}</StyledTableCell>
-            ))}
-          </TableRow>
+          <TableRow>{columnTitles}</TableRow>
         </TableHead>
-        <TableBody>
-          {userListObject &&
-            userListObject.userList.map((client, index) => {
-            const labelId = `clientlist-checkbox-${index}`;
-            return (
-            <StyledTableRow key={client.webId}>
-              <StyledTableCell align="center">
-                <Checkbox
-                  color="primary"
-                  // TODO: determine better approach so all checkboxes don't get checked with a single one is checked.
-                  checked={selected}
-                  inputProps={{
-                    'aria-labelledby': labelId,
-                  }}
-                  onClick={() => {
-                    setSelected(!selected);
-                    handleSelectClient(client.person, client.podUrl);
-                  }}
-                />
-              </StyledTableCell>
-              <StyledTableCell align="center" id={labelId}>{client.person}</StyledTableCell>
-              {/* TODO: Switch this webId to being a small Notes section */}
-              {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
-              {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
-              <StyledTableCell align="center">
-                <Link
-                  href={client.webId}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-                >
-                  {client.webId}
-                </Link>
-              </StyledTableCell>
-              <StyledTableCell align="center">{determineDateModifiedCell(client)}</StyledTableCell>
-              <StyledTableCell align="center">
-                <IconButton size="large" edge="end" onClick={handlePinClick}>
-                  {/* TODO: change from a state to a key/value field of the .ttl file (priority: true/false) */}
-                  {pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />}
-                </IconButton>
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <IconButton
-                  size="large"
-                  edge="end"
-                  // onClick={() => handleDeleteClient(client.person, client.givenName, client.podUrl)}
-                  onClick={() => handleDeleteClient(client)}
-                >
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-              </StyledTableCell>
-            </StyledTableRow>
-            );
-          })}
-        </TableBody>
+        <TableBody>{tableCells}</TableBody>
       </Table>
       <StatusNotification
         notification={state.message}
@@ -211,3 +166,34 @@ const ClientListTable = ({
 };
 
 export default ClientListTable;
+
+// ======= TABLE STYLING STARTS HERE =======
+// ***** TODO: Switch this styled components to MUI
+
+// styling for table cells
+const StyledTableCell = styled(TableCell)(() => {
+  const theme = useTheme();
+  return {
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14
+    }
+  };
+});
+
+// styling for table rows
+const StyledTableRow = styled(TableRow)(() => {
+  const theme = useTheme();
+  return {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.primary.slight
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0
+    }
+  };
+});
