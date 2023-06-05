@@ -1,8 +1,8 @@
 import {
   addMockResourceAclTo,
-  getThingAll,
   mockSolidDatasetFrom,
-  mockThingFrom
+  mockThingFrom,
+  setThing
 } from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import {
@@ -17,14 +17,6 @@ const mockSolidDataset = addMockResourceAclTo(mockSolidDatasetFrom(mockPodUrl));
 let session = {};
 
 vi.mock('@inrupt/solid-client');
-
-vi.mock('@inrupt/solid-client', async () => {
-  const actual = await vi.importActual('@inrupt/solid-client');
-  return {
-    ...actual,
-    getThingAll: vi.fn((url) => [mockThingFrom(url)])
-  };
-});
 
 describe('createResourceTtlFile', () => {
   it('Has proper number of fields', async () => {
@@ -66,14 +58,9 @@ describe('hasTTLFiles', () => {
   });
 
   it("returns true if there's something in solidDataset", () => {
-    getThingAll.mockReturnValue([
-      {
-        type: 'text/turtle',
-        url: 'https://pod.example.com/Passport/document.ttl',
-        predicates: {}
-      }
-    ]);
-    const result = hasTTLFiles(mockSolidDataset);
+    const thing = mockThingFrom('https://pod.example.com/example.ttl');
+
+    const result = hasTTLFiles(setThing(mockSolidDataset, thing));
     expect(result).toBe(true);
   });
 });

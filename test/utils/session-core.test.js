@@ -5,6 +5,7 @@ import {
   deleteDocumentFile,
   getDocuments
 } from '../../src/utils/network/session-core';
+import * as sessionHelpers from '../../src/utils/network/session-helper';
 
 const mockPodUrl = 'https://pod.example.com/';
 let session = {};
@@ -15,15 +16,7 @@ vi.mock('../../src/utils/network/session-helper', async () => {
   const actual = await vi.importActual('../../src/utils/network/session-helper');
   return {
     ...actual,
-    setDocAclForUser: vi.fn(() => Promise.resolve()),
-    SOLID_IDENTITY_PROVIDER: 'https://example.com/',
-    getContainerUrlAndFiles: vi.fn(() => [
-      'https://pod.example.com/Passport/',
-      [
-        { url: 'https://pod.example.com/Passport/document.ttl' },
-        { url: 'https://pod.example.com/Passport/uploaded.pdf' }
-      ]
-    ])
+    SOLID_IDENTITY_PROVIDER: 'https://example.com/'
   };
 });
 
@@ -70,6 +63,13 @@ describe('deleteDocumentFile', () => {
   });
 
   it('returns containerUrl after deleting all files inside', async () => {
+    vi.spyOn(sessionHelpers, 'getContainerUrlAndFiles').mockReturnValue([
+      'https://pod.example.com/Passport/',
+      [
+        { url: 'https://pod.example.com/Passport/document.ttl' },
+        { url: 'https://pod.example.com/Passport/uploaded.pdf' }
+      ]
+    ]);
     const containerUrl = await deleteDocumentFile(session, 'Passport');
 
     expect(containerUrl).toBe('https://pod.example.com/Passport/');
