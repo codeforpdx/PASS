@@ -32,65 +32,6 @@ describe('createResourceTtlFile', () => {
   });
 });
 
-describe('setDocAclForUser', () => {
-  const documentUrl = 'https://example.com';
-  let generateType;
-  const mockPodResource = mockSolidDatasetFrom(documentUrl);
-  const mockPodResourceWithAcl = addMockResourceAclTo(mockPodResource);
-  const mockNewResourceAcl = createAcl(mockPodResource);
-  const mockResourceAcl = getResourceAcl(mockPodResourceWithAcl);
-
-  const getSolidDataset = vi.fn();
-  getSolidDataset.mockResolvedValue(mockPodResource);
-
-  const getSolidDatasetWithAcl = vi.fn();
-  getSolidDatasetWithAcl.mockResolvedValue(mockPodResourceWithAcl);
-
-  const mockCreateAcl = vi.fn();
-  mockCreateAcl.mockReturnValue(mockNewResourceAcl);
-
-  const mockGetResourceAcl = vi.fn();
-  mockGetResourceAcl.mockReturnValue(mockResourceAcl);
-
-  it("generate podResource and resourceAcl with generateType 'create'", async () => {
-    generateType = 'create';
-    const podResource =
-      generateType === 'create'
-        ? await getSolidDataset(documentUrl)
-        : await getSolidDatasetWithAcl(documentUrl);
-
-    expect(getSolidDataset).toHaveBeenCalledWith(documentUrl);
-    expect(podResource).toEqual(mockPodResource);
-
-    const resourceAcl =
-      generateType === 'create' ? mockCreateAcl(podResource) : mockGetResourceAcl(podResource);
-
-    expect(mockCreateAcl).toHaveBeenCalledWith(podResource);
-    expect(resourceAcl).toEqual(mockNewResourceAcl);
-  });
-
-  it("generate podResource and resourceAcl with generateType 'update'", async () => {
-    generateType = 'update';
-    const podResource =
-      generateType === 'create'
-        ? await getSolidDataset(documentUrl)
-        : await getSolidDatasetWithAcl(documentUrl);
-
-    await expect(Promise.resolve(podResource)).resolves.toBe(
-      generateType === 'create' ? mockPodResource : mockPodResourceWithAcl
-    );
-
-    expect(getSolidDatasetWithAcl).toHaveBeenCalledWith(documentUrl);
-    expect(podResource).toEqual(mockPodResourceWithAcl);
-
-    const resourceAcl =
-      generateType === 'create' ? mockCreateAcl(podResource) : mockGetResourceAcl(podResource);
-
-    expect(mockGetResourceAcl).toHaveBeenCalledWith(podResource);
-    expect(resourceAcl).toEqual(mockResourceAcl);
-  });
-});
-
 describe('getContainerUrl', () => {
   beforeEach(() => {
     session = {
