@@ -63,7 +63,7 @@ describe('checkContainerPermission', () => {
   });
 });
 
-describe('deleteDocuments', () => {
+describe('deleteDocumentFile', () => {
   beforeEach(() => {
     session = {
       fetch: vi.fn(),
