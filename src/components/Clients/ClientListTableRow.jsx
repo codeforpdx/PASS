@@ -16,7 +16,6 @@ import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 
-
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch }) => {
   const theme = useTheme();
@@ -114,7 +113,6 @@ const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch })
 };
 
 export default ClientListTableRow;
-
 
 // ======= TABLE STYLING STARTS HERE =======
 // ***** TODO: Switch this styled components to MUI

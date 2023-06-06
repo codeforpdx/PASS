@@ -27,46 +27,37 @@ import ClientListTableRow from './ClientListTableRow';
 const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
+
+  // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
   const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
 
-  // determine what gets rendered in the table head
-  const tableHead = () => (
-    <TableHead>
-      <TableRow>
-        {columnTitlesArray.map((columnTitle) => (
-          <StyledTableCell key={columnTitle} align="center">
-            {columnTitle}
-          </StyledTableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-
-  // determine what gets rendered in the table body
-  const tableBody = () => (
-    <TableBody>
-      {userListObject?.userList.map((client, index) => {
-        const labelId = `clientlist-checkbox-${index}`;
-        return (
-          <ClientListTableRow
-            key={client.webId}
-            loadingActive={loadingActive}
-            labelId={labelId}
-            client={client}
-            state={state}
-            dispatch={dispatch}
-          />
-        );
-      })}
-    </TableBody>
-  );
-
-  // ======= MAIN RENDER/DISPLAY OF COMPONENT =======
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="client list table">
-        {tableHead()}
-        {tableBody()}
+        <TableHead>
+          <TableRow>
+            {columnTitlesArray.map((columnTitle) => (
+              <StyledTableCell key={columnTitle} align="center">
+                {columnTitle}
+              </StyledTableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {userListObject?.userList.map((client, index) => {
+            const labelId = `clientlist-checkbox-${index}`;
+            return (
+              <ClientListTableRow
+                key={client.webId}
+                loadingActive={loadingActive}
+                labelId={labelId}
+                client={client}
+                state={state}
+                dispatch={dispatch}
+              />
+            );
+          })}
+        </TableBody>
       </Table>
       <StatusNotification
         notification={state.message}
