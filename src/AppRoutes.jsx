@@ -3,7 +3,7 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Page Imports
 import Home from './routes/Home';
-import UserSection from './routes/UserSection';
+import Clients from './routes/Clients';
 import Inbox from './routes/Inbox';
 import Outbox from './routes/Outbox';
 import Forms from './routes/Forms';
@@ -19,13 +19,13 @@ const AppRoutes = ({
   setLoadOutboxMessages
 }) => {
   const restorePath = localStorage.getItem('restorePath');
-  const path = restorePath ?? '/PASS/home';
+  const path = restorePath ?? '/PASS/clients';
 
   return (
     <Routes>
       <Route exact path="/PASS/" element={isLoggedIn ? <Navigate to={path} replace /> : <Home />} />
       <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-        <Route path="/PASS/home" element={<UserSection />} />
+        <Route path="/PASS/clients" element={<Clients />} />
         <Route path="/PASS/forms" element={<Forms />} />
         <Route
           path="/PASS/inbox"
