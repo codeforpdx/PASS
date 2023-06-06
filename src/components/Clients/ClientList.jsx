@@ -20,7 +20,7 @@ import ClientListTable from './ClientListTable';
 const ClientList = ({ loadingActive }) => {
   const { userListObject } = useContext(UserListContext);
 
-  return userListObject.userList ? (
+  return userListObject.userList.length ? (
     // render if clients
     <ClientListTable
       loadingActive={loadingActive}
