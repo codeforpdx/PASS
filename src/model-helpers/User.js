@@ -94,6 +94,7 @@ export const updateUserActivity = async (session, podUrl) => {
  * @memberof User
  * @function createUser
  * @param {object} userSubmission - an object from a form submission containing the user creation data
+ * @param {Session} session - Solid's Session Object {@link Session}
  * @returns {Promise<object>} Promise - Updates last active time of user to lastActive.ttl
  */
 export const createUser = async (userSubmission) => {
