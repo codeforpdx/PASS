@@ -130,7 +130,7 @@ const SetAclPermissionForm = () => {
               required
             />
           </FormControl>
-          <InputLabel id="set-acl-doctype">
+          <InputLabel htmlFor="set-acl-doctype">
             <em>Select Document Type</em>
           </InputLabel>
           <FormControl fullWidth>
@@ -138,7 +138,7 @@ const SetAclPermissionForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <FormLabel id="set-acl-perm-label">Select permission setting:</FormLabel>
+            <FormLabel htmlFor="set-acl-perm-label">Select permission setting:</FormLabel>
             <RadioGroup
               row
               aria-labelledby="set-acl-perm-label"
