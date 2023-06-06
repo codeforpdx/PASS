@@ -518,8 +518,8 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
 
   try {
     await Promise.all([
-      await saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
-      await saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
+      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
     ]);
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
