@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
@@ -8,70 +8,58 @@ import styled from 'styled-components';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
-import { InboxMessageContext, OutboxMessageContext } from '../contexts';
+import { OutboxMessageContext } from '../contexts';
 // Component Imports
-import NewMessage from '../components/Messages/NewMessage';
 import PaginatedMessages from '../components/Messages/Pagination';
 
 /**
- * Inbox Page - Page that generates PASS Inbox for users logged into a Solid Pod
- * via Solid Session
+ * Outbox Component - Component that generates Outbox section for users
+ * logged into a Solid Pod via Solid Session
  *
- * @memberof Pages
- * @name Inbox
+ * @memberof Outbox
+ * @name Outbox
  */
 
-const Inbox = ({ loadMessages, setLoadMessages }) => {
+const Outbox = ({ loadMessages, setLoadMessages }) => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const [showForm, setShowForm] = useState(false);
-
   const { session } = useSession();
-  const { inboxList, setInboxList } = useContext(InboxMessageContext);
   const { outboxList, setOutboxList } = useContext(OutboxMessageContext);
 
   const podUrl = session.info.webId.split('profile')[0];
 
-  // Handler function for refreshing PASS inbox
-  const handleInboxRefresh = async () => {
+  // Handler function for refreshing PASS outbox
+  const handleOutboxRefresh = async () => {
     setLoadMessages(true);
-    const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
+    const messagesInSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-    setInboxList(messagesInSolid);
+    setOutboxList(messagesInSolid);
     setLoadMessages(false);
   };
 
-  // Re-sorts messages upon inboxList updating
+  // Re-sorts messages upon outboxList updating
   useEffect(() => {
     setLoadMessages(true);
-    const inboxCopy = inboxList;
-    inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
-    setInboxList(inboxCopy);
+    const outboxCopy = outboxList;
+    outboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
+    setOutboxList(outboxCopy);
     setLoadMessages(false);
-  }, [inboxList]);
+  }, [outboxList]);
 
   return (
     <section
-      id="inbox"
+      id="outbox"
       className="panel"
       style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
     >
       <div style={{ display: 'flex', gap: '10px' }}>
-        <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
-        <StyledButton onClick={handleInboxRefresh} type="button">
+        <StyledButton onClick={handleOutboxRefresh} type="button">
           Refresh
         </StyledButton>
       </div>
-      {showForm && (
-        <NewMessage
-          closeForm={() => setShowForm(!showForm)}
-          outboxList={outboxList}
-          setOutboxList={setOutboxList}
-        />
-      )}
-      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={inboxList} />}
+      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={outboxList} />}
     </section>
   );
 };
@@ -91,4 +79,4 @@ const StyledButton = styled('button')({
   fontSize: '18px'
 });
 
-export default Inbox;
+export default Outbox;

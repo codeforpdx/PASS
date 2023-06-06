@@ -9,7 +9,8 @@ import {
   getSolidDataset,
   saveAclFor,
   saveSolidDatasetAt,
-  addMockResourceAclTo
+  addMockResourceAclTo,
+  saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
 import {
   serializeDataSet,
@@ -56,9 +57,12 @@ describe('credentials', async () => {
       newSolidDataset = setThing(newSolidDataset, thing);
 
       const expectedResult = document;
+      const solidClient = await vi.importActual('@inrupt/solid-client');
+      saveSolidDatasetInContainer.mockImplementation((a, b, c) =>
+        solidClient.saveSolidDatasetInContainer(a, b, c)
+      );
 
       const result = await serializeDataSet(newSolidDataset);
-
       expect(result).toBe(expectedResult);
     });
   });

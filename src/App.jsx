@@ -9,13 +9,18 @@ import {
   createDocumentContainer,
   createOutbox,
   createInbox,
-  getInboxMessageTTL
+  getMessageTTL
 } from './utils';
 import { updateUserActivity } from './model-helpers';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Context Imports
-import { InboxMessageContext, SelectUserContext, UserListContextProvider } from './contexts';
+import {
+  InboxMessageContext,
+  OutboxMessageContext,
+  SelectUserContext,
+  UserListContextProvider
+} from './contexts';
 // Component Imports
 import Layout from './layouts/Layouts';
 import AppRoutes from './AppRoutes';
@@ -25,7 +30,7 @@ import AppRoutes from './AppRoutes';
  */
 
 /**
- * @typedef {import("./typedefs").inboxListObject} inboxListObject
+ * @typedef {import("./typedefs").messageListObject} messageListObject
  */
 
 const App = () => {
@@ -49,15 +54,20 @@ const App = () => {
   }, [restore]);
 
   const [selectedUser, setSelectedUser] = useState('');
-  /** @type {userListObject[]} */
-  const [loadMessages, setLoadMessages] = useState(true);
+  const [loadInboxMessages, setLoadInboxMessages] = useState(true);
+  const [loadOutboxMessages, setLoadOutboxMessages] = useState(true);
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
 
-  /** @type {inboxListObject[]} */
+  /** @type {messageListObject[]} */
   const initialInboxList = [];
   const [inboxList, setInboxList] = useState(initialInboxList);
   const inboxMessageObject = useMemo(() => ({ inboxList, setInboxList }), [inboxList]);
+
+  /** @type {messageListObject[]} */
+  const initialOutboxList = [];
+  const [outboxList, setOutboxList] = useState(initialOutboxList);
+  const outboxMessageObject = useMemo(() => ({ outboxList, setOutboxList }), [outboxList]);
 
   useEffect(() => {
     /**
@@ -76,10 +86,15 @@ const App = () => {
       await createInbox(session, podUrl);
       await createOutbox(session, podUrl);
 
-      const messagesInSolid = await getInboxMessageTTL(session, inboxList);
-      messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-      setInboxList(messagesInSolid);
-      setLoadMessages(false);
+      const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
+      messagesInboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
+      setInboxList(messagesInboxSolid);
+      setLoadInboxMessages(false);
+
+      const messagesOutboxSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
+      messagesOutboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
+      setOutboxList(messagesOutboxSolid);
+      setLoadOutboxMessages(false);
     }
 
     if (session.info.isLoggedIn) {
@@ -93,7 +108,15 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <AppRoutes isLoggedIn={session.info.isLoggedIn} loadMessages={loadMessages} />
+            <OutboxMessageContext.Provider value={outboxMessageObject}>
+              <AppRoutes
+                isLoggedIn={session.info.isLoggedIn}
+                loadInboxMessages={loadInboxMessages}
+                setLoadInboxMessages={setLoadInboxMessages}
+                loadOutboxMessages={loadOutboxMessages}
+                setLoadOutboxMessages={setLoadOutboxMessages}
+              />
+            </OutboxMessageContext.Provider>
           </InboxMessageContext.Provider>
         </UserListContextProvider>
       </SelectUserContext.Provider>

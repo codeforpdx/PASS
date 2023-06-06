@@ -39,6 +39,7 @@
     "crypto-js": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-paginate": "^8.2.0",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.10",
     "uuid": "^9.0.0"

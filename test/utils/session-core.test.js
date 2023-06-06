@@ -1,7 +1,15 @@
-import { getSolidDataset } from '@inrupt/solid-client';
+import {
+  createContainerAt,
+  getSolidDataset,
+  saveSolidDatasetInContainer
+} from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import {
   checkContainerPermission,
+  createDocumentContainer,
+  createInbox,
+  createOutbox,
+  createPublicContainer,
   deleteDocumentFile,
   getDocuments
 } from '../../src/utils/network/session-core';
@@ -99,5 +107,134 @@ describe('getDocuments', () => {
     getSolidDataset.mockRejectedValueOnce(Error('No data found'));
 
     await expect(getDocuments(session, 'Passport', 'self')).rejects.toThrow('No data found');
+  });
+});
+
+describe('createDocumentContainer', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('just runs getSolidDataset if container exist', async () => {
+    await createDocumentContainer(session, mockPodUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).not.toBeCalled();
+  });
+
+  it('runs catch block if getSolidDataset rejects', async () => {
+    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+
+    await createDocumentContainer(session, mockPodUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).toBeCalledTimes(4);
+    expect(saveSolidDatasetInContainer).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalledTimes(4);
+  });
+});
+
+describe('createInbox', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const inboxContainerUrl = `${mockPodUrl}inbox/`;
+
+  it('just runs getSolidDataset if container exist', async () => {
+    await createInbox(session, inboxContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).not.toBeCalled();
+  });
+
+  it('runs catch block if getSolidDataset rejects', async () => {
+    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+
+    await createInbox(session, inboxContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
+  });
+});
+
+describe('createOutbox', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const outboxContainerUrl = `${mockPodUrl}outbox/`;
+
+  it('just runs getSolidDataset if container exist', async () => {
+    await createOutbox(session, outboxContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).not.toBeCalled();
+  });
+
+  it('runs catch block if getSolidDataset rejects', async () => {
+    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+
+    await createOutbox(session, outboxContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
+  });
+});
+
+describe('createPublicContainer', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const publicContainerUrl = `${mockPodUrl}public/`;
+
+  it('just runs getSolidDataset if container exist', async () => {
+    await createPublicContainer(session, publicContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).not.toBeCalled();
+  });
+
+  it('runs catch block if getSolidDataset rejects', async () => {
+    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+    vi.spyOn(sessionHelpers, 'setDocAclForPublic').mockReturnValue();
+
+    await createPublicContainer(session, publicContainerUrl);
+    expect(getSolidDataset).toBeCalled();
+    expect(createContainerAt).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
+    expect(sessionHelpers.setDocAclForPublic).toBeCalled();
   });
 });
