@@ -9,7 +9,7 @@
  */
 
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
-import docTypes from './frontend/form-helper'
+import docTypes from './frontend/form-helper';
 
 export * from './frontend/notification-helper';
 export * from './network/session-core';

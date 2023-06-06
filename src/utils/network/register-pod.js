@@ -1,8 +1,11 @@
 import { SOLID_IDENTITY_PROVIDER } from '..';
 
-const registerPod = async ({ email, password, confirmPassword }, oidcProvider = SOLID_IDENTITY_PROVIDER ) => { 
+const registerPod = async (
+  { email, password, confirmPassword },
+  oidcProvider = SOLID_IDENTITY_PROVIDER
+) => {
   const [podName] = email.split('@');
-  
+
   const oidcRegistrationPath = `${oidcProvider}idp/register/`;
 
   const body = {
@@ -17,13 +20,13 @@ const registerPod = async ({ email, password, confirmPassword }, oidcProvider = 
   };
 
   const response = await fetch(oidcRegistrationPath, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
   });
   return response.json();
-}
+};
 
-export default registerPod
+export default registerPod;

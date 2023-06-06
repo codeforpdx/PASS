@@ -6,7 +6,6 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification, clearProcessing } from '../../utils';
 
-
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
@@ -34,7 +33,6 @@ const textFieldStyle = {
 };
 
 const notifyStartSubmission = (userObject, state, dispatch) => {
-
   dispatch({ type: 'SET_PROCESSING' });
 
   runNotification(
@@ -60,32 +58,38 @@ const ManageUsers = () => {
   const { state, dispatch } = useStatusNotification();
   const [givenName, setGivenName] = useState('');
   const [familyName, setFamilyName] = useState('');
-  const [username, setUsername] = useState('');
   const { addUser } = useContext(UserListContext);
-  const [email, setEmail] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(Date.now());
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword ] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const { session } = useSession();
 
   const clearForm = () => {
     setFamilyName('');
     setGivenName('');
-    setUsername('');
-    setEmail('');
+    setDateOfBirth(Date.now());
     setPassword('');
     setConfirmPassword('');
   };
 
   const submitUser = async () => {
-    const { webId, podBaseUrl, email: newEmail } = await registerPod({ email, password, confirmPassword });
-    const [newUsername] = newEmail.split('@'); 
+    const [year] = dateOfBirth.split('-');
+    const tempEmail = `${givenName}.${familyName}.${year}@fake.com`;
+    const { webId, podBaseUrl, email } = await registerPod({
+      email: tempEmail,
+      password,
+      confirmPassword
+    });
+    const [newUsername] = email.split('@');
     const userObject = {
       webId,
       givenName,
       familyName,
+      email,
       username: newUsername,
       podUrl: podBaseUrl,
+      dateOfBirth
     };
     await addUser(createUser(userObject, session));
   };
@@ -95,8 +99,7 @@ const ManageUsers = () => {
     event.preventDefault();
     const userObject = {
       givenName,
-      familyName,
-      username,
+      familyName
     };
 
     notifyStartSubmission(userObject, state, dispatch);
@@ -138,13 +141,14 @@ const ManageUsers = () => {
         />
         <br />
         <TextField
-        style={textFieldStyle}
-        id="email-form"
-        aria-label="Email"
-        label="Email"
-        variant="outlined"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+          style={textFieldStyle}
+          id="date-form"
+          aria-label="Date of Birth"
+          label="Date of Birth"
+          variant="outlined"
+          value={dateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)}
+          type="date"
         />
         <br />
         <TextField
