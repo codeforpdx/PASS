@@ -93,11 +93,7 @@ const App = () => {
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider session={session}>
           <InboxMessageContext.Provider value={inboxMessageObject}>
-            <AppRoutes
-              isLoggedIn={session.info.isLoggedIn}
-              loadingActive={false}
-              loadMessages={loadMessages}
-            />
+            <AppRoutes isLoggedIn={session.info.isLoggedIn} loadMessages={loadMessages} />
           </InboxMessageContext.Provider>
         </UserListContextProvider>
       </SelectUserContext.Provider>
