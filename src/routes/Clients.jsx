@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // React Router Imports
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 // Component Imports
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
+import { UserListContext } from '../contexts';
 
 /**
  * Clients Component - Component that generates Clients section for PASS
@@ -21,9 +22,11 @@ import ClientList from '../components/Clients/ClientList';
  * @name Clients
  */
 
-const Clients = ({ loadingUsers, loadingActive }) => {
+const Clients = ({ loadingActive }) => {
   // state for AddClientModal component
   const [showModal, setShowModal] = useState(false);
+
+  const { loadingUsers } = useContext(UserListContext);
 
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
