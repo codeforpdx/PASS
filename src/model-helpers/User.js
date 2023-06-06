@@ -43,12 +43,9 @@ export const updateUserActivity = async (session, podUrl) => {
     control: false
   };
   let activityDataset;
+  let activity;
 
-  const updateAndSaveActivity = async () => {
-    const activity = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
-      .build();
-
+  const saveActivity = async () => {
     activityDataset = setThing(activityDataset, activity);
 
     await saveSolidDatasetAt(activityDocUrl, activityDataset, {
@@ -58,10 +55,18 @@ export const updateUserActivity = async (session, podUrl) => {
 
   try {
     activityDataset = await getSolidDataset(activityDocUrl, { fetch: session.fetch });
-    await updateAndSaveActivity();
+    activity = buildThing(activityDataset)
+      .setDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
+    await saveActivity();
   } catch {
     activityDataset = createSolidDataset();
-    await updateAndSaveActivity();
+    activity = buildThing(createThing({ name: 'active' }))
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
+    await saveActivity();
 
     await setDocAclForUser(
       session,
