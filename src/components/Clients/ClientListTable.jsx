@@ -25,7 +25,7 @@ import ClientListTableRow from './ClientListTableRow';
  */
 
 const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
-  const { state } = useStatusNotification();
+  const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
   const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
 
@@ -53,6 +53,8 @@ const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
             loadingActive={loadingActive}
             labelId={labelId}
             client={client}
+            state={state}
+            dispatch={dispatch}
           />
         );
       })}

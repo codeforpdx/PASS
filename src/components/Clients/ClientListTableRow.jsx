@@ -13,16 +13,13 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 
 
 // determine what gets rendered in the table body
-const ClientListTableRow = ({ loadingActive, labelId, client }) => {
+const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch }) => {
   const theme = useTheme();
-  const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
