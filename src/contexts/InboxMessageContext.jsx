@@ -24,7 +24,11 @@ const InboxMessageContext = createContext(initialInboxMessageContext);
 export const InboxMessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
   const [inboxList, setInboxList] = useState([]);
-  const inboxMessageObject = useMemo(() => ({ inboxList, setInboxList }), [inboxList]);
+  const [loadMessages, setLoadMessages] = useState(true);
+  const inboxMessageObject = useMemo(
+    () => ({ inboxList, setInboxList, loadMessages }),
+    [inboxList]
+  );
   const { session } = useSession();
 
   /**
@@ -35,10 +39,10 @@ export const InboxMessageContextProvider = ({ children }) => {
    */
   const fetchData = async () => {
     await Promise.all([createOutbox(session, podUrl), createInbox(session, podUrl)]);
-    await getInboxMessageTTL(session, inboxList).then((messages) => {
-      messages.sort((a, b) => b.uploadDate - a.uploadDate);
-      setInboxList(messages);
-    });
+    const messagesInSolid = await getInboxMessageTTL(session, inboxList);
+    messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
+    setInboxList(messagesInSolid);
+    setLoadMessages(false);
   };
 
   useEffect(() => {

@@ -5,20 +5,19 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification, SOLID_IDENTITY_PROVIDER } from '../../utils';
 import { createUser } from '../../model-helpers/User';
-
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from './FormSection';
+import FormSection from '../Form/FormSection';
 
 /**
- * ManageUsers Component - Component that allows users to manage other user's
+ * AddClient Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Forms
- * @name ManageUsers
+ * @name AddClient
  */
 
 const renderWebId = (username) => {
@@ -27,7 +26,7 @@ const renderWebId = (username) => {
   return `${template[0]}${username}${template[1]}`;
 };
 
-const ManageUsers = () => {
+const AddClient = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
@@ -48,6 +47,7 @@ const ManageUsers = () => {
   };
 
   const notifyStartSubmission = (userObject) => {
+    // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username && !userObject.webId) {
       runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
@@ -78,19 +78,20 @@ const ManageUsers = () => {
       }, 3000);
       return;
     }
+    // ===== END OF ERROR DISPLAY OPTIONS =====
 
     dispatch({ type: 'SET_PROCESSING' });
 
     runNotification(
-      `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
       5,
       state,
       dispatch
     );
   };
 
-  // Event handler for adding user from users list
-  const handleAddUser = async (event) => {
+  // Event handler for adding client to users list
+  const handleAddClient = async (event) => {
     event.preventDefault();
     const userObject = {
       givenName: event.target.addUserGivenName.value,
@@ -104,7 +105,7 @@ const ManageUsers = () => {
       await submitUser(userObject);
     } finally {
       runNotification(
-        `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
         5,
         state,
         dispatch
@@ -119,47 +120,43 @@ const ManageUsers = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
-      title="Add New User"
+      title="Add Client"
       state={state}
       statusType="Status"
       defaultMessage="To be added..."
     >
-      <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
+      <form
+        onSubmit={handleAddClient}
+        style={{ marginTop: '20px', marginBottom: '20px' }}
+        autoComplete="off"
+      >
         <div>
-          <label htmlFor="add-user-given-name">
-            First/given name:
-            <br />
-            <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
-          </label>
+          <label htmlFor="add-user-given-name">First/given name: </label>
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
         </div>
         <br />
         <div>
-          <label htmlFor="add-user-last-name">
-            Last/family name:
-            <br />
-            <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
-          </label>
+          <label htmlFor="add-user-last-name">Last/family name: </label>
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
         </div>
         <br />
         <div>
           <label htmlFor="add-username">
-            Username:
-            <br />
-            <input
-              id="add-username"
-              name="addUsername"
-              size="25"
-              type="text"
-              value={username}
-              onChange={(e) => wrappedSetUsername(e.target.value)}
-            />
+            Add username to client list (i.e., username without{' '}
+            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
           </label>
+          <br />
+          <br />
+          <input
+            id="add-username"
+            name="addUsername"
+            size="25"
+            value={username}
+            onChange={(e) => wrappedSetUsername(e.target.value)}
+          />{' '}
         </div>
         <br />
         <label htmlFor="add-webId">
@@ -178,11 +175,12 @@ const ManageUsers = () => {
         </label>
         <br />
         <button type="submit" disabled={state.processing}>
-          Add User
+          Add Client
         </button>
       </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
-export default ManageUsers;
+export default AddClient;

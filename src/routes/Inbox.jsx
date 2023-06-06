@@ -24,7 +24,7 @@ import MessagePreview from '../components/Inbox/MessagePreview';
  */
 
 // TODO:
-const Inbox = ({ loadMessages }) => {
+const Inbox = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -32,7 +32,7 @@ const Inbox = ({ loadMessages }) => {
   const [showForm, setShowForm] = useState(false);
 
   const { session } = useSession();
-  const { inboxList, setInboxList } = useContext(InboxMessageContext);
+  const { inboxList, setInboxList, loadMessages } = useContext(InboxMessageContext);
 
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
