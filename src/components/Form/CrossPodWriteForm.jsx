@@ -2,6 +2,20 @@
 import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import IconButton from '@mui/material/IconButton';
+// import CloseIcon from '@mui/icons-material/Close';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -73,10 +87,6 @@ const CrossPodWriteForm = () => {
     handleFormSubmit(event, podUsername);
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -85,47 +95,77 @@ const CrossPodWriteForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleCrossPodUpload} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Upload document to username: </label>
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleCrossPodUpload} autoComplete="off">
+          <FormControl fullWidth>
+            <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
+            <TextField
+              id="cross-upload-doc"
+              name="crossPodUpload"
+              {...username}
+              placeholder={selectedUser}
+              label="Search username"
+              required
+            />
+          </FormControl>
+          <InputLabel htmlFor="cross-search-doctype">
+            <em>Select Document Type</em>
+          </InputLabel>
+          <FormControl fullWidth>
+            <DocumentSelection htmlId="cross-search-doctype" />
+            <br />
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Search Pod
+            </Button>
+          </FormControl>
+          <br />
+          <FormControl>
+            <Typography htmlFor="upload-doc-expiration">
+              Expiration date (if applicable):
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker']}>
+                <DemoItem id="upload-doc-expiration" name="date" type="date">
+                  <DatePicker />
+                </DemoItem>
+              </DemoContainer>
+            </LocalizationProvider>
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+            <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
+            <TextField
+              id="upload-doc-desc"
+              name="description"
+              {...description}
+              multiline
+              rows={4}
+            />
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+            <Typography htmlFor="upload-doctype">File to upload:</Typography>
+            <Button
+              id="upload-doctype"
+              type="file"
+              name="uploadDoctype"
+              accept=".pdf, .docx, .doc, .txt, .rtf"
+              onChange={handleFileChange}
+              variant="contained"
+            >
+              Choose File
+              <input hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple type="file" />
+            </Button>
+          </FormControl>
           <br />
           <br />
-          <input
-            id="cross-upload-doc"
-            size="25"
-            name="crossPodUpload"
-            {...username}
-            placeholder={selectedUser}
-          />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select Document Type</label>
-          <DocumentSelection htmlId="upload-doc" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
-          <br />
-          <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-            onChange={handleFileChange}
-          />
-          <button disabled={state.processing} type="submit">
-            Upload file
-          </button>
-        </div>
-      </form>
+          <FormControl fullWidth>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Upload file
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
