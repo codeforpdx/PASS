@@ -112,7 +112,9 @@ const App = () => {
               <AppRoutes
                 isLoggedIn={session.info.isLoggedIn}
                 loadInboxMessages={loadInboxMessages}
+                setLoadInboxMessages={setLoadInboxMessages}
                 loadOutboxMessages={loadOutboxMessages}
+                setLoadOutboxMessages={setLoadOutboxMessages}
               />
             </OutboxMessageContext.Provider>
           </InboxMessageContext.Provider>

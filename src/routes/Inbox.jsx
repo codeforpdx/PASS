@@ -21,7 +21,7 @@ import PaginatedMessages from '../components/Messages/Pagination';
  * @name Inbox
  */
 
-const Inbox = ({ loadMessages }) => {
+const Inbox = ({ loadMessages, setLoadMessages }) => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -36,16 +36,20 @@ const Inbox = ({ loadMessages }) => {
 
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
+    setLoadMessages(true);
     const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(messagesInSolid);
+    setLoadMessages(false);
   };
 
   // Re-sorts messages upon inboxList updating
   useEffect(() => {
+    setLoadMessages(true);
     const inboxCopy = inboxList;
     inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(inboxCopy);
+    setLoadMessages(false);
   }, [inboxList]);
 
   return (

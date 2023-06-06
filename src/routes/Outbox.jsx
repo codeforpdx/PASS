@@ -20,7 +20,7 @@ import PaginatedMessages from '../components/Messages/Pagination';
  * @name Outbox
  */
 
-const Outbox = ({ loadMessages }) => {
+const Outbox = ({ loadMessages, setLoadMessages }) => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -32,16 +32,20 @@ const Outbox = ({ loadMessages }) => {
 
   // Handler function for refreshing PASS outbox
   const handleOutboxRefresh = async () => {
+    setLoadMessages(true);
     const messagesInSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
     setOutboxList(messagesInSolid);
+    setLoadMessages(false);
   };
 
   // Re-sorts messages upon outboxList updating
   useEffect(() => {
+    setLoadMessages(true);
     const outboxCopy = outboxList;
     outboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     setOutboxList(outboxCopy);
+    setLoadMessages(false);
   }, [outboxList]);
 
   return (
