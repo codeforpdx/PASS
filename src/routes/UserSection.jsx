@@ -8,7 +8,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
-import { ManageUsers } from '../components/Form';
+import ManageUsers from '../components/Users/ManageUsers';
 import { UserListContext } from '../contexts';
 import UsersList from '../components/Users/UsersList';
 

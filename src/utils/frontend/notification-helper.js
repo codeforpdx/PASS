@@ -21,7 +21,7 @@ import React from 'react';
  * @returns {void} Void - Status message is displayed via dispatch call
  */
 
-const runNotification = (
+export const runNotification = (
   message,
   time, // in seconds
   state,
@@ -44,4 +44,8 @@ const runNotification = (
   dispatch({ type: 'SET_TIMEOUT_ID', payload: timeout });
 };
 
-export default runNotification;
+export const clearProcessing = (dispatch) => {
+  setTimeout(() => {
+    dispatch({ type: 'CLEAR_PROCESSING' });
+  }, 3000);
+};
