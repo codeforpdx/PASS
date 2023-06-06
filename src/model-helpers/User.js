@@ -8,7 +8,8 @@ import {
   getPodUrlAll,
   getStringNoLocale,
   getUrl,
-  getThing
+  getThing,
+  getDate
 } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { RDF_PREDICATES } from '../constants';
@@ -130,6 +131,8 @@ export const parseUserFromThing = (userThing) => {
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
   const username = getStringNoLocale(userThing, RDF_PREDICATES.alternateName);
+  const email = getStringNoLocale(userThing, RDF_PREDICATES.email);
+  const dateOfBirth = getDate(userThing, RDF_PREDICATES.dateOfBirth);
   const webId = getUrl(userThing, RDF_PREDICATES.identifier);
   const podUrl = getUrl(userThing, RDF_PREDICATES.URL);
   return { person, username, givenName, familyName, webId, podUrl };
@@ -147,14 +150,26 @@ export const parseUserFromThing = (userThing) => {
  * @param {string} userObject.familyName - family name
  * @param {string} userObject.webId - web id
  * @param {string} userObject.podUrl - pod url
- * @returns {ThingLocal} - resulting thing to be stored
+ * @param {string} userObject.email - User's Email
+ * @param {string} userObject.dateOfBirth - Date of birth
+ * @returns {import('@inrupt/solid-client').Thing} - resulting thing to be stored
  */
-export const makeUserIntoThing = ({ username, givenName, familyName, webId, podUrl }) =>
+export const makeUserIntoThing = ({
+  username,
+  givenName,
+  familyName,
+  webId,
+  podUrl,
+  email,
+  dateOfBirth
+}) =>
   buildThing(createThing({ name: username }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
     .addStringNoLocale(RDF_PREDICATES.alternateName, username)
+    .addStringNoLocale(RDF_PREDICATES.email, email)
+    .addDate(RDF_PREDICATES.dateOfBirth, dateOfBirth)
     .addUrl(RDF_PREDICATES.identifier, webId)
     .addUrl(RDF_PREDICATES.URL, podUrl)
     .build();
