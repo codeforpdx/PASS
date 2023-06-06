@@ -22,7 +22,7 @@ import { UserListContext } from '../contexts';
  * @name Clients
  */
 
-const Clients = ({ loadingActive }) => {
+const Clients = () => {
   // state for AddClientModal component
   const [showModal, setShowModal] = useState(false);
 
@@ -65,7 +65,7 @@ const Clients = ({ loadingActive }) => {
       >
         Add Client
       </Button>
-      <ClientList loadingActive={loadingActive} />
+      <ClientList />
       {/* modal/popup renders when showConfirmationModal state is true */}
       <AddClientModal showModal={showModal} setShowModal={setShowModal} />
     </Container>

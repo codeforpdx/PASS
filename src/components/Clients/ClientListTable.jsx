@@ -24,7 +24,7 @@ import ClientListTableRow from './ClientListTableRow';
  * @name ClientListTable
  */
 
-const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
+const ClientListTable = ({ statusType, defaultMessage }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
@@ -49,7 +49,6 @@ const ClientListTable = ({ loadingActive, statusType, defaultMessage }) => {
             return (
               <ClientListTableRow
                 key={client.webId}
-                loadingActive={loadingActive}
                 labelId={labelId}
                 client={client}
                 state={state}

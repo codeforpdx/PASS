@@ -17,7 +17,7 @@ import { runNotification } from '../../utils';
 import { SelectUserContext, UserListContext } from '../../contexts';
 
 // determine what gets rendered in the table body
-const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch }) => {
+const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();
   const { setSelectedUser } = useContext(SelectUserContext);
   const { removeUser } = useContext(UserListContext);
@@ -25,17 +25,9 @@ const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch })
   const [selected, setSelected] = useState(false);
 
   // determine what gets rendered in the date modified cell of table
-  const determineDateModifiedCell = () => {
-    let displayed;
-    if (loadingActive) {
-      displayed = 'Loading...';
-    } else if (client.dateModified) {
-      displayed = client.dateModified.toLocaleDateString();
-    } else {
-      displayed = 'Not available';
-    }
-    return displayed;
-  };
+  const modifiedDate = client.dateModified
+    ? client.dateModified.toLocaleDateString()
+    : 'Not available';
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -70,6 +62,7 @@ const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch })
     <StyledTableRow>
       <StyledTableCell align="center">
         <Checkbox
+          id={labelId}
           color="primary"
           checked={selected}
           inputProps={{
@@ -81,7 +74,7 @@ const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch })
           }}
         />
       </StyledTableCell>
-      <StyledTableCell align="center" id={labelId}>
+      <StyledTableCell align="center">
         {client.person}
       </StyledTableCell>
       {/* ***** TODO: Switch this webId to being a small Notes section */}
@@ -97,7 +90,7 @@ const ClientListTableRow = ({ loadingActive, labelId, client, state, dispatch })
           {client.webId}
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="center">{determineDateModifiedCell()}</StyledTableCell>
+      <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
           {pinnedIcon}

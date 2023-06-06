@@ -17,16 +17,12 @@ import ClientListTable from './ClientListTable';
  * @name ClientList
  */
 
-const ClientList = ({ loadingActive }) => {
+const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
 
   return userListObject.userList.length ? (
     // render if clients
-    <ClientListTable
-      loadingActive={loadingActive}
-      statusType="Status"
-      defaultMessage="No actions"
-    />
+    <ClientListTable statusType="Status" defaultMessage="No actions" />
   ) : (
     // render if no clients
     <Container>
