@@ -20,7 +20,7 @@ import UsersList from '../components/Users/UsersList';
  * @name UserSection
  */
 
-const UserSection = ({ loadingActive }) => {
+const UserSection = () => {
   const location = useLocation();
   const { loadingUsers } = useContext(UserListContext);
 
@@ -50,7 +50,7 @@ const UserSection = ({ loadingActive }) => {
           </Box>
         </Container>
       ) : (
-        <UsersList loadingActive={loadingActive} />
+        <UsersList />
       )}
     </>
   );

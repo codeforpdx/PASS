@@ -17,7 +17,7 @@ import FormSection from '../Form/FormSection';
  * @name UsersList
  */
 
-const UsersList = ({ loadingActive }) => {
+const UsersList = () => {
   const { state, dispatch } = useStatusNotification();
   const { setSelectedUser } = useContext(SelectUserContext);
   const { userListObject, removeUser } = useContext(UserListContext);
@@ -72,13 +72,9 @@ const UsersList = ({ loadingActive }) => {
                     {user.webId}
                   </a>
                 </td>
-                {loadingActive ? (
-                  <td>Loading...</td>
-                ) : (
-                  <td>
-                    {user.dateModified ? user.dateModified.toLocaleDateString() : 'Not available'}
-                  </td>
-                )}
+                <td>
+                  {user.dateModified ? user.dateModified.toLocaleDateString() : 'Not available'}
+                </td>
                 <td>
                   <button type="button" onClick={() => handleSelectUser(user.person, user.webId)}>
                     select

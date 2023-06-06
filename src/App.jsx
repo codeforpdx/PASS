@@ -111,7 +111,6 @@ const App = () => {
             <OutboxMessageContext.Provider value={outboxMessageObject}>
               <AppRoutes
                 isLoggedIn={session.info.isLoggedIn}
-                loadingActive={false}
                 loadInboxMessages={loadInboxMessages}
                 loadOutboxMessages={loadOutboxMessages}
               />
