@@ -6,16 +6,14 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+// import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import IconButton from '@mui/material/IconButton';
-// import CloseIcon from '@mui/icons-material/Close';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -113,10 +111,6 @@ const CrossPodWriteForm = () => {
           </InputLabel>
           <FormControl fullWidth>
             <DocumentSelection htmlId="cross-search-doctype" />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Search Pod
-            </Button>
           </FormControl>
           <br />
           <FormControl>
@@ -124,11 +118,11 @@ const CrossPodWriteForm = () => {
               Expiration date (if applicable):
             </Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker']}>
-                <DemoItem id="upload-doc-expiration" name="date" type="date">
-                  <DatePicker />
-                </DemoItem>
-              </DemoContainer>
+              {/* <DemoContainer components={['DatePicker']}> */}
+              {/* <DemoItem id="upload-doc-expiration" name="date" type="date"> */}
+              <DatePicker id="upload-doc-expiration" />
+              {/* </DemoItem> */}
+              {/* </DemoContainer> */}
             </LocalizationProvider>
           </FormControl>
           <br />
@@ -147,9 +141,9 @@ const CrossPodWriteForm = () => {
             <Typography htmlFor="upload-doctype">File to upload:</Typography>
             <Button
               id="upload-doctype"
-              type="file"
+              // type="file"
               name="uploadDoctype"
-              accept=".pdf, .docx, .doc, .txt, .rtf"
+              // accept=".pdf, .docx, .doc, .txt, .rtf"
               onChange={handleFileChange}
               variant="contained"
             >
