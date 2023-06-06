@@ -1,35 +1,56 @@
 // React Imports
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSession } from '@inrupt/solid-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Page Imports
-import LandingPage from './routes/LandingPage';
+import { useSession } from '@inrupt/solid-ui-react';
+import { useRedirectUrl } from './hooks';
+
+import Home from './routes/Home';
 import UserSection from './routes/UserSection';
 import Inbox from './routes/Inbox';
 import Forms from './routes/Forms';
 
-const ProtectedRoute = ({ isLoggedIn, children }) => {
-  if (!isLoggedIn) {
-    return <Navigate to="/PASS/landing" replace />;
-  }
-  return children;
-};
+const ProtectedRoute = ({ isLoggedIn, children }) =>
+  isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;
 
-const AppRoutes = () => {
+const AppRoutes = ({ loadingActive, loadMessages }) => {
+  const { session } = useSession();
+  const redirectUrl = useRedirectUrl();
+  const [restore, setRestore] = useState(false);
   const restorePath = localStorage.getItem('restorePath');
   const path = restorePath ?? '/PASS/home';
-  const { isLoggedIn } = useSession().session.info
+
+  useEffect(() => {
+    const performanceEntries = window.performance.getEntriesByType('navigation');
+    if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
+      setRestore(true);
+    }
+
+    if (restore && localStorage.getItem('loggedIn')) {
+      session.login({
+        oidcIssuer: localStorage.getItem('oidcIssuer'),
+        redirectUrl
+      });
+    }
+  }, [restore]);
+
+  useEffect(() => {
+    if (session.info.isLoggedIn) localStorage.setItem('loggedIn', true);
+  }, [session.info.isLoggedIn]);
 
   return (
     <Routes>
-      <Route exact path="/PASS/" element={<Navigate to={path} replace />} />
-      <Route path="/PASS/landing" element={<LandingPage />} />
-      <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>} >
-        <Route path="/PASS/home" element={<UserSection />} />
+      <Route
+        exact
+        path="/PASS/"
+        element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
+      />
+      <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
+        <Route path="/PASS/home" element={<UserSection loadingActive={loadingActive} />} />
         <Route path="/PASS/forms" element={<Forms />} />
-        <Route path="/PASS/inbox" element={<Inbox />} />
+        <Route path="/PASS/inbox" element={<Inbox loadMessages={loadMessages} />} />
+        <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
-      <Route path="*" element={<Navigate to='/PASS/home' replace />} />
     </Routes>
   );
 };

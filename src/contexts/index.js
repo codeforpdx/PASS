@@ -1,6 +1,6 @@
 import SelectUserContext from './selectUserContext';
 import UserListContext, { UserListContextProvider } from './userListContext';
-import InboxMessageContext from './inboxMessageContext';
+import InboxMessageContext, { InboxMessageContextProvider } from './InboxMessageContext';
 
 /**
  * The contexts module contains React Contexts that helps with user management
@@ -9,5 +9,11 @@ import InboxMessageContext from './inboxMessageContext';
  * @namespace contexts
  */
 
-export { SelectUserContext, UserListContext, InboxMessageContext, UserListContextProvider };
+export {
+  SelectUserContext,
+  UserListContext,
+  InboxMessageContext,
+  InboxMessageContextProvider,
+  UserListContextProvider
+};
 export * from './SignedInUserContext';

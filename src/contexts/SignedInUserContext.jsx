@@ -1,6 +1,8 @@
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
+import { updateUserActivity } from '../model-helpers';
+import { createPublicContainer, createDocumentContainer } from '../utils';
 
 /**
  * React Context for users list from Solid Pod
@@ -26,23 +28,30 @@ export const SignedInUserContextProvider = ({ children }) => {
 
   useEffect(() => {
     const loadUserInfo = async () => {
-      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
-      podUrl = podUrl || session.info.webId.split('profile')[0];
-
       try {
+        const { webId } = session.info;
+        let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
+        podUrl = podUrl || webId.split('profile')[0];
         setUserInfo({
           ...userInfo,
           podUrl
         });
+        await Promise.all([
+          updateUserActivity(session, podUrl),
+          createPublicContainer(session, podUrl),
+          createDocumentContainer(session, podUrl)
+        ]);
       } finally {
         setLoadingUserInfo(false);
       }
     };
 
-    if (session.info.isLoggedIn) loadUserInfo();
+    if (session.info.isLoggedIn) {
+      loadUserInfo();
+    }
   }, [session.info.isLoggedIn]);
 
-  return !loadingUserInfo ? (
+  return (
     <SignedInUserContext.Provider value={userInfoMemo}>{children}</SignedInUserContext.Provider>
-  ) : null;
+  );
 };
