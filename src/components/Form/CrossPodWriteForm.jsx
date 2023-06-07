@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -91,50 +92,56 @@ const CrossPodWriteForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleCrossPodUpload} autoComplete="off">
-        <FormControl fullWidth>
-          <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
-          <TextField
-            id="cross-upload-doc"
-            name="crossPodUpload"
-            {...username}
-            placeholder={selectedUser}
-            label="Search username"
-            required
-          />
-        </FormControl>
-        <InputLabel htmlFor="cross-search-doctype">
-          <em>Select Document Type</em>
-        </InputLabel>
-        <FormControl fullWidth>
-          <DocumentSelection htmlId="cross-search-doctype" />
-        </FormControl>
-        <br />
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <FormControl fullWidth>
-          <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
-          <TextField id="upload-doc-desc" name="description" {...description} multiline rows={4} />
-        </FormControl>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload:</label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-            onChange={handleFileChange}
-          />
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleCrossPodUpload} autoComplete="off">
+          <FormControl fullWidth>
+            <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
+            <TextField
+              id="cross-upload-doc"
+              name="crossPodUpload"
+              {...username}
+              placeholder={selectedUser}
+              label="Search username"
+              required
+            />
+          </FormControl>
+          <InputLabel htmlFor="cross-search-doctype">
+            <em>Select Document Type</em>
+          </InputLabel>
+          <FormControl fullWidth>
+            <DocumentSelection htmlId="cross-search-doctype" />
+          </FormControl>
           <br />
-        </div>
-        <FormControl fullWidth>
-          <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-            Upload file
-          </Button>
-        </FormControl>
-      </form>
+          <div style={formRowStyle}>
+            <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+            <input id="upload-doc-expiration" name="date" type="date" />
+          </div>
+          <FormControl fullWidth>
+            <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
+            <TextField
+              id="upload-doc-desc"
+              name="description"
+              {...description}
+              multiline
+              rows={4}
+            />
+          </FormControl>
+            <label htmlFor="upload-doctype">File to upload:</label>
+            <input
+              id="upload-doctype"
+              type="file"
+              name="uploadDoctype"
+              accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
+              onChange={handleFileChange}
+            />
+            <br />
+          <FormControl fullWidth>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Upload file
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */

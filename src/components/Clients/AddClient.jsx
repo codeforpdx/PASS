@@ -135,18 +135,18 @@ const AddClient = () => {
       >
         <div>
           <label htmlFor="add-user-given-name">First/given name: </label>
-          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
         </div>
         <br />
         <div>
           <label htmlFor="add-user-last-name">Last/family name: </label>
-          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
         </div>
         <br />
         <div>
           <label htmlFor="add-username">
-            Add username to client list (i.e., username without{' '}
-            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
+            Add username to client list (i.e., username without
+            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):
           </label>
           <br />
           <br />
@@ -156,7 +156,7 @@ const AddClient = () => {
             size="25"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
-          />{' '}
+          />
         </div>
         <br />
         <label htmlFor="add-webId">
