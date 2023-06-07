@@ -12,8 +12,8 @@
     "preview": "vite preview",
     "docs": "jsdoc --readme ./docs/README.md -c jsdoc.config.json",
     "docs:clear": "node clearDocs.js",
-    "lint": "eslint 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
-    "lint:fix": "eslint --fix 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
+    "lint": "eslint 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx' '__mocks__/**/*.js'",
+    "lint:fix": "eslint --fix 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx' '__mocks__/**/*.js'",
     "prettier:check": "prettier --check 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "prettier:run": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "dev:pod": "community-solid-server",
@@ -39,6 +39,7 @@
     "crypto-js": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-paginate": "^8.2.0",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.10",
     "uuid": "^9.0.0"

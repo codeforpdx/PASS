@@ -17,7 +17,9 @@ import {
   getResourceAcl,
   getSolidDatasetWithAcl,
   setPublicResourceAccess,
-  setPublicDefaultAccess
+  setPublicDefaultAccess,
+  getDatetime,
+  createSolidDataset
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -409,21 +411,101 @@ export const getUserProfileName = async (session, webId) => {
 };
 
 /**
- * Gets user's name from profile using their webId
+ * A function that saves a message TTL file inside containerUrl and name it
+ * based on its slug suggestion
  *
  * @memberof utils
- * @function saveMessageTTLInInbox
+ * @function saveMessageTTL
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} containerUrl - URL location of Pod container
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
  * @param {string} slug - The slug suggestion for the message file
- * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
+ * @returns {Promise} Promise - Saves message TTL file inside containerUrl and
+ * name the TTL file based on its slug suggestion
  */
 
-export const saveMessageTTLInInbox = async (session, containerUrl, solidDatset, slug) => {
+export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) => {
   await saveSolidDatasetInContainer(containerUrl, solidDatset, {
     slugSuggestion: `${slug}.ttl`,
     contentType: 'text/turtle',
     fetch: session.fetch
   });
+};
+
+/**
+ * A function that parses a message TTL file from inbox or outbox and returns a
+ * messageObject
+ *
+ * @memberof utils
+ * @function parseMessageTTL
+ * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @returns {object} messageObject - An object containinng the message content,
+ * title, uploadDate, sender, and recipient
+ */
+
+export const parseMessageTTL = (messageTTLThing) => {
+  // Get data related to #message
+  const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
+  const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
+  const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
+  const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
+
+  // Get data related to #sender
+  const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
+  const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+
+  // Get data related to #recipient
+  const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
+  const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
+
+  return { message, title, uploadDate, sender, recipient };
+};
+
+/**
+ * A function that builds a new message TTL file to be sent
+ *
+ * @memberof utils
+ * @function buildMessageTTL
+ * @param {Session} session - Solid's Session Object (see {@link Session})
+ * @param {Date} date - JavaScript Date object
+ * @param {string} senderName - Name of sender
+ * @param {string} recipientName - Name of recipient
+ * @param {URL} recipientWebId - webId of recipient
+ * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @returns {object} messageObject - An object containinng the message content,
+ * title, uploadDate, sender, and recipient
+ */
+
+// TODO: potentially add other useful fields - see https://github.com/codeforpdx/PASS/pull/191#discussion_r1217249834
+
+export const buildMessageTTL = (
+  session,
+  date,
+  messageObject,
+  senderName,
+  recipientName,
+  recipientWebId
+) => {
+  const newMessageTTL = buildThing(createThing({ name: 'message' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, date)
+    .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
+    .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
+    .build();
+
+  const senderInfo = buildThing(createThing({ name: 'sender' }))
+    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
+    .addUrl(RDF_PREDICATES.url, session.info.webId)
+    .build();
+
+  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
+    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
+    .addUrl(RDF_PREDICATES.url, recipientWebId)
+    .build();
+
+  let newSolidDataset = createSolidDataset();
+  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+    newSolidDataset = setThing(newSolidDataset, thing);
+  });
+
+  return newSolidDataset;
 };

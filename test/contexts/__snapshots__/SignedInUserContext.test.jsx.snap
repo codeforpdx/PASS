@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SignedInUserContext > fetches user data if user is logged in 1`] = `
+<div>
+  <div>
+    https://example.com/pod/
+  </div>
+</div>
+`;

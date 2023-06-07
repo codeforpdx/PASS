@@ -1,6 +1,7 @@
-import React, { createContext, useState, useMemo, useEffect } from 'react';
-import { getPodUrlAll } from '@inrupt/solid-client';
+import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
+import { useSession } from '@inrupt/solid-ui-react';
 import { loadUserList, addUser, removeUser } from '../model-helpers';
+import { SignedInUserContext } from './SignedInUserContext';
 
 /**
  * @typedef {import("../typedefs").userListObject} userListObject
@@ -15,12 +16,13 @@ const initialUserListContext = [];
  * @name UserListContext
  * @memberof contexts
  */
-
 const UserListContext = createContext(initialUserListContext);
 
-export const UserListContextProvider = ({ session, children }) => {
+export const UserListContextProvider = ({ children }) => {
   const [userListObject, setUserListObject] = useState({});
   const [loadingUsers, setLoadingUsers] = useState(true);
+  const { podUrl } = useContext(SignedInUserContext);
+  const { session } = useSession();
 
   const userListMemo = useMemo(
     () => ({
@@ -35,9 +37,6 @@ export const UserListContextProvider = ({ session, children }) => {
 
   useEffect(() => {
     const loadUsers = async () => {
-      let podUrl = (await getPodUrlAll(session.info.webId, { fetch: session.fetch }))[0];
-      podUrl = podUrl || session.info.webId.split('profile')[0];
-
       try {
         setUserListObject(await loadUserList(session, podUrl));
       } finally {
@@ -45,8 +44,8 @@ export const UserListContextProvider = ({ session, children }) => {
       }
     };
 
-    if (session.info.isLoggedIn) loadUsers();
-  }, [session.info.isLoggedIn]);
+    if (podUrl) loadUsers();
+  }, [podUrl]);
 
   return <UserListContext.Provider value={userListMemo}>{children}</UserListContext.Provider>;
 };

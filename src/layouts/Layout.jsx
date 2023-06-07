@@ -9,10 +9,10 @@ import { NavBar } from '../components/NavBar';
 import { InactivityMessage } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
 
-const Layout = ({ children }) => {
+const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box aria-label={ariaLabel} sx={{ minHeight: '100vh' }}>
       <NavBar />
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
