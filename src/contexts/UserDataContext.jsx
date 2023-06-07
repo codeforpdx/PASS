@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
 import {
-  InboxMessageContextProvider,
+  MessageContextProvider,
   SelectUserContext,
   UserListContextProvider,
   SignedInUserContextProvider
@@ -16,7 +16,7 @@ const UserDataContextProvider = ({ children }) => {
     <SignedInUserContextProvider>
       <SelectUserContext.Provider value={selectedUserObject}>
         <UserListContextProvider>
-          <InboxMessageContextProvider>{children}</InboxMessageContextProvider>
+          <MessageContextProvider>{children}</MessageContextProvider>
         </UserListContextProvider>
       </SelectUserContext.Provider>
     </SignedInUserContextProvider>

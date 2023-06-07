@@ -5,15 +5,13 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
 import styled from 'styled-components';
-// Other Library Imports
-import { v4 as uuidv4 } from 'uuid';
 // Utility Imports
-import { getInboxMessageTTL } from '../utils';
+import { getMessageTTL } from '../utils';
 // Context Imports
-import { InboxMessageContext } from '../contexts';
+import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
-import NewMessage from '../components/Inbox/NewMessage';
-import MessagePreview from '../components/Inbox/MessagePreview';
+import NewMessage from '../components/Messages/NewMessage';
+import PaginatedMessages from '../components/Messages/Pagination';
 
 /**
  * Inbox Page - Page that generates PASS Inbox for users logged into a Solid Pod
@@ -31,20 +29,32 @@ const Inbox = () => {
 
   const [showForm, setShowForm] = useState(false);
 
+  const podUrl = useContext(SignedInUserContext);
+
   const { session } = useSession();
-  const { inboxList, setInboxList, loadMessages } = useContext(InboxMessageContext);
+  const {
+    inboxList,
+    setInboxList,
+    loadMessages,
+    setLoadMessages
+  } = useContext(MessageContext);
 
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
-    const messagesInSolid = await getInboxMessageTTL(session, inboxList);
+    setLoadMessages(true);
+    const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
+    messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(messagesInSolid);
+    setLoadMessages(false);
   };
 
   // Re-sorts messages upon inboxList updating
   useEffect(() => {
+    setLoadMessages(true);
     const inboxCopy = inboxList;
     inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(inboxCopy);
+    setLoadMessages(false);
   }, [inboxList]);
 
   return (
@@ -62,19 +72,9 @@ const Inbox = () => {
       {showForm && (
         <NewMessage
           closeForm={() => setShowForm(!showForm)}
-          inboxList={inboxList}
-          setInboxList={setInboxList}
         />
       )}
-      {loadMessages ? (
-        <div>Loading Messages...</div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          {inboxList.map((message) => (
-            <MessagePreview key={uuidv4()} message={message} />
-          ))}
-        </div>
-      )}
+      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={inboxList} />}
     </section>
   );
 };

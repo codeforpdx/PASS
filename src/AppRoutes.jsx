@@ -8,12 +8,13 @@ import { useRedirectUrl } from './hooks';
 import Home from './routes/Home';
 import Clients from './routes/Clients';
 import Inbox from './routes/Inbox';
+import Outbox from './routes/Outbox';
 import Forms from './routes/Forms';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;
 
-const AppRoutes = ({ loadMessages }) => {
+const AppRoutes = () => {
   const { session } = useSession();
   const redirectUrl = useRedirectUrl();
   const [restore, setRestore] = useState(false);
@@ -48,7 +49,18 @@ const AppRoutes = ({ loadMessages }) => {
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
         <Route path="/PASS/forms" element={<Forms />} />
-        <Route path="/PASS/inbox" element={<Inbox loadMessages={loadMessages} />} />
+        <Route
+          path="/PASS/inbox"
+          element={
+            <Inbox />
+          }
+        />
+        <Route
+          path="/PASS/outbox"
+          element={
+            <Outbox />
+          }
+        />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>

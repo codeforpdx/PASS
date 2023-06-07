@@ -24,7 +24,7 @@ const MessagePreview = ({ message }) => {
       <StyledHeader>
         {message.sender} - {message.title}
       </StyledHeader>
-      {showContents && <p>{message.message}</p>}
+      {showContents && <p style={{ wordWrap: 'break-word' }}>{message.message}</p>}
     </StyledPreview>
   );
 };

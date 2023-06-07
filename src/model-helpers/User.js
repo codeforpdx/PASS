@@ -9,7 +9,8 @@ import {
   getDatetime,
   getPodUrlAll,
   getStringNoLocale,
-  getUrl
+  getUrl,
+  getThing
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '../constants';
 
@@ -44,12 +45,8 @@ export const updateUserActivity = async (session, podUrl) => {
   };
   let activityDataset;
 
-  const updateAndSaveActivity = async () => {
-    const activity = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
-      .build();
-
-    activityDataset = setThing(activityDataset, activity);
+  const saveActivity = async (ttlFile) => {
+    activityDataset = setThing(activityDataset, ttlFile);
 
     await saveSolidDatasetAt(activityDocUrl, activityDataset, {
       fetch: session.fetch
@@ -58,10 +55,20 @@ export const updateUserActivity = async (session, podUrl) => {
 
   try {
     activityDataset = await getSolidDataset(activityDocUrl, { fetch: session.fetch });
-    await updateAndSaveActivity();
+    const activeTTLThing = getThing(activityDataset);
+
+    const activeTTL = buildThing(activeTTLThing)
+      .setDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
+    await saveActivity(activeTTL);
   } catch {
+    const newActiveTTL = buildThing(createThing({ name: 'active' }))
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
     activityDataset = createSolidDataset();
-    await updateAndSaveActivity();
+    await saveActivity(newActiveTTL);
 
     await setDocAclForUser(
       session,

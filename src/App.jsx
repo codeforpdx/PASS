@@ -20,7 +20,7 @@ import AppRoutes from './AppRoutes';
  */
 
 /**
- * @typedef {import("./typedefs").inboxListObject} inboxListObject
+ * @typedef {import("./typedefs").messageListObject} messageListObject
  */
 
 const App = () => (

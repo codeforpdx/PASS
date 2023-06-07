@@ -24,7 +24,8 @@ const NavbarLinks = () => {
   const routesArray = [
     { label: 'Clients', path: '/PASS/clients' },
     { label: 'Forms', path: '/PASS/forms' },
-    { label: 'Inbox', path: '/PASS/inbox' }
+    { label: 'Inbox', path: '/PASS/inbox' },
+    { label: 'Outbox', path: '/PASS/outbox' }
   ];
 
   // Navigate To... button and menu (small screens)

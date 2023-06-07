@@ -22,7 +22,7 @@ import {
   checkContainerPermission,
   sendMessageTTL,
   createOutbox,
-  getInboxMessageTTL,
+  getMessageTTL,
   createPublicContainer,
   createInbox
 } from './network/session-core';
@@ -45,7 +45,7 @@ export {
   sendMessageTTL,
   makeHandleFormSubmission,
   createOutbox,
-  getInboxMessageTTL,
+  getMessageTTL,
   createPublicContainer,
   createInbox
 };
