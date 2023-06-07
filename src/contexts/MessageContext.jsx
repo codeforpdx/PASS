@@ -25,14 +25,17 @@ export const MessageContextProvider = ({ children }) => {
   const [inboxList, setInboxList] = useState([]);
 
   const [outboxList, setOutboxList] = useState([]);
-  const messageObject = useMemo(() => ({ 
-    inboxList,
-    setInboxList,
-    outboxList,
-    setOutboxList,
-    loadMessages,
-    setLoadMessages
-  }), [outboxList, inboxList, loadMessages]);
+  const messageObject = useMemo(
+    () => ({
+      inboxList,
+      setInboxList,
+      outboxList,
+      setOutboxList,
+      loadMessages,
+      setLoadMessages
+    }),
+    [outboxList, inboxList, loadMessages]
+  );
 
   /**
    * A function that generates a Users container if logging in for the first
@@ -60,11 +63,7 @@ export const MessageContextProvider = ({ children }) => {
     if (podUrl) fetchData();
   }, [podUrl]);
 
-  return (
-    <MessageContext.Provider value={messageObject}>
-      {children}
-    </MessageContext.Provider>
-  );
+  return <MessageContext.Provider value={messageObject}>{children}</MessageContext.Provider>;
 };
 
 export default MessageContext;

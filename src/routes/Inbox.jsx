@@ -32,12 +32,7 @@ const Inbox = () => {
   const podUrl = useContext(SignedInUserContext);
 
   const { session } = useSession();
-  const {
-    inboxList,
-    setInboxList,
-    loadMessages,
-    setLoadMessages
-  } = useContext(MessageContext);
+  const { inboxList, setInboxList, loadMessages, setLoadMessages } = useContext(MessageContext);
 
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
@@ -69,11 +64,7 @@ const Inbox = () => {
           Refresh
         </StyledButton>
       </div>
-      {showForm && (
-        <NewMessage
-          closeForm={() => setShowForm(!showForm)}
-        />
-      )}
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
       {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={inboxList} />}
     </section>
   );

@@ -16,10 +16,6 @@ export const saveAclFor = vi.fn((url) =>
 export const saveSolidDatasetAt = vi.fn(mockDatasetFactory);
 export const getSolidDataset = vi.fn(mockDatasetFactory);
 export const createContainerAt = vi.fn(() => Promise.resolve());
-export const saveSolidDatasetInContainer = vi.fn(mockDatasetFactory);
 export const deleteFile = vi.fn(() => Promise.resolve());
-export const createContainerAt = vi.fn(() => Promise.resolve());
-export const getSolidDatasetWithAcl = vi.fn((url) =>
-  Promise.resolve(addMockResourceAclTo(mockSolidDatasetFrom(url)))
-);
+export const getSolidDatasetWithAcl = vi.fn(mockDatasetFactory);
 export const saveSolidDatasetInContainer = vi.fn(() => Promise.resolve());

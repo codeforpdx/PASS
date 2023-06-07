@@ -49,18 +49,8 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
         <Route path="/PASS/forms" element={<Forms />} />
-        <Route
-          path="/PASS/inbox"
-          element={
-            <Inbox />
-          }
-        />
-        <Route
-          path="/PASS/outbox"
-          element={
-            <Outbox />
-          }
-        />
+        <Route path="/PASS/inbox" element={<Inbox />} />
+        <Route path="/PASS/outbox" element={<Outbox />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>

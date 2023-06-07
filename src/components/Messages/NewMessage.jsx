@@ -18,10 +18,7 @@ import { sendMessageTTL, getMessageTTL } from '../../utils';
 
 const NewMessage = ({ closeForm }) => {
   const { session } = useSession();
-  const {
-    outboxList,
-    setOutboxList
-  } = useContext(MessageContext);
+  const { outboxList, setOutboxList } = useContext(MessageContext);
 
   const [message, setMessage] = useState({
     recipientUsername: '',
