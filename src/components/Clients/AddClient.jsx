@@ -1,186 +1,188 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Inrupt Library Imports
+import { TextField, Button } from '@mui/material';
 import { useSession } from '@inrupt/solid-ui-react';
+
 // Utility Imports
-import { runNotification, SOLID_IDENTITY_PROVIDER } from '../../utils';
-import { createUser } from '../../model-helpers/User';
+import { runNotification, clearProcessing } from '../../utils';
+
 // Custom Hook Imports
-import { useStatusNotification, useField } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
+import registerPod from '../../utils/network/register-pod';
+
 // Component Imports
+import { createUser } from '../../model-helpers/User';
 import FormSection from '../Form/FormSection';
 
 /**
- * AddClient Component - Component that allows users to add other user's
+ * ManageUsers Component - Component that allows users to manage other user's
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Forms
- * @name AddClient
+ * @name ManageUsers
  */
 
-const renderWebId = (username) => {
-  const oidcProvider = SOLID_IDENTITY_PROVIDER.split('//')[1];
-  const template = ['https://', `.${oidcProvider}profile/card#me`];
-  return `${template[0]}${username}${template[1]}`;
+const formRowStyle = {
+  margin: '20px 0'
+};
+
+const textFieldStyle = {
+  margin: '8px'
+};
+
+const notifyStartSubmission = (userObject, state, dispatch) => {
+  dispatch({ type: 'SET_PROCESSING' });
+
+  runNotification(
+    `Adding user "${userObject.givenName} ${userObject.familyName}" to Solid...`,
+    5,
+    state,
+    dispatch
+  );
+};
+
+const notifyEndSubmission = (userObject, state, dispatch) => {
+  runNotification(
+    `User "${userObject.givenName} ${userObject.familyName}" added to Solid`,
+    5,
+    state,
+    dispatch
+  );
+
+  clearProcessing(dispatch);
 };
 
 const AddClient = () => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
-  const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
-  const [username, setUsername] = useState('');
-  const [webId, setWebId] = useState('');
+  const [givenName, setGivenName] = useState('');
+  const [familyName, setFamilyName] = useState('');
   const { addUser } = useContext(UserListContext);
+  const [dateOfBirth, setDateOfBirth] = useState(Date.now());
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const wrappedSetUsername = (value) => {
-    setUsername(value);
-    const renderedWebId = renderWebId(value);
-    setWebId(renderedWebId);
+  const { session } = useSession();
+
+  const clearForm = () => {
+    setFamilyName('');
+    setGivenName('');
+    setDateOfBirth(Date.now());
+    setPassword('');
+    setConfirmPassword('');
   };
 
-  const submitUser = async (userObject) => {
-    const user = await createUser(session, userObject);
-    await addUser(user);
+  const submitUser = async () => {
+    const dateObject = new Date(dateOfBirth);
+    const tempEmail = `${givenName}.${familyName}.${dateObject.getFullYear()}@fake.com`;
+    const { webId, podBaseUrl, email } = await registerPod({
+      email: tempEmail,
+      password,
+      confirmPassword
+    });
+    const [newUsername] = email.split('@');
+    const userObject = {
+      webId,
+      givenName,
+      familyName,
+      email,
+      username: newUsername,
+      podUrl: podBaseUrl,
+      dateOfBirth: dateObject
+    };
+    await addUser(createUser(userObject, session));
   };
 
-  const notifyStartSubmission = (userObject) => {
-    // ===== START OF ERROR DISPLAY OPTIONS =====
-    if (!userObject.username && !userObject.webId) {
-      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
-      return;
-    }
-
-    if (!userObject.givenName) {
-      runNotification(
-        `Operation failed. Reason: User's first/given name is not provided`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    if (!userObject.familyName) {
-      runNotification(
-        `Operation failed. Reason: User's last/family name is not provided`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-    // ===== END OF ERROR DISPLAY OPTIONS =====
-
-    dispatch({ type: 'SET_PROCESSING' });
-
-    runNotification(
-      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
-      5,
-      state,
-      dispatch
-    );
-  };
-
-  // Event handler for adding client to users list
-  const handleAddClient = async (event) => {
+  // Event handler for adding user from users list
+  const handleAddUser = async (event) => {
     event.preventDefault();
     const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      username: event.target.addUsername.value,
-      webId: event.target.addWebId.value
+      givenName,
+      familyName
     };
 
     notifyStartSubmission(userObject, state, dispatch);
     try {
-      await submitUser(userObject);
+      await submitUser();
     } finally {
-      runNotification(
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearUserGivenName();
-        clearUserFamilyName();
-        setUsername('');
-        setWebId('');
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      notifyEndSubmission(userObject, state, dispatch);
+      clearForm();
     }
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
-      title="Add Client"
+      title="Add New User"
       state={state}
       statusType="Status"
       defaultMessage="To be added..."
     >
-      <form
-        onSubmit={handleAddClient}
-        style={{ marginTop: '20px', marginBottom: '20px' }}
-        autoComplete="off"
-      >
-        <div>
-          <label htmlFor="add-user-given-name">First/given name: </label>
-          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
-        </div>
+      <form onSubmit={handleAddUser} style={formRowStyle} autoComplete="off">
+        <p>Register user for a new pod:</p>
+        <TextField
+          style={textFieldStyle}
+          id="first-name-form"
+          aria-label="First Name"
+          label="First/Given Name"
+          variant="outlined"
+          value={givenName}
+          onChange={(e) => setGivenName(e.target.value)}
+        />
         <br />
-        <div>
-          <label htmlFor="add-user-last-name">Last/family name: </label>
-          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
-        </div>
+        <TextField
+          style={textFieldStyle}
+          id="last-name-form"
+          aria-label="Family Name"
+          label="Last/Family Name"
+          variant="outlined"
+          value={familyName}
+          onChange={(e) => setFamilyName(e.target.value)}
+        />
         <br />
-        <div>
-          <label htmlFor="add-username">
-            Add username to client list (i.e., username without{' '}
-            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
-          </label>
-          <br />
-          <br />
-          <input
-            id="add-username"
-            name="addUsername"
-            size="25"
-            value={username}
-            onChange={(e) => wrappedSetUsername(e.target.value)}
-          />{' '}
-        </div>
+        <TextField
+          style={textFieldStyle}
+          id="date-form"
+          aria-label="Date of Birth"
+          label="Date of Birth"
+          variant="outlined"
+          value={dateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)}
+          type="date"
+        />
         <br />
-        <label htmlFor="add-webId">
-          WebId:
-          <br />
-          <input
-            id="add-webId"
-            name="addWebId"
-            size="25"
-            type="text"
-            value={webId}
-            onChange={(e) => {
-              setWebId(e.target.value);
-            }}
-          />
-        </label>
+        <TextField
+          style={textFieldStyle}
+          id="password-form"
+          aria-label="Password"
+          label="Password"
+          variant="outlined"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <br />
-        <button type="submit" disabled={state.processing}>
-          Add Client
-        </button>
+        <TextField
+          style={textFieldStyle}
+          id="confirm-password-form"
+          aria-label="Confirm Password"
+          label="Confirm Password"
+          variant="outlined"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          aria-label="Sign Up For a Pod"
+          type="submit"
+        >
+          Sign Up for a Pod
+        </Button>
       </form>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default AddClient;
