@@ -1,22 +1,33 @@
+// React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-
-import { SignedInUserContext } from './SignedInUserContext';
-
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';
+// Context Imports
+import { SignedInUserContext } from './SignedInUserContext';
 
 /**
  * @typedef {import("../typedefs").inboxListObject} inboxListObject
  */
 
 /**
- * React Context for inbox messages from Solid Pod
+ * React Context for messages from Solid Pod
  *
  * @name MessageContext
  * @memberof contexts
  */
+
 const MessageContext = createContext([]);
+
+/**
+ * The Provider for MessageContext
+ *
+ * @memberof contexts
+ * @function MessageContextProvider
+ * @param {React.JSX.Element} children - The wrapped components that consumes
+ * Context from Provider
+ */
 
 export const MessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);

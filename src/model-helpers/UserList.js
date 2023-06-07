@@ -25,13 +25,17 @@ import { parseUserFromThing, makeUserIntoThing } from './User';
  */
 
 /**
+ * @typedef {import("@inrupt/solid-client").SolidDataset} SolidDataset
+ */
+
+/**
  * Converts a users array into a userslist Thing stored in the provided dataset
  * If no dataset is provided, a new one is created
  *
  * @memberof UserList
  * @function makeIntoDataset
  * @param {Array} usersList - an array of users objects to add to a dataset
- * @param {import('@inrupt/solid-client').SolidDataset} dataset - dataset to convert to array
+ * @param {SolidDataset} dataset - dataset to convert to array
  * @returns {object} An new userListObject containing any updates
  */
 const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
@@ -55,7 +59,7 @@ const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
  *
  * @memberof UserList
  * @function parseFromDataset
- * @param {import('@inrupt/solid-client').SolidDataset} usersDataset - dataset to convert to array
+ * @param {SolidDataset} usersDataset - dataset to convert to array
  * @param {Session} session - session to use for saving
  * @returns {object} An new userListObject containing any updates
  */
@@ -81,7 +85,7 @@ const parseFromDataset = async (usersDataset, session) => {
  * @function saveToPod
  * @param {Session} session - session to use for saving
  * @param {object} userListObject - object containing userList, dataset, and listUrl
- * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {SolidDataset} userListObject.dataset - dataset to save
  * @param {URL} userListObject.listUrl - Url of dataset to save to
  * @returns {object} An new userListObject containing any updates
  */
@@ -101,7 +105,7 @@ export const saveToPod = async (session, { dataset, listUrl }) => {
  * @param {object} user - User to add to the user list
  * @param {Session} session - session to use for saving
  * @param {object} userListObject - object containing userList, dataset, and listUrl
- * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {SolidDataset} userListObject.dataset - dataset to save
  * @param {URL} userListObject.listUrl - Url of dataset to save to
  * @param {Array} userListObject.userList - array of Users
  * @returns {object} An new userListObject containing any updates
@@ -125,7 +129,7 @@ export const addUser = async (user, session, { userList, dataset, listUrl }) => 
  * @param {object} user - User to remove from the user list
  * @param {Session} session - session to use for saving
  * @param {object} userListObject - object containing userList, dataset, and listUrl
- * @param {import('@inrupt/solid-client').SolidDataset} userListObject.dataset - dataset to save
+ * @param {SolidDataset} userListObject.dataset - dataset to save
  * @param {URL} userListObject.listUrl - Url of dataset to save to
  * @param {Array} userListObject.userList - array of Users
  * @returns {object} An new userListObject containing any updates

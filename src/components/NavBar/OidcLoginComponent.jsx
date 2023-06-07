@@ -1,10 +1,11 @@
+// React Imports
 import React, { useState } from 'react';
-import { TextField, Box, Button } from '@mui/material';
+// Inrupt Imports
 import { LoginButton } from '@inrupt/solid-ui-react';
-
+// Material UI Imports
+import { TextField, Box, Button } from '@mui/material';
 // Utility Imports
 import { SOLID_IDENTITY_PROVIDER } from '../../utils';
-
 // Custom Hook Imports
 import { useRedirectUrl } from '../../hooks';
 

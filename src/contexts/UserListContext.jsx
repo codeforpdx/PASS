@@ -1,6 +1,10 @@
+// React Imports
 import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Utility Imports
 import { loadUserList, addUser, removeUser } from '../model-helpers';
+// Context Imports
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
@@ -16,7 +20,17 @@ const initialUserListContext = [];
  * @name UserListContext
  * @memberof contexts
  */
+
 const UserListContext = createContext(initialUserListContext);
+
+/**
+ * The Provider for UserListContext
+ *
+ * @memberof contexts
+ * @function UserListContextProvider
+ * @param {React.JSX.Element} children - The wrapped components that consumes
+ * Context from Provider
+ */
 
 export const UserListContextProvider = ({ children }) => {
   const [userListObject, setUserListObject] = useState({});

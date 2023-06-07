@@ -15,7 +15,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-// Custom Hook Imports
 // Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavbarLinks from './NavbarLinks';

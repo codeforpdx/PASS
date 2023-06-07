@@ -13,10 +13,9 @@ import { MessageContext } from '../contexts';
 import PaginatedMessages from '../components/Messages/Pagination';
 
 /**
- * Outbox Component - Component that generates Outbox section for users
- * logged into a Solid Pod via Solid Session
+ * Outbox Page - Component that generates the Outbox Page on Solid
  *
- * @memberof Outbox
+ * @memberof Pages
  * @name Outbox
  */
 
