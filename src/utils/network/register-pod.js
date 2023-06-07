@@ -1,8 +1,7 @@
-import { SOLID_IDENTITY_PROVIDER } from '..';
 
 const registerPod = async (
   { email, password, confirmPassword },
-  oidcProvider = SOLID_IDENTITY_PROVIDER
+  oidcProvider = import.meta.env.VITE_SOLID_POD_SERVER
 ) => {
   const [podName] = email.split('@');
 
