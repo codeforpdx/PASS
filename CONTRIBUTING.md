@@ -22,7 +22,6 @@ Building out a decentralized application to enable house insecure individuals to
 - `git remote add origin https://github.com/codeforpdx/PASS.git` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
 
 2. Once you have PASS cloned to your local system, read the [React Documentation](/docs/README.md). Follow the instructions to open JSDocs and review forms, hooks, utils and solid_identity_provider tabs. This will give you a great initial breakdown of the project functions.
-3. Feel free to [`git checkout jk/solidTests`](https://github.com/codeforpdx/PASS/tree/jk/solidTests) to get a better understanding of how Solid is implemented with JavaScript in our React application. If you notice a gap or errors in documentation feel free to make the changes locally and create a pull request to the branch creator.
 
 ## Our development process
 
@@ -40,7 +39,7 @@ Building out a decentralized application to enable house insecure individuals to
 6. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to Development branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 
 - Good people to ask for reviews:
-  - Development -- Jared Krajewski, Ka Hung, Kevin M., Greg Witt
+  - Development -- Jared Krajewski, Ka Hung, Kevin M., Tim S. Scott B.
   - Documentation -- Danica, Flo(rian)
 - When in doubt, ask more people for reviews!
 - Include screenshots whenever you’re building a frontend feature.

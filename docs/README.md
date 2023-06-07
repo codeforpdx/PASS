@@ -2,7 +2,7 @@
 
 ## State of Build/Tech Stack
 
-The current build is made with React 18 for the front-end and bundled using Vite. The solid-ui-react library has been incorporated to the application along with Solid's other client libraries (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
+The current build is made with React 18 for the front-end and bundled using Vite. The solid-ui-react library has been incorporated to the application along with Inrupt's other client libraries for Solid (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
 
 To generate the full React development documentation of the application locally, the following command can be ran:
 
@@ -28,7 +28,7 @@ To clear the documentation from /docs, you can simply run the following command:
 npm run docs:clear
 ```
 
-This will clear all, but /docs/README.md from your branch.
+This will clear all, but /docs/README.md and /docs/ZXING_barcode.md from your branch.
 
 Linting and formatting for this project has also been setup using ESlint and Prettier. To lint your changes with ESLint, you can run:
 
@@ -36,19 +36,19 @@ Linting and formatting for this project has also been setup using ESlint and Pre
 npm run lint
 ```
 
-To fix these errors, you can run:
+To fix potential lint errors, you can run:
 
 ```shell
 npm run lint:fix
 ```
 
-You can check the formatting of the existing code using Prettier by running:
+You can also check the formatting of the existing code using Prettier by running:
 
 ```shell
 npm run prettier:check
 ```
 
-This will enable Prettier to check if existing code follows existing formatting rules for this project. To format the project with existing Prettier settings, simply run:
+This will enable Prettier to check if the existing code follows the rules for this project in .prettierrc.js. To format the project with existing Prettier settings, simply run:
 
 ```shell
 npm run prettier:run
@@ -74,9 +74,11 @@ The local live server would be located in port 5173 and with the following URL:
 http://localhost:5173/PASS/
 ```
 
+From here you can access Solid servers online.
+
 ## Running with a local server
 
-PASS includes some dev tools that allow you to run a SOLID pod on your local machine for testing.
+PASS includes some dev tools that allow you to run a SOLID pod on your local machine for testing instead of an online provider.
 To do so, you will need to edit the root `.env` file.
 
 1. Set the `VITE_SOLID_IDENTITY_PROVIDER_DEV` to `localhost:3000` (or whereever else you wish to host the server). You can find a premade example in `env_templates/dev.env`.
@@ -115,4 +117,4 @@ This will store all server files in the folder `PASS/local_temp_server_files`. T
 
 You can find more information on its configuration on the project's [github](https://github.com/CommunitySolidServer/CommunitySolidServer#configuring-the-server).
 
-Latest version of this build require users to login to their Pod through [https://opencommons.net](https://opencommons.net)
+Latest version of this build allows for any Solid provider. However, it is recommended users to login through [https://solidcommunity.net](https://solidcommunity.net) or [https://opencommons.net](https://opencommons.net) if testing on a live Solid server or `localhost:3000` if testing in a local dev environment while it's still being worked on.
