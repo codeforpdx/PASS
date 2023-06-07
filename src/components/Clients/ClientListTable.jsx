@@ -29,7 +29,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
   const { userListObject } = useContext(UserListContext);
 
   // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-  const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
+  const columnTitlesArray = ['Select', 'Client', 'WebID', 'Pin', 'Delete'];
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>

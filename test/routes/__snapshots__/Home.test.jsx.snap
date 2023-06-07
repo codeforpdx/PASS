@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Home Page > renders 1`] = `
+<div>
+  <main
+    class="MuiContainer-root MuiContainer-maxWidthS css-1e1pk0w-MuiContainer-root"
+  >
+    <div
+      class="MuiBox-root css-15kuacd"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation2 css-f5qjqr-MuiPaper-root"
+      >
+        <section
+          id="home"
+        >
+          <h1>
+            HOME PAGE
+          </h1>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+`;

@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
-import { OutboxMessageContext } from '../contexts';
+import { MessageContext } from '../contexts';
 // Component Imports
 import PaginatedMessages from '../components/Messages/Pagination';
 
@@ -20,13 +20,13 @@ import PaginatedMessages from '../components/Messages/Pagination';
  * @name Outbox
  */
 
-const Outbox = ({ loadMessages, setLoadMessages }) => {
+const Outbox = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
 
   const { session } = useSession();
-  const { outboxList, setOutboxList } = useContext(OutboxMessageContext);
+  const { outboxList, setOutboxList, loadMessages, setLoadMessages } = useContext(MessageContext);
 
   const podUrl = session.info.webId.split('profile')[0];
 
