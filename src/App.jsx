@@ -1,15 +1,14 @@
 // React Imports
 import React from 'react';
-// Inrupt Imports
-
-// Custom Hook Imports
-// Component Imports
 import { HashRouter as Router } from 'react-router-dom';
+
 // Inrupt Library Imports
 import { SessionProvider } from '@inrupt/solid-ui-react';
+
 // Material UI Imports
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+
 import theme from './theme';
 import UserDataContextProvider from './contexts/UserDataContext';
 import Layout from './layouts/Layout';
