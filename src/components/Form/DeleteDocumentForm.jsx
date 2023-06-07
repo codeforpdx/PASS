@@ -2,6 +2,11 @@
 import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 // Utility Imports
 import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -50,11 +55,6 @@ const DeleteDocumentForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Delete Document"
@@ -62,18 +62,22 @@ const DeleteDocumentForm = () => {
       statusType="Deletion status"
       defaultMessage="To be deleted..."
     >
-      <form onSubmit={handleDeleteDocument} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="delete-doctype">Select document type to delete: </label>
-          <DocumentSelection htmlId="delete-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Delete Document
-          </button>
-        </div>
-      </form>
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleDeleteDocument}>
+          <InputLabel id="delete-doctype">
+            <em>Select Document Type</em>
+          </InputLabel>
+          <FormControl>
+            <DocumentSelection htmlId="delete-doctype" />
+            <br />
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Delete Document
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
-  /* eslint-disable jsx-a11y/label-has-associated-control */
 };
 
 export default DeleteDocumentForm;

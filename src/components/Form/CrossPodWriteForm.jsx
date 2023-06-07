@@ -9,7 +9,7 @@ import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
-import { UPLOAD_TYPES } from '../../constants';
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -50,7 +50,7 @@ const CrossPodWriteForm = () => {
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
-    UPLOAD_TYPES.CROSS,
+    INTERACTION_TYPES.CROSS,
     state,
     dispatch,
     session,
@@ -87,7 +87,7 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Search document from username: </label>
+          <label htmlFor="cross-upload-doc">Upload document to username: </label>
           <br />
           <br />
           <input
@@ -99,7 +99,7 @@ const CrossPodWriteForm = () => {
           />
         </div>
         <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <label htmlFor="upload-doc">Select Document Type</label>
           <DocumentSelection htmlId="upload-doc" />
         </div>
         <div style={formRowStyle}>
