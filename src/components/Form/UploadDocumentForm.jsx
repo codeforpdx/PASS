@@ -7,7 +7,7 @@ import { makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Constants Imports
-import { UPLOAD_TYPES } from '../../constants';
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -46,7 +46,7 @@ const UploadDocumentForm = () => {
 
   // Event handler for form/document submission to Pod
   const handleFormSubmission = makeHandleFormSubmission(
-    UPLOAD_TYPES.SELF,
+    INTERACTION_TYPES.SELF,
     state,
     dispatch,
     session,
@@ -75,7 +75,7 @@ const UploadDocumentForm = () => {
           />
         </label>
         <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
+          <label htmlFor="upload-doc">Select Document Type</label>
           <DocumentSelection htmlId="upload-doc" />
         </div>
         <div style={formRowStyle}>
