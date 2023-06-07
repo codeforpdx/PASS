@@ -2,12 +2,20 @@
 import React, { useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
+// Constants Imports
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -53,7 +61,12 @@ const CrossPodQueryForm = () => {
     }
 
     try {
-      const documentUrl = await getDocuments(session, docType, 'cross-fetch', podUsername);
+      const documentUrl = await getDocuments(
+        session,
+        docType,
+        INTERACTION_TYPES.CROSS,
+        podUsername
+      );
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -64,7 +77,7 @@ const CrossPodQueryForm = () => {
       // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! Document located at: ', 3, state, dispatch);
+        runNotification('Document found! ', 3, state, dispatch);
         clearInputFields();
       }, 3000);
     } catch (_error) {
@@ -76,11 +89,6 @@ const CrossPodQueryForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Cross Pod Search"
@@ -88,30 +96,32 @@ const CrossPodQueryForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <form onSubmit={handleCrossPodQuery} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doc">Search document from username: </label>
-          <br />
-          <br />
-          <input
-            id="cross-search-doc"
-            size="25"
-            name="crossPodQuery"
-            {...username}
-            placeholder={selectedUser}
-          />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="cross-search-doctype">Select document type to search: </label>
-          <DocumentSelection htmlId="cross-search-doctype" />{' '}
-          <button disabled={state.processing} type="submit">
-            Search Pod
-          </button>
-        </div>
-      </form>
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleCrossPodQuery} autoComplete="off">
+          <FormControl>
+            <TextField
+              id="cross-search-doc"
+              name="crossPodQuery"
+              {...username}
+              placeholder={selectedUser}
+              label="Enter username"
+              required
+            />
+          </FormControl>
+          <InputLabel id="cross-search-doctype">
+            <em>Select Document Type</em>
+          </InputLabel>
+          <FormControl fullWidth>
+            <DocumentSelection htmlId="cross-search-doctype" />
+            <br />
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Search Pod
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default CrossPodQueryForm;
