@@ -16,9 +16,9 @@ import ClientList from '../components/Clients/ClientList';
 import { UserListContext } from '../contexts';
 
 /**
- * Clients Component - Component that generates Clients section for PASS
+ * Clients Component - Component that generates Clients Page for PASS
  *
- * @memberof GlobalComponents
+ * @memberof Pages
  * @name Clients
  */
 
