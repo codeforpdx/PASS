@@ -52,21 +52,23 @@ There is a textual syntax for RDF called Turtle that allows an RDF graph to be c
 
 With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
 
-### The Team
+### Team Members and Contributors
 
-| Development Team | UX/UI Team | Project Management Team |
-| ---------------- | ---------- | ----------------------- |
-| Jared K.         | Gabby P.   | Flo K.                  |
-| Kevin M.         | Kyle B.    | Danica B.               |
-| Ka Hung L.       | Laura U.   | Wilfred P.              |
-| Greg W.          | Shelby P.  | Katharine               |
-| Emily S.         | Andy W.    |                         |
-| Ben C.           | Scott B.   |                         |
-| Tim S.           | Zack       |                         |
-| Brian H.         | Nicholas   |                         |
-| Georgia          |            |                         |
-| Natalie M.       |            |                         |
-| Grac F.          |            |                         |
+| Development Team | UI Team     | UX Team     | Project Management Team |
+| ---------------- | ----------- | ----------- | ----------------------- |
+| Jared K. \*      | Andy W. \*  | Gabby P. \* | Florian S. \*           |
+| Kevin M.         | Scott B. \* | Kyle B. \*  | Danica B. \*            |
+| Ka Hung L. \*    | Zack        | Laura U. \* | Wilfred P. \*           |
+| Greg W.          | Nicholas G. | Shelby P.   | Katharine               |
+| Emily S.         |             |             |                         |
+| Ben C. \*        |             |             |                         |
+| Tim S. \*        |             |             |                         |
+| Brian H. \*      |             |             |                         |
+| Georgia          |             |             |                         |
+| Natalie M.       |             |             |                         |
+| Grac F.          |             |             |                         |
+
+\* Active Contributors
 
 ## If you're new to the team, check out our [on-boarding](CONTRIBUTING.md) steps.
 

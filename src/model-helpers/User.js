@@ -19,6 +19,14 @@ import { setDocAclForUser } from '../utils/network/session-helper';
  */
 
 /**
+ * @typedef {import("@inrupt/solid-client").Thing} Thing
+ */
+
+/**
+ * @typedef {import("@inrupt/solid-client").ThingLocal} ThingLocal
+ */
+
+/**
  * Function that updates a user's last active time on Solid Pod
  *
  * @memberof User
@@ -138,7 +146,7 @@ export const parseUserFromThing = (userThing) => {
  * @param {string} userObject.familyName - family name
  * @param {string} userObject.webId - web id
  * @param {string} userObject.podUrl - pod url
- * @returns {import('@inrupt/solid-client').Thing} - resulting thing to be stored
+ * @returns {ThingLocal} - resulting thing to be stored
  */
 export const makeUserIntoThing = ({ username, givenName, familyName, webId, podUrl }) =>
   buildThing(createThing({ name: username }))

@@ -1,26 +1,34 @@
 # Changelog
 
-## v0.0.5 (June 1, 2023)
+## v0.0.5 (June 7, 2023)
 
 ## Features
 
-- (Pending) Generate PASS specific inbox and publics container if it doesn't exist upon login (#200)
-- (Pending) Render sent message in outbox (#190)
-- (Pending) Include pagination for messages in inbox/outbox (#190)
+- Updated UI for UserList and ManageUser with ClientList and AddClientModal (#209)
+- Generate PASS specific inbox and publics container if it doesn't exist upon login (#201)
+- Render sent message in outbox (#191)
+- Include pagination for messages in inbox/outbox (#191)
 - Generate user outbox on log in if outbox does exist in user's Solid Pod (#186)
-- (Draft) Using webIds instead of username as primary identifier (#169)
+- Using webIds instead of username as primary identifier (#169)
 - Allow users to choose different Solid Identity Providers when using PASS (#167)
+- Updated/Enhanced UI for Footer, Inactivity Notification, Client List, Form components, etc. (#166, #172, #178, #180, #187, #193, #206, #209, #210)
 - Render user messages from their Solid inbox on PASS (#148)
 
 ## Fixes
 
+- Refactored src/model-helpers/User.js to update user activity correctly (#191, #214)
 - Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
 - Included corrections to JSDoc comments (#148, #179, #183, #184, #201)
 
 ## Dev Changes
 
-- (Pending) Refactoring custom hooks into individual files (#204)
-- (Pending) Replaced UPLOAD_TYPES with INTERACTION_TYPES (#202)
+- Refactored all PASS related contexts to UserDataContext (#214)
+- Refactored React Contexts for messages to MessageContext (#214)
+- Include SignInUserContext for storing podUrl to be used in PASS (#214)
+- Refactored fetchData and App.jsx (#214)
+- Include top level mock directory to simplify module mocks in unit tests (#211)
+- Refactoring custom hooks into individual files (#204)
+- Replaced UPLOAD_TYPES with INTERACTION_TYPES (#202)
 - Refactored PASS routing with AppRoutes and ProtectedRoutes (#198)
 - Created function to generate an outbox container for users if it doesn't exist in their Solid Pod (#186)
 - Optimized session-helper functions (#184)
@@ -29,10 +37,9 @@
 - Optimized session-core functions (#183)
 - Included new JSDoc for new barcode scanner functions (#179)
 - Updated clearDoc.js and .gitignore to accomedate for new ZXing_barcaode.md (#179)
-- Updated/Enhanced UI for Footer, Inactivity Notification, and several Form components (#166, #172, #178, #180, #187, #193, #206 - Pending)
 - Organized utils directory into 4 subdirectories and rerouted import paths (#171)
+- Refactored contexts for userList from session-core to src/modal-helpers (#169)
 - Replaced removeKeys function with localStorage.clear (#167)
-- Included new unit tests for components and functions (#167, #183)
 - Replaced previous Login component with OidcLoginComponent (#167)
 - Created new test directory to store unit tests (#167)
 - Generate loading text for when user messages are being loaded from Solid (#148)
@@ -42,6 +49,7 @@
 
 ## Others
 
+- Updated package-lock.json to fix high-security vulnerabilities (#224)
 - Updated GitHub Actions to have lints and unit tests separate from building (#181)
 - Updated GitHub Actions to run newer GitHub Actions workflows and correct node version (#181)
 - Included new technical documentation for barcode scanner (#179)

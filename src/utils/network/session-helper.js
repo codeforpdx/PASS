@@ -284,7 +284,7 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
 
 export const updateTTLFile = async (session, containerUrl, fileObject) => {
   let solidDataset = await getSolidDataset(`${containerUrl}document.ttl`, { fetch: session.fetch });
-  let ttlFile = getThingAll(solidDataset)[0];
+  let ttlFile = getThing(solidDataset, `${containerUrl}document.ttl#document`);
 
   ttlFile = buildThing(ttlFile)
     .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)

@@ -1,8 +1,11 @@
+// React Imports
 import React, { createContext, useState, useMemo, useEffect } from 'react';
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
-import { updateUserActivity } from '../model-helpers';
+// Utility Imports
 import { createPublicContainer, createDocumentContainer } from '../utils';
+import { updateUserActivity } from '../model-helpers';
 
 /**
  * React Context for users list from Solid Pod
@@ -10,7 +13,17 @@ import { createPublicContainer, createDocumentContainer } from '../utils';
  * @name UserListContext
  * @memberof contexts
  */
+
 export const SignedInUserContext = createContext({});
+
+/**
+ * The Provider for SignedInUserContext
+ *
+ * @memberof contexts
+ * @function SignedInUserContextProvider
+ * @param {React.JSX.Element} children - The wrapped components that consumes
+ * Context from Provider
+ */
 
 export const SignedInUserContextProvider = ({ children }) => {
   const { session } = useSession();

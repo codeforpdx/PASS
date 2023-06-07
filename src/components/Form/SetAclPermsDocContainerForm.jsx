@@ -117,7 +117,6 @@ const SetAclPermsDocContainerForm = () => {
     }
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Permission to Documents Container"
@@ -170,7 +169,6 @@ const SetAclPermsDocContainerForm = () => {
       </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default SetAclPermsDocContainerForm;
