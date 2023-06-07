@@ -6,19 +6,18 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
 /**
- * Home - First Page you encounter in PASS before login.
- * Should not display if you are already logged in
+ * Home Component - Component that generates the home page of the PASS website/app
  *
- * @memberof Pages
- * @name Home
- * @returns {React.ReactElement} The home page
+ * @memberof Login
+ * @name Login
  */
+
 const Home = () => (
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   <Container component="main" maxWidth="s">
     <Box
       sx={{
         marginTop: 18,
-        marginBottom: 18,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -33,6 +32,7 @@ const Home = () => (
       </Paper>
     </Box>
   </Container>
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 );
 
 export default Home;

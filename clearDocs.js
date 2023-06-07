@@ -1,32 +1,19 @@
-/* Simple script that removes all documents
- * within the docs folder except for all .md files */
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs-extra");
+const path = require("path");
 
-// Defining path for both /docs and /temp
-const docsDir = path.join(__dirname, 'docs');
-const tempDir = path.join(__dirname, 'temp');
+// Defining path to /docs and /docs/README.md
+const docsDir = path.join(__dirname, "docs");
+const readmeFilePath = path.join(docsDir, "README.md");
 
-// Creates a temp directory if it doesn't exist
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir);
-}
+// Defining path for temp file
+const tempFilePath = path.join(__dirname, "temp.md");
 
-/* Returns an array of strings which are the names
- * of all .md files within the docs directory */
-const allMds = fs.readdirSync(docsDir).filter((file) => path.extname(file) === '.md');
+// Rename /docs/README.md to /temp.md
+fs.moveSync(readmeFilePath, tempFilePath);
 
-// Copies all mdFiles over to the temp directory
-allMds.forEach((mdFile) => {
-  fs.copyFileSync(`${docsDir}/${mdFile}`, `${tempDir}/${mdFile}`);
-});
+// Removing everything from /docs and remake /docs
+fs.removeSync(docsDir);
+fs.mkdirSync(docsDir);
 
-/* Removes the docs directory and then renames
- * the temp directory as the docs directory,
- * now containing only the original .md files */
-fs.rmSync(docsDir, { recursive: true, force: true });
-fs.renameSync(tempDir, docsDir, (err) => {
-  if (err) {
-    throw err;
-  }
-});
+// Rename /temp.md to /docs/README.md
+fs.renameSync(tempFilePath, readmeFilePath);

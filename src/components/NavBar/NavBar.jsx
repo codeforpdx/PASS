@@ -1,12 +1,13 @@
 // React Imports
 import React, { useState } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession, LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,12 +16,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+// Utility Imports
+import { SOLID_IDENTITY_PROVIDER, removeKeys } from '../../utils';
 // Custom Hook Imports
+import { useRedirectUrl } from '../../hooks';
 // Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import OidcLoginComponent from './OidcLoginComponent';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
@@ -32,6 +35,7 @@ import OidcLoginComponent from './OidcLoginComponent';
 const NavBar = () => {
   const theme = useTheme();
   const { session } = useSession();
+  const redirectUrl = useRedirectUrl();
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,7 +61,7 @@ const NavBar = () => {
 
   // Event handler for logging out of SOLID POD and removing items from localStorage
   const handleLogout = () => {
-    localStorage.clear();
+    removeKeys();
     setShowConfirmationModal(false);
   };
 
@@ -151,7 +155,15 @@ const NavBar = () => {
               />
             </>
           ) : (
-            <OidcLoginComponent />
+            <>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ flexGrow: 1 }} />
+              <LoginButton oidcIssuer={SOLID_IDENTITY_PROVIDER} redirectUrl={redirectUrl}>
+                <Button variant="contained" type="submit" color="secondary" size="large">
+                  Login
+                </Button>
+              </LoginButton>
+            </>
           )}
         </Toolbar>
       </AppBar>

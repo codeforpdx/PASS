@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 /**
- * React Context for selecting users from PASS
+ * React Context for selecting users
  *
  * @name SelectUserContext
  * @memberof contexts

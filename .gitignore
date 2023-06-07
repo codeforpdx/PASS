@@ -5,11 +5,8 @@
 .DS_Store
 
 # production
-/docs/*.html
-docs/fonts/
-docs/scripts/
-docs/styles/
-
+/docs
+!/docs/README.md
 /dist
 bundleStats.html
 /local_temp_server_files

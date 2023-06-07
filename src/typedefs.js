@@ -115,22 +115,8 @@ const React = require('react');
  * @property {string} person - Full name of user
  * @property {string} givenName - First/given name of user
  * @property {string} familyName - Last/family name of user
- * @property {URL} webId - A user's webId
+ * @property {URL} podURL - URL of user's Solid Pod
  * @property {Date|null} dateModified - The last active date using PASS
- * @memberof typedefs
- */
-
-/**
- * An object that stores the user's name and their Pod URL
- *
- * @exports messageListObject
- * @typedef messageListObject
- * @type {object}
- * @property {string} message - Message content
- * @property {string} title - Message title
- * @property {Date} uploadDate - Time of message sent
- * @property {string} sender - Name of sender
- * @property {string} recipient - Name of recipient
  * @memberof typedefs
  */
 

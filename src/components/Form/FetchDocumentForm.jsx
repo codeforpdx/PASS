@@ -2,17 +2,10 @@
 import React from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
-// Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -36,7 +29,7 @@ const FetchDocumentForm = () => {
     const docType = event.target.document.value;
 
     try {
-      const documentUrl = await getDocuments(session, docType, INTERACTION_TYPES.SELF);
+      const documentUrl = await getDocuments(session, docType, 'self-fetch');
 
       if (state.documentUrl) {
         dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
@@ -47,7 +40,7 @@ const FetchDocumentForm = () => {
       // setTimeout is used to let getDocuments complete its fetch
       setTimeout(() => {
         dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! ', 5, state, dispatch);
+        runNotification('Document found! Document located at: ', 5, state, dispatch);
         setTimeout(() => {
           dispatch({ type: 'CLEAR_PROCESSING' });
         }, 3000);
@@ -61,6 +54,11 @@ const FetchDocumentForm = () => {
     }
   };
 
+  const formRowStyle = {
+    margin: '20px 0'
+  };
+
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Search Document"
@@ -68,22 +66,18 @@ const FetchDocumentForm = () => {
       statusType="Search status"
       defaultMessage="To be searched..."
     >
-      <Box display="flex" justifyContent="center">
-        <form onSubmit={handleGetDocumentSubmission}>
-          <InputLabel id="search-doctype">
-            <em>Select Document Type</em>
-          </InputLabel>
-          <FormControl fullWidth>
-            <DocumentSelection htmlId="search-doctype" />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Get Document
-            </Button>
-          </FormControl>
-        </form>
-      </Box>
+      <form onSubmit={handleGetDocumentSubmission} autoComplete="off">
+        <div style={formRowStyle}>
+          <label htmlFor="search-doctype">Select document type to search: </label>
+          <DocumentSelection htmlId="search-doctype" />{' '}
+          <button disabled={state.processing} type="submit">
+            Get Document
+          </button>
+        </div>
+      </form>
     </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default FetchDocumentForm;

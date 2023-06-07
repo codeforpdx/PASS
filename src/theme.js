@@ -2,19 +2,13 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Roboto, sans-serif',
-    dd: { fontWeight: 'bold' },
-    dl: {
-      display: 'grid',
-      gridTemplateColumns: 'max-content auto'
-    }
+    fontFamily: 'Roboto, sans-serif'
   },
   palette: {
     primary: {
       light: '#039686',
       main: '#017969',
       dark: '#004d3e',
-      slight: '#8fc2bb',
       contrastText: '#fff'
     },
     secondary: {

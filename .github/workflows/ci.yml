@@ -55,16 +55,12 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    needs: build
     permissions:
       contents: read
     steps: 
       - name: Code Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: npm ci
       - name: eslint
@@ -75,16 +71,12 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    needs: build
     permissions:
       contents: read
     steps: 
       - name: Code Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: npm ci
       - name: vitest

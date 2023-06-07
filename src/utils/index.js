@@ -8,8 +8,8 @@
  * @namespace utils
  */
 
-import docTypes from './frontend/form-helper';
-import runNotification from './frontend/notification-helper';
+import docTypes from './form-helper';
+import runNotification from './notification-helper';
 import {
   uploadDocument,
   updateDocument,
@@ -17,17 +17,21 @@ import {
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
+  generateUsersList,
+  addUserToPod,
+  getUsersFromPod,
+  deleteUserFromPod,
+  generateActivityTTL,
+  updateUserActivity,
+  getUserListActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
-  sendMessageTTL,
-  createOutbox,
-  getMessageTTL,
-  createPublicContainer,
-  createInbox
-} from './network/session-core';
-import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
-import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
+  sendMessageTTL
+} from './session-core';
+import { SOLID_IDENTITY_PROVIDER } from './session-helper';
+import makeHandleFormSubmission from './FormSubmissionHelper';
+import removeKeys from './logout-helper';
 
 export {
   docTypes,
@@ -39,13 +43,17 @@ export {
   deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
+  generateUsersList,
+  addUserToPod,
+  getUsersFromPod,
+  deleteUserFromPod,
+  generateActivityTTL,
+  updateUserActivity,
+  getUserListActivity,
   createDocumentContainer,
   setDocContainerAclPermission,
   checkContainerPermission,
   sendMessageTTL,
   makeHandleFormSubmission,
-  createOutbox,
-  getMessageTTL,
-  createPublicContainer,
-  createInbox
+  removeKeys
 };
