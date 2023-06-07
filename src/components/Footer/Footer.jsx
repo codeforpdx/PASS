@@ -31,102 +31,98 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
   </Stack>
 );
 
-// middle section of footer
-const RenderCompanyInfoSection = ({ isReallySmallScreen }) => {
-  const socialLinks = [
-    {
-      href: 'https://twitter.com/',
-      icon: <TwitterIcon />
-    },
-    {
-      href: 'https://www.facebook.com/',
-      icon: <FacebookIcon />
-    },
-    {
-      href: 'https://www.instagram.com/',
-      icon: <InstagramIcon />
-    }
-  ];
+const socialLinks = [
+  {
+    href: 'https://twitter.com/',
+    icon: <TwitterIcon />
+  },
+  {
+    href: 'https://www.facebook.com/',
+    icon: <FacebookIcon />
+  },
+  {
+    href: 'https://www.instagram.com/',
+    icon: <InstagramIcon />
+  }
+];
 
-  return (
-    <Stack
-      width={isReallySmallScreen ? 1 : 1 / 5}
-      spacing={2}
-      justifyContent="space-around"
-      alignItems="center"
-    >
-      <Box>
-        <Typography color="tertiary.main">PASS LOGO</Typography>
-        <Typography color="#fff">tagline</Typography>
-      </Box>
-      <Box>
-        <Typography color="tertiary.main">Follow Us</Typography>
-        <Stack direction="row" spacing={1}>
-          {socialLinks.map(({ href, icon }) => (
-            <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
-              {icon}
-            </Link>
-          ))}
-        </Stack>
-      </Box>
-      <Box>
-        <Typography color="tertiary.main">Built By:</Typography>
-        <Link href="https://www.codeforpdx.org/" target="_blank" rel="noopener">
-          <Typography variant="body2" color="#fff">
-            C4PDX LOGO
-          </Typography>
-        </Link>
-      </Box>
-    </Stack>
-  );
-};
+// middle section of footer
+const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
+  <Stack
+    width={isReallySmallScreen ? 1 : 1 / 5}
+    spacing={2}
+    justifyContent="space-around"
+    alignItems="center"
+  >
+    <Box>
+      <Typography color="tertiary.main">PASS LOGO</Typography>
+      <Typography color="#fff">tagline</Typography>
+    </Box>
+    <Box>
+      <Typography color="tertiary.main">Follow Us</Typography>
+      <Stack direction="row" spacing={1}>
+        {socialLinks.map(({ href, icon }) => (
+          <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
+            {icon}
+          </Link>
+        ))}
+      </Stack>
+    </Box>
+    <Box>
+      <Typography color="tertiary.main">Built By:</Typography>
+      <Link href="https://www.codeforpdx.org/" target="_blank" rel="noopener">
+        <Typography variant="body2" color="#fff">
+          C4PDX LOGO
+        </Typography>
+      </Link>
+    </Box>
+  </Stack>
+);
+
+const legalLinks = [
+  {
+    href: 'https://www.codeforpdx.org/',
+    title: 'Privacy Policy'
+  },
+  {
+    href: 'https://www.codeforpdx.org/',
+    title: 'Terms and Conditions'
+  },
+  {
+    href: 'https://www.codeforpdx.org/',
+    target: '_blank',
+    rel: 'noopenner',
+    ml: 0.5,
+    text: `©${new Date().getFullYear()}`,
+    title: 'Code for PDX'
+  }
+];
 
 // bottom section of footer
-const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => {
-  const legalLinks = [
-    {
-      href: 'https://www.codeforpdx.org/',
-      title: 'Privacy Policy'
-    },
-    {
-      href: 'https://www.codeforpdx.org/',
-      title: 'Terms and Conditions'
-    },
-    {
-      href: 'https://www.codeforpdx.org/',
-      target: '_blank',
-      rel: 'noopenner',
-      ml: 0.5,
-      text: `©${new Date().getFullYear()}`,
-      title: 'Code for PDX'
-    }
-  ];
-
-  return (
-    <Stack
-      orientation="column"
-      width={isReallySmallScreen ? 1 : 1 / 5}
-      spacing={2}
-      justifyContent="space-around"
-    >
-      {legalLinks.map((link) => (
-        <Typography key={link.title} variant="body2" color="tertiary.main">
-          {link.text ?? null}
-          <Link
-            href={link.href}
-            underline="none"
-            color="tertiary.main"
-            target={link.target ?? null}
-            rel={link.rel ?? null}
-            ml={link.ml ?? null}
-          >
-            {link.title}
-          </Link>
-        </Typography>
-      ))}
-    </Stack>
-  );
-};
+const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (
+  <Stack
+    orientation="column"
+    width={isReallySmallScreen ? 1 : 1 / 5}
+    spacing={2}
+    justifyContent="space-around"
+  >
+    {legalLinks.map((link) => (
+      <Typography key={link.title} variant="body2" color="tertiary.main">
+        {link.text ?? null}
+        <Link
+          href={link.href}
+          underline="none"
+          color="tertiary.main"
+          target={link.target ?? null}
+          rel={link.rel ?? null}
+          ml={link.ml ?? null}
+        >
+          {link.title}
+        </Link>
+      </Typography>
+    ))}
+  </Stack>
+);
 
 /**
  * Footer Component - Footer Component for PASS

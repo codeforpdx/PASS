@@ -5,7 +5,6 @@ import {
   saveSolidDatasetAt,
   getSolidDataset,
   createSolidDataset,
-  getThingAll,
   getDatetime,
   getPodUrlAll,
   getStringNoLocale,
@@ -96,7 +95,7 @@ const loadUserActivity = async (podUrl, session) => {
     const solidDataset = await getSolidDataset(activityUrl, {
       fetch: session.fetch
     });
-    const activeThing = getThingAll(solidDataset)[0];
+    const activeThing = getThing(solidDataset, `${activityUrl}#active`);
     return getDatetime(activeThing, RDF_PREDICATES.dateModified);
   } catch {
     return null;

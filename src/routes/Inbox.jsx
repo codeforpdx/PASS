@@ -21,7 +21,6 @@ import PaginatedMessages from '../components/Messages/Pagination';
  * @name Inbox
  */
 
-// TODO:
 const Inbox = () => {
   const location = useLocation();
 
