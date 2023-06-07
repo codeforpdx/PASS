@@ -35,7 +35,7 @@ const CrossPodWriteForm = () => {
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
-  // Initalized state for file upload
+  // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
@@ -126,15 +126,15 @@ const CrossPodWriteForm = () => {
               rows={4}
             />
           </FormControl>
-            <label htmlFor="upload-doctype">File to upload:</label>
-            <input
-              id="upload-doctype"
-              type="file"
-              name="uploadDoctype"
-              accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-              onChange={handleFileChange}
-            />
-            <br />
+          <label htmlFor="upload-doctype">File to upload:</label>
+          <input
+            id="upload-doctype"
+            type="file"
+            name="uploadDoctype"
+            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
+            onChange={handleFileChange}
+          />
+          <br />
           <FormControl fullWidth>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Upload file
