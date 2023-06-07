@@ -1,9 +1,17 @@
 import { render, cleanup } from '@testing-library/react';
 import React, { useContext } from 'react';
-import { getPodUrlAll } from '@inrupt/solid-client';
+import {
+  getPodUrlAll,
+  getSolidDataset,
+  mockSolidDatasetFrom,
+  setThing,
+  buildThing,
+  createThing
+} from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
+import { RDF_PREDICATES } from '../../src/constants';
 import flushPromises from '../testHelpers';
 
 const TestConsumer = () => {
@@ -37,6 +45,13 @@ describe('SignedInUserContext', () => {
   });
 
   it('fetches user data if user is logged in', async () => {
+    const newActiveTTL = buildThing(createThing({ name: 'active' }))
+      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .build();
+
+    const dataset = mockSolidDatasetFrom('https://example.com/pod/public/active.ttl');
+    getSolidDataset.mockResolvedValue(setThing(dataset, newActiveTTL));
+
     useSession.mockReturnValue({
       session: {
         info: {
