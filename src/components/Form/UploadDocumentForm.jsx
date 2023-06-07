@@ -24,7 +24,7 @@ const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
 
-  // Initalized state for file upload
+  // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
       dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
