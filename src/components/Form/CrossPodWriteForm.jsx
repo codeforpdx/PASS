@@ -121,8 +121,7 @@ const CrossPodWriteForm = () => {
               <DemoContainer components={['DateTimePicker']}>
                 <DemoItem>
                   <DatePicker
-                    label="Controlled picker"
-                    value={dateValue}
+                    // value={dateValue}
                     onChange={(newValue) => setDateValue(newValue)}
                     id="upload-doc-expiration"
                     name="date"
