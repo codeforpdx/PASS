@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
-import { InboxMessageContext, OutboxMessageContext } from '../contexts';
+import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
 import NewMessage from '../components/Messages/NewMessage';
 import PaginatedMessages from '../components/Messages/Pagination';
@@ -21,18 +21,18 @@ import PaginatedMessages from '../components/Messages/Pagination';
  * @name Inbox
  */
 
-const Inbox = ({ loadMessages, setLoadMessages }) => {
+// TODO:
+const Inbox = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
 
   const [showForm, setShowForm] = useState(false);
 
-  const { session } = useSession();
-  const { inboxList, setInboxList } = useContext(InboxMessageContext);
-  const { outboxList, setOutboxList } = useContext(OutboxMessageContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
-  const podUrl = session.info.webId.split('profile')[0];
+  const { session } = useSession();
+  const { inboxList, setInboxList, loadMessages, setLoadMessages } = useContext(MessageContext);
 
   // Handler function for refreshing PASS inbox
   const handleInboxRefresh = async () => {
@@ -64,13 +64,7 @@ const Inbox = ({ loadMessages, setLoadMessages }) => {
           Refresh
         </StyledButton>
       </div>
-      {showForm && (
-        <NewMessage
-          closeForm={() => setShowForm(!showForm)}
-          outboxList={outboxList}
-          setOutboxList={setOutboxList}
-        />
-      )}
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
       {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={inboxList} />}
     </section>
   );

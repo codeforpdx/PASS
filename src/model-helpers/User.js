@@ -55,7 +55,7 @@ export const updateUserActivity = async (session, podUrl) => {
 
   try {
     activityDataset = await getSolidDataset(activityDocUrl, { fetch: session.fetch });
-    const activeTTLThing = getThing(activityDataset);
+    const activeTTLThing = getThing(activityDataset, `${activityDocUrl}#active`);
 
     const activeTTL = buildThing(activeTTLThing)
       .setDatetime(RDF_PREDICATES.dateModified, new Date())
