@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
 /**
- * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ * @typedef {import("../typedefs").messageListObject} messageListObject
  */
 
-/** @type {inboxListObject[]} */
+/** @type {messageListObject[]} */
 const initialInboxMessageContext = [];
 
 /**

@@ -9,9 +9,7 @@ import {
   deleteContainer,
   deleteFile,
   overwriteFile,
-  getThingAll,
-  getDatetime,
-  getStringNoLocale
+  getThingAll
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
 import {
@@ -24,7 +22,9 @@ import {
   updateTTLFile,
   SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
-  saveMessageTTLInInbox,
+  saveMessageTTL,
+  parseMessageTTL,
+  buildMessageTTL,
   setDocAclForPublic
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
@@ -46,7 +46,7 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  */
 
 /**
- * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ * @typedef {import("../../typedefs").messageListObject} messageListObject
  */
 
 /*
@@ -410,35 +410,38 @@ export const createPublicContainer = async (session, podUrl) => {
 };
 
 /*
-  User Inbox Section
-
-  Functions here deal primarily with user inbox/outbox on PASS
+  User Message Section
+  
+  Functions here deal primarily with user messages on PASS
 */
 
 /**
  * Function that gets list of inbox TTL file messages and returns the messages as
- * JSON
+ * lists of objects
  *
  * @memberof utils
- * @function getInboxMessageTTL
+ * @function getMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {inboxListObject[]} inboxList - List of inbox messages
- * @returns {Promise<inboxListObject[]>} inboxList - An array of inbox messages
+ * @param {string} boxType - The message box being called "Inbox" or "Outbox"
+ * @param {messageListObject[]} listMessages - List of messages
+ * @param {URL} podUrl - The pod URL of user
+ * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
  */
-export const getInboxMessageTTL = async (session, inboxList) => {
-  const inboxContainerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
+
+export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
+  const messageBoxContainerUrl = `${podUrl}${boxType.toLocaleLowerCase()}/`;
   let messageList = [];
   try {
-    const solidDataset = await getSolidDataset(inboxContainerUrl, {
+    const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
       fetch: session.fetch
     });
     const ttlFileThing = getThingAll(solidDataset);
-    const allMessageThing = ttlFileThing.filter((thing) => thing.url.slice(-3).includes('ttl'));
+    const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
 
     // Early return if length of inbox in both PASS and Solid is the same
-    if (allMessageThing.length === inboxList.length) {
-      return inboxList;
+    if (allMessageThing.length === listMessages.length) {
+      return listMessages;
     }
 
     try {
@@ -446,30 +449,17 @@ export const getInboxMessageTTL = async (session, inboxList) => {
         const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
 
         const messageTTLThing = getThingAll(messageDataset);
+        const parsedMessageObject = parseMessageTTL(messageTTLThing);
 
-        // Get data related to #message
-        const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
-        const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
-        const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
-        const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
-
-        // Get data related to #sender
-        const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
-        const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
-
-        // Get data related to #recipient
-        const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
-        const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
-
-        messageList.push({ message, title, uploadDate, sender, recipient });
+        messageList.push(parsedMessageObject);
       });
 
       await Promise.all(promises);
     } catch (err) {
-      messageList = inboxList;
+      messageList = listMessages;
     }
   } catch {
-    messageList = inboxList;
+    messageList = listMessages;
   }
 
   return messageList;
@@ -483,20 +473,21 @@ export const getInboxMessageTTL = async (session, inboxList) => {
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
  * saves a copy on your inbox
  */
-export const sendMessageTTL = async (session, messageObject) => {
-  const { title, message, recipientUsername } = messageObject;
+export const sendMessageTTL = async (session, messageObject, podUrl) => {
+  const { recipientUsername } = messageObject;
   const containerUrl = getContainerUrl(
     session,
     'Inbox',
     INTERACTION_TYPES.CROSS,
     recipientUsername
   );
-  const inboxUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
+  const outboxUrl = `${podUrl}outbox/`;
 
-  const senderUsername = session.info.webId.split('profile')[0].split('/')[2].split('.')[0];
+  const senderUsername = podUrl.split('/')[2].split('.')[0];
   const recipientWebId = `https://${recipientUsername}.${
     SOLID_IDENTITY_PROVIDER.split('/')[2]
   }/profile/card#me`;
@@ -514,33 +505,21 @@ export const sendMessageTTL = async (session, messageObject) => {
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
-  const newMessageTTL = buildThing(createThing({ name: 'message' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, date)
-    .addStringNoLocale(RDF_PREDICATES.title, title)
-    .addStringNoLocale(RDF_PREDICATES.message, message)
-    .build();
-
-  const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
-    .addUrl(RDF_PREDICATES.url, session.info.webId)
-    .build();
-
-  const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
-    .addUrl(RDF_PREDICATES.url, recipientWebId)
-    .build();
-
-  let newSolidDataset = createSolidDataset();
-  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
-    newSolidDataset = setThing(newSolidDataset, thing);
-  });
+  const newSolidDataset = buildMessageTTL(
+    session,
+    date,
+    messageObject,
+    senderName,
+    recipientName,
+    recipientWebId
+  );
 
   const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
 
   try {
     await Promise.all([
-      await saveMessageTTLInInbox(session, containerUrl, newSolidDataset, messageSlug),
-      await saveMessageTTLInInbox(session, inboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
+      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
     ]);
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
@@ -554,10 +533,11 @@ export const sendMessageTTL = async (session, messageObject) => {
  * @memberof utils
  * @function createOutbox
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The user's Pod URL
+ * @param {URL} podUrl - The pod URL of user
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
+
 export const createOutbox = async (session, podUrl) => {
   const outboxContainerUrl = `${podUrl}outbox/`;
 
@@ -578,7 +558,7 @@ export const createOutbox = async (session, podUrl) => {
  * @memberof utils
  * @function createInbox
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The user's Pod URL
+ * @param {URL} podUrl - The pod URL of user
  * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */

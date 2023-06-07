@@ -5,8 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Styling Import
 import styled from 'styled-components';
 // Utility Imports
-import { sendMessageTTL } from '../../utils';
-import { getInboxMessageTTL } from '../../utils/network/session-core';
+import { sendMessageTTL, getMessageTTL } from '../../utils';
 
 /**
  * New Message Component - Component that allows user to write
@@ -16,7 +15,7 @@ import { getInboxMessageTTL } from '../../utils/network/session-core';
  * @name NewMessage
  */
 
-const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
+const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
   const { session } = useSession();
 
   const [message, setMessage] = useState({
@@ -26,6 +25,9 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [successTimeout, setSuccessTimeout] = useState(false);
+
+  const podUrl = session.info.webId.split('profile')[0];
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -47,7 +49,7 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
       setError('Please enter a value for the Message');
     } else {
       try {
-        await sendMessageTTL(session, message);
+        await sendMessageTTL(session, message, podUrl);
 
         setMessage({
           recipientUsername: '',
@@ -56,17 +58,21 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
         });
         setError('');
         setSuccess(`Message successfully sent to ${message.recipientUsername}`);
+        setSuccessTimeout(true);
+        setTimeout(() => {
+          setSuccessTimeout(false);
+        }, 10000);
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
         setError(err.message);
       }
     }
 
-    // Re-sorts messages when new message is added to inboxList
-    const inboxMessages = await getInboxMessageTTL(session, inboxList);
-    const sortedInbox = inboxMessages;
-    sortedInbox.sort((a, b) => b.uploadDate - a.uploadDate);
-    setInboxList(sortedInbox);
+    // Re-sorts messages when new message is added to outboxList
+    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
+    const sortedOutbox = outboxMessages;
+    sortedOutbox.sort((a, b) => b.uploadDate - a.uploadDate);
+    setOutboxList(sortedOutbox);
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -108,7 +114,7 @@ const NewMessage = ({ closeForm, inboxList, setInboxList }) => {
         <StyledButton type="submit">Submit</StyledButton>
 
         {error && <StyledError>{error}</StyledError>}
-        {success && <StyledSuccess>{success}</StyledSuccess>}
+        {success && successTimeout && <StyledSuccess>{success}</StyledSuccess>}
       </StyledForm>
     </StyledOverlay>
   );
