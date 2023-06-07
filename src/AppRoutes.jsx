@@ -12,7 +12,7 @@ import Outbox from './routes/Outbox';
 import Forms from './routes/Forms';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
-  isLoggedIn ? children ?? <Outlet /> : <Navigate to="PASS/" replace />;
+  isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
 
 const AppRoutes = () => {
   const { session } = useSession();

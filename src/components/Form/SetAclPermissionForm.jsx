@@ -109,7 +109,6 @@ const SetAclPermissionForm = () => {
     }
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Permission to Files"
@@ -168,7 +167,6 @@ const SetAclPermissionForm = () => {
       </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default SetAclPermissionForm;
