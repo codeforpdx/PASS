@@ -29,7 +29,7 @@ const Inbox = () => {
 
   const [showForm, setShowForm] = useState(false);
 
-  const podUrl = useContext(SignedInUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   const { session } = useSession();
   const { inboxList, setInboxList, loadMessages, setLoadMessages } = useContext(MessageContext);
