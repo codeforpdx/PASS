@@ -1,10 +1,11 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Import
 import styled from 'styled-components';
 // Utility Imports
+import { MessageContext } from '../../contexts';
 import { sendMessageTTL, getMessageTTL } from '../../utils';
 
 /**
@@ -15,8 +16,9 @@ import { sendMessageTTL, getMessageTTL } from '../../utils';
  * @name NewMessage
  */
 
-const NewMessage = ({ closeForm, outboxList, setOutboxList }) => {
+const NewMessage = ({ closeForm }) => {
   const { session } = useSession();
+  const { outboxList, setOutboxList } = useContext(MessageContext);
 
   const [message, setMessage] = useState({
     recipientUsername: '',
