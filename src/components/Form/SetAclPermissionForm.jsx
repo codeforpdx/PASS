@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import InputLabel from '@mui/material/InputLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
@@ -36,6 +35,11 @@ const SetAclPermissionForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   const clearInputFields = () => {
     clearUsername();
@@ -47,7 +51,6 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
@@ -129,12 +132,11 @@ const SetAclPermissionForm = () => {
               required
             />
           </FormControl>
-          <InputLabel htmlFor="set-acl-doctype">
-            <em>Select Document Type</em>
-          </InputLabel>
-          <FormControl fullWidth>
-            <DocumentSelection htmlId="set-acl-doctype" />
-          </FormControl>
+          <DocumentSelection
+            htmlForAndIdProp="set-acl-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
           <br />
           <FormControl fullWidth>
             <FormLabel htmlFor="set-acl-perm-label">Select permission setting:</FormLabel>

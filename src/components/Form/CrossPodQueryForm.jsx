@@ -1,11 +1,10 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // Utility Imports
@@ -33,6 +32,11 @@ const CrossPodQueryForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   // Clean up function for clearing input fields after submission
   const clearInputFields = () => {
@@ -45,7 +49,6 @@ const CrossPodQueryForm = () => {
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
     let podUsername = event.target.crossPodQuery.value;
 
     if (!podUsername) {
@@ -98,26 +101,27 @@ const CrossPodQueryForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <FormControl>
-            <TextField
-              id="cross-search-doc"
-              name="crossPodQuery"
-              {...username}
-              placeholder={selectedUser}
-              label="Enter username"
-              required
+          <Box display="flex" flexDirection="column" justifyContent="center">
+            <FormControl>
+              <TextField
+                id="cross-search-doc"
+                name="crossPodQuery"
+                {...username}
+                placeholder={selectedUser}
+                label="Enter username"
+                required
+              />
+            </FormControl>
+            <DocumentSelection
+              htmlForAndIdProp="cross-search-doctype"
+              handleDocType={handleDocType}
+              docType={docType}
             />
-          </FormControl>
-          <InputLabel id="cross-search-doctype">
-            <em>Select Document Type</em>
-          </InputLabel>
-          <FormControl fullWidth>
-            <DocumentSelection htmlId="cross-search-doctype" />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Search Pod
             </Button>
-          </FormControl>
+          </Box>
         </form>
       </Box>
     </FormSection>
