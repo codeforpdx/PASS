@@ -20,6 +20,8 @@ import { runNotification, makeHandleFormSubmission } from '../../utils';
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
+// Constants Imports
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -44,14 +46,6 @@ const CrossPodWriteForm = () => {
     setDocType(event.target.value);
   };
 
-  // const handleUsername = (event) => {
-  //   setUsername(event.target.value);
-  // };
-
-  // const handleDocDescription = (event) => {
-  //   setDocDescription(event.target.value);
-  // };
-
   // Initialized state for file upload
   const handleFileChange = (event) => {
     if (event.target.files.length === 1) {
@@ -64,39 +58,22 @@ const CrossPodWriteForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
-  // const clearInputFields = (event) => {
-  //   event.target.reset();
-  //   clearDescription();
-  //   clearUsername();
-  //   setExpireDate(null);
-  //   setSelectedUser('');
-  //   dispatch({ type: 'CLEAR_FILE' });
-  //   dispatch({ type: 'CLEAR_PROCESSING' });
-  // };
   const clearInputFields = () => {
-    // setUsername('');
     setDocType('');
     setExpireDate(null);
-    // setDocDescription('');
     setSelectedUser('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
-    // INTERACTION_TYPES.CROSS,
-    // expireDate,
-    // state,
-    // dispatch,
-    // session,
-    // clearInputFields
-    // UPLOAD_TYPES.CROSS,
+    INTERACTION_TYPES.CROSS,
     expireDate,
-    // docDescription,
     state,
     dispatch,
     session,
-    clearInputFields
+    clearInputFields,
+    expireDate
   );
 
   // Event handler for form/document submission to Pod
