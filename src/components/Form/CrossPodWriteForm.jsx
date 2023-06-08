@@ -41,6 +41,11 @@ const CrossPodWriteForm = () => {
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const [expireDate, setExpireDate] = useState(null);
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -159,6 +164,27 @@ const CrossPodWriteForm = () => {
               />
             </LocalizationProvider>
           </FormControl>
+          <input
+            id="cross-upload-doc"
+            size="25"
+            name="crossPodUpload"
+            {...username}
+            placeholder={selectedUser}
+          />
+        </div>
+        <div style={formRowStyle}>
+          <DocumentSelection
+            htmlForAndIdProp="upload-doc"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
+          <input id="upload-doc-expiration" name="date" type="date" />
+        </div>
+        <div style={formRowStyle}>
+          <label htmlFor="upload-doc-desc">Enter description: </label>
           <br />
           <FormControl fullWidth>
             <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
