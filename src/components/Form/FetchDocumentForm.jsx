@@ -1,12 +1,10 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
@@ -28,12 +26,16 @@ import FormSection from './FormSection';
 const FetchDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   // Event handler for searching/fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
 
     try {
       const documentUrl = await getDocuments(session, docType, INTERACTION_TYPES.SELF);
@@ -70,16 +72,17 @@ const FetchDocumentForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleGetDocumentSubmission}>
-          <InputLabel id="search-doctype">
-            <em>Select Document Type</em>
-          </InputLabel>
-          <FormControl fullWidth>
-            <DocumentSelection htmlId="search-doctype" />
+          <Box display="flex" flexDirection="column" justifyContent="center">
+            <DocumentSelection
+              htmlForAndIdProp="search-doctype"
+              handleDocType={handleDocType}
+              docType={docType}
+            />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Get Document
             </Button>
-          </FormControl>
+          </Box>
         </form>
       </Box>
     </FormSection>
