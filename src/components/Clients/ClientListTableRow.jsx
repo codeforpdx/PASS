@@ -16,6 +16,14 @@ import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 
+/**
+ * ClientListTableRow Component - Component that generates the individual table
+ * rows of clients from data within ClientList
+ *
+ * @memberof Clients
+ * @name ClientListTableRow
+ */
+
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();

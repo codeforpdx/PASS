@@ -125,7 +125,7 @@ const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (
 );
 
 /**
- * Footer Component - Footer Component for PASS
+ * Footer Component - Generates the responsive footer used in PASS
  *
  * @memberof Footer
  * @name Footer
