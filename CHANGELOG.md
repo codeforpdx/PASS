@@ -8,7 +8,7 @@
 - Generate PASS specific inbox and publics container if it doesn't exist upon login (#201)
 - Render sent message in outbox (#191)
 - Include pagination for messages in inbox/outbox (#191)
-- Generate user outbox on log in if outbox does exist in user's Solid Pod (#186)
+- Generate user outbox on log in if outbox does not exist in user's Solid Pod (#186)
 - Using webIds instead of username as primary identifier (#169)
 - Allow users to choose different Solid Identity Providers when using PASS (#167)
 - Updated/Enhanced UI for Footer, Inactivity Notification, Client List, Form components, etc. (#166, #172, #178, #180, #187, #193, #206, #209, #210)
