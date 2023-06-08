@@ -13,6 +13,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import FormHelperText from '@mui/material/FormHelperText';
+import Input from '@mui/material/Input';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -38,7 +40,19 @@ const CrossPodWriteForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
-  const [dateValue, setDateValue] = useState(new Date());
+  const [expireDate, setExpireDate] = useState(null);
+
+  const handleUsername = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleDocDescription = (event) => {
+    setDocDescription(event.target.value);
+  };
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   // Initialized state for file upload
   const handleFileChange = (event) => {
@@ -52,22 +66,41 @@ const CrossPodWriteForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
-  const clearInputFields = (event) => {
-    event.target.reset();
-    clearDescription();
-    clearUsername();
+  // const clearInputFields = (event) => {
+  //   event.target.reset();
+  //   clearDescription();
+  //   clearUsername();
+  //   setExpireDate(null);
+  //   setSelectedUser('');
+  //   dispatch({ type: 'CLEAR_FILE' });
+  //   dispatch({ type: 'CLEAR_PROCESSING' });
+  // };
+  const clearInputFields = () => {
+    setUsername('');
+    setDocType('');
+    setExpireDate(null);
+    setDocDescription('');
     setSelectedUser('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
-    INTERACTION_TYPES.CROSS,
+    // INTERACTION_TYPES.CROSS,
+    // expireDate,
+    // state,
+    // dispatch,
+    // session,
+    // clearInputFields
+    UPLOAD_TYPES.CROSS,
+    expireDate,
+    docDescription,
     state,
     dispatch,
     session,
     clearInputFields
   );
+
   // Event handler for form/document submission to Pod
   const handleCrossPodUpload = async (event) => {
     event.preventDefault();
@@ -114,21 +147,16 @@ const CrossPodWriteForm = () => {
           </FormControl>
           <br />
           <FormControl>
-            <Typography htmlFor="upload-doc-expiration">
-              Expiration date (if applicable):
-            </Typography>
+            <InputLabel htmlFor="upload-doc-expiration" />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DateTimePicker']}>
-                <DemoItem>
-                  <DatePicker
-                    // value={dateValue}
-                    onChange={(newValue) => setDateValue(newValue)}
-                    id="upload-doc-expiration"
-                    name="date"
-                    type="date"
-                  />
-                </DemoItem>
-              </DemoContainer>
+              <DatePicker
+                id="upload-doc-expiration"
+                name="date"
+                format="MM/DD/YYYY"
+                label="Expire date (if applicable)"
+                value={expireDate}
+                onChange={(newDate) => setExpireDate(newDate)}
+              />
             </LocalizationProvider>
           </FormControl>
           <br />
@@ -140,26 +168,34 @@ const CrossPodWriteForm = () => {
               {...description}
               multiline
               rows={4}
+              label="Enter Description"
+              value={docDescription}
+              onChange={handleDocDescription}
             />
           </FormControl>
           <br />
-          <FormControl fullWidth>
-            <Typography htmlFor="upload-doctype">File to upload:</Typography>
-            <Button
+          <FormControl required>
+            <InputLabel htmlFor="upload-doctype" />
+            <Input
               id="upload-doctype"
               type="file"
               name="uploadDoctype"
-              accept=".pdf, .docx, .doc, .txt, .rtf"
+              accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
               onChange={handleFileChange}
-              variant="contained"
-            >
-              Choose File
-              <input hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple type="file" />
-            </Button>
+            />
+            <FormHelperText>
+              File to upload:
+              {state.file ? state.file.name : 'No file selected'}
+            </FormHelperText>
           </FormControl>
           <FormControl fullWidth>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               Upload file
+            </Button>
+          </FormControl>
+          <FormControl>
+            <Button variant="contained" type="button" onClick={clearInputFields}>
+              Clear Form
             </Button>
           </FormControl>
         </form>
