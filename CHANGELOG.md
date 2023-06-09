@@ -16,6 +16,7 @@
 
 ## Fixes
 
+- Fixing URL to local Solid Pod Server at http://localhost:3000/ (#234)
 - Refactored src/model-helpers/User.js to update user activity correctly (#191, #214)
 - Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
 - Included corrections to JSDoc comments (#148, #179, #183, #184, #201)
