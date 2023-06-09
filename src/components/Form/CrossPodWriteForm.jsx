@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -9,7 +9,7 @@ import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
-import { UPLOAD_TYPES } from '../../constants';
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -27,6 +27,11 @@ const CrossPodWriteForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
@@ -50,7 +55,7 @@ const CrossPodWriteForm = () => {
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
-    UPLOAD_TYPES.CROSS,
+    INTERACTION_TYPES.CROSS,
     state,
     dispatch,
     session,
@@ -87,7 +92,7 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleCrossPodUpload} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Search document from username: </label>
+          <label htmlFor="cross-upload-doc">Upload document to username: </label>
           <br />
           <br />
           <input
@@ -99,8 +104,11 @@ const CrossPodWriteForm = () => {
           />
         </div>
         <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
+          <DocumentSelection
+            htmlForAndIdProp="upload-doc"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>

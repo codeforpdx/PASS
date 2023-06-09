@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
@@ -7,7 +7,7 @@ import { makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Constants Imports
-import { UPLOAD_TYPES } from '../../constants';
+import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -23,6 +23,11 @@ import FormSection from './FormSection';
 const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   // Initalized state for file upload
   const handleFileChange = (event) => {
@@ -46,7 +51,7 @@ const UploadDocumentForm = () => {
 
   // Event handler for form/document submission to Pod
   const handleFormSubmission = makeHandleFormSubmission(
-    UPLOAD_TYPES.SELF,
+    INTERACTION_TYPES.SELF,
     state,
     dispatch,
     session,
@@ -75,8 +80,11 @@ const UploadDocumentForm = () => {
           />
         </label>
         <div style={formRowStyle}>
-          <label htmlFor="upload-doc">Select document type to upload: </label>
-          <DocumentSelection htmlId="upload-doc" />
+          <DocumentSelection
+            htmlForAndIdProp="upload-doc"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>

@@ -1,5 +1,62 @@
 # Changelog
 
+## v0.0.5 (June 7, 2023)
+
+## Features
+
+- Updated UI for UserList and ManageUser with ClientList and AddClientModal (#209)
+- Generate PASS specific inbox and publics container if it doesn't exist upon login (#201)
+- Render sent message in outbox (#191)
+- Include pagination for messages in inbox/outbox (#191)
+- Generate user outbox on log in if outbox does not exist in user's Solid Pod (#186)
+- Using webIds instead of username as primary identifier (#169)
+- Allow users to choose different Solid Identity Providers when using PASS (#167)
+- Updated/Enhanced UI for Footer, Inactivity Notification, Client List, Form components, etc. (#166, #172, #178, #180, #187, #193, #206, #209, #210, #236)
+- Render user messages from their Solid inbox on PASS (#148)
+
+## Fixes
+
+- Fixing URL to local Solid Pod Server at http://localhost:3000/ (#234)
+- Refactored src/model-helpers/User.js to update user activity correctly (#191, #214)
+- Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
+- Included corrections to JSDoc comments (#148, #179, #183, #184, #201)
+
+## Dev Changes
+
+- Refactored all PASS related contexts to UserDataContext (#214)
+- Refactored React Contexts for messages to MessageContext (#214)
+- Include SignInUserContext for storing podUrl to be used in PASS (#214)
+- Refactored fetchData and App.jsx (#214)
+- Include top level mock directory to simplify module mocks in unit tests (#211)
+- Refactoring custom hooks into individual files (#204)
+- Replaced UPLOAD_TYPES with INTERACTION_TYPES (#202)
+- Refactored PASS routing with AppRoutes and ProtectedRoutes (#198)
+- Created function to generate an outbox container for users if it doesn't exist in their Solid Pod (#186)
+- Optimized session-helper functions (#184)
+- Refactored set permission forms to pass in Access Object as a parameter to setDocAclPermission function (#183)
+- Updated all relevant components/functions using createDocAclForUser with new setDocAclForUser function (#183)
+- Optimized session-core functions (#183)
+- Included new JSDoc for new barcode scanner functions (#179)
+- Updated clearDoc.js and .gitignore to accomedate for new ZXing_barcaode.md (#179)
+- Organized utils directory into 4 subdirectories and rerouted import paths (#171)
+- Refactored contexts for userList from session-core to src/modal-helpers (#169)
+- Replaced removeKeys function with localStorage.clear (#167)
+- Replaced previous Login component with OidcLoginComponent (#167)
+- Created new test directory to store unit tests (#167)
+- Generate loading text for when user messages are being loaded from Solid (#148)
+- Removed types.d.ts in favor of better written JSDoc comments (#148)
+- Created new React Context and components for rendering inbox messages (#148)
+- Created new getInboxMessageTTL function to pull messages from Solid as JSON from TTLs (#148)
+
+## Others
+
+- Updated package-lock.json to fix high-security vulnerabilities (#224)
+- Updated GitHub Actions to have lints and unit tests separate from building (#181)
+- Updated GitHub Actions to run newer GitHub Actions workflows and correct node version (#181)
+- Included new technical documentation for barcode scanner (#179)
+
+---
+
 ## v0.0.4 (May 19, 2023)
 
 ## Features

@@ -1,4 +1,4 @@
 import RDF_PREDICATES from './rdf_predicates';
-import UPLOAD_TYPES from './upload_types';
+import INTERACTION_TYPES from './interaction_types';
 
-export { RDF_PREDICATES, UPLOAD_TYPES };
+export { RDF_PREDICATES, INTERACTION_TYPES };

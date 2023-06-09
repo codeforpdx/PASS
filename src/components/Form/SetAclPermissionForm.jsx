@@ -1,7 +1,17 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 // Utility Imports
 import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
 // Custom Hook Imports
@@ -25,6 +35,11 @@ const SetAclPermissionForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const [docType, setDocType] = useState('');
+
+  const handleDocType = (event) => {
+    setDocType(event.target.value);
+  };
 
   const clearInputFields = () => {
     clearUsername();
@@ -36,8 +51,9 @@ const SetAclPermissionForm = () => {
   const handleAclPermission = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
-    const permissionType = event.target.setAclPerms.value;
+    const permissions = event.target.setAclPerms.value
+      ? { read: event.target.setAclPerms.value === 'Give' }
+      : undefined;
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
@@ -68,7 +84,7 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    if (!permissionType) {
+    if (permissions === undefined) {
       runNotification('Set permissions failed. Reason: Permissions not set.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
@@ -77,10 +93,10 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, docType, permissionType, podUsername);
+      await setDocAclPermission(session, docType, permissions, podUsername);
 
       runNotification(
-        `${permissionType} permission to ${podUsername} for ${docType}.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${podUsername} for ${docType}.`,
         5,
         state,
         dispatch
@@ -96,11 +112,6 @@ const SetAclPermissionForm = () => {
     }
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
-
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Permission to Files"
@@ -108,37 +119,56 @@ const SetAclPermissionForm = () => {
       statusType="Permission status"
       defaultMessage="To be set..."
     >
-      <form onSubmit={handleAclPermission} autoComplete="off">
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-to">Set permissions to username: </label>
-          <br />
-          <br />
-          <input
-            id="set-acl-to"
-            size="25"
-            name="setAclTo"
-            {...username}
-            placeholder={selectedUser}
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleAclPermission} autoComplete="off">
+          <FormControl>
+            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
+            <TextField
+              id="set-acl-to"
+              name="setAclTo"
+              {...username}
+              placeholder={selectedUser}
+              label="Search username"
+              required
+            />
+          </FormControl>
+          <DocumentSelection
+            htmlForAndIdProp="set-acl-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
           />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="set-acl-doctype">Select document type: </label>
-          <DocumentSelection htmlId="set-acl-doctype" />{' '}
-        </div>
-        <div style={formRowStyle}>
-          <p>Select permission setting:</p>
-          <input type="radio" id="set-acl-perm-give" name="setAclPerms" value="Give" />
-          <label htmlFor="set-acl-perm-give">Give</label>
-          <input type="radio" id="set-acl-perm-revoke" name="setAclPerms" value="Revoke" />
-          <label htmlFor="set-acl-perm-revoke">Revoke</label>
-        </div>
-        <button disabled={state.processing} type="submit">
-          Set Permission
-        </button>
-      </form>
+          <br />
+          <FormControl fullWidth>
+            <FormLabel htmlFor="set-acl-perm-label">Select permission setting:</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="set-acl-perm-label"
+              name="set-acl-perm"
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <FormControlLabel
+                value="Give"
+                control={<Radio />}
+                label="Give"
+                id="set-acl-perm-give"
+                name="setAclPerms"
+              />
+              <FormControlLabel
+                value="Revoke"
+                control={<Radio />}
+                label="Revoke"
+                id="set-acl-perm-revoke"
+                name="setAclPerms"
+              />
+            </RadioGroup>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Set Permission
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default SetAclPermissionForm;
