@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 // Page Imports
-import { Home, Clients, Messages, Documents, Profile } from './pages';
+import { Home, Clients, Messages, Documents, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -28,6 +28,7 @@ const AppRoutes = () => {
         path="/"
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
+      <Route path="/signup" element={<Signup />} />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/clients" element={<Clients />} />
         <Route path="/documents" element={<Documents />} />

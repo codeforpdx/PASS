@@ -10,7 +10,7 @@ import { runNotification, clearProcessing } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
-import registerPod from '../../utils/network/register-pod';
+import registerPod from '../../utils/network/registration-helper';
 
 // Component Imports
 import { createUser } from '../../model-helpers/User';
