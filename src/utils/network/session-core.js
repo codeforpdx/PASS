@@ -20,12 +20,12 @@ import {
   setDocAclForUser,
   createResourceTtlFile,
   updateTTLFile,
-  SOLID_IDENTITY_PROVIDER,
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
   buildMessageTTL,
-  setDocAclForPublic
+  setDocAclForPublic,
+  getPodUrl
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -69,9 +69,8 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  */
 export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
-  const webId = `https://${otherPodUsername}.${
-    SOLID_IDENTITY_PROVIDER.split('/')[2]
-  }/profile/card#me`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const webId = `${otherPodUrl}profile/card#me`;
 
   await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
@@ -91,14 +90,13 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
   const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   const urlsToSet = [
     containerUrl,
-    `${containerUrl}Bank%20Statement/`,
-    `${containerUrl}Passport/`,
-    `${containerUrl}Drivers%20License/`
+    `${containerUrl}PASS_Bank_Statement/`,
+    `${containerUrl}PASS_Passport/`,
+    `${containerUrl}PASS_Drivers_License/`
   ];
 
-  const webId = `https://${otherPodUsername}.${
-    SOLID_IDENTITY_PROVIDER.split('/')[2]
-  }/profile/card#me`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const webId = `${otherPodUrl}profile/card#me`;
 
   urlsToSet.forEach(async (url) => {
     await setDocAclForUser(session, url, 'update', webId, permissions);
@@ -142,12 +140,12 @@ export const uploadDocument = async (
     containerUrl = getContainerUrl(session, fileObject.type, INTERACTION_TYPES.SELF);
   } else {
     containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
-    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '%20')}/`;
+    containerUrl = `${containerUrl}PASS_${fileObject.type.replace("'", '').replace(' ', '_')}/`;
   }
 
   await createContainerAt(containerUrl, { fetch: session.fetch });
 
-  const documentUrl = `${containerUrl}${fileName.replace(' ', '%20')}`;
+  const documentUrl = `${containerUrl}${fileName.replace(' ', '_')}`;
   const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
@@ -212,7 +210,7 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
     containerUrl = getContainerUrl(session, fileObject.type, INTERACTION_TYPES.SELF);
   } else {
     containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
-    containerUrl = `${containerUrl}${fileObject.type.replace(' ', '%20')}/`;
+    containerUrl = `${containerUrl}${fileObject.type.replace(' ', '_')}/`;
   }
 
   const documentUrl = `${containerUrl}${fileName}`;
@@ -274,9 +272,8 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * of the container, if permitted, or throws an Error
  */
 export const checkContainerPermission = async (session, otherPodUsername) => {
-  const documentsContainerUrl = `https://${otherPodUsername}.${
-    SOLID_IDENTITY_PROVIDER.split('/')[2]
-  }/Documents/`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const documentsContainerUrl = `${otherPodUrl}PASS_Documents/`;
 
   try {
     await getSolidDataset(documentsContainerUrl, { fetch: session.fetch });
@@ -342,7 +339,7 @@ export const deleteDocumentContainer = async (session, documentUrl) => {
  */
 
 export const createDocumentContainer = async (session, podUrl) => {
-  const userContainerUrl = `${podUrl}Documents/`;
+  const userContainerUrl = `${podUrl}PASS_Documents/`;
 
   try {
     await getSolidDataset(userContainerUrl, { fetch: session.fetch });
@@ -350,9 +347,9 @@ export const createDocumentContainer = async (session, podUrl) => {
     await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
     const createContainerList = [
-      `${userContainerUrl}Bank%20Statement/`,
-      `${userContainerUrl}Passport/`,
-      `${userContainerUrl}Drivers%20License/`
+      `${userContainerUrl}PASS_Bank_Statement/`,
+      `${userContainerUrl}PASS_Passport/`,
+      `${userContainerUrl}PASS_Drivers_License/`
     ];
 
     createContainerList.forEach(async (url) => {
@@ -396,7 +393,7 @@ export const createDocumentContainer = async (session, podUrl) => {
  */
 
 export const createPublicContainer = async (session, podUrl) => {
-  const publicContainerUrl = `${podUrl}public/`;
+  const publicContainerUrl = `${podUrl}PASS_Public/`;
 
   try {
     await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
@@ -430,7 +427,7 @@ export const createPublicContainer = async (session, podUrl) => {
  */
 
 export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
-  const messageBoxContainerUrl = `${podUrl}${boxType.toLocaleLowerCase()}/`;
+  const messageBoxContainerUrl = `${podUrl}PASS_${boxType}/`;
   let messageList = [];
   try {
     const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
@@ -485,12 +482,11 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     INTERACTION_TYPES.CROSS,
     recipientUsername
   );
-  const outboxUrl = `${podUrl}outbox/`;
+  const outboxUrl = `${podUrl}PASS_Outbox/`;
 
   const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const recipientWebId = `https://${recipientUsername}.${
-    SOLID_IDENTITY_PROVIDER.split('/')[2]
-  }/profile/card#me`;
+  const otherPodUrl = getPodUrl(recipientUsername);
+  const recipientWebId = `${otherPodUrl}profile/card#me`;
 
   const senderName = await getUserProfileName(session, session.info.webId);
   let recipientName;
@@ -539,7 +535,7 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
  */
 
 export const createOutbox = async (session, podUrl) => {
-  const outboxContainerUrl = `${podUrl}outbox/`;
+  const outboxContainerUrl = `${podUrl}PASS_Outbox/`;
 
   try {
     await getSolidDataset(outboxContainerUrl, { fetch: session.fetch });
@@ -564,7 +560,7 @@ export const createOutbox = async (session, podUrl) => {
  */
 
 export const createInbox = async (session, podUrl) => {
-  const inboxContainerUrl = `${podUrl}inbox/`;
+  const inboxContainerUrl = `${podUrl}PASS_Inbox/`;
 
   try {
     await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });

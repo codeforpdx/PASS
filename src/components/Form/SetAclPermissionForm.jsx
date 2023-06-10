@@ -13,11 +13,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { SOLID_IDENTITY_PROVIDER, runNotification, setDocAclPermission } from '../../utils';
+import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -35,6 +35,7 @@ const SetAclPermissionForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -68,10 +69,7 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    if (
-      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
-      String(session.info.webId.split('profile')[0])
-    ) {
+    if (getPodUrl(podUsername) === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,

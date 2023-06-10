@@ -74,6 +74,8 @@ const OIDUrl =
     : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
 export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
 
+export const oidcIssuer = localStorage.getItem('oidcIssuer') ?? SOLID_IDENTITY_PROVIDER;
+
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
  * Solid container
@@ -142,13 +144,25 @@ export const getContainerUrlAndFiles = (solidDataset) => {
 };
 
 /**
+ *
+ *
+ * @memberof utils
+ * @function getPodUrl
+ * @param {string} username - String of other user's Pod username
+ * @returns {URL}
+ */
+
+export const getPodUrl = (username) =>
+  `${oidcIssuer.split('/')[0]}//${username}.${oidcIssuer.split('/')[2]}/`;
+
+/**
  * Function that returns the location of the Solid container containing a
  * specific file type, if exist on user's Pod
  *
  * @memberof utils
  * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
+ * @param {string} containerType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
  * other Pods, or "cross")
  * @param {URL} otherPodUsername - Username to other user's Pod or empty string
@@ -156,32 +170,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
+export const getContainerUrl = (session, containerType, fetchType, otherPodUsername) => {
   const POD_URL =
     fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
-      : `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
+      : getPodUrl(otherPodUsername);
 
-  switch (fileType) {
-    case 'Bank Statement':
-      return `${POD_URL}Bank%20Statement/`;
-    case 'Passport':
-      return `${POD_URL}Passport/`;
-    case "Driver's License":
-      return `${POD_URL}Drivers%20License/`;
-    case 'Users':
-      return `${POD_URL}Users/`;
-    case 'Documents':
-      return `${POD_URL}Documents/`;
-    case 'Inbox':
-      return `${POD_URL}inbox/`;
-    case 'Outbox':
-      return `${POD_URL}outbox/`;
-    case 'Public':
-      return `${POD_URL}public/`;
-    default:
-      return null;
+  if (containerType.split(' ').length > 1) {
+    return `${POD_URL}PASS_${containerType.replace("'", '').replace(' ', '_')}/`;
   }
+
+  return `${POD_URL}PASS_${containerType}/`;
 };
 
 /**

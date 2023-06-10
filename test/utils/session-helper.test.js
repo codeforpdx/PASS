@@ -80,41 +80,41 @@ describe('getContainerUrl', () => {
 
   it('Returns the correct container URL to Bank Statement', () => {
     const containerUrl = getContainerUrl(session, 'Bank Statement', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}Bank%20Statement/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Bank_Statement/`);
   });
 
   it('Returns the correct container URL to Passport', () => {
     const containerUrl = getContainerUrl(session, 'Passport', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}Passport/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Passport/`);
   });
 
   it("Returns the correct container URL to Driver's License", () => {
     const containerUrl = getContainerUrl(session, "Driver's License", INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}Drivers%20License/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Drivers_License/`);
   });
 
   it('Returns the correct container URL to Users', () => {
     const containerUrl = getContainerUrl(session, 'Users', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}Users/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Users/`);
   });
 
   it('Returns the correct container URL to Documents', () => {
     const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}Documents/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Documents/`);
   });
 
   it('Returns the correct container URL to inbox', () => {
     const containerUrl = getContainerUrl(session, 'Inbox', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}inbox/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Inbox/`);
   });
 
   it('Returns the correct container URL to outbox', () => {
     const containerUrl = getContainerUrl(session, 'Outbox', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}outbox/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Outbox/`);
   });
 
   it('Returns the correct container URL to public', () => {
     const containerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}public/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Public/`);
   });
 });
