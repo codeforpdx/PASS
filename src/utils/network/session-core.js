@@ -486,7 +486,8 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const outboxUrl = `${podUrl}PASS_Outbox/`;
 
   const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const recipientWebId = `https://${recipientUsername}.${oidcIssuer.split('/')[2]}/profile/card#me`;
+  const otherPodUrl = getPodUrl(recipientUsername);
+  const recipientWebId = `${otherPodUrl}profile/card#me`;
 
   const senderName = await getUserProfileName(session, session.info.webId);
   let recipientName;
