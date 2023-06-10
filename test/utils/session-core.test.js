@@ -20,14 +20,6 @@ let session = {};
 
 vi.mock('@inrupt/solid-client');
 
-vi.mock('../../src/utils/network/session-helper', async () => {
-  const actual = await vi.importActual('../../src/utils/network/session-helper');
-  return {
-    ...actual,
-    oidcIssuer: 'https://example.com/'
-  };
-});
-
 describe('checkContainerPermission', () => {
   beforeEach(() => {
     session = {
@@ -36,9 +28,11 @@ describe('checkContainerPermission', () => {
         webId: `${mockPodUrl}profile/card#me`
       }
     };
+    localStorage.setItem('oidcIssuer', 'https://example.com/');
   });
   afterEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
   });
   const otherPodUsername = 'pod2';
 

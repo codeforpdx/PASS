@@ -8,6 +8,7 @@ import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import {
   createResourceTtlFile,
   getContainerUrl,
+  getPodUrl,
   hasTTLFiles
 } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
@@ -116,5 +117,21 @@ describe('getContainerUrl', () => {
   it('Returns the correct container URL to public', () => {
     const containerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
     expect(containerUrl).toBe(`${mockPodUrl}PASS_Public/`);
+  });
+});
+
+describe('getPodUrl', () => {
+  beforeEach(() => {
+    localStorage.setItem('oidcIssuer', 'https://example.com/');
+  });
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('Returns the correct podUrl', () => {
+    const username = 'pod';
+
+    const result = getPodUrl(username);
+    expect(result).toBe('https://pod.example.com/');
   });
 });

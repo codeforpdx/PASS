@@ -148,12 +148,15 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  *
  * @memberof utils
  * @function getPodUrl
- * @param {string} username - String of other user's Pod username
- * @returns {URL}
+ * @param {string} username - String of user's Pod username
+ * @returns {URL} podUrl - Returns the full pod url from the username based on
+ * the existing oidcIssuer the user logged in from
  */
 
-export const getPodUrl = (username) =>
-  `${oidcIssuer.split('/')[0]}//${username}.${oidcIssuer.split('/')[2]}/`;
+export const getPodUrl = (username) => {
+  const podOidcIssuer = localStorage.getItem('oidcIssuer');
+  return `${podOidcIssuer.split('/')[0]}//${username}.${podOidcIssuer.split('/')[2]}/`;
+};
 
 /**
  * Function that returns the location of the Solid container containing a
