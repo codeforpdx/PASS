@@ -5,10 +5,6 @@ const OIDUrl =
     ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
     : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
 
-const { MODE: ENVIRONMENT } = import.meta.env;
-
-export { ENVIRONMENT };
-
 /**
  * The initial URL to a specific Solid Provider
  *

@@ -4,14 +4,6 @@ import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 
-vi.mock('../../../src/constants', async () => {
-  const actual = await vi.importActual('../../../src/constants');
-  return {
-    ...actual,
-    ENVIRONMENT: 'production'
-  };
-});
-
 vi.mock('@inrupt/solid-ui-react', () => ({
   LoginButton: ({ children, oidcIssuer, redirectUrl }) => (
     <div>
@@ -29,6 +21,10 @@ afterEach(() => {
 });
 
 it('renders correctly', () => {
+  vi.mock('../../../src/constants/environment', async () => ({
+    ENVIRONMENT: 'development'
+  }));
+
   const { container } = render(<OidcLoginComponent />);
   expect(container).toMatchSnapshot();
 });
