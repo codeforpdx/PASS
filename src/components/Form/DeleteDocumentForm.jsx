@@ -1,12 +1,13 @@
 // React Imports
 import React, { useState } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+// import { deleteContainer } from '@inrupt/solid-client';
+// import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 // Utility Imports
-import { deleteDocumentFile, runNotification } from '../../utils';
+import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Component Imports
@@ -22,7 +23,7 @@ import FormSection from './FormSection';
  */
 
 const DeleteDocumentForm = () => {
-  const { session } = useSession();
+  // const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [docType, setDocType] = useState('');
 
@@ -35,22 +36,14 @@ const DeleteDocumentForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
-    if (!docType) {
-      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
     try {
-      await deleteDocumentFile(session, docType);
-
-      runNotification('File being deleted from Pod...', 5, state, dispatch);
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      // runNotification('File being deleted from Pod...', 3, state, dispatch);
+      // const documentUrl = await deleteDocumentFile(session, docType);
+      // runNotification('Removing file container from Pod...', 5, state, dispatch);
+      // await deleteContainer(documentUrl, { fetch: session.fetch });
+      // setTimeout(() => {
+      //   dispatch({ type: 'CLEAR_PROCESSING' });
+      // }, 3000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found.', 5, state, dispatch);
       setTimeout(() => {

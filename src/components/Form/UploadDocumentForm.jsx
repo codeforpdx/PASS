@@ -1,16 +1,14 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Utility Imports
-import { makeHandleFormSubmission, runNotification } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
-// Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
-// Component Imports
+import { useStatusNotification } from '../../hooks';
+import { SignedInUserContext } from '../../contexts/SignedInUserContext';
+import { createDocument } from '../../model-helpers';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { runNotification } from '../../utils';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -24,53 +22,56 @@ const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [docType, setDocType] = useState('');
+  const [verifyFile, setVerifyFile] = useState(false);
+  const [expiryDate, setExpiryDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [file, setFile] = useState('');
+  const { podUrl } = useContext(SignedInUserContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
   };
 
-  // Initalized state for file upload
-  const handleFileChange = (event) => {
-    if (event.target.files.length === 1) {
-      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
-    } else {
-      dispatch({ type: 'CLEAR_FILE' });
-    }
-  };
-
   // Custom useField hook for handling form inputs
-  const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
-  const clearInputFields = (event) => {
-    event.target.reset();
-    clearDescription();
+  const clearInputFields = () => {
+    setVerifyFile(false);
+    setDocType('');
+    setExpiryDate('');
+    setDescription('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
   // Event handler for form/document submission to Pod
-  const handleFormSubmit = makeHandleFormSubmission(
-    INTERACTION_TYPES.SELF,
-    state,
-    dispatch,
-    session,
-    clearInputFields
-  );
-
-  const handleDocumentUpload = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
+  const handleDocUpload = async (e) => {
+    e.preventDefault();
 
     if (!docType) {
-      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
+      runNotification('Upload failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
       return;
     }
 
-    handleFormSubmit(event);
+    const fileDesc = {
+      name: file.name.split('.')[0],
+      type: docType,
+      date: expiryDate,
+      description
+    };
+    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+
+    try {
+      await createDocument(file, fileDesc, session, podUrl);
+      runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+    } catch (error) {
+      runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+    } finally {
+      clearInputFields();
+    }
   };
 
   const formRowStyle = {
@@ -84,14 +85,14 @@ const UploadDocumentForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleDocumentUpload} autoComplete="off">
+      <form onSubmit={handleDocUpload} autoComplete="off">
         <label htmlFor="verify-checkbox">
           Verify File on upload:
           <input
             id="verify-checkbox"
             type="checkbox"
-            value={state.verifyFile}
-            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+            value={verifyFile}
+            onChange={(e) => setVerifyFile(e.target.value)}
           />
         </label>
         <div style={formRowStyle}>
@@ -103,13 +104,24 @@ const UploadDocumentForm = () => {
         </div>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
+          <input
+            id="upload-doc-expiration"
+            name="date"
+            type="date"
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="upload-doc-desc">Enter description: </label>
           <br />
           <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
+          <textarea
+            id="upload-doc-desc"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <div style={formRowStyle}>
           <label htmlFor="upload-doctype">File to upload: </label>
@@ -118,7 +130,7 @@ const UploadDocumentForm = () => {
             type="file"
             name="uploadDoctype"
             accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-            onChange={handleFileChange}
+            onChange={(e) => setFile(e.target.files[0])}
           />
           <button disabled={state.processing} type="submit">
             Upload file
