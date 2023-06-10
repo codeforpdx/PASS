@@ -25,7 +25,6 @@ import {
   parseMessageTTL,
   buildMessageTTL,
   setDocAclForPublic,
-  oidcIssuer,
   getPodUrl
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
