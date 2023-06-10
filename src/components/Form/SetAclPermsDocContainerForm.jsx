@@ -17,7 +17,7 @@ import { oidcIssuer, runNotification, setDocContainerAclPermission } from '../..
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -35,6 +35,7 @@ const SetAclPermsDocContainerForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
     clearUsername();
@@ -67,10 +68,7 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (
-      `https://${podUsername}.${oidcIssuer.split('/')[2]}/` ===
-      String(session.info.webId.split('profile')[0])
-    ) {
+    if (`https://${podUsername}.${oidcIssuer.split('/')[2]}/` === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,

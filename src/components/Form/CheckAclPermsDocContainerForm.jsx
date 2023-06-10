@@ -12,7 +12,7 @@ import { oidcIssuer, checkContainerPermission, runNotification } from '../../uti
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -30,6 +30,7 @@ const CheckAclPermsDocContainerForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUrl, ...user } = useField('text');
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
     clearUrl();
@@ -61,10 +62,7 @@ const CheckAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (
-      `https://${podUsername}.${oidcIssuer.split('/')[2]}/` ===
-      String(session.info.webId.split('profile')[0])
-    ) {
+    if (`https://${podUsername}.${oidcIssuer.split('/')[2]}/` === podUrl) {
       runNotification(
         'Check permissions failed. Reason: User already has access to their own Documents container.',
         5,
