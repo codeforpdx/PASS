@@ -20,7 +20,7 @@ import ClientListTable from './ClientListTable';
 const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
 
-  return userListObject.userList.length ? (
+  return userListObject.userList?.length ? (
     // render if clients
     <ClientListTable statusType="Status" defaultMessage="No actions" />
   ) : (

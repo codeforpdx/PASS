@@ -325,24 +325,26 @@ export const deleteDocumentFile = async (session, fileType) => {
 
 export const createDocumentContainer = async (session, podUrl) => {
   const userContainerUrl = `${podUrl}PASS/Documents/`;
+  const createContainerList = [
+    `${userContainerUrl}Bank_Statement/`,
+    `${userContainerUrl}Passport/`,
+    `${userContainerUrl}Drivers_License/`
+  ];
 
   try {
     await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-    await getSolidDataset(`${userContainerUrl}Bank_Statement/`, { fetch: session.fetch });
-    await getSolidDataset(`${userContainerUrl}Passport/`, { fetch: session.fetch });
-    await getSolidDataset(`${userContainerUrl}Drivers_License/`, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(userContainerUrl, { fetch: session.fetch });
-
-    const createContainerList = [
-      `${userContainerUrl}Bank_Statement/`,
-      `${userContainerUrl}Passport/`,
-      `${userContainerUrl}Drivers_License/`
-    ];
 
     createContainerList.forEach(async (url) => {
-      await createContainerAt(url, { fetch: session.fetch });
+      try {
+        await getSolidDataset(url, { fetch: session.fetch });
+      } catch {
+        await createContainerAt(url, { fetch: session.fetch });
+
+        await setDocAclForUser(session, url, 'create', session.info.webId);
+      }
     });
+  } catch {
+    await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
     const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
       .addStringNoLocale(RDF_PREDICATES.name, 'Document Container')
@@ -362,9 +364,6 @@ export const createDocumentContainer = async (session, podUrl) => {
 
     // Generate ACL file for container
     await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-    createContainerList.forEach(async (url) => {
-      await setDocAclForUser(session, url, 'create', session.info.webId);
-    });
   }
 };
 

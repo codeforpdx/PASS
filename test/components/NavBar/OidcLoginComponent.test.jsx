@@ -20,9 +20,13 @@ afterEach(() => {
   cleanup();
 });
 
-vi.mock('../../../src/constants/', () => ({
-  SOLID_IDENTITY_PROVIDER: 'http://localhost:3000/'
-}));
+vi.mock('../../../src/constants/', () => {
+  const actual = vi.importActual('../../../src/constants/');
+  return {
+    ...actual,
+    SOLID_IDENTITY_PROVIDER: 'http://localhost:3000/'
+  };
+});
 
 it('renders correctly', () => {
   const { container } = render(<OidcLoginComponent />);

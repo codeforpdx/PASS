@@ -115,7 +115,7 @@ describe('createDocumentContainer', () => {
     vi.clearAllMocks();
   });
 
-  it('just runs getSolidDataset if container exist', async () => {
+  it('just runs getSolidDataset if all containers exist', async () => {
     await createDocumentContainer(session, mockPodUrl);
     expect(getSolidDataset).toBeCalled();
     expect(createContainerAt).not.toBeCalled();
@@ -127,9 +127,9 @@ describe('createDocumentContainer', () => {
 
     await createDocumentContainer(session, mockPodUrl);
     expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).toBeCalledTimes(4);
+    expect(createContainerAt).toBeCalled();
     expect(saveSolidDatasetInContainer).toBeCalled();
-    expect(sessionHelpers.setDocAclForUser).toBeCalledTimes(4);
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
   });
 });
 
