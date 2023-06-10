@@ -144,8 +144,6 @@ export const uploadDocument = async (
     containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
   }
 
-  await createContainerAt(containerUrl, { fetch: session.fetch });
-
   const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '_')}`;
   const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
