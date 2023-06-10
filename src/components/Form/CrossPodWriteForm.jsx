@@ -3,13 +3,13 @@ import React, { useContext, useState } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, makeHandleFormSubmission } from '../../utils';
+import { runNotification } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { createDocument } from '../../model-helpers';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -25,64 +25,45 @@ import FormSection from './FormSection';
 const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState('');
   const [docType, setDocType] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [file, setFile] = useState('');
+  const { podUrl, person } = useContext(SelectUserContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
   };
 
-  // Initalized state for file upload
-  const handleFileChange = (event) => {
-    if (event.target.files.length === 1) {
-      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
-    } else {
-      dispatch({ type: 'CLEAR_FILE' });
-    }
-  };
-
-  // Custom useField hook for handling form inputs
-  const { clearValue: clearDescription, _type, ...description } = useField('textarea');
-
-  const clearInputFields = (event) => {
-    event.target.reset();
-    clearDescription();
+  const clearInputFields = () => {
+    setDocType('');
+    setExpiryDate('');
+    setDescription('');
+    setFile(null);
     dispatch({ type: 'CLEAR_FILE' });
+    dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
-  const handleFormSubmit = makeHandleFormSubmission(
-    INTERACTION_TYPES.CROSS,
-    state,
-    dispatch,
-    session,
-    clearInputFields
-  );
-
   // Event handler for form/document submission to Pod
-  const handleCrossPodUpload = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
-    const podUsername = event.target.crossPodUpload.value || selectedUser.username;
+  const handleFormSubmission = async (e) => {
+    e.preventDefault();
+    const fileDesc = {
+      name: file.name.split('.')[0],
+      type: docType,
+      date: expiryDate,
+      description
+    };
+    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
 
-    if (!podUsername) {
-      runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
+    try {
+      await createDocument(file, fileDesc, session, podUrl);
+      runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+    } catch (error) {
+      runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+    } finally {
+      clearInputFields();
     }
-
-    if (!docType) {
-      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
-    handleFormSubmit(event, podUsername);
   };
 
   const formRowStyle = {
@@ -97,19 +78,11 @@ const CrossPodWriteForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleCrossPodUpload} autoComplete="off">
+      <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
-          <label htmlFor="cross-upload-doc">Upload document to username: </label>
+          <p>Upload document to {person}: </p>
           <br />
           <br />
-          <input
-            id="cross-upload-doc"
-            size="25"
-            name="crossPodUpload"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder={selectedUser.username}
-          />
         </div>
         <div style={formRowStyle}>
           <DocumentSelection
@@ -135,7 +108,7 @@ const CrossPodWriteForm = () => {
             type="file"
             name="uploadDoctype"
             accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-            onChange={handleFileChange}
+            onChange={(e) => setFile(e.target.files[0])}
           />
           <button disabled={state.processing} type="submit">
             Upload file

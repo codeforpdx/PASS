@@ -10,8 +10,7 @@
 
 import docTypes from './frontend/form-helper';
 import runNotification from './frontend/notification-helper';
-import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
-export { docTypes, runNotification, makeHandleFormSubmission };
+export { docTypes, runNotification };
 
 export * from './network/session-core';

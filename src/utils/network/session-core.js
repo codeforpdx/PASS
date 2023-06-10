@@ -7,17 +7,12 @@ import {
   createSolidDataset,
   saveSolidDatasetInContainer,
   deleteFile,
-  overwriteFile,
   getThingAll
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
-  placeFileInContainer,
-  hasTTLFiles,
   setDocAclForUser,
-  createResourceTtlFile,
-  updateTTLFile,
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
@@ -26,7 +21,6 @@ import {
   getPodUrl,
   getAllFiles
 } from './session-helper';
-import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -109,130 +103,6 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
   Functions here deal primarily with file handling to Solid Pod via PASS (i.e,
   file uploads, file search, file deletion, etc.)
 */
-
-/**
- * Function that uploads file to Pod on Solid
- *
- * @memberof utils
- * @function uploadDocument
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} uploadType - A string which indicates what type of upload is
- * being used
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @param {boolean} verifyDocument - True if document submission should include
- * user verification
- * @param {string} [otherPodUsername] - If cross pod interaction, this is the
- * username of the other user, set to an empty string by default
- * @returns {Promise} Promise - File upload is handled via Solid libraries
- */
-export const uploadDocument = async (
-  session,
-  uploadType,
-  fileObject,
-  verifyDocument,
-  otherPodUsername = ''
-) => {
-  const fileName = fileObject.file.name;
-
-  let containerUrl;
-  if (uploadType === INTERACTION_TYPES.SELF) {
-    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
-  } else {
-    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
-    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
-  }
-
-  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '_')}`;
-  const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
-  const ttlFileExists = hasTTLFiles(datasetFromUrl);
-
-  // Guard clause will throw function if container already exist with ttl file
-  // ttl file indicates update instead of upload document
-  if (ttlFileExists) {
-    throw new Error('TTL file already exists');
-  }
-
-  // Place file into Pod container and generate new ttl file for container
-  await placeFileInContainer(session, fileObject, containerUrl);
-  const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
-  const signingKey = verifyDocument ? await getUserSigningKey(session) : null;
-
-  let newSolidDataset = createSolidDataset();
-  newSolidDataset = setThing(newSolidDataset, newTtlFile);
-  const signatureDataset = signingKey
-    ? await signDocumentTtlFile(signingKey, newSolidDataset, session, containerUrl)
-    : null;
-
-  // Generate document.ttl file for container
-  await saveSolidDatasetInContainer(containerUrl, newSolidDataset, {
-    slugSuggestion: 'document.ttl',
-    contentType: 'text/turtle',
-    fetch: session.fetch
-  });
-
-  if (signatureDataset) {
-    await saveSolidDatasetInContainer(containerUrl, signatureDataset, {
-      slugSuggestion: 'signature.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-  }
-
-  if (uploadType === INTERACTION_TYPES.SELF) {
-    // Generate ACL file for new container
-    await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that update file to Pod on Solid
- *
- * @memberof utils
- * @function updateDocument
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} uploadType - A string which indicates what type of upload is
- * being used
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @param {string} [otherPodUsername] - If cross pod interaction, this is the URL
- * of the other user, set to an empty string by default
- * @returns {Promise<boolean>} fileExist - A boolean for if file exist on Solid
- * Pod and updates the file if accepted, or if file doesn't exist, uploads a new
- * file to Solid Pod if accepted
- */
-export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
-  let containerUrl;
-  const fileName = fileObject.file.name;
-  if (uploadType === INTERACTION_TYPES.SELF) {
-    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
-  } else {
-    containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.CROSS, otherPodUsername);
-    containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
-  }
-
-  const documentUrl = `${containerUrl}${fileName}`;
-  const solidDataset = await getSolidDataset(containerUrl, { fetch: session.fetch });
-
-  // Checks for file in Solid Pod
-  const files = getAllFiles(solidDataset);
-  const fileExist = files.map((file) => file.url).includes(documentUrl);
-
-  const confirmationMessage = fileExist
-    ? `File ${fileName} exist in Pod container, do you wish to update it?`
-    : `File ${fileName} does not exist in Pod container, do you wish to upload it?`;
-
-  if (window.confirm(confirmationMessage)) {
-    await overwriteFile(documentUrl, fileObject.file, { fetch: session.fetch });
-    await updateTTLFile(session, containerUrl, fileObject);
-  } else {
-    throw new Error(fileExist ? 'File update cancelled.' : 'New file upload cancelled.');
-  }
-
-  return fileExist;
-};
 
 /**
  * Function that fetch the URL of the container containing a specific file
