@@ -13,7 +13,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { oidcIssuer, runNotification, setDocContainerAclPermission } from '../../utils';
+import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
@@ -68,7 +68,7 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (`https://${podUsername}.${oidcIssuer.split('/')[2]}/` === podUrl) {
+    if (getPodUrl(podUsername) === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,

@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { oidcIssuer, checkContainerPermission, runNotification } from '../../utils';
+import { checkContainerPermission, runNotification, getPodUrl } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
@@ -62,7 +62,7 @@ const CheckAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (`https://${podUsername}.${oidcIssuer.split('/')[2]}/` === podUrl) {
+    if (getPodUrl(podUsername) === podUrl) {
       runNotification(
         'Check permissions failed. Reason: User already has access to their own Documents container.',
         5,
