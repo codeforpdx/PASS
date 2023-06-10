@@ -90,6 +90,14 @@ const SetAclPermissionForm = () => {
       return;
     }
 
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
     try {
       await setDocAclPermission(session, docType, permissions, podUsername);
 

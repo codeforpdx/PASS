@@ -6,7 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 // Utility Imports
-import { deleteDocumentFile, deleteDocumentContainer, runNotification } from '../../utils';
+import { deleteDocumentFile, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Component Imports
@@ -35,19 +35,21 @@ const DeleteDocumentForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
-    try {
-      const documentUrl = await deleteDocumentFile(session, docType);
-
-      runNotification('File being deleted from Pod...', 3, state, dispatch);
-
-      // Solid requires all files to be removed from container before it can be
-      // removed setTimeout lets deleteDocumentFile finish removing the files
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
-        deleteDocumentContainer(session, documentUrl);
-        runNotification('Removing file container from Pod...', 5, state, dispatch);
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_PROCESSING' });
-        }, 3000);
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    try {
+      await deleteDocumentFile(session, docType);
+
+      runNotification('File being deleted from Pod...', 5, state, dispatch);
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
     } catch (_error) {
       runNotification('Deletion failed. Reason: Data not found.', 5, state, dispatch);

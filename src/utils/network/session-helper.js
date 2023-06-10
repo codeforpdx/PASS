@@ -119,28 +119,25 @@ export const hasTTLFiles = (solidDataset) => {
  * @function getContainerUrlAndFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
  * {@link SolidDataset})
- * @returns {Array|null} [directory, files] or null - An Array of Objects
- * consisting of the directory container URL and the rest of the files or null
+ * @returns {Array|null} files or null - An Array of Things from the container
+ * or null
  */
 
-export const getContainerUrlAndFiles = (solidDataset) => {
+export const getAllFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
     return null;
   }
 
-  let directory = '';
   const files = [];
 
   items.forEach((item) => {
     if (!item.url.endsWith('/')) {
       files.push(item);
-    } else {
-      directory = item.url;
     }
   });
 
-  return [directory, files];
+  return files;
 };
 
 /**
@@ -180,10 +177,10 @@ export const getContainerUrl = (session, containerType, fetchType, otherPodUsern
       : getPodUrl(otherPodUsername);
 
   if (containerType.split(' ').length > 1) {
-    return `${POD_URL}PASS_${containerType.replace("'", '').replace(' ', '_')}/`;
+    return `${POD_URL}PASS/${containerType.replace("'", '').replace(' ', '_')}/`;
   }
 
-  return `${POD_URL}PASS_${containerType}/`;
+  return `${POD_URL}PASS/${containerType}/`;
 };
 
 /**
