@@ -74,6 +74,8 @@ const OIDUrl =
     : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
 export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
 
+export const oidcIssuer = localStorage.getItem('oidcIssuer') ?? SOLID_IDENTITY_PROVIDER;
+
 /**
  * Function that helps place uploaded file from user into the user's Pod via a
  * Solid container
@@ -160,23 +162,23 @@ export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) 
   const POD_URL =
     fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
-      : `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
+      : `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/`;
 
   switch (fileType) {
     case 'Bank Statement':
-      return `${POD_URL}Bank%20Statement/`;
+      return `${POD_URL}PASS_Bank_Statement/`;
     case 'Passport':
-      return `${POD_URL}Passport/`;
+      return `${POD_URL}PASS_Passport/`;
     case "Driver's License":
-      return `${POD_URL}Drivers%20License/`;
+      return `${POD_URL}PASS_Drivers_License/`;
     case 'Users':
-      return `${POD_URL}Users/`;
+      return `${POD_URL}PASS_Users/`;
     case 'Documents':
-      return `${POD_URL}Documents/`;
+      return `${POD_URL}PASS_Documents/`;
     case 'Inbox':
-      return `${POD_URL}inbox/`;
+      return `${POD_URL}PASS_Inbox/`;
     case 'Outbox':
-      return `${POD_URL}outbox/`;
+      return `${POD_URL}PASS_Outbox/`;
     case 'Public':
       return `${POD_URL}public/`;
     default:

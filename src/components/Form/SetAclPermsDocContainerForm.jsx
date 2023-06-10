@@ -13,11 +13,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import {
-  SOLID_IDENTITY_PROVIDER,
-  runNotification,
-  setDocContainerAclPermission
-} from '../../utils';
+import { oidcIssuer, runNotification, setDocContainerAclPermission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
@@ -72,7 +68,7 @@ const SetAclPermsDocContainerForm = () => {
     }
 
     if (
-      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
+      `https://${podUsername}.${oidcIssuer.split('/')[2]}/` ===
       String(session.info.webId.split('profile')[0])
     ) {
       runNotification(

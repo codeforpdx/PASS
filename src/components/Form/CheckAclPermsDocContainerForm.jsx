@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
+import { oidcIssuer, checkContainerPermission, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
@@ -62,7 +62,7 @@ const CheckAclPermsDocContainerForm = () => {
     }
 
     if (
-      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
+      `https://${podUsername}.${oidcIssuer.split('/')[2]}/` ===
       String(session.info.webId.split('profile')[0])
     ) {
       runNotification(

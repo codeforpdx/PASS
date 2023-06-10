@@ -24,7 +24,7 @@ vi.mock('../../src/utils/network/session-helper', async () => {
   const actual = await vi.importActual('../../src/utils/network/session-helper');
   return {
     ...actual,
-    SOLID_IDENTITY_PROVIDER: 'https://example.com/'
+    oidcIssuer: 'https://example.com/'
   };
 });
 
@@ -45,7 +45,7 @@ describe('checkContainerPermission', () => {
   it('returns containerUrl if getSolidDataset resolves', async () => {
     const results = await checkContainerPermission(session, otherPodUsername);
 
-    expect(results).toBe('https://pod2.example.com/Documents/');
+    expect(results).toBe('https://pod2.example.com/PASS_Documents/');
   });
 
   it('throws an error if getSolidDataset is rejected', async () => {
@@ -72,15 +72,15 @@ describe('deleteDocumentFile', () => {
 
   it('returns containerUrl after deleting all files inside', async () => {
     vi.spyOn(sessionHelpers, 'getContainerUrlAndFiles').mockReturnValue([
-      'https://pod.example.com/Passport/',
+      'https://pod.example.com/PASS_Passport/',
       [
-        { url: 'https://pod.example.com/Passport/document.ttl' },
-        { url: 'https://pod.example.com/Passport/uploaded.pdf' }
+        { url: 'https://pod.example.com/PASS_Passport/document.ttl' },
+        { url: 'https://pod.example.com/PASS_Passport/uploaded.pdf' }
       ]
     ]);
     const containerUrl = await deleteDocumentFile(session, 'Passport');
 
-    expect(containerUrl).toBe('https://pod.example.com/Passport/');
+    expect(containerUrl).toBe('https://pod.example.com/PASS_Passport/');
   });
 });
 
@@ -100,7 +100,7 @@ describe('getDocuments', () => {
   it('returns documentUrl if getSolidDataset resolves', async () => {
     const results = await getDocuments(session, 'Passport', 'self');
 
-    expect(results).toBe('https://pod.example.com/Passport/');
+    expect(results).toBe('https://pod.example.com/PASS_Passport/');
   });
 
   it('throws an error if getSolidDataset is rejected', async () => {
@@ -154,7 +154,7 @@ describe('createInbox', () => {
     vi.clearAllMocks();
   });
 
-  const inboxContainerUrl = `${mockPodUrl}inbox/`;
+  const inboxContainerUrl = `${mockPodUrl}PASS_Inbox/`;
 
   it('just runs getSolidDataset if container exist', async () => {
     await createInbox(session, inboxContainerUrl);
@@ -186,7 +186,7 @@ describe('createOutbox', () => {
     vi.clearAllMocks();
   });
 
-  const outboxContainerUrl = `${mockPodUrl}outbox/`;
+  const outboxContainerUrl = `${mockPodUrl}PASS_Outbox/`;
 
   it('just runs getSolidDataset if container exist', async () => {
     await createOutbox(session, outboxContainerUrl);
