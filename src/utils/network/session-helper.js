@@ -74,7 +74,7 @@ const OIDUrl =
     : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
 export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
 
-export const oidcIssuer = localStorage.getItem('oidcIssuer') ?? SOLID_IDENTITY_PROVIDER;
+export const currentOidcIssuer = localStorage.getItem('oidcIssuer') ?? SOLID_IDENTITY_PROVIDER;
 
 /**
  * Function that helps place uploaded file from user into the user's Pod via a

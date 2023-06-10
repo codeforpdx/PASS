@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, oidcIssuer } from '../../utils';
+import { runNotification, currentOidcIssuer } from '../../utils';
 import { createUser } from '../../model-helpers/User';
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
@@ -21,7 +21,7 @@ import FormSection from '../Form/FormSection';
  */
 
 const renderWebId = (username) => {
-  const oidcProvider = oidcIssuer.split('//')[1];
+  const oidcProvider = currentOidcIssuer.split('//')[1];
   const template = ['https://', `.${oidcProvider}profile/card#me`];
   return `${template[0]}${username}${template[1]}`;
 };
@@ -145,7 +145,7 @@ const AddClient = () => {
         <br />
         <div>
           <label htmlFor="add-username">
-            Add username to client list (i.e., username without {oidcIssuer.split('/')[2]}):{' '}
+            Add username to client list (i.e., username without {currentOidcIssuer.split('/')[2]}):{' '}
           </label>
           <br />
           <br />

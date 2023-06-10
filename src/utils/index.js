@@ -26,7 +26,7 @@ import {
   createPublicContainer,
   createInbox
 } from './network/session-core';
-import { SOLID_IDENTITY_PROVIDER, oidcIssuer, getPodUrl } from './network/session-helper';
+import { SOLID_IDENTITY_PROVIDER, currentOidcIssuer, getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
 export {
@@ -48,6 +48,6 @@ export {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  oidcIssuer,
+  currentOidcIssuer,
   getPodUrl
 };

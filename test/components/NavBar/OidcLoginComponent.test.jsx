@@ -1,8 +1,12 @@
 import { render, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { expect, it, vi, afterEach } from 'vitest';
+import { expect, it, vi, afterEach, beforeEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
+
+beforeEach(() => {
+  localStorage.setItem('oidcIssuer', 'https://solidcommunity.net/');
+});
 
 vi.mock('@inrupt/solid-ui-react', () => ({
   LoginButton: ({ children, oidcIssuer, redirectUrl }) => (
@@ -16,6 +20,7 @@ vi.mock('@inrupt/solid-ui-react', () => ({
 
 afterEach(() => {
   vi.clearAllMocks();
+  localStorage.clear();
   cleanup();
 });
 
