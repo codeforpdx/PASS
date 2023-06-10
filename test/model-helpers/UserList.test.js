@@ -47,7 +47,7 @@ const secondUser = {
 };
 let mockSession;
 const mockUserList = [firstUser, secondUser];
-const mockUrl = 'https://james.example.com/Users/userlist.ttl';
+const mockUrl = 'https://james.example.com/PASS/Users/userlist.ttl';
 const mockDataset = makeMockUserListDataset(mockUserList, mockUrl);
 const mockUserListObject = {
   userList: mockUserList,
@@ -83,7 +83,7 @@ describe('loadUserList', () => {
 
     await loadUserList(mockSession, 'https://james.example.com/');
     expect(saveSolidDatasetAt).toBeCalledWith(
-      'https://james.example.com/Users/userlist.ttl',
+      'https://james.example.com/PASS/Users/userlist.ttl',
       expect.objectContaining({ type: 'Dataset' }),
       expect.objectContaining({ fetch: mockSession.fetch })
     );

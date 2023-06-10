@@ -59,13 +59,13 @@ const createPassUserCredentials = async () => {
 const savePassUserCredentials = async (dataSets, session) => {
   const privateKeyDataSet = dataSets.private;
   const publicKeyDataSet = dataSets.public;
-  const containerUrl = `${String(session.info.webId.split('profile')[0])}PASS_Credentials/`;
+  const containerUrl = `${String(session.info.webId.split('profile')[0])}PASS/Credentials/`;
   const privateKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}PASS_Credentials/private_key.ttl`;
+  )}PASS/Credentials/private_key.ttl`;
   const publicKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}PASS_Credentials/public_key.ttl`;
+  )}PASS/Credentials/public_key.ttl`;
 
   await saveSolidDatasetAt(privateKeyUrl, privateKeyDataSet, {
     fetch: session.fetch
@@ -89,7 +89,7 @@ const savePassUserCredentials = async (dataSets, session) => {
 const getUserSigningKeyInternal = async (session) => {
   const privateKeyUrl = `${String(
     session.info.webId.split('profile')[0]
-  )}PASS_Credentials/private_key.ttl`;
+  )}PASS/Credentials/private_key.ttl`;
   const dataSet = await getSolidDataset(privateKeyUrl, { fetch: session.fetch });
   const keyString = getStringNoLocale(
     getThing(dataSet, `${privateKeyUrl}#privateKey`),

@@ -59,22 +59,6 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * The URL to a specific Solid Provider
- *
- * @name SOLID_IDENTITY_PROVIDER
- * @type {URL}
- * @memberof utils
- */
-
-// Vite exposes static env variables in the `import.meta.env` object
-// https://vitejs.dev/guide/env-and-mode.html
-const OIDUrl =
-  import.meta.env.MODE === 'development'
-    ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
-    : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
-export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
-
-/**
  * Function that helps place uploaded file from user into the user's Pod via a
  * Solid container
  *
@@ -117,28 +101,40 @@ export const hasTTLFiles = (solidDataset) => {
  * @function getContainerUrlAndFiles
  * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
  * {@link SolidDataset})
- * @returns {Array|null} [directory, files] or null - An Array of Objects
- * consisting of the directory container URL and the rest of the files or null
+ * @returns {Array|null} files or null - An Array of Things from the container
+ * or null
  */
 
-export const getContainerUrlAndFiles = (solidDataset) => {
+export const getAllFiles = (solidDataset) => {
   const items = getThingAll(solidDataset);
   if (!items) {
     return null;
   }
 
-  let directory = '';
   const files = [];
 
   items.forEach((item) => {
     if (!item.url.endsWith('/')) {
       files.push(item);
-    } else {
-      directory = item.url;
     }
   });
 
-  return [directory, files];
+  return files;
+};
+
+/**
+ *
+ *
+ * @memberof utils
+ * @function getPodUrl
+ * @param {string} username - String of user's Pod username
+ * @returns {URL} podUrl - Returns the full pod url from the username based on
+ * the existing oidcIssuer the user logged in from
+ */
+
+export const getPodUrl = (username) => {
+  const podOidcIssuer = localStorage.getItem('oidcIssuer');
+  return `${podOidcIssuer.split('/')[0]}//${username}.${podOidcIssuer.split('/')[2]}/`;
 };
 
 /**
@@ -148,7 +144,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @memberof utils
  * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
+ * @param {string} containerType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
  * other Pods, or "cross")
  * @param {URL} otherPodUsername - Username to other user's Pod or empty string
@@ -156,32 +152,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
+export const getContainerUrl = (session, containerType, fetchType, otherPodUsername) => {
   const POD_URL =
     fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
-      : `https://${otherPodUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/`;
+      : getPodUrl(otherPodUsername);
 
-  switch (fileType) {
-    case 'Bank Statement':
-      return `${POD_URL}Bank%20Statement/`;
-    case 'Passport':
-      return `${POD_URL}Passport/`;
-    case "Driver's License":
-      return `${POD_URL}Drivers%20License/`;
-    case 'Users':
-      return `${POD_URL}Users/`;
-    case 'Documents':
-      return `${POD_URL}Documents/`;
-    case 'Inbox':
-      return `${POD_URL}inbox/`;
-    case 'Outbox':
-      return `${POD_URL}outbox/`;
-    case 'Public':
-      return `${POD_URL}public/`;
-    default:
-      return null;
+  if (containerType.split(' ').length > 1) {
+    return `${POD_URL}PASS/${containerType.replace("'", '').replace(' ', '_')}/`;
   }
+
+  return `${POD_URL}PASS/${containerType}/`;
 };
 
 /**
