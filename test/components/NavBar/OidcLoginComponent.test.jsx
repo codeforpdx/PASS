@@ -20,11 +20,11 @@ afterEach(() => {
   cleanup();
 });
 
-it('renders correctly', () => {
-  vi.mock('../../../src/constants/environment', async () => ({
-    ENVIRONMENT: 'production'
-  }));
+vi.mock('../../../src/constants/environment', async () => ({
+  ENVIRONMENT: 'production'
+}));
 
+it('renders correctly', () => {
   const { container } = render(<OidcLoginComponent />);
   expect(container).toMatchSnapshot();
 });
