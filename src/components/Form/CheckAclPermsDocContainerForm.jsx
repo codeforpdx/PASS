@@ -29,11 +29,10 @@ const CheckAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUrl, ...user } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
 
   const clearInputFields = () => {
     clearUrl();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -44,7 +43,7 @@ const CheckAclPermsDocContainerForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     // TODO: Determine if this is necessary as MUI provides its own verification
@@ -113,7 +112,7 @@ const CheckAclPermsDocContainerForm = () => {
               id="set-acl-to"
               name="setAclTo"
               {...user}
-              placeholder={selectedUser}
+              placeholder={selectedUser.username}
               label="Search username"
               required
             />

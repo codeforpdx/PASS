@@ -34,7 +34,7 @@ const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -43,7 +43,6 @@ const SetAclPermissionForm = () => {
 
   const clearInputFields = () => {
     clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -57,7 +56,7 @@ const SetAclPermissionForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
@@ -127,7 +126,7 @@ const SetAclPermissionForm = () => {
               id="set-acl-to"
               name="setAclTo"
               {...username}
-              placeholder={selectedUser}
+              placeholder={selectedUser.username}
               label="Search username"
               required
             />

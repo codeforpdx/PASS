@@ -38,11 +38,10 @@ const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
 
   const clearInputFields = () => {
     clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -60,7 +59,7 @@ const SetAclPermsDocContainerForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
@@ -132,7 +131,7 @@ const SetAclPermsDocContainerForm = () => {
               id="set-acl-to"
               name="setAclTo"
               {...username}
-              placeholder={selectedUser}
+              placeholder={selectedUser.username}
               label="Search username"
               required
             />
