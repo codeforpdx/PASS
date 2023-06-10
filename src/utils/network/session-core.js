@@ -325,24 +325,9 @@ export const deleteDocumentFile = async (session, fileType) => {
 
 export const createDocumentContainer = async (session, podUrl) => {
   const userContainerUrl = `${podUrl}PASS/Documents/`;
-  const createContainerList = [
-    `${userContainerUrl}Bank_Statement/`,
-    `${userContainerUrl}Passport/`,
-    `${userContainerUrl}Drivers_License/`
-  ];
 
   try {
     await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-
-    createContainerList.forEach(async (url) => {
-      try {
-        await getSolidDataset(url, { fetch: session.fetch });
-      } catch {
-        await createContainerAt(url, { fetch: session.fetch });
-
-        await setDocAclForUser(session, url, 'create', session.info.webId);
-      }
-    });
   } catch {
     await createContainerAt(userContainerUrl, { fetch: session.fetch });
 
@@ -365,6 +350,22 @@ export const createDocumentContainer = async (session, podUrl) => {
     // Generate ACL file for container
     await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
   }
+
+  const createContainerList = [
+    `${userContainerUrl}Bank_Statement/`,
+    `${userContainerUrl}Passport/`,
+    `${userContainerUrl}Drivers_License/`
+  ];
+
+  createContainerList.forEach(async (url) => {
+    try {
+      await getSolidDataset(url, { fetch: session.fetch });
+    } catch {
+      await createContainerAt(url, { fetch: session.fetch });
+
+      await setDocAclForUser(session, url, 'create', session.info.webId);
+    }
+  });
 };
 
 /**
