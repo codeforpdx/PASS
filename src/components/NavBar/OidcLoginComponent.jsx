@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { TextField, Box, Button } from '@mui/material';
-// Utility Imports
-import { SOLID_IDENTITY_PROVIDER } from '../../utils';
 // Custom Hook Imports
 import { useRedirectUrl } from '../../hooks';
+// Constants Imports
+import { SOLID_IDENTITY_PROVIDER } from '../../constants';
 
 const OidcLoginComponent = () => {
   const [oidcIssuer, setOidcIssuer] = useState(SOLID_IDENTITY_PROVIDER);

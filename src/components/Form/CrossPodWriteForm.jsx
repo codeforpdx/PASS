@@ -61,6 +61,7 @@ const CrossPodWriteForm = () => {
     session,
     clearInputFields
   );
+
   // Event handler for form/document submission to Pod
   const handleCrossPodUpload = async (event) => {
     event.preventDefault();
@@ -69,6 +70,14 @@ const CrossPodWriteForm = () => {
 
     if (!podUsername) {
       runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
