@@ -144,6 +144,18 @@ export const getContainerUrlAndFiles = (solidDataset) => {
 };
 
 /**
+ *
+ *
+ * @memberof utils
+ * @function getPodUrl
+ * @param {string} username - String of other user's Pod username
+ * @returns {URL}
+ */
+
+export const getPodUrl = (username) =>
+  `${oidcIssuer.split('/')[0]}//${username}.${oidcIssuer.split('/')[2]}/`;
+
+/**
  * Function that returns the location of the Solid container containing a
  * specific file type, if exist on user's Pod
  *
@@ -162,7 +174,7 @@ export const getContainerUrl = (session, containerType, fetchType, otherPodUsern
   const POD_URL =
     fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
-      : `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/`;
+      : getPodUrl(otherPodUsername);
 
   if (containerType.split(' ').length > 1) {
     return `${POD_URL}PASS_${containerType.replace("'", '').replace(' ', '_')}/`;

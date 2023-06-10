@@ -25,7 +25,8 @@ import {
   parseMessageTTL,
   buildMessageTTL,
   setDocAclForPublic,
-  oidcIssuer
+  oidcIssuer,
+  getPodUrl
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -69,7 +70,8 @@ import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credenti
  */
 export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
   const documentUrl = getContainerUrl(session, fileType, INTERACTION_TYPES.SELF);
-  const webId = `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/profile/card#me`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const webId = `${otherPodUrl}profile/card#me`;
 
   await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
@@ -94,7 +96,8 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
     `${containerUrl}PASS_Drivers_License/`
   ];
 
-  const webId = `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/profile/card#me`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const webId = `${otherPodUrl}profile/card#me`;
 
   urlsToSet.forEach(async (url) => {
     await setDocAclForUser(session, url, 'update', webId, permissions);
@@ -270,9 +273,8 @@ export const getDocuments = async (session, fileType, fetchType, otherPodUsernam
  * of the container, if permitted, or throws an Error
  */
 export const checkContainerPermission = async (session, otherPodUsername) => {
-  const documentsContainerUrl = `https://${otherPodUsername}.${
-    oidcIssuer.split('/')[2]
-  }/PASS_Documents/`;
+  const otherPodUrl = getPodUrl(otherPodUsername);
+  const documentsContainerUrl = `${otherPodUrl}PASS_Documents/`;
 
   try {
     await getSolidDataset(documentsContainerUrl, { fetch: session.fetch });
