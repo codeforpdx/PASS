@@ -165,7 +165,7 @@ export const getContainerUrl = (session, containerType, fetchType, otherPodUsern
       : `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/`;
 
   if (containerType.split(' ').length > 1) {
-    return `${POD_URL}PASS_${containerType.replace(' ', '_')}/`;
+    return `${POD_URL}PASS_${containerType.replace("'", '').replace(' ', '_')}/`;
   }
 
   return `${POD_URL}PASS_${containerType}/`;
