@@ -8,7 +8,7 @@ vi.mock('../../../src/constants', async () => {
   const actual = await vi.importActual('../../../src/constants');
   return {
     ...actual,
-    ENVIRONMENT: 'development'
+    ENVIRONMENT: 'production'
   };
 });
 
