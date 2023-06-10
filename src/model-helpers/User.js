@@ -37,7 +37,7 @@ import { setDocAclForUser } from '../utils/network/session-helper';
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
 export const updateUserActivity = async (session, podUrl) => {
-  const activityDocUrl = `${podUrl}PASS_Public/active.ttl`;
+  const activityDocUrl = `${podUrl}PASS/Public/active.ttl`;
   const accessObject = {
     read: true,
     append: true,
@@ -98,7 +98,7 @@ export const updateUserActivity = async (session, podUrl) => {
  * @returns {Promise<string>} last time the user was active in PASS
  */
 const loadUserActivity = async (podUrl, session) => {
-  const activityUrl = `${podUrl}PASS_Public/active.ttl`;
+  const activityUrl = `${podUrl}PASS/Public/active.ttl`;
   try {
     const solidDataset = await getSolidDataset(activityUrl, {
       fetch: session.fetch
