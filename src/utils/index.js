@@ -14,7 +14,6 @@ import {
   uploadDocument,
   updateDocument,
   getDocuments,
-  deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
   createDocumentContainer,
@@ -26,17 +25,15 @@ import {
   createPublicContainer,
   createInbox
 } from './network/session-core';
-import { SOLID_IDENTITY_PROVIDER } from './network/session-helper';
+import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
 export {
   docTypes,
   runNotification,
-  SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   updateDocument,
   getDocuments,
-  deleteDocumentContainer,
   deleteDocumentFile,
   setDocAclPermission,
   createDocumentContainer,
@@ -47,5 +44,6 @@ export {
   createOutbox,
   getMessageTTL,
   createPublicContainer,
-  createInbox
+  createInbox,
+  getPodUrl
 };

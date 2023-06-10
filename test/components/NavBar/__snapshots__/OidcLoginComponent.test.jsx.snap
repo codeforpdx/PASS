@@ -25,7 +25,7 @@ exports[`renders correctly 1`] = `
         class="MuiInputBase-input MuiFilledInput-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
         id=":r0:"
         type="text"
-        value="https://solidcommunity.net/"
+        value="http://localhost:3000/"
       />
     </div>
   </div>
@@ -33,7 +33,7 @@ exports[`renders correctly 1`] = `
     class="MuiBox-root css-120gsus"
   />
   <div>
-    https://solidcommunity.net/
+    http://localhost:3000/
     <button
       aria-label="Login Button"
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1xnmwiw-MuiButtonBase-root-MuiButton-root"

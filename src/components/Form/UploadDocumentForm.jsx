@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { makeHandleFormSubmission } from '../../utils';
+import { makeHandleFormSubmission, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Constants Imports
@@ -50,13 +50,25 @@ const UploadDocumentForm = () => {
   };
 
   // Event handler for form/document submission to Pod
-  const handleFormSubmission = makeHandleFormSubmission(
+  const handleFormSubmit = makeHandleFormSubmission(
     INTERACTION_TYPES.SELF,
     state,
     dispatch,
     session,
     clearInputFields
   );
+
+  const handleDocumentUpload = async (event) => {
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    handleFormSubmit(event);
+  };
 
   const formRowStyle = {
     margin: '20px 0'
@@ -69,7 +81,7 @@ const UploadDocumentForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleFormSubmission} autoComplete="off">
+      <form onSubmit={handleDocumentUpload} autoComplete="off">
         <label htmlFor="verify-checkbox">
           Verify File on upload:
           <input

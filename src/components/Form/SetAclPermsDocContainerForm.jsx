@@ -13,15 +13,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import {
-  SOLID_IDENTITY_PROVIDER,
-  runNotification,
-  setDocContainerAclPermission
-} from '../../utils';
+import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
 // Custom Hook Imports
 import { useField, useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -39,6 +35,7 @@ const SetAclPermsDocContainerForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser } = useContext(SelectUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
     clearUsername();
@@ -70,10 +67,7 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (
-      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
-      String(session.info.webId.split('profile')[0])
-    ) {
+    if (getPodUrl(podUsername) === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
