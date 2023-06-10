@@ -12,7 +12,6 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  * @memberof utils
  * @function makeHandleFormSubmission
  * @param {string} uploadType - Type of upload (cross, self, etc.) to perform
- * @param {Dayjs} expireDate - Expiration Date
  * @param {object} state - current state
  * @param {object} dispatch - dispatch for actions
  * @param {Session} session - current Solid session
@@ -20,13 +19,10 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  * @returns {Function} A function that components can call to submit forms to PASS
  */
 const makeHandleFormSubmission =
-  (uploadType, expireDate, state, dispatch, session, clearInputFields) =>
+  (uploadType, state, dispatch, session, clearInputFields) =>
   async (event, crossPodUsername = '') => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const docType = event.target.document.value;
-    // const expirationDate = event.target.date.value;
-    const docDescription = event.target.description.value;
 
     if (!state.file) {
       runNotification('Submission failed. Reason: missing file', 5, state, dispatch);
@@ -36,12 +32,10 @@ const makeHandleFormSubmission =
       return;
     }
 
-    const formattedDate = expireDate ? expireDate.format('MM/DD/YYYY') : 'No Date Provided';
-
     const fileObject = {
-      type: docType,
-      date: formattedDate || 'Not available',
-      description: docDescription || 'No description provided',
+      type: event.target.document.value,
+      date: event.target.date.value,
+      description: event.target.description.value,
       file: state.file
     };
 

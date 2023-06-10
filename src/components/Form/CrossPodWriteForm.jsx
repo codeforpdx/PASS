@@ -72,8 +72,7 @@ const CrossPodWriteForm = () => {
     state,
     dispatch,
     session,
-    clearInputFields,
-    expireDate
+    clearInputFields
   );
 
   // Event handler for form/document submission to Pod
@@ -123,13 +122,11 @@ const CrossPodWriteForm = () => {
                 required
               />
             </FormControl>
-            <Typography>
-              <DocumentSelection
-                htmlForAndIdProp="upload-doc"
-                handleDocType={handleDocType}
-                docType={docType}
-              />
-            </Typography>
+            <DocumentSelection
+              htmlForAndIdProp="upload-doc"
+              handleDocType={handleDocType}
+              docType={docType}
+            />
             <br />
             <FormControl>
               <InputLabel htmlFor="upload-doc-expiration" />
