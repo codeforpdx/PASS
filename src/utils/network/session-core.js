@@ -295,10 +295,10 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
  * @function deleteDocuments
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
- * @returns {Promise<URL>} containerUrl - The URL of document container and the
- * response on whether document file is deleted, if exist, then deletes all
- * existing files within it
+ * @returns {Promise} Promise - Deletes all existing files within a certain
+ * container
  */
+
 export const deleteDocumentFile = async (session, fileType) => {
   const containerToDeletedUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   const documentUrl = `${containerToDeletedUrl}${fileType.replace("'", '').replace(' ', '_')}/`;

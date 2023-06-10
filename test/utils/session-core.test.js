@@ -1,5 +1,6 @@
 import {
   createContainerAt,
+  deleteFile,
   getSolidDataset,
   saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
@@ -65,16 +66,13 @@ describe('deleteDocumentFile', () => {
   });
 
   it('returns containerUrl after deleting all files inside', async () => {
-    vi.spyOn(sessionHelpers, 'getContainerUrlAndFiles').mockReturnValue([
-      'https://pod.example.com/PASS/Passport/',
-      [
-        { url: 'https://pod.example.com/PASS/Passport/document.ttl' },
-        { url: 'https://pod.example.com/PASS/Passport/uploaded.pdf' }
-      ]
+    vi.spyOn(sessionHelpers, 'getAllFiles').mockReturnValue([
+      { url: 'https://pod.example.com/PASS/Passport/document.ttl' },
+      { url: 'https://pod.example.com/PASS/Passport/uploaded.pdf' }
     ]);
-    const containerUrl = await deleteDocumentFile(session, 'Passport');
 
-    expect(containerUrl).toBe('https://pod.example.com/PASS/Passport/');
+    await deleteDocumentFile(session, 'Passport');
+    expect(deleteFile).toBeCalledTimes(2);
   });
 });
 
@@ -94,7 +92,7 @@ describe('getDocuments', () => {
   it('returns documentUrl if getSolidDataset resolves', async () => {
     const results = await getDocuments(session, 'Passport', 'self');
 
-    expect(results).toBe('https://pod.example.com/PASS/Passport/');
+    expect(results).toBe('https://pod.example.com/PASS/Documents/Passport/');
   });
 
   it('throws an error if getSolidDataset is rejected', async () => {
