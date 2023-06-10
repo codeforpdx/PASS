@@ -22,7 +22,7 @@ afterEach(() => {
 
 it('renders correctly', () => {
   vi.mock('../../../src/constants/environment', async () => ({
-    ENVIRONMENT: 'development'
+    ENVIRONMENT: 'production'
   }));
 
   const { container } = render(<OidcLoginComponent />);
