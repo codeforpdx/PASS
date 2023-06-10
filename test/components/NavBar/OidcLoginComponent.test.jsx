@@ -20,9 +20,13 @@ afterEach(() => {
   cleanup();
 });
 
-vi.mock('../../../src/constants/environment', async () => ({
-  ENVIRONMENT: 'production'
-}));
+vi.mock('../../../src/constants', async () => {
+  const actual = await vi.importActual('../../../src/constants');
+  return {
+    ...actual,
+    ENVIRONMENT: 'production'
+  };
+});
 
 it('renders correctly', () => {
   const { container } = render(<OidcLoginComponent />);
