@@ -218,7 +218,7 @@ describe('createPublicContainer', () => {
     vi.clearAllMocks();
   });
 
-  const publicContainerUrl = `${mockPodUrl}public/`;
+  const publicContainerUrl = `${mockPodUrl}PASS_Public/`;
 
   it('just runs getSolidDataset if container exist', async () => {
     await createPublicContainer(session, publicContainerUrl);

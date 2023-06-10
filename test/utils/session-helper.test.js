@@ -115,6 +115,6 @@ describe('getContainerUrl', () => {
 
   it('Returns the correct container URL to public', () => {
     const containerUrl = getContainerUrl(session, 'Public', INTERACTION_TYPES.SELF);
-    expect(containerUrl).toBe(`${mockPodUrl}public/`);
+    expect(containerUrl).toBe(`${mockPodUrl}PASS_Public/`);
   });
 });

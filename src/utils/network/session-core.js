@@ -392,7 +392,7 @@ export const createDocumentContainer = async (session, podUrl) => {
  */
 
 export const createPublicContainer = async (session, podUrl) => {
-  const publicContainerUrl = `${podUrl}public/`;
+  const publicContainerUrl = `${podUrl}PASS_Public/`;
 
   try {
     await getSolidDataset(publicContainerUrl, { fetch: session.fetch });

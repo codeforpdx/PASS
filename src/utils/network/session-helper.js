@@ -150,7 +150,7 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * @memberof utils
  * @function getContainerUrl
  * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
+ * @param {string} containerType - Type of document
  * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
  * other Pods, or "cross")
  * @param {URL} otherPodUsername - Username to other user's Pod or empty string
@@ -158,32 +158,17 @@ export const getContainerUrlAndFiles = (solidDataset) => {
  * the file is located in or null, if container doesn't exist
  */
 
-export const getContainerUrl = (session, fileType, fetchType, otherPodUsername) => {
+export const getContainerUrl = (session, containerType, fetchType, otherPodUsername) => {
   const POD_URL =
     fetchType === 'self'
       ? String(session.info.webId.split('profile')[0])
       : `https://${otherPodUsername}.${oidcIssuer.split('/')[2]}/`;
 
-  switch (fileType) {
-    case 'Bank Statement':
-      return `${POD_URL}PASS_Bank_Statement/`;
-    case 'Passport':
-      return `${POD_URL}PASS_Passport/`;
-    case "Driver's License":
-      return `${POD_URL}PASS_Drivers_License/`;
-    case 'Users':
-      return `${POD_URL}PASS_Users/`;
-    case 'Documents':
-      return `${POD_URL}PASS_Documents/`;
-    case 'Inbox':
-      return `${POD_URL}PASS_Inbox/`;
-    case 'Outbox':
-      return `${POD_URL}PASS_Outbox/`;
-    case 'Public':
-      return `${POD_URL}public/`;
-    default:
-      return null;
+  if (containerType.split(' ').length > 1) {
+    return `${POD_URL}PASS_${containerType.replace(' ', '_')}/`;
   }
+
+  return `${POD_URL}PASS_${containerType}/`;
 };
 
 /**
