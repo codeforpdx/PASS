@@ -3,12 +3,14 @@ import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, currentOidcIssuer } from '../../utils';
+import { runNotification } from '../../utils';
 import { createUser } from '../../model-helpers/User';
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
+// Constants Imports
+import { currentOidcIssuer } from '../../constants';
 // Component Imports
 import FormSection from '../Form/FormSection';
 

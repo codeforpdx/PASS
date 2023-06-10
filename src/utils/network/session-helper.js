@@ -59,24 +59,6 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * The URL to a specific Solid Provider
- *
- * @name SOLID_IDENTITY_PROVIDER
- * @type {URL}
- * @memberof utils
- */
-
-// Vite exposes static env variables in the `import.meta.env` object
-// https://vitejs.dev/guide/env-and-mode.html
-const OIDUrl =
-  import.meta.env.MODE === 'development'
-    ? import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_DEV
-    : import.meta.env.VITE_SOLID_IDENTITY_PROVIDER_PRODUCTION;
-export const SOLID_IDENTITY_PROVIDER = OIDUrl.replace(/\r/g, '');
-
-export const currentOidcIssuer = localStorage.getItem('oidcIssuer') ?? SOLID_IDENTITY_PROVIDER;
-
-/**
  * Function that helps place uploaded file from user into the user's Pod via a
  * Solid container
  *

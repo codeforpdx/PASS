@@ -1,11 +1,15 @@
 import { render, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { expect, it, vi, afterEach, beforeEach } from 'vitest';
+import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 
-beforeEach(() => {
-  localStorage.setItem('oidcIssuer', 'https://solidcommunity.net/');
+vi.mock('../../../src/constants', async () => {
+  const actual = await vi.importActual('../../../src/constants');
+  return {
+    ...actual,
+    ENVIRONMENT: 'development'
+  };
 });
 
 vi.mock('@inrupt/solid-ui-react', () => ({

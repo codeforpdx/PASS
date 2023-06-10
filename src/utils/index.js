@@ -25,13 +25,12 @@ import {
   createPublicContainer,
   createInbox
 } from './network/session-core';
-import { SOLID_IDENTITY_PROVIDER, currentOidcIssuer, getPodUrl } from './network/session-helper';
+import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
 export {
   docTypes,
   runNotification,
-  SOLID_IDENTITY_PROVIDER,
   uploadDocument,
   updateDocument,
   getDocuments,
@@ -46,6 +45,5 @@ export {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  currentOidcIssuer,
   getPodUrl
 };
