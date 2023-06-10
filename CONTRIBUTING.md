@@ -39,7 +39,7 @@ Building out a decentralized application to enable house insecure individuals to
 6. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to Development branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 
 - Good people to ask for reviews:
-  - Development -- Jared Krajewski, Ka Hung, Kevin M., Tim S. Scott B.
+  - Development -- Jared Krajewski, Ka Hung L., Kevin M., Tim S., Scott B.
   - Documentation -- Danica, Flo(rian)
 - When in doubt, ask more people for reviews!
 - Include screenshots whenever you’re building a frontend feature.

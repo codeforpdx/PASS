@@ -117,4 +117,4 @@ This will store all server files in the folder `PASS/local_temp_server_files`. T
 
 You can find more information on its configuration on the project's [github](https://github.com/CommunitySolidServer/CommunitySolidServer#configuring-the-server).
 
-Latest version of this build allows for any Solid provider. However, it is recommended users to login through [https://solidcommunity.net](https://solidcommunity.net) or [https://opencommons.net](https://opencommons.net) if testing on a live Solid server or `localhost:3000` if testing in a local dev environment while it's still being worked on.
+Latest version of this build allows for any Solid provider. However, it is recommended users to login through [https://solidcommunity.net](https://solidcommunity.net) or [https://opencommons.net](https://opencommons.net) if testing on a live Solid server, OR `localhost:3000` if testing in a local dev environment while it's still being worked on.

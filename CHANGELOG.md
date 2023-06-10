@@ -8,14 +8,15 @@
 - Generate PASS specific inbox and publics container if it doesn't exist upon login (#201)
 - Render sent message in outbox (#191)
 - Include pagination for messages in inbox/outbox (#191)
-- Generate user outbox on log in if outbox does exist in user's Solid Pod (#186)
+- Generate user outbox on log in if outbox does not exist in user's Solid Pod (#186)
 - Using webIds instead of username as primary identifier (#169)
 - Allow users to choose different Solid Identity Providers when using PASS (#167)
-- Updated/Enhanced UI for Footer, Inactivity Notification, Client List, Form components, etc. (#166, #172, #178, #180, #187, #193, #206, #209, #210)
+- Updated/Enhanced UI for Footer, Inactivity Notification, Client List, Form components, etc. (#166, #172, #178, #180, #187, #193, #206, #209, #210, #236)
 - Render user messages from their Solid inbox on PASS (#148)
 
 ## Fixes
 
+- Fixing URL to local Solid Pod Server at http://localhost:3000/ (#234)
 - Refactored src/model-helpers/User.js to update user activity correctly (#191, #214)
 - Corrected type in CrossPodWriteForm to use Upload instead of Search (#183)
 - Included corrections to JSDoc comments (#148, #179, #183, #184, #201)
