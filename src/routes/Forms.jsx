@@ -1,6 +1,9 @@
 // React Imports
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+// Material UI Imports
+import Button from '@mui/material/Button';
+import Remove from '@mui/icons-material/Remove';
 // Component Imports
 import {
   UploadDocumentForm,
@@ -12,6 +15,7 @@ import {
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm
 } from '../components/Form';
+import { SelectUserContext } from '../contexts';
 
 /**
  * Forms Page - Component that generates Forms Page for PASS
@@ -25,8 +29,29 @@ const Forms = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
+  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        aria-label="Clear Client Button"
+        startIcon={<Remove />}
+        onClick={() => setSelectedUser('')}
+        sx={{ margin: '2rem 0 1rem' }}
+      >
+        Clear Client
+      </Button>
+      <span>Client selected: {selectedUser || 'No client selected'}</span>
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
@@ -35,7 +60,7 @@ const Forms = () => {
       <SetAclPermissionForm />
       <CrossPodQueryForm />
       <CrossPodWriteForm />
-    </>
+    </div>
   );
 };
 
