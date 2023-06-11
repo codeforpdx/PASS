@@ -13,7 +13,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FormHelperText from '@mui/material/FormHelperText';
-import Input from '@mui/material/Input';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
@@ -110,82 +109,87 @@ const CrossPodWriteForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodUpload} autoComplete="off">
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <FormControl>
-              <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
-              <TextField
-                id="cross-upload-doc"
-                name="crossPodUpload"
-                {...username}
-                placeholder={selectedUser}
-                label="Search username"
-                required
-              />
-            </FormControl>
-            <DocumentSelection
-              htmlForAndIdProp="upload-doc"
-              handleDocType={handleDocType}
-              docType={docType}
+          <FormControl fullWidth>
+            {/* TODO: Determine whether Typography below is necessary or redundant */}
+            {/* Either way, also determine whether to update all other forms to that */}
+            <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
+            <TextField
+              id="cross-upload-doc"
+              name="crossPodUpload"
+              {...username}
+              placeholder={selectedUser}
+              label="Search username"
+              required
             />
-            <br />
-            <FormControl>
-              <InputLabel htmlFor="upload-doc-expiration" />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  id="upload-doc-expiration"
-                  name="date"
-                  format="MM/DD/YYYY"
-                  label="Expire date (if applicable)"
-                  value={expireDate}
-                  onChange={(newDate) => setExpireDate(newDate)}
-                  type="date"
-                />
-              </LocalizationProvider>
-            </FormControl>
-            <br />
-            <FormControl>
-              <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
-              <TextField
-                id="upload-doc-desc"
-                name="description"
-                {...description}
-                multiline
-                rows={4}
-                label="Enter Description"
-                // value={docDescription}
-                // onChange={handleDocDescription}
+          </FormControl>
+          <DocumentSelection
+            htmlForAndIdProp="upload-doc"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <FormControl>
+            {/* TODO: Determine whether InputLabel below is necessary or redundant */}
+            <InputLabel htmlFor="upload-doc-expiration" />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="upload-doc-expiration"
+                name="date"
+                format="MM/DD/YYYY"
+                label="Expire date (if applicable)"
+                value={expireDate}
+                onChange={(newDate) => setExpireDate(newDate)}
+                type="date"
               />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="upload-doctype" />
-              <Input
-                id="upload-doctype"
-                type="file"
-                name="uploadDoctype"
-                accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-                onChange={handleFileChange}
-                required
-              />
-              <FormHelperText>
-                File to upload: {state.file ? state.file.name : 'No file selected'}
-              </FormHelperText>
-            </FormControl>
-            <FormControl>
-              <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-                Upload file
-              </Button>
-            </FormControl>
-            <FormControl>
-              <Button
-                variant="contained"
-                type="button"
-                color="secondary"
-                onClick={clearInputFields}
-              >
-                Clear Form
-              </Button>
-            </FormControl>
-          </Box>
+            </LocalizationProvider>
+          </FormControl>
+          <br />
+          <br />
+          <FormControl fullWidth>
+            {/* TODO: Determine whether Typography below is necessary or redundant */}
+            <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
+            <TextField
+              id="upload-doc-desc"
+              name="description"
+              {...description}
+              multiline
+              rows={4}
+              label="Enter Description"
+            />
+          </FormControl>
+          <br />
+          <br />
+          <FormControl fullWidth>
+            <Button
+              variant="contained"
+              component="label"
+              color="primary"
+              id="upload-doctype"
+              name="uploadDoctype"
+              onChange={handleFileChange}
+              required
+            >
+              Choose file
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple />
+            </Button>
+            <FormHelperText>
+              File to upload: {state.file ? state.file.name : 'No file selected'}
+            </FormHelperText>
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Upload file
+            </Button>
+          </FormControl>
+          <br />
+          <br />
+          {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
+          <FormControl fullWidth>
+            <Button variant="contained" type="button" color="secondary" onClick={clearInputFields}>
+              Clear Form
+            </Button>
+          </FormControl>
         </form>
       </Box>
     </FormSection>

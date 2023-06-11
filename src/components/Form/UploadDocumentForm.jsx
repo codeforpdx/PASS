@@ -23,6 +23,7 @@ import FormSection from './FormSection';
 const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const [expireDate, setExpireDate] = useState(null);
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -52,6 +53,7 @@ const UploadDocumentForm = () => {
   // Event handler for form/document submission to Pod
   const handleFormSubmit = makeHandleFormSubmission(
     INTERACTION_TYPES.SELF,
+    expireDate,
     state,
     dispatch,
     session,
