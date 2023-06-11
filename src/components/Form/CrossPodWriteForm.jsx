@@ -26,7 +26,7 @@ const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -49,7 +49,6 @@ const CrossPodWriteForm = () => {
     event.target.reset();
     clearDescription();
     clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };

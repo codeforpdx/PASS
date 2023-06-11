@@ -42,8 +42,13 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
   // Event handler for selecting client from client list
   const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
-    runNotification(`Client "${clientToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
+    if (!selected) {
+      runNotification(`Client "${clientToSelect}" selected.`, 3, state, dispatch);
+      setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
+    } else {
+      runNotification(`Client "${clientToSelect}" unselected.`, 3, state, dispatch);
+      setSelectedUser('');
+    }
   };
 
   // Event handler for deleting client from client list
