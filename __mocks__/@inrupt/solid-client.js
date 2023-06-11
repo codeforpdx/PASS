@@ -19,3 +19,4 @@ export const createContainerAt = vi.fn(() => Promise.resolve());
 export const deleteFile = vi.fn(() => Promise.resolve());
 export const getSolidDatasetWithAcl = vi.fn(mockDatasetFactory);
 export const saveSolidDatasetInContainer = vi.fn(() => Promise.resolve());
+export const saveFileInContainer = vi.fn(() => Promise.resolve());

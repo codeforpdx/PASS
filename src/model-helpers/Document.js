@@ -11,7 +11,8 @@ import {
   saveFileInContainer,
   getContainedResourceUrlAll,
   deleteFile,
-  deleteSolidDataset
+  deleteSolidDataset,
+  getDate
 } from '@inrupt/solid-client';
 
 import sha256 from 'crypto-js/sha256';
@@ -43,31 +44,6 @@ export const signDocument = async (document, session, containerUrl) => {
   await saveSolidDatasetAt(`${containerUrl}signature.ttl`, signatureDataset, {
     fetch: session.fetch
   });
-};
-
-/**
- * Function that fetch the URL of the container containing a specific file
- * uploaded to a user's Pod on Solid, if exist
- *
- * @memberof utils
- * @function getDocuments
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
- * @param {string} podUrl - Url to other user's Pod (set to empty string
- * by default)
- * @returns {Promise<URL>} Promise - Either a string containing the url location of
- * the document, if exist, or throws an Error
- */
-export const getDocuments = async (session, fileType, podUrl) => {
-  const documentUrl = `${podUrl}${fileType}`;
-
-  try {
-    await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-    return documentUrl;
-  } catch (error) {
-    throw new Error('No data found');
-  }
 };
 
 /**
@@ -129,27 +105,27 @@ const addAdditionalInfo = (thing, fileObject) => {
   return thing;
 };
 
-export const serializeDocument = async (fileObject, documentUrl, file) => {
+export const docDescToThing = async (docDesc, documentUrl, file) => {
   const checksum = await createFileChecksum(file);
 
-  let thing = buildThing(createThing({ name: fileObject.name }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.name)
-    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+  let thing = buildThing(createThing({ name: docDesc.name }))
+    .addDate(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
+    .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
+    .addDate(RDF_PREDICATES.endDate, docDesc.date)
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
     .addUrl(RDF_PREDICATES.url, documentUrl);
 
-  thing = addAdditionalInfo(thing, fileObject);
+  thing = addAdditionalInfo(thing, docDesc);
   return thing.build();
 };
 
 export const parseDocument = (documentThing) => {
-  const uploadDate = getStringNoLocale(documentThing, RDF_PREDICATES.uploadDate);
+  const uploadDate = getDate(documentThing, RDF_PREDICATES.uploadDate);
   const name = getStringNoLocale(documentThing, RDF_PREDICATES.name);
   const type = getStringNoLocale(documentThing, RDF_PREDICATES.identifier);
-  const endDate = getStringNoLocale(documentThing, RDF_PREDICATES.endDate);
+  const endDate = getDate(documentThing, RDF_PREDICATES.endDate);
   const checksum = getStringNoLocale(documentThing, RDF_PREDICATES.sha256);
   const description = getStringNoLocale(documentThing, RDF_PREDICATES.description);
   const fileUrl = getUrl(documentThing, RDF_PREDICATES.URL);
@@ -181,7 +157,7 @@ const deleteRecursively = async (dataset, options) => {
   await deleteSolidDataset(dataset, options);
 };
 
-export const saveDocument = async (docThing, dataset, session, docUrl) => {
+export const saveDescription = async (docThing, dataset, session, docUrl) => {
   const newDataset = setThing(dataset, docThing);
   const name = getStringNoLocale(docThing, RDF_PREDICATES.name);
   const doc = await saveSolidDatasetAt(`${docUrl}${name}.ttl`, newDataset, {
@@ -194,17 +170,17 @@ export const createDocument = async (file, fileDescription, session, passUrl) =>
   const { type, name } = fileDescription;
   const docUrl = `${passUrl}Documents/${type}/${name}/`;
   try {
-    await getSolidDataset(docUrl);
+    await getSolidDataset(docUrl); // check to see if the file already exists
   } catch {
-    const docThing = await serializeDocument(fileDescription, docUrl, file);
-    const doc = await saveDocument(docThing, createSolidDataset(), session, docUrl);
+    const docThing = await docDescToThing(fileDescription, docUrl, file);
+    const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
     await saveFileInContainer(docUrl, file, {
       fetch: session.fetch,
       slugSuggestion: file.name
     });
     return parseDocument(getThingAll(doc)[0]);
   }
-  return 'A file with this name already exists';
+  throw Error('A file of this name already exists');
 };
 
 // export const fetchDocument = (filename, session, podUrl) => {}

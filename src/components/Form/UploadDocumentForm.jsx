@@ -5,7 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 import { SignedInUserContext } from '../../contexts/SignedInUserContext';
-import { createDocument } from '../../model-helpers';
+import { createDocument, signDocument } from '../../model-helpers';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 import { runNotification } from '../../utils';
@@ -69,7 +69,9 @@ const UploadDocumentForm = () => {
     const activePod = selectedUser.podUrl || podUrl;
 
     try {
-      await createDocument(file, fileDesc, session, `${activePod}PASS/`);
+      const doc = await createDocument(file, fileDesc, session, `${activePod}PASS/`);
+      if (verifyFile)
+        await signDocument(doc, session, `${activePod}PASS/${docType}/${file.name.split('.')[0]}/`);
       runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
     } catch (error) {
       runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
