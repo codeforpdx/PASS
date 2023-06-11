@@ -1,18 +1,18 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
-// import { deleteContainer } from '@inrupt/solid-client';
-// import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { TextField, Button, Box } from '@mui/material';
 // Utility Imports
+import { deleteDocument } from '../../model-helpers';
 import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 
 /**
  * DeleteDocumentForm Component - Component that generates the form for deleting
@@ -23,9 +23,12 @@ import FormSection from './FormSection';
  */
 
 const DeleteDocumentForm = () => {
-  // const { session } = useSession();
+  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const { podUrl } = useContext(SignedInUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
   const [docType, setDocType] = useState('');
+  const [docName, setDocName] = useState('');
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -35,17 +38,18 @@ const DeleteDocumentForm = () => {
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
+    const activePod = selectedUser.podUrl || podUrl;
+    const docUrl = `${activePod}PASS/Documents/${docType}/${docName}/`;
 
     try {
-      // runNotification('File being deleted from Pod...', 3, state, dispatch);
-      // const documentUrl = await deleteDocumentFile(session, docType);
-      // runNotification('Removing file container from Pod...', 5, state, dispatch);
-      // await deleteContainer(documentUrl, { fetch: session.fetch });
-      // setTimeout(() => {
-      //   dispatch({ type: 'CLEAR_PROCESSING' });
-      // }, 3000);
-    } catch (_error) {
-      runNotification('Deletion failed. Reason: Data not found.', 5, state, dispatch);
+      runNotification('Deleting Document...', 3, state, dispatch);
+      await deleteDocument(session, docUrl);
+      runNotification('Document successfully deleted...', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+    } catch (error) {
+      runNotification(`Deletion failed. Reason: ${error.message}`, 10, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -66,6 +70,14 @@ const DeleteDocumentForm = () => {
               htmlForAndIdProp="delete-doctype"
               handleDocType={handleDocType}
               docType={docType}
+            />
+            <br />
+            <TextField
+              type="text"
+              label="Document Name"
+              variant="filled"
+              value={docName}
+              onChange={(e) => setDocName(e.target.value)}
             />
             <br />
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">

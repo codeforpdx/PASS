@@ -9,7 +9,6 @@ import { createDocument } from '../../model-helpers';
 import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
-// Constants Imports
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -20,8 +19,8 @@ import FormSection from './FormSection';
  *
  * @memberof Forms
  * @name CrossPodWriteForm
+ * @returns {React.ReactElement} The form
  */
-
 const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
@@ -57,7 +56,7 @@ const CrossPodWriteForm = () => {
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
 
     try {
-      await createDocument(file, fileDesc, session, podUrl);
+      await createDocument(file, fileDesc, session, `${podUrl}PASS/`);
       runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
     } catch (error) {
       runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);

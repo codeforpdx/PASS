@@ -14,3 +14,4 @@ import runNotification from './frontend/notification-helper';
 export { docTypes, runNotification };
 
 export * from './network/session-core';
+export * from './network/session-helper';

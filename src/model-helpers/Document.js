@@ -8,7 +8,10 @@ import {
   getStringNoLocale,
   getUrl,
   saveSolidDatasetAt,
-  saveFileInContainer
+  saveFileInContainer,
+  getContainedResourceUrlAll,
+  deleteFile,
+  deleteSolidDataset
 } from '@inrupt/solid-client';
 
 import sha256 from 'crypto-js/sha256';
@@ -153,6 +156,31 @@ export const parseDocument = (documentThing) => {
   return { uploadDate, name, type, endDate, checksum, description, fileUrl };
 };
 
+const deleteRecursively = async (dataset, options) => {
+  const containedResourceUrls = getContainedResourceUrlAll(dataset);
+  const containedDatasets = await Promise.all(
+    containedResourceUrls.map(async (resourceUrl) => {
+      try {
+        return await getSolidDataset(resourceUrl, options);
+      } catch (e) {
+        // The Resource might not have been a SolidDataset;
+        // we can delete it directly:
+        await deleteFile(resourceUrl, options);
+        return null;
+      }
+    })
+  );
+  await Promise.all(
+    containedDatasets.map(async (containedDataset) => {
+      if (containedDataset === null) {
+        return;
+      }
+      await deleteRecursively(containedDataset, options);
+    })
+  );
+  await deleteSolidDataset(dataset, options);
+};
+
 export const saveDocument = async (docThing, dataset, session, docUrl) => {
   const newDataset = setThing(dataset, docThing);
   const name = getStringNoLocale(docThing, RDF_PREDICATES.name);
@@ -162,9 +190,9 @@ export const saveDocument = async (docThing, dataset, session, docUrl) => {
   return doc;
 };
 
-export const createDocument = async (file, fileDescription, session, podUrl) => {
+export const createDocument = async (file, fileDescription, session, passUrl) => {
   const { type, name } = fileDescription;
-  const docUrl = `${podUrl}Documents/${type}/${name}/`;
+  const docUrl = `${passUrl}Documents/${type}/${name}/`;
   try {
     await getSolidDataset(docUrl);
   } catch {
@@ -178,5 +206,12 @@ export const createDocument = async (file, fileDescription, session, podUrl) => 
   }
   return 'A file with this name already exists';
 };
+
 // export const fetchDocument = (filename, session, podUrl) => {}
-// export const deleteDocument = (filename, session, podUrl) => {}
+export const deleteDocument = async (session, docUrl) => {
+  const options = {
+    fetch: session.fetch
+  };
+  const container = await getSolidDataset(docUrl, options);
+  await deleteRecursively(container, options);
+};

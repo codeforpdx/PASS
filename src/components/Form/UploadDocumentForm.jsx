@@ -9,6 +9,7 @@ import { createDocument } from '../../model-helpers';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 import { runNotification } from '../../utils';
+import { SelectUserContext } from '../../contexts';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -27,6 +28,7 @@ const UploadDocumentForm = () => {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -64,9 +66,10 @@ const UploadDocumentForm = () => {
       description
     };
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+    const activePod = selectedUser.podUrl || podUrl;
 
     try {
-      await createDocument(file, fileDesc, session, podUrl);
+      await createDocument(file, fileDesc, session, `${activePod}PASS/`);
       runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
     } catch (error) {
       runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);

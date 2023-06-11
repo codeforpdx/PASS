@@ -1,15 +1,5 @@
-import {
-  createContainerAt,
-  getSolidDataset,
-  createThing,
-  buildThing,
-  setThing,
-  createSolidDataset,
-  saveSolidDatasetInContainer,
-  deleteFile,
-  getThingAll
-} from '@inrupt/solid-client';
-import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
+import { createContainerAt, getSolidDataset, getThingAll } from '@inrupt/solid-client';
+import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
   setDocAclForUser,
@@ -18,8 +8,7 @@ import {
   parseMessageTTL,
   buildMessageTTL,
   setDocAclForPublic,
-  getPodUrl,
-  getAllFiles
+  getPodUrl
 } from './session-helper';
 
 /**
@@ -153,89 +142,6 @@ export const checkContainerPermission = async (session, otherPodUsername) => {
   } catch (error) {
     throw new Error('No data found');
   }
-};
-
-/**
- * Function that deletes all files from a Solid container associated to a file
- * type, if exist, and returns the container's URL
- *
- * @memberof utils
- * @function deleteDocuments
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
- * @returns {Promise} Promise - Deletes all existing files within a certain
- * container
- */
-
-export const deleteDocumentFile = async (session, fileType) => {
-  const containerToDeletedUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-  const documentUrl = `${containerToDeletedUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
-
-  const fetched = await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-  // Solid requires all files within Pod container must be deleted before
-  // the container itself can be deleted from Pod
-  const files = getAllFiles(fetched);
-  files.filter(async (file) => {
-    if (!file.url.endsWith('/')) {
-      await deleteFile(file.url, { fetch: session.fetch });
-    }
-  });
-};
-
-/**
- * Function that generates the Documents container for users
- *
- * @memberof utils
- * @param {Session} session - Solid's Session Object
- * @param {URL} podUrl - The user's Pod URL
- * @returns {Promise} Promise - Creates Documents container for storage of
- * documents being uploaded by authorized users
- */
-
-export const createDocumentContainer = async (session, podUrl) => {
-  const userContainerUrl = `${podUrl}PASS/Documents/`;
-
-  try {
-    await getSolidDataset(userContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(userContainerUrl, { fetch: session.fetch });
-
-    const newTtlFile = buildThing(createThing({ name: 'documentContainer' }))
-      .addStringNoLocale(RDF_PREDICATES.name, 'Document Container')
-      .addStringNoLocale(RDF_PREDICATES.description, 'A container for documents')
-      .addUrl(RDF_PREDICATES.url, `${userContainerUrl}container.ttl`)
-      .build();
-
-    let newSolidDataset = createSolidDataset();
-    newSolidDataset = setThing(newSolidDataset, newTtlFile);
-
-    // Generate document.ttl file for container
-    await saveSolidDatasetInContainer(userContainerUrl, newSolidDataset, {
-      slugSuggestion: 'container.ttl',
-      contentType: 'text/turtle',
-      fetch: session.fetch
-    });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, userContainerUrl, 'create', session.info.webId);
-  }
-
-  const createContainerList = [
-    `${userContainerUrl}Bank_Statement/`,
-    `${userContainerUrl}Passport/`,
-    `${userContainerUrl}Drivers_License/`
-  ];
-
-  createContainerList.forEach(async (url) => {
-    try {
-      await getSolidDataset(url, { fetch: session.fetch });
-    } catch {
-      await createContainerAt(url, { fetch: session.fetch });
-
-      await setDocAclForUser(session, url, 'create', session.info.webId);
-    }
-  });
 };
 
 /**
