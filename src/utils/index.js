@@ -26,7 +26,7 @@ import {
   createInbox
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
-import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
+import makeHandleFormSubmission, { truncateLongFileName } from './frontend/FormSubmissionHelper';
 
 export {
   docTypes,
@@ -45,5 +45,6 @@ export {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  getPodUrl
+  getPodUrl,
+  truncateLongFileName
 };

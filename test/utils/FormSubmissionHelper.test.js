@@ -3,7 +3,8 @@ import {
   makeHandleFormSubmission,
   runNotification,
   uploadDocument,
-  updateDocument
+  updateDocument,
+  truncateLongFileName
 } from '../../src/utils';
 import { INTERACTION_TYPES } from '../../src/constants';
 
@@ -111,5 +112,23 @@ describe('FormSubmissionHelper', async () => {
         dispatchMock
       );
     });
+  });
+});
+
+describe('truncateLongFileName', () => {
+  const filenameLong = 'thisisareallylongfilenametobeuploaded.pdf';
+  const filenameStart = filenameLong.slice(0, 10);
+  const filenameEnd = filenameLong.slice(-10);
+
+  const filenameShort = 'test.pdf';
+
+  it('return truncated filename if too long', () => {
+    const result = truncateLongFileName(filenameLong);
+    expect(result).toBe(`${filenameStart}...${filenameEnd}`);
+  });
+
+  it('return original filename if below 25 characters', () => {
+    const result = truncateLongFileName(filenameShort);
+    expect(result).toBe(filenameShort);
   });
 });

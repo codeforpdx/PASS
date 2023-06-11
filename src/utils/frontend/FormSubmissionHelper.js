@@ -6,6 +6,27 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  */
 
 /**
+ * Function that truncates file names greater than 25 characters and leaves an
+ * ellipsis in the middle or returns the original file name if 25 or less characters
+ *
+ * @function truncateLongFileName
+ * @param {string} filename - Name of file
+ * @returns {string} filaname - Returns truncated file name for files names longer
+ * than 25 characters, otherwise, it'll return the original file name
+ */
+
+export const truncateLongFileName = (filename) => {
+  if (filename.length > 25) {
+    const filenameStart = filename.slice(0, 10);
+    const filenameEnd = filename.slice(-10);
+
+    return `${filenameStart}...${filenameEnd}`;
+  }
+
+  return filename;
+};
+
+/**
  * Makes a default handleFormSubmission function that can be used
  * by form elements in PASS
  *
@@ -39,7 +60,7 @@ const makeHandleFormSubmission =
       file: state.file
     };
 
-    const fileName = fileObject.file.name;
+    const fileName = truncateLongFileName(fileObject.file.name);
 
     try {
       runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
