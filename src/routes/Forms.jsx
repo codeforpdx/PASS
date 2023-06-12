@@ -53,7 +53,7 @@ const Forms = () => {
       >
         Clear Client
       </Button>
-      <Typography>Client selected: {selectedUser || 'No client selected'}</Typography>
+      <Typography>Client selected: {selectedUser.person || 'No client selected'}</Typography>
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
