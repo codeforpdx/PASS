@@ -2,8 +2,10 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
+import Typography from '@mui/material/Typography';
 // Component Imports
 import {
   UploadDocumentForm,
@@ -32,8 +34,8 @@ const Forms = () => {
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -51,7 +53,7 @@ const Forms = () => {
       >
         Clear Client
       </Button>
-      <span>Client selected: {selectedUser || 'No client selected'}</span>
+      <Typography>Client selected: {selectedUser || 'No client selected'}</Typography>
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />
@@ -60,7 +62,7 @@ const Forms = () => {
       <SetAclPermissionForm />
       <CrossPodQueryForm />
       <CrossPodWriteForm />
-    </div>
+    </Box>
   );
 };
 
