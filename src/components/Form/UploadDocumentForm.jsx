@@ -59,6 +59,9 @@ const UploadDocumentForm = () => {
   );
 
   const handleDocumentUpload = async (event) => {
+    event.preventDefault();
+    dispatch({ type: 'SET_PROCESSING' });
+
     if (!docType) {
       runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
