@@ -18,7 +18,7 @@ import {
  */
 
 const UserDataContextProvider = ({ children }) => {
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState({});
 
   const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
 
