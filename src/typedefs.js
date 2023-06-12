@@ -11,7 +11,8 @@ const React = require('react');
  * @typedef statusMessageProps
  * @type {object}
  * @property {string} notification - File status message
- * @property {string} [locationUrl] - URL location of file, if exist
+ * @property {URL} [locationUrl] - URL location of file, if exist
+ * @property {string} [filename] - Name of the file being processed
  * @memberof typedefs
  */
 
@@ -21,12 +22,11 @@ const React = require('react');
  * @exports statusNotificationProps
  * @typedef statusNotificationProps
  * @type {object}
- * @property {string} notification - File status message
+ * @property {statusNotificationObject} state - The state used for statusNotification
  * @property {string} statusType - Type of file status (i.e. file upload, file
  * fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not
  * triggered
- * @property {URL} [locationUrl] - URL location of file, if exist
  * @memberof typedefs
  */
 
