@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
@@ -33,12 +33,11 @@ import FormSection from './FormSection';
 const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
   const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState(selectedUser.username);
   const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
-    clearUsername();
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -56,7 +55,7 @@ const SetAclPermsDocContainerForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
@@ -124,8 +123,9 @@ const SetAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              {...username}
-              placeholder={selectedUser}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={selectedUser.username}
               label="Search username"
               required
             />
