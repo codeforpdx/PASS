@@ -7,6 +7,6 @@ import { createContext } from 'react';
  * @memberof contexts
  */
 
-const SelectUserContext = createContext('');
+const SelectUserContext = createContext({});
 
 export default SelectUserContext;

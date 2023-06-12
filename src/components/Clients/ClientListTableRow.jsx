@@ -27,10 +27,9 @@ import { SelectUserContext, UserListContext } from '../../contexts';
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();
-  const { setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
-  const [selected, setSelected] = useState(false);
 
   // determine what gets rendered in the date modified cell of table
   const modifiedDate = client.dateModified
@@ -41,9 +40,13 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
   // Event handler for selecting client from client list
-  const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
-    runNotification(`Client "${clientToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
+  const handleSelectClient = async (clientToSelect) => {
+    runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
+    if (clientToSelect.webId === selectedUser.webId) {
+      setSelectedUser({});
+      return;
+    }
+    setSelectedUser(clientToSelect);
   };
 
   // Event handler for deleting client from client list
@@ -72,13 +75,12 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
         <Checkbox
           id={labelId}
           color="primary"
-          checked={selected}
+          checked={selectedUser.webId === client.webId}
           inputProps={{
             'aria-labelledby': labelId
           }}
           onClick={() => {
-            setSelected(!selected);
-            handleSelectClient(client.person, client.podUrl);
+            handleSelectClient(client);
           }}
         />
       </StyledTableCell>

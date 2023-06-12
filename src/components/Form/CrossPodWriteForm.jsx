@@ -25,8 +25,8 @@ import FormSection from './FormSection';
 const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState();
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -48,8 +48,6 @@ const CrossPodWriteForm = () => {
   const clearInputFields = (event) => {
     event.target.reset();
     clearDescription();
-    clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
@@ -66,7 +64,7 @@ const CrossPodWriteForm = () => {
   const handleCrossPodUpload = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const podUsername = event.target.crossPodUpload.value || selectedUser;
+    const podUsername = event.target.crossPodUpload.value || selectedUser.username;
 
     if (!podUsername) {
       runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
@@ -108,8 +106,9 @@ const CrossPodWriteForm = () => {
             id="cross-upload-doc"
             size="25"
             name="crossPodUpload"
-            {...username}
-            placeholder={selectedUser}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder={selectedUser.username}
           />
         </div>
         <div style={formRowStyle}>
