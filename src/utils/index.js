@@ -24,7 +24,8 @@ import {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  showDocuments
+  showDocuments,
+  showDocumentLocal
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
@@ -47,5 +48,6 @@ export {
   createPublicContainer,
   createInbox,
   getPodUrl,
-  showDocuments
+  showDocuments,
+  showDocumentLocal
 };

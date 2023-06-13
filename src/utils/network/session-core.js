@@ -9,6 +9,10 @@ import {
   deleteFile,
   overwriteFile,
   getThingAll,
+  getThing,
+  getStringNoLocale,
+  getDatetime,
+  getUrl,
   getFile
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
@@ -29,6 +33,7 @@ import {
   promiseSome
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
+import docTypes from '../frontend/form-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -146,7 +151,7 @@ export const uploadDocument = async (
     containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
   }
 
-  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '_')}`;
+  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '%20')}`;
   const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
@@ -576,30 +581,56 @@ export const showDocuments = async (session, podUrl) => {
   try {
     await getSolidDataset(`${podUrl}PASS/Documents/`, { fetch: session.fetch });
 
-    const datasets = await promiseSome([
-      getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, { fetch: session.fetch }),
-      getSolidDataset(`${podUrl}PASS/Documents/Passport/`, { fetch: session.fetch }),
-      getSolidDataset(`${podUrl}PASS/Documents/Drivers_License/`, { fetch: session.fetch })
-    ]);
-
-    const allUrls = await Promise.all(
-      datasets.map(async (dataset) => {
-        const files = getAllFiles(dataset);
-        const documentFiles = files.filter((file) => !file.url.endsWith('.ttl'));
-
-        const documentUrls = await Promise.all(
-          documentFiles.map(async (file) => {
-            const fileBlob = await getFile(file.url, { fetch: session.fetch });
-            return URL.createObjectURL(fileBlob);
-          })
+    const parsedDatasets = await promiseSome(
+      docTypes.map(async (docType) => {
+        const dataset = await getSolidDataset(
+          `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
+          {
+            fetch: session.fetch
+          }
         );
 
-        return documentUrls;
+        const documentTTLThing = getThing(
+          dataset,
+          `${podUrl}PASS/Documents/${docType
+            .replace("'", '')
+            .replace(' ', '_')}/document.ttl#document`
+        );
+
+        const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
+        const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
+        const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
+        const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
+        const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
+
+        return {
+          uploadDate,
+          filename,
+          documentType: docType,
+          expireDate,
+          description,
+          documentUrl
+        };
       })
     );
 
-    return allUrls.flat();
+    return parsedDatasets;
   } catch {
     throw new Error('Unauthorized operation');
   }
+};
+
+/**
+ * A function that returns a file URL that could be used in local iframe
+ *
+ * @function showDocumentLocal
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} fileUrl - URL of file you wish to view
+ * @returns {Promise<URL>} URL - URL of file blob which can be used locally for
+ * iframes
+ */
+
+export const showDocumentLocal = async (session, fileUrl) => {
+  const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
+  return URL.createObjectURL(fileBlob);
 };

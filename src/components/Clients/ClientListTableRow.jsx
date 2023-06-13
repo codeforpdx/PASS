@@ -13,11 +13,11 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
-import { runNotification } from '../../utils';
+import { runNotification, showDocuments } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
-import ShowDocumentsModal from './ShowDocumentsModal';
-import { showDocuments } from '../../utils/network/session-core';
+// Component Imports
+import { ShowDocumentsModal } from '../DocumentModals';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -78,12 +78,12 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const [showDocument, setShowDocument] = useState(false);
 
   const handleShowFile = async () => {
-    let allUrls;
+    let allPermittedData;
 
     try {
-      allUrls = await showDocuments(session, client.podUrl);
+      allPermittedData = await showDocuments(session, client.podUrl);
 
-      setFileSrc(allUrls);
+      setFileSrc(allPermittedData);
       setShowDocument(!showDocument);
     } catch {
       throw new Error('Unauthorized operation');

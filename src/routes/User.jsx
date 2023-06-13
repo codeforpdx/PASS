@@ -11,7 +11,7 @@ import { showDocuments } from '../utils';
 // Context Imports
 import { SignedInUserContext } from '../contexts';
 // Component Imports
-import { ShowDocumentsModal } from '../components/Clients';
+import { ShowDocumentsModal } from '../components/DocumentModals';
 
 /**
  * User - Page that displays the User's stored Documents

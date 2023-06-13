@@ -13,32 +13,21 @@ import ClearIcon from '@mui/icons-material/Clear';
  * explicit permission via ACL
  *
  * @memberof Clients
- * @name ShowDocumentsModal
+ * @name ShowDocumentLocalModal
  */
 
-const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => (
+const ShowDocumentLocalModal = ({ showModal, setShowModal, fileBlobUrl }) => (
   <Dialog
-    fullScreen
     open={showModal}
     aria-labelledby="dialog-title"
     onClose={() => setShowModal(false)}
+    sx={{ width: '90%' }}
   >
     <DialogTitle id="dialog-tile">Documents</DialogTitle>
 
-    <DialogContent
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 5
-      }}
-    >
-      {fileSrc.map((src) => (
-        <iframe src={src} title="test" width="800" height="700" key={src} />
-      ))}
+    <DialogContent>
+      <iframe src={fileBlobUrl} title="File Preview Local" height={800} width={700} />
     </DialogContent>
-
     <DialogActions>
       <Button
         variant="outlined"
@@ -52,4 +41,4 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => (
   </Dialog>
 );
 
-export default ShowDocumentsModal;
+export default ShowDocumentLocalModal;
