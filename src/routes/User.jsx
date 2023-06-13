@@ -6,12 +6,15 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+// Custom Hook Imports
+import { useStatusNotification } from '../hooks';
 // Utility Imports
-import { getDocTTLs } from '../utils';
+import { getDocTTLs, runNotification } from '../utils';
 // Context Imports
 import { SignedInUserContext } from '../contexts';
 // Component Imports
 import { ShowDocumentsModal } from '../components/DocumentModals';
+import FormSection from '../components/Form/FormSection';
 
 /**
  * User - Page that displays the User's stored Documents
@@ -25,6 +28,8 @@ const User = () => {
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
 
+  const { state, dispatch } = useStatusNotification();
+
   // EXPERIMENTAL - Event handler for displaying Documents from PASS
   const { session } = useSession();
   const [fileSrc, setFileSrc] = useState([]);
@@ -32,37 +37,50 @@ const User = () => {
   const { podUrl } = useContext(SignedInUserContext);
 
   const handleShowFile = async () => {
-    let allUrls;
+    dispatch({ type: 'SET_PROCESSING' });
 
-    try {
-      allUrls = await getDocTTLs(session, podUrl);
+    runNotification(`Fetching documents from Pod...`, 5, state, dispatch);
+    const allPermittedData = await getDocTTLs(session, podUrl);
 
-      setFileSrc(allUrls);
-      setShowDocument(!showDocument);
-    } catch {
-      throw new Error('Unauthorized or no documents found');
-    }
+    setFileSrc(allPermittedData);
+    setShowDocument(!showDocument);
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_PROCESSING' });
+    }, 5000);
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%'
-      }}
+    <FormSection
+      title="Preview Documents"
+      state={state}
+      statusType="Preview Status"
+      defaultMessage="To be previewed..."
     >
-      <Button variant="contained" type="button" onClick={handleShowFile} sx={{ marginTop: '3rem' }}>
-        Show Documents
-      </Button>
-      <ShowDocumentsModal
-        showModal={showDocument}
-        setShowModal={setShowDocument}
-        fileSrc={fileSrc}
-      />
-    </Container>
+      <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%'
+        }}
+      >
+        <Button
+          disabled={state.processing}
+          variant="contained"
+          type="button"
+          onClick={handleShowFile}
+        >
+          Show Documents
+        </Button>
+        <ShowDocumentsModal
+          showModal={showDocument}
+          setShowModal={setShowDocument}
+          fileSrc={fileSrc}
+        />
+      </Container>
+    </FormSection>
   );
 };
 

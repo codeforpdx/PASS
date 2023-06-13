@@ -6,6 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { styled, useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import IconButton from '@mui/material/IconButton';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -78,20 +79,23 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const [showDocument, setShowDocument] = useState(false);
 
   const handleShowFile = async () => {
-    let allPermittedData;
+    runNotification(`Fetching documents from Pod...`, 5, state, dispatch);
+    dispatch({ type: 'SET_PROCESSING' });
 
-    try {
-      allPermittedData = await getDocTTLs(session, client.podUrl);
-      if (allPermittedData.length === 0) {
-        setFileSrc([]);
-        return;
-      }
-
-      setFileSrc(allPermittedData);
-      setShowDocument(!showDocument);
-    } catch {
-      throw new Error('Unauthorized operation');
+    const allPermittedData = await getDocTTLs(session, client.podUrl);
+    if (allPermittedData.length === 0) {
+      setFileSrc([]);
+      runNotification('Operation failed. Reason: No access to files.', 5, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
+      return;
     }
+
+    setFileSrc(allPermittedData);
+    setShowDocument(!showDocument);
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_PROCESSING' });
+    }, 5000);
   };
 
   return (
@@ -125,9 +129,9 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
       </StyledTableCell>
       <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
       <StyledTableCell align="center">
-        <button type="button" onClick={handleShowFile}>
-          Show Documents
-        </button>
+        <IconButton disabled={state.processing} size="large" edge="end" onClick={handleShowFile}>
+          <FindInPageIcon />
+        </IconButton>
         <ShowDocumentsModal
           showModal={showDocument}
           setShowModal={setShowDocument}

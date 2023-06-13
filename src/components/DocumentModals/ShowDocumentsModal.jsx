@@ -11,6 +11,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import Typography from '@mui/material/Typography';
+// Other Library Imports
+import { v4 as uuidv4 } from 'uuid';
 // Utility Imports
 import { getBlobFromSolid } from '../../utils';
 import ShowDocumentLocalModal from './ShowDocumentLocalModal';
@@ -46,7 +48,6 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
 
       <DialogContent>
         <Box
-          key="docViewerModal"
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -57,12 +58,12 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
         >
           {fileSrc.map((src) => (
             <Box
+              key={uuidv4()}
               sx={{
                 padding: 5,
                 borderRadius: '10px',
                 backgroundColor: 'lightgray'
               }}
-              key={src.fileUrl}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Typography sx={{ fontWeight: 'bold' }}>{src.documentType}</Typography>
@@ -100,14 +101,14 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
               </Box>
             </Box>
           ))}
+          {showDocumentBlob && (
+            <ShowDocumentLocalModal
+              showModal={showDocumentBlob}
+              setShowModal={setShowDocumentBlob}
+              fileBlobUrl={fileBlobUrl}
+            />
+          )}
         </Box>
-        {showDocumentBlob && (
-          <ShowDocumentLocalModal
-            showModal={showDocumentBlob}
-            setShowModal={setShowDocumentBlob}
-            fileBlobUrl={fileBlobUrl}
-          />
-        )}
       </DialogContent>
 
       <DialogActions>
