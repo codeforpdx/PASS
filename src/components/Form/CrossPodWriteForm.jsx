@@ -118,8 +118,6 @@ const CrossPodWriteForm = () => {
             <TextField
               id="cross-upload-doc"
               name="crossPodUpload"
-              {...username}
-              // placeholder={selectedUser}
               label="Search username"
               required
               value={username}
@@ -142,13 +140,17 @@ const CrossPodWriteForm = () => {
                 name="date"
                 format="MM/DD/YYYY"
                 label="Expire date (if applicable)"
-                // value={expireDate}
-                // onChange={(newDate) => setExpireDate(newDate)}
+                value={expireDate}
+                onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
+                slotProps={{
+                  textField: {
+                    helperText: 'MM/DD/YYYY'
+                  }
+                }}
               />
             </LocalizationProvider>
           </FormControl>
-          <br />
           <br />
           <FormControl fullWidth>
             {/* TODO: Determine whether Typography below is necessary or redundant */}
