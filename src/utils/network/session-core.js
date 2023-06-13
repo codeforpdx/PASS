@@ -571,13 +571,13 @@ export const createInbox = async (session, podUrl) => {
 /**
  * A function that shows the documents from Solid Pod from user into PASS
  *
- * @function showDocuments
+ * @function getDocTTLs
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - Pod URL of user to show documents from
  * @returns {Promise<URL[]>} - List of authorized URLs to documents
  */
 
-export const showDocuments = async (session, podUrl) => {
+export const getDocTTLs = async (session, podUrl) => {
   try {
     const parsedDatasets = await promiseSome(
       docTypes.map(async (docType) => {

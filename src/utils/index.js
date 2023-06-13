@@ -24,7 +24,7 @@ import {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  showDocuments,
+  getDocTTLs,
   getBlobFromSolid
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
@@ -48,6 +48,6 @@ export {
   createPublicContainer,
   createInbox,
   getPodUrl,
-  showDocuments,
+  getDocTTLs,
   getBlobFromSolid
 };

@@ -13,7 +13,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
-import { runNotification, showDocuments } from '../../utils';
+import { runNotification, getDocTTLs } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
@@ -81,7 +81,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     let allPermittedData;
 
     try {
-      allPermittedData = await showDocuments(session, client.podUrl);
+      allPermittedData = await getDocTTLs(session, client.podUrl);
       if (allPermittedData.length === 0) {
         setFileSrc([]);
         return;
