@@ -578,44 +578,40 @@ export const createInbox = async (session, podUrl) => {
  */
 
 export const getDocTTLs = async (session, podUrl) => {
-  try {
-    const parsedDatasets = await promiseSome(
-      docTypes.map(async (docType) => {
-        const dataset = await getSolidDataset(
-          `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
-          {
-            fetch: session.fetch
-          }
-        );
+  const parsedDatasets = await promiseSome(
+    docTypes.map(async (docType) => {
+      const dataset = await getSolidDataset(
+        `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
+        {
+          fetch: session.fetch
+        }
+      );
 
-        const documentTTLThing = getThing(
-          dataset,
-          `${podUrl}PASS/Documents/${docType
-            .replace("'", '')
-            .replace(' ', '_')}/document.ttl#document`
-        );
+      const documentTTLThing = getThing(
+        dataset,
+        `${podUrl}PASS/Documents/${docType
+          .replace("'", '')
+          .replace(' ', '_')}/document.ttl#document`
+      );
 
-        const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
-        const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
-        const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
-        const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
-        const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
+      const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
+      const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
+      const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
+      const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
+      const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
 
-        return {
-          uploadDate,
-          filename,
-          documentType: docType,
-          expireDate,
-          description,
-          documentUrl
-        };
-      })
-    );
+      return {
+        uploadDate,
+        filename,
+        documentType: docType,
+        expireDate,
+        description,
+        documentUrl
+      };
+    })
+  );
 
-    return parsedDatasets;
-  } catch {
-    throw new Error('Unauthorized operation');
-  }
+  return parsedDatasets;
 };
 
 /**

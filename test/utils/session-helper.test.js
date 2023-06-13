@@ -9,7 +9,8 @@ import {
   createResourceTtlFile,
   getContainerUrl,
   getPodUrl,
-  hasTTLFiles
+  hasTTLFiles,
+  promiseSome
 } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
 
@@ -133,5 +134,20 @@ describe('getPodUrl', () => {
 
     const result = getPodUrl(username);
     expect(result).toBe('https://pod.example.com/');
+  });
+});
+
+describe('promiseSome', () => {
+  it('Returns only resolved results', async () => {
+    const promises = [
+      Promise.reject(new Error('mock rejected')),
+      Promise.reject(new Error('mock rejected')),
+      Promise.resolve('mock resolved'),
+      Promise.resolve('mock resolved'),
+      Promise.reject(new Error('mock rejected'))
+    ];
+    const results = await promiseSome(promises);
+
+    expect(results).toEqual(['mock resolved', 'mock resolved']);
   });
 });

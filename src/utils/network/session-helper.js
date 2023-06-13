@@ -497,7 +497,7 @@ export const buildMessageTTL = (
  *
  * @function promiseSome
  * @param {Promise[]} promises
- * @returns {Promise[]} Resolved Promises - Returns a list of resolved promises
+ * @returns {Promise<Promise[]>} Resolved Promises - Returns a list of resolved promises
  */
 
 export const promiseSome = async (promises) => {

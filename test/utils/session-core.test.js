@@ -1,6 +1,7 @@
 import {
   createContainerAt,
   deleteFile,
+  getFile,
   getSolidDataset,
   saveSolidDatasetInContainer
 } from '@inrupt/solid-client';
@@ -12,6 +13,8 @@ import {
   createOutbox,
   createPublicContainer,
   deleteDocumentFile,
+  getBlobFromSolid,
+  getDocTTLs,
   getDocuments
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
@@ -228,5 +231,53 @@ describe('createPublicContainer', () => {
     expect(createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
     expect(sessionHelpers.setDocAclForPublic).toBeCalled();
+  });
+});
+
+describe('getDocTTLs', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns no data if nothing resolves', async () => {
+    const result = await getDocTTLs(session, mockPodUrl);
+
+    expect(result).toStrictEqual([]);
+  });
+});
+
+describe('getBlobFromSolid', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns a blob URL', async () => {
+    const mockFileUrl = 'https://pod.example.com/PASS/Documents/Passport/test.pdf';
+    const fileBlob = new Blob(['file content'], { type: 'application/pdf' });
+    getFile.mockResolvedValue(fileBlob);
+
+    // Mocking URL.createObjectURL since the function is not available for Node
+    const createObjectURLMock = vi.fn().mockReturnValue('mock-url');
+    global.URL.createObjectURL = createObjectURLMock;
+
+    const result = await getBlobFromSolid(session, mockFileUrl);
+
+    expect(result).toBe('mock-url');
   });
 });
