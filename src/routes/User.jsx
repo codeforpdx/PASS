@@ -7,7 +7,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // Utility Imports
-import { showDocuments } from '../utils';
+import { getDocTTLs } from '../utils';
 // Context Imports
 import { SignedInUserContext } from '../contexts';
 // Component Imports
@@ -35,7 +35,7 @@ const User = () => {
     let allUrls;
 
     try {
-      allUrls = await showDocuments(session, podUrl);
+      allUrls = await getDocTTLs(session, podUrl);
 
       setFileSrc(allUrls);
       setShowDocument(!showDocument);
