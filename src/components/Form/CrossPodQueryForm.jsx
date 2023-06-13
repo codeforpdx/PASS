@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
@@ -30,8 +30,8 @@ import FormSection from './FormSection';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState(selectedUser.username);
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -40,8 +40,6 @@ const CrossPodQueryForm = () => {
 
   // Clean up function for clearing input fields after submission
   const clearInputFields = () => {
-    clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -52,7 +50,7 @@ const CrossPodQueryForm = () => {
     let podUsername = event.target.crossPodQuery.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
@@ -114,8 +112,11 @@ const CrossPodQueryForm = () => {
               <TextField
                 id="cross-search-doc"
                 name="crossPodQuery"
-                {...username}
-                placeholder={selectedUser}
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                placeholder={selectedUser.username}
                 label="Enter username"
                 required
               />

@@ -58,12 +58,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
           })}
         </TableBody>
       </Table>
-      <StatusNotification
-        notification={state.message}
-        statusType={statusType}
-        defaultMessage={defaultMessage}
-        locationUrl={state.documentUrl}
-      />
+      <StatusNotification state={state} statusType={statusType} defaultMessage={defaultMessage} />
     </TableContainer>
   );
 };

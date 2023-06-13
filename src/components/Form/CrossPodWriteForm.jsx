@@ -36,9 +36,9 @@ import FormSection from './FormSection';
 const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
   const [expireDate, setExpireDate] = useState(null);
+  const [username, setUsername] = useState();
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -57,12 +57,14 @@ const CrossPodWriteForm = () => {
   // Custom useField hook for handling form inputs
   const { clearValue: clearDescription, _type, ...description } = useField('textarea');
 
-  const clearInputFields = () => {
-    setDocType('');
-    setExpireDate(null);
-    setSelectedUser('');
+  const clearInputFields = (event) => {
+    event.target.reset();
+    clearDescription();
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
+    // setDocType('');
+    // setExpireDate(null);
+    // setSelectedUser('');
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
@@ -78,7 +80,7 @@ const CrossPodWriteForm = () => {
   const handleCrossPodUpload = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const podUsername = event.target.crossPodUpload.value || selectedUser;
+    const podUsername = event.target.crossPodUpload.value || selectedUser.username;
 
     if (!podUsername) {
       runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
@@ -117,9 +119,12 @@ const CrossPodWriteForm = () => {
               id="cross-upload-doc"
               name="crossPodUpload"
               {...username}
-              placeholder={selectedUser}
+              // placeholder={selectedUser}
               label="Search username"
               required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={selectedUser.username}
             />
           </FormControl>
           <DocumentSelection
@@ -137,8 +142,8 @@ const CrossPodWriteForm = () => {
                 name="date"
                 format="MM/DD/YYYY"
                 label="Expire date (if applicable)"
-                value={expireDate}
-                onChange={(newDate) => setExpireDate(newDate)}
+                // value={expireDate}
+                // onChange={(newDate) => setExpireDate(newDate)}
                 type="date"
               />
             </LocalizationProvider>

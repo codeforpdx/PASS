@@ -48,12 +48,7 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
           {title}
         </Typography>
         {children}
-        <StatusNotification
-          notification={state.message}
-          statusType={statusType}
-          defaultMessage={defaultMessage}
-          locationUrl={state.documentUrl}
-        />
+        <StatusNotification state={state} statusType={statusType} defaultMessage={defaultMessage} />
       </Paper>
     </Box>
   </Container>

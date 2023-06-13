@@ -43,22 +43,20 @@ const makeHandleFormSubmission =
       file: state.file
     };
 
-    const fileName = fileObject.file.name;
-
     try {
-      runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
+      runNotification(`Uploading to Pod...`, 3, state, dispatch);
 
       await uploadDocument(session, uploadType, fileObject, state.verifyFile, crossPodUsername);
 
-      runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+      runNotification(`File uploaded on Pod.`, 5, state, dispatch);
       clearInputFields(event);
     } catch (e) {
       try {
-        runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
+        runNotification('Updating on Pod...', 3, state, dispatch);
 
         await updateDocument(session, uploadType, fileObject, crossPodUsername);
 
-        runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+        runNotification(`File updated on Pod.`, 5, state, dispatch);
         clearInputFields(event);
       } catch (error) {
         runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
