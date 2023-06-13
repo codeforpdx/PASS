@@ -574,16 +574,13 @@ export const createInbox = async (session, podUrl) => {
 
 export const showDocuments = async (session, podUrl) => {
   try {
-    const firstDataset = await getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, {
-      fetch: session.fetch
-    });
+    await getSolidDataset(`${podUrl}PASS/Documents/`, { fetch: session.fetch });
 
-    let datasets = await promiseSome([
+    const datasets = await promiseSome([
+      getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, { fetch: session.fetch }),
       getSolidDataset(`${podUrl}PASS/Documents/Passport/`, { fetch: session.fetch }),
       getSolidDataset(`${podUrl}PASS/Documents/Drivers_License/`, { fetch: session.fetch })
     ]);
-
-    datasets = [firstDataset, ...datasets];
 
     const allUrls = await Promise.all(
       datasets.map(async (dataset) => {
