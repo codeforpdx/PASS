@@ -573,27 +573,36 @@ export const createInbox = async (session, podUrl) => {
  */
 
 export const showDocuments = async (session, podUrl) => {
-  const datasets = await promiseSome([
-    getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, { fetch: session.fetch }),
-    getSolidDataset(`${podUrl}PASS/Documents/Passport/`, { fetch: session.fetch }),
-    getSolidDataset(`${podUrl}PASS/Documents/Drivers_License/`, { fetch: session.fetch })
-  ]);
+  try {
+    const firstDataset = await getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, {
+      fetch: session.fetch
+    });
 
-  const allUrls = await Promise.all(
-    datasets.map(async (dataset) => {
-      const files = getAllFiles(dataset);
-      const documentFiles = files.filter((file) => !file.url.endsWith('.ttl'));
+    let datasets = await promiseSome([
+      getSolidDataset(`${podUrl}PASS/Documents/Passport/`, { fetch: session.fetch }),
+      getSolidDataset(`${podUrl}PASS/Documents/Drivers_License/`, { fetch: session.fetch })
+    ]);
 
-      const documentUrls = await Promise.all(
-        documentFiles.map(async (file) => {
-          const fileBlob = await getFile(file.url, { fetch: session.fetch });
-          return URL.createObjectURL(fileBlob);
-        })
-      );
+    datasets = [firstDataset, ...datasets];
 
-      return documentUrls;
-    })
-  );
+    const allUrls = await Promise.all(
+      datasets.map(async (dataset) => {
+        const files = getAllFiles(dataset);
+        const documentFiles = files.filter((file) => !file.url.endsWith('.ttl'));
 
-  return allUrls.flat();
+        const documentUrls = await Promise.all(
+          documentFiles.map(async (file) => {
+            const fileBlob = await getFile(file.url, { fetch: session.fetch });
+            return URL.createObjectURL(fileBlob);
+          })
+        );
+
+        return documentUrls;
+      })
+    );
+
+    return allUrls.flat();
+  } catch {
+    throw new Error('Unauthorized operation');
+  }
 };

@@ -86,7 +86,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
       setFileSrc(allUrls);
       setShowDocument(!showDocument);
     } catch {
-      throw new Error('Unauthorized or no documents found');
+      throw new Error('Unauthorized operation');
     }
   };
 
