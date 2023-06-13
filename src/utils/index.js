@@ -25,7 +25,7 @@ import {
   createPublicContainer,
   createInbox,
   showDocuments,
-  showDocumentLocal
+  getBlobFromSolid
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
@@ -49,5 +49,5 @@ export {
   createInbox,
   getPodUrl,
   showDocuments,
-  showDocumentLocal
+  getBlobFromSolid
 };

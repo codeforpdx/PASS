@@ -623,14 +623,14 @@ export const showDocuments = async (session, podUrl) => {
 /**
  * A function that returns a file URL that could be used in local iframe
  *
- * @function showDocumentLocal
+ * @function getBlobFromSolid
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} fileUrl - URL of file you wish to view
  * @returns {Promise<URL>} URL - URL of file blob which can be used locally for
  * iframes
  */
 
-export const showDocumentLocal = async (session, fileUrl) => {
+export const getBlobFromSolid = async (session, fileUrl) => {
   const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
   return URL.createObjectURL(fileBlob);
 };

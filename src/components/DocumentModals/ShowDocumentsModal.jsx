@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { showDocumentLocal } from '../../utils';
+import { getBlobFromSolid } from '../../utils';
 import ShowDocumentLocalModal from './ShowDocumentLocalModal';
 
 /**
@@ -30,7 +30,7 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
   const [fileBlobUrl, setFileBlobUrl] = useState('');
 
   const handleShowDocumentLocal = async (fileUrl) => {
-    const urlFileBlob = await showDocumentLocal(session, fileUrl);
+    const urlFileBlob = await getBlobFromSolid(session, fileUrl);
     setShowDocumentBlob(!showDocumentBlob);
     setFileBlobUrl(urlFileBlob);
   };
