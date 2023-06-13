@@ -82,6 +82,10 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
     try {
       allPermittedData = await showDocuments(session, client.podUrl);
+      if (allPermittedData.length === 0) {
+        setFileSrc([]);
+        return;
+      }
 
       setFileSrc(allPermittedData);
       setShowDocument(!showDocument);
