@@ -8,7 +8,8 @@ import {
   saveSolidDatasetInContainer,
   deleteFile,
   overwriteFile,
-  getThingAll
+  getThingAll,
+  getFile
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES, INTERACTION_TYPES } from '../../constants';
 import {
@@ -24,7 +25,8 @@ import {
   buildMessageTTL,
   setDocAclForPublic,
   getPodUrl,
-  getAllFiles
+  getAllFiles,
+  promiseSome
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
@@ -559,4 +561,39 @@ export const createInbox = async (session, podUrl) => {
     await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
     await setDocAclForPublic(session, inboxContainerUrl, { append: true });
   }
+};
+
+/**
+ * A function that shows the documents from Solid Pod from user into PASS
+ *
+ * @function showDocuments
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - Pod URL of user to show documents from
+ * @returns {Promise<URL[]>} - List of authorized URLs to documents
+ */
+
+export const showDocuments = async (session, podUrl) => {
+  const datasets = await promiseSome([
+    getSolidDataset(`${podUrl}PASS/Documents/Bank_Statement/`, { fetch: session.fetch }),
+    getSolidDataset(`${podUrl}PASS/Documents/Passport/`, { fetch: session.fetch }),
+    getSolidDataset(`${podUrl}PASS/Documents/Drivers_License/`, { fetch: session.fetch })
+  ]);
+
+  const allUrls = await Promise.all(
+    datasets.map(async (dataset) => {
+      const files = getAllFiles(dataset);
+      const documentFiles = files.filter((file) => !file.url.endsWith('.ttl'));
+
+      const documentUrls = await Promise.all(
+        documentFiles.map(async (file) => {
+          const fileBlob = await getFile(file.url, { fetch: session.fetch });
+          return URL.createObjectURL(fileBlob);
+        })
+      );
+
+      return documentUrls;
+    })
+  );
+
+  return allUrls.flat();
 };

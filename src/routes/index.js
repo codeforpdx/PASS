@@ -1,4 +1,5 @@
 import Clients from './Clients';
+import User from './User';
 import Forms from './Forms';
 import Home from './Home';
 import Inbox from './Inbox';
@@ -10,4 +11,4 @@ import Outbox from './Outbox';
  * @namespace Pages
  */
 
-export { Clients, Forms, Home, Inbox, Outbox };
+export { Clients, User, Forms, Home, Inbox, Outbox };

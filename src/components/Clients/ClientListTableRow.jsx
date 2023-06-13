@@ -2,7 +2,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 // Inrupt Imports
-import { getFile } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { styled, useTheme } from '@mui/material/styles';
@@ -18,6 +17,7 @@ import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 import ShowDocumentsModal from './ShowDocumentsModal';
+import { showDocuments } from '../../utils/network/session-core';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -74,16 +74,20 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
   // EXPERIMENTAL - Event handler for displaying Documents from PASS
   const { session } = useSession();
-  const [fileSrc, setFileSrc] = useState(null);
+  const [fileSrc, setFileSrc] = useState([]);
   const [showDocument, setShowDocument] = useState(false);
-  // EXPERIMENTAL - hardcoded path to file I know exists and with permission
-  const fileUrl = `${client.podUrl}PASS/Documents/Bank_Statement/Test%20PDF.pdf`;
 
   const handleShowFile = async () => {
-    const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
-    const fileBlobUrl = URL.createObjectURL(fileBlob);
-    setFileSrc(fileBlobUrl);
-    setShowDocument(!showDocument);
+    let allUrls;
+
+    try {
+      allUrls = await showDocuments(session, client.podUrl);
+
+      setFileSrc(allUrls);
+      setShowDocument(!showDocument);
+    } catch {
+      throw new Error('Unauthorized or no documents found');
+    }
   };
 
   return (

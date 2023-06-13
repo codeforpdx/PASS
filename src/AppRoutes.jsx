@@ -10,6 +10,7 @@ import Clients from './routes/Clients';
 import Inbox from './routes/Inbox';
 import Outbox from './routes/Outbox';
 import Forms from './routes/Forms';
+import { User } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
@@ -48,6 +49,7 @@ const AppRoutes = () => {
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
+        <Route path="/PASS/user" element={<User />} />
         <Route path="/PASS/forms" element={<Forms />} />
         <Route path="/PASS/inbox" element={<Inbox />} />
         <Route path="/PASS/outbox" element={<Outbox />} />

@@ -28,11 +28,15 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => (
     <DialogContent
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        gap: 5
       }}
     >
-      <iframe src={fileSrc} title="test" width="800" height="700" />
+      {fileSrc.map((src) => (
+        <iframe src={src} title="test" width="800" height="700" key={src} />
+      ))}
     </DialogContent>
 
     <DialogActions>
