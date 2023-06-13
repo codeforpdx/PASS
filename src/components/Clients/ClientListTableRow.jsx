@@ -1,7 +1,9 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// React Router Imports
 import { Link } from 'react-router-dom';
+// Inrupt Imports
+import { getFile } from '@inrupt/solid-client';
+import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { styled, useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,6 +17,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
+import ShowDocumentsModal from './ShowDocumentsModal';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -69,6 +72,20 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     setPinned(!pinned);
   };
 
+  // EXPERIMENTAL - Event handler for displaying Documents from PASS
+  const { session } = useSession();
+  const [fileSrc, setFileSrc] = useState(null);
+  const [showDocument, setShowDocument] = useState(false);
+  // EXPERIMENTAL - hardcoded path to file I know exists and with permission
+  const fileUrl = `${client.podUrl}PASS/Documents/Bank_Statement/Test%20PDF.pdf`;
+
+  const handleShowFile = async () => {
+    const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
+    const fileBlobUrl = URL.createObjectURL(fileBlob);
+    setFileSrc(fileBlobUrl);
+    setShowDocument(!showDocument);
+  };
+
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
@@ -99,6 +116,16 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
         </Link>
       </StyledTableCell>
       <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
+      <StyledTableCell align="center">
+        <button type="button" onClick={handleShowFile}>
+          Show Documents
+        </button>
+        <ShowDocumentsModal
+          showModal={showDocument}
+          setShowModal={setShowDocument}
+          fileSrc={fileSrc}
+        />
+      </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
           {pinnedIcon}
