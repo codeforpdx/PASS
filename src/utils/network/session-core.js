@@ -579,8 +579,6 @@ export const createInbox = async (session, podUrl) => {
 
 export const showDocuments = async (session, podUrl) => {
   try {
-    await getSolidDataset(`${podUrl}PASS/Documents/`, { fetch: session.fetch });
-
     const parsedDatasets = await promiseSome(
       docTypes.map(async (docType) => {
         const dataset = await getSolidDataset(

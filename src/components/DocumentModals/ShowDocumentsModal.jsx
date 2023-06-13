@@ -46,6 +46,7 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
 
       <DialogContent>
         <Box
+          key="docViewerModal"
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
