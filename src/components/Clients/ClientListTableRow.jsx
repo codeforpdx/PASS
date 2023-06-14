@@ -79,13 +79,18 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const [showDocument, setShowDocument] = useState(false);
 
   const handleShowFile = async () => {
-    runNotification(`Fetching documents from Pod...`, 5, state, dispatch);
+    runNotification('Fetching documents from Pod...', 5, state, dispatch);
     dispatch({ type: 'SET_PROCESSING' });
 
     const allPermittedData = await getDocTTLs(session, client.podUrl);
     if (allPermittedData.length === 0) {
       setFileSrc([]);
-      runNotification('Operation failed. Reason: No access to files.', 5, state, dispatch);
+      runNotification(
+        'Operation failed. Reason: No access to files or no documents found.',
+        5,
+        state,
+        dispatch
+      );
       dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
