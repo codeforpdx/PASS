@@ -37,12 +37,20 @@ const User = () => {
   const { podUrl } = useContext(SignedInUserContext);
 
   const handleShowFile = async () => {
+    runNotification('Fetching documents from Pod...', 5, state, dispatch);
     dispatch({ type: 'SET_PROCESSING' });
 
-    runNotification(`Fetching documents from Pod...`, 5, state, dispatch);
-    const allPermittedData = await getDocTTLs(session, podUrl);
+    const allDocumentData = await getDocTTLs(session, podUrl);
 
-    setFileSrc(allPermittedData);
+    if (allDocumentData.message?.includes('No documents found')) {
+      runNotification('Operation failed. Reason: No files found.', 5, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
+      return;
+    }
+
+    const dataWithFiles = allDocumentData.filter((item) => typeof item !== 'number');
+
+    setFileSrc(dataWithFiles);
     setShowDocument(!showDocument);
 
     setTimeout(() => {
