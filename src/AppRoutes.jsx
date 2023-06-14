@@ -4,13 +4,8 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Page Imports
 import { useSession } from '@inrupt/solid-ui-react';
 import { useRedirectUrl } from './hooks';
-
-import Home from './routes/Home';
-import Clients from './routes/Clients';
-import Inbox from './routes/Inbox';
-import Outbox from './routes/Outbox';
-import Forms from './routes/Forms';
-import { User } from './routes';
+// Page Imports
+import { Home, Clients, User, Forms, Inbox, Outbox } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
