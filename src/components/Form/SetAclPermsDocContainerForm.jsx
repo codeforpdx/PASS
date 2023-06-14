@@ -91,9 +91,9 @@ const SetAclPermsDocContainerForm = () => {
       await setDocContainerAclPermission(session, permissions, podUsername);
 
       runNotification(
-        `${
-          permissions.read ? 'Give' : 'Revoke'
-        } permission to ${podUsername} for Documents Container.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+          selectedUser.person
+        } for Documents Container.`,
         5,
         state,
         dispatch

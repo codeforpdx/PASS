@@ -8,10 +8,10 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
 // Custom Hook Imports
@@ -100,7 +100,9 @@ const SetAclPermissionForm = () => {
       await setDocAclPermission(session, docType, permissions, podUsername);
 
       runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${podUsername} for ${docType}.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+          selectedUser.person
+        } for ${docType}.`,
         5,
         state,
         dispatch
@@ -125,8 +127,8 @@ const SetAclPermissionForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl>
-            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
+          <FormControl fullWidth>
+            <InputLabel htmlFor="set-acl-to" label="Set permissions to:" />
             <TextField
               id="set-acl-to"
               name="setAclTo"
