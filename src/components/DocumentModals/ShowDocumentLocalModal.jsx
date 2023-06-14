@@ -18,22 +18,32 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const ShowDocumentLocalModal = ({ showModal, setShowModal, fileBlobUrl }) => (
   <Dialog
+    fullScreen
     open={showModal}
     aria-labelledby="dialog-title"
     onClose={() => setShowModal(false)}
-    sx={{ width: '90%' }}
   >
     <DialogTitle id="dialog-tile">Documents</DialogTitle>
 
-    <DialogContent>
-      <iframe src={fileBlobUrl} title="File Preview Local" height={800} width={700} />
+    <DialogContent
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5
+      }}
+    >
+      <iframe src={fileBlobUrl} title="File Preview Local" height="100%" width="100%" />
     </DialogContent>
     <DialogActions>
       <Button
         variant="outlined"
         color="error"
         endIcon={<ClearIcon />}
-        onClick={() => setShowModal(false)}
+        onClick={() => {
+          setShowModal(false);
+        }}
       >
         CLOSE
       </Button>

@@ -33,8 +33,8 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
 
   const handleShowDocumentLocal = async (fileUrl) => {
     const urlFileBlob = await getBlobFromSolid(session, fileUrl);
-    setShowDocumentBlob(!showDocumentBlob);
     setFileBlobUrl(urlFileBlob);
+    setShowDocumentBlob(true);
   };
 
   return (
@@ -77,22 +77,24 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
                 >
                   File name: {src.filename}
                 </Typography>
-                <Typography>Upload date: {src.uploadDate.toISOString()}</Typography>
+                <Typography>Upload date: {src.uploadDate.toLocaleString()}</Typography>
                 <Typography>Description: {src.description}</Typography>
                 <Typography>Expire Date (if applicable): {src.expireDate}</Typography>
                 <br />
-                <Typography>Show Document</Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>Show Document</Typography>
                 <Button
                   variant="contained"
                   type="button"
                   onClick={() => handleShowDocumentLocal(src.documentUrl)}
                 >
-                  Local
+                  Preview
                 </Button>
                 <Button
                   variant="contained"
                   type="button"
-                  sx={{ a: { color: 'white', textDecoration: 'none' } }}
+                  sx={{
+                    a: { color: 'white', textDecoration: 'none', width: '100%', height: '100%' }
+                  }}
                 >
                   <a href={src.documentUrl} target="_blank" rel="noreferrer">
                     New Window

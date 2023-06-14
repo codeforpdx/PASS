@@ -84,20 +84,29 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     runNotification('Fetching documents from Pod...', 5, state, dispatch);
     dispatch({ type: 'SET_PROCESSING' });
 
-    const allPermittedData = await getDocTTLs(session, client.podUrl);
-    if (allPermittedData.length === 0) {
-      setFileSrc([]);
-      runNotification(
-        'Operation failed. Reason: No access to files or no documents found.',
-        5,
-        state,
-        dispatch
-      );
+    const allDocumentData = await getDocTTLs(session, client.podUrl);
+
+    if (allDocumentData.message?.includes('Unauthorized')) {
+      runNotification('Operation failed. Reason: No permission to files.', 5, state, dispatch);
       dispatch({ type: 'CLEAR_PROCESSING' });
       return;
     }
 
-    setFileSrc(allPermittedData);
+    if (allDocumentData.message?.includes('No documents found')) {
+      runNotification('Operation failed. Reason: No files found.', 5, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
+      return;
+    }
+
+    const permittedData = allDocumentData.filter((item) => typeof item !== 'number');
+
+    if (permittedData.length === 0) {
+      runNotification('Operation failed. Reason: No permitted files found.', 5, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
+      return;
+    }
+
+    setFileSrc(permittedData);
     setShowDocument(!showDocument);
 
     setTimeout(() => {

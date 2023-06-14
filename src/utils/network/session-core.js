@@ -574,42 +574,54 @@ export const createInbox = async (session, podUrl) => {
  * @function getDocTTLs
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - Pod URL of user to show documents from
- * @returns {Promise<URL[]>} - List of authorized URLs to documents
+ * @returns {Promise<object[]>} - List of parsed objects and/or error status codes
  */
 
 export const getDocTTLs = async (session, podUrl) => {
   const parsedDatasets = await promiseSome(
     docTypes.map(async (docType) => {
-      const dataset = await getSolidDataset(
-        `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
-        {
-          fetch: session.fetch
-        }
-      );
+      try {
+        const dataset = await getSolidDataset(
+          `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
+          {
+            fetch: session.fetch
+          }
+        );
 
-      const documentTTLThing = getThing(
-        dataset,
-        `${podUrl}PASS/Documents/${docType
-          .replace("'", '')
-          .replace(' ', '_')}/document.ttl#document`
-      );
+        const documentTTLThing = getThing(
+          dataset,
+          `${podUrl}PASS/Documents/${docType
+            .replace("'", '')
+            .replace(' ', '_')}/document.ttl#document`
+        );
 
-      const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
-      const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
-      const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
-      const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
-      const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
+        const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
+        const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
+        const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
+        const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
+        const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
 
-      return {
-        uploadDate,
-        filename,
-        documentType: docType,
-        expireDate,
-        description,
-        documentUrl
-      };
+        return {
+          uploadDate,
+          filename,
+          documentType: docType,
+          expireDate,
+          description,
+          documentUrl
+        };
+      } catch (error) {
+        return error.response?.status;
+      }
     })
   );
+
+  if (parsedDatasets.every((item) => item === 403)) {
+    return new Error('Unauthorized to all documents');
+  }
+
+  if (parsedDatasets.every((item) => item === 404)) {
+    return new Error('No documents found');
+  }
 
   return parsedDatasets;
 };
