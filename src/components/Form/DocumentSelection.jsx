@@ -28,6 +28,7 @@ const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
         value={docType}
         onChange={handleDocType}
         name="document"
+        required
       >
         {docTypes.map((doc) => (
           <MenuItem key={doc.split(' ')[0]} value={doc}>

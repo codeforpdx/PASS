@@ -150,18 +150,19 @@ const CrossPodWriteForm = () => {
             </LocalizationProvider>
           </FormControl>
           <br />
+          <br />
           <FormControl fullWidth>
             {/* TODO: Determine whether Typography below is necessary or redundant */}
-            <Typography htmlFor="upload-doc-desc">Enter description:</Typography>
+            {/* <Typography htmlFor="upload-doc-desc">Enter description:</Typography> */}
             <TextField
               id="upload-doc-desc"
               name="description"
               multiline
               rows={4}
-              label="Enter Description"
+              label="Enter description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
-              placeholder="Enter Description"
+              placeholder="Add a description here"
             />
           </FormControl>
           <br />

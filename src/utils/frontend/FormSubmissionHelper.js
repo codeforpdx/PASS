@@ -6,13 +6,17 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  */
 
 /**
+ * @typedef {import("dayjs").Dayjs} Dayjs
+ */
+
+/**
  * Makes a default handleFormSubmission function that can be used
  * by form elements in PASS
  *
  * @memberof utils
  * @function makeHandleFormSubmission
  * @param {string} uploadType - Type of upload (cross, self, etc.) to perform
- * @param {string} expireDate - document expiration date
+ * @param {Dayjs} expireDate - document expiration date
  * @param {string} docDescription - document description
  * @param {object} state - current state
  * @param {object} dispatch - dispatch for actions
