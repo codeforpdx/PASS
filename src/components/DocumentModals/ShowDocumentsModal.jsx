@@ -62,7 +62,8 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
               sx={{
                 padding: 5,
                 borderRadius: '10px',
-                backgroundColor: 'lightgray'
+                backgroundColor: 'lightgray',
+                width: { xxs: '300px', xs: '320px' }
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
