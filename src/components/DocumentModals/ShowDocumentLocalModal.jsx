@@ -12,7 +12,7 @@ import ClearIcon from '@mui/icons-material/Clear';
  * ShowDocumentsModal Component - Popup modal that shows client documents if gotten
  * explicit permission via ACL
  *
- * @memberof Clients
+ * @memberof DocumentModals
  * @name ShowDocumentLocalModal
  */
 

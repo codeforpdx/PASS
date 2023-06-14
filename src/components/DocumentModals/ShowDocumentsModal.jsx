@@ -21,7 +21,7 @@ import ShowDocumentLocalModal from './ShowDocumentLocalModal';
  * ShowDocumentsModal Component - Popup modal that shows client documents if gotten
  * explicit permission via ACL
  *
- * @memberof Clients
+ * @memberof DocumentModals
  * @name ShowDocumentsModal
  */
 
