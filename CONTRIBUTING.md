@@ -4,6 +4,10 @@
 
 Building out a decentralized application to enable house insecure individuals to securely store their documents electronically. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents.
 
+## Tech Stack Overview
+
+[Link to tech stack image](https://drive.google.com/file/d/1jC4A5sqRqoidxB9lS71SomMkNSpvWzU6/view?usp=sharing)
+
 ## Get started
 
 1. Join [Code for PDX Discord](https://discord.gg/FEX9KUMH). If you run into any issues, shoot an email to our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org
