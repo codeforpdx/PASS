@@ -13,6 +13,7 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  * @function makeHandleFormSubmission
  * @param {string} uploadType - Type of upload (cross, self, etc.) to perform
  * @param {string} expireDate - document expiration date
+ * @param {string} docDescription - document description
  * @param {object} state - current state
  * @param {object} dispatch - dispatch for actions
  * @param {Session} session - current Solid session
@@ -20,7 +21,7 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  * @returns {Function} A function that components can call to submit forms to PASS
  */
 const makeHandleFormSubmission =
-  (uploadType, expireDate, state, dispatch, session, clearInputFields) =>
+  (uploadType, expireDate, docDescription, state, dispatch, session, clearInputFields) =>
   async (event, crossPodUsername = '') => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -39,7 +40,7 @@ const makeHandleFormSubmission =
     const fileObject = {
       type: docType,
       date: formattedDate,
-      description: event.target.description.value || 'No description provided',
+      docDescription: event.target.docDescription.value || 'No description provided',
       file: state.file
     };
 

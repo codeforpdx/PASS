@@ -16,7 +16,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 // Utility Imports
 import { runNotification, makeHandleFormSubmission } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
@@ -38,7 +38,8 @@ const CrossPodWriteForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
   const [expireDate, setExpireDate] = useState(null);
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState('');
+  const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -54,22 +55,21 @@ const CrossPodWriteForm = () => {
     }
   };
 
-  // Custom useField hook for handling form inputs
-  const { clearValue: clearDescription, _type, ...description } = useField('textarea');
-
   const clearInputFields = (event) => {
     event.target.reset();
-    clearDescription();
+    // clearDescription();
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
-    // setDocType('');
-    // setExpireDate(null);
+    setDocDescription('');
+    setDocType('');
+    setExpireDate(null);
     // setSelectedUser('');
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
     INTERACTION_TYPES.CROSS,
     expireDate,
+    docDescription,
     state,
     dispatch,
     session,
@@ -158,10 +158,12 @@ const CrossPodWriteForm = () => {
             <TextField
               id="upload-doc-desc"
               name="description"
-              {...description}
               multiline
               rows={4}
               label="Enter Description"
+              value={docDescription}
+              onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
+              placeholder="help"
             />
           </FormControl>
           <br />
