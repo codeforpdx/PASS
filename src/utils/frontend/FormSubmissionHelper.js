@@ -40,7 +40,7 @@ const makeHandleFormSubmission =
     const fileObject = {
       type: docType,
       date: formattedDate,
-      docDescription: event.target.docDescription.value || 'No description provided',
+      description: docDescription || 'No description provided',
       file: state.file
     };
 
