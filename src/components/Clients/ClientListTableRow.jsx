@@ -45,11 +45,13 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
   // Event handler for selecting client from client list
   const handleSelectClient = async (clientToSelect) => {
-    runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
     if (clientToSelect.webId === selectedUser.webId) {
+      runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
       setSelectedUser({});
       return;
     }
+
+    runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
     setSelectedUser(clientToSelect);
   };
 

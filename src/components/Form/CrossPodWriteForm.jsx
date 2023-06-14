@@ -26,7 +26,7 @@ const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
