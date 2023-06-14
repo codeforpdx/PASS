@@ -55,15 +55,13 @@ const CrossPodWriteForm = () => {
     }
   };
 
-  const clearInputFields = (event) => {
-    event.target.reset();
-    // clearDescription();
+  const clearInputFields = () => {
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
-    // setSelectedUser('');
+    setUsername('');
   };
 
   const handleFormSubmit = makeHandleFormSubmission(
@@ -163,7 +161,7 @@ const CrossPodWriteForm = () => {
               label="Enter Description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
-              placeholder="help"
+              placeholder="Enter Description"
             />
           </FormControl>
           <br />
@@ -181,7 +179,15 @@ const CrossPodWriteForm = () => {
               Choose file
               <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple />
             </Button>
-            <FormHelperText>
+            <FormHelperText
+              sx={{
+                display: 'inline-block',
+                width: '200px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden !important',
+                textOverflow: 'ellipsis'
+              }}
+            >
               File to upload: {state.file ? state.file.name : 'No file selected'}
             </FormHelperText>
           </FormControl>
