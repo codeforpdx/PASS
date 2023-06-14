@@ -92,7 +92,7 @@ const SetAclPermsDocContainerForm = () => {
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person
+          selectedUser.person ?? username
         } for Documents Container.`,
         5,
         state,

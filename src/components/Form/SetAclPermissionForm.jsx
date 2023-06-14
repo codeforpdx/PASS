@@ -101,7 +101,7 @@ const SetAclPermissionForm = () => {
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person
+          selectedUser.person ?? username
         } for ${docType}.`,
         5,
         state,
