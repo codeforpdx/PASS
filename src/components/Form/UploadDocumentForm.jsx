@@ -1,11 +1,22 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
+// Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
+// import Typography from '@mui/material/Typography';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import FormHelperText from '@mui/material/FormHelperText';
 // Utility Imports
 import { makeHandleFormSubmission, runNotification } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Constants Imports
 import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
@@ -24,6 +35,7 @@ const UploadDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
+  const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -39,15 +51,13 @@ const UploadDocumentForm = () => {
     }
   };
 
-  // Custom useField hook for handling form inputs
-  const { clearValue: clearDescription, _type, ...description } = useField('textarea');
-
-  const clearInputFields = (event) => {
-    event.target.reset();
-    clearDescription();
+  const clearInputFields = () => {
     dispatch({ type: 'CLEAR_FILE' });
     dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
+    setDocDescription('');
+    setDocType('');
+    setExpireDate(null);
   };
 
   // Event handler for form/document submission to Pod
@@ -75,9 +85,6 @@ const UploadDocumentForm = () => {
     handleFormSubmit(event);
   };
 
-  const formRowStyle = {
-    margin: '20px 0'
-  };
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
@@ -86,47 +93,104 @@ const UploadDocumentForm = () => {
       statusType="Upload status"
       defaultMessage="To be uploaded..."
     >
-      <form onSubmit={handleDocumentUpload} autoComplete="off">
-        <label htmlFor="verify-checkbox">
-          Verify File on upload:
-          <input
-            id="verify-checkbox"
-            type="checkbox"
-            value={state.verifyFile}
-            onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
-          />
-        </label>
-        <div style={formRowStyle}>
+      <Box display="flex" justifyContent="center">
+        <form onSubmit={handleDocumentUpload} autoComplete="off">
+          <label htmlFor="verify-checkbox">
+            Verify File on upload:
+            <input
+              id="verify-checkbox"
+              type="checkbox"
+              value={state.verifyFile}
+              onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+            />
+          </label>
           <DocumentSelection
             htmlForAndIdProp="upload-doc"
             handleDocType={handleDocType}
             docType={docType}
           />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-expiration">Expiration date (if applicable): </label>
-          <input id="upload-doc-expiration" name="date" type="date" />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doc-desc">Enter description: </label>
+          <br />
+          <FormControl>
+            {/* TODO: Determine whether InputLabel below is necessary or redundant */}
+            <InputLabel htmlFor="upload-doc-expiration" />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="upload-doc-expiration"
+                name="date"
+                format="MM/DD/YYYY"
+                label="Expire date (if applicable)"
+                value={expireDate}
+                onChange={(newExpireDate) => setExpireDate(newExpireDate)}
+                type="date"
+                slotProps={{
+                  textField: {
+                    helperText: 'MM/DD/YYYY'
+                  }
+                }}
+              />
+            </LocalizationProvider>
+          </FormControl>
           <br />
           <br />
-          <textarea id="upload-doc-desc" name="description" {...description} />
-        </div>
-        <div style={formRowStyle}>
-          <label htmlFor="upload-doctype">File to upload: </label>
-          <input
-            id="upload-doctype"
-            type="file"
-            name="uploadDoctype"
-            accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
-            onChange={handleFileChange}
-          />
-          <button disabled={state.processing} type="submit">
-            Upload file
-          </button>
-        </div>
-      </form>
+          <br />
+          <FormControl fullWidth>
+            {/* TODO: Determine whether Typography below is necessary or redundant */}
+            {/* <Typography htmlFor="upload-doc-desc">Enter description:</Typography> */}
+            <TextField
+              id="upload-doc-desc"
+              name="description"
+              multiline
+              rows={4}
+              label="Enter description"
+              value={docDescription}
+              onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
+              placeholder="Add a description here"
+            />
+          </FormControl>
+          <br />
+          <br />
+          <FormControl fullWidth>
+            <Button
+              variant="contained"
+              component="label"
+              color="primary"
+              id="upload-doctype"
+              name="uploadDoctype"
+              onChange={handleFileChange}
+              required
+            >
+              Choose file
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple />
+            </Button>
+            <FormHelperText
+              sx={{
+                display: 'inline-block',
+                width: '200px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden !important',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              File to upload: {state.file ? state.file.name : 'No file selected'}
+            </FormHelperText>
+          </FormControl>
+          <br />
+          <FormControl fullWidth>
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              Upload file
+            </Button>
+          </FormControl>
+          <br />
+          <br />
+
+          {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
+          <FormControl fullWidth>
+            <Button variant="contained" type="button" color="secondary" onClick={clearInputFields}>
+              Clear Form
+            </Button>
+          </FormControl>
+        </form>
+      </Box>
     </FormSection>
   );
   /* eslint-enable jsx-a11y/label-has-associated-control */
