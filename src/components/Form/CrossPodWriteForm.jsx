@@ -37,8 +37,8 @@ const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState(selectedUser.username);
   const [expireDate, setExpireDate] = useState(null);
-  const [username, setUsername] = useState('');
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
 
@@ -116,7 +116,7 @@ const CrossPodWriteForm = () => {
             <TextField
               id="cross-upload-doc"
               name="crossPodUpload"
-              label="Search username"
+              label="Search Username"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -137,7 +137,7 @@ const CrossPodWriteForm = () => {
                 id="upload-doc-expiration"
                 name="date"
                 format="MM/DD/YYYY"
-                label="Expire date (if applicable)"
+                label="Expiration Date"
                 value={expireDate}
                 onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
@@ -159,7 +159,7 @@ const CrossPodWriteForm = () => {
               name="description"
               multiline
               rows={4}
-              label="Enter description"
+              label="Enter Description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
@@ -182,7 +182,6 @@ const CrossPodWriteForm = () => {
             </Button>
             <FormHelperText
               sx={{
-                display: 'inline-block',
                 width: '200px',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden !important',

@@ -5,7 +5,9 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 // import Typography from '@mui/material/Typography';
@@ -64,6 +66,7 @@ const UploadDocumentForm = () => {
   const handleFormSubmit = makeHandleFormSubmission(
     INTERACTION_TYPES.SELF,
     expireDate,
+    docDescription,
     state,
     dispatch,
     session,
@@ -95,15 +98,13 @@ const UploadDocumentForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleDocumentUpload} autoComplete="off">
-          <label htmlFor="verify-checkbox">
-            Verify File on upload:
-            <input
-              id="verify-checkbox"
-              type="checkbox"
-              value={state.verifyFile}
-              onClick={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
-            />
-          </label>
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Verify file on upload"
+            id="verify-checkbox"
+            value={state.verifyFile}
+            onChange={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+          />
           <DocumentSelection
             htmlForAndIdProp="upload-doc"
             handleDocType={handleDocType}
@@ -118,7 +119,7 @@ const UploadDocumentForm = () => {
                 id="upload-doc-expiration"
                 name="date"
                 format="MM/DD/YYYY"
-                label="Expire date (if applicable)"
+                label="Expiration Date"
                 value={expireDate}
                 onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
@@ -132,7 +133,6 @@ const UploadDocumentForm = () => {
           </FormControl>
           <br />
           <br />
-          <br />
           <FormControl fullWidth>
             {/* TODO: Determine whether Typography below is necessary or redundant */}
             {/* <Typography htmlFor="upload-doc-desc">Enter description:</Typography> */}
@@ -141,7 +141,7 @@ const UploadDocumentForm = () => {
               name="description"
               multiline
               rows={4}
-              label="Enter description"
+              label="Enter Description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
@@ -164,7 +164,6 @@ const UploadDocumentForm = () => {
             </Button>
             <FormHelperText
               sx={{
-                display: 'inline-block',
                 width: '200px',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden !important',
@@ -182,7 +181,6 @@ const UploadDocumentForm = () => {
           </FormControl>
           <br />
           <br />
-
           {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
           <FormControl fullWidth>
             <Button variant="contained" type="button" color="secondary" onClick={clearInputFields}>

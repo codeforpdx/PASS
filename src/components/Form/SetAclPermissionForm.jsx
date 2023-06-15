@@ -135,7 +135,7 @@ const SetAclPermissionForm = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={selectedUser.username}
-              label="Search username"
+              label="Search Username"
               required
             />
           </FormControl>
