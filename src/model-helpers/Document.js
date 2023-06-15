@@ -112,11 +112,11 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
-    .addDate(RDF_PREDICATES.endDate, new Date(docDesc.date))
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
     .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
 
+  if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
   thing = addAdditionalInfo(thing, docDesc);
   return thing.build();
 };
