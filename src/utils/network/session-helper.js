@@ -9,7 +9,6 @@ import {
   createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt,
   getProfileAll,
   getThing,
   getStringNoLocale,
@@ -249,39 +248,6 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
 };
 
 /**
- * Function that updates ttl file in Solid container for endDate (expiration
- * date) and description while also including datetime of all instances when
- * document was modified
- *
- * @memberof utils
- * @function updateTTLFile
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {URL} containerUrl - Url link to document container
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - Perform an update to an existing document.ttl by
- * setting a new expiration date, description, and date modified
- */
-
-export const updateTTLFile = async (session, containerUrl, fileObject) => {
-  let solidDataset = await getSolidDataset(`${containerUrl}document.ttl`, { fetch: session.fetch });
-  let ttlFile = getThing(solidDataset, `${containerUrl}document.ttl#document`);
-
-  ttlFile = buildThing(ttlFile)
-    .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .setDatetime(RDF_PREDICATES.dateModified, new Date())
-    .build();
-  solidDataset = setThing(solidDataset, ttlFile);
-
-  try {
-    await saveSolidDatasetAt(`${containerUrl}document.ttl`, solidDataset, { fetch: session.fetch });
-  } catch (error) {
-    throw new Error('Failed to update ttl file.');
-  }
-};
-
-/**
  * Function that generates checksum for uploaded file
  *
  * @memberof utils
@@ -306,14 +272,15 @@ const createFileChecksum = async (fileObject) => {
  * @function createDriversLicenseTtlFile
  * @param {fileObjectType} fileObject - Object containing information about file
  * @param {URL} documentUrl - url of uploaded document or resource
+ * @param {string} thingName - name for TTL file Thing
  * @param {WordArray} checksum - SHA256 checksum for verified uploads\
  * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
  * and returns a new TTL file Thing
  */
 
-const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
+const createDriversLicenseTtlFile = async (fileObject, documentUrl, thingName, checksum) => {
   const dlData = await getDriversLicenseData(fileObject.file);
-  return buildThing(createThing({ name: 'document' }))
+  return buildThing(createThing({ name: thingName }))
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
@@ -353,18 +320,19 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
  * @param {string} documentUrl - url of uploaded document or resource
+ * @param {string} thingName - name for TTL file Thing
  * @returns {Promise<ThingLocal>} Promise - Perform action to generate a newly generated
  * Thing from buildThing
  */
 
-export const createResourceTtlFile = async (fileObject, documentUrl) => {
+export const createResourceTtlFile = async (fileObject, documentUrl, thingName) => {
   const checksum = await createFileChecksum(fileObject);
 
   if (fileObject.type === "Driver's License") {
-    return createDriversLicenseTtlFile(fileObject, documentUrl, checksum);
+    return createDriversLicenseTtlFile(fileObject, documentUrl, 'document0', checksum);
   }
 
-  return buildThing(createThing({ name: 'document' }))
+  return buildThing(createThing({ name: thingName }))
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)

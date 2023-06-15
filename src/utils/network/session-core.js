@@ -17,7 +17,6 @@ import {
   hasTTLFiles,
   setDocAclForUser,
   createResourceTtlFile,
-  updateTTLFile,
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
@@ -26,6 +25,7 @@ import {
   getPodUrl,
   getAllFiles
 } from './session-helper';
+import { uploadNewFile, updateFile } from './storage-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
 
 /**
@@ -144,7 +144,7 @@ export const uploadDocument = async (
     containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
   }
 
-  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '_')}`;
+  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '%20')}`;
   const datasetFromUrl = await getSolidDataset(containerUrl, { fetch: session.fetch });
   const ttlFileExists = hasTTLFiles(datasetFromUrl);
 
@@ -156,10 +156,16 @@ export const uploadDocument = async (
 
   // Place file into Pod container and generate new ttl file for container
   await placeFileInContainer(session, fileObject, containerUrl);
-  const newTtlFile = await createResourceTtlFile(fileObject, documentUrl);
+  const setupTtlFile = buildThing(createThing({ name: 'document' }))
+    .addStringNoLocale(RDF_PREDICATES.description, `A container for ${fileObject.type}`)
+    .addStringNoLocale(RDF_PREDICATES.name, `${fileObject.type} Container`)
+    .addUrl(RDF_PREDICATES.URL, `${containerUrl}document.ttl`)
+    .build();
+  const newTtlFile = await createResourceTtlFile(fileObject, documentUrl, 'document0');
   const signingKey = verifyDocument ? await getUserSigningKey(session) : null;
 
   let newSolidDataset = createSolidDataset();
+  newSolidDataset = setThing(newSolidDataset, setupTtlFile);
   newSolidDataset = setThing(newSolidDataset, newTtlFile);
   const signatureDataset = signingKey
     ? await signDocumentTtlFile(signingKey, newSolidDataset, session, containerUrl)
@@ -196,13 +202,21 @@ export const uploadDocument = async (
  * being used
  * @param {fileObjectType} fileObject - Object containing information about file
  * from form submission (see {@link fileObjectType})
+ * @param {boolean} verifyDocument - True if document submission should include
+ * user verification
  * @param {string} [otherPodUsername] - If cross pod interaction, this is the URL
  * of the other user, set to an empty string by default
  * @returns {Promise<boolean>} fileExist - A boolean for if file exist on Solid
  * Pod and updates the file if accepted, or if file doesn't exist, uploads a new
  * file to Solid Pod if accepted
  */
-export const updateDocument = async (session, uploadType, fileObject, otherPodUsername = '') => {
+export const updateDocument = async (
+  session,
+  uploadType,
+  fileObject,
+  verifyDocument,
+  otherPodUsername = ''
+) => {
   let containerUrl;
   const fileName = fileObject.file.name;
   if (uploadType === INTERACTION_TYPES.SELF) {
@@ -213,7 +227,7 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
     containerUrl = `${containerUrl}${fileObject.type.replace("'", '').replace(' ', '_')}/`;
   }
 
-  const documentUrl = `${containerUrl}${fileName}`;
+  const documentUrl = `${containerUrl}${fileName.replace("'", '').replace(' ', '%20')}`;
   const solidDataset = await getSolidDataset(containerUrl, { fetch: session.fetch });
 
   // Checks for file in Solid Pod
@@ -225,8 +239,12 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
     : `File ${fileName} does not exist in Pod container, do you wish to upload it?`;
 
   if (window.confirm(confirmationMessage)) {
-    await overwriteFile(documentUrl, fileObject.file, { fetch: session.fetch });
-    await updateTTLFile(session, containerUrl, fileObject);
+    if (fileExist) {
+      await overwriteFile(documentUrl, fileObject.file, { fetch: session.fetch });
+      await updateFile(session, containerUrl, verifyDocument, fileObject);
+    } else {
+      await uploadNewFile(session, containerUrl, verifyDocument, fileObject);
+    }
   } else {
     throw new Error(fileExist ? 'File update cancelled.' : 'New file upload cancelled.');
   }

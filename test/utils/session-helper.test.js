@@ -34,7 +34,7 @@ describe('createResourceTtlFile', () => {
       }
     };
 
-    const result = await createResourceTtlFile(fileObjectMock, documentUrl);
+    const result = await createResourceTtlFile(fileObjectMock, documentUrl, 'document');
     expect(mockText).toBeCalledTimes(1);
     expect(Object.keys(result.predicates)).toHaveLength(7);
   });

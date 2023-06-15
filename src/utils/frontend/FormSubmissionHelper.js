@@ -48,11 +48,11 @@ const makeHandleFormSubmission =
       clearInputFields(event);
     } catch (e) {
       try {
-        runNotification('Updating on Pod...', 3, state, dispatch);
+        runNotification('Uploading new/updated content on Pod...', 3, state, dispatch);
 
         await updateDocument(session, uploadType, fileObject, crossPodUsername);
 
-        runNotification(`File updated on Pod.`, 5, state, dispatch);
+        runNotification(`File uploaded on Pod.`, 5, state, dispatch);
         clearInputFields(event);
       } catch (error) {
         runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
