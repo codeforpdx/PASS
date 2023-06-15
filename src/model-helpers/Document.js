@@ -115,7 +115,7 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addDate(RDF_PREDICATES.endDate, new Date(docDesc.date))
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl);
+    .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
 
   thing = addAdditionalInfo(thing, docDesc);
   return thing.build();
@@ -146,7 +146,7 @@ const createDocumentInternal = async (file, fileDescription, session, docUrl) =>
   const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
   await saveFileInContainer(docUrl, file, {
     fetch: session.fetch,
-    slugSuggestion: file.name
+    slug: file.name
   });
   return parseDocument(getThingAll(doc)[0]);
 };
