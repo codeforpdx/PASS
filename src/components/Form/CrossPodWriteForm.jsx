@@ -5,7 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Custom Hook Imports
-import { createDocument } from '../../model-helpers';
+import { createDocument, replaceDocument } from '../../model-helpers';
 import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
@@ -54,12 +54,25 @@ const CrossPodWriteForm = () => {
       description
     };
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+    const activePod = podUrl;
 
     try {
-      await createDocument(file, fileDesc, session, `${podUrl}PASS/`);
-      runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+      await createDocument(file, fileDesc, session, `${activePod}PASS/`);
+      runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
-      runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+      const confirmationMessage =
+        'A file of this name already exists on the pod. Would you like to replace it?';
+
+      switch (error.message) {
+        case 'File already exists':
+          if (window.confirm(confirmationMessage)) {
+            await replaceDocument(file, fileDesc, session, `${activePod}PASS/`);
+            runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+          }
+          break;
+        default:
+          runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+      }
     } finally {
       clearInputFields();
     }

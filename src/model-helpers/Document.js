@@ -112,7 +112,7 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
-    .addDate(RDF_PREDICATES.endDate, docDesc.date)
+    .addDate(RDF_PREDICATES.endDate, new Date(docDesc.date))
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
     .addUrl(RDF_PREDICATES.url, documentUrl);
@@ -130,6 +130,37 @@ export const parseDocument = (documentThing) => {
   const description = getStringNoLocale(documentThing, RDF_PREDICATES.description);
   const fileUrl = getUrl(documentThing, RDF_PREDICATES.URL);
   return { uploadDate, name, type, endDate, checksum, description, fileUrl };
+};
+
+export const saveDescription = async (docThing, dataset, session, docUrl) => {
+  const newDataset = setThing(dataset, docThing);
+  const name = getStringNoLocale(docThing, RDF_PREDICATES.name);
+  const doc = await saveSolidDatasetAt(`${docUrl}${name}.ttl`, newDataset, {
+    fetch: session.fetch
+  });
+  return doc;
+};
+
+const createDocumentInternal = async (file, fileDescription, session, docUrl) => {
+  const docThing = await docDescToThing(fileDescription, docUrl, file);
+  const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
+  await saveFileInContainer(docUrl, file, {
+    fetch: session.fetch,
+    slugSuggestion: file.name
+  });
+  return parseDocument(getThingAll(doc)[0]);
+};
+
+export const createDocument = async (file, fileDescription, session, passUrl) => {
+  const { type, name } = fileDescription;
+  const docUrl = `${passUrl}Documents/${type}/${name}/`;
+  try {
+    await getSolidDataset(docUrl, { fetch: session.fetch }); // check to see if the file already exists
+  } catch {
+    const result = await createDocumentInternal(file, fileDescription, session, docUrl);
+    return result;
+  }
+  throw Error('File already exists');
 };
 
 const deleteRecursively = async (dataset, options) => {
@@ -157,32 +188,6 @@ const deleteRecursively = async (dataset, options) => {
   await deleteSolidDataset(dataset, options);
 };
 
-export const saveDescription = async (docThing, dataset, session, docUrl) => {
-  const newDataset = setThing(dataset, docThing);
-  const name = getStringNoLocale(docThing, RDF_PREDICATES.name);
-  const doc = await saveSolidDatasetAt(`${docUrl}${name}.ttl`, newDataset, {
-    fetch: session.fetch
-  });
-  return doc;
-};
-
-export const createDocument = async (file, fileDescription, session, passUrl) => {
-  const { type, name } = fileDescription;
-  const docUrl = `${passUrl}Documents/${type}/${name}/`;
-  try {
-    await getSolidDataset(docUrl); // check to see if the file already exists
-  } catch {
-    const docThing = await docDescToThing(fileDescription, docUrl, file);
-    const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
-    await saveFileInContainer(docUrl, file, {
-      fetch: session.fetch,
-      slugSuggestion: file.name
-    });
-    return parseDocument(getThingAll(doc)[0]);
-  }
-  throw Error('A file of this name already exists');
-};
-
 // export const fetchDocument = (filename, session, podUrl) => {}
 export const deleteDocument = async (session, docUrl) => {
   const options = {
@@ -190,4 +195,12 @@ export const deleteDocument = async (session, docUrl) => {
   };
   const container = await getSolidDataset(docUrl, options);
   await deleteRecursively(container, options);
+};
+
+export const replaceDocument = async (file, fileDescription, session, passUrl) => {
+  const { type, name } = fileDescription;
+  const docUrl = `${passUrl}Documents/${type}/${name}/`;
+  await deleteDocument(session, docUrl);
+  const result = await createDocumentInternal(file, fileDescription, session, docUrl);
+  return result;
 };
