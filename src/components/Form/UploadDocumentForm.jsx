@@ -26,8 +26,8 @@ const UploadDocumentForm = () => {
   const [verifyFile, setVerifyFile] = useState(false);
   const [expiryDate, setExpiryDate] = useState('');
   const [description, setDescription] = useState('');
-  const [file, setFile] = useState('');
-  const [inputKey, setInputKey] = useState('');
+  const [file, setFile] = useState(null);
+  const [inputKey, setInputKey] = useState(false);
   const { podUrl } = useContext(SignedInUserContext);
   const { selectedUser } = useContext(SelectUserContext);
 
@@ -71,7 +71,11 @@ const UploadDocumentForm = () => {
     try {
       const doc = await createDocument(file, fileDesc, session, `${activePod}PASS/`);
       if (verifyFile)
-        await signDocument(doc, session, `${activePod}PASS/${docType}/${file.name.split('.')[0]}/`);
+        await signDocument(
+          doc,
+          session,
+          `${activePod}PASS/Documents/${docType}/${file.name.split('.')[0]}/`
+        );
       runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
@@ -110,7 +114,7 @@ const UploadDocumentForm = () => {
             id="verify-checkbox"
             type="checkbox"
             value={verifyFile}
-            onChange={(e) => setVerifyFile(e.target.value)}
+            onChange={() => setVerifyFile(!verifyFile)}
           />
         </label>
         <div style={formRowStyle}>

@@ -27,8 +27,8 @@ const CrossPodWriteForm = () => {
   const [docType, setDocType] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [description, setDescription] = useState('');
-  const [file, setFile] = useState('');
-  const { podUrl, person } = useContext(SelectUserContext);
+  const [file, setFile] = useState(null);
+  const { selectedUser } = useContext(SelectUserContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -52,7 +52,7 @@ const CrossPodWriteForm = () => {
       description
     };
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
-    const activePod = podUrl;
+    const activePod = selectedUser.podUrl;
 
     try {
       await createDocument(file, fileDesc, session, `${activePod}PASS/`);
@@ -90,7 +90,7 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
-          <p>Upload document to {person}: </p>
+          <p>Upload document to {selectedUser.person}: </p>
           <br />
           <br />
         </div>
