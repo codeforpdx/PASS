@@ -35,7 +35,7 @@ const ClientList = () => {
         }}
       >
         <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
-          Add clients to your list
+          
         </Typography>
       </Box>
     </Container>

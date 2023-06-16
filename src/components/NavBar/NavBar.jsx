@@ -16,7 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
-import LogoutModal from '../LogoutModal/LogoutModal';
+import Modal from '../LogoutModal/LogoutModal';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 import OidcLoginComponent from './OidcLoginComponent';
@@ -38,7 +38,7 @@ const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const menuId = 'primary-search-account-menu';
 
-  // state for LogoutModal component
+  // state for Modal component
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleOpenMenu = (event) => {
@@ -55,7 +55,7 @@ const NavBar = () => {
   };
 
   // Event handler for logging out of SOLID POD and removing items from localStorage
-  const handleLogout = () => {
+  const handle = () => {
     localStorage.clear();
     setShowConfirmationModal(false);
   };
@@ -143,10 +143,10 @@ const NavBar = () => {
                 />
               )}
               {/* modal/popup renders when showConfirmationModal state is true */}
-              <LogoutModal
+              <Modal
                 showConfirmation={showConfirmationModal}
                 setShowConfirmation={setShowConfirmationModal}
-                handleLogout={handleLogout}
+                handle={handle}
               />
             </>
           ) : (

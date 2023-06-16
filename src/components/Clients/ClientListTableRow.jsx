@@ -15,6 +15,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
+import DeleteModal from '../DeleteModal/DeleteModal';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -31,6 +32,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
   const [selected, setSelected] = useState(false);
+  const [showDeleteModal,setShowDeleteModal]=useState(false)
 
   // determine what gets rendered in the date modified cell of table
   const modifiedDate = client.dateModified
@@ -48,13 +50,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${client.person} from your client list, do you wish to continue?`
-      )
-    ) {
-      return;
-    }
+   
     runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
     await removeUser(client);
     runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
@@ -103,10 +99,13 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleDeleteClient()}>
+        <IconButton size="large" edge="end" onClick={() => setShowDeleteModal(true)}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
+
+      {/* modal/popup renders when showDeleteModal state is true */}
+      <DeleteModal showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} client={client} handleDelete={handleDeleteClient} />
     </StyledTableRow>
   );
 };
