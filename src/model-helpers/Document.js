@@ -52,13 +52,13 @@ export const signDocument = async (document, session, containerUrl) => {
  * @function createDriversLicenseTtlFile
  * @memberof utils
  * @function createDriversLicenseTtlFile
- * @param {fileObjectType} fileObject - Object containing information about file
  * @param {thing} thing - the thing to add info too
+ * @param {fileObjectType} file - Object containing information about file
  * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
  * and returns a new TTL file Thing
  */
-const addDriversLicenseInfo = async (fileObject, thing) => {
-  const dlData = await getDriversLicenseData(fileObject.file);
+const addDriversLicenseInfo = async (thing, file) => {
+  const dlData = await getDriversLicenseData(file);
   return thing
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
@@ -99,9 +99,9 @@ const createFileChecksum = async (file) => {
   return sha256(text);
 };
 
-const addAdditionalInfo = (thing, fileObject) => {
-  if (fileObject.type === "Driver's License") {
-    return addDriversLicenseInfo(thing, fileObject);
+const addAdditionalInfo = (docDesc, thing, file) => {
+  if (docDesc.type === 'DriversLicense') {
+    return addDriversLicenseInfo(thing, file);
   }
   return thing;
 };
@@ -118,7 +118,7 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
-  thing = addAdditionalInfo(thing, docDesc);
+  thing = addAdditionalInfo(docDesc, thing, file);
   return thing.build();
 };
 
@@ -142,8 +142,8 @@ export const saveDescription = async (docThing, dataset, session, docUrl) => {
   return doc;
 };
 
-const createDocumentInternal = async (file, fileDescription, session, docUrl) => {
-  const docThing = await docDescToThing(fileDescription, docUrl, file);
+const createDocumentInternal = async (file, docDescription, session, docUrl) => {
+  const docThing = await docDescToThing(docDescription, docUrl, file);
   const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
   await saveFileInContainer(docUrl, file, {
     fetch: session.fetch,
@@ -152,13 +152,13 @@ const createDocumentInternal = async (file, fileDescription, session, docUrl) =>
   return parseDocument(getThingAll(doc)[0]);
 };
 
-export const createDocument = async (file, fileDescription, session, passUrl) => {
-  const { type, name } = fileDescription;
+export const createDocument = async (file, docDescription, session, passUrl) => {
+  const { type, name } = docDescription;
   const docUrl = `${passUrl}Documents/${type}/${name}/`;
   try {
     await getSolidDataset(docUrl, { fetch: session.fetch }); // check to see if the file already exists
   } catch {
-    const result = await createDocumentInternal(file, fileDescription, session, docUrl);
+    const result = await createDocumentInternal(file, docDescription, session, docUrl);
     return result;
   }
   throw Error('File already exists');
