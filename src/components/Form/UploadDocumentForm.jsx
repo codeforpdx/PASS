@@ -88,7 +88,6 @@ const UploadDocumentForm = () => {
     handleFormSubmit(event);
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Upload Document"
@@ -191,7 +190,6 @@ const UploadDocumentForm = () => {
       </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default UploadDocumentForm;

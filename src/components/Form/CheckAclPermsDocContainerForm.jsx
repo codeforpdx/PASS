@@ -29,7 +29,7 @@ const CheckAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
@@ -108,7 +108,7 @@ const CheckAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={username}
+              value={selectedUser.person ? selectedUser.person : username}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}

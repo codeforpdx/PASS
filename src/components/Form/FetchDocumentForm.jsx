@@ -80,17 +80,21 @@ const FetchDocumentForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleGetDocumentSubmission}>
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <DocumentSelection
-              htmlForAndIdProp="search-doctype"
-              handleDocType={handleDocType}
-              docType={docType}
-            />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Get Document
-            </Button>
-          </Box>
+          <DocumentSelection
+            htmlForAndIdProp="search-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <Button
+            variant="contained"
+            disabled={state.processing}
+            type="submit"
+            color="primary"
+            fullWidth
+          >
+            Get Document
+          </Button>
         </form>
       </Box>
     </FormSection>

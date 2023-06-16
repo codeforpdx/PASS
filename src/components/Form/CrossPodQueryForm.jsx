@@ -31,7 +31,7 @@ const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -111,12 +111,12 @@ const CrossPodQueryForm = () => {
             <TextField
               id="cross-search-doc"
               name="crossPodQuery"
-              value={username}
+              value={selectedUser.person ? selectedUser.person : username}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
               placeholder={selectedUser.username}
-              label="Enter Username"
+              label="Search Username"
               required
             />
           </FormControl>

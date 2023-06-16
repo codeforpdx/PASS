@@ -42,37 +42,18 @@ const Forms = () => {
         justifyContent: 'center'
       }}
     >
-      {selectedUser.person ? (
-        <>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            aria-label="Clear Client Button"
-            startIcon={<Remove />}
-            onClick={() => setSelectedUser('')}
-            sx={{ margin: '2rem 0 1rem' }}
-          >
-            Clear Client
-          </Button>
-          <Typography variant="body2">Client selected: {selectedUser.person}</Typography>
-        </>
-      ) : (
-        <>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            aria-label="Clear Client Button Disabled"
-            startIcon={<Remove />}
-            sx={{ margin: '2rem 0 1rem' }}
-            disabled
-          >
-            Clear Client
-          </Button>
-          <Typography variant="body2">No client selected</Typography>
-        </>
-      )}
+      <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        aria-label="Clear Client Button"
+        startIcon={<Remove />}
+        onClick={() => setSelectedUser('')}
+        sx={{ margin: '2rem 0 1rem' }}
+      >
+        Clear Client
+      </Button>
+      <Typography>Client selected: {selectedUser.person || 'No client selected'}</Typography>
       <UploadDocumentForm />
       <FetchDocumentForm />
       <DeleteDocumentForm />

@@ -6,7 +6,6 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -37,7 +36,7 @@ const CrossPodWriteForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
@@ -99,7 +98,6 @@ const CrossPodWriteForm = () => {
     handleFormSubmit(event, podUsername);
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection
       title="Cross Pod Document Upload"
@@ -110,15 +108,12 @@ const CrossPodWriteForm = () => {
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodUpload} autoComplete="off">
           <FormControl fullWidth>
-            {/* TODO: Determine whether Typography below is necessary or redundant */}
-            {/* Either way, also determine whether to update all other forms to that */}
-            <Typography htmlFor="cross-upload-doc">Upload document to username:</Typography>
+            <Typography>Upload document to username:</Typography>
             <TextField
-              id="cross-upload-doc"
               name="crossPodUpload"
               label="Search Username"
               required
-              value={username}
+              value={selectedUser.person ? selectedUser.person : username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={selectedUser.username}
             />
@@ -130,11 +125,8 @@ const CrossPodWriteForm = () => {
           />
           <br />
           <FormControl>
-            {/* TODO: Determine whether InputLabel below is necessary or redundant */}
-            <InputLabel htmlFor="upload-doc-expiration" />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                id="upload-doc-expiration"
                 name="date"
                 format="MM/DD/YYYY"
                 label="Expiration Date"
@@ -152,10 +144,7 @@ const CrossPodWriteForm = () => {
           <br />
           <br />
           <FormControl fullWidth>
-            {/* TODO: Determine whether Typography below is necessary or redundant */}
-            {/* <Typography htmlFor="upload-doc-desc">Enter description:</Typography> */}
             <TextField
-              id="upload-doc-desc"
               name="description"
               multiline
               rows={4}
@@ -209,7 +198,6 @@ const CrossPodWriteForm = () => {
       </Box>
     </FormSection>
   );
-  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
 export default CrossPodWriteForm;

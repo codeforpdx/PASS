@@ -68,17 +68,21 @@ const DeleteDocumentForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleDeleteDocument}>
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <DocumentSelection
-              htmlForAndIdProp="delete-doctype"
-              handleDocType={handleDocType}
-              docType={docType}
-            />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Delete Document
-            </Button>
-          </Box>
+          <DocumentSelection
+            htmlForAndIdProp="delete-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <Button
+            variant="contained"
+            disabled={state.processing}
+            type="submit"
+            color="primary"
+            fullWidth
+          >
+            Delete Document
+          </Button>
         </form>
       </Box>
     </FormSection>
