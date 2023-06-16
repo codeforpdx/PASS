@@ -133,12 +133,8 @@ const CrossPodWriteForm = () => {
                 value={expireDate}
                 onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
-                slotProps={{
-                  textField: {
-                    helperText: 'MM/DD/YYYY'
-                  }
-                }}
               />
+              <FormHelperText>MM/DD/YYYY</FormHelperText>
             </LocalizationProvider>
           </FormControl>
           <br />
@@ -173,7 +169,7 @@ const CrossPodWriteForm = () => {
               sx={{
                 width: '200px',
                 whiteSpace: 'nowrap',
-                overflow: 'hidden !important',
+                overflow: 'hidden',
                 textOverflow: 'ellipsis'
               }}
             >

@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 // import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -111,32 +110,22 @@ const UploadDocumentForm = () => {
           />
           <br />
           <FormControl>
-            {/* TODO: Determine whether InputLabel below is necessary or redundant */}
-            <InputLabel htmlFor="upload-doc-expiration" />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                id="upload-doc-expiration"
                 name="date"
                 format="MM/DD/YYYY"
                 label="Expiration Date"
                 value={expireDate}
                 onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
-                slotProps={{
-                  textField: {
-                    helperText: 'MM/DD/YYYY'
-                  }
-                }}
               />
+              <FormHelperText>MM/DD/YYYY</FormHelperText>
             </LocalizationProvider>
           </FormControl>
           <br />
           <br />
           <FormControl fullWidth>
-            {/* TODO: Determine whether Typography below is necessary or redundant */}
-            {/* <Typography htmlFor="upload-doc-desc">Enter description:</Typography> */}
             <TextField
-              id="upload-doc-desc"
               name="description"
               multiline
               rows={4}
@@ -165,7 +154,7 @@ const UploadDocumentForm = () => {
               sx={{
                 width: '200px',
                 whiteSpace: 'nowrap',
-                overflow: 'hidden !important',
+                overflow: 'hidden',
                 textOverflow: 'ellipsis'
               }}
             >
