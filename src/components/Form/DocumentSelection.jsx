@@ -29,9 +29,9 @@ const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
         onChange={handleDocType}
         name="document"
       >
-        {docTypes.map((doc) => (
-          <MenuItem key={doc.split(' ')[0]} value={doc}>
-            {doc}
+        {Object.entries(docTypes).map(([key, value]) => (
+          <MenuItem key={key} value={key}>
+            {value}
           </MenuItem>
         ))}
       </Select>

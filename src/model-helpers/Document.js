@@ -53,12 +53,13 @@ export const signDocument = async (document, session, containerUrl) => {
  * @memberof utils
  * @function createDriversLicenseTtlFile
  * @param {fileObjectType} fileObject - Object containing information about file
+ * @param {thing} thing - the thing to add info too
  * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
  * and returns a new TTL file Thing
  */
-const createDriversLicenseTtlFile = async (fileObject) => {
+const addDriversLicenseInfo = async (fileObject, thing) => {
   const dlData = await getDriversLicenseData(fileObject.file);
-  return buildThing(createThing({ name: 'license information' }))
+  return thing
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
     .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
@@ -100,7 +101,7 @@ const createFileChecksum = async (file) => {
 
 const addAdditionalInfo = (thing, fileObject) => {
   if (fileObject.type === "Driver's License") {
-    return thing.addUrl(RDF_PREDICATES.about, createDriversLicenseTtlFile(fileObject));
+    return addDriversLicenseInfo(thing, fileObject);
   }
   return thing;
 };

@@ -39,8 +39,6 @@ const CrossPodWriteForm = () => {
     setExpiryDate('');
     setDescription('');
     setFile(null);
-    dispatch({ type: 'CLEAR_FILE' });
-    dispatch({ type: 'CLEAR_VERIFY_FILE' });
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 

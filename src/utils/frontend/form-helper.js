@@ -10,6 +10,10 @@
  * @property {string} Drivers_License - Drivers License
  */
 
-const docTypes = ['Bank Statement', 'Passport', "Driver's License"];
+const docTypes = {
+  BankStatement: 'Bank Statement',
+  Passport: 'Passport',
+  DriversLicense: "Driver's License"
+};
 
 export default docTypes;

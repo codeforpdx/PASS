@@ -27,6 +27,7 @@ const UploadDocumentForm = () => {
   const [expiryDate, setExpiryDate] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState('');
+  const [inputKey, setInputKey] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const { selectedUser } = useContext(SelectUserContext);
 
@@ -42,8 +43,7 @@ const UploadDocumentForm = () => {
     setExpiryDate('');
     setDescription('');
     setFile(null);
-    dispatch({ type: 'CLEAR_FILE' });
-    dispatch({ type: 'CLEAR_VERIFY_FILE' });
+    setInputKey(!inputKey); // clears file by forcing re-render
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -146,6 +146,7 @@ const UploadDocumentForm = () => {
           <input
             id="upload-doctype"
             type="file"
+            key={inputKey}
             name="uploadDoctype"
             accept=".pdf, .docx, .doc, .txt, .rtf, .gif"
             onChange={(e) => setFile(e.target.files[0])}
