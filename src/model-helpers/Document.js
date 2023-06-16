@@ -117,6 +117,7 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
+    .addStringNoLocale(RDF_PREDICATES.additionalType, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
     .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
@@ -157,8 +158,8 @@ const createDocumentInternal = async (file, docDescription, session, docUrl) => 
 };
 
 export const createDocument = async (file, docDescription, session, passUrl) => {
-  const { type, name } = docDescription;
-  const docUrl = `${passUrl}Documents/${type}/${name}/`;
+  const { name } = docDescription;
+  const docUrl = `${passUrl}Documents/${name}/`;
   try {
     await getSolidDataset(docUrl, { fetch: session.fetch }); // check to see if the file already exists
   } catch {
@@ -203,8 +204,8 @@ export const deleteDocument = async (session, docUrl) => {
 };
 
 export const replaceDocument = async (file, fileDescription, session, passUrl) => {
-  const { type, name } = fileDescription;
-  const docUrl = `${passUrl}Documents/${type}/${name}/`;
+  const { name } = fileDescription;
+  const docUrl = `${passUrl}Documents/${name}/`;
   await deleteDocument(session, docUrl);
   const result = await createDocumentInternal(file, fileDescription, session, docUrl);
   return result;

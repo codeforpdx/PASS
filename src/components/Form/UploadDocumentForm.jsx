@@ -71,11 +71,7 @@ const UploadDocumentForm = () => {
     try {
       const doc = await createDocument(file, fileDesc, session, `${activePod}PASS/`);
       if (verifyFile)
-        await signDocument(
-          doc,
-          session,
-          `${activePod}PASS/Documents/${docType}/${file.name.split('.')[0]}/`
-        );
+        await signDocument(doc, session, `${activePod}PASS/Documents/${file.name.split('.')[0]}/`);
       runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
@@ -84,7 +80,13 @@ const UploadDocumentForm = () => {
       switch (error.message) {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
-            await replaceDocument(file, fileDesc, session, `${activePod}PASS/`);
+            const doc = await replaceDocument(file, fileDesc, session, `${activePod}PASS/`);
+            if (verifyFile)
+              await signDocument(
+                doc,
+                session,
+                `${activePod}PASS/Documents/${file.name.split('.')[0]}/`
+              );
             runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
           }
           break;

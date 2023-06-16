@@ -90,7 +90,7 @@ const CrossPodWriteForm = () => {
     >
       <form onSubmit={handleFormSubmission} autoComplete="off">
         <div style={formRowStyle}>
-          <p>Upload document to {selectedUser.person}: </p>
+          <p>Upload document to {selectedUser.person || selectedUser.podUrl}: </p>
           <br />
           <br />
         </div>
