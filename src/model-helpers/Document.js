@@ -58,30 +58,33 @@ export const signDocument = async (document, session, containerUrl) => {
  * and returns a new TTL file Thing
  */
 const addDriversLicenseInfo = async (thing, file) => {
-  const dlData = await getDriversLicenseData(file);
-  return thing
-    .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
-    .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
-    .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
-    .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
-    .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addDate(RDF_PREDICATES.dateIssued, new Date(`${formattedDate(dlData.DBD)}`))
-    .addDate(RDF_PREDICATES.dateOfBirth, new Date(`${formattedDate(dlData.DBB)}`))
-    .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
-    .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
-    .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
-    .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
-    .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
-    .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
-    .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
-    .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
-    .build();
+  try {
+    const dlData = await getDriversLicenseData(file);
+    return thing
+      .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
+      .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
+      .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
+      .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
+      .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
+      .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
+      .addDate(RDF_PREDICATES.dateIssued, new Date(`${formattedDate(dlData.DBD)}`))
+      .addDate(RDF_PREDICATES.dateOfBirth, new Date(`${formattedDate(dlData.DBB)}`))
+      .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
+      .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
+      .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
+      .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
+      .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
+      .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
+      .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
+      .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
+      .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
+      .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
+      .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
+      .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
+      .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG);
+  } catch (e) {
+    return thing;
+  }
 };
 
 /**
@@ -99,9 +102,10 @@ const createFileChecksum = async (file) => {
   return sha256(text);
 };
 
-const addAdditionalInfo = (docDesc, thing, file) => {
+const addAdditionalInfo = async (docDesc, thing, file) => {
   if (docDesc.type === 'DriversLicense') {
-    return addDriversLicenseInfo(thing, file);
+    const retThing = await addDriversLicenseInfo(thing, file);
+    return retThing;
   }
   return thing;
 };
@@ -118,7 +122,7 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
-  thing = addAdditionalInfo(docDesc, thing, file);
+  thing = await addAdditionalInfo(docDesc, thing, file);
   return thing.build();
 };
 
