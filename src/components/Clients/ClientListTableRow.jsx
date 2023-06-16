@@ -15,7 +15,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
-import DeleteClientModal from '../DeleteModal/DeleteClientModal';
+import DeleteClientModal from '../DeleteClientModal/DeleteClientModal';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table

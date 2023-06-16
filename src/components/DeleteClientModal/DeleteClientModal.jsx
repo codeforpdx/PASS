@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,48 +8,47 @@ import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
-const DeleteModal = ({showDeleteModal,setShowDeleteModal,client,handleDelete}) => (
-    <Dialog
-    open={showDeleteModal}
+const DeleteClientModal = ({
+  showDeleteClientModal,
+  setShowClientDeleteModal,
+  client,
+  handleDeleteClient
+}) => (
+  <Dialog
+    open={showDeleteClientModal}
     aria-labelledby="dialog-title"
     aria-describedby="dialog-description"
-    onClose={() => setShowDeleteModal(false)}
+    onClose={() => setShowClientDeleteModal(false)}
   >
-   
-   <DialogTitle id="dialog-tile">Delete Client?</DialogTitle>
-   
-   <DialogContent>
+    <DialogTitle id="dialog-tile">Delete Client?</DialogTitle>
+
+    <DialogContent>
       <DialogContentText id="dialog-description">
-      {`You're about to delete ${client.person} from your client list, do you wish to continue?`}
+        {`You're about to delete ${client.person} from your client list, do you wish to continue?`}
       </DialogContentText>
     </DialogContent>
-   
+
     <DialogActions>
       <Button
         variant="outlined"
         color="error"
         endIcon={<ClearIcon />}
-        onClick={() => setShowDeleteModal(false)}
+        onClick={() => setShowClientDeleteModal(false)}
       >
         NO
       </Button>
 
-        <Button
-          variant="outlined"
-          color="success"
-          endIcon={<CheckIcon />}
-          sx={{ marginLeft: '1rem' }}
-          onClick={handleDelete}
-        >
-          YES
-        </Button>
-      
+      <Button
+        variant="outlined"
+        color="success"
+        endIcon={<CheckIcon />}
+        sx={{ marginLeft: '1rem' }}
+        onClick={handleDeleteClient}
+      >
+        YES
+      </Button>
     </DialogActions>
-
   </Dialog>
+);
 
-  
-  )
-
-
-export default DeleteModal
+export default DeleteClientModal;
