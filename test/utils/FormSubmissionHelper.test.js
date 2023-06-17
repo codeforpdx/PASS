@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, vi, expect, it, describe } from 'vitest';
+import dayjs from 'dayjs';
 import {
   makeHandleFormSubmission,
   runNotification,
@@ -36,6 +37,8 @@ describe('FormSubmissionHelper', async () => {
     };
     const mockHandleSubmit = makeHandleFormSubmission(
       INTERACTION_TYPES.SELF,
+      dayjs('2010-10-01'),
+      'No Description Provided',
       stateMock,
       dispatchMock,
       sessionMock,
@@ -65,6 +68,8 @@ describe('FormSubmissionHelper', async () => {
     };
     const mockHandleSubmit = makeHandleFormSubmission(
       INTERACTION_TYPES.SELF,
+      dayjs('2010-10-01'),
+      'No Description Provided',
       stateMock,
       dispatchMock,
       sessionMock,
