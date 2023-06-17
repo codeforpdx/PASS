@@ -12,6 +12,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
+// TODO: Determine whether to match styles with other modals/dialogs such as LogoutModal
+
 /**
  * Inactivity Notification Component - Component that displays a popup modal
  * after 3 minutes of inactivity, prompting the user to either logout or
@@ -78,25 +80,24 @@ const InactivityMessage = () => {
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
       >
-        <DialogTitle>Confirm Log Out</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
+        <DialogContent id="inactivity-message-description">
           <DialogContentText>
             You have been inactive for a few minutes now. Would you like to log out?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
-            variant="contained"
+            variant="outlined"
             color="success"
             endIcon={<CheckIcon />}
             onClick={() => setShowPopup(false)}
-            autoFocus
           >
-            Continue Session
+            Continue
           </Button>
           <LogoutButton>
             <Button
-              variant="contained"
+              variant="outlined"
               color="error"
               endIcon={<ClearIcon />}
               sx={{ marginLeft: '1rem' }}
