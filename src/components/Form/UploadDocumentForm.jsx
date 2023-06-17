@@ -101,6 +101,7 @@ const UploadDocumentForm = () => {
             label="Verify file on upload"
             id="verify-checkbox"
             value={state.verifyFile}
+            checked={state.verifyFile}
             onChange={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
           />
           <DocumentSelection
