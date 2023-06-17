@@ -111,7 +111,7 @@ const CrossPodQueryForm = () => {
             <TextField
               id="cross-search-doc"
               name="crossPodQuery"
-              value={selectedUser.person ? selectedUser.person : username}
+              value={selectedUser.person ? selectedUser.username : username}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}

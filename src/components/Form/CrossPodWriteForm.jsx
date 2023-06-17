@@ -113,7 +113,7 @@ const CrossPodWriteForm = () => {
               name="crossPodUpload"
               label="Search Username"
               required
-              value={selectedUser.person ? selectedUser.person : username}
+              value={selectedUser.person ? selectedUser.username : username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={selectedUser.username}
             />
@@ -163,7 +163,7 @@ const CrossPodWriteForm = () => {
               required
             >
               Choose file
-              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" multiple />
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf .gif" />
             </Button>
             <FormHelperText
               sx={{
