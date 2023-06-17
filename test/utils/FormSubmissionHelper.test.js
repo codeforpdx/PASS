@@ -21,8 +21,6 @@ describe('FormSubmissionHelper', async () => {
   const sessionMock = {};
   const clearInputFieldsMock = vi.fn();
   const dispatchMock = vi.fn();
-  const expireDateMock = dayjs;
-  // const docDescriptionMock = {};
 
   beforeEach(() => {
     vi.useFakeTimers();
