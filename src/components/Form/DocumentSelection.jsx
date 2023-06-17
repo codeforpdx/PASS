@@ -20,9 +20,7 @@ import { docTypes } from '../../utils';
 const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
   <Box sx={{ marginTop: '20px' }}>
     <FormControl sx={{ width: 220 }} required>
-      <InputLabel id={`${htmlForAndIdProp}-label`}>
-        Select Document Type
-      </InputLabel>
+      <InputLabel id={`${htmlForAndIdProp}-label`}>Select Document Type</InputLabel>
       <Select
         labelId={`${htmlForAndIdProp}-label`}
         id={htmlForAndIdProp}
@@ -30,7 +28,6 @@ const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
         value={docType}
         onChange={handleDocType}
         name="document"
-        required
       >
         {docTypes.map((doc) => (
           <MenuItem key={doc.split(' ')[0]} value={doc}>
