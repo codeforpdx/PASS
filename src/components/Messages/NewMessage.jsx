@@ -1,8 +1,8 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Styling Import
+// Styling Imports
 import styled from 'styled-components';
 // Utility Imports
 import { sendMessageTTL, getMessageTTL } from '../../utils';
