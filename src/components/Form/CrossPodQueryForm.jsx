@@ -31,7 +31,7 @@ const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -107,30 +107,34 @@ const CrossPodQueryForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <FormControl>
-              <TextField
-                id="cross-search-doc"
-                name="crossPodQuery"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                placeholder={selectedUser.username}
-                label="Enter username"
-                required
-              />
-            </FormControl>
-            <DocumentSelection
-              htmlForAndIdProp="cross-search-doctype"
-              handleDocType={handleDocType}
-              docType={docType}
+          <FormControl>
+            <TextField
+              id="cross-search-doc"
+              name="crossPodQuery"
+              value={selectedUser.person ? selectedUser.username : username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              placeholder={selectedUser.username}
+              label="Search Username"
+              required
             />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Search Pod
-            </Button>
-          </Box>
+          </FormControl>
+          <DocumentSelection
+            htmlForAndIdProp="cross-search-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <Button
+            variant="contained"
+            disabled={state.processing}
+            type="submit"
+            color="primary"
+            fullWidth
+          >
+            Search Pod
+          </Button>
         </form>
       </Box>
     </FormSection>
