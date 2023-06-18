@@ -9,8 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
@@ -74,7 +74,7 @@ const InactivityMessage = () => {
     activeUser && (
       <Dialog
         open={showPopup}
-        // onClose={() => setShowPopup(false)}
+        onClose={() => setShowPopup(false)}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
       >
@@ -88,7 +88,12 @@ const InactivityMessage = () => {
         {/* e.g. "You will be automatically logged out in 5:00 minutes" */}
         <DialogActions>
           <LogoutButton>
-            <Button variant="outlined" color="error" endIcon={<ClearIcon />} onClick={handleLogout}>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<LogoutIcon />}
+              onClick={handleLogout}
+            >
               Log Out
             </Button>
           </LogoutButton>
