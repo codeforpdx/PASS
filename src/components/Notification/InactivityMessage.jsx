@@ -97,8 +97,8 @@ const InactivityMessage = () => {
           </Button>
           <LogoutButton>
             <Button
-              variant="outlined"
-              color="error"
+              variant="contained"
+              color="success"
               endIcon={<ClearIcon />}
               sx={{ marginLeft: '1rem' }}
               onClick={handleLogout}
