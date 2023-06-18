@@ -12,8 +12,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
-// TODO: Determine whether to match styles with other modals/dialogs such as LogoutModal
-
 /**
  * Inactivity Notification Component - Component that displays a popup modal
  * after 3 minutes of inactivity, prompting the user to either logout or
@@ -33,7 +31,7 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after three minutes of inactivity
+  // Toggles the popup after thirty minutes of inactivity
   useEffect(() => {
     let timer = null;
 
@@ -42,7 +40,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 180000);
+      }, 1800000);
     };
 
     const handleUserActivity = () => {
