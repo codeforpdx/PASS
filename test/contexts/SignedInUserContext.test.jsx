@@ -49,7 +49,7 @@ describe('SignedInUserContext', () => {
       .addDatetime(RDF_PREDICATES.dateModified, new Date())
       .build();
 
-    const dataset = mockSolidDatasetFrom('https://example.com/pod/public/active.ttl');
+    const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');
     getSolidDataset.mockResolvedValue(setThing(dataset, newActiveTTL));
 
     useSession.mockReturnValue({

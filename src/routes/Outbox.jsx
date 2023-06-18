@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
-import { MessageContext } from '../contexts';
+import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
 import PaginatedMessages from '../components/Messages/Pagination';
 
@@ -26,8 +26,7 @@ const Outbox = () => {
 
   const { session } = useSession();
   const { outboxList, setOutboxList, loadMessages, setLoadMessages } = useContext(MessageContext);
-
-  const podUrl = session.info.webId.split('profile')[0];
+  const { podUrl } = useContext(SignedInUserContext);
 
   // Handler function for refreshing PASS outbox
   const handleOutboxRefresh = async () => {

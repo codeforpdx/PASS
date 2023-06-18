@@ -3,12 +3,14 @@ import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
-import { runNotification, SOLID_IDENTITY_PROVIDER } from '../../utils';
+import { runNotification } from '../../utils';
 import { createUser } from '../../model-helpers/User';
 // Custom Hook Imports
 import { useStatusNotification, useField } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
+// Constants Imports
+import { currentOidcIssuer } from '../../constants';
 // Component Imports
 import FormSection from '../Form/FormSection';
 
@@ -21,7 +23,7 @@ import FormSection from '../Form/FormSection';
  */
 
 const renderWebId = (username) => {
-  const oidcProvider = SOLID_IDENTITY_PROVIDER.split('//')[1];
+  const oidcProvider = currentOidcIssuer.split('//')[1];
   const template = ['https://', `.${oidcProvider}profile/card#me`];
   return `${template[0]}${username}${template[1]}`;
 };
@@ -135,18 +137,17 @@ const AddClient = () => {
       >
         <div>
           <label htmlFor="add-user-given-name">First/given name: </label>
-          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />{' '}
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
         </div>
         <br />
         <div>
           <label htmlFor="add-user-last-name">Last/family name: </label>
-          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />{' '}
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
         </div>
         <br />
         <div>
           <label htmlFor="add-username">
-            Add username to client list (i.e., username without{' '}
-            {SOLID_IDENTITY_PROVIDER.split('/')[2]}):{' '}
+            Add username to client list (i.e., username without {currentOidcIssuer.split('/')[2]}):
           </label>
           <br />
           <br />
@@ -156,7 +157,7 @@ const AddClient = () => {
             size="25"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
-          />{' '}
+          />
         </div>
         <br />
         <label htmlFor="add-webId">

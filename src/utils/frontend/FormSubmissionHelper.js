@@ -6,12 +6,18 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  */
 
 /**
+ * @typedef {import("dayjs").Dayjs} Dayjs
+ */
+
+/**
  * Makes a default handleFormSubmission function that can be used
  * by form elements in PASS
  *
  * @memberof utils
  * @function makeHandleFormSubmission
  * @param {string} uploadType - Type of upload (cross, self, etc.) to perform
+ * @param {Dayjs} expireDate - document expiration date
+ * @param {string} docDescription - document description
  * @param {object} state - current state
  * @param {object} dispatch - dispatch for actions
  * @param {Session} session - current Solid session
@@ -19,7 +25,7 @@ import { uploadDocument, updateDocument } from '../network/session-core';
  * @returns {Function} A function that components can call to submit forms to PASS
  */
 const makeHandleFormSubmission =
-  (uploadType, state, dispatch, session, clearInputFields) =>
+  (uploadType, expireDate, docDescription, state, dispatch, session, clearInputFields) =>
   async (event, crossPodUsername = '') => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
@@ -32,29 +38,30 @@ const makeHandleFormSubmission =
       return;
     }
 
+    const docType = event.target.document.value;
+    const formattedDate = expireDate ? expireDate.format('MM/DD/YYYY') : 'No date provided';
+
     const fileObject = {
-      type: event.target.document.value,
-      date: event.target.date.value,
-      description: event.target.description.value,
+      type: docType,
+      date: formattedDate,
+      description: docDescription || 'No description provided',
       file: state.file
     };
 
-    const fileName = fileObject.file.name;
-
     try {
-      runNotification(`Uploading "${fileName}" to Solid...`, 3, state, dispatch);
+      runNotification(`Uploading to Pod...`, 3, state, dispatch);
 
       await uploadDocument(session, uploadType, fileObject, state.verifyFile, crossPodUsername);
 
-      runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+      runNotification(`File uploaded on Pod.`, 5, state, dispatch);
       clearInputFields(event);
     } catch (e) {
       try {
-        runNotification('Updating contents in Solid Pod...', 3, state, dispatch);
+        runNotification('Updating on Pod...', 3, state, dispatch);
 
         await updateDocument(session, uploadType, fileObject, crossPodUsername);
 
-        runNotification(`File "${fileName}" updated on Solid.`, 5, state, dispatch);
+        runNotification(`File updated on Pod.`, 5, state, dispatch);
         clearInputFields(event);
       } catch (error) {
         runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);

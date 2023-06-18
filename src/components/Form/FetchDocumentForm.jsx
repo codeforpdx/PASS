@@ -37,6 +37,14 @@ const FetchDocumentForm = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
 
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
     try {
       const documentUrl = await getDocuments(session, docType, INTERACTION_TYPES.SELF);
 
@@ -72,17 +80,21 @@ const FetchDocumentForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleGetDocumentSubmission}>
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <DocumentSelection
-              htmlForAndIdProp="search-doctype"
-              handleDocType={handleDocType}
-              docType={docType}
-            />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Get Document
-            </Button>
-          </Box>
+          <DocumentSelection
+            htmlForAndIdProp="search-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <Button
+            variant="contained"
+            disabled={state.processing}
+            type="submit"
+            color="primary"
+            fullWidth
+          >
+            Get Document
+          </Button>
         </form>
       </Box>
     </FormSection>

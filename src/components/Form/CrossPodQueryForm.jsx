@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
 // Constants Imports
@@ -30,8 +30,8 @@ import FormSection from './FormSection';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState('');
   const [docType, setDocType] = useState('');
 
   const handleDocType = (event) => {
@@ -40,8 +40,6 @@ const CrossPodQueryForm = () => {
 
   // Clean up function for clearing input fields after submission
   const clearInputFields = () => {
-    clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -52,11 +50,19 @@ const CrossPodQueryForm = () => {
     let podUsername = event.target.crossPodQuery.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
       runNotification('Search failed. Reason: Username not provided.', 5, state, dispatch);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 3000);
+      return;
+    }
+
+    if (!docType) {
+      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -101,27 +107,34 @@ const CrossPodQueryForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleCrossPodQuery} autoComplete="off">
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <FormControl>
-              <TextField
-                id="cross-search-doc"
-                name="crossPodQuery"
-                {...username}
-                placeholder={selectedUser}
-                label="Enter username"
-                required
-              />
-            </FormControl>
-            <DocumentSelection
-              htmlForAndIdProp="cross-search-doctype"
-              handleDocType={handleDocType}
-              docType={docType}
+          <FormControl>
+            <TextField
+              id="cross-search-doc"
+              name="crossPodQuery"
+              value={selectedUser.person ? selectedUser.username : username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              placeholder={selectedUser.username}
+              label="Search Username"
+              required
             />
-            <br />
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Search Pod
-            </Button>
-          </Box>
+          </FormControl>
+          <DocumentSelection
+            htmlForAndIdProp="cross-search-doctype"
+            handleDocType={handleDocType}
+            docType={docType}
+          />
+          <br />
+          <Button
+            variant="contained"
+            disabled={state.processing}
+            type="submit"
+            color="primary"
+            fullWidth
+          >
+            Search Pod
+          </Button>
         </form>
       </Box>
     </FormSection>

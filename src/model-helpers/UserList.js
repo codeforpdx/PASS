@@ -59,12 +59,7 @@ const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
  *
  * @memberof UserList
  * @function parseFromDataset
-<<<<<<< HEAD
- * @param {import('@inrupt/solid-client').SolidDataset} usersDataset - dataset to convert to array
-=======
  * @param {SolidDataset} usersDataset - dataset to convert to array
- * @param {Session} session - session to use for saving
->>>>>>> Development
  * @returns {object} An new userListObject containing any updates
  */
 const parseFromDataset = async (usersDataset) => {
@@ -157,7 +152,7 @@ export const removeUser = async (user, session, { userList, dataset, listUrl }) 
  * @returns {object} An new userListObject containing any updates
  */
 export const loadUserList = async (session, podUrl) => {
-  const userListUrl = `${podUrl}Users/userlist.ttl`;
+  const userListUrl = `${podUrl}PASS/Users/userlist.ttl`;
   let dataset;
   let userList;
   try {
@@ -171,6 +166,6 @@ export const loadUserList = async (session, podUrl) => {
     userList = [];
     await setDocAclForUser(session, userListUrl, 'create', session.info.webId);
   }
-  const listUrl = `${podUrl}Users/userlist.ttl`;
+  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
   return { dataset, userList, listUrl };
 };

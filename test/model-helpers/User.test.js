@@ -53,7 +53,7 @@ describe('updateUserActivity', () => {
   it('returns existing activity dataset if it exists', async () => {
     await updateUserActivity(session, mockPodUrl);
     expect(saveSolidDatasetAt).toBeCalledWith(
-      `${mockPodUrl}public/active.ttl`,
+      `${mockPodUrl}PASS/Public/active.ttl`,
       expect.objectContaining({ type: 'Dataset' }),
       expect.objectContaining({ fetch: session.fetch })
     );
@@ -64,7 +64,7 @@ describe('updateUserActivity', () => {
     getSolidDataset.mockRejectedValueOnce(Error('dataset does not exist'));
     await updateUserActivity(session, mockPodUrl);
     expect(saveSolidDatasetAt).toBeCalledWith(
-      `${mockPodUrl}public/active.ttl`,
+      `${mockPodUrl}PASS/Public/active.ttl`,
       expect.objectContaining({ type: 'Dataset' }),
       expect.objectContaining({ fetch: session.fetch })
     );

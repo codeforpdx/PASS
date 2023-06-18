@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -8,11 +8,11 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { SOLID_IDENTITY_PROVIDER, checkContainerPermission, runNotification } from '../../utils';
+import { checkContainerPermission, runNotification, getPodUrl } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -28,12 +28,11 @@ import FormSection from './FormSection';
 const CheckAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUrl, ...user } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
+  const [username, setUsername] = useState('');
+  const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
-    clearUrl();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -44,7 +43,7 @@ const CheckAclPermsDocContainerForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     // TODO: Determine if this is necessary as MUI provides its own verification
@@ -61,10 +60,7 @@ const CheckAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (
-      `https://${podUsername}.${SOLID_IDENTITY_PROVIDER.split('/')[2]}/` ===
-      String(session.info.webId.split('profile')[0])
-    ) {
+    if (getPodUrl(podUsername) === podUrl) {
       runNotification(
         'Check permissions failed. Reason: User already has access to their own Documents container.',
         5,
@@ -112,9 +108,12 @@ const CheckAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              {...user}
-              placeholder={selectedUser}
-              label="Search username"
+              value={selectedUser.person ? selectedUser.username : username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              placeholder={selectedUser.username}
+              label="Search Username"
               required
             />
             <br />

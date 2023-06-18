@@ -36,7 +36,7 @@ import { setDocAclForUser } from '../utils/network/session-helper';
  * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
  */
 export const updateUserActivity = async (session, podUrl) => {
-  const activityDocUrl = `${podUrl}public/active.ttl`;
+  const activityDocUrl = `${podUrl}PASS/Public/active.ttl`;
   const accessObject = {
     read: true,
     append: true,

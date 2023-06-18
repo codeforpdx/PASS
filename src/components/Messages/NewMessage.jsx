@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // Utility Imports
 import { sendMessageTTL, getMessageTTL } from '../../utils';
 // Context Imports
-import { MessageContext } from '../../contexts';
+import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
  * New Message Component - Component that allows user to write
@@ -20,6 +20,7 @@ import { MessageContext } from '../../contexts';
 const NewMessage = ({ closeForm }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   const [message, setMessage] = useState({
     recipientUsername: '',
@@ -29,8 +30,6 @@ const NewMessage = ({ closeForm }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
-
-  const podUrl = session.info.webId.split('profile')[0];
 
   // Modifies message upon input
   const handleChange = (e) => {
