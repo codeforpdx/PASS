@@ -14,7 +14,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
-import { runNotification, getDocTTLs } from '../../utils';
+import { runCheckFiles, runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
@@ -84,34 +84,18 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     runNotification('Fetching documents from Pod...', 5, state, dispatch);
     dispatch({ type: 'SET_PROCESSING' });
 
-    const allDocumentData = await getDocTTLs(session, client.podUrl);
+    try {
+      const permittedData = await runCheckFiles(session, client.podUrl);
 
-    if (allDocumentData.message?.includes('Unauthorized')) {
-      runNotification('Operation failed. Reason: No permission to files.', 5, state, dispatch);
+      setFileSrc(permittedData);
+      setShowDocument(!showDocument);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 5000);
+    } catch (error) {
+      runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
       dispatch({ type: 'CLEAR_PROCESSING' });
-      return;
     }
-
-    if (allDocumentData.message?.includes('No documents found')) {
-      runNotification('Operation failed. Reason: No files found.', 5, state, dispatch);
-      dispatch({ type: 'CLEAR_PROCESSING' });
-      return;
-    }
-
-    const permittedData = allDocumentData.filter((item) => typeof item !== 'number');
-
-    if (permittedData.length === 0) {
-      runNotification('Operation failed. Reason: No permitted files found.', 5, state, dispatch);
-      dispatch({ type: 'CLEAR_PROCESSING' });
-      return;
-    }
-
-    setFileSrc(permittedData);
-    setShowDocument(!showDocument);
-
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_PROCESSING' });
-    }, 5000);
   };
 
   return (

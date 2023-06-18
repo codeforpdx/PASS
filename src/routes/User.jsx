@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 // Custom Hook Imports
 import { useStatusNotification } from '../hooks';
 // Utility Imports
-import { getDocTTLs, runNotification } from '../utils';
+import { runCheckFiles, runNotification } from '../utils';
 // Context Imports
 import { SignedInUserContext } from '../contexts';
 // Component Imports
@@ -40,22 +40,18 @@ const User = () => {
     runNotification('Fetching documents from Pod...', 5, state, dispatch);
     dispatch({ type: 'SET_PROCESSING' });
 
-    const allDocumentData = await getDocTTLs(session, podUrl);
+    try {
+      const permittedData = await runCheckFiles(session, podUrl);
 
-    if (allDocumentData.message?.includes('No documents found')) {
-      runNotification('Operation failed. Reason: No files found.', 5, state, dispatch);
+      setFileSrc(permittedData);
+      setShowDocument(!showDocument);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PROCESSING' });
+      }, 5000);
+    } catch (error) {
+      runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
       dispatch({ type: 'CLEAR_PROCESSING' });
-      return;
     }
-
-    const dataWithFiles = allDocumentData.filter((item) => typeof item !== 'number');
-
-    setFileSrc(dataWithFiles);
-    setShowDocument(!showDocument);
-
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_PROCESSING' });
-    }, 5000);
   };
 
   return (

@@ -5,11 +5,12 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import ClearIcon from '@mui/icons-material/Clear';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Other Library Imports
 import { v4 as uuidv4 } from 'uuid';
@@ -90,16 +91,18 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
                 >
                   Preview
                 </Button>
-                <Button
-                  variant="contained"
-                  type="button"
-                  sx={{
-                    a: { color: 'white', textDecoration: 'none', width: '100%', height: '100%' }
-                  }}
-                >
-                  <a href={src.documentUrl} target="_blank" rel="noreferrer">
+                <Button variant="contained" type="button">
+                  <Link
+                    href={src.documentUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    sx={{
+                      color: 'white',
+                      textDecoration: 'none'
+                    }}
+                  >
                     New Window
-                  </a>
+                  </Link>
                 </Button>
               </Box>
             </Box>

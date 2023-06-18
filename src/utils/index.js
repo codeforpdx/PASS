@@ -29,6 +29,7 @@ import {
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
+import runCheckFiles from './frontend/file-viewer-helper';
 
 export {
   docTypes,
@@ -49,5 +50,6 @@ export {
   createInbox,
   getPodUrl,
   getDocTTLs,
-  getBlobFromSolid
+  getBlobFromSolid,
+  runCheckFiles
 };
