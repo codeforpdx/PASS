@@ -81,7 +81,7 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
                 </Typography>
                 <Typography>Upload date: {src.uploadDate.toLocaleString()}</Typography>
                 <Typography>Description: {src.description}</Typography>
-                <Typography>Expire Date (if applicable): {src.expireDate}</Typography>
+                <Typography>Expire Date: {src.expireDate}</Typography>
                 <br />
                 <Typography sx={{ fontWeight: 'bold' }}>Show Document</Typography>
                 <Button
