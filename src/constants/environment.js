@@ -1,5 +1,5 @@
 const ENV = {
-    ...import.meta.env
+  ...import.meta.env
 };
 
 export default ENV;

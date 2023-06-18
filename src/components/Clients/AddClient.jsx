@@ -145,9 +145,7 @@ const AddClient = () => {
         </div>
         <br />
         <div>
-          <label htmlFor="add-username">
-            username:
-          </label>
+          <label htmlFor="add-username">username:</label>
           <br />
           <br />
           <input
