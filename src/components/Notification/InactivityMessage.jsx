@@ -40,7 +40,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 1800000);
+      }, 180000);
     };
 
     const handleUserActivity = () => {
@@ -74,36 +74,33 @@ const InactivityMessage = () => {
     activeUser && (
       <Dialog
         open={showPopup}
-        onClose={() => setShowPopup(false)}
+        // onClose={() => setShowPopup(false)}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
       >
         <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
         <DialogContent id="inactivity-message-description">
           <DialogContentText>
-            You have been inactive for a few minutes now. Would you like to log out?
+            You have been inactive for a while now. Would you like to continue using PASS?
           </DialogContentText>
         </DialogContent>
+        {/* TODO: In future PR, add countdown timer to automatically log user out if they do not select continue */}
+        {/* e.g. "You will be automatically logged out in 5:00 minutes" */}
         <DialogActions>
+          <LogoutButton>
+            <Button variant="outlined" color="error" endIcon={<ClearIcon />} onClick={handleLogout}>
+              Log Out
+            </Button>
+          </LogoutButton>
           <Button
-            variant="outlined"
+            variant="contained"
             color="success"
             endIcon={<CheckIcon />}
+            sx={{ marginLeft: '1rem' }}
             onClick={() => setShowPopup(false)}
           >
             Continue
           </Button>
-          <LogoutButton>
-            <Button
-              variant="contained"
-              color="success"
-              endIcon={<ClearIcon />}
-              sx={{ marginLeft: '1rem' }}
-              onClick={handleLogout}
-            >
-              Log Out
-            </Button>
-          </LogoutButton>
         </DialogActions>
       </Dialog>
     )
