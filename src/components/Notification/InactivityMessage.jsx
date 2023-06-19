@@ -14,7 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
- * after 3 minutes of inactivity, prompting the user to either logout or
+ * after 30 minutes of inactivity, prompting the user to either logout or
  * continue their session.
  *
  * @memberof Notification
@@ -99,7 +99,7 @@ const InactivityMessage = () => {
           </LogoutButton>
           <Button
             variant="contained"
-            color="success"
+            color="primary"
             endIcon={<CheckIcon />}
             sx={{ marginLeft: '1rem' }}
             onClick={() => setShowPopup(false)}
