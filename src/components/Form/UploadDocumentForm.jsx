@@ -149,7 +149,7 @@ const UploadDocumentForm = () => {
               required
             >
               Choose file
-              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf .gif" />
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png" />
             </Button>
             <FormHelperText
               sx={{
