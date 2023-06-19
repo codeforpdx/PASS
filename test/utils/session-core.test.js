@@ -91,16 +91,18 @@ describe('getDocuments', () => {
     vi.clearAllMocks();
   });
 
-  it('returns documentUrl if getSolidDataset resolves', async () => {
-    const results = await getDocuments(session, 'Passport', 'self');
+  it('throws an error for no permission if status is not 404', async () => {
+    getSolidDataset.mockRejectedValueOnce({ response: { status: 401 } });
 
-    expect(results).toBe('https://pod.example.com/PASS/Documents/Passport/');
+    await expect(getDocuments(session, 'Passport', 'self')).rejects.toThrow(
+      'No permission to file'
+    );
   });
 
-  it('throws an error if getSolidDataset is rejected', async () => {
-    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+  it('throws an error for no file found if status is 404', async () => {
+    getSolidDataset.mockRejectedValueOnce({ response: { status: 404 } });
 
-    await expect(getDocuments(session, 'Passport', 'self')).rejects.toThrow('No data found');
+    await expect(getDocuments(session, 'Passport', 'self')).rejects.toThrow('No file found');
   });
 });
 
