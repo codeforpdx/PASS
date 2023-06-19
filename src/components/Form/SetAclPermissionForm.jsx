@@ -132,10 +132,10 @@ const SetAclPermissionForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={username}
+              value={selectedUser.person ? selectedUser.username : username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={selectedUser.username}
-              label="Search username"
+              label="Search Username"
               required
             />
           </FormControl>
@@ -147,12 +147,7 @@ const SetAclPermissionForm = () => {
           <br />
           <FormControl fullWidth>
             <FormLabel htmlFor="set-acl-perm-label">Select permission setting:</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="set-acl-perm-label"
-              name="set-acl-perm"
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
+            <RadioGroup row aria-labelledby="set-acl-perm-label" name="set-acl-perm">
               <FormControlLabel
                 value="Give"
                 control={<Radio />}

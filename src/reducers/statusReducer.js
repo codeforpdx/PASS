@@ -23,7 +23,8 @@ export const initialStatusState = {
   message: '',
   timeoutID: null,
   file: null,
-  processing: false
+  processing: false,
+  verifyFile: false
 };
 
 /**
