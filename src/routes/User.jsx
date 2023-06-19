@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 // Custom Hook Imports
 import { useStatusNotification } from '../hooks';
 // Utility Imports
-import { runCheckFiles, runNotification } from '../utils';
+import { runShowFiles, runNotification } from '../utils';
 // Context Imports
 import { SignedInUserContext } from '../contexts';
 // Component Imports
@@ -41,7 +41,7 @@ const User = () => {
     dispatch({ type: 'SET_PROCESSING' });
 
     try {
-      const permittedData = await runCheckFiles(session, podUrl);
+      const permittedData = await runShowFiles(session, podUrl);
 
       setFileSrc(permittedData);
       setShowDocument(!showDocument);
