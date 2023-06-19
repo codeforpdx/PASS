@@ -83,14 +83,14 @@ const csvToJson = (csvData) => {
  * @returns {object} returnedData - JSON object containing scanned barcode data
  */
 const getDriversLicenseData = async (file) => {
-  let returnedData = {};
-  if (file.type.split('/')[0] === 'image') {
-    const image = await readImageFile(file);
-    const decoded = await decodeBarcode(image);
-    if (decoded) {
-      const jsonData = csvToJson(decoded);
-      returnedData = jsonData;
-    }
+  const image = await readImageFile(file);
+  const decoded = await decodeBarcode(image);
+  let returnedData = '';
+  if (decoded) {
+    const jsonData = csvToJson(decoded);
+    returnedData = jsonData;
+  } else {
+    returnedData = new Error('Unable to decode file');
   }
 
   return returnedData;
