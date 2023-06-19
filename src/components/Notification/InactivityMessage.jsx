@@ -65,6 +65,8 @@ const InactivityMessage = () => {
 
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
+  // TODO: In future PR, add countdown timer to automatically log user out if they do not select continue
+  // (e.g. "You will be automatically logged out in 5:00 minutes")
   const handleLogout = () => {
     localStorage.clear();
   };
@@ -84,8 +86,6 @@ const InactivityMessage = () => {
             You have been inactive for a while now. Would you like to continue using PASS?
           </DialogContentText>
         </DialogContent>
-        {/* TODO: In future PR, add countdown timer to automatically log user out if they do not select continue */}
-        {/* e.g. "You will be automatically logged out in 5:00 minutes" */}
         <DialogActions>
           <LogoutButton>
             <Button
