@@ -12,6 +12,26 @@ import {
 
 import { makeDocIntoThing, parseDocFromThing } from './Document';
 
+/**
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ */
+
+/**
+ * @typedef {import("../typedefs").userListObject} userListObject
+ */
+
+/**
+ * @typedef {import("@inrupt/solid-client").SolidDataset} SolidDataset
+ */
+
+/**
+ * Converts a docList dataset into an array of documents.
+ *
+ * @memberof DocumentList
+ * @function parseFromDataset
+ * @param {SolidDataset} docsDataset - dataset to convert to array
+ * @returns {object} An new docList containing any updates
+ */
 const parseFromDataset = (docsDataset) => {
   const docList = [];
   const allDocThings = getThingAll(docsDataset);
@@ -23,6 +43,17 @@ const parseFromDataset = (docsDataset) => {
   return docList;
 };
 
+/**
+ * Saves a document list to the user's pod
+ *
+ * @memberof DocumentList
+ * @function saveToPod
+ * @param {Session} session - session to use for saving
+ * @param {object} docListObject - object containing docList info
+ * @param {SolidDataset} docListObject.dataset - dataset to save
+ * @param {URL} docListObject.containerUrl - Url of container to save docs to
+ * @returns {object} An new docListObject containing any updates
+ */
 const saveToPod = async (session, { dataset, containerUrl }) => {
   const newDataset = await saveSolidDatasetAt(`${containerUrl}doclist.ttl`, dataset, {
     fetch: session.fetch
@@ -31,6 +62,20 @@ const saveToPod = async (session, { dataset, containerUrl }) => {
   return { dataset: newDataset, docList: newList, containerUrl };
 };
 
+/**
+ * Adds a new doc to the document list and saves the list to the pod
+ *
+ * @memberof DocumentList
+ * @function addDocument
+ * @param {object} docDesc - Document to add to list
+ * @param {object} file - file associated with the document to upload
+ * @param {object} docListObject - object containing docList, dataset, and containerUrl
+ * @param {SolidDataset} docListObject.dataset - dataset to save
+ * @param {URL} docListObject.containerUrl - Url of dataset to save to
+ * @param {Array} docListObject.docList - array of Documents
+ * @param {Session} session - session
+ * @returns {object} An new docListObject containing any updates
+ */
 export const addDocument = async (docDesc, file, { docList, dataset, containerUrl }, session) => {
   if (docList.find((oldDoc) => oldDoc.name === docDesc.name))
     throw new Error('File already exists');
@@ -49,6 +94,19 @@ export const addDocument = async (docDesc, file, { docList, dataset, containerUr
   return newObj;
 };
 
+/**
+ * Removes a document from the existing list and saves it to the pod
+ *
+ * @memberof DocumentList
+ * @function removeDocument
+ * @param {string} docName - name of doc to remove from list
+ * @param {object} docListObject - object containing docList, dataset, and containerUrl
+ * @param {SolidDataset} docListObject.dataset - dataset to save
+ * @param {URL} docListObject.containerUrl - Url of dataset to save to
+ * @param {Array} docListObject.docList - array of documents
+ * @param {Session} session - session to use for saving
+ * @returns {object} An new docListObject containing any updates
+ */
 export const removeDocument = async (docName, { docList, dataset, containerUrl }, session) => {
   const deletedDoc = docList.find((d) => d.name === docName);
   if (!deletedDoc) throw Error();
@@ -63,6 +121,20 @@ export const removeDocument = async (docName, { docList, dataset, containerUrl }
   return newObj;
 };
 
+/**
+ * Replaces a document with a new one
+ *
+ * @memberof DocumentList
+ * @function replaceDocument
+ * @param {object} docDesc - new document description
+ * @param {object} file - new file to upload
+ * @param {object} docListObject - object containing docList, dataset, and containerUrl
+ * @param {SolidDataset} docListObject.dataset - dataset to save
+ * @param {URL} docListObject.containerUrl - Url of dataset to save to
+ * @param {Array} docListObject.docList - array of documents
+ * @param {Session} session - session to use for saving
+ * @returns {object} An new docListObject containing any updates
+ */
 export const replaceDocument = async (
   docDesc,
   file,
@@ -78,6 +150,15 @@ export const replaceDocument = async (
   return result;
 };
 
+/**
+ * Replaces a document with a new one
+ *
+ * @memberof DocumentList
+ * @function loadDocumentList
+ * @param {Session} session - session to use for saving
+ * @param {URL} podUrl - pod to load from
+ * @returns {object} An new docListObject containing any updates
+ */
 export const loadDocumentList = async (session, podUrl) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
   let dataset;

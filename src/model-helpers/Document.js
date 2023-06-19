@@ -30,6 +30,15 @@ import { getUserSigningKey, signDocumentTtlFile } from '../utils/cryptography/cr
  * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
  */
 
+/**
+ * Generates a document Signature
+ *
+ * @function signDocument
+ * @param {object} document - a document
+ * @param {Session} session - the current session
+ * @param {URL} containerUrl - url to upload to
+ * @returns {Promise} Promise - Generates checksum for uploaded file
+ */
 export const signDocument = async (document, session, containerUrl) => {
   const signingKey = await getUserSigningKey(session);
   const signatureDataset = await signDocumentTtlFile(signingKey, document, session, containerUrl);
@@ -82,7 +91,7 @@ const addDriversLicenseInfo = async (thing, file) => {
 /**
  * Function that generates checksum for uploaded file
  *
- * @memberof utils
+ * @memberof Document
  * @function createFileChecksum
  * @param {fileObjectType} file - Object containing information about file
  * from form submission (see {@link fileObjectType})
@@ -94,6 +103,16 @@ const createFileChecksum = async (file) => {
   return sha256(text);
 };
 
+/**
+ * returns additional info about a specific type
+ *
+ * @function addAdditionalInfo
+ * @memberof Document
+ * @param {object} docDesc - the doc
+ * @param {ThingLocal} thing - a thing
+ * @param {fileObjectType} file - file blob
+ * @returns {Promise<ThingLocal>} a thing
+ */
 const addAdditionalInfo = async (docDesc, thing, file) => {
   if (docDesc.type === 'DriversLicense') {
     const retThing = await addDriversLicenseInfo(thing, file);
@@ -102,6 +121,16 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
   return thing;
 };
 
+/**
+ * returns additional info about a specific type
+ *
+ * @function makeDocIntoThing
+ * @memberof Document
+ * @param {object} docDesc - the doc
+ * @param {URL} documentUrl - a url
+ * @param {fileObjectType} file - file blob
+ * @returns {Promise<ThingLocal>} a thing
+ */
 export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
   const checksum = await createFileChecksum(file);
   const cleanedFileName = file.name.replaceAll(' ', '%20');
@@ -119,6 +148,14 @@ export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
   return thing.build();
 };
 
+/**
+ * returns additional info about a specific type
+ *
+ * @function parseDocFromThing
+ * @memberof Document
+ * @param {ThingLocal} documentThing - the thing
+ * @returns {object} the document
+ */
 export const parseDocFromThing = (documentThing) => {
   const uploadDate = getDate(documentThing, RDF_PREDICATES.uploadDate);
   const name = getStringNoLocale(documentThing, RDF_PREDICATES.name);
