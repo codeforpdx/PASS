@@ -490,18 +490,3 @@ export const buildMessageTTL = (
 
   return newSolidDataset;
 };
-
-/**
- * A function that takes in a list of promises and returns the ones that resolved
- * as a list of promises
- *
- * @function promiseSome
- * @param {Promise[]} promises
- * @returns {Promise<Promise[]>} Resolved Promises - Returns a list of resolved promises
- */
-
-export const promiseSome = async (promises) => {
-  const results = await Promise.allSettled(promises);
-  const resolvedResults = results.filter((result) => result.status === 'fulfilled');
-  return resolvedResults.map((result) => result.value);
-};
