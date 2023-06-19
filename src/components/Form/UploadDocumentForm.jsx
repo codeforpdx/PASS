@@ -42,8 +42,6 @@ const UploadDocumentForm = () => {
     setDocType(event.target.value);
   };
 
-  // Custom useField hook for handling form inputs
-
   const clearInputFields = () => {
     setVerifyFile(false);
     setDocType('');
@@ -51,7 +49,7 @@ const UploadDocumentForm = () => {
     setInputKey(!inputKey); // clears file by forcing re-render
     setDocDescription('');
     setDocType('');
-    setExpireDate('');
+    setExpireDate(null);
   };
 
   // Event handler for form/document submission to Pod
@@ -158,7 +156,7 @@ const UploadDocumentForm = () => {
               required
             >
               Choose file
-              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf .gif" />
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif" />
             </Button>
             <FormHelperText
               sx={{

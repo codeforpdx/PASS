@@ -12,15 +12,13 @@ import {
 
 import { makeDocIntoThing, parseDocFromThing } from './Document';
 
-const parseFromDataset = async (docsDataset, session) => {
+const parseFromDataset = (docsDataset) => {
   const docList = [];
   const allDocThings = getThingAll(docsDataset);
-  await Promise.all(
-    allDocThings.map(async (userThing) => {
-      const docObject = await parseDocFromThing(userThing, session);
-      docList.push(docObject);
-    })
-  );
+  allDocThings.forEach((userThing) => {
+    const docObject = parseDocFromThing(userThing);
+    docList.push(docObject);
+  })
 
   return docList;
 };
@@ -29,7 +27,7 @@ const saveToPod = async (session, { dataset, containerUrl }) => {
   const newDataset = await saveSolidDatasetAt(`${containerUrl}doclist.ttl`, dataset, {
     fetch: session.fetch
   });
-  const newList = await parseFromDataset(newDataset, session);
+  const newList = parseFromDataset(newDataset);
   return { dataset: newDataset, docList: newList, containerUrl };
 };
 
@@ -86,7 +84,7 @@ export const loadDocumentList = async (session, podUrl) => {
   let docList;
   try {
     dataset = await getSolidDataset(`${containerUrl}doclist.ttl`, { fetch: session.fetch });
-    docList = await parseFromDataset(dataset, session);
+    docList = parseFromDataset(dataset);
   } catch {
     dataset = await saveSolidDatasetAt(`${containerUrl}doclist.ttl`, createSolidDataset(), {
       fetch: session.fetch

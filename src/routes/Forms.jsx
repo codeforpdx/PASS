@@ -13,7 +13,7 @@ import {
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm
 } from '../components/Form';
-import { SelectedUserContext } from '../contexts';
+import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
 
 /**
@@ -29,6 +29,7 @@ const Forms = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   const { selectedUser } = useContext(SelectedUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   return (
     <Box
@@ -39,7 +40,12 @@ const Forms = () => {
         justifyContent: 'center'
       }}
     >
-      <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
+      {
+        podUrl === selectedUser.podUrl ?
+          <Typography>Personal Pod</Typography> :
+          <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
+      }
+      
       <UploadDocumentForm />
       <Container>
         <DocumentTable />
