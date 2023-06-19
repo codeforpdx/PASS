@@ -276,7 +276,7 @@ export const getDocuments = async (session, fileType, podUrl) => {
       documentUrl
     };
   } catch (error) {
-    return error.response?.status;
+    throw new Error(error.response?.status === 404 ? 'No file found' : 'No permission to file');
   }
 };
 

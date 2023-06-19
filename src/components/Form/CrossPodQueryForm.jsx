@@ -16,6 +16,7 @@ import { SelectUserContext } from '../../contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import ShowDocumentsModal from '../Modals/ShowDocumentsModal';
 
 /**
  * CrossPodQueryForm Component - Component that generates the form for cross pod
@@ -41,7 +42,7 @@ const CrossPodQueryForm = () => {
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
-  const [fileSrc, setFileSrc] = useState([]);
+  const [fileSrc, setFileSrc] = useState(null);
   const [showDocument, setShowDocument] = useState(false);
 
   // Event handler for Cross Pod Querying/Searching
@@ -90,8 +91,6 @@ const CrossPodQueryForm = () => {
     }
   };
 
-  console.log(fileSrc);
-
   return (
     <FormSection
       title="Cross Pod Search"
@@ -129,6 +128,13 @@ const CrossPodQueryForm = () => {
           >
             Search Pod
           </Button>
+          {fileSrc && (
+            <ShowDocumentsModal
+              showModal={showDocument}
+              setShowModal={setShowDocument}
+              fileSrc={fileSrc}
+            />
+          )}
         </form>
       </Box>
     </FormSection>

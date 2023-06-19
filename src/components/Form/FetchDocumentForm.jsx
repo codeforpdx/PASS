@@ -13,7 +13,7 @@ import { useStatusNotification } from '../../hooks';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 import { SignedInUserContext } from '../../contexts';
-import { ShowDocumentsModal } from '../DocumentModals';
+import ShowDocumentsModal from '../Modals/ShowDocumentsModal';
 
 /**
  * FetchDocumentForm Component - Component that generates the form for searching
@@ -32,7 +32,7 @@ const FetchDocumentForm = () => {
     setDocType(event.target.value);
   };
 
-  const [fileSrc, setFileSrc] = useState([]);
+  const [fileSrc, setFileSrc] = useState(null);
   const [showDocument, setShowDocument] = useState(false);
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -51,7 +51,6 @@ const FetchDocumentForm = () => {
 
     try {
       const documentTTLData = await getDocuments(session, docType, podUrl);
-
       runNotification('Locating document...', 3, state, dispatch);
 
       setFileSrc(documentTTLData);
@@ -64,8 +63,6 @@ const FetchDocumentForm = () => {
       dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
-
-  console.log(fileSrc);
 
   return (
     <FormSection
@@ -91,11 +88,13 @@ const FetchDocumentForm = () => {
           >
             Get Document
           </Button>
-          <ShowDocumentsModal
-            showModal={showDocument}
-            setShowModal={setShowDocument}
-            fileSrc={fileSrc}
-          />
+          {fileSrc && (
+            <ShowDocumentsModal
+              showModal={showDocument}
+              setShowModal={setShowDocument}
+              fileSrc={fileSrc}
+            />
+          )}
         </form>
       </Box>
     </FormSection>

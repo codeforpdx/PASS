@@ -23,7 +23,6 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Clients', path: '/PASS/clients' },
-    { label: 'User', path: 'PASS/user' },
     { label: 'Forms', path: '/PASS/forms' },
     { label: 'Inbox', path: '/PASS/inbox' },
     { label: 'Outbox', path: '/PASS/outbox' }
