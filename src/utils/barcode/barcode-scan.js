@@ -88,7 +88,7 @@ const getDriversLicenseData = async (file) => {
   if (file.type.split('/')[0] === 'image') {
     const image = await readImageFile(file);
     const decoded = await decodeBarcode(image);
-    if (decoded) {
+    if (!(decoded instanceof Error)) {
       const jsonData = csvToJson(decoded);
       returnedData = jsonData;
     }
