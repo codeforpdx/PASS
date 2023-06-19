@@ -87,29 +87,6 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
 };
 
 /**
- * Function that checks the user's permission of another user's Documents container
- *
- * @memberof utils
- * @function checkContainerPermission
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} otherPodUsername - Username to other user's Pod
- * @returns {Promise<URL>} Promise - Either a string containing the url location
- * of the container, if permitted, or throws an Error
- */
-export const checkContainerPermission = async (session, otherPodUsername) => {
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const documentsContainerUrl = `${otherPodUrl}PASS/Documents/`;
-
-  try {
-    await getSolidDataset(documentsContainerUrl, { fetch: session.fetch });
-
-    return documentsContainerUrl;
-  } catch (error) {
-    throw new Error('No data found');
-  }
-};
-
-/**
  * Function that creates a public container in the user's Pod when logging in for
  * the first time
  *

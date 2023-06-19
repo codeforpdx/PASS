@@ -10,8 +10,7 @@ import Typography from '@mui/material/Typography';
 import {
   UploadDocumentForm,
   SetAclPermissionForm,
-  SetAclPermsDocContainerForm,
-  CheckAclPermsDocContainerForm
+  SetAclPermsDocContainerForm
 } from '../components/Form';
 import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
@@ -40,18 +39,17 @@ const Forms = () => {
         justifyContent: 'center'
       }}
     >
-      {
-        podUrl === selectedUser.podUrl ?
-          <Typography>Personal Pod</Typography> :
-          <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
-      }
-      
+      {podUrl === selectedUser.podUrl ? (
+        <Typography>Personal Pod</Typography>
+      ) : (
+        <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
+      )}
+
       <UploadDocumentForm />
       <Container>
         <DocumentTable />
       </Container>
       <SetAclPermsDocContainerForm />
-      <CheckAclPermsDocContainerForm />
       <SetAclPermissionForm />
     </Box>
   );

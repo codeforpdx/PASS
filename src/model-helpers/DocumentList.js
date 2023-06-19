@@ -18,7 +18,7 @@ const parseFromDataset = (docsDataset) => {
   allDocThings.forEach((userThing) => {
     const docObject = parseDocFromThing(userThing);
     docList.push(docObject);
-  })
+  });
 
   return docList;
 };
