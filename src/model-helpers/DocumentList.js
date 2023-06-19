@@ -55,7 +55,8 @@ export const removeDocument = async (docName, { docList, dataset, containerUrl }
   const deletedDoc = docList.find((d) => d.name === docName);
   if (!deletedDoc) throw Error();
   const newList = docList.filter((d) => d.name !== docName);
-  const thingUrl = `${containerUrl}doclist.ttl#${docName}`;
+  const cleanedDocName = docName.replaceAll(' ', '%20');
+  const thingUrl = `${containerUrl}doclist.ttl#${cleanedDocName}`;
   const thingToRemove = getThing(dataset, thingUrl);
   const newDataset = removeThing(dataset, thingToRemove);
   const newDocObject = { userList: newList, dataset: newDataset, containerUrl };

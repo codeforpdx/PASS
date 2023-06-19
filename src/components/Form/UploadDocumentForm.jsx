@@ -49,11 +49,11 @@ const UploadDocumentForm = () => {
   const clearInputFields = () => {
     setVerifyFile(false);
     setDocType('');
-    setFile(null);
+    setFile('');
     setInputKey(!inputKey); // clears file by forcing re-render
     setDocDescription('');
     setDocType('');
-    setExpireDate(null);
+    setExpireDate('');
   };
 
   // Event handler for form/document submission to Pod
@@ -114,8 +114,7 @@ const UploadDocumentForm = () => {
             value={verifyFile}
             checked={verifyFile}
             onChange={() => setVerifyFile(!verifyFile)}
-          />            checked={state.verifyFile}
-
+          />
           <DocumentSelection
             htmlForAndIdProp="upload-doc"
             handleDocType={handleDocType}
@@ -171,7 +170,7 @@ const UploadDocumentForm = () => {
                 textOverflow: 'ellipsis'
               }}
             >
-              File to upload: {state.file ? state.file.name : 'No file selected'}
+              File to upload: {file ? file.name : 'No file selected'}
             </FormHelperText>
           </FormControl>
           <br />

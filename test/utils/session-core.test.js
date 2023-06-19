@@ -4,8 +4,7 @@ import {
   checkContainerPermission,
   createInbox,
   createOutbox,
-  createPublicContainer,
-  getDocuments
+  createPublicContainer
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
 
@@ -42,32 +41,6 @@ describe('checkContainerPermission', () => {
     await expect(checkContainerPermission(session, otherPodUsername)).rejects.toThrow(
       'No data found'
     );
-  });
-});
-
-describe('getDocuments', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn(),
-      info: {
-        webId: `${mockPodUrl}profile/card#me`
-      }
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('returns documentUrl if getSolidDataset resolves', async () => {
-    const results = await getDocuments(session, 'Passport', 'self');
-
-    expect(results).toBe('https://pod.example.com/PASS/Documents/Passport/');
-  });
-
-  it('throws an error if getSolidDataset is rejected', async () => {
-    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
-
-    await expect(getDocuments(session, 'Passport', 'self')).rejects.toThrow('No data found');
   });
 });
 

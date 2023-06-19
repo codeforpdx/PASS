@@ -15,7 +15,8 @@ describe('docDescToThing', () => {
 
   it('correctly converts a document description to a thing', async () => {
     const testFile = {
-      text: vi.fn().mockResolvedValue(fileText)
+      text: vi.fn().mockResolvedValue(fileText),
+      name: 'junk'
     };
     const hash = sha256(fileText);
     const doc = {

@@ -86,41 +86,6 @@ export const setDocContainerAclPermission = async (session, permissions, otherPo
   });
 };
 
-/*
-  File Management Section
-
-  Functions here deal primarily with file handling to Solid Pod via PASS (i.e,
-  file uploads, file search, file deletion, etc.)
-*/
-
-/**
- * Function that fetch the URL of the container containing a specific file
- * uploaded to a user's Pod on Solid, if exist
- *
- * @memberof utils
- * @function getDocuments
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
- * other Pods, or "cross")
- * @param {string} [otherPodUsername] - Url to other user's Pod (set to empty string
- * by default)
- * @returns {Promise<URL>} Promise - Either a string containing the url location of
- * the document, if exist, or throws an Error
- */
-export const getDocuments = async (session, fileType, fetchType, otherPodUsername = '') => {
-  const containerUrl = getContainerUrl(session, 'Documents', fetchType, otherPodUsername);
-  const documentUrl = `${containerUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
-
-  try {
-    await getSolidDataset(documentUrl, { fetch: session.fetch });
-
-    return documentUrl;
-  } catch (error) {
-    throw new Error('No data found');
-  }
-};
-
 /**
  * Function that checks the user's permission of another user's Documents container
  *
