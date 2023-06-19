@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -9,11 +9,11 @@ import Button from '@mui/material/Button';
 import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
-// Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { SignedInUserContext } from '../../contexts';
+import { ShowDocumentsModal } from '../DocumentModals';
 
 /**
  * FetchDocumentForm Component - Component that generates the form for searching
@@ -32,6 +32,10 @@ const FetchDocumentForm = () => {
     setDocType(event.target.value);
   };
 
+  const [fileSrc, setFileSrc] = useState([]);
+  const [showDocument, setShowDocument] = useState(false);
+  const { podUrl } = useContext(SignedInUserContext);
+
   // Event handler for searching/fetching document
   const handleGetDocumentSubmission = async (event) => {
     event.preventDefault();
@@ -46,30 +50,22 @@ const FetchDocumentForm = () => {
     }
 
     try {
-      const documentUrl = await getDocuments(session, docType, INTERACTION_TYPES.SELF);
-
-      if (state.documentUrl) {
-        dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      }
+      const documentTTLData = await getDocuments(session, docType, podUrl);
 
       runNotification('Locating document...', 3, state, dispatch);
 
-      // setTimeout is used to let getDocuments complete its fetch
-      setTimeout(() => {
-        dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
-        runNotification('Document found! ', 5, state, dispatch);
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_PROCESSING' });
-        }, 3000);
-      }, 3000);
-    } catch (_error) {
-      dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found.', 5, state, dispatch);
+      setFileSrc(documentTTLData);
+      setShowDocument(!showDocument);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      }, 5000);
+    } catch (error) {
+      runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
+
+  console.log(fileSrc);
 
   return (
     <FormSection
@@ -95,6 +91,11 @@ const FetchDocumentForm = () => {
           >
             Get Document
           </Button>
+          <ShowDocumentsModal
+            showModal={showDocument}
+            setShowModal={setShowDocument}
+            fileSrc={fileSrc}
+          />
         </form>
       </Box>
     </FormSection>

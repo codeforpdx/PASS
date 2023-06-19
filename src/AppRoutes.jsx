@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 import { useRedirectUrl } from './hooks';
 // Page Imports
-import { Home, Clients, User, Forms, Inbox, Outbox } from './routes';
+import { Home, Clients, Forms, Inbox, Outbox } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
@@ -44,7 +44,6 @@ const AppRoutes = () => {
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
-        <Route path="/PASS/user" element={<User />} />
         <Route path="/PASS/forms" element={<Forms />} />
         <Route path="/PASS/inbox" element={<Inbox />} />
         <Route path="/PASS/outbox" element={<Outbox />} />

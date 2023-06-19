@@ -14,7 +14,6 @@ import {
   createPublicContainer,
   deleteDocumentFile,
   getBlobFromSolid,
-  getDocTTLs,
   getDocuments
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
@@ -231,36 +230,6 @@ describe('createPublicContainer', () => {
     expect(createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
     expect(sessionHelpers.setDocAclForPublic).toBeCalled();
-  });
-});
-
-describe('getDocTTLs', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn(),
-      info: {
-        webId: `${mockPodUrl}profile/card#me`
-      }
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('returns unauthorized error message if user has no permission to any documents', async () => {
-    vi.spyOn(sessionHelpers, 'promiseSome').mockReturnValue([403, 403, 403]);
-
-    const result = await getDocTTLs(session, mockPodUrl);
-
-    expect(result).toEqual(Error('Unauthorized to all documents'));
-  });
-
-  it('returns error message if there is not documents found', async () => {
-    vi.spyOn(sessionHelpers, 'promiseSome').mockReturnValue([404, 404, 404]);
-
-    const result = await getDocTTLs(session, mockPodUrl);
-
-    expect(result).toEqual(new Error('No documents found'));
   });
 });
 

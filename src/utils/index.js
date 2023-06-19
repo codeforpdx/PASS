@@ -24,12 +24,10 @@ import {
   getMessageTTL,
   createPublicContainer,
   createInbox,
-  getDocTTLs,
   getBlobFromSolid
 } from './network/session-core';
 import { getPodUrl } from './network/session-helper';
 import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
-import runShowFiles from './frontend/file-viewer-helper';
 
 export {
   docTypes,
@@ -49,7 +47,5 @@ export {
   createPublicContainer,
   createInbox,
   getPodUrl,
-  getDocTTLs,
-  getBlobFromSolid,
-  runShowFiles
+  getBlobFromSolid
 };

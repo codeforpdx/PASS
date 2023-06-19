@@ -29,11 +29,9 @@ import {
   buildMessageTTL,
   setDocAclForPublic,
   getPodUrl,
-  getAllFiles,
-  promiseSome
+  getAllFiles
 } from './session-helper';
 import { getUserSigningKey, signDocumentTtlFile } from '../cryptography/credentials-helper';
-import docTypes from '../frontend/form-helper';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -249,23 +247,36 @@ export const updateDocument = async (session, uploadType, fileObject, otherPodUs
  * @function getDocuments
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {string} fileType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
- * other Pods, or "cross")
- * @param {string} [otherPodUsername] - Url to other user's Pod (set to empty string
- * by default)
+ * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise<URL>} Promise - Either a string containing the url location of
  * the document, if exist, or throws an Error
  */
-export const getDocuments = async (session, fileType, fetchType, otherPodUsername = '') => {
-  const containerUrl = getContainerUrl(session, 'Documents', fetchType, otherPodUsername);
-  const documentUrl = `${containerUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
+export const getDocuments = async (session, fileType, podUrl) => {
+  const documentTTLUrl = `${podUrl}PASS/Documents/${fileType
+    .replace("'", '')
+    .replace(' ', '_')}/document.ttl`;
 
   try {
-    await getSolidDataset(documentUrl, { fetch: session.fetch });
+    const dataset = await getSolidDataset(documentTTLUrl, { fetch: session.fetch });
 
-    return documentUrl;
+    const documentTTLThing = getThing(dataset, `${documentTTLUrl}#document`);
+
+    const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
+    const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
+    const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
+    const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
+    const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
+
+    return {
+      uploadDate,
+      filename,
+      documentType: fileType,
+      expireDate,
+      description,
+      documentUrl
+    };
   } catch (error) {
-    throw new Error('No data found');
+    return error.response?.status;
   }
 };
 
@@ -566,64 +577,6 @@ export const createInbox = async (session, podUrl) => {
     await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
     await setDocAclForPublic(session, inboxContainerUrl, { append: true });
   }
-};
-
-/**
- * A function that shows the documents from Solid Pod from user into PASS
- *
- * @function getDocTTLs
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - Pod URL of user to show documents from
- * @returns {Promise<object[]>} - List of parsed objects and/or error status codes
- */
-
-export const getDocTTLs = async (session, podUrl) => {
-  const parsedDatasets = await promiseSome(
-    docTypes.map(async (docType) => {
-      try {
-        const dataset = await getSolidDataset(
-          `${podUrl}PASS/Documents/${docType.replace("'", '').replace(' ', '_')}/document.ttl`,
-          {
-            fetch: session.fetch
-          }
-        );
-
-        const documentTTLThing = getThing(
-          dataset,
-          `${podUrl}PASS/Documents/${docType
-            .replace("'", '')
-            .replace(' ', '_')}/document.ttl#document`
-        );
-
-        const uploadDate = getDatetime(documentTTLThing, RDF_PREDICATES.uploadDate);
-        const filename = getStringNoLocale(documentTTLThing, RDF_PREDICATES.name);
-        const expireDate = getStringNoLocale(documentTTLThing, RDF_PREDICATES.endDate);
-        const description = getStringNoLocale(documentTTLThing, RDF_PREDICATES.description);
-        const documentUrl = getUrl(documentTTLThing, RDF_PREDICATES.url);
-
-        return {
-          uploadDate,
-          filename,
-          documentType: docType,
-          expireDate,
-          description,
-          documentUrl
-        };
-      } catch (error) {
-        return error.response?.status;
-      }
-    })
-  );
-
-  if (parsedDatasets.every((item) => item === 403)) {
-    return new Error('Unauthorized to all documents');
-  }
-
-  if (parsedDatasets.every((item) => item === 404)) {
-    return new Error('No documents found');
-  }
-
-  return parsedDatasets;
 };
 
 /**

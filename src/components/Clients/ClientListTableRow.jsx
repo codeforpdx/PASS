@@ -1,12 +1,9 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { styled, useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
 import IconButton from '@mui/material/IconButton';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -14,11 +11,9 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
-import { runShowFiles, runNotification } from '../../utils';
+import { runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
-// Component Imports
-import { ShowDocumentsModal } from '../DocumentModals';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -75,29 +70,6 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     setPinned(!pinned);
   };
 
-  // EXPERIMENTAL - Event handler for displaying Documents from PASS
-  const { session } = useSession();
-  const [fileSrc, setFileSrc] = useState([]);
-  const [showDocument, setShowDocument] = useState(false);
-
-  const handleShowFile = async () => {
-    runNotification('Fetching documents from Pod...', 5, state, dispatch);
-    dispatch({ type: 'SET_PROCESSING' });
-
-    try {
-      const permittedData = await runShowFiles(session, client.podUrl);
-
-      setFileSrc(permittedData);
-      setShowDocument(!showDocument);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 5000);
-    } catch (error) {
-      runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
-      dispatch({ type: 'CLEAR_PROCESSING' });
-    }
-  };
-
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
@@ -128,16 +100,6 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
         </Link>
       </StyledTableCell>
       <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton disabled={state.processing} size="large" edge="end" onClick={handleShowFile}>
-          <FindInPageIcon />
-        </IconButton>
-        <ShowDocumentsModal
-          showModal={showDocument}
-          setShowModal={setShowDocument}
-          fileSrc={fileSrc}
-        />
-      </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
           {pinnedIcon}

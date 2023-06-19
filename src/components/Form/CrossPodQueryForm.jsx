@@ -8,13 +8,11 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { getDocuments, runNotification } from '../../utils';
+import { getDocuments, getPodUrl, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectUserContext } from '../../contexts';
-// Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -43,6 +41,9 @@ const CrossPodQueryForm = () => {
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
+  const [fileSrc, setFileSrc] = useState([]);
+  const [showDocument, setShowDocument] = useState(false);
+
   // Event handler for Cross Pod Querying/Searching
   const handleCrossPodQuery = async (event) => {
     event.preventDefault();
@@ -70,33 +71,26 @@ const CrossPodQueryForm = () => {
     }
 
     try {
-      const documentUrl = await getDocuments(
-        session,
-        docType,
-        INTERACTION_TYPES.CROSS,
-        podUsername
-      );
-
-      if (state.documentUrl) {
-        dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      }
+      const documentTTLData = await getDocuments(session, docType, getPodUrl(podUsername));
 
       runNotification('Locating document...', 3, state, dispatch);
 
-      // setTimeout is used to let getDocuments complete its fetch
+      setFileSrc(documentTTLData);
+      setShowDocument(!showDocument);
+
       setTimeout(() => {
-        dispatch({ type: 'SET_DOCUMENT_LOCATION', payload: documentUrl });
         runNotification('Document found! ', 3, state, dispatch);
         clearInputFields();
       }, 3000);
-    } catch (_error) {
-      dispatch({ type: 'CLEAR_DOCUMENT_LOCATION' });
-      runNotification('Search failed. Reason: Document not found.', 5, state, dispatch);
+    } catch (error) {
+      runNotification(`Operation failed. Reason: ${error.message}`, 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
       }, 3000);
     }
   };
+
+  console.log(fileSrc);
 
   return (
     <FormSection
