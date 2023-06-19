@@ -313,7 +313,20 @@ const createFileChecksum = async (fileObject) => {
 
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
   const dlData = await getDriversLicenseData(fileObject.file);
-  return buildThing(createThing({ name: 'document' }))
+  const dlThing = buildThing(createThing({ name: 'document' }))
+    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
+    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
+    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
+    .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
+    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
+    .addUrl(RDF_PREDICATES.url, documentUrl);
+
+  if (Object.keys(dlData).length === 0) {
+    return dlThing.build();
+  }
+
+  return dlThing
     .addDatetime(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
@@ -336,12 +349,6 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
     .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
     .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
     .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
-
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
 };
 
