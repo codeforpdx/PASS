@@ -1,15 +1,11 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
-// Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
-import { SignedInUserContext } from '../../contexts/SignedInUserContext';
-import { createDocument, replaceDocument, signDocument } from '../../model-helpers';
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 import { runNotification } from '../../utils';
-import { SelectUserContext } from '../../contexts';
+import { DocumentListContext } from '../../contexts';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -20,7 +16,6 @@ import { SelectUserContext } from '../../contexts';
  */
 
 const UploadDocumentForm = () => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [docType, setDocType] = useState('');
   const [verifyFile, setVerifyFile] = useState(false);
@@ -28,8 +23,7 @@ const UploadDocumentForm = () => {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
-  const { podUrl } = useContext(SignedInUserContext);
-  const { selectedUser } = useContext(SelectUserContext);
+  const { addDocument, replaceDocument } = useContext(DocumentListContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -60,33 +54,24 @@ const UploadDocumentForm = () => {
     }
 
     const fileDesc = {
-      name: file.name.split('.')[0],
+      name: file.name,
       type: docType,
       date: expiryDate,
       description
     };
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
-    const activePod = selectedUser.podUrl || podUrl;
 
     try {
-      const doc = await createDocument(file, fileDesc, session, `${activePod}PASS/`);
-      if (verifyFile)
-        await signDocument(doc, session, `${activePod}PASS/Documents/${file.name.split('.')[0]}/`);
+      await addDocument(fileDesc, file);
       runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
-        'A file of this name already exists on the pod. Would you like to replace it?';
+        'A file of this name and type already exists on the pod. Would you like to replace it?';
 
       switch (error.message) {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
-            const doc = await replaceDocument(file, fileDesc, session, `${activePod}PASS/`);
-            if (verifyFile)
-              await signDocument(
-                doc,
-                session,
-                `${activePod}PASS/Documents/${file.name.split('.')[0]}/`
-              );
+            await replaceDocument(fileDesc, file);
             runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
           }
           break;

@@ -12,7 +12,7 @@ import { getDocuments, runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { SelectedUserContext } from '../../contexts';
 // Constants Imports
 import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
@@ -30,7 +30,7 @@ import FormSection from './FormSection';
 const CrossPodQueryForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectedUserContext);
   const [username, setUsername] = useState(selectedUser.username);
   const [docType, setDocType] = useState('');
 

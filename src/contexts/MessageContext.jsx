@@ -18,7 +18,7 @@ import { SignedInUserContext } from './SignedInUserContext';
  * @memberof contexts
  */
 
-const MessageContext = createContext([]);
+export const MessageContext = createContext([]);
 
 /**
  * The Provider for MessageContext
@@ -76,5 +76,3 @@ export const MessageContextProvider = ({ children }) => {
 
   return <MessageContext.Provider value={messageObject}>{children}</MessageContext.Provider>;
 };
-
-export default MessageContext;

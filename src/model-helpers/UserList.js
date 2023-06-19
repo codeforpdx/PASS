@@ -89,7 +89,7 @@ const parseFromDataset = async (usersDataset, session) => {
  * @param {URL} userListObject.listUrl - Url of dataset to save to
  * @returns {object} An new userListObject containing any updates
  */
-export const saveToPod = async (session, { dataset, listUrl }) => {
+const saveToPod = async (session, { dataset, listUrl }) => {
   const newDataset = await saveSolidDatasetAt(listUrl, dataset, {
     fetch: session.fetch
   });
@@ -169,6 +169,5 @@ export const loadUserList = async (session, podUrl) => {
     userList = [];
     await setDocAclForUser(session, userListUrl, 'create', session.info.webId);
   }
-  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
-  return { dataset, userList, listUrl };
+  return { dataset, userList, userListUrl };
 };

@@ -12,7 +12,7 @@ import { useStatusNotification } from '../../hooks';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
-import { SelectUserContext, SignedInUserContext } from '../../contexts';
+import { SelectedUserContext } from '../../contexts';
 
 /**
  * DeleteDocumentForm Component - Component that generates the form for deleting
@@ -25,8 +25,7 @@ import { SelectUserContext, SignedInUserContext } from '../../contexts';
 const DeleteDocumentForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { podUrl } = useContext(SignedInUserContext);
-  const { selectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectedUserContext);
   const [docType, setDocType] = useState('');
   const [docName, setDocName] = useState('');
 
@@ -38,8 +37,7 @@ const DeleteDocumentForm = () => {
   const handleDeleteDocument = async (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PROCESSING' });
-    const activePod = selectedUser.podUrl || podUrl;
-    const docUrl = `${activePod}PASS/Documents/${docType}/${docName}/`;
+    const docUrl = `${selectedUser.podUrl}PASS/Documents/${docType}/${docName}/`;
 
     try {
       runNotification('Deleting Document...', 3, state, dispatch);

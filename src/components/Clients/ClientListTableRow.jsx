@@ -14,7 +14,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Context Imports
-import { SelectUserContext, UserListContext } from '../../contexts';
+import { SelectedUserContext, UserListContext } from '../../contexts';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -27,7 +27,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser, selectUser } = useContext(SelectedUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
 
@@ -43,12 +43,12 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const handleSelectClient = async (clientToSelect) => {
     if (clientToSelect.webId === selectedUser.webId) {
       runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
-      setSelectedUser({});
+      selectUser({});
       return;
     }
 
     runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
-    setSelectedUser(clientToSelect);
+    selectUser(clientToSelect);
   };
 
   // Event handler for deleting client from client list

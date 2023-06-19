@@ -17,7 +17,7 @@ import {
   SetAclPermsDocContainerForm,
   CheckAclPermsDocContainerForm
 } from '../components/Form';
-import { SelectUserContext } from '../contexts';
+import { SelectedUserContext } from '../contexts';
 
 /**
  * Forms Page - Component that generates Forms Page for PASS
@@ -31,7 +31,7 @@ const Forms = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
 
   return (
     <Box

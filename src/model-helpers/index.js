@@ -9,3 +9,4 @@
 export * from './UserList';
 export * from './User';
 export * from './Document';
+export * from './DocumentList';

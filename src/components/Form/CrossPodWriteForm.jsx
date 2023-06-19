@@ -1,14 +1,11 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Custom Hook Imports
-import { createDocument, replaceDocument } from '../../model-helpers';
 import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext } from '../../contexts';
+import { DocumentListContext, SelectedUserContext } from '../../contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -22,13 +19,13 @@ import FormSection from './FormSection';
  * @returns {React.ReactElement} The form
  */
 const CrossPodWriteForm = () => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [docType, setDocType] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
-  const { selectedUser } = useContext(SelectUserContext);
+  const { addDocument, replaceDocument } = useContext(DocumentListContext);
+  const { selectedUser } = useContext(SelectedUserContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -46,25 +43,23 @@ const CrossPodWriteForm = () => {
   const handleFormSubmission = async (e) => {
     e.preventDefault();
     const fileDesc = {
-      name: file.name.split('.')[0],
+      name: file.name,
       type: docType,
       date: expiryDate,
       description
     };
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
-    const activePod = selectedUser.podUrl;
-
     try {
-      await createDocument(file, fileDesc, session, `${activePod}PASS/`);
+      await addDocument(fileDesc, file);
       runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
-        'A file of this name already exists on the pod. Would you like to replace it?';
+        'A file of this name and type already exists on the pod. Would you like to replace it?';
 
       switch (error.message) {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
-            await replaceDocument(file, fileDesc, session, `${activePod}PASS/`);
+            await replaceDocument(fileDesc, file);
             runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
           }
           break;

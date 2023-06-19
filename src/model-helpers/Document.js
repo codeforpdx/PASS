@@ -1,18 +1,10 @@
 import {
-  getSolidDataset,
   createThing,
   buildThing,
-  setThing,
-  getThingAll,
-  createSolidDataset,
   getStringNoLocale,
   getUrl,
   saveSolidDatasetAt,
-  saveFileInContainer,
-  getContainedResourceUrlAll,
-  deleteFile,
-  deleteSolidDataset,
-  getDate
+  getDate,
 } from '@inrupt/solid-client';
 
 import sha256 from 'crypto-js/sha256';
@@ -110,7 +102,7 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
   return thing;
 };
 
-export const docDescToThing = async (docDesc, documentUrl, file) => {
+export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
   const checksum = await createFileChecksum(file);
 
   let thing = buildThing(createThing({ name: docDesc.name }))
@@ -120,14 +112,14 @@ export const docDescToThing = async (docDesc, documentUrl, file) => {
     .addStringNoLocale(RDF_PREDICATES.additionalType, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
-    .addUrl(RDF_PREDICATES.url, `${documentUrl}${file.name}`);
+    .addUrl(RDF_PREDICATES.url, `${documentUrl}${docDesc.type}/${file.name}`);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
   thing = await addAdditionalInfo(docDesc, thing, file);
   return thing.build();
 };
 
-export const parseDocument = (documentThing) => {
+export const parseDocFromThing = (documentThing) => {
   const uploadDate = getDate(documentThing, RDF_PREDICATES.uploadDate);
   const name = getStringNoLocale(documentThing, RDF_PREDICATES.name);
   const type = getStringNoLocale(documentThing, RDF_PREDICATES.identifier);
@@ -136,70 +128,4 @@ export const parseDocument = (documentThing) => {
   const description = getStringNoLocale(documentThing, RDF_PREDICATES.description);
   const fileUrl = getUrl(documentThing, RDF_PREDICATES.URL);
   return { uploadDate, name, type, endDate, checksum, description, fileUrl };
-};
-
-const uploadFile = async (file, docDescription, session, indexDataset, docUrl) => {
-  const docThing = await docDescToThing(docDescription, docUrl, file);
-  const newIndex = setThing(indexDataset, docThing);
-  const doc = await saveSolidDatasetAt(`${docUrl}index.ttl`, newIndex, {
-    fetch: session.fetch
-  });
-  await saveFileInContainer(docUrl, file, {
-    fetch: session.fetch,
-    slug: file.name
-  });
-  return parseDocument(getThingAll(doc)[0]);
-};
-
-export const createDocument = async (file, docDescription, session, passUrl) => {
-  const docUrl = `${passUrl}Documents/`;
-  let indexDataset;
-  try {
-    indexDataset = await getSolidDataset(`${docUrl}index.ttl`, { fetch: session.fetch });
-  } catch {
-    indexDataset = createSolidDataset();
-  }
-  const result = await uploadFile(file, docDescription, session, indexDataset, docUrl);
-  return result;
-};
-
-const deleteRecursively = async (dataset, options) => {
-  const containedResourceUrls = getContainedResourceUrlAll(dataset);
-  const containedDatasets = await Promise.all(
-    containedResourceUrls.map(async (resourceUrl) => {
-      try {
-        return await getSolidDataset(resourceUrl, options);
-      } catch (e) {
-        // The Resource might not have been a SolidDataset;
-        // we can delete it directly:
-        await deleteFile(resourceUrl, options);
-        return null;
-      }
-    })
-  );
-  await Promise.all(
-    containedDatasets.map(async (containedDataset) => {
-      if (containedDataset === null) {
-        return;
-      }
-      await deleteRecursively(containedDataset, options);
-    })
-  );
-  await deleteSolidDataset(dataset, options);
-};
-
-// export const fetchDocument = (filename, session, podUrl) => {}
-export const deleteDocument = async (session, docUrl) => {
-  const options = {
-    fetch: session.fetch
-  };
-  const container = await getSolidDataset(docUrl, options);
-  await deleteRecursively(container, options);
-};
-
-export const replaceDocument = async (file, fileDescription, session, passUrl) => {
-  const docUrl = `${passUrl}Documents/`;
-  await deleteDocument(session, docUrl);
-  const result = await uploadFile(file, fileDescription, session, docUrl);
-  return result;
 };
