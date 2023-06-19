@@ -7,10 +7,10 @@ import { TextField, Box, Button } from '@mui/material';
 // Custom Hook Imports
 import { useRedirectUrl } from '../../hooks';
 // Constants Imports
-import { SOLID_IDENTITY_PROVIDER } from '../../constants';
+import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const [oidcIssuer, setOidcIssuer] = useState(SOLID_IDENTITY_PROVIDER);
+  const [oidcIssuer, setOidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
   const redirectUrl = useRedirectUrl();
 
   return (
