@@ -9,12 +9,11 @@ import { SelectedUserContext } from './SelectedUserContext';
 import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
 
 /**
- * React Context for users list from Solid Pod
+ * React Context for showing all documents in a user's pod
  *
  * @name UserListContext
  * @memberof contexts
  */
-
 export const DocumentListContext = createContext([]);
 
 /**
@@ -22,7 +21,7 @@ export const DocumentListContext = createContext([]);
  *
  * @memberof contexts
  * @function DocumentListContextProvider
- * @param {React.JSX.Element} children - The wrapped components that consumes
+ * @param {React.JSX.Element} children - consumers of documentListContext
  * @returns {React.JSX.Element}
  * Context from Provider
  */

@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
-import { Container } from '@mui/system';
+import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
@@ -28,7 +28,7 @@ const Forms = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const { selectedUser, selectUser } = useContext(SelectedUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);
 
   return (
@@ -46,7 +46,7 @@ const Forms = () => {
         size="small"
         aria-label="Clear Client Button"
         startIcon={<Remove />}
-        onClick={() => selectUser()}
+        onClick={() => setSelectedUser()}
         sx={{ margin: '2rem 0 1rem' }}
       >
         Clear Client

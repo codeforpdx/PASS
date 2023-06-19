@@ -17,7 +17,7 @@ export const SelectedUserContextProvider = ({ children }) => {
   const selectedUserMemo = useMemo(
     () => ({
       selectedUser,
-      selectUser: async (user) => setSelectedUser(user || { podUrl })
+      setSelectedUser: async (user) => setSelectedUser(user || { podUrl })
     }),
     [selectedUser, podUrl]
   );

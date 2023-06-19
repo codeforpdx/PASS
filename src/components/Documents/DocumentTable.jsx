@@ -12,8 +12,7 @@ import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
 
 /**
- * FetchDocumentForm Component - Component that generates the form for searching
- * a specific document type from a user's Solid Pod via Solid Session
+ * DocumentTable Component - Displays a table containing all documents accessible in a pod
  *
  * @memberof Documents
  * @name DocumentTable

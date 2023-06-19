@@ -26,7 +26,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();
-  const { selectedUser, selectUser } = useContext(SelectedUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
 
@@ -42,12 +42,12 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const handleSelectClient = async (clientToSelect) => {
     if (clientToSelect.webId === selectedUser.webId) {
       runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
-      selectUser();
+      setSelectedUser();
       return;
     }
 
     runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
-    selectUser(clientToSelect);
+    setSelectedUser(clientToSelect);
   };
 
   // Event handler for deleting client from client list

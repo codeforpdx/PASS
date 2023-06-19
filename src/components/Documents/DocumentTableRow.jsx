@@ -12,7 +12,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 import DOC_TYPES from '../../constants/doc_types';
 
 /**
- * DocumentTableRow Component - Component that generates the individual table
+ * DocumentTableRow Component - A row in the Document Table
  *
  * @memberof Documents
  * @name DocumentTableRow
