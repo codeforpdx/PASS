@@ -9,14 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 
 /**
- * ShowDocumentsModal Component - Popup modal that shows client documents if gotten
- * explicit permission via ACL
+ * ShowDocumentPreviewModal Component - Popup modal that shows the user or client's
+ * specific documents if gotten explicit permission via ACL
  *
  * @memberof DocumentModals
- * @name ShowDocumentLocalModal
+ * @name ShowDocumentPreviewModal
  */
 
-const ShowDocumentLocalModal = ({ showModal, setShowModal, fileBlobUrl }) => (
+const ShowDocumentPreviewModal = ({ showModal, setShowModal, fileBlobUrl }) => (
   <Dialog
     fullScreen
     open={showModal}
@@ -51,4 +51,4 @@ const ShowDocumentLocalModal = ({ showModal, setShowModal, fileBlobUrl }) => (
   </Dialog>
 );
 
-export default ShowDocumentLocalModal;
+export default ShowDocumentPreviewModal;

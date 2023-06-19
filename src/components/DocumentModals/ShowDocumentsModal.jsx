@@ -12,11 +12,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-// Other Library Imports
-import { v4 as uuidv4 } from 'uuid';
 // Utility Imports
 import { getBlobFromSolid } from '../../utils';
-import ShowDocumentLocalModal from './ShowDocumentLocalModal';
+import ShowDocumentPreviewModal from './ShowDocumentPreviewModal';
 
 /**
  * ShowDocumentsModal Component - Popup modal that shows client documents if gotten
@@ -59,7 +57,7 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
         >
           {fileSrc.map((src) => (
             <Box
-              key={uuidv4()}
+              key={src.documentUrl}
               sx={{
                 padding: 5,
                 borderRadius: '10px',
@@ -108,7 +106,7 @@ const ShowDocumentsModal = ({ showModal, setShowModal, fileSrc }) => {
             </Box>
           ))}
           {showDocumentBlob && (
-            <ShowDocumentLocalModal
+            <ShowDocumentPreviewModal
               showModal={showDocumentBlob}
               setShowModal={setShowDocumentBlob}
               fileBlobUrl={fileBlobUrl}

@@ -14,7 +14,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
-import { runCheckFiles, runNotification } from '../../utils';
+import { runShowFiles, runNotification } from '../../utils';
 // Context Imports
 import { SelectUserContext, UserListContext } from '../../contexts';
 // Component Imports
@@ -85,7 +85,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     dispatch({ type: 'SET_PROCESSING' });
 
     try {
-      const permittedData = await runCheckFiles(session, client.podUrl);
+      const permittedData = await runShowFiles(session, client.podUrl);
 
       setFileSrc(permittedData);
       setShowDocument(!showDocument);

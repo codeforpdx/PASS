@@ -1,6 +1,6 @@
 import { getDocTTLs } from '../network/session-core';
 
-const runCheckFiles = async (session, podUrl) => {
+const runShowFiles = async (session, podUrl) => {
   const allDocumentData = await getDocTTLs(session, podUrl);
 
   if (allDocumentData.message?.includes('Unauthorized')) {
@@ -19,4 +19,4 @@ const runCheckFiles = async (session, podUrl) => {
   }
 };
 
-export default runCheckFiles;
+export default runShowFiles;

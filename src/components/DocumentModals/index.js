@@ -1,4 +1,4 @@
-import ShowDocumentLocalModal from './ShowDocumentLocalModal';
+import ShowDocumentPreviewModal from './ShowDocumentPreviewModal';
 import ShowDocumentsModal from './ShowDocumentsModal';
 
 /**
@@ -8,4 +8,4 @@ import ShowDocumentsModal from './ShowDocumentsModal';
  * @namespace DocumentModals
  */
 
-export { ShowDocumentLocalModal, ShowDocumentsModal };
+export { ShowDocumentPreviewModal, ShowDocumentsModal };
