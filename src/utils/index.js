@@ -7,11 +7,9 @@
  * @module utils
  * @namespace utils
  */
-
-import docTypes from './frontend/form-helper';
 import runNotification from './frontend/notification-helper';
 
-export { docTypes, runNotification };
+export { runNotification };
 
 export * from './network/session-core';
 export * from './network/session-helper';

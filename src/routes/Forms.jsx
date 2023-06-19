@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import { Container } from '@mui/system';
-
+import Button from '@mui/material/Button';
+import Remove from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 // Component Imports
@@ -27,7 +28,7 @@ const Forms = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { selectedUser, selectUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);
 
   return (
@@ -39,6 +40,17 @@ const Forms = () => {
         justifyContent: 'center'
       }}
     >
+      <Button
+        variant="contained"
+        color="secondary"
+        size="small"
+        aria-label="Clear Client Button"
+        startIcon={<Remove />}
+        onClick={() => selectUser()}
+        sx={{ margin: '2rem 0 1rem' }}
+      >
+        Clear Client
+      </Button>
       {podUrl === selectedUser.podUrl ? (
         <Typography>Personal Pod</Typography>
       ) : (
