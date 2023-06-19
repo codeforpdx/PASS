@@ -11,21 +11,20 @@ import { SignedInUserContext } from './SignedInUserContext';
 export const SelectedUserContext = createContext({});
 
 export const SelectedUserContextProvider = ({ children }) => {
-  const signedInUser = useContext(SignedInUserContext);
-  const [selectedUser, setSelectedUser] = useState(signedInUser);
+  const { podUrl } = useContext(SignedInUserContext);
+  const [selectedUser, setSelectedUser] = useState({ podUrl });
 
   const selectedUserMemo = useMemo(
     () => ({
       selectedUser,
-      selectUser: async (user) => setSelectedUser(user || signedInUser)
+      selectUser: async (user) => setSelectedUser(user || { podUrl })
     }),
-    [selectedUser, signedInUser]
+    [selectedUser, podUrl]
   );
 
   useEffect(() => {
-    const { podUrl } = signedInUser
-    if (podUrl) setSelectedUser(signedInUser)
-  }, [signedInUser])
+    if (podUrl) setSelectedUser({ podUrl });
+  }, [podUrl]);
 
   return (
     <SelectedUserContext.Provider value={selectedUserMemo}>{children}</SelectedUserContext.Provider>

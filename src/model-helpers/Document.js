@@ -4,7 +4,7 @@ import {
   getStringNoLocale,
   getUrl,
   saveSolidDatasetAt,
-  getDate,
+  getDate
 } from '@inrupt/solid-client';
 
 import sha256 from 'crypto-js/sha256';
@@ -104,7 +104,7 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
 
 export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
   const checksum = await createFileChecksum(file);
-
+  const cleanedFileName = file.name.replaceAll(' ', '%20');
   let thing = buildThing(createThing({ name: docDesc.name }))
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
@@ -112,7 +112,7 @@ export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
     .addStringNoLocale(RDF_PREDICATES.additionalType, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
-    .addUrl(RDF_PREDICATES.url, `${documentUrl}${docDesc.type}/${file.name}`);
+    .addUrl(RDF_PREDICATES.url, `${documentUrl}${cleanedFileName}`);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
   thing = await addAdditionalInfo(docDesc, thing, file);
@@ -126,6 +126,6 @@ export const parseDocFromThing = (documentThing) => {
   const endDate = getDate(documentThing, RDF_PREDICATES.endDate);
   const checksum = getStringNoLocale(documentThing, RDF_PREDICATES.sha256);
   const description = getStringNoLocale(documentThing, RDF_PREDICATES.description);
-  const fileUrl = getUrl(documentThing, RDF_PREDICATES.URL);
+  const fileUrl = getUrl(documentThing, RDF_PREDICATES.url);
   return { uploadDate, name, type, endDate, checksum, description, fileUrl };
 };

@@ -48,11 +48,11 @@ export const DocumentListContextProvider = ({ children }) => {
 
   useEffect(() => {
     const loadDocuments = async () => {
-      setDocumentListObject( {
+      setDocumentListObject({
         docList: [],
         dataset: createSolidDataset(),
         containerUrl: `${selectedUser.podUrl}PASS/Documents/`
-      } )
+      });
       try {
         setDocumentListObject(await loadDocumentList(session, selectedUser.podUrl));
       } finally {
@@ -60,7 +60,7 @@ export const DocumentListContextProvider = ({ children }) => {
       }
     };
 
-    if (selectedUser) loadDocuments();
+    if (selectedUser && selectedUser.podUrl) loadDocuments();
   }, [selectedUser]);
 
   return (

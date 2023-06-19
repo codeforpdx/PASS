@@ -74,7 +74,7 @@ describe('loadUserList', () => {
     getSolidDataset.mockResolvedValue(mockDatasetTim);
     const userListResult = await loadUserList(mockSession, 'https://james.example.com/');
     expect(userListResult.userList).toMatchObject(mockUserList);
-    expect(userListResult.listUrl).toBe(mockUrl);
+    expect(userListResult.userListUrl).toBe(mockUrl);
     expect(userListResult.dataset).toMatchObject(mockDataset);
   });
   it('creates a new dataset if no dataset is found', async () => {

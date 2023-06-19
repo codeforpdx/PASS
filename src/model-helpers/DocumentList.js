@@ -4,7 +4,10 @@ import {
   getThingAll,
   saveSolidDatasetAt,
   createSolidDataset,
-  saveFileInContainer
+  saveFileInContainer,
+  getThing,
+  removeThing,
+  deleteFile
 } from '@inrupt/solid-client';
 
 import { makeDocIntoThing, parseDocFromThing } from './Document';
@@ -31,6 +34,8 @@ const saveToPod = async (session, { dataset, containerUrl }) => {
 };
 
 export const addDocument = async (docDesc, file, { docList, dataset, containerUrl }, session) => {
+  if (docList.find((oldDoc) => oldDoc.name === docDesc.name))
+    throw new Error('File already exists');
   const docThing = await makeDocIntoThing(docDesc, containerUrl, file);
   const newDocDesc = parseDocFromThing(docThing);
   const newDocObject = {
@@ -39,15 +44,24 @@ export const addDocument = async (docDesc, file, { docList, dataset, containerUr
     containerUrl
   };
   const newObj = await saveToPod(session, newDocObject);
-  await saveFileInContainer(`${containerUrl}${docDesc.type}/`, file, {
+  await saveFileInContainer(`${containerUrl}`, file, {
     fetch: session.fetch,
     slug: file.name
   });
   return newObj;
 };
 
-export const removeDocument = async () => {
-  // docName, { docList, dataset, containerUrl }, session
+export const removeDocument = async (docName, { docList, dataset, containerUrl }, session) => {
+  const deletedDoc = docList.find((d) => d.name === docName);
+  if (!deletedDoc) throw Error();
+  const newList = docList.filter((d) => d.name !== docName);
+  const thingUrl = `${containerUrl}doclist.ttl#${docName}`;
+  const thingToRemove = getThing(dataset, thingUrl);
+  const newDataset = removeThing(dataset, thingToRemove);
+  const newDocObject = { userList: newList, dataset: newDataset, containerUrl };
+  const newObj = await saveToPod(session, newDocObject);
+  await deleteFile(deletedDoc.fileUrl, session);
+  return newObj;
 };
 
 export const replaceDocument = async (
