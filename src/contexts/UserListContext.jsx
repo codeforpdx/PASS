@@ -1,6 +1,6 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { loadUserList, addUser, removeUser } from '../model-helpers';

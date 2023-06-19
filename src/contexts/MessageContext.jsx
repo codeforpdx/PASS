@@ -1,6 +1,6 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';
