@@ -138,18 +138,12 @@ export const parseDocument = (documentThing) => {
   return { uploadDate, name, type, endDate, checksum, description, fileUrl };
 };
 
-export const saveDescription = async (docThing, dataset, session, docUrl) => {
-  const newDataset = setThing(dataset, docThing);
-  const name = getStringNoLocale(docThing, RDF_PREDICATES.name);
-  const doc = await saveSolidDatasetAt(`${docUrl}${name}.ttl`, newDataset, {
+const uploadFile = async (file, docDescription, session, indexDataset, docUrl) => {
+  const docThing = await docDescToThing(docDescription, docUrl, file);
+  const newIndex = setThing(indexDataset, docThing);
+  const doc = await saveSolidDatasetAt(`${docUrl}index.ttl`, newIndex, {
     fetch: session.fetch
   });
-  return doc;
-};
-
-const createDocumentInternal = async (file, docDescription, session, docUrl) => {
-  const docThing = await docDescToThing(docDescription, docUrl, file);
-  const doc = await saveDescription(docThing, createSolidDataset(), session, docUrl);
   await saveFileInContainer(docUrl, file, {
     fetch: session.fetch,
     slug: file.name
@@ -158,15 +152,15 @@ const createDocumentInternal = async (file, docDescription, session, docUrl) => 
 };
 
 export const createDocument = async (file, docDescription, session, passUrl) => {
-  const { name } = docDescription;
-  const docUrl = `${passUrl}Documents/${name}/`;
+  const docUrl = `${passUrl}Documents/`;
+  let indexDataset;
   try {
-    await getSolidDataset(docUrl, { fetch: session.fetch }); // check to see if the file already exists
+    indexDataset = await getSolidDataset(`${docUrl}index.ttl`, { fetch: session.fetch });
   } catch {
-    const result = await createDocumentInternal(file, docDescription, session, docUrl);
-    return result;
+    indexDataset = createSolidDataset();
   }
-  throw Error('File already exists');
+  const result = await uploadFile(file, docDescription, session, indexDataset, docUrl);
+  return result;
 };
 
 const deleteRecursively = async (dataset, options) => {
@@ -204,9 +198,8 @@ export const deleteDocument = async (session, docUrl) => {
 };
 
 export const replaceDocument = async (file, fileDescription, session, passUrl) => {
-  const { name } = fileDescription;
-  const docUrl = `${passUrl}Documents/${name}/`;
+  const docUrl = `${passUrl}Documents/`;
   await deleteDocument(session, docUrl);
-  const result = await createDocumentInternal(file, fileDescription, session, docUrl);
+  const result = await uploadFile(file, fileDescription, session, docUrl);
   return result;
 };
