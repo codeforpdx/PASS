@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
