@@ -1,10 +1,10 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createPublicContainer, createDocumentContainer } from '../utils';
+import { createPublicContainer } from '../utils';
 import { updateUserActivity } from '../model-helpers';
 
 /**
@@ -51,8 +51,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         });
         await Promise.all([
           updateUserActivity(session, podUrl),
-          createPublicContainer(session, podUrl),
-          createDocumentContainer(session, podUrl)
+          createPublicContainer(session, podUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

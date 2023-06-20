@@ -2,22 +2,19 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
-import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import {
   UploadDocumentForm,
-  FetchDocumentForm,
-  DeleteDocumentForm,
-  CrossPodQueryForm,
-  CrossPodWriteForm,
   SetAclPermissionForm,
-  SetAclPermsDocContainerForm,
-  CheckAclPermsDocContainerForm
+  SetAclPermsDocContainerForm
 } from '../components/Form';
-import { SelectUserContext } from '../contexts';
+import { SelectedUserContext, SignedInUserContext } from '../contexts';
+import DocumentTable from '../components/Documents/DocumentTable';
 
 /**
  * Forms Page - Component that generates Forms Page for PASS
@@ -31,7 +28,8 @@ const Forms = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
 
   return (
     <Box
@@ -48,20 +46,23 @@ const Forms = () => {
         size="small"
         aria-label="Clear Client Button"
         startIcon={<Remove />}
-        onClick={() => setSelectedUser('')}
+        onClick={() => setSelectedUser()}
         sx={{ margin: '2rem 0 1rem' }}
       >
         Clear Client
       </Button>
-      <Typography>Client selected: {selectedUser.person || 'No client selected'}</Typography>
+      {podUrl === selectedUser.podUrl ? (
+        <Typography>Personal Pod</Typography>
+      ) : (
+        <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
+      )}
+
       <UploadDocumentForm />
-      <FetchDocumentForm />
-      <DeleteDocumentForm />
+      <Container>
+        <DocumentTable />
+      </Container>
       <SetAclPermsDocContainerForm />
-      <CheckAclPermsDocContainerForm />
       <SetAclPermissionForm />
-      <CrossPodQueryForm />
-      <CrossPodWriteForm />
     </Box>
   );
 };

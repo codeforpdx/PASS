@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { TextField, Box, Button } from '@mui/material';

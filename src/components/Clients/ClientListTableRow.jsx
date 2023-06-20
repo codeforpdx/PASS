@@ -2,18 +2,17 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 // Material UI Imports
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Context Imports
-import { SelectUserContext, UserListContext } from '../../contexts';
+import { SelectedUserContext, UserListContext } from '../../contexts';
+import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -26,7 +25,7 @@ import { SelectUserContext, UserListContext } from '../../contexts';
 // determine what gets rendered in the table body
 const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const theme = useTheme();
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
 
@@ -42,7 +41,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const handleSelectClient = async (clientToSelect) => {
     if (clientToSelect.webId === selectedUser.webId) {
       runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
-      setSelectedUser({});
+      setSelectedUser();
       return;
     }
 
@@ -115,34 +114,3 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 };
 
 export default ClientListTableRow;
-
-// ======= TABLE STYLING STARTS HERE =======
-// ***** TODO: Switch this styled components to MUI
-
-// styling for table cells
-const StyledTableCell = styled(TableCell)(() => {
-  const theme = useTheme();
-  return {
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-    }
-  };
-});
-
-// styling for table rows
-const StyledTableRow = styled(TableRow)(() => {
-  const theme = useTheme();
-  return {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.primary.slight
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0
-    }
-  };
-});

@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 // Utility Imports
-import { docTypes } from '../../utils';
+import DOC_TYPES from '../../constants/doc_types';
 
 /**
  * DocumentSelection Component - Sub-component that generates the dropdown
@@ -29,9 +29,9 @@ const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
         onChange={handleDocType}
         name="document"
       >
-        {docTypes.map((doc) => (
-          <MenuItem key={doc.split(' ')[0]} value={doc}>
-            {doc}
+        {Object.entries(DOC_TYPES).map(([key, value]) => (
+          <MenuItem key={key} value={key}>
+            {value}
           </MenuItem>
         ))}
       </Select>

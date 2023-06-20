@@ -9,12 +9,15 @@ import { BrowserPDF417Reader } from '@zxing/browser';
  * @returns {Promise} Promise - returns a Promise with base64 image
  */
 const readImageFile = async (file) => {
-  const returnedImage = new Promise((resolve) => {
+  const returnedImage = new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const image = new Image();
       image.src = event.target.result;
       image.onload = () => resolve(image);
+      image.onerror = (e) => {
+        reject(e);
+      };
     };
     reader.readAsDataURL(file);
   });

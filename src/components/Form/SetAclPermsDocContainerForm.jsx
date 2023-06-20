@@ -17,7 +17,7 @@ import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext, SignedInUserContext } from '../../contexts';
+import { SelectedUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -33,8 +33,8 @@ import FormSection from './FormSection';
 const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectUserContext);
-  const [username, setUsername] = useState('');
+  const { selectedUser } = useContext(SelectedUserContext);
+  const [username, setUsername] = useState(selectedUser.username);
   const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {

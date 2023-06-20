@@ -12,7 +12,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';
-import flushPromises from '../testHelpers';
+import flushPromises from '../helpers/testHelpers';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);

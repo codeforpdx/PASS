@@ -7,45 +7,9 @@
  * @module utils
  * @namespace utils
  */
-
-import docTypes from './frontend/form-helper';
 import runNotification from './frontend/notification-helper';
-import {
-  uploadDocument,
-  updateDocument,
-  getDocuments,
-  deleteDocumentFile,
-  setDocAclPermission,
-  createDocumentContainer,
-  setDocContainerAclPermission,
-  checkContainerPermission,
-  sendMessageTTL,
-  createOutbox,
-  getMessageTTL,
-  createPublicContainer,
-  createInbox,
-  getBlobFromSolid
-} from './network/session-core';
-import { getPodUrl } from './network/session-helper';
-import makeHandleFormSubmission from './frontend/FormSubmissionHelper';
 
-export {
-  docTypes,
-  runNotification,
-  uploadDocument,
-  updateDocument,
-  getDocuments,
-  deleteDocumentFile,
-  setDocAclPermission,
-  createDocumentContainer,
-  setDocContainerAclPermission,
-  checkContainerPermission,
-  sendMessageTTL,
-  makeHandleFormSubmission,
-  createOutbox,
-  getMessageTTL,
-  createPublicContainer,
-  createInbox,
-  getPodUrl,
-  getBlobFromSolid
-};
+export { runNotification };
+
+export * from './network/session-core';
+export * from './network/session-helper';
