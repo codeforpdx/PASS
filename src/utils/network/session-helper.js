@@ -80,21 +80,6 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
 };
 
 /**
- * Function that checks if container URL contains TTL files
- *
- * @memberof utils
- * @function hasTTLFiles
- * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {boolean} Boolean - A boolean on whether a ttl file exist from dataset
- */
-
-export const hasTTLFiles = (solidDataset) => {
-  const items = getThingAll(solidDataset);
-
-  return items.some((item) => item.url?.endsWith('ttl'));
-};
-
-/**
  *
  *
  * @memberof utils

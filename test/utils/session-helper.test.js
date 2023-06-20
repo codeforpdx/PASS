@@ -1,20 +1,12 @@
-import {
-  addMockResourceAclTo,
-  mockSolidDatasetFrom,
-  mockThingFrom,
-  setThing
-} from '@inrupt/solid-client';
 import { expect, vi, it, describe, beforeEach, afterEach } from 'vitest';
 import {
   createResourceTtlFile,
   getContainerUrl,
-  getPodUrl,
-  hasTTLFiles
+  getPodUrl
 } from '../../src/utils/network/session-helper';
 import { INTERACTION_TYPES } from '../../src/constants';
 
 const mockPodUrl = 'https://pod.example.com/';
-const mockSolidDataset = addMockResourceAclTo(mockSolidDatasetFrom(mockPodUrl));
 let session = {};
 
 vi.mock('@inrupt/solid-client');
@@ -37,32 +29,6 @@ describe('createResourceTtlFile', () => {
     const result = await createResourceTtlFile(fileObjectMock, documentUrl);
     expect(mockText).toBeCalledTimes(1);
     expect(Object.keys(result.predicates)).toHaveLength(7);
-  });
-});
-
-describe('hasTTLFiles', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn(),
-      info: {
-        webId: `${mockPodUrl}profile/card#me`
-      }
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("returns false if there's no TTL file in solidDataset", () => {
-    const result = hasTTLFiles(mockSolidDataset);
-    expect(result).toBe(false);
-  });
-
-  it("returns true if there's something in solidDataset", () => {
-    const thing = mockThingFrom('https://pod.example.com/example.ttl');
-
-    const result = hasTTLFiles(setThing(mockSolidDataset, thing));
-    expect(result).toBe(true);
   });
 });
 
