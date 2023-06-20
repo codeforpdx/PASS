@@ -44,10 +44,10 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
       style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
     >
       <div style={{ display: 'flex', gap: '10px' }}>
-        {folderType === 'inbox' && (
+        {folderType === 'Inbox' && (
           <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
         )}
-        <StyledButton onClick={handleRefresh} type="button">
+        <StyledButton onClick={() => handleRefresh(folderType)} type="button">
           Refresh
         </StyledButton>
       </div>

@@ -35,38 +35,34 @@ const Messages = () => {
   const { inboxList, setInboxList, outboxList, setOutboxList, loadMessages, setLoadMessages } =
     useContext(MessageContext);
 
-  // Handler function for refreshing PASS inbox
-  const handleInboxRefresh = async () => {
+  // Handler function for refreshing PASS messages
+  const handleMessageRefresh = async (folderType) => {
     setLoadMessages(true);
-    const messagesInSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
+    const messageList = folderType === 'Inbox' ? inboxList : outboxList;
+    const messagesInSolid = await getMessageTTL(session, folderType, messageList, podUrl);
     messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-    setInboxList(messagesInSolid);
+    if (folderType === 'Inbox') {
+      setInboxList(messagesInSolid);
+    } else {
+      setOutboxList(messagesInSolid);
+    }
     setLoadMessages(false);
   };
 
-  // Handler function for refreshing PASS outbox
-  const handleOutboxRefresh = async () => {
-    setLoadMessages(true);
-    const messagesInSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
-    messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-    setOutboxList(messagesInSolid);
-    setLoadMessages(false);
-  };
-
-  // Re-sorts messages upon inboxList updating
+  // Re-sorts inbox messages upon updates
   useEffect(() => {
     setLoadMessages(true);
-    const inboxCopy = inboxList;
-    inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
+    let inboxCopy = inboxList;
+    inboxCopy = inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     setInboxList(inboxCopy);
     setLoadMessages(false);
   }, [inboxList]);
 
-  // Re-sorts messages upon outboxList updating
+  // Re-sorts outbox messages upon updates
   useEffect(() => {
     setLoadMessages(true);
-    const outboxCopy = outboxList;
-    outboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
+    let outboxCopy = outboxList;
+    outboxCopy = outboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     setOutboxList(outboxCopy);
     setLoadMessages(false);
   }, [outboxList]);
@@ -88,15 +84,15 @@ const Messages = () => {
 
       {boxType === 'inbox' ? (
         <MessageFolder
-          folderType="inbox"
-          handleRefresh={handleInboxRefresh}
+          folderType="Inbox"
+          handleRefresh={handleMessageRefresh}
           loadMessages={loadMessages}
           messageList={inboxList}
         />
       ) : (
         <MessageFolder
-          folderType="outbox"
-          handleRefresh={handleOutboxRefresh}
+          folderType="Outbox"
+          handleRefresh={handleMessageRefresh}
           loadMessages={loadMessages}
           messageList={outboxList}
         />
