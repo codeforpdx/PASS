@@ -1,9 +1,10 @@
-import { createContainerAt, getSolidDataset } from '@inrupt/solid-client';
+import { getFile, createContainerAt, getSolidDataset } from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import {
   createInbox,
   createOutbox,
-  createPublicContainer
+  createPublicContainer,
+  getBlobFromSolid
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
 
@@ -107,5 +108,33 @@ describe('createPublicContainer', () => {
     expect(createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
     expect(sessionHelpers.setDocAclForPublic).toBeCalled();
+  });
+});
+
+describe('getBlobFromSolid', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns a blob URL', async () => {
+    const mockFileUrl = 'https://pod.example.com/PASS/Documents/Passport/test.pdf';
+    const fileBlob = new Blob(['file content'], { type: 'application/pdf' });
+    getFile.mockResolvedValue(fileBlob);
+
+    // Mocking URL.createObjectURL since the function is not available for Node
+    const createObjectURLMock = vi.fn().mockReturnValue('mock-url');
+    global.URL.createObjectURL = createObjectURLMock;
+
+    const result = await getBlobFromSolid(session, mockFileUrl);
+
+    expect(result).toBe('mock-url');
   });
 });
