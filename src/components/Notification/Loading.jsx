@@ -1,0 +1,40 @@
+// React Imports
+import React from 'react';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+
+/**
+ * Loading Component - Displays a div containing title of what is being
+ * loaded and an animated loading progress bar. Must pass loadingItem attribute
+ * as a string of the "title" of what is being loaded.
+ *
+ * @memberof Notification
+ * @name Loading
+ * @returns {React.ReactElement} a div of what is currently loading
+ */
+
+const Loading = ({ loadingItem }) => (
+  <Box
+    sx={{
+      marginTop: 18,
+      marginBottom: 18,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      padding: '20px'
+    }}
+  >
+    <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+      <Typography variant="h5" component="h2" mb={2} align="center">
+        Loading {loadingItem}...
+      </Typography>
+      <LinearProgress />
+    </Paper>
+  </Box>
+);
+
+export default Loading;
