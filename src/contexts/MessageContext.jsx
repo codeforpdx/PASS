@@ -55,6 +55,7 @@ export const MessageContextProvider = ({ children }) => {
    * @function fetchData
    */
   const fetchData = async () => {
+    setLoadMessages(true);
     await Promise.all([createOutbox(session, podUrl), createInbox(session, podUrl)]);
 
     try {

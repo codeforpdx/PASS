@@ -1,12 +1,26 @@
 // React Imports
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-// Styling Imports
-import styled from 'styled-components';
 // Other Library Imports
 import { v4 as uuidv4 } from 'uuid';
+// Styling Imports
+import { PaginationContainer } from './MessageStyles';
 // Component Imports
 import MessagePreview from './MessagePreview';
+
+/**
+ * @typedef {import("../../typedefs.js").messageListObject} messageListObject
+ */
+
+/**
+ * messageFolderProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @typedef paginatedMessageProps
+ * @type {object}
+ * @property {messageListObject[]} messages - A list of messages from Solid Pod
+ * @memberof typedefs
+ */
 
 /**
  * Messages Component - Component that displays messages and provides pagination
@@ -14,6 +28,7 @@ import MessagePreview from './MessagePreview';
  *
  * @memberof Messages
  * @name PaginatedMessages
+ * @param {paginatedMessageProps} Props - The props for PaginatedMessages
  */
 
 const PaginatedMessages = ({ messages }) => {
@@ -32,7 +47,8 @@ const PaginatedMessages = ({ messages }) => {
 
   return (
     <>
-      <Messages currentMessages={currentMessages} />
+      {currentMessages &&
+        currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />)}
       <PaginationContainer>
         <ReactPaginate
           breakLabel="..."
@@ -47,37 +63,5 @@ const PaginatedMessages = ({ messages }) => {
     </>
   );
 };
-
-// Helper component for displaying paginated results
-const Messages = ({ currentMessages }) =>
-  currentMessages &&
-  currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />);
-
-const PaginationContainer = styled.div`
-  ul {
-    display: flex;
-    justify-content: center;
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li:not(:last-child) {
-    margin-right: 4px;
-  }
-
-  a {
-    color: #000;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    background-color: #eaeaea;
-    cursor: pointer;
-  }
-
-  a:active {
-    background-color: #555;
-    color: #fff;
-  }
-`;
 
 export default PaginatedMessages;
