@@ -1,4 +1,4 @@
-import { createContainerAt, getSolidDataset, getThingAll } from '@inrupt/solid-client';
+import { createContainerAt, getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -277,4 +277,19 @@ export const createInbox = async (session, podUrl) => {
     await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
     await setDocAclForPublic(session, inboxContainerUrl, { append: true });
   }
+};
+
+/**
+ * A function that returns a file URL that could be used in local iframe
+ *
+ * @function getBlobFromSolid
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} fileUrl - URL of file you wish to view
+ * @returns {Promise<URL>} URL - URL of file blob which can be used locally for
+ * iframes
+ */
+
+export const getBlobFromSolid = async (session, fileUrl) => {
+  const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
+  return URL.createObjectURL(fileBlob);
 };

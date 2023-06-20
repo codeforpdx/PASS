@@ -26,7 +26,7 @@ const DocumentTable = () => {
     'Description',
     'Upload Date',
     'Expiration Date',
-    'File URL',
+    'Preview File',
     'Delete'
   ];
 

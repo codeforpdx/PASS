@@ -1,6 +1,5 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// React Router Imports
 import { Link } from 'react-router-dom';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';

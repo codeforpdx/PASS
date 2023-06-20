@@ -50,8 +50,7 @@ const StatusMessage = ({ notification, locationUrl, filename }) => {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             maxWidth: '300px',
-            textOverflow: 'ellipsis',
-            fontWeight: 'normal'
+            textOverflow: 'ellipsis'
           }}
         >
           File: {filename}
