@@ -1,7 +1,6 @@
 import {
   saveFileInContainer,
   getSolidDataset,
-  getThingAll,
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
