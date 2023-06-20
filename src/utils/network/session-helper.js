@@ -95,34 +95,6 @@ export const hasTTLFiles = (solidDataset) => {
 };
 
 /**
- * Function checks if Solid dataset on Pod contains any files
- *
- * @memberof utils
- * @function getAllFiles
- * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
- * {@link SolidDataset})
- * @returns {Array|null} files or null - An Array of Things from the container
- * or null
- */
-
-export const getAllFiles = (solidDataset) => {
-  const items = getThingAll(solidDataset);
-  if (!items) {
-    return null;
-  }
-
-  const files = [];
-
-  items.forEach((item) => {
-    if (!item.url.endsWith('/')) {
-      files.push(item);
-    }
-  });
-
-  return files;
-};
-
-/**
  *
  *
  * @memberof utils
