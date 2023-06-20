@@ -1,15 +1,17 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Library Imports
+// Material UI Imports
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+// Component Imports
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
+import Loading from '../Notification/Loading';
 
 /**
  * DocumentTable Component - Displays a table containing all documents accessible in a pod
@@ -26,11 +28,13 @@ const DocumentTable = () => {
     'Description',
     'Upload Date',
     'Expiration Date',
-    'File URL',
+    'Preview File',
     'Delete'
   ];
 
-  return loadingDocuments ? null : (
+  return loadingDocuments ? (
+    <Loading loadingItem="documents" />
+  ) : (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="Documents Table">
         <TableHead>

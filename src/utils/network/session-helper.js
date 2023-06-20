@@ -1,7 +1,6 @@
 import {
   saveFileInContainer,
   getSolidDataset,
-  getThingAll,
   createAcl,
   setAgentResourceAccess,
   saveAclFor,
@@ -77,49 +76,6 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
     slug: fileObject.file.name,
     fetch: session.fetch
   });
-};
-
-/**
- * Function that checks if container URL contains TTL files
- *
- * @memberof utils
- * @function hasTTLFiles
- * @param {SolidDataset} solidDataset - Solid's dataset object on Pod
- * @returns {boolean} Boolean - A boolean on whether a ttl file exist from dataset
- */
-
-export const hasTTLFiles = (solidDataset) => {
-  const items = getThingAll(solidDataset);
-
-  return items.some((item) => item.url?.endsWith('ttl'));
-};
-
-/**
- * Function checks if Solid dataset on Pod contains any files
- *
- * @memberof utils
- * @function getContainerUrlAndFiles
- * @param {SolidDataset} solidDataset - Solid's dataset object on Pod (see
- * {@link SolidDataset})
- * @returns {Array|null} files or null - An Array of Things from the container
- * or null
- */
-
-export const getAllFiles = (solidDataset) => {
-  const items = getThingAll(solidDataset);
-  if (!items) {
-    return null;
-  }
-
-  const files = [];
-
-  items.forEach((item) => {
-    if (!item.url.endsWith('/')) {
-      files.push(item);
-    }
-  });
-
-  return files;
 };
 
 /**

@@ -34,8 +34,8 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
       }}
     >
       <Paper
-        elevation={0}
-        sx={{ display: 'inline-block', mx: '2px', padding: '20px', minWidth: '400px' }}
+        elevation={2}
+        sx={{ display: 'inline-block', mx: '2px', padding: '20px', minWidth: '300px' }}
       >
         <Typography
           display="flex"
