@@ -1,10 +1,14 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
+import ReactPaginate from 'react-paginate';
+// Other Library Imports
+import { v4 as uuidv4 } from 'uuid';
 // Styling Imports
 import Box from '@mui/material/Box';
-import { StyledButton } from './MessageStyles';
+import Button from '@mui/material/Button';
 // Component Imports
-import PaginatedMessages from './Pagination';
+import MessagePreview from './MessagePreview';
+import { PaginationContainer } from './MessageStyles';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
@@ -34,20 +38,64 @@ import PaginatedMessages from './Pagination';
  * @param {messageFolderProps} Props - Component props for MessageFolder
  * @returns {React.JSX.Element} React component for MessageFolder
  */
-const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => (
-  <Box
-    component="section"
-    id={folderType}
-    className="panel"
-    style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-  >
-    <Box sx={{ display: 'flex', gap: '10px' }}>
-      <StyledButton onClick={() => handleRefresh(folderType)} type="button">
-        Refresh
-      </StyledButton>
+const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => {
+  const [offset, setOffset] = useState(0);
+  const itemsPerPage = 5;
+
+  const endOffset = offset + itemsPerPage;
+  const currentMessages = messageList.slice(offset, endOffset);
+  const pageCount = Math.ceil(messageList.length / itemsPerPage);
+
+  // Handle user changing page
+  const handlePageClick = (e) => {
+    const newOffset = (e.selected * itemsPerPage) % messageList.length;
+    setOffset(newOffset);
+  };
+
+  return (
+    <Box
+      component="section"
+      id={folderType}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+        gap: '20px',
+        padding: '30px'
+      }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <Button
+          variant="contained"
+          onClick={() => handleRefresh(folderType)}
+          type="button"
+          sx={{ width: '100px' }}
+        >
+          Refresh
+        </Button>
+        {loadMessages ? (
+          <div>Loading messages...</div>
+        ) : (
+          currentMessages &&
+          currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />)
+        )}
+      </Box>
+      <Box>
+        <PaginationContainer>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel="< previous"
+            renderOnZeroPageCount={null}
+          />
+        </PaginationContainer>
+      </Box>
     </Box>
-    {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={messageList} />}
-  </Box>
-);
+  );
+};
 
 export default MessageFolder;

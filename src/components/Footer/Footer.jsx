@@ -139,9 +139,11 @@ const Footer = () => {
   return (
     <Box
       component="footer"
-      mt={3}
       py={5}
       sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'sticky',
         top: '100%',
         textAlign: 'center',

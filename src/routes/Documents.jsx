@@ -37,7 +37,8 @@ const Documents = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: '30px'
       }}
     >
       <Button
@@ -47,7 +48,7 @@ const Documents = () => {
         aria-label="Clear Client Button"
         startIcon={<Remove />}
         onClick={() => setSelectedUser()}
-        sx={{ margin: '2rem 0 1rem' }}
+        sx={{ margin: '1rem 0' }}
       >
         Clear Client
       </Button>

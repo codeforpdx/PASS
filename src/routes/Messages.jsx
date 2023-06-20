@@ -73,7 +73,7 @@ const Messages = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <>
+    <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
         <Button variant="contained" onClick={() => setShowForm(!showForm)}>
           <CreateIcon sx={{ marginRight: '10px' }} />
@@ -91,15 +91,14 @@ const Messages = () => {
         </Tabs>
       </Box>
 
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
-
       <MessageFolder
         folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
         handleRefresh={handleMessageRefresh}
         loadMessages={loadMessages}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
-    </>
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+    </Box>
   );
 };
 
