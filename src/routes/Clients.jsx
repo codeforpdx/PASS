@@ -4,15 +4,12 @@ import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 // Component Imports
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
+import Loading from '../components/Notification/Loading';
 import { UserListContext } from '../contexts';
 
 /**
@@ -33,24 +30,7 @@ const Clients = () => {
 
   return loadingUsers ? (
     <Container>
-      <Box
-        sx={{
-          marginTop: 18,
-          marginBottom: 18,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          padding: '20px'
-        }}
-      >
-        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-          <Typography variant="h5" component="h2" mb={2} align="center">
-            Loading clients...
-          </Typography>
-          <LinearProgress />
-        </Paper>
-      </Box>
+      <Loading loadingItem="clients" />
     </Container>
   ) : (
     <Container>
