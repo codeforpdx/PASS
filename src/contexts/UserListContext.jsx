@@ -21,7 +21,7 @@ const initialUserListContext = [];
  * @memberof contexts
  */
 
-const UserListContext = createContext(initialUserListContext);
+export const UserListContext = createContext(initialUserListContext);
 
 /**
  * The Provider for UserListContext
@@ -63,5 +63,3 @@ export const UserListContextProvider = ({ children }) => {
 
   return <UserListContext.Provider value={userListMemo}>{children}</UserListContext.Provider>;
 };
-
-export default UserListContext;

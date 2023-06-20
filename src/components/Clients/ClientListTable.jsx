@@ -1,10 +1,8 @@
 // React Imports
 import React, { useContext } from 'react';
 // Material UI Imports
-import { styled, useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -16,6 +14,7 @@ import { UserListContext } from '../../contexts';
 // Component Imports
 import { StatusNotification } from '../Notification';
 import ClientListTableRow from './ClientListTableRow';
+import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
 const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
@@ -64,18 +63,3 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
 };
 
 export default ClientListTable;
-
-// ***** TODO: Switch this styled component to MUI
-// styling for table cells
-const StyledTableCell = styled(TableCell)(() => {
-  const theme = useTheme();
-  return {
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-    }
-  };
-});
