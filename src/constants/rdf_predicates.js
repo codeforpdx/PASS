@@ -2,6 +2,7 @@ import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
+  about: 'https://schema.org/about',
   uploadDate: 'https://schema.org/uploadDate',
   dateOfBirth: 'https://schema.org/birthDate',
   additionalType: 'https://schema.org/additionalType',
