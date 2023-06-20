@@ -34,7 +34,7 @@ const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectedUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {

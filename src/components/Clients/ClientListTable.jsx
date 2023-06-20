@@ -17,15 +17,7 @@ import ClientListTableRow from './ClientListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = [
-  'Select',
-  'Client',
-  'WebID',
-  'Last Activity',
-  'Documents',
-  'Pin',
-  'Delete'
-];
+const columnTitlesArray = ['Select', 'Client', 'WebID', 'Last Activity', 'Pin', 'Delete'];
 
 /**
  * ClientListTable Component - Component that generates table of clients from data within ClientList
