@@ -95,6 +95,7 @@ const getDriversLicenseData = async (file) => {
   } else {
     returnedData = new Error('Unable to decode file');
   }
+
   return returnedData;
 };
 

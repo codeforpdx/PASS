@@ -34,7 +34,7 @@ const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectedUserContext);
-  const [username, setUsername] = useState(selectedUser.username);
+  const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
 
@@ -101,7 +101,7 @@ const SetAclPermissionForm = () => {
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person
+          selectedUser.person ?? username
         } for ${docType}.`,
         5,
         state,

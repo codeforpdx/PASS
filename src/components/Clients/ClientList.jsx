@@ -22,7 +22,7 @@ const ClientList = () => {
 
   return userListObject.userList?.length ? (
     // render if clients
-    <ClientListTable statusType="Status" defaultMessage="No actions" />
+    <ClientListTable statusType="Status" defaultMessage="No actions performed" />
   ) : (
     // render if no clients
     <Container>

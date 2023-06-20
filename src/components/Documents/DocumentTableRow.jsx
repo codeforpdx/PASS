@@ -1,11 +1,13 @@
 // React Imports
 import React, { useContext } from 'react';
-// React Router Imports
-import { Link } from 'react-router-dom';
+// Inrupt Imports
+import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import IconButton from '@mui/material/IconButton';
+// Utility Imports
+import { getBlobFromSolid } from '../../utils';
 // Context Imports
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
@@ -21,10 +23,15 @@ import DOC_TYPES from '../../constants/doc_types';
  */
 
 const DocumentTableRow = ({ document }) => {
-  const theme = useTheme();
+  const { session } = useSession();
   const { removeDocument } = useContext(DocumentListContext);
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
+
+  const handleShowDocumentLocal = async (urlToOpen) => {
+    const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
+    window.open(urlFileBlob);
+  };
 
   // Event handler for deleting client from client list
   const handleDeleteDocument = async () => {
@@ -48,14 +55,9 @@ const DocumentTableRow = ({ document }) => {
       </StyledTableCell>
       <StyledTableCell align="center">{endDate ? endDate.toDateString() : ''}</StyledTableCell>
       <StyledTableCell align="center">
-        <Link
-          to={fileUrl}
-          target="_blank"
-          rel="noreferrer"
-          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-        >
-          {fileUrl}
-        </Link>
+        <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
+          <FileOpenIcon />
+        </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={() => handleDeleteDocument()}>
