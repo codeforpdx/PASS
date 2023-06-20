@@ -1,7 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import React, { useState, useContext } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,20 +7,18 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
-// import Typography from '@mui/material/Typography';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FormHelperText from '@mui/material/FormHelperText';
 // Utility Imports
-import { makeHandleFormSubmission, runNotification } from '../../utils';
+import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
-// Constants Imports
-import { INTERACTION_TYPES } from '../../constants';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import { DocumentListContext } from '../../contexts';
 
 /**
  * UploadDocumentForm Component - Component that generates the form for uploading
@@ -33,58 +29,69 @@ import FormSection from './FormSection';
  */
 
 const UploadDocumentForm = () => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
+  const [verifyFile, setVerifyFile] = useState(false);
+  const [file, setFile] = useState(null);
+  const [inputKey, setInputKey] = useState(false);
+  const { addDocument, replaceDocument } = useContext(DocumentListContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
   };
 
-  // Initialized state for file upload
-  const handleFileChange = (event) => {
-    if (event.target.files.length === 1) {
-      dispatch({ type: 'SET_FILE', payload: event.target.files[0] });
-    } else {
-      dispatch({ type: 'CLEAR_FILE' });
-    }
-  };
-
   const clearInputFields = () => {
-    dispatch({ type: 'CLEAR_FILE' });
-    dispatch({ type: 'CLEAR_VERIFY_FILE' });
-    dispatch({ type: 'CLEAR_PROCESSING' });
+    setVerifyFile(false);
+    setDocType('');
+    setFile('');
+    setInputKey(!inputKey); // clears file by forcing re-render
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
   };
 
   // Event handler for form/document submission to Pod
-  const handleFormSubmit = makeHandleFormSubmission(
-    INTERACTION_TYPES.SELF,
-    expireDate,
-    docDescription,
-    state,
-    dispatch,
-    session,
-    clearInputFields
-  );
-
-  const handleDocumentUpload = async (event) => {
-    event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
+  const handleDocUpload = async (e) => {
+    e.preventDefault();
 
     if (!docType) {
-      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
+      runNotification('Upload failed. Reason: No document type selected.', 5, state, dispatch);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
       return;
     }
 
-    handleFormSubmit(event);
+    const fileDesc = {
+      name: file.name,
+      type: docType,
+      date: expireDate,
+      description: docDescription
+    };
+    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+
+    try {
+      await addDocument(fileDesc, file);
+      runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
+    } catch (error) {
+      const confirmationMessage =
+        'A file of this name and type already exists on the pod. Would you like to replace it?';
+
+      switch (error.message) {
+        case 'File already exists':
+          if (window.confirm(confirmationMessage)) {
+            await replaceDocument(fileDesc, file);
+            runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+          }
+          break;
+        default:
+          runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+      }
+    } finally {
+      clearInputFields();
+    }
   };
 
   return (
@@ -95,14 +102,14 @@ const UploadDocumentForm = () => {
       defaultMessage="To be uploaded..."
     >
       <Box display="flex" justifyContent="center">
-        <form onSubmit={handleDocumentUpload} autoComplete="off">
+        <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel
             control={<Checkbox />}
             label="Verify file on upload"
             id="verify-checkbox"
-            value={state.verifyFile}
-            checked={state.verifyFile}
-            onChange={() => dispatch({ type: 'TOGGLE_VERIFY_FILE' })}
+            value={verifyFile}
+            checked={verifyFile}
+            onChange={() => setVerifyFile(!verifyFile)}
           />
           <DocumentSelection
             htmlForAndIdProp="upload-doc"
@@ -145,11 +152,11 @@ const UploadDocumentForm = () => {
               color="primary"
               id="upload-doctype"
               name="uploadDoctype"
-              onChange={handleFileChange}
+              onChange={(e) => setFile(e.target.files[0])}
               required
             >
               Choose file
-              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf .gif" />
+              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif" />
             </Button>
             <FormHelperText
               sx={{
@@ -159,7 +166,7 @@ const UploadDocumentForm = () => {
                 textOverflow: 'ellipsis'
               }}
             >
-              File to upload: {state.file ? state.file.name : 'No file selected'}
+              File to upload: {file ? file.name : 'No file selected'}
             </FormHelperText>
           </FormControl>
           <br />

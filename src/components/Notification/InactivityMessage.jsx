@@ -2,14 +2,19 @@
 import React, { useState, useEffect } from 'react';
 // Inrupt Library Imports
 import { LogoutButton } from '@inrupt/solid-ui-react';
-// Styling Imports
-import styled from 'styled-components';
-// Material UI Base imports; TODO: Update imports to @mui/material when re-styling
-import Button from '@mui/base/Button';
+// Material UI Imports
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import CheckIcon from '@mui/icons-material/Check';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
- * after 3 minutes of inactivity, prompting the user to either logout or
+ * after 30 minutes of inactivity, prompting the user to either logout or
  * continue their session.
  *
  * @memberof Notification
@@ -26,7 +31,7 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after three minutes of inactivity
+  // Toggles the popup after thirty minutes of inactivity
   useEffect(() => {
     let timer = null;
 
@@ -35,7 +40,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 180000);
+      }, 1800000);
     };
 
     const handleUserActivity = () => {
@@ -60,6 +65,8 @@ const InactivityMessage = () => {
 
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
+  // TODO: In future PR, add countdown timer to automatically log user out if they do not select continue
+  // (e.g. "You will be automatically logged out in 5:00 minutes")
   const handleLogout = () => {
     localStorage.clear();
   };
@@ -67,76 +74,42 @@ const InactivityMessage = () => {
   return (
     showPopup &&
     activeUser && (
-      <StyledOverlay>
-        <StyledModal>
-          <StyledContainer>
-            <p>You have been inactive for a few minutes now. Would you like to log out?</p>
-            <ButtonsContainer>
-              <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
-              <LogoutButton>
-                <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
-              </LogoutButton>
-            </ButtonsContainer>
-          </StyledContainer>
-        </StyledModal>
-      </StyledOverlay>
+      <Dialog
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+        aria-labelledby="inactivity-message-title"
+        aria-describedby="inactivity-message-description"
+      >
+        <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
+        <DialogContent id="inactivity-message-description">
+          <DialogContentText>
+            You have been inactive for a while now. Would you like to continue using PASS?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <LogoutButton>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<LogoutIcon />}
+              onClick={handleLogout}
+            >
+              Log Out
+            </Button>
+          </LogoutButton>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<CheckIcon />}
+            sx={{ marginLeft: '1rem' }}
+            onClick={() => setShowPopup(false)}
+          >
+            Continue
+          </Button>
+        </DialogActions>
+      </Dialog>
     )
   );
 };
-
-const StyledOverlay = styled('div')({
-  height: '100vh',
-  width: '100vw',
-  backgroundColor: 'rgb(128, 128, 128, .7)',
-  backdropFilter: 'blur(2px)',
-  zIndex: 99,
-  top: '0%',
-  left: '0%',
-  position: 'fixed'
-});
-
-const StyledButton = styled(Button)({
-  width: '100px',
-  backgroundColor: 'white',
-  borderColor: 'black',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  '&:hover': {
-    filter: 'brightness(0.9)'
-  }
-});
-
-const StyledLogoutButton = styled(StyledButton)({
-  backgroundColor: '#017969',
-  height: '100%',
-  color: '#fff'
-});
-
-const StyledModal = styled('div')({
-  display: 'flex',
-  backgroundColor: 'white',
-  alignItems: 'center',
-  borderRadius: '10px',
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 99
-});
-
-const StyledContainer = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  textAlign: 'center',
-  padding: '50px',
-  border: '2px solid black',
-  borderRadius: '10px'
-});
-
-const ButtonsContainer = styled('div')({
-  display: 'flex',
-  gap: '20px'
-});
 
 export default InactivityMessage;

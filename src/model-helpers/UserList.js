@@ -152,20 +152,19 @@ export const removeUser = async (user, session, { userList, dataset, listUrl }) 
  * @returns {object} An new userListObject containing any updates
  */
 export const loadUserList = async (session, podUrl) => {
-  const userListUrl = `${podUrl}PASS/Users/userlist.ttl`;
+  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
   let dataset;
   let userList;
   try {
-    dataset = await getSolidDataset(userListUrl, { fetch: session.fetch });
+    dataset = await getSolidDataset(listUrl, { fetch: session.fetch });
     userList = await parseFromDataset(dataset, session);
   } catch {
     dataset = makeIntoDataset([]);
-    dataset = await saveSolidDatasetAt(userListUrl, dataset, {
+    dataset = await saveSolidDatasetAt(listUrl, dataset, {
       fetch: session.fetch
     });
     userList = [];
-    await setDocAclForUser(session, userListUrl, 'create', session.info.webId);
+    await setDocAclForUser(session, listUrl, 'create', session.info.webId);
   }
-  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
   return { dataset, userList, listUrl };
 };

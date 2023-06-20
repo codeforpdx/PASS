@@ -76,7 +76,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
             startIcon={<LogoutIcon />}
             onClick={() => setShowConfirmation(true)}
           >
-            Logout
+            Log Out
           </Button>
         </MenuItem>
       </MenuList>

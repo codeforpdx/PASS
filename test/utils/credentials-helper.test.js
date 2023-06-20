@@ -21,6 +21,7 @@ import {
 import { RDF_PREDICATES } from '../../src/constants';
 
 vi.mock('@inrupt/solid-client');
+vi.mock('../../../src/constants/');
 
 describe('credentials', async () => {
   // Most of our tests should be in the JSDom browser environment
