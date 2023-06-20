@@ -88,7 +88,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
             nextLabel="next >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
-            pageCount={pageCount}
+            pageCount={pageCount === 0 ? 1 : pageCount}
             previousLabel="< previous"
             renderOnZeroPageCount={null}
           />
