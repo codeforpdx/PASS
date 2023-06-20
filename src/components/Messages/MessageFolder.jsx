@@ -1,10 +1,10 @@
 // React Imports
-import React, { useState } from 'react';
+import React from 'react';
 // Styling Imports
+import Box from '@mui/material/Box';
 import { StyledButton } from './MessageStyles';
 // Component Imports
 import PaginatedMessages from './Pagination';
-import NewMessage from './NewMessage';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
@@ -32,29 +32,22 @@ import NewMessage from './NewMessage';
  * @memberof Messages
  * @name MessageFolder
  * @param {messageFolderProps} Props - Component props for MessageFolder
+ * @returns {React.JSX.Element} React component for MessageFolder
  */
-
-const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => {
-  const [showForm, setShowForm] = useState(false);
-
-  return (
-    <section
-      id={folderType}
-      className="panel"
-      style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-    >
-      <div style={{ display: 'flex', gap: '10px' }}>
-        {folderType === 'Inbox' && (
-          <StyledButton onClick={() => setShowForm(!showForm)}>New Message</StyledButton>
-        )}
-        <StyledButton onClick={() => handleRefresh(folderType)} type="button">
-          Refresh
-        </StyledButton>
-      </div>
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
-      {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={messageList} />}
-    </section>
-  );
-};
+const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => (
+  <Box
+    component="section"
+    id={folderType}
+    className="panel"
+    style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+  >
+    <Box sx={{ display: 'flex', gap: '10px' }}>
+      <StyledButton onClick={() => handleRefresh(folderType)} type="button">
+        Refresh
+      </StyledButton>
+    </Box>
+    {loadMessages ? <div>Loading Messages...</div> : <PaginatedMessages messages={messageList} />}
+  </Box>
+);
 
 export default MessageFolder;

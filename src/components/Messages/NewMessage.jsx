@@ -38,8 +38,8 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  * @memberof Inbox
  * @name NewMessage
  * @param {newMessageProps} Props - Props used for NewMessage
+ * @returns {React.JSX.Element} React component for NewMessage
  */
-
 const NewMessage = ({ closeForm }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);

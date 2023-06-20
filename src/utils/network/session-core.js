@@ -170,7 +170,7 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
 
 /**
  * Function that sends a message to another user's Pod inbox as a TTL file and
- * and saves a copy in the sender's outbox
+ * saves a copy in the sender's outbox
  *
  * @memberof utils
  * @function sendMessageTTL

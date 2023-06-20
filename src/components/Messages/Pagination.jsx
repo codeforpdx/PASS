@@ -23,14 +23,14 @@ import MessagePreview from './MessagePreview';
  */
 
 /**
- * Messages Component - Component that displays messages and provides pagination
- * for inbox and outbox components.
+ * PaginatedMessages Component - Component that displays messages and provides
+ * pagination for inbox and outbox components.
  *
  * @memberof Messages
  * @name PaginatedMessages
  * @param {paginatedMessageProps} Props - The props for PaginatedMessages
+ * @returns {React.JSX.Element} React component for PaginatedMessages
  */
-
 const PaginatedMessages = ({ messages }) => {
   const [offset, setOffset] = useState(0);
   const itemsPerPage = 5;

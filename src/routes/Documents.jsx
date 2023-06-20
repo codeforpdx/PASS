@@ -17,13 +17,13 @@ import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
 
 /**
- * Forms Page - Component that generates Forms Page for PASS
+ * Documents Page - Component that generates Documents Page for PASS
  *
  * @memberof Pages
- * @name Forms
+ * @name Documents
+ * @returns {React.JSX.Element} The Documents Page
  */
-
-const Forms = () => {
+const Documents = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -67,4 +67,4 @@ const Forms = () => {
   );
 };
 
-export default Forms;
+export default Documents;

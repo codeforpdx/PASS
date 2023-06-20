@@ -20,8 +20,8 @@ import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
  * @memberof Inbox
  * @name MessagePreview
  * @param {messageFolderProps} Props - Component props for MessagePreview
+ * @returns {React.JSX.Element} React component for MessagePreview
  */
-
 const MessagePreview = ({ message }) => {
   const [showContents, setShowContents] = useState(false);
 

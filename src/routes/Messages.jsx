@@ -4,6 +4,9 @@ import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CreateIcon from '@mui/icons-material/Create';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 // Utility Imports
@@ -11,7 +14,7 @@ import { getMessageTTL } from '../utils';
 // Context Imports
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
-import MessageFolder from '../components/Messages/MessageFolder';
+import { NewMessage, MessageFolder } from '../components/Messages';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -21,9 +24,8 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  *
  * @memberof Pages
  * @name Messages
- * @returns {React.JSX.Element}
+ * @returns {React.JSX.Element} The Messages Page
  */
-
 const Messages = () => {
   const location = useLocation();
 
@@ -68,35 +70,35 @@ const Messages = () => {
   }, [outboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <>
-      <Tabs value={boxType} sx={{ padding: '10px 30px' }}>
-        {routesArray.map((item) => (
-          <Tab
-            key={`${item.label}Tab`}
-            value={item.label.toLowerCase()}
-            label={item.label}
-            onClick={() => setBoxType(item.label.toLowerCase())}
-          />
-        ))}
-      </Tabs>
+      <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
+        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
+          <CreateIcon sx={{ marginRight: '10px' }} />
+          New Message
+        </Button>
+        <Tabs value={boxType} sx={{ padding: '0 30px' }}>
+          {routesArray.map((item) => (
+            <Tab
+              key={`${item.label}Tab`}
+              value={item.label.toLowerCase()}
+              label={item.label}
+              onClick={() => setBoxType(item.label.toLowerCase())}
+            />
+          ))}
+        </Tabs>
+      </Box>
 
-      {boxType === 'inbox' ? (
-        <MessageFolder
-          folderType="Inbox"
-          handleRefresh={handleMessageRefresh}
-          loadMessages={loadMessages}
-          messageList={inboxList}
-        />
-      ) : (
-        <MessageFolder
-          folderType="Outbox"
-          handleRefresh={handleMessageRefresh}
-          loadMessages={loadMessages}
-          messageList={outboxList}
-        />
-      )}
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+
+      <MessageFolder
+        folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
+        handleRefresh={handleMessageRefresh}
+        loadMessages={loadMessages}
+        messageList={boxType === 'inbox' ? inboxList : outboxList}
+      />
     </>
   );
 };
