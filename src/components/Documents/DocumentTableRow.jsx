@@ -53,7 +53,7 @@ const DocumentTableRow = ({ document }) => {
       <StyledTableCell align="center">
         {uploadDate ? uploadDate.toDateString() : ''}
       </StyledTableCell>
-      <StyledTableCell align="center">{endDate ? endDate.toDateString() : ''}</StyledTableCell>
+      <StyledTableCell align="center">{endDate ? endDate.toDateString() : 'N/A'}</StyledTableCell>
       <StyledTableCell align="center">
         <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
           <FileOpenIcon />
