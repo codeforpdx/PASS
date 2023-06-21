@@ -3,11 +3,33 @@ import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Styling Imports
-import styled from 'styled-components';
+import {
+  CancelButton,
+  StyledButton2,
+  StyledError,
+  StyledForm,
+  StyledHeader2,
+  StyledInput,
+  StyledNotice,
+  StyledOverlay,
+  StyledSuccess,
+  StyledTextArea
+} from './MessageStyles';
 // Utility Imports
 import { sendMessageTTL, getMessageTTL } from '../../utils';
 // Context Imports
 import { MessageContext, SignedInUserContext } from '../../contexts';
+
+/**
+ * messageFolderProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @typedef newMessageProps
+ * @type {object}
+ * @property {() => void} closeForm - The function used to trigger NewMessage to
+ * close
+ * @memberof typedefs
+ */
 
 /**
  * New Message Component - Component that allows user to write
@@ -15,8 +37,9 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  *
  * @memberof Inbox
  * @name NewMessage
+ * @param {newMessageProps} Props - Props used for NewMessage
+ * @returns {React.JSX.Element} React component for NewMessage
  */
-
 const NewMessage = ({ closeForm }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
@@ -86,7 +109,7 @@ const NewMessage = ({ closeForm }) => {
         </CancelButton>
         <StyledNotice>* indicates a required field</StyledNotice>
 
-        <StyledHeader>New Message</StyledHeader>
+        <StyledHeader2>New Message</StyledHeader2>
         <label htmlFor="title">Subject*: </label>
         <StyledInput
           value={message.title}
@@ -113,7 +136,7 @@ const NewMessage = ({ closeForm }) => {
           onChange={(e) => handleChange(e)}
         />
 
-        <StyledButton type="submit">Submit</StyledButton>
+        <StyledButton2 type="submit">Submit</StyledButton2>
 
         {error && <StyledError>{error}</StyledError>}
         {success && successTimeout && <StyledSuccess>{success}</StyledSuccess>}
@@ -122,95 +145,5 @@ const NewMessage = ({ closeForm }) => {
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */
 };
-
-const StyledOverlay = styled('div')({
-  height: '100vh',
-  width: '100vw',
-  backgroundColor: 'rgb(128, 128, 128, .7)',
-  backdropFilter: 'blur(2px)',
-  zIndex: 99,
-  top: '0%',
-  left: '0%',
-  position: 'fixed'
-});
-
-const StyledForm = styled('form')({
-  display: 'grid',
-  backgroundColor: '#fff',
-  gridTemplateColumns: '150px 400px',
-  gap: '10px',
-  margin: '20px',
-  border: '2px solid black',
-  borderRadius: '8px',
-  padding: '20px',
-  alignItems: 'center',
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 99
-});
-
-const CancelButton = styled('button')({
-  gridColumn: '2 / 3',
-  width: '150px',
-  justifySelf: 'end',
-  height: '35px',
-  backgroundColor: 'red',
-  borderRadius: '5px',
-  border: 'none',
-  fontWeight: 'bold',
-  cursor: 'pointer',
-  '&:hover': {
-    filter: 'brightness(0.9)'
-  }
-});
-
-const StyledNotice = styled('p')({
-  gridColumn: 'span 2',
-  fontStyle: 'italic'
-});
-
-const StyledButton = styled('button')({
-  gridColumn: 'span 2',
-  width: '100px',
-  height: '30px',
-  justifySelf: 'center',
-  cursor: 'pointer',
-  backgroundColor: '#017969',
-  border: 'none',
-  borderRadius: '5px',
-  color: '#fff',
-  fontWeight: 'bold',
-  '&:hover': {
-    filter: 'brightness(0.9)'
-  }
-});
-
-const StyledError = styled('p')({
-  gridColumn: 'span 2',
-  fontStyle: 'italic',
-  color: 'red',
-  justifySelf: 'center'
-});
-
-const StyledSuccess = styled('p')({
-  gridColumn: 'span 2',
-  fontStyle: 'italic',
-  color: 'green',
-  justifySelf: 'center'
-});
-
-const StyledInput = styled('input')({
-  height: '30px'
-});
-
-const StyledTextArea = styled('textarea')({
-  height: '200px'
-});
-
-const StyledHeader = styled('h1')({
-  gridColumn: 'span 2'
-});
 
 export default NewMessage;
