@@ -7,15 +7,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
+import Grid from '@mui/material/Grid';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 // Utility Imports
 import { ENV } from '../../constants';
 import { runNotification } from '../../utils';
@@ -150,47 +147,78 @@ const AddClientModal = ({ showModal, setShowModal }) => {
             // style={{ marginTop: '20px', marginBottom: '20px' }}
             autoComplete="off"
           >
-            {/* <DialogTitle id="dialog-tile">Add Client</DialogTitle> */}
             <FormControl fullWidth>
-              <DialogContent>Upload document to username:</DialogContent>
-              <div>
-                <InputLabel htmlFor="add-user-given-name">First/given name: </InputLabel>
-                <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
-              </div>
-              <br />
-              <div>
-                <label htmlFor="add-user-last-name">Last/family name: </label>
-                <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
-              </div>
-              <br />
-              <div>
-                <label htmlFor="add-username">username:</label>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="addUserGivenName"
+                    required
+                    fullWidth
+                    id="add-user-given-name"
+                    label="First/given name"
+                    autoFocus
+                    {...userGivenName}
+                  />
+                </Grid>
                 <br />
-                <br />
-                <input
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="add-user-last-name"
+                    label="Last/family name"
+                    name="addUserFamilyName"
+                    autoComplete="family-name"
+                    {...userFamilyName}
+                  />
+                </Grid>
+              </Grid>
+              <br />
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   id="add-username"
+                  label="username"
                   name="addUsername"
+                  autoComplete="username"
                   size="25"
                   value={username}
                   onChange={(e) => wrappedSetUsername(e.target.value)}
                 />
-              </div>
+              </Grid>
             </FormControl>
             <br />
-            <label htmlFor="add-webId">
-              WebId:
-              <br />
-              <input
-                id="add-webId"
-                name="addWebId"
-                size="25"
-                type="text"
-                value={webId}
-                onChange={(e) => {
-                  setWebId(e.target.value);
-                }}
-              />
-            </label>
+            <br />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  id="add-webId"
+                  // label="webid"
+                  name="addWebId"
+                  autoComplete="webid"
+                  size="25"
+                  type="text"
+                  value={webId}
+                  onChange={(e) => {
+                    setWebId(e.target.value);
+                  }}
+                  placeholder="WebId"
+                  readOnly
+                  InputProps={{
+                    readOnly: true
+                  }}
+                />
+                <Grid container spacing={1}>
+                  <Button variant="text" startIcon={<ContentCopyIcon />}>
+                    Copy
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            Link copied!
             <br />
             <DialogActions>
               <Button
@@ -203,10 +231,10 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               </Button>
               <Button
                 variant="outlined"
-                color="success"
+                color="primary"
                 endIcon={<CheckIcon />}
                 // onClick={() => setShowModal(false)}
-                sx={{ marginLeft: '1rem' }}
+                // sx={{ marginLeft: '1rem' }}
                 type="submit"
                 disabled={state.processing}
               >
