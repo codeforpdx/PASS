@@ -1,5 +1,5 @@
 // React Imports
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 // React Router Imports
 import { NavLink, useLocation } from 'react-router-dom';
 // Material UI Imports
@@ -10,6 +10,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { useTheme } from '@mui/material/styles';
+
+/**
+ * NavbarLinks Component - The sub-component used in NavBar to render the
+ * navigation for PASS
+ *
+ * @memberof NavBar
+ * @name NavbarLinks
+ */
 
 const NavbarLinks = () => {
   const theme = useTheme();
@@ -23,9 +31,8 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Clients', path: '/PASS/clients' },
-    { label: 'Forms', path: '/PASS/forms' },
-    { label: 'Inbox', path: '/PASS/inbox' },
-    { label: 'Outbox', path: '/PASS/outbox' }
+    { label: 'Documents', path: '/PASS/documents' },
+    { label: 'Messages', path: '/PASS/messages' }
   ];
 
   // Navigate To... button and menu (small screens)

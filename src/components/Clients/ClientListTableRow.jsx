@@ -95,7 +95,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
           rel="noreferrer"
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          {client.webId}
+          Link to Pod Profile
         </Link>
       </StyledTableCell>
       <StyledTableCell align="center">{modifiedDate}</StyledTableCell>

@@ -17,13 +17,13 @@ import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
 
 /**
- * Forms Page - Component that generates Forms Page for PASS
+ * Documents Page - Component that generates Documents Page for PASS
  *
  * @memberof Pages
- * @name Forms
+ * @name Documents
+ * @returns {React.JSX.Element} The Documents Page
  */
-
-const Forms = () => {
+const Documents = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -37,7 +37,8 @@ const Forms = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: '30px'
       }}
     >
       <Button
@@ -47,7 +48,7 @@ const Forms = () => {
         aria-label="Clear Client Button"
         startIcon={<Remove />}
         onClick={() => setSelectedUser()}
-        sx={{ margin: '2rem 0 1rem' }}
+        sx={{ margin: '1rem 0' }}
       >
         Clear Client
       </Button>
@@ -67,4 +68,4 @@ const Forms = () => {
   );
 };
 
-export default Forms;
+export default Documents;

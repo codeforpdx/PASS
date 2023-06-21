@@ -1,8 +1,7 @@
 import Clients from './Clients';
-import Forms from './Forms';
+import Documents from './Documents';
 import Home from './Home';
-import Inbox from './Inbox';
-import Outbox from './Outbox';
+import Messages from './Messages';
 
 /**
  * The main pages in PASS
@@ -10,4 +9,4 @@ import Outbox from './Outbox';
  * @namespace Pages
  */
 
-export { Clients, Forms, Home, Inbox, Outbox };
+export { Clients, Documents, Home, Messages };
