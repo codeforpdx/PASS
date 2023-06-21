@@ -78,7 +78,10 @@ const Profile = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Typography>
-          User WebId: <Link href={session.info.webId}>{session.info.webId}</Link>
+          User WebId:{' '}
+          <Link href={session.info.webId} target="_blank" rel="noreferrer">
+            {session.info.webId}
+          </Link>
         </Typography>
 
         {/* TODO: Refactor/optimize the form below once we have more input */}
