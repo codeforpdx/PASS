@@ -319,10 +319,13 @@ export const fetchProfileInfo = async (session) => {
   const profileThing = getThing(profileDataset, session.info.webId);
 
   const name = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
+  const organization = getStringNoLocale(profileThing, RDF_PREDICATES.organization);
+
+  const profileInfo = { name, organization };
 
   // TODO: include more fields to the object like organization, address, etc.
   // when expanding this feature
-  return { name, profileDataset, profileThing };
+  return { profileInfo, profileDataset, profileThing };
 };
 
 /**
