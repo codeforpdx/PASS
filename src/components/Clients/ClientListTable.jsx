@@ -40,8 +40,6 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
     }
     return 0
   }
-  
-  const sortedUserListObject = userListObject.userList.sort(comparePerson)
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
@@ -56,7 +54,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userListObject?.userList.map((client, index) => {
+          {userListObject?.userList.sort(comparePerson).map((client, index) => {
             const labelId = `clientlist-checkbox-${index}`;
             return (
               <ClientListTableRow
