@@ -119,14 +119,14 @@ export const createPublicContainer = async (session, podUrl) => {
 */
 
 /**
- * Function that gets list of inbox TTL file messages and returns the messages as
- * lists of objects
+ * Function that fetches a list of TTL file messages from the Solid Pod and
+ * returns the messages as a list of messageListObject
  *
  * @memberof utils
  * @function getMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} boxType - The message box being called "Inbox" or "Outbox"
- * @param {messageListObject[]} listMessages - List of messages
+ * @param {messageListObject[]} listMessages - A list of messageListObjects
  * @param {URL} podUrl - The pod URL of user
  * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
  * from the user's inbox on Solid in JSON format
@@ -169,16 +169,16 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
 };
 
 /**
- * Function that sends a message to another user's Pod inbox and saves a copy in
- * user's own inbox
+ * Function that sends a message to another user's Pod inbox as a TTL file and
+ * saves a copy in the sender's outbox
  *
  * @memberof utils
  * @function sendMessageTTL
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
- * @param {URL} podUrl - The user's Pod URL
+ * @param {URL} podUrl - The Pod URL of the user to send message to
  * @returns {Promise} Promise - Sends a TTL file to another user's Pod inbox and
- * saves a copy on your inbox
+ * saves a copy on the sender's outbox
  */
 export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const { recipientUsername } = messageObject;
