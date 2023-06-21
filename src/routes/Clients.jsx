@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 // Component Imports
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
-import Loading from '../components/Notification/Loading';
+import LoadingAnimation from '../components/Notification/LoadingAnimation';
 import { UserListContext } from '../contexts';
 
 /**
@@ -30,7 +30,7 @@ const Clients = () => {
 
   return loadingUsers ? (
     <Container>
-      <Loading loadingItem="clients" />
+      <LoadingAnimation loadingItem="clients" />
     </Container>
   ) : (
     <Container>

@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
-import Loading from '../Notification/Loading';
+import LoadingAnimation from '../Notification/LoadingAnimation';
 
 /**
  * DocumentTable Component - Displays a table containing all documents accessible in a pod
@@ -33,7 +33,7 @@ const DocumentTable = () => {
   ];
 
   return loadingDocuments ? (
-    <Loading loadingItem="documents" />
+    <LoadingAnimation loadingItem="documents" />
   ) : (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="Documents Table">

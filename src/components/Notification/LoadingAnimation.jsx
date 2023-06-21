@@ -7,16 +7,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 /**
- * Loading Component - Displays a div containing title of what is being
+ * LoadingAnimation Component - Displays a div containing title of what is being
  * loaded and an animated loading progress bar. Must pass loadingItem attribute
  * as a string of the "title" of what is being loaded.
  *
  * @memberof Notification
- * @name Loading
+ * @name LoadingAnimation
  * @returns {React.ReactElement} a div of what is currently loading
  */
 
-const Loading = ({ loadingItem }) => (
+const LoadingAnimation = ({ loadingItem }) => (
   <Box
     sx={{
       marginTop: 18,
@@ -37,4 +37,4 @@ const Loading = ({ loadingItem }) => (
   </Box>
 );
 
-export default Loading;
+export default LoadingAnimation;
