@@ -27,6 +27,7 @@ const ClientList = () => {
     <EmptyListNotification type="clients" />
   );
 
+  // MAIN RETURN OF COMPONENT
   return loadingUsers ? <LoadingAnimation loadingItem="clients" /> : determineClientListTable;
 };
 
