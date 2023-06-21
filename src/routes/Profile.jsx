@@ -1,16 +1,16 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
 import { fetchProfileInfo, updateProfileInfo } from '../utils';
+// Component Inputs
+import ProfileInputField from '../components/Profile/ProfileInputField';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -31,24 +31,12 @@ const Profile = () => {
   const [editProfileName, setEditProfileName] = useState(false);
   const [editOrganization, setEditOrganization] = useState(false);
 
-  const handleGetProfileInfo = async () => {
-    const profileObject = await fetchProfileInfo(session);
-
-    if (profileObject.profileInfo.name === null) {
-      setProfileName('No name set');
-    } else {
-      setProfileName(profileObject.name);
-    }
-
-    if (profileObject.profileInfo.organization === null) {
-      setOrganization('No organization set');
-    } else {
-      setOrganization(profileObject.organization);
-    }
-  };
-
   const handleEditProfileName = () => {
     setEditProfileName(!editProfileName);
+  };
+
+  const handleEditOrganization = () => {
+    setEditOrganization(!editOrganization);
   };
 
   const handleUpdateProfile = async (event) => {
@@ -64,20 +52,30 @@ const Profile = () => {
     setEditProfileName(false);
   };
 
-  const handleEditOrganization = () => {
-    setEditOrganization(!editOrganization);
-  };
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const profileObject = await fetchProfileInfo(session);
+
+      if (profileObject.profileInfo.name === null) {
+        setProfileName('No name set');
+      } else {
+        setProfileName(profileObject.name);
+      }
+
+      if (profileObject.profileInfo.organization === null) {
+        setOrganization('No organization set');
+      } else {
+        setOrganization(profileObject.organization);
+      }
+    };
+
+    if (profileName === '') {
+      fetchProfileData();
+    }
+  }, [profileName]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
-      <Button
-        variant="contained"
-        type="button"
-        onClick={handleGetProfileInfo}
-        sx={{ width: '150px' }}
-      >
-        Get Profile
-      </Button>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Typography>
           User WebId: <Link href={session.info.webId}>{session.info.webId}</Link>
@@ -89,58 +87,20 @@ const Profile = () => {
           onSubmit={handleUpdateProfile}
           style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {editProfileName ? (
-                <>
-                  <Typography>Name: </Typography>
-                  <Input
-                    value={profileName}
-                    placeholder={profileName}
-                    onChange={(e) => setProfileName(e.target.value)}
-                  />
-                </>
-              ) : (
-                <Typography>Name: {profileName}</Typography>
-              )}
-              {profileName && (
-                <Button variant="outlined" type="button" onClick={handleEditProfileName}>
-                  {editProfileName ? 'Cancel' : 'Edit'}
-                </Button>
-              )}
-            </Box>
-            {profileName && editProfileName && (
-              <Button variant="outlined" type="submit">
-                Update
-              </Button>
-            )}
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {editOrganization ? (
-                <>
-                  <Typography>Organization: </Typography>
-                  <Input
-                    value={organization}
-                    placeholder={organization}
-                    onChange={(e) => setOrganization(e.target.value)}
-                  />
-                </>
-              ) : (
-                <Typography>Organization: {organization}</Typography>
-              )}
-              {profileName && (
-                <Button variant="outlined" type="button" onClick={handleEditOrganization}>
-                  {editOrganization ? 'Cancel' : 'Edit'}
-                </Button>
-              )}
-            </Box>
-            {organization && editOrganization && (
-              <Button variant="outlined" type="submit">
-                Update
-              </Button>
-            )}
-          </Box>
+          <ProfileInputField
+            inputName="Name"
+            inputValue={profileName}
+            editInputValue={editProfileName}
+            setInputValue={setProfileName}
+            handleEditInput={handleEditProfileName}
+          />
+          <ProfileInputField
+            inputName="Organization"
+            inputValue={organization}
+            editInputValue={editOrganization}
+            setInputValue={setOrganization}
+            handleEditInput={handleEditOrganization}
+          />
         </form>
       </Box>
     </Box>
