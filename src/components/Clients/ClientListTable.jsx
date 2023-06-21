@@ -41,6 +41,12 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
     return 0
   }
 
+  const userListCopy = [
+    ...userListObject.userList
+  ]
+
+  const sortedUserList = userListCopy.sort(comparePerson)
+
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="client list table">
@@ -54,7 +60,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userListObject?.userList.sort(comparePerson).map((client, index) => {
+          {sortedUserList?.map((client, index) => {
             const labelId = `clientlist-checkbox-${index}`;
             return (
               <ClientListTableRow
