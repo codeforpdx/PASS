@@ -2,23 +2,24 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // Inrupt Imports
-import {
-  buildThing,
-  getStringNoLocale,
-  getThing,
-  getWebIdDataset,
-  saveSolidDatasetAt,
-  setThing
-} from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-// Constants Imports
-import { RDF_PREDICATES } from '../constants';
+// Utility Imports
+import { fetchProfileInfo, updateProfileInfo } from '../utils';
 
+/**
+ * Profile Page - Page that displays the user's profile card information and
+ * allow users to edit/update them on PASS
+ *
+ * @memberof Pages
+ * @name Profile
+ * @returns {React.JSX.Element} The Profile Page
+ */
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
@@ -28,15 +29,13 @@ const Profile = () => {
   const [profileName, setProfileName] = useState('');
   const [editProfileName, setEditProfileName] = useState(false);
 
-  const fetchProfileInfo = async () => {
-    const profileDataset = await getWebIdDataset(session.info.webId);
-    const profileThing = getThing(profileDataset, session.info.webId);
+  const handleGetProfileInfo = async () => {
+    const profileObject = await fetchProfileInfo(session);
 
-    const name = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
-    if (typeof name === 'object') {
+    if (profileObject.name === null) {
       setProfileName('No name has been set');
     } else {
-      setProfileName(name);
+      setProfileName(profileObject.name);
     }
   };
 
@@ -44,35 +43,36 @@ const Profile = () => {
     setEditProfileName(!editProfileName);
   };
 
-  const handleUpdateProfileName = async (event) => {
+  const handleUpdateProfile = async (event) => {
     event.preventDefault();
-    let profileDataset = await getWebIdDataset(session.info.webId);
-    let profileThing = getThing(profileDataset, session.info.webId);
-    const name = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
+    const profileData = await fetchProfileInfo(session);
 
-    if (typeof name === 'object') {
-      profileThing = buildThing(profileThing)
-        .addStringNoLocale(RDF_PREDICATES.profileName, profileName)
-        .build();
-    } else {
-      profileThing = buildThing(profileThing)
-        .setStringNoLocale(RDF_PREDICATES.profileName, profileName)
-        .build();
-    }
+    const updateObject = {
+      name: profileName
+    };
+    await updateProfileInfo(session, profileData, updateObject);
 
-    profileDataset = setThing(profileDataset, profileThing);
-
-    await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
     setEditProfileName(false);
   };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
-      <Button variant="contained" type="button" onClick={fetchProfileInfo} sx={{ width: '150px' }}>
+      <Button
+        variant="contained"
+        type="button"
+        onClick={handleGetProfileInfo}
+        sx={{ width: '150px' }}
+      >
         Get Profile
       </Button>
-      <Box>
-        <form onSubmit={handleUpdateProfileName} style={{ display: 'flex', gap: '10px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <Typography>
+          User WebId: <Link href={session.info.webId}>{session.info.webId}</Link>
+        </Typography>
+
+        {/* TODO: Refactor/optimize the form below once we have more input */}
+        {/* fields to update profile for */}
+        <form onSubmit={handleUpdateProfile} style={{ display: 'flex', gap: '10px' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {editProfileName ? (
               <>

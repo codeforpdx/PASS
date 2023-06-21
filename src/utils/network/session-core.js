@@ -1,5 +1,16 @@
-import { createContainerAt, getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
-import { INTERACTION_TYPES } from '../../constants';
+import {
+  createContainerAt,
+  getSolidDataset,
+  getThingAll,
+  getFile,
+  getThing,
+  getWebIdDataset,
+  getStringNoLocale,
+  buildThing,
+  setThing,
+  saveSolidDatasetAt
+} from '@inrupt/solid-client';
+import { INTERACTION_TYPES, RDF_PREDICATES } from '../../constants';
 import {
   getContainerUrl,
   setDocAclForUser,
@@ -292,4 +303,56 @@ export const createInbox = async (session, podUrl) => {
 export const getBlobFromSolid = async (session, fileUrl) => {
   const fileBlob = await getFile(fileUrl, { fetch: session.fetch });
   return URL.createObjectURL(fileBlob);
+};
+
+/**
+ * A function fetches the user's profile information from their webId's profile
+ * card
+ *
+ * @function fetchProfileInfo
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @returns {Promise<object>} Object - The object containing the information related
+ * to the person on their profile card, the profile dataset, and the profile Thing
+ */
+export const fetchProfileInfo = async (session) => {
+  const profileDataset = await getWebIdDataset(session.info.webId);
+  const profileThing = getThing(profileDataset, session.info.webId);
+
+  const name = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
+
+  // TODO: include more fields to the object like organization, address, etc.
+  // when expanding this feature
+  return { name, profileDataset, profileThing };
+};
+
+/**
+ * A function fetches the user's profile information from their webId's profile
+ * card
+ *
+ * @function updateProfileInfo
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} profileData - The object containing the information related
+ * to the person on their profile card, the profile dataset, and the profile Thing
+ * @param {object} updateObject - The object containing inputs for updating
+ * profile information on their profile card
+ * @returns {Promise} Promise - Performs action to update profile card on the
+ * user's profile card
+ */
+export const updateProfileInfo = async (session, profileData, updateObject) => {
+  let { profileDataset, profileThing } = profileData;
+  const { name } = profileData;
+
+  if (name === null) {
+    profileThing = buildThing(profileThing)
+      .addStringNoLocale(RDF_PREDICATES.profileName, updateObject.name)
+      .build();
+  } else {
+    profileThing = buildThing(profileThing)
+      .setStringNoLocale(RDF_PREDICATES.profileName, updateObject.name)
+      .build();
+  }
+
+  profileDataset = setThing(profileDataset, profileThing);
+
+  await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 };
