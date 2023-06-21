@@ -19,8 +19,7 @@ import Typography from '@mui/material/Typography';
 const LoadingAnimation = ({ loadingItem }) => (
   <Box
     sx={{
-      marginTop: 18,
-      marginBottom: 18,
+      my: '3rem',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
