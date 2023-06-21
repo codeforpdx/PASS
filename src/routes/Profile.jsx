@@ -59,13 +59,13 @@ const Profile = () => {
       if (profileObject.profileInfo.name === null) {
         setProfileName('No name set');
       } else {
-        setProfileName(profileObject.name);
+        setProfileName(profileObject.profileInfo.name);
       }
 
       if (profileObject.profileInfo.organization === null) {
         setOrganization('No organization set');
       } else {
-        setOrganization(profileObject.organization);
+        setOrganization(profileObject.profileInfo.organization);
       }
     };
 
