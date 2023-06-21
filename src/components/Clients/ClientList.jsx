@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Context Imports
 import { UserListContext } from '../../contexts';
@@ -25,18 +26,15 @@ const ClientList = () => {
     <ClientListTable statusType="Status" defaultMessage="No actions performed" />
   ) : (
     // render if no clients
-    <Container>
-      <Box
-        sx={{
-          marginTop: 3,
-          minWidth: 120,
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
-          Add clients to your list
-        </Typography>
+    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
+            No clients found.
+            <br />
+            Added clients will be listed here.
+          </Typography>
+        </Paper>
       </Box>
     </Container>
   );

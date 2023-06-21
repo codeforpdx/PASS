@@ -3,13 +3,13 @@ import React, { useContext } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 // Component Imports
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
@@ -37,38 +37,37 @@ const DocumentTable = () => {
 
   const determineDocumentsTable = documentListObject?.docList?.length ? (
     // render if documents
-    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
-      <Table aria-label="Documents Table">
-        <TableHead>
-          <TableRow>
-            {columnTitlesArray.map((columnTitle) => (
-              <StyledTableCell key={columnTitle} align="center">
-                {columnTitle}
-              </StyledTableCell>
+    <Container>
+      <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+        <Table aria-label="Documents Table">
+          <TableHead>
+            <TableRow>
+              {columnTitlesArray.map((columnTitle) => (
+                <StyledTableCell key={columnTitle} align="center">
+                  {columnTitle}
+                </StyledTableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {documentListObject?.docList.map((document) => (
+              <DocumentTableRow key={document.name} document={document} />
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {documentListObject?.docList.map((document) => (
-            <DocumentTableRow key={document.name} document={document} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   ) : (
     // render if no documents
-    <Container>
-      <Box
-        sx={{
-          marginTop: 3,
-          minWidth: 120,
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
-          Upload documents to your list
-        </Typography>
+    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+          <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
+            No documents found.
+            <br />
+            Uploaded documents will be listed here.
+          </Typography>
+        </Paper>
       </Box>
     </Container>
   );
