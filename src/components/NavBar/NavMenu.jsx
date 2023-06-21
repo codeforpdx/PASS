@@ -1,7 +1,6 @@
 // React Imports
 import React from 'react';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { NavLink } from 'react-router-dom';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
@@ -12,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -21,7 +21,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
  */
 
 const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
-  const { session } = useSession();
+  const theme = useTheme();
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -53,14 +53,13 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           </Button>
         </MenuItem>
         <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<AccountCircle />}
-            href={session.info.webId}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Profile
+          <Button variant="text" startIcon={<AccountCircle />}>
+            <NavLink
+              to="/PASS/profile"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              Profile
+            </NavLink>
           </Button>
         </MenuItem>
         <Divider />

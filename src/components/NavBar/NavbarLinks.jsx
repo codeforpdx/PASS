@@ -105,7 +105,7 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={location}
+        value={location === 'profile' ? false : location}
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"
