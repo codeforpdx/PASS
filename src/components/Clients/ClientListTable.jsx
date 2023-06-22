@@ -30,22 +30,19 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
-
   function comparePerson(a, b) {
     if (a.person < b.person) {
-      return -1
+      return -1;
     }
     if (a.person > b.person) {
-      return 1
+      return 1;
     }
-    return 0
+    return 0;
   }
-    
-  const userListCopy = [
-    ...userListObject.userList
-  ]
 
-  const sortedUserList = userListCopy.sort(comparePerson)
+  const userListCopy = [...userListObject.userList];
+
+  const sortedUserList = userListCopy.sort(comparePerson);
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
