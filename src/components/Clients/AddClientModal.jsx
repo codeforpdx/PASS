@@ -9,7 +9,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FormControl from '@mui/material/FormControl';
-import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { ENV } from '../../constants';
@@ -139,87 +138,79 @@ const AddClientModal = ({ showModal, setShowModal }) => {
         statusType="Status"
         defaultMessage="To be added..."
       >
-        <Grid container>
-          <form onSubmit={handleAddClient} autoComplete="off">
-            <Grid item>
-              <FormControl fullWidth>
-                <TextField
-                  autoComplete="given-name"
-                  name="addUserGivenName"
-                  required
-                  fullWidth
-                  id="add-user-given-name"
-                  label="First/given name"
-                  autoFocus
-                  {...userGivenName}
-                />
-              </FormControl>
-            </Grid>
-            <br />
-            <Grid item>
-              <TextField
-                required
-                fullWidth
-                id="add-user-last-name"
-                label="Last/family name"
-                name="addUserFamilyName"
-                autoComplete="family-name"
-                {...userFamilyName}
-              />
-            </Grid>
-            <br />
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="add-username"
-                label="username"
-                name="addUsername"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => wrappedSetUsername(e.target.value)}
-              />
-            </Grid>
-            <br />
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="add-webId"
-                name="addWebId"
-                autoComplete="webid"
-                type="text"
-                value={webId}
-                onChange={(e) => {
-                  setWebId(e.target.value);
-                }}
-                placeholder="WebId"
-              />
-            </Grid>
-            <br />
-            <Grid>
-              <DialogActions>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  endIcon={<ClearIcon />}
-                  onClick={() => setShowModal(false)}
-                >
-                  CANCEL
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  endIcon={<CheckIcon />}
-                  // onClick={() => setShowModal(false)}
-                  type="submit"
-                  disabled={state.processing}
-                >
-                  ADD CLIENT
-                </Button>
-              </DialogActions>
-            </Grid>
-          </form>
-        </Grid>
+        <form onSubmit={handleAddClient} autoComplete="off">
+          <FormControl fullWidth>
+            <TextField
+              autoComplete="given-name"
+              name="addUserGivenName"
+              required
+              fullWidth
+              id="add-user-given-name"
+              label="First/given name"
+              autoFocus
+              {...userGivenName}
+            />
+          </FormControl>
+          <br />
+          <br />
+          <TextField
+            required
+            fullWidth
+            id="add-user-last-name"
+            label="Last/family name"
+            name="addUserFamilyName"
+            autoComplete="family-name"
+            {...userFamilyName}
+          />
+          <br />
+          <br />
+          <TextField
+            required
+            fullWidth
+            id="add-username"
+            label="username"
+            name="addUsername"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => wrappedSetUsername(e.target.value)}
+          />
+          <br />
+          <br />
+          <TextField
+            fullWidth
+            id="add-webId"
+            name="addWebId"
+            autoComplete="webid"
+            type="text"
+            value={webId}
+            onChange={(e) => {
+              setWebId(e.target.value);
+            }}
+            placeholder="WebId"
+          />
+          <br />
+          <br />
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<ClearIcon />}
+              onClick={() => setShowModal(false)}
+            >
+              CANCEL
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<CheckIcon />}
+              // onClick={() => setShowModal(false)}
+              type="submit"
+              disabled={state.processing}
+            >
+              ADD CLIENT
+            </Button>
+          </DialogActions>
+        </form>
       </FormSection>
     </Dialog>
   );
