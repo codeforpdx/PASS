@@ -337,30 +337,30 @@ export const fetchProfileInfo = async (session) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} profileData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
- * @param {object} updateObject - The object containing inputs for updating
- * profile information on their profile card
+ * @param {string} inputField - String about which input field to update
+ * @param {object} updateInputValue - The input for updating profile information
+ * on their profile card
  * @returns {Promise} Promise - Performs action to update profile card on the
  * user's profile card
  */
-export const updateProfileInfo = async (session, profileData, updateObject) => {
+export const updateProfileInfo = async (session, profileData, inputField, updateInputValue) => {
   let { profileDataset, profileThing } = profileData;
   const { profileInfo } = profileData;
-  Object.keys(profileInfo).forEach((key) => {
-    if (updateObject[key] === '') {
-      profileThing = removeStringNoLocale(
-        profileThing,
-        key === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[key],
-        profileInfo[key]
-      );
-    } else {
-      profileThing = buildThing(profileThing)
-        .setStringNoLocale(
-          key === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[key],
-          updateObject[key]
-        )
-        .build();
-    }
-  });
+
+  if (updateInputValue === '') {
+    profileThing = removeStringNoLocale(
+      profileThing,
+      inputField === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[inputField],
+      profileInfo[inputField]
+    );
+  } else {
+    profileThing = buildThing(profileThing)
+      .setStringNoLocale(
+        inputField === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[inputField],
+        updateInputValue
+      )
+      .build();
+  }
 
   profileDataset = setThing(profileDataset, profileThing);
 

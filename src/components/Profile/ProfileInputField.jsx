@@ -17,11 +17,7 @@ const ProfileInputField = ({
       {editInputValue ? (
         <>
           <Typography>{inputName}: </Typography>
-          <Input
-            value={inputValue}
-            placeholder={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
+          <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
         </>
       ) : (
         <Typography>

@@ -26,8 +26,8 @@ const Profile = () => {
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const [profileName, setProfileName] = useState('');
-  const [organization, setOrganization] = useState('');
+  const [profileName, setProfileName] = useState(null);
+  const [organization, setOrganization] = useState(null);
   const [editProfileName, setEditProfileName] = useState(false);
   const [editOrganization, setEditOrganization] = useState(false);
 
@@ -58,12 +58,18 @@ const Profile = () => {
   const handleUpdateProfile = async (event) => {
     event.preventDefault();
     const profileData = await fetchProfileInfo(session);
+    let inputValue;
+    let inputField;
 
-    const updateObject = {
-      name: profileName,
-      organization
-    };
-    await updateProfileInfo(session, profileData, updateObject);
+    if (editProfileName) {
+      inputValue = profileName;
+      inputField = 'name';
+    } else if (editOrganization) {
+      inputValue = organization;
+      inputField = 'organization';
+    }
+
+    await updateProfileInfo(session, profileData, inputField, inputValue);
 
     fetchProfileData();
     setEditProfileName(false);
@@ -71,7 +77,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (profileName === '') {
+    if (profileName === null) {
       fetchProfileData();
     }
   }, [profileName]);
