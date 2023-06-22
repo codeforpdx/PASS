@@ -190,12 +190,14 @@ const AddClientModal = ({ showModal, setShowModal }) => {
           />
           <br />
           <br />
+
           <DialogActions>
             <Button
               variant="outlined"
               color="error"
               endIcon={<ClearIcon />}
               onClick={() => setShowModal(false)}
+              fullWidth
             >
               CANCEL
             </Button>
@@ -206,6 +208,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               // onClick={() => setShowModal(false)}
               type="submit"
               disabled={state.processing}
+              fullWidth
             >
               ADD CLIENT
             </Button>
