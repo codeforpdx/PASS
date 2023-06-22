@@ -153,7 +153,7 @@ describe('fetchProfileInfo', () => {
     vi.clearAllMocks();
   });
 
-  it('returns', async () => {
+  it('returns expected properties for profileData object', async () => {
     const results = await fetchProfileInfo(session);
 
     expect(results).toHaveProperty('profileInfo.profileName');
