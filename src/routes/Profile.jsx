@@ -42,8 +42,8 @@ const Profile = () => {
   const fetchProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
-    if (profileObject.profileInfo.name !== null) {
-      setProfileName(profileObject.profileInfo.name);
+    if (profileObject.profileInfo.profileName !== null) {
+      setProfileName(profileObject.profileInfo.profileName);
     } else {
       setProfileName('No name set');
     }
@@ -63,7 +63,7 @@ const Profile = () => {
 
     if (editProfileName) {
       inputValue = profileName;
-      inputField = 'name';
+      inputField = 'profileName';
     } else if (editOrganization) {
       inputValue = organization;
       inputField = 'organization';

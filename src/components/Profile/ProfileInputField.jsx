@@ -4,6 +4,31 @@ import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 
+/**
+ * messageFolderProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @typedef profileInputFieldProps
+ * @type {object}
+ * @property {string} inputName - Name of input field
+ * @property {string} inputValue - Value of input field used for updating profile
+ * @property {boolean} editInputValue - Boolean for editing input value
+ * @property {React.Dispatch<React.SetStateAction<null>>} setInputValue - Set
+ * function for inputValue
+ * @property {() => void} handleEditInput - Handler function for editing input
+ * @property {() => void} handleCancelEdit - Handler function for cancelling edit
+ * @memberof typedefs
+ */
+
+/**
+ * New Message Component - Component that allows user to write
+ *  a message to another user from their inbox
+ *
+ * @memberof Inbox
+ * @name ProfileInputField
+ * @param {profileInputFieldProps} Props - Props used for NewMessage
+ * @returns {React.JSX.Element} React component for NewMessage
+ */
 const ProfileInputField = ({
   inputName,
   inputValue,

@@ -319,10 +319,10 @@ export const fetchProfileInfo = async (session) => {
   const profileDataset = await getWebIdDataset(session.info.webId);
   const profileThing = getThing(profileDataset, session.info.webId);
 
-  const name = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
+  const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
   const organization = getStringNoLocale(profileThing, RDF_PREDICATES.organization);
 
-  const profileInfo = { name, organization };
+  const profileInfo = { profileName, organization };
 
   // TODO: include more fields to the object like organization, address, etc.
   // when expanding this feature
@@ -350,15 +350,12 @@ export const updateProfileInfo = async (session, profileData, inputField, update
   if (updateInputValue === '') {
     profileThing = removeStringNoLocale(
       profileThing,
-      inputField === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[inputField],
+      RDF_PREDICATES[inputField],
       profileInfo[inputField]
     );
   } else {
     profileThing = buildThing(profileThing)
-      .setStringNoLocale(
-        inputField === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[inputField],
-        updateInputValue
-      )
+      .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
       .build();
   }
 
