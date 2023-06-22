@@ -4,8 +4,7 @@ import React, { useContext } from 'react';
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
-import EmptyListNotification from '../Notification/EmptyListNotification';
-import LoadingAnimation from '../Notification/LoadingAnimation';
+import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
  * ClientList Component - Component that generates ClientList section for PASS

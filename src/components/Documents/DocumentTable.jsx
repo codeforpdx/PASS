@@ -12,8 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
-import EmptyListNotification from '../Notification/EmptyListNotification';
-import LoadingAnimation from '../Notification/LoadingAnimation';
+import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
  * DocumentTable Component - Displays a table containing all documents accessible in a pod
