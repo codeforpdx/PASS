@@ -205,6 +205,8 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               variant="contained"
               color="primary"
               endIcon={<CheckIcon />}
+              // TODO: Determine what to do with modals after submitting.
+              // e.g. should it close automatically but have a pop-up status alert, remain open briefly, etc.
               // onClick={() => setShowModal(false)}
               type="submit"
               disabled={state.processing}
