@@ -40,7 +40,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
     }
     return 0
   }
-
+    
   const userListCopy = [
     ...userListObject.userList
   ]
