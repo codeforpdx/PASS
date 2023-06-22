@@ -1,13 +1,10 @@
 // React Imports
 import React, { useContext } from 'react';
-// Material UI Imports
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
+import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
  * ClientList Component - Component that generates ClientList section for PASS
@@ -19,27 +16,18 @@ import ClientListTable from './ClientListTable';
 
 const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
+  const { loadingUsers } = useContext(UserListContext);
 
-  return userListObject.userList?.length ? (
+  const determineClientListTable = userListObject.userList?.length ? (
     // render if clients
     <ClientListTable statusType="Status" defaultMessage="No actions performed" />
   ) : (
     // render if no clients
-    <Container>
-      <Box
-        sx={{
-          marginTop: 3,
-          minWidth: 120,
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography variant="h6" component="h2" mb={2} align="center" color="secondary">
-          Add clients to your list
-        </Typography>
-      </Box>
-    </Container>
+    <EmptyListNotification type="clients" />
   );
+
+  // MAIN RETURN OF COMPONENT
+  return loadingUsers ? <LoadingAnimation loadingItem="clients" /> : determineClientListTable;
 };
 
 export default ClientList;
