@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
@@ -59,9 +58,7 @@ const Documents = () => {
       )}
 
       <UploadDocumentForm />
-      <Container>
-        <DocumentTable />
-      </Container>
+      <DocumentTable />
       <SetAclPermsDocContainerForm />
       <SetAclPermissionForm />
     </Box>
