@@ -9,7 +9,8 @@ const ProfileInputField = ({
   inputValue,
   editInputValue,
   setInputValue,
-  handleEditInput
+  handleEditInput,
+  handleCancelEdit
 }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -27,13 +28,15 @@ const ProfileInputField = ({
           {inputName}: {inputValue}
         </Typography>
       )}
-      {inputValue && (
-        <Button variant="outlined" type="button" onClick={handleEditInput}>
-          {editInputValue ? 'Cancel' : 'Edit'}
-        </Button>
-      )}
+      <Button
+        variant="outlined"
+        type="button"
+        onClick={editInputValue ? handleCancelEdit : handleEditInput}
+      >
+        {editInputValue ? 'Cancel' : 'Edit'}
+      </Button>
     </Box>
-    {inputValue && editInputValue && (
+    {editInputValue && (
       <Button variant="outlined" type="submit">
         Update
       </Button>

@@ -8,7 +8,8 @@ import {
   getStringNoLocale,
   buildThing,
   setThing,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  removeStringNoLocale
 } from '@inrupt/solid-client';
 import { INTERACTION_TYPES, RDF_PREDICATES } from '../../constants';
 import {
@@ -343,17 +344,23 @@ export const fetchProfileInfo = async (session) => {
  */
 export const updateProfileInfo = async (session, profileData, updateObject) => {
   let { profileDataset, profileThing } = profileData;
-  const { name } = profileData;
-
-  if (name === null) {
-    profileThing = buildThing(profileThing)
-      .addStringNoLocale(RDF_PREDICATES.profileName, updateObject.name)
-      .build();
-  } else {
-    profileThing = buildThing(profileThing)
-      .setStringNoLocale(RDF_PREDICATES.profileName, updateObject.name)
-      .build();
-  }
+  const { profileInfo } = profileData;
+  Object.keys(profileInfo).forEach((key) => {
+    if (updateObject[key] === '') {
+      profileThing = removeStringNoLocale(
+        profileThing,
+        key === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[key],
+        profileInfo[key]
+      );
+    } else {
+      profileThing = buildThing(profileThing)
+        .setStringNoLocale(
+          key === 'name' ? RDF_PREDICATES.profileName : RDF_PREDICATES[key],
+          updateObject[key]
+        )
+        .build();
+    }
+  });
 
   profileDataset = setThing(profileDataset, profileThing);
 

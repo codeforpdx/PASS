@@ -39,6 +39,22 @@ const Profile = () => {
     setEditOrganization(!editOrganization);
   };
 
+  const fetchProfileData = async () => {
+    const profileObject = await fetchProfileInfo(session);
+
+    if (profileObject.profileInfo.name !== null) {
+      setProfileName(profileObject.profileInfo.name);
+    } else {
+      setProfileName('No name set');
+    }
+
+    if (profileObject.profileInfo.organization !== null) {
+      setOrganization(profileObject.profileInfo.organization);
+    } else {
+      setOrganization('No organization set');
+    }
+  };
+
   const handleUpdateProfile = async (event) => {
     event.preventDefault();
     const profileData = await fetchProfileInfo(session);
@@ -49,30 +65,23 @@ const Profile = () => {
     };
     await updateProfileInfo(session, profileData, updateObject);
 
+    fetchProfileData();
     setEditProfileName(false);
+    setEditOrganization(false);
   };
 
   useEffect(() => {
-    const fetchProfileData = async () => {
-      const profileObject = await fetchProfileInfo(session);
-
-      if (profileObject.profileInfo.name === null) {
-        setProfileName('No name set');
-      } else {
-        setProfileName(profileObject.profileInfo.name);
-      }
-
-      if (profileObject.profileInfo.organization === null) {
-        setOrganization('No organization set');
-      } else {
-        setOrganization(profileObject.profileInfo.organization);
-      }
-    };
-
     if (profileName === '') {
       fetchProfileData();
     }
   }, [profileName]);
+
+  const handleCancelEdit = () => {
+    fetchProfileData();
+
+    setEditProfileName(false);
+    setEditOrganization(false);
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
@@ -96,6 +105,7 @@ const Profile = () => {
             editInputValue={editProfileName}
             setInputValue={setProfileName}
             handleEditInput={handleEditProfileName}
+            handleCancelEdit={handleCancelEdit}
           />
           <ProfileInputField
             inputName="Organization"
@@ -103,6 +113,7 @@ const Profile = () => {
             editInputValue={editOrganization}
             setInputValue={setOrganization}
             handleEditInput={handleEditOrganization}
+            handleCancelEdit={handleCancelEdit}
           />
         </form>
       </Box>
