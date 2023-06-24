@@ -69,12 +69,10 @@ const Documents = () => {
         onClick={() => setShowModal(true)}
         sx={{ marginTop: '3rem' }}
       >
-        Add Client
+        Add Document
       </Button>
       {/* modal/popup renders when setShowModal state is true */}
       <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
-
-      {/* <UploadDocumentModal /> */}
       <DocumentTable />
       <SetAclPermsDocContainerForm />
       <SetAclPermissionForm />

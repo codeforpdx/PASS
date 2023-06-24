@@ -4,10 +4,13 @@ import React, { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
+import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -156,6 +159,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 name="uploadDoctype"
                 onChange={(e) => setFile(e.target.files[0])}
                 required
+                startIcon={<SearchIcon />}
               >
                 Choose file
                 <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png" />
@@ -173,7 +177,13 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             </FormControl>
             <br />
             <FormControl fullWidth>
-              <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+              <Button
+                variant="contained"
+                disabled={state.processing}
+                type="submit"
+                color="primary"
+                startIcon={<FileUploadIcon />}
+              >
                 Upload file
               </Button>
             </FormControl>
@@ -186,6 +196,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 type="button"
                 color="secondary"
                 onClick={clearInputFields}
+                startIcon={<ClearIcon />}
               >
                 Clear Form
               </Button>
