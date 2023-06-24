@@ -190,7 +190,6 @@ const AddClientModal = ({ showModal, setShowModal }) => {
           />
           <br />
           <br />
-
           <DialogActions>
             <Button
               variant="outlined"
