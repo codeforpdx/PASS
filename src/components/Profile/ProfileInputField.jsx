@@ -3,7 +3,11 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
 import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 
 /**
@@ -23,8 +27,8 @@ import Typography from '@mui/material/Typography';
  */
 
 /**
- * New Message Component - Component that allows user to write
- *  a message to another user from their inbox
+ * ProfileInputField Component - Component that creates the editable inputs fields
+ * for the Profile page
  *
  * @memberof Inbox
  * @name ProfileInputField
@@ -43,8 +47,14 @@ const ProfileInputField = ({
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       {editInputValue ? (
         <>
-          <Typography>{inputName}: </Typography>
-          <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+          <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
+            {inputName}:{' '}
+          </InputLabel>
+          <Input
+            id={`input-${inputName}`}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
         </>
       ) : (
         <Typography>
@@ -54,13 +64,15 @@ const ProfileInputField = ({
       <Button
         variant="outlined"
         type="button"
-        onClick={editInputValue ? handleCancelEdit : handleEditInput}
+        color={editInputValue ? 'error' : 'primary'}
+        endIcon={editInputValue ? <ClearIcon /> : <EditIcon />}
+        onClick={editInputValue ? () => handleCancelEdit(handleEditInput) : handleEditInput}
       >
         {editInputValue ? 'Cancel' : 'Edit'}
       </Button>
     </Box>
     {editInputValue && (
-      <Button variant="outlined" type="submit">
+      <Button variant="outlined" type="submit" endIcon={<CheckIcon />}>
         Update
       </Button>
     )}

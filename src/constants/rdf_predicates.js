@@ -25,7 +25,7 @@ const RDF_PREDICATES = {
   profileName: 'http://xmlns.com/foaf/0.1/name',
   sha256: 'https://schema.org/sha256',
   accountablePerson: 'https://schema.org/accountablePerson',
-  organization: 'http://xmlns.com/foaf/0.1/Organization'
+  memberOf: 'https://schema.org/memberOf'
 };
 
 export default RDF_PREDICATES;

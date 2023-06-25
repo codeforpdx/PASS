@@ -320,18 +320,18 @@ export const fetchProfileInfo = async (session) => {
   const profileThing = getThing(profileDataset, session.info.webId);
 
   const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
-  const organization = getStringNoLocale(profileThing, RDF_PREDICATES.organization);
+  const memberOf = getStringNoLocale(profileThing, RDF_PREDICATES.memberOf);
 
-  const profileInfo = { profileName, organization };
+  const profileInfo = { profileName, memberOf };
 
-  // TODO: include more fields to the object like organization, address, etc.
+  // TODO: include more fields to the object like memberOf, address, etc.
   // when expanding this feature
   return { profileInfo, profileDataset, profileThing };
 };
 
 /**
- * A function fetches the user's profile information from their webId's profile
- * card
+ * A function that updates the user's profile information based on what is inputed
+ * in the Profile page
  *
  * @function updateProfileInfo
  * @param {Session} session - Solid's Session Object {@link Session}

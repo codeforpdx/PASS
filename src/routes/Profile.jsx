@@ -27,16 +27,16 @@ const Profile = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   const [profileName, setProfileName] = useState(null);
-  const [organization, setOrganization] = useState(null);
+  const [memberOf, setMemberOf] = useState(null);
   const [editProfileName, setEditProfileName] = useState(false);
-  const [editOrganization, setEditOrganization] = useState(false);
+  const [editMemberOf, setEditMemberOf] = useState(false);
 
   const handleEditProfileName = () => {
     setEditProfileName(!editProfileName);
   };
 
-  const handleEditOrganization = () => {
-    setEditOrganization(!editOrganization);
+  const handleMemberOf = () => {
+    setEditMemberOf(!editMemberOf);
   };
 
   const fetchProfileData = async () => {
@@ -48,10 +48,10 @@ const Profile = () => {
       setProfileName('No name set');
     }
 
-    if (profileObject.profileInfo.organization !== null) {
-      setOrganization(profileObject.profileInfo.organization);
+    if (profileObject.profileInfo.memberOf !== null) {
+      setMemberOf(profileObject.profileInfo.memberOf);
     } else {
-      setOrganization('No organization set');
+      setMemberOf('No organization set');
     }
   };
 
@@ -64,16 +64,16 @@ const Profile = () => {
     if (editProfileName) {
       inputValue = profileName;
       inputField = 'profileName';
-    } else if (editOrganization) {
-      inputValue = organization;
-      inputField = 'organization';
+    } else if (editMemberOf) {
+      inputValue = memberOf;
+      inputField = 'memberOf';
     }
 
     await updateProfileInfo(session, profileData, inputField, inputValue);
 
     fetchProfileData();
     setEditProfileName(false);
-    setEditOrganization(false);
+    setEditMemberOf(false);
   };
 
   useEffect(() => {
@@ -82,16 +82,17 @@ const Profile = () => {
     }
   }, [profileName]);
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = (handleEditFunction) => {
     fetchProfileData();
 
-    setEditProfileName(false);
-    setEditOrganization(false);
+    handleEditFunction();
   };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
+
         <Typography>
           User WebId:{' '}
           <Link href={session.info.webId} target="_blank" rel="noreferrer">
@@ -103,7 +104,7 @@ const Profile = () => {
         {/* fields to update profile for */}
         <form
           onSubmit={handleUpdateProfile}
-          style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+          style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}
         >
           <ProfileInputField
             inputName="Name"
@@ -115,10 +116,10 @@ const Profile = () => {
           />
           <ProfileInputField
             inputName="Organization"
-            inputValue={organization}
-            editInputValue={editOrganization}
-            setInputValue={setOrganization}
-            handleEditInput={handleEditOrganization}
+            inputValue={memberOf}
+            editInputValue={editMemberOf}
+            setInputValue={setMemberOf}
+            handleEditInput={handleMemberOf}
             handleCancelEdit={handleCancelEdit}
           />
         </form>
