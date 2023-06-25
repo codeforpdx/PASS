@@ -46,7 +46,7 @@ export const subscribeToUser = async (userPodUrl, myProfile) => {
   const datasetUrl = `${userPodUrl}Users/userlist.ttl`;
   // Inrupt's libraries don't seem to support append-only access to datasets normally.
   // mockSolidDatasetFrom is a workaround
-  let dataset = mockSolidDatasetFrom(datasetUrl)
+  let dataset = mockSolidDatasetFrom(datasetUrl);
   dataset = setThing(dataset, thing);
   await saveSolidDatasetAt(datasetUrl, dataset);
 };

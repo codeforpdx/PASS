@@ -52,9 +52,9 @@ const Clients = () => {
   ) : (
     <Container>
       <p>Your Client Registration Link:</p>
-        <a href={`${window.location.origin}/PASS/#/PASS/Signup?podUrl=${podUrl}`}>
-          {window.location.origin}/PASS/#/PASS/Signup?podUrl={podUrl}
-        </a>
+      <a href={`${window.location.origin}/PASS/#/PASS/Signup?podUrl=${podUrl}`}>
+        {window.location.origin}/PASS/#/PASS/Signup?podUrl={podUrl}
+      </a>
       <ClientList />
     </Container>
   );
