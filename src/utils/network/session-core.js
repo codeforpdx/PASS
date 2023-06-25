@@ -348,8 +348,11 @@ export const updateProfileInfo = async (session, profileData, inputField, update
   const { profileInfo } = profileData;
 
   switch (updateInputValue) {
-    case '':
     case null:
+    case 'null':
+    case 'No value set':
+      return;
+    case '':
       profileThing = removeStringNoLocale(
         profileThing,
         RDF_PREDICATES[inputField],
