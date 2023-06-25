@@ -347,16 +347,20 @@ export const updateProfileInfo = async (session, profileData, inputField, update
   let { profileDataset, profileThing } = profileData;
   const { profileInfo } = profileData;
 
-  if (updateInputValue === '') {
-    profileThing = removeStringNoLocale(
-      profileThing,
-      RDF_PREDICATES[inputField],
-      profileInfo[inputField]
-    );
-  } else {
-    profileThing = buildThing(profileThing)
-      .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
-      .build();
+  switch (updateInputValue) {
+    case '':
+    case null:
+      profileThing = removeStringNoLocale(
+        profileThing,
+        RDF_PREDICATES[inputField],
+        profileInfo[inputField]
+      );
+      break;
+    default:
+      profileThing = buildThing(profileThing)
+        .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
+        .build();
+      break;
   }
 
   profileDataset = setThing(profileDataset, profileThing);
