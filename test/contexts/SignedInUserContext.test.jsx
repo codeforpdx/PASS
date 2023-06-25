@@ -55,7 +55,8 @@ describe('SignedInUserContext', () => {
     useSession.mockReturnValue({
       session: {
         info: {
-          isLoggedIn: true
+          isLoggedIn: true,
+          webId: 'https://example.com/profile/card#me'
         }
       }
     });
