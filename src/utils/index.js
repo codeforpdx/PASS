@@ -14,5 +14,6 @@ import formattedDate from './barcode/barcode-date-parser';
 export { runNotification, getDriversLicenseData, formattedDate };
 
 export * from './cryptography/credentials-helper';
+export * from './network/profile-helper';
 export * from './network/session-core';
 export * from './network/session-helper';

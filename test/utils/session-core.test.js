@@ -4,7 +4,6 @@ import {
   createInbox,
   createOutbox,
   createPublicContainer,
-  fetchProfileInfo,
   getBlobFromSolid
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
@@ -137,28 +136,5 @@ describe('getBlobFromSolid', () => {
     const result = await getBlobFromSolid(session, mockFileUrl);
 
     expect(result).toBe('mock-url');
-  });
-});
-
-describe('fetchProfileInfo', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn(),
-      info: {
-        webId: 'https://newtestuser2.opencommons.net/profile/card#me'
-      }
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('returns expected properties for profileData object', async () => {
-    const results = await fetchProfileInfo(session);
-
-    expect(results).toHaveProperty('profileInfo.profileName');
-    expect(results).toHaveProperty('profileInfo.organization');
-    expect(results).toHaveProperty('profileDataset');
-    expect(results).toHaveProperty('profileThing');
   });
 });
