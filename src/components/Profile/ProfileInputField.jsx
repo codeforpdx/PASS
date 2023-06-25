@@ -10,7 +10,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
-import Typography from '@mui/material/Typography';
 // Utility Imports
 import { fetchProfileInfo, updateProfileInfo } from '../../utils';
 
@@ -68,22 +67,15 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, fetchProfileD
     <form onSubmit={handleUpdateProfile}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {edit ? (
-            <>
-              <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
-                {inputName}:{' '}
-              </InputLabel>
-              <Input
-                id={`input-${inputName}`}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-              />
-            </>
-          ) : (
-            <Typography>
-              {inputName}: {inputValue}
-            </Typography>
-          )}
+          <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
+            {inputName}:{' '}
+          </InputLabel>
+          <Input
+            id={`input-${inputName}`}
+            value={inputValue === null ? 'No value set' : inputValue}
+            disabled={!edit}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
           <Button
             variant="outlined"
             type="button"

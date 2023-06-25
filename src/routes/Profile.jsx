@@ -32,17 +32,8 @@ const Profile = () => {
   const fetchProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
-    if (profileObject.profileInfo.profileName !== null) {
-      setProfileName(profileObject.profileInfo.profileName);
-    } else {
-      setProfileName('No name set');
-    }
-
-    if (profileObject.profileInfo.organization !== null) {
-      setOrganization(profileObject.profileInfo.organization);
-    } else {
-      setOrganization('No organization set');
-    }
+    setProfileName(profileObject.profileInfo.profileName);
+    setOrganization(profileObject.profileInfo.organization);
   };
 
   useEffect(() => {
