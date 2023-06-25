@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 // React Router Imports
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
@@ -9,8 +9,6 @@ import Container from '@mui/material/Container';
 // Component Imports
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
-import Loading from '../components/Notification/Loading';
-import { UserListContext } from '../contexts';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -23,16 +21,10 @@ const Clients = () => {
   // state for AddClientModal component
   const [showModal, setShowModal] = useState(false);
 
-  const { loadingUsers } = useContext(UserListContext);
-
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
 
-  return loadingUsers ? (
-    <Container>
-      <Loading loadingItem="clients" />
-    </Container>
-  ) : (
+  return (
     <Container>
       <Button
         variant="contained"
