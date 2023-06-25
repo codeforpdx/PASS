@@ -10,6 +10,10 @@ import {
 import { RDF_PREDICATES } from '../../constants';
 
 /**
+ * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ */
+
+/**
  * A function fetches the user's profile information from their webId's profile
  * card
  *

@@ -21,11 +21,10 @@ import { fetchProfileInfo, updateProfileInfo } from '../../utils';
  * @type {object}
  * @property {string} inputName - Name of input field
  * @property {string} inputValue - Value of input field used for updating profile
- * @property {boolean} editInputValue - Boolean for editing input value
  * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
  * function for inputValue
- * @property {() => void} handleEditInput - Handler function for editing input
- * @property {() => void} handleCancelEdit - Handler function for cancelling edit
+ * @property {() => void} fetchProfileData - Handler function for fetching data
+ * from user's profile card
  * @memberof typedefs
  */
 
