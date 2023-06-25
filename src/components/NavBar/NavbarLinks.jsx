@@ -35,6 +35,8 @@ const NavbarLinks = () => {
     { label: 'Messages', path: '/PASS/messages' }
   ];
 
+  const tabRoutes = ['clients', 'documents', 'messages'];
+
   // Navigate To... button and menu (small screens)
   const [anchorEl, setAnchorEl] = useState(null);
   const openNavigateToMenu = Boolean(anchorEl);
@@ -105,7 +107,7 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={location === 'profile' ? false : location}
+        value={tabRoutes.includes(location) ? location : false}
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"
