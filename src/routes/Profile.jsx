@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { fetchProfileInfo, updateProfileInfo } from '../utils';
+import { fetchProfileInfo } from '../utils';
 // Component Inputs
 import ProfileInputField from '../components/Profile/ProfileInputField';
 
@@ -27,17 +27,7 @@ const Profile = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   const [profileName, setProfileName] = useState(null);
-  const [memberOf, setMemberOf] = useState(null);
-  const [editProfileName, setEditProfileName] = useState(false);
-  const [editMemberOf, setEditMemberOf] = useState(false);
-
-  const handleEditProfileName = () => {
-    setEditProfileName(!editProfileName);
-  };
-
-  const handleMemberOf = () => {
-    setEditMemberOf(!editMemberOf);
-  };
+  const [organization, setOrganization] = useState(null);
 
   const fetchProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
@@ -48,32 +38,11 @@ const Profile = () => {
       setProfileName('No name set');
     }
 
-    if (profileObject.profileInfo.memberOf !== null) {
-      setMemberOf(profileObject.profileInfo.memberOf);
+    if (profileObject.profileInfo.organization !== null) {
+      setOrganization(profileObject.profileInfo.organization);
     } else {
-      setMemberOf('No organization set');
+      setOrganization('No organization set');
     }
-  };
-
-  const handleUpdateProfile = async (event) => {
-    event.preventDefault();
-    const profileData = await fetchProfileInfo(session);
-    let inputValue;
-    let inputField;
-
-    if (editProfileName) {
-      inputValue = profileName;
-      inputField = 'profileName';
-    } else if (editMemberOf) {
-      inputValue = memberOf;
-      inputField = 'memberOf';
-    }
-
-    await updateProfileInfo(session, profileData, inputField, inputValue);
-
-    fetchProfileData();
-    setEditProfileName(false);
-    setEditMemberOf(false);
   };
 
   useEffect(() => {
@@ -81,12 +50,6 @@ const Profile = () => {
       fetchProfileData();
     }
   }, [profileName]);
-
-  const handleCancelEdit = (handleEditFunction) => {
-    fetchProfileData();
-
-    handleEditFunction();
-  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
@@ -102,27 +65,20 @@ const Profile = () => {
 
         {/* TODO: Refactor/optimize the form below once we have more input */}
         {/* fields to update profile for */}
-        <form
-          onSubmit={handleUpdateProfile}
-          style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}
-        >
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <ProfileInputField
             inputName="Name"
             inputValue={profileName}
-            editInputValue={editProfileName}
             setInputValue={setProfileName}
-            handleEditInput={handleEditProfileName}
-            handleCancelEdit={handleCancelEdit}
+            fetchProfileData={fetchProfileData}
           />
           <ProfileInputField
             inputName="Organization"
-            inputValue={memberOf}
-            editInputValue={editMemberOf}
-            setInputValue={setMemberOf}
-            handleEditInput={handleMemberOf}
-            handleCancelEdit={handleCancelEdit}
+            inputValue={organization}
+            setInputValue={setOrganization}
+            fetchProfileData={fetchProfileData}
           />
-        </form>
+        </Box>
       </Box>
     </Box>
   );
