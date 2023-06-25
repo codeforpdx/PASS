@@ -9,10 +9,13 @@ import {
 
 import sha256 from 'crypto-js/sha256';
 
-import getDriversLicenseData from '../utils/barcode/barcode-scan';
-import formattedDate from '../utils/barcode/barcode-date-parser';
 import { RDF_PREDICATES } from '../constants';
-import { getUserSigningKey, signDocumentTtlFile } from '../utils/cryptography/credentials-helper';
+import {
+  getUserSigningKey,
+  signDocumentTtlFile,
+  getDriversLicenseData,
+  formattedDate
+} from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session

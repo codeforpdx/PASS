@@ -10,7 +10,7 @@ import {
   removeThing
 } from '@inrupt/solid-client';
 
-import { setDocAclForUser } from '../utils/network/session-helper';
+import { setDocAclForUser } from '../utils';
 
 import { RDF_PREDICATES } from '../constants';
 
