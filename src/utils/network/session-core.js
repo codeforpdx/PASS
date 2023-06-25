@@ -363,3 +363,14 @@ export const updateProfileInfo = async (session, profileData, inputField, update
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 };
+
+export const updateActivity = async (session, webId) => {
+  let profileDataset = await getWebIdDataset(webId);
+  let profileThing = getThing(profileDataset, webId);
+
+  profileThing = buildThing(profileThing).addDate(RDF_PREDICATES.dateRead, new Date()).build();
+
+  profileDataset = setThing(profileDataset, profileThing);
+
+  await saveSolidDatasetAt(webId, profileDataset, { fetch: session.fetch });
+};

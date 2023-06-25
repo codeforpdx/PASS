@@ -4,7 +4,7 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createPublicContainer } from '../utils';
+import { createPublicContainer, updateActivity } from '../utils';
 import { updateUserActivity } from '../model-helpers';
 
 /**
@@ -44,6 +44,7 @@ export const SignedInUserContextProvider = ({ children }) => {
       try {
         const { webId } = session.info;
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
+        await updateActivity(session, webId);
         podUrl = podUrl || webId.split('profile')[0];
         setUserInfo({
           ...userInfo,
