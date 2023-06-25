@@ -371,11 +371,21 @@ export const updateProfileInfo = async (session, profileData, inputField, update
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 };
 
+/**
+ * A function that saves the latest date user has logged into PASS as dateRead
+ *
+ * @function updateActivity
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} webId - WebId of the user to update last login date in profile
+ * card
+ * @returns {Promise} Promise - Saves the latest date user has logged in PASS
+ * into profile card as dateRead
+ */
 export const updateActivity = async (session, webId) => {
   let profileDataset = await getWebIdDataset(webId);
   let profileThing = getThing(profileDataset, webId);
 
-  profileThing = buildThing(profileThing).addDate(RDF_PREDICATES.dateRead, new Date()).build();
+  profileThing = buildThing(profileThing).setDate(RDF_PREDICATES.dateRead, new Date()).build();
 
   profileDataset = setThing(profileDataset, profileThing);
 
