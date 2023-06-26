@@ -32,7 +32,7 @@ const OidcLoginComponent = () => {
       <Box sx={{ marginRight: '32px' }} />
       <LoginButton
         oidcIssuer={oidcIssuer}
-        redirectUrl={`${window.location.protocol}//${window.location.host}/clients`}
+        redirectUrl={`${window.location.origin}/PASS/`}
       >
         <Button
           variant="contained"

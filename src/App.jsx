@@ -23,7 +23,7 @@ import AppRoutes from './AppRoutes';
 
 const App = () => (
     <SessionProvider
-        restorePreviousSession={localStorage.getItem('loggedIn')}
+      restorePreviousSession
     >
       <CssBaseline />
       <ThemeProvider theme={theme}>

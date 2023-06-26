@@ -1,6 +1,5 @@
 // React Imports
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -28,9 +27,8 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @returns {React.JSX.Element} The Messages Page
  */
 const Messages = () => {
-  const location = useLocation();
 
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', '/PASS/messages');
 
   const { podUrl } = useContext(SignedInUserContext);
 

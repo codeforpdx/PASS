@@ -1,6 +1,5 @@
 // React Imports
 import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
@@ -24,9 +23,8 @@ import Layout from '../layouts/Layout';
  * @returns {React.JSX.Element} The Documents Page
  */
 const Documents = () => {
-  const location = useLocation();
 
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', 'PASS/documents');
 
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);
