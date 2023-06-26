@@ -24,6 +24,6 @@ describe('fetchProfileInfo', () => {
     expect(results).toHaveProperty('profileInfo.profileName');
     expect(results).toHaveProperty('profileInfo.organization');
     expect(results).toHaveProperty('profileDataset');
-    expect(results).toHaveProperty('profileThing');
+    expect(results).toHaveProperty('profileThingAll');
   });
 });
