@@ -15,6 +15,7 @@ import { getMessageTTL } from '../utils';
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
 import { NewMessage, MessageFolder } from '../components/Messages';
+import Layout from '../layouts/Layout';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -73,6 +74,7 @@ const Messages = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
+    <Layout>
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
         <Button variant="contained" onClick={() => setShowForm(!showForm)}>
@@ -99,6 +101,7 @@ const Messages = () => {
       />
       {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
     </Box>
+    </Layout>
   );
 };
 

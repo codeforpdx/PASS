@@ -1,10 +1,10 @@
 // React Imports
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Page Imports
-import { Home, Clients, Messages, Documents, Profile } from './routes';
+import { Home, Clients, Messages, Documents, Profile } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -13,17 +13,13 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
  * The main application routing for PASS
  *
  * @name AppRoutes
- * @returns {React.JSX.Element}
+ * @returns {React.JSX.Element} - Project Routes
  */
-
 const AppRoutes = () => {
   const { session } = useSession();
   const restorePath = localStorage.getItem('restorePath');
-  const path = restorePath ?? '/clients';
-
-  useEffect(() => {
-    if (session.info.isLoggedIn) localStorage.setItem('loggedIn', true);
-  }, [session.info.isLoggedIn]);
+  const loggedIn = session.info.isLoggedIn;
+  const path = loggedIn ? restorePath || '/clients' : '/';
 
   return (
     <Routes>

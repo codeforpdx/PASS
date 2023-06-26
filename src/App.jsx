@@ -10,8 +10,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import UserDataContextProvider from './contexts/UserDataContext';
 // Theme Imports
 import theme from './theme';
-// Layout Imports
-import Layout from './layouts/Layout';
 // Route Imports
 import AppRoutes from './AppRoutes';
 
@@ -29,11 +27,11 @@ const App = () => (
     >
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <UserDataContextProvider>
-          <Layout ariaLabel="Home Page">
-            <AppRoutes />
-          </Layout>
-        </UserDataContextProvider>
+          <UserDataContextProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </UserDataContextProvider>
       </ThemeProvider>
     </SessionProvider>
 );

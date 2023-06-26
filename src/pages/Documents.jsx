@@ -14,6 +14,7 @@ import {
 } from '../components/Form';
 import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
+import Layout from '../layouts/Layout';
 
 /**
  * Documents Page - Component that generates Documents Page for PASS
@@ -31,6 +32,7 @@ const Documents = () => {
   const { podUrl } = useContext(SignedInUserContext);
 
   return (
+<Layout>    
     <Box
       sx={{
         display: 'flex',
@@ -62,6 +64,7 @@ const Documents = () => {
       <SetAclPermsDocContainerForm />
       <SetAclPermissionForm />
     </Box>
+    </Layout>
   );
 };
 

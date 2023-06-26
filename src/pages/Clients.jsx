@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 // Component Imports
 import AddClientModal from '../components/Clients/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
+import Layout from '../layouts/Layout';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -25,6 +26,7 @@ const Clients = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   return (
+<Layout>
     <Container>
       <Button
         variant="contained"
@@ -41,6 +43,7 @@ const Clients = () => {
       {/* modal/popup renders when showConfirmationModal state is true */}
       <AddClientModal showModal={showModal} setShowModal={setShowModal} />
     </Container>
+    </Layout>
   );
 };
 

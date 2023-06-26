@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Layout from '../layouts/Layout';
 
 /**
  * Home - First Page you encounter in PASS before login.
@@ -14,6 +15,7 @@ import Paper from '@mui/material/Paper';
  * @returns {React.ReactElement} The home page
  */
 const Home = () => (
+<Layout>
   <Container component="main" maxWidth="s">
     <Box
       sx={{
@@ -33,6 +35,7 @@ const Home = () => (
       </Paper>
     </Box>
   </Container>
+  </Layout>
 );
 
 export default Home;
