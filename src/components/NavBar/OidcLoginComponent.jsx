@@ -8,7 +8,7 @@ import { TextField, Box, Button } from '@mui/material';
 import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || ''
+  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
 
   return (
@@ -30,10 +30,7 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-      <LoginButton
-        oidcIssuer={oidcIssuer}
-        redirectUrl={`${window.location.origin}/PASS/`}
-      >
+      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={`${window.location.origin}/PASS/`}>
         <Button
           variant="contained"
           type="submit"

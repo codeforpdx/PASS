@@ -22,18 +22,16 @@ import AppRoutes from './AppRoutes';
  */
 
 const App = () => (
-    <SessionProvider
-      restorePreviousSession
-    >
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
-          <UserDataContextProvider>
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </UserDataContextProvider>
-      </ThemeProvider>
-    </SessionProvider>
+  <SessionProvider restorePreviousSession>
+    <CssBaseline />
+    <ThemeProvider theme={theme}>
+      <UserDataContextProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </UserDataContextProvider>
+    </ThemeProvider>
+  </SessionProvider>
 );
 
 export default App;

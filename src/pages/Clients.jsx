@@ -23,23 +23,23 @@ const Clients = () => {
   localStorage.setItem('restorePath', '/PASS/clients');
 
   return (
-<Layout>
-    <Container>
-      <Button
-        variant="contained"
-        color="secondary"
-        size="small"
-        aria-label="Add Client Button"
-        startIcon={<AddIcon />}
-        onClick={() => setShowModal(true)}
-        sx={{ marginTop: '3rem' }}
-      >
-        Add Client
-      </Button>
-      <ClientList />
-      {/* modal/popup renders when showConfirmationModal state is true */}
-      <AddClientModal showModal={showModal} setShowModal={setShowModal} />
-    </Container>
+    <Layout>
+      <Container>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          aria-label="Add Client Button"
+          startIcon={<AddIcon />}
+          onClick={() => setShowModal(true)}
+          sx={{ marginTop: '3rem' }}
+        >
+          Add Client
+        </Button>
+        <ClientList />
+        {/* modal/popup renders when showConfirmationModal state is true */}
+        <AddClientModal showModal={showModal} setShowModal={setShowModal} />
+      </Container>
     </Layout>
   );
 };

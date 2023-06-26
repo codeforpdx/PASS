@@ -27,7 +27,6 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @returns {React.JSX.Element} The Messages Page
  */
 const Messages = () => {
-
   localStorage.setItem('restorePath', '/PASS/messages');
 
   const { podUrl } = useContext(SignedInUserContext);
@@ -73,32 +72,32 @@ const Messages = () => {
 
   return (
     <Layout>
-    <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
-      <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
-        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
-          <CreateIcon sx={{ marginRight: '10px' }} />
-          New Message
-        </Button>
-        <Tabs value={boxType} sx={{ padding: '0 30px' }}>
-          {routesArray.map((item) => (
-            <Tab
-              key={`${item.label}Tab`}
-              value={item.label.toLowerCase()}
-              label={item.label}
-              onClick={() => setBoxType(item.label.toLowerCase())}
-            />
-          ))}
-        </Tabs>
-      </Box>
+      <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
+        <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
+          <Button variant="contained" onClick={() => setShowForm(!showForm)}>
+            <CreateIcon sx={{ marginRight: '10px' }} />
+            New Message
+          </Button>
+          <Tabs value={boxType} sx={{ padding: '0 30px' }}>
+            {routesArray.map((item) => (
+              <Tab
+                key={`${item.label}Tab`}
+                value={item.label.toLowerCase()}
+                label={item.label}
+                onClick={() => setBoxType(item.label.toLowerCase())}
+              />
+            ))}
+          </Tabs>
+        </Box>
 
-      <MessageFolder
-        folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
-        handleRefresh={handleMessageRefresh}
-        loadMessages={loadMessages}
-        messageList={boxType === 'inbox' ? inboxList : outboxList}
-      />
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
-    </Box>
+        <MessageFolder
+          folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
+          handleRefresh={handleMessageRefresh}
+          loadMessages={loadMessages}
+          messageList={boxType === 'inbox' ? inboxList : outboxList}
+        />
+        {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+      </Box>
     </Layout>
   );
 };

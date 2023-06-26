@@ -23,45 +23,44 @@ import Layout from '../layouts/Layout';
  * @returns {React.JSX.Element} The Documents Page
  */
 const Documents = () => {
-
   localStorage.setItem('restorePath', 'PASS/documents');
 
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);
 
   return (
-<Layout>    
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '30px'
-      }}
-    >
-      <Button
-        variant="contained"
-        color="secondary"
-        size="small"
-        aria-label="Clear Client Button"
-        startIcon={<Remove />}
-        onClick={() => setSelectedUser()}
-        sx={{ margin: '1rem 0' }}
+    <Layout>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '30px'
+        }}
       >
-        Clear Client
-      </Button>
-      {podUrl === selectedUser.podUrl ? (
-        <Typography>Personal Pod</Typography>
-      ) : (
-        <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
-      )}
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          aria-label="Clear Client Button"
+          startIcon={<Remove />}
+          onClick={() => setSelectedUser()}
+          sx={{ margin: '1rem 0' }}
+        >
+          Clear Client
+        </Button>
+        {podUrl === selectedUser.podUrl ? (
+          <Typography>Personal Pod</Typography>
+        ) : (
+          <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
+        )}
 
-      <UploadDocumentForm />
-      <DocumentTable />
-      <SetAclPermsDocContainerForm />
-      <SetAclPermissionForm />
-    </Box>
+        <UploadDocumentForm />
+        <DocumentTable />
+        <SetAclPermsDocContainerForm />
+        <SetAclPermissionForm />
+      </Box>
     </Layout>
   );
 };
