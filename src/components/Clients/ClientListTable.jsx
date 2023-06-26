@@ -30,11 +30,13 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
+  console.log(userListObject)
+
   function comparePerson(a, b) {
-    if (a.person < b.person) {
+    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
       return -1;
     }
-    if (a.person > b.person) {
+    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
       return 1;
     }
     return 0;
