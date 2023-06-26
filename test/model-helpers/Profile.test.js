@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, expect, vi, it } from 'vitest';
-import { fetchProfileInfo } from '../../src/utils';
+import { fetchProfileInfo } from '../../src/model-helpers';
 
 let session = {};
 

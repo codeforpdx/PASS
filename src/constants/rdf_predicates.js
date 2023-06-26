@@ -1,4 +1,4 @@
-import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
@@ -26,7 +26,8 @@ const RDF_PREDICATES = {
   sha256: 'https://schema.org/sha256',
   accountablePerson: 'https://schema.org/accountablePerson',
   organization: 'https://schema.org/Organization',
-  dateRead: 'https://schema.org/dateRead'
+  dateRead: 'https://schema.org/dateRead',
+  type: RDF.type
 };
 
 export default RDF_PREDICATES;

@@ -1,13 +1,15 @@
 import {
   buildThing,
+  createThing,
   getStringNoLocale,
   getThing,
   getWebIdDataset,
   removeStringNoLocale,
+  removeThing,
   saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
-import { RDF_PREDICATES } from '../../constants';
+import { RDF_PREDICATES } from '../constants';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -24,16 +26,23 @@ import { RDF_PREDICATES } from '../../constants';
  */
 export const fetchProfileInfo = async (session) => {
   const profileDataset = await getWebIdDataset(session.info.webId);
-  const profileThing = getThing(profileDataset, session.info.webId);
+  const profileThingMe = getThing(profileDataset, session.info.webId);
+  const profileThingOrg = getThing(
+    profileDataset,
+    session.info.webId.replace('#me', '#organization')
+  );
 
-  const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
-  const organization = getStringNoLocale(profileThing, RDF_PREDICATES.organization);
+  const profileName = getStringNoLocale(profileThingMe, RDF_PREDICATES.profileName);
+  const organization = profileThingOrg
+    ? getStringNoLocale(profileThingOrg, RDF_PREDICATES.name)
+    : null;
 
   const profileInfo = { profileName, organization };
+  const profileThingAll = { profileThingMe, profileThingOrg };
 
   // TODO: include more fields to the object like organization, address, etc.
   // when expanding this feature
-  return { profileInfo, profileDataset, profileThing };
+  return { profileInfo, profileDataset, profileThingAll };
 };
 
 /**
@@ -51,8 +60,11 @@ export const fetchProfileInfo = async (session) => {
  * user's profile card
  */
 export const updateProfileInfo = async (session, profileData, inputField, updateInputValue) => {
-  let { profileDataset, profileThing } = profileData;
-  const { profileInfo } = profileData;
+  let { profileDataset } = profileData;
+  const { profileInfo, profileThingAll } = profileData;
+  let { profileThingMe } = profileThingAll;
+  const { profileThingOrg } = profileThingAll;
+  let newProfileThing;
 
   switch (updateInputValue) {
     case null:
@@ -60,20 +72,35 @@ export const updateProfileInfo = async (session, profileData, inputField, update
     case 'No value set':
       return;
     case '':
-      profileThing = removeStringNoLocale(
-        profileThing,
-        RDF_PREDICATES[inputField],
-        profileInfo[inputField]
-      );
+      if (inputField === 'organization') {
+        profileDataset = removeThing(profileDataset, profileThingOrg);
+      } else {
+        profileThingMe = removeStringNoLocale(
+          profileThingMe,
+          RDF_PREDICATES[inputField],
+          profileInfo[inputField]
+        );
+      }
       break;
     default:
-      profileThing = buildThing(profileThing)
-        .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
-        .build();
+      if (inputField === 'organization') {
+        newProfileThing = buildThing(createThing({ name: 'organization' }))
+          .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.organization)
+          .addStringNoLocale(RDF_PREDICATES.name, updateInputValue)
+          .build();
+      } else {
+        profileThingMe = buildThing(profileThingMe)
+          .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
+          .build();
+      }
       break;
   }
 
-  profileDataset = setThing(profileDataset, profileThing);
+  if (newProfileThing) {
+    profileDataset = setThing(profileDataset, newProfileThing);
+  } else {
+    profileDataset = setThing(profileDataset, profileThingMe);
+  }
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 };

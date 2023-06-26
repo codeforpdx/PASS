@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 // Utility Imports
-import { fetchProfileInfo, updateProfileInfo } from '../../utils';
+import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
 
 /**
  * messageFolderProps is an object that stores the props for the MessageFolder

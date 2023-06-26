@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { fetchProfileInfo } from '../utils';
+import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
 import ProfileInputField from '../components/Profile/ProfileInputField';
 

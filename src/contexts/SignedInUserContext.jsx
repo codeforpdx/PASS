@@ -4,8 +4,8 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createPublicContainer, updateActivity } from '../utils';
-import { updateUserActivity } from '../model-helpers';
+import { createPublicContainer } from '../utils';
+import { updateUserActivity, updateActivity } from '../model-helpers';
 
 /**
  * React Context for users list from Solid Pod

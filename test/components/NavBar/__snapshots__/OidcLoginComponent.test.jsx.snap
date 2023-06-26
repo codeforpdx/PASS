@@ -9,8 +9,8 @@ exports[`renders correctly 1`] = `
     class="MuiFormControl-root MuiTextField-root css-1q1ral2-MuiFormControl-root-MuiTextField-root"
   >
     <label
-      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-filled css-e4w4as-MuiFormLabel-root-MuiInputLabel-root"
-      data-shrink="false"
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-filled css-o943dk-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink="true"
       for=":r0:"
       id=":r0:-label"
     >
@@ -25,7 +25,8 @@ exports[`renders correctly 1`] = `
         class="MuiInputBase-input MuiFilledInput-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
         id=":r0:"
         type="text"
-        value=""
+        value="https://opencommons.net/
+"
       />
     </div>
   </div>
@@ -33,6 +34,7 @@ exports[`renders correctly 1`] = `
     class="MuiBox-root css-120gsus"
   />
   <div>
+    https://opencommons.net/
     <button
       aria-label="Login Button"
       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge css-1xnmwiw-MuiButtonBase-root-MuiButton-root"
