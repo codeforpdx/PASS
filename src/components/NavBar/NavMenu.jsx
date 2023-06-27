@@ -61,7 +61,11 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           href={session.info.webId}
           target="_blank"
           rel="noreferrer"
+<<<<<<< HEAD
           sx={{ color: theme.palette.primary.main }}
+=======
+          sx={{ color: 'rgba(1, 121, 105, 1)' }}
+>>>>>>> fedbc04d5d36ff234b8484cbeb69642a52a22c40
         >
           Profile
         </MenuItem>
@@ -70,7 +74,11 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           component={Button}
           variant="text"
           startIcon={<SettingsIcon />}
+<<<<<<< HEAD
           sx={{ color: theme.palette.primary.main }}
+=======
+          sx={{ color: 'rgba(1, 121, 105, 1)' }}
+>>>>>>> fedbc04d5d36ff234b8484cbeb69642a52a22c40
         >
           Settings
         </MenuItem>
@@ -78,7 +86,11 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           component={Button}
           startIcon={<LogoutIcon />}
           onClick={() => setShowConfirmation(true)}
+<<<<<<< HEAD
           sx={{ color: theme.palette.error.main }}
+=======
+          sx={{ color: 'rgba(211, 47, 47, 1)' }}
+>>>>>>> fedbc04d5d36ff234b8484cbeb69642a52a22c40
         >
           Log Out
         </MenuItem>
