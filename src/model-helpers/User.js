@@ -5,7 +5,6 @@ import {
   saveSolidDatasetAt,
   getSolidDataset,
   createSolidDataset,
-  getDatetime,
   getPodUrlAll,
   getStringNoLocale,
   getUrl,
@@ -89,28 +88,6 @@ export const updateUserActivity = async (session, podUrl) => {
 };
 
 /**
- * Fetches the last time a user was active in pass
- *
- * @memberof User
- * @function loadUserActivity
- * @param {URL} podUrl - Url of user's pod to fetch from
- * @param {Session} session - Solid's Session Object {@link Session}
- * @returns {Promise<string>} last time the user was active in PASS
- */
-const loadUserActivity = async (podUrl, session) => {
-  const activityUrl = `${podUrl}PASS/Public/active.ttl`;
-  try {
-    const solidDataset = await getSolidDataset(activityUrl, {
-      fetch: session.fetch
-    });
-    const activeThing = getThing(solidDataset, `${activityUrl}#active`);
-    return getDatetime(activeThing, RDF_PREDICATES.dateModified);
-  } catch {
-    return null;
-  }
-};
-
-/**
  * Creates a user object from a provided form submission
  *
  * @memberof User
@@ -130,14 +107,11 @@ export const createUser = async (session, userSubmission) => {
   }
   newUserPodUrl = newUserPodUrl || webId.split('profile')[0];
 
-  const dateModified = await loadUserActivity(newUserPodUrl, session);
-
   return {
     familyName,
     username,
     givenName,
     webId,
-    dateModified,
     podUrl: newUserPodUrl
   };
 };
@@ -147,19 +121,17 @@ export const createUser = async (session, userSubmission) => {
  *
  * @memberof User
  * @function parseUserFromThing
- * @param {Thing} userThing - the Thing to build the user from
- * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {import('@inrupt/solid-client').Thing} userThing - the Thing to build the user from
  * @returns {object} user object
  */
-export const parseUserFromThing = async (userThing, session) => {
+export const parseUserFromThing = (userThing) => {
   const person = getStringNoLocale(userThing, RDF_PREDICATES.Person);
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
   const username = getStringNoLocale(userThing, RDF_PREDICATES.alternateName);
   const webId = getUrl(userThing, RDF_PREDICATES.identifier);
   const podUrl = getUrl(userThing, RDF_PREDICATES.URL);
-  const dateModified = await loadUserActivity(podUrl, session);
-  return { person, username, givenName, familyName, webId, podUrl, dateModified };
+  return { person, username, givenName, familyName, webId, podUrl };
 };
 
 /**

@@ -32,7 +32,6 @@ describe('createUser', () => {
       givenName: 'Far',
       username: 'tilde',
       webId: `${mockPodUrl}profile/card`,
-      dateModified: null,
       podUrl: mockPodUrl
     });
   });
@@ -99,24 +98,13 @@ describe('parseUserFromThing', () => {
     .build();
 
   it('properly creates user object', async () => {
-    const result = await parseUserFromThing(mockThing, session);
+    const result = parseUserFromThing(mockThing);
     expect(result).toMatchObject({
       username,
       givenName,
       familyName,
       webId,
-      podUrl,
-      dateModified: null
+      podUrl
     });
-  });
-
-  it("fetches user activity from the user's pod", async () => {
-    await parseUserFromThing(mockThing, session);
-    expect(getSolidDataset).toBeCalledWith(
-      `${podUrl}PASS/Public/active.ttl`,
-      expect.objectContaining({
-        fetch: session.fetch
-      })
-    );
   });
 });
