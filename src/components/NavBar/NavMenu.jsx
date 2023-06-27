@@ -13,8 +13,6 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import theme from '../../theme';
-
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
  *
@@ -56,29 +54,23 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
         </MenuItem>
         <MenuItem
           component={Button}
-          variant="text"
+          variant="primary"
           startIcon={<AccountCircle />}
           href={session.info.webId}
           target="_blank"
           rel="noreferrer"
-          sx={{ color: theme.palette.primary.main }}
         >
           Profile
         </MenuItem>
         <Divider />
-        <MenuItem
-          component={Button}
-          variant="text"
-          startIcon={<SettingsIcon />}
-          sx={{ color: theme.palette.primary.main }}
-        >
+        <MenuItem component={Button} startIcon={<SettingsIcon />} variant="primary">
           Settings
         </MenuItem>
         <MenuItem
           component={Button}
           startIcon={<LogoutIcon />}
           onClick={() => setShowConfirmation(true)}
-          sx={{ color: theme.palette.error.main }}
+          variant="error"
         >
           Log Out
         </MenuItem>
