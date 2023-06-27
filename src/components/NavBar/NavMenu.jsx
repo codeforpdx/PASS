@@ -13,6 +13,8 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+import theme from '../../theme.js';
+
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
  *
@@ -52,32 +54,33 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
             Notifications
           </Button>
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<AccountCircle />}
-            href={session.info.webId}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Profile
-          </Button>
+        <MenuItem
+          component={Button}
+          variant="text"
+          startIcon={<AccountCircle />}
+          href={session.info.webId}
+          target="_blank"
+          rel="noreferrer"
+          sx={{ color: theme.palette.primary.main }}
+        >
+          Profile
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <Button variant="text" startIcon={<SettingsIcon />}>
-            Settings
-          </Button>
+        <MenuItem
+          component={Button}
+          variant="text"
+          startIcon={<SettingsIcon />}
+          sx={{ color: theme.palette.primary.main }}
+        >
+          Settings
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            color="error"
-            startIcon={<LogoutIcon />}
-            onClick={() => setShowConfirmation(true)}
-          >
-            Log Out
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<LogoutIcon />}
+          onClick={() => setShowConfirmation(true)}
+          sx={{ color: theme.palette.error.main }}
+        >
+          Log Out
         </MenuItem>
       </MenuList>
     </Menu>
