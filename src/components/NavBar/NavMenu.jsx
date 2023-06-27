@@ -52,32 +52,33 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
             Notifications
           </Button>
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            startIcon={<AccountCircle />}
-            href={session.info.webId}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Profile
-          </Button>
+        <MenuItem
+          component={Button}
+          variant="text"
+          startIcon={<AccountCircle />}
+          href={session.info.webId}
+          target="_blank"
+          rel="noreferrer"
+          sx={{ color: 'rgba(1, 121, 105, 1)' }}
+        >
+          Profile
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <Button variant="text" startIcon={<SettingsIcon />}>
-            Settings
-          </Button>
+        <MenuItem
+          component={Button}
+          variant="text"
+          startIcon={<SettingsIcon />}
+          sx={{ color: 'rgba(1, 121, 105, 1)' }}
+        >
+          Settings
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            color="error"
-            startIcon={<LogoutIcon />}
-            onClick={() => setShowConfirmation(true)}
-          >
-            Logout
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<LogoutIcon />}
+          onClick={() => setShowConfirmation(true)}
+          sx={{ color: 'rgba(211, 47, 47, 1)' }}
+        >
+          Log Out
         </MenuItem>
       </MenuList>
     </Menu>
