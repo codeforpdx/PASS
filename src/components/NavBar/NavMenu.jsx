@@ -13,7 +13,7 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import theme from '../../theme.js';
+import theme from '../../theme';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
