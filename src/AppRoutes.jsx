@@ -7,7 +7,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { Home, Clients, Messages, Documents, Profile } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
-  isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
+  isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
 
 /**
  * The main application routing for PASS
@@ -25,7 +25,7 @@ const AppRoutes = () => {
     <Routes>
       <Route
         exact
-        path="/PASS/"
+        path="/"
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>

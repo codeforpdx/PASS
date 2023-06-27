@@ -14,7 +14,6 @@ import { getMessageTTL } from '../utils';
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
 import { NewMessage, MessageFolder } from '../components/Messages';
-import Layout from '../layouts/Layout';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -27,7 +26,7 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @returns {React.JSX.Element} The Messages Page
  */
 const Messages = () => {
-  localStorage.setItem('restorePath', '/PASS/messages');
+  localStorage.setItem('restorePath', '/messages');
 
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -71,34 +70,32 @@ const Messages = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <Layout>
-      <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
-        <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
-          <Button variant="contained" onClick={() => setShowForm(!showForm)}>
-            <CreateIcon sx={{ marginRight: '10px' }} />
-            New Message
-          </Button>
-          <Tabs value={boxType} sx={{ padding: '0 30px' }}>
-            {routesArray.map((item) => (
-              <Tab
-                key={`${item.label}Tab`}
-                value={item.label.toLowerCase()}
-                label={item.label}
-                onClick={() => setBoxType(item.label.toLowerCase())}
-              />
-            ))}
-          </Tabs>
-        </Box>
-
-        <MessageFolder
-          folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
-          handleRefresh={handleMessageRefresh}
-          loadMessages={loadMessages}
-          messageList={boxType === 'inbox' ? inboxList : outboxList}
-        />
-        {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+    <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
+      <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
+        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
+          <CreateIcon sx={{ marginRight: '10px' }} />
+          New Message
+        </Button>
+        <Tabs value={boxType} sx={{ padding: '0 30px' }}>
+          {routesArray.map((item) => (
+            <Tab
+              key={`${item.label}Tab`}
+              value={item.label.toLowerCase()}
+              label={item.label}
+              onClick={() => setBoxType(item.label.toLowerCase())}
+            />
+          ))}
+        </Tabs>
       </Box>
-    </Layout>
+
+      <MessageFolder
+        folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
+        handleRefresh={handleMessageRefresh}
+        loadMessages={loadMessages}
+        messageList={boxType === 'inbox' ? inboxList : outboxList}
+      />
+      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+    </Box>
   );
 };
 

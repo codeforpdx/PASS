@@ -12,6 +12,7 @@ import UserDataContextProvider from './contexts/UserDataContext';
 import theme from './theme';
 // Route Imports
 import AppRoutes from './AppRoutes';
+import Layout from './layouts/Layout';
 
 /**
  * @typedef {import("./typedefs").userListObject} userListObject
@@ -27,7 +28,9 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <UserDataContextProvider>
         <BrowserRouter>
-          <AppRoutes />
+          <Layout>
+            <AppRoutes />
+          </Layout>
         </BrowserRouter>
       </UserDataContextProvider>
     </ThemeProvider>
