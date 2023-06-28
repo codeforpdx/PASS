@@ -126,9 +126,12 @@ const React = require('react');
  * @typedef messageListObject
  * @type {object}
  * @property {string} message - Message content
+ * @property {string} messageId - Message ID
+ * @property {URL} messageUrl - URL of message being sent
  * @property {string} title - Message title
  * @property {Date} uploadDate - Time of message sent
  * @property {string} sender - Name of sender
+ * @property {URL} senderWebId - WebId of the sender
  * @property {string} recipient - Name of recipient
  * @memberof typedefs
  */

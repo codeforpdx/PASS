@@ -1,8 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-// Other Library Imports
-import { v4 as uuidv4 } from 'uuid';
 // Styling Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -78,7 +76,9 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
           <div>Loading messages...</div>
         ) : (
           currentMessages &&
-          currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />)
+          currentMessages.map((message) => (
+            <MessagePreview key={message.messageId} message={message} />
+          ))
         )}
       </Box>
       <Box>

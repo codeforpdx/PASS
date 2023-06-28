@@ -1,4 +1,5 @@
 import { createContainerAt, getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import { v4 as uuidv4 } from 'uuid';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -181,18 +182,12 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
  * saves a copy on the sender's outbox
  */
 export const sendMessageTTL = async (session, messageObject, podUrl) => {
-  const { recipientUsername } = messageObject;
-  const containerUrl = getContainerUrl(
-    session,
-    'Inbox',
-    INTERACTION_TYPES.CROSS,
-    recipientUsername
-  );
+  const { recipientPodUrl } = messageObject;
+  const recipientWebId = `${recipientPodUrl}profile/card#me`;
+  const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
   const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const otherPodUrl = getPodUrl(recipientUsername);
-  const recipientWebId = `${otherPodUrl}profile/card#me`;
 
   const senderName = await getUserProfileName(session, session.info.webId);
   let recipientName;
@@ -206,22 +201,37 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const messageSlug = `${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
 
-  const newSolidDataset = buildMessageTTL(
+  const messageMetadata = {
+    messageId: uuidv4(),
+    podUrl,
+    senderName,
+    recipientName,
+    recipientWebId,
+    messageSlug
+  };
+
+  const newSolidDatasetSender = buildMessageTTL(
     session,
     date,
     messageObject,
-    senderName,
-    recipientName,
-    recipientWebId
+    messageMetadata,
+    'sender'
   );
 
-  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+  const newSolidDatasetRecipient = buildMessageTTL(
+    session,
+    date,
+    messageObject,
+    messageMetadata,
+    'recipient'
+  );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasetRecipient, messageSlug),
+      saveMessageTTL(session, outboxUrl, newSolidDatasetSender, messageSlug)
     ]);
   } catch (error) {
     throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');

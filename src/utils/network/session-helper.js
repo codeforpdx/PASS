@@ -18,7 +18,8 @@ import {
   setPublicResourceAccess,
   setPublicDefaultAccess,
   getDatetime,
-  createSolidDataset
+  createSolidDataset,
+  getUrl
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -387,15 +388,21 @@ export const parseMessageTTL = (messageTTLThing) => {
   const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
   const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
 
+  // Get data related to messageid
+  const messageIdThing = messageTTLThing.find((thing) => thing.url.includes('#messageid'));
+  const messageId = getStringNoLocale(messageIdThing, RDF_PREDICATES.identifier);
+  const messageUrl = getUrl(messageIdThing, RDF_PREDICATES.url);
+
   // Get data related to #sender
   const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
   const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+  const senderWebId = getUrl(senderThing, RDF_PREDICATES.url);
 
   // Get data related to #recipient
   const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
   const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
 
-  return { message, title, uploadDate, sender, recipient };
+  return { message, messageId, messageUrl, title, uploadDate, sender, senderWebId, recipient };
 };
 
 /**
@@ -405,44 +412,55 @@ export const parseMessageTTL = (messageTTLThing) => {
  * @function buildMessageTTL
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {Date} date - JavaScript Date object
- * @param {string} senderName - Name of sender
- * @param {string} recipientName - Name of recipient
- * @param {URL} recipientWebId - webId of recipient
- * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @param {object} messageObject - Object containing information for the message
+ * content
+ * @param {object} messageMetadata - Object containing information about the message
+ * @param {string} buildFor - String for "Sender" or "Recipient"
  * @returns {object} messageObject - An object containinng the message content,
  * title, uploadDate, sender, and recipient
  */
-
-// TODO: potentially add other useful fields - see https://github.com/codeforpdx/PASS/pull/191#discussion_r1217249834
-
-export const buildMessageTTL = (
-  session,
-  date,
-  messageObject,
-  senderName,
-  recipientName,
-  recipientWebId
-) => {
+export const buildMessageTTL = (session, date, messageObject, messageMetadata, buildFor) => {
   const newMessageTTL = buildThing(createThing({ name: 'message' }))
     .addDatetime(RDF_PREDICATES.uploadDate, date)
     .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
     .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
     .build();
 
+  const newMessageID = buildThing(createThing({ name: 'messageid' }))
+    .addStringNoLocale(RDF_PREDICATES.identifier, messageMetadata.messageId)
+    .addUrl(
+      RDF_PREDICATES.url,
+      buildFor === 'sender'
+        ? `${messageMetadata.podUrl}PASS/Outbox/${messageMetadata.messageSlug}.ttl`
+        : `${messageMetadata.podUrl}PASS/Inbox/${messageMetadata.messageSlug}.ttl`
+    )
+    .build();
+
   const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
+    .addStringNoLocale(RDF_PREDICATES.sender, messageMetadata.senderName)
     .addUrl(RDF_PREDICATES.url, session.info.webId)
     .build();
 
   const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
-    .addUrl(RDF_PREDICATES.url, recipientWebId)
+    .addStringNoLocale(RDF_PREDICATES.recipient, messageMetadata.recipientName)
+    .addUrl(RDF_PREDICATES.url, messageMetadata.recipientWebId)
     .build();
 
   let newSolidDataset = createSolidDataset();
-  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+  [newMessageTTL, newMessageID, senderInfo, recipientInfo].forEach((thing) => {
     newSolidDataset = setThing(newSolidDataset, thing);
   });
+
+  let replyTo;
+
+  if (messageObject.inReplyTo) {
+    replyTo = buildThing(createThing({ name: 'replyTo' }))
+      .addStringNoLocale(RDF_PREDICATES.identifier, messageObject.inReplyTo)
+      .addUrl(RDF_PREDICATES.url, messageObject.messageUrl)
+      .build();
+
+    newSolidDataset = setThing(newSolidDataset, replyTo);
+  }
 
   return newSolidDataset;
 };
