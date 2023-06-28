@@ -57,8 +57,10 @@ const MessagePreview = ({ message }) => {
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <Typography>Content:</Typography>
             <Box>
-              {message.message.split('\n').map((line) => (
-                <Typography sx={{ wordWrap: 'break-word' }}>{line}</Typography>
+              {message.message.split('\n').map((line, index) => (
+                <Typography sx={{ wordWrap: 'break-word' }} key={line + String(index)}>
+                  {line}
+                </Typography>
               ))}
             </Box>
           </Box>

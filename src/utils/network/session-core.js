@@ -212,29 +212,19 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     messageSlug
   };
 
-  const newSolidDatasetSender = buildMessageTTL(
-    session,
-    date,
-    messageObject,
-    messageMetadata,
-    'sender'
-  );
-
-  const newSolidDatasetRecipient = buildMessageTTL(
-    session,
-    date,
-    messageObject,
-    messageMetadata,
-    'recipient'
+  const newSolidDatasets = ['recipient', 'sender'].map((person) =>
+    buildMessageTTL(session, date, messageObject, messageMetadata, person)
   );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, recipientInboxUrl, newSolidDatasetRecipient, messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDatasetSender, messageSlug)
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[0], messageSlug),
+      saveMessageTTL(session, outboxUrl, newSolidDatasets[1], messageSlug)
     ]);
   } catch (error) {
-    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
+    throw new Error(
+      'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
+    );
   }
 };
 
