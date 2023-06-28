@@ -105,9 +105,9 @@ In Portland, housing insecure individuals struggle to maintain documentats often
 
 \* Active Contributors
 
----
-
 **[⬆️ Back to Top](#PASS)**
+
+---
 
 <h2 id="Additional Resources">5. 📀Additional Resources</h2>
 
