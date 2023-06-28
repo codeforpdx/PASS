@@ -56,6 +56,8 @@ In Portland, housing insecure individuals struggle to maintain documentats often
 - User data remains in their pod (which is associated to WebID)
 - User authorizes applications and other users to read/write/control data in pod
 
+**[⬆️ Back to Top](#PASS)**
+
 ---
 
 <h2 id="contribution-guidelines">2. 🧑‍💻 Contribution Guidelines</h2>
@@ -84,6 +86,8 @@ In Portland, housing insecure individuals struggle to maintain documentats often
 - <a href="https://www.inrupt.com/"><img src="https://docs.inrupt.com/inrupt-logo-small.svg" alt="InruptIcon" width="18" height="18"> Inrupt(solid library)
 -  <a href="https://eslint.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/ESLint_logo.svg/324px-ESLint_logo.svg.png?20211012234406" alt="SolidProjectIcon" width="18" height="18"> ESLint
 - 🗒️  [JSDoc](https://jsdoc.app/)
+
+**[⬆️ Back to Top](#PASS)**
 
 ---
 
