@@ -108,24 +108,24 @@ In Portland, housing insecure individuals struggle to maintain documentats often
 
 **[⬆️ Back to Top](#PASS)**
 
- ## Additional Resources
+<h2 id="Additional Resources">5. 📀Additional Resources</h2>
 
 - [Solid Data Pods](https://solidproject.org/developers/tutorials/getting-started)
 - [Inrupt](https://docs.inrupt.com/developer-tools/javascript/client-libraries/) provides JavaScript client libraries to help developers create Solid applications. Will be used to upload and query data in pods. Data will be stored in `ttl` files.
 - [Inrupt Access Requests and Grants](https://docs.inrupt.com/ess/latest/security/access-requests-grants/)
-- [Access Authorization](https://solid.github.io/data-interoperability-panel/specification/#access-authorization%E2%91%A0) to a pod
+- [Access Authorization](https://solid.github.io/data-interoperability-panel/specification/#access-authorization%E2%91%A0) to a pod.
 - [`solid-ui-react`](https://solid-ui-react.docs.inrupt.com/?path=/story/intro--page), a React library to make development with Solid simple(ish).
-- <h3 id="rdf-and-ttl">3. 📀 RDF and TTL</h2>
-
-The Resource Description Framework (RDF) is a framework for expressing information about resources. Resources can be anything, including documents, people, physical objects, and abstract concepts. RDF is intended for situations in which information on the Web needs to be processed by applications, rather than being only displayed to people. Read more about RDF [here](https://www.w3.org/TR/rdf11-primer/). See how RDF is used within Solid [here](https://solidproject.org/developers/vocabularies/well-known/core).
-
-There is a textual syntax for RDF called Turtle that allows an RDF graph to be completely written in a compact and natural text form, with abbreviations for common usage patterns and datatypes. Read more on the Turtle spec [here](https://www.w3.org/TR/turtle/)
-
-With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
-
-**[⬆️ Back to Top](#PASS)**
-
   
+- [rdf-and-ttl](https://www.w3.org/TR/turtle/)
+
+   The Resource Description Framework (RDF) is a framework for expressing information about resources. Resources can be anything, including documents, people, physical objects, and abstract concepts. RDF is intended for situations in which information on the Web needs to be processed by applications, rather than being only displayed to people. Read more about RDF [here](https://www.w3.org/TR/rdf11-primer/). See how RDF is used within Solid [here](https://solidproject.org/developers/vocabularies/well-known/core).
+
+   There is a textual syntax for RDF called Turtle that allows an RDF graph to be completely written in a compact and natural text form, with abbreviations for common usage patterns and datatypes. Read more on the Turtle spec [here](https://www.w3.org/TR/turtle/)
+
+   With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
+
 **[⬆️ Back to Top](#PASS)**
+
+
 
 
