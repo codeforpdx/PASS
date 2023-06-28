@@ -47,7 +47,7 @@ const NewMessage = ({ closeForm, oldMessage = '' }) => {
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
-    title: oldMessage ? `RE: ${oldMessage.title}` : '',
+    title: oldMessage ? `RE:${oldMessage.title}` : '',
     message: oldMessage ? `>${oldMessage.message.split('\n').join('\n>')} \n\n` : '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
     messageUrl: oldMessage ? oldMessage.messageUrl : ''
