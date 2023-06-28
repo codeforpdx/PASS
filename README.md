@@ -90,7 +90,7 @@ In Portland, housing insecure individuals struggle to maintain documentats often
 
 <h2 id="tech-stack">4. 🧪 Tech Stack</h2>
 
-- ![tech stack](https://drive.google.com/uc?id=17ETEF4nlrDUQwMI08KTs-jV_IIviyUmn)
+- ![tech stack](https://drive.google.com/uc?id=1hvs0XKI0hfdlGOJ_oRG-MqQTR9NCtmPy)
 -  [![Javascript](https://badges.aleen42.com/src/javascript.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 -  [![Node.JS](https://badges.aleen42.com/src/node.svg)](https://nodejs.org/en)
 -  [![NPM](https://badges.aleen42.com/src/npm.svg)](https://www.npmjs.com/)
