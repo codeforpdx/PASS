@@ -36,7 +36,6 @@ const UploadDocumentForm = () => {
   const [verifyFile, setVerifyFile] = useState(false);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const { addDocument, replaceDocument } = useContext(DocumentListContext);
 
   const handleDocType = (event) => {
@@ -63,7 +62,7 @@ const UploadDocumentForm = () => {
       date: expireDate,
       description: docDescription
     };
-    setUploading(true);
+    dispatch({ type: 'SET_PROCESSING' });
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
 
     try {
@@ -85,7 +84,7 @@ const UploadDocumentForm = () => {
       }
     } finally {
       clearInputFields();
-      setUploading(false);
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 
@@ -166,7 +165,12 @@ const UploadDocumentForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <Button variant="contained" disabled={uploading || !file} type="submit" color="primary">
+            <Button
+              variant="contained"
+              disabled={state.processing || !file}
+              type="submit"
+              color="primary"
+            >
               Upload file
             </Button>
           </FormControl>
