@@ -29,7 +29,7 @@ const Profile = () => {
   const [profileName, setProfileName] = useState(null);
   const [organization, setOrganization] = useState(null);
 
-  const getProfileData = async () => {
+  const loadProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
     setProfileName(profileObject.profileInfo.profileName);
@@ -37,7 +37,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getProfileData();
+    loadProfileData();
   }, []);
 
   return (
@@ -59,13 +59,13 @@ const Profile = () => {
             inputName="Name"
             inputValue={profileName}
             setInputValue={setProfileName}
-            getProfileData={getProfileData}
+            loadProfileData={loadProfileData}
           />
           <ProfileInputField
             inputName="Organization"
             inputValue={organization}
             setInputValue={setOrganization}
-            getProfileData={getProfileData}
+            loadProfileData={loadProfileData}
           />
         </Box>
       </Box>

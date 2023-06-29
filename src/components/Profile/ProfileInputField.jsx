@@ -23,8 +23,8 @@ import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
  * @property {string} inputValue - Value of input field used for updating profile
  * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
  * function for inputValue
- * @property {() => void} getProfileData - Handler function for fetching
- * data from user's profile card
+ * @property {() => void} loadProfileData - Handler function for fetching
+ * data from user's profile card and loading it on PASS
  * @memberof typedefs
  */
 
@@ -37,7 +37,7 @@ import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
  * @param {profileInputFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileInputField = ({ inputName, inputValue, setInputValue, getProfileData }) => {
+const ProfileInputField = ({ inputName, inputValue, setInputValue, loadProfileData }) => {
   const { session } = useSession();
   const [edit, setEdit] = useState(false);
 
@@ -48,12 +48,12 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, getProfileDat
 
     await updateProfileInfo(session, profileData, inputField, inputValue);
 
-    getProfileData();
+    loadProfileData();
     setEdit(false);
   };
 
   const handleCancelEdit = () => {
-    getProfileData();
+    loadProfileData();
 
     setEdit(!edit);
   };
