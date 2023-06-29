@@ -29,11 +29,6 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
 
-  // determine what gets rendered in the date modified cell of table
-  const modifiedDate = client.dateModified
-    ? client.dateModified.toLocaleDateString()
-    : 'Not available';
-
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
@@ -98,7 +93,6 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
           Link to Pod Profile
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
           {pinnedIcon}
