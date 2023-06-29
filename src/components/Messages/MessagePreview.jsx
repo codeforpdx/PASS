@@ -9,13 +9,7 @@ import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 import NewMessage from './NewMessage';
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
- * component
- *
- * @typedef messageFolderProps
- * @type {object}
- * @property {string} message - The content of the message sent
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
  */
 
 /**
@@ -24,7 +18,7 @@ import NewMessage from './NewMessage';
  *
  * @memberof Inbox
  * @name MessagePreview
- * @param {messageFolderProps} Props - Component props for MessagePreview
+ * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
  */
 const MessagePreview = ({ message }) => {

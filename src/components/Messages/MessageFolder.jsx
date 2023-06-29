@@ -4,27 +4,17 @@ import ReactPaginate from 'react-paginate';
 // Styling Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { PaginationContainer } from './MessageStyles';
 // Component Imports
 import MessagePreview from './MessagePreview';
-import { PaginationContainer } from './MessageStyles';
+import { LoadingAnimation } from '../Notification';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
  */
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
- * component
- *
- * @typedef messageFolderProps
- * @type {object}
- * @property {string} folderType - The name of the message box, i.e. "inbox" or
- * "outbox"
- * @property {() => Promise<void>} handleRefresh - The handle function for message
- * folder refresh
- * @property {boolean} loadMessages - Boolean for triggering loading message
- * @property {messageListObject[]} messageList - A list of messages from Solid Pod
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").messageFolderProps} messageFolderProps
  */
 
 /**
@@ -73,7 +63,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
           Refresh
         </Button>
         {loadMessages ? (
-          <div>Loading messages...</div>
+          <LoadingAnimation loadingItem="messages" />
         ) : (
           currentMessages &&
           currentMessages.map((message) => (
