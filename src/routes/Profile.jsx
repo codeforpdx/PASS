@@ -29,7 +29,7 @@ const Profile = () => {
   const [profileName, setProfileName] = useState(null);
   const [organization, setOrganization] = useState(null);
 
-  const fetchProfileData = async () => {
+  const getProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
     setProfileName(profileObject.profileInfo.profileName);
@@ -37,10 +37,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (profileName === null) {
-      fetchProfileData();
-    }
-  }, [profileName]);
+    getProfileData();
+  }, []);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
@@ -61,13 +59,13 @@ const Profile = () => {
             inputName="Name"
             inputValue={profileName}
             setInputValue={setProfileName}
-            fetchProfileData={fetchProfileData}
+            getProfileData={getProfileData}
           />
           <ProfileInputField
             inputName="Organization"
             inputValue={organization}
             setInputValue={setOrganization}
-            fetchProfileData={fetchProfileData}
+            getProfileData={getProfileData}
           />
         </Box>
       </Box>

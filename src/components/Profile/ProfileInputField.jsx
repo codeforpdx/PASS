@@ -14,7 +14,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
+ * profileInputFieldProps is an object that stores the props for the ProfileInputField
  * component
  *
  * @typedef profileInputFieldProps
@@ -23,8 +23,8 @@ import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
  * @property {string} inputValue - Value of input field used for updating profile
  * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
  * function for inputValue
- * @property {() => void} fetchProfileData - Handler function for fetching data
- * from user's profile card
+ * @property {() => void} getProfileData - Handler function for fetching
+ * data from user's profile card
  * @memberof typedefs
  */
 
@@ -37,7 +37,7 @@ import { fetchProfileInfo, updateProfileInfo } from '../../model-helpers';
  * @param {profileInputFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileInputField = ({ inputName, inputValue, setInputValue, fetchProfileData }) => {
+const ProfileInputField = ({ inputName, inputValue, setInputValue, getProfileData }) => {
   const { session } = useSession();
   const [edit, setEdit] = useState(false);
 
@@ -48,12 +48,12 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, fetchProfileD
 
     await updateProfileInfo(session, profileData, inputField, inputValue);
 
-    fetchProfileData();
+    getProfileData();
     setEdit(false);
   };
 
   const handleCancelEdit = () => {
-    fetchProfileData();
+    getProfileData();
 
     setEdit(!edit);
   };
@@ -71,25 +71,38 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, fetchProfileD
           </InputLabel>
           <Input
             id={`input-${inputName}`}
-            value={inputValue === null ? 'No value set' : inputValue}
+            value={inputValue || ''}
+            placeholder={inputValue || 'No value set'}
             disabled={!edit}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <Button
-            variant="outlined"
-            type="button"
-            color={edit ? 'error' : 'primary'}
-            endIcon={edit ? <ClearIcon /> : <EditIcon />}
-            onClick={edit ? handleCancelEdit : handleEditInput}
-          >
-            {edit ? 'Cancel' : 'Edit'}
-          </Button>
+          {edit ? (
+            <>
+              <Button
+                variant="outlined"
+                type="button"
+                color="error"
+                endIcon={<ClearIcon />}
+                onClick={handleCancelEdit}
+              >
+                Cancel
+              </Button>
+              <Button variant="outlined" type="submit" endIcon={<CheckIcon />}>
+                Update
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="outlined"
+              type="button"
+              color="primary"
+              endIcon={<EditIcon />}
+              onClick={handleEditInput}
+            >
+              Edit
+            </Button>
+          )}
         </Box>
-        {edit && (
-          <Button variant="outlined" type="submit" endIcon={<CheckIcon />}>
-            Update
-          </Button>
-        )}
       </Box>
     </form>
   );
