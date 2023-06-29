@@ -98,8 +98,7 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
   });
 
   profileDataset = setThing(profileDataset, profileThingMe);
-
-  if (!profileThingOrg) {
+  if (newProfileThing) {
     profileDataset = setThing(profileDataset, newProfileThing);
   }
 
