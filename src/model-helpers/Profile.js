@@ -53,53 +53,54 @@ export const fetchProfileInfo = async (session) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} profileData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
- * @param {string} inputField - String about which input field to update
- * @param {object} updateInputValue - The input for updating profile information
+ * @param {object} inputValues - The inputs for updating profile information
  * on their profile card
  * @returns {Promise} Promise - Performs action to update profile card on the
  * user's profile card
  */
-export const updateProfileInfo = async (session, profileData, inputField, updateInputValue) => {
+export const updateProfileInfo = async (session, profileData, inputValues) => {
   let { profileDataset } = profileData;
   const { profileInfo, profileThingAll } = profileData;
   let { profileThingMe } = profileThingAll;
   const { profileThingOrg } = profileThingAll;
   let newProfileThing;
 
-  switch (updateInputValue) {
-    case null:
-    case 'null':
-    case 'No value set':
-      return;
-    case '':
-      if (inputField === 'organization') {
-        profileDataset = removeThing(profileDataset, profileThingOrg);
-      } else {
-        profileThingMe = removeStringNoLocale(
-          profileThingMe,
-          RDF_PREDICATES[inputField],
-          profileInfo[inputField]
-        );
-      }
-      break;
-    default:
-      if (inputField === 'organization') {
-        newProfileThing = buildThing(createThing({ name: 'organization' }))
-          .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.organization)
-          .addStringNoLocale(RDF_PREDICATES.name, updateInputValue)
-          .build();
-      } else {
-        profileThingMe = buildThing(profileThingMe)
-          .setStringNoLocale(RDF_PREDICATES[inputField], updateInputValue)
-          .build();
-      }
-      break;
-  }
+  Object.keys(inputValues).forEach((input) => {
+    switch (inputValues[input]) {
+      case null:
+      case 'null':
+      case 'No value set':
+        return;
+      case '':
+        if (input === 'organization') {
+          profileDataset = removeThing(profileDataset, profileThingOrg);
+        } else {
+          profileThingMe = removeStringNoLocale(
+            profileThingMe,
+            RDF_PREDICATES[input],
+            profileInfo[input]
+          );
+        }
+        break;
+      default:
+        if (input === 'organization') {
+          newProfileThing = buildThing(createThing({ name: 'organization' }))
+            .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.organization)
+            .addStringNoLocale(RDF_PREDICATES.name, inputValues[input])
+            .build();
+        } else {
+          profileThingMe = buildThing(profileThingMe)
+            .setStringNoLocale(RDF_PREDICATES[input], inputValues[input])
+            .build();
+        }
+        break;
+    }
+  });
 
-  if (newProfileThing) {
+  profileDataset = setThing(profileDataset, profileThingMe);
+
+  if (!profileThingOrg) {
     profileDataset = setThing(profileDataset, newProfileThing);
-  } else {
-    profileDataset = setThing(profileDataset, profileThingMe);
   }
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });

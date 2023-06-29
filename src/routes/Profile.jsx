@@ -5,10 +5,14 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { fetchProfileInfo } from '../model-helpers';
+import { fetchProfileInfo, updateProfileInfo } from '../model-helpers';
 // Component Inputs
 import ProfileInputField from '../components/Profile/ProfileInputField';
 
@@ -28,12 +32,38 @@ const Profile = () => {
 
   const [profileName, setProfileName] = useState(null);
   const [organization, setOrganization] = useState(null);
+  const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
     setProfileName(profileObject.profileInfo.profileName);
     setOrganization(profileObject.profileInfo.organization);
+  };
+
+  const handleCancelEdit = () => {
+    loadProfileData();
+
+    setEdit(!edit);
+  };
+
+  const handleEditInput = () => {
+    setEdit(!edit);
+  };
+
+  const handleUpdateProfile = async (event) => {
+    event.preventDefault();
+    const profileData = await fetchProfileInfo(session);
+
+    const inputValues = {
+      profileName,
+      organization
+    };
+
+    await updateProfileInfo(session, profileData, inputValues);
+
+    loadProfileData();
+    setEdit(false);
   };
 
   useEffect(() => {
@@ -55,18 +85,69 @@ const Profile = () => {
         {/* TODO: Refactor/optimize the form below once we have more input */}
         {/* fields to update profile for */}
         <Box style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <ProfileInputField
-            inputName="Name"
-            inputValue={profileName}
-            setInputValue={setProfileName}
-            loadProfileData={loadProfileData}
-          />
-          <ProfileInputField
-            inputName="Organization"
-            inputValue={organization}
-            setInputValue={setOrganization}
-            loadProfileData={loadProfileData}
-          />
+          <form onSubmit={handleUpdateProfile}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <ProfileInputField
+                inputName="Name"
+                inputValue={profileName}
+                setInputValue={setProfileName}
+                edit={edit}
+              />
+              <ProfileInputField
+                inputName="Organization"
+                inputValue={organization}
+                setInputValue={setOrganization}
+                edit={edit}
+              />
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: '10px',
+                  marginTop: 2
+                }}
+              >
+                {edit ? (
+                  <>
+                    <Button
+                      variant="outlined"
+                      type="button"
+                      color="error"
+                      endIcon={<ClearIcon />}
+                      onClick={handleCancelEdit}
+                      sx={{ width: '100px' }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      type="submit"
+                      endIcon={<CheckIcon />}
+                      sx={{ width: '100px' }}
+                    >
+                      Update
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    type="button"
+                    color="primary"
+                    endIcon={<EditIcon />}
+                    onClick={handleEditInput}
+                    sx={{ width: '100px' }}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </Box>
+            </Box>
+          </form>
         </Box>
       </Box>
     </Box>
