@@ -37,7 +37,6 @@ const Profile = () => {
   const [profileName, setProfileName] = useState(null);
   const [nickname, setNickname] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
-  const [imgFile, setImgFile] = useState(null);
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
@@ -161,12 +160,7 @@ const Profile = () => {
               />
             </Box>
           </form>
-          <ProfileImageField
-            loadProfileData={loadProfileData}
-            imgFile={imgFile}
-            setImgFile={setImgFile}
-            profileImg={profileImg}
-          />
+          <ProfileImageField loadProfileData={loadProfileData} profileImg={profileImg} />
         </Box>
       </Box>
     </Box>

@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
@@ -20,10 +21,6 @@ import { SignedInUserContext } from '../../contexts';
  * @type {object}
  * @property {() => void} loadProfileData - The handler function for loading
  * data from profile card
- * @property {Blob} imgFile - The file blob user wish to upload into their profile
- * card
- * @property {(value: React.SetStateAction<null>) => void} setImgFile - Set
- * function for profile image
  * @property {Blob} profileImg - The existing file blob being used for profile
  * card
  * @memberof typedefs
@@ -38,15 +35,15 @@ import { SignedInUserContext } from '../../contexts';
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ loadProfileData, imgFile, setImgFile, profileImg }) => {
+const ProfileImageField = ({ loadProfileData, profileImg }) => {
   const { session } = useSession();
   const { fetchProfileInfo, removeProfileImage, uploadProfileImg } =
     useContext(SignedInUserContext);
 
-  const handleProfileImage = async () => {
+  const handleProfileImage = async (event) => {
     const profileData = await fetchProfileInfo(session);
 
-    await uploadProfileImg(session, profileData, imgFile);
+    await uploadProfileImg(session, profileData, event.target.files[0]);
 
     loadProfileData();
   };
@@ -75,10 +72,10 @@ const ProfileImageField = ({ loadProfileData, imgFile, setImgFile, profileImg })
       </InputLabel>
       {profileImg ? (
         <>
-          <img
+          <Avatar
             src={profileImg}
             alt="PASS profile"
-            style={{ height: '200px', objectFit: 'contain' }}
+            sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
           />
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <Button
@@ -101,10 +98,7 @@ const ProfileImageField = ({ loadProfileData, imgFile, setImgFile, profileImg })
             color="primary"
             id="input-profile-pic"
             name="inputProfilePic"
-            onChange={async (e) => {
-              setImgFile(e.target.files[0]);
-              await handleProfileImage(e);
-            }}
+            onChange={handleProfileImage}
             endIcon={<ImageIcon />}
             sx={{ width: '150px' }}
           >
