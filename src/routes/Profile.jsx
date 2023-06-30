@@ -1,5 +1,5 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
@@ -12,8 +12,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { fetchProfileInfo, updateProfileInfo } from '../model-helpers';
 import { getBlobFromSolid } from '../utils';
+// Contexts Imports
+import { SignedInUserContext } from '../contexts';
 // Component Inputs
 import ProfileInputField from '../components/Profile/ProfileInputField';
 import ProfileImageField from '../components/Profile/ProfileImageField';
@@ -29,6 +30,7 @@ import ProfileImageField from '../components/Profile/ProfileImageField';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
+  const { fetchProfileInfo, updateProfileInfo } = useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
 

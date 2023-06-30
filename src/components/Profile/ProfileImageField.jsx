@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -9,8 +9,8 @@ import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
 import InputLabel from '@mui/material/InputLabel';
-// Utility Imports
-import { fetchProfileInfo, removeProfileImage, uploadProfileImg } from '../../model-helpers';
+// Contexts Imports
+import { SignedInUserContext } from '../../contexts';
 
 /**
  * profileImageFieldProps is an object that stores the props for the ProfileInputField
@@ -40,6 +40,8 @@ import { fetchProfileInfo, removeProfileImage, uploadProfileImg } from '../../mo
  */
 const ProfileImageField = ({ loadProfileData, imgFile, setImgFile, profileImg }) => {
   const { session } = useSession();
+  const { fetchProfileInfo, removeProfileImage, uploadProfileImg } =
+    useContext(SignedInUserContext);
 
   const handleProfileImage = async () => {
     const profileData = await fetchProfileInfo(session);

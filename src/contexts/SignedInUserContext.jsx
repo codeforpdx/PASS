@@ -5,7 +5,13 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
 import { createPublicContainer } from '../utils';
-import { updateUserActivity } from '../model-helpers';
+import {
+  fetchProfileInfo,
+  updateProfileInfo,
+  uploadProfileImg,
+  removeProfileImage,
+  updateUserActivity
+} from '../model-helpers';
 
 /**
  * React Context for users list from Solid Pod
@@ -34,7 +40,11 @@ export const SignedInUserContextProvider = ({ children }) => {
 
   const userInfoMemo = useMemo(
     () => ({
-      podUrl: userInfo.podUrl
+      podUrl: userInfo.podUrl,
+      fetchProfileInfo,
+      updateProfileInfo,
+      uploadProfileImg,
+      removeProfileImage
     }),
     [userInfo, loadingUserInfo]
   );
