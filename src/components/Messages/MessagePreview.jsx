@@ -21,7 +21,7 @@ import NewMessage from './NewMessage';
  * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
  */
-const MessagePreview = ({ message }) => {
+const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [replyMessage, setReplyMessage] = useState(false);
 
@@ -40,7 +40,7 @@ const MessagePreview = ({ message }) => {
         <StyledHeader>
           {message.sender} - {message.title}
         </StyledHeader>
-        {showContents && (
+        {showContents && folderType === 'Inbox' && (
           <Button variant="outlined" type="button" onClick={handleReplyMessage}>
             Reply
           </Button>

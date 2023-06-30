@@ -67,7 +67,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         ) : (
           currentMessages &&
           currentMessages.map((message) => (
-            <MessagePreview key={message.messageId} message={message} />
+            <MessagePreview key={message.messageId} message={message} folderType={folderType} />
           ))
         )}
       </Box>

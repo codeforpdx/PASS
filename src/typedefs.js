@@ -149,6 +149,7 @@ const React = require('react');
  * @exports messagePreviewProps
  * @typedef {object} messagePreviewProps
  * @property {string} message - The content of the message sent
+ * @property {string} folderType - Type of message box
  * @memberof typedefs
  */
 
