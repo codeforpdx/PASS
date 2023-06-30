@@ -5,7 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
 import { createPublicContainer } from '../utils';
-import { updateUserActivity, updateActivity } from '../model-helpers';
+import { updateUserActivity } from '../model-helpers';
 
 /**
  * React Context for users list from Solid Pod
@@ -44,7 +44,6 @@ export const SignedInUserContextProvider = ({ children }) => {
       try {
         const { webId } = session.info;
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
-        await updateActivity(session, webId);
         podUrl = podUrl || webId.split('profile')[0];
         setUserInfo({
           ...userInfo,

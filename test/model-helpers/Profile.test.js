@@ -22,8 +22,9 @@ describe('fetchProfileInfo', () => {
     const results = await fetchProfileInfo(session);
 
     expect(results).toHaveProperty('profileInfo.profileName');
-    expect(results).toHaveProperty('profileInfo.organization');
+    expect(results).toHaveProperty('profileInfo.nickname');
+    expect(results).toHaveProperty('profileInfo.profileImage');
     expect(results).toHaveProperty('profileDataset');
-    expect(results).toHaveProperty('profileThingAll');
+    expect(results).toHaveProperty('profileThing');
   });
 });

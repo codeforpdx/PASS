@@ -1,4 +1,4 @@
-import { SCHEMA_INRUPT, RDF } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, RDF, FOAF } from '@inrupt/vocab-common-rdf';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
@@ -25,8 +25,8 @@ const RDF_PREDICATES = {
   profileName: 'http://xmlns.com/foaf/0.1/name',
   sha256: 'https://schema.org/sha256',
   accountablePerson: 'https://schema.org/accountablePerson',
-  organization: 'https://schema.org/Organization',
-  dateRead: 'https://schema.org/dateRead',
+  profileImg: FOAF.img,
+  nickname: FOAF.nick,
   type: RDF.type
 };
 

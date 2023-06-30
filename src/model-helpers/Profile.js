@@ -1,11 +1,13 @@
 import {
   buildThing,
-  createThing,
+  deleteFile,
   getStringNoLocale,
   getThing,
+  getUrl,
   getWebIdDataset,
   removeStringNoLocale,
-  removeThing,
+  removeUrl,
+  saveFileInContainer,
   saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
@@ -26,23 +28,17 @@ import { RDF_PREDICATES } from '../constants';
  */
 export const fetchProfileInfo = async (session) => {
   const profileDataset = await getWebIdDataset(session.info.webId);
-  const profileThingMe = getThing(profileDataset, session.info.webId);
-  const profileThingOrg = getThing(
-    profileDataset,
-    session.info.webId.replace('#me', '#organization')
-  );
+  const profileThing = getThing(profileDataset, session.info.webId);
 
-  const profileName = getStringNoLocale(profileThingMe, RDF_PREDICATES.profileName);
-  const organization = profileThingOrg
-    ? getStringNoLocale(profileThingOrg, RDF_PREDICATES.name)
-    : null;
+  const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
+  const nickname = getStringNoLocale(profileThing, RDF_PREDICATES.nickname);
+  const profileImage = getUrl(profileThing, RDF_PREDICATES.profileImg);
 
-  const profileInfo = { profileName, organization };
-  const profileThingAll = { profileThingMe, profileThingOrg };
+  const profileInfo = { profileName, nickname, profileImage };
 
   // TODO: include more fields to the object like organization, address, etc.
   // when expanding this feature
-  return { profileInfo, profileDataset, profileThingAll };
+  return { profileInfo, profileDataset, profileThing };
 };
 
 /**
@@ -59,11 +55,8 @@ export const fetchProfileInfo = async (session) => {
  * user's profile card
  */
 export const updateProfileInfo = async (session, profileData, inputValues) => {
-  let { profileDataset } = profileData;
-  const { profileInfo, profileThingAll } = profileData;
-  let { profileThingMe } = profileThingAll;
-  const { profileThingOrg } = profileThingAll;
-  let newProfileThing;
+  let { profileDataset, profileThing } = profileData;
+  const { profileInfo } = profileData;
 
   Object.keys(inputValues).forEach((input) => {
     switch (inputValues[input]) {
@@ -72,57 +65,75 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
       case 'No value set':
         return;
       case '':
-        if (input === 'organization') {
-          profileDataset = removeThing(profileDataset, profileThingOrg);
-        } else {
-          profileThingMe = removeStringNoLocale(
-            profileThingMe,
-            RDF_PREDICATES[input],
-            profileInfo[input]
-          );
-        }
+        profileThing = removeStringNoLocale(
+          profileThing,
+          RDF_PREDICATES[input],
+          profileInfo[input]
+        );
         break;
       default:
-        if (input === 'organization') {
-          newProfileThing = buildThing(createThing({ name: 'organization' }))
-            .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.organization)
-            .addStringNoLocale(RDF_PREDICATES.name, inputValues[input])
-            .build();
-        } else {
-          profileThingMe = buildThing(profileThingMe)
-            .setStringNoLocale(RDF_PREDICATES[input], inputValues[input])
-            .build();
-        }
+        profileThing = buildThing(profileThing)
+          .setStringNoLocale(RDF_PREDICATES[input], inputValues[input])
+          .build();
         break;
     }
   });
 
-  profileDataset = setThing(profileDataset, profileThingMe);
-  if (newProfileThing) {
-    profileDataset = setThing(profileDataset, newProfileThing);
-  }
+  profileDataset = setThing(profileDataset, profileThing);
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 };
 
 /**
- * A function that saves the latest date user has logged into PASS as dateRead
- * inside user's profile card
+ * Function that upload profile image of user onto their profile container and
+ * reference it on their
  *
- * @function updateActivity
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} webId - WebId of the user to update last login date in profile
- * card
- * @returns {Promise} Promise - Saves the latest date user has logged in PASS
- * into profile card as dateRead
+ * @param {object} profileData - The object containing the information related
+ * to the person on their profile card, the profile dataset, and the profile Thing
+ * @param {Blob} inputImage - File blob being uploaded for profile image
  */
-export const updateActivity = async (session, webId) => {
-  let profileDataset = await getWebIdDataset(webId);
-  let profileThing = getThing(profileDataset, webId);
+export const uploadProfileImg = async (session, profileData, inputImage) => {
+  let { profileDataset, profileThing } = profileData;
 
-  profileThing = buildThing(profileThing).setDate(RDF_PREDICATES.dateRead, new Date()).build();
+  const profileContainer = `${session.info.webId.split('profile')[0]}profile/`;
+  const profileImgFilename = inputImage.name.replace(' ', '%20');
+
+  await saveFileInContainer(profileContainer, inputImage, {
+    slug: profileImgFilename,
+    contentType: inputImage.type,
+    fetch: session.fetch
+  });
+
+  profileThing = buildThing(profileThing)
+    .addUrl(RDF_PREDICATES.profileImg, `${profileContainer}${profileImgFilename}`)
+    .build();
 
   profileDataset = setThing(profileDataset, profileThing);
 
-  await saveSolidDatasetAt(webId, profileDataset, { fetch: session.fetch });
+  await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+};
+
+/**
+ * Function that removes the profile image being used on their Pod and removes
+ * the field for profile image
+ *
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} profileData - The object containing the information related
+ * to the person on their profile card, the profile dataset, and the profile Thing
+ * @returns {Promise} Promise - Perform action that removes the profile image from
+ * the profile card and the profile image
+ */
+export const removeProfileImage = async (session, profileData) => {
+  let { profileDataset, profileThing } = profileData;
+  const profileImg = getUrl(profileThing, RDF_PREDICATES.profileImg);
+
+  if (profileImg) {
+    profileThing = removeUrl(profileThing, RDF_PREDICATES.profileImg, profileImg);
+
+    profileDataset = setThing(profileDataset, profileThing);
+    await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+
+    await deleteFile(profileImg, { fetch: session.fetch });
+  }
 };

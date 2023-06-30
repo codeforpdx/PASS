@@ -13,8 +13,10 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
 import { fetchProfileInfo, updateProfileInfo } from '../model-helpers';
+import { getBlobFromSolid } from '../utils';
 // Component Inputs
 import ProfileInputField from '../components/Profile/ProfileInputField';
+import ProfileImageField from '../components/Profile/ProfileImageField';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -31,14 +33,23 @@ const Profile = () => {
   localStorage.setItem('restorePath', location.pathname);
 
   const [profileName, setProfileName] = useState(null);
-  const [organization, setOrganization] = useState(null);
+  const [nickname, setNickname] = useState(null);
+  const [profileImg, setProfileImg] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileObject = await fetchProfileInfo(session);
 
     setProfileName(profileObject.profileInfo.profileName);
-    setOrganization(profileObject.profileInfo.organization);
+    setNickname(profileObject.profileInfo.nickname);
+
+    let profileImageBlob;
+
+    if (profileObject.profileInfo.profileImage) {
+      profileImageBlob = await getBlobFromSolid(session, profileObject.profileInfo.profileImage);
+    }
+    setProfileImg(profileImageBlob);
   };
 
   const handleCancelEdit = () => {
@@ -57,7 +68,7 @@ const Profile = () => {
 
     const inputValues = {
       profileName,
-      organization
+      nickname
     };
 
     await updateProfileInfo(session, profileData, inputValues);
@@ -89,6 +100,47 @@ const Profile = () => {
             <Box
               sx={{
                 display: 'flex',
+                gap: '10px',
+                marginBottom: 2
+              }}
+            >
+              {edit ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    type="button"
+                    color="error"
+                    endIcon={<ClearIcon />}
+                    onClick={handleCancelEdit}
+                    sx={{ width: '100px' }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    type="submit"
+                    endIcon={<CheckIcon />}
+                    sx={{ width: '100px' }}
+                  >
+                    Update
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  variant="outlined"
+                  type="button"
+                  color="primary"
+                  endIcon={<EditIcon />}
+                  onClick={handleEditInput}
+                  sx={{ width: '100px' }}
+                >
+                  Edit
+                </Button>
+              )}
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
                 flexDirection: 'column',
                 gap: '10px'
               }}
@@ -100,54 +152,19 @@ const Profile = () => {
                 edit={edit}
               />
               <ProfileInputField
-                inputName="Organization"
-                inputValue={organization}
-                setInputValue={setOrganization}
+                inputName="Nickname"
+                inputValue={nickname}
+                setInputValue={setNickname}
                 edit={edit}
               />
-              <Box
-                sx={{
-                  display: 'flex',
-                  gap: '10px',
-                  marginTop: 2
-                }}
-              >
-                {edit ? (
-                  <>
-                    <Button
-                      variant="outlined"
-                      type="button"
-                      color="error"
-                      endIcon={<ClearIcon />}
-                      onClick={handleCancelEdit}
-                      sx={{ width: '100px' }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      type="submit"
-                      endIcon={<CheckIcon />}
-                      sx={{ width: '100px' }}
-                    >
-                      Update
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    variant="outlined"
-                    type="button"
-                    color="primary"
-                    endIcon={<EditIcon />}
-                    onClick={handleEditInput}
-                    sx={{ width: '100px' }}
-                  >
-                    Edit
-                  </Button>
-                )}
-              </Box>
             </Box>
           </form>
+          <ProfileImageField
+            loadProfileData={loadProfileData}
+            imgFile={imgFile}
+            setImgFile={setImgFile}
+            profileImg={profileImg}
+          />
         </Box>
       </Box>
     </Box>
