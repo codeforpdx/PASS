@@ -12,6 +12,32 @@ import InputLabel from '@mui/material/InputLabel';
 // Utility Imports
 import { fetchProfileInfo, removeProfileImage, uploadProfileImg } from '../../model-helpers';
 
+/**
+ * profileImageFieldProps is an object that stores the props for the ProfileInputField
+ * component
+ *
+ * @typedef profileImageFieldProps
+ * @type {object}
+ * @property {() => void} loadProfileData - The handler function for loading
+ * data from profile card
+ * @property {Blob} imgFile - The file blob user wish to upload into their profile
+ * card
+ * @property {(value: React.SetStateAction<null>) => void} setImgFile - Set
+ * function for profile image
+ * @property {Blob} profileImg - The existing file blob being used for profile
+ * card
+ * @memberof typedefs
+ */
+
+/**
+ * ProfileImageField Component - Component that creates the editable inputs fields
+ * for the Profile page
+ *
+ * @memberof Inbox
+ * @name ProfileImageField
+ * @param {profileImageFieldProps} Props - Props used for NewMessage
+ * @returns {React.JSX.Element} React component for NewMessage
+ */
 const ProfileImageField = ({ loadProfileData, imgFile, setImgFile, profileImg }) => {
   const { session } = useSession();
 
