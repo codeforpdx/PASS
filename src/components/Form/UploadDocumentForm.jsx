@@ -46,7 +46,7 @@ const UploadDocumentForm = () => {
     setVerifyFile(false);
     setDocType('');
     setFile('');
-    setInputKey(!inputKey); // clears file by forcing re-render
+    setInputKey(!inputKey); // Clears file by forcing re-render
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
