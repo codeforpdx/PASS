@@ -86,7 +86,7 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
 
 /**
  * Function that upload profile image of user onto their profile container and
- * reference it on their
+ * reference it on their Pod
  *
  * @function uploadProfileImage
  * @param {Session} session - Solid's Session Object {@link Session}

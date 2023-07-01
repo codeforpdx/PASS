@@ -16,8 +16,7 @@ import { getBlobFromSolid } from '../utils';
 // Contexts Imports
 import { SignedInUserContext } from '../contexts';
 // Component Inputs
-import ProfileInputField from '../components/Profile/ProfileInputField';
-import ProfileImageField from '../components/Profile/ProfileImageField';
+import { ProfileInputField, ProfileImageField } from '../components/Profile';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
