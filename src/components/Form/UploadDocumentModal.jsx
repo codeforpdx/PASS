@@ -5,11 +5,13 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import SearchIcon from '@mui/icons-material/Search';
+import BackspaceOutlined from '@mui/icons-material/BackspaceOutlined';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -49,7 +51,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     setVerifyFile(false);
     setDocType('');
     setFile('');
-    setInputKey(!inputKey); // clears file by forcing re-render
+    setInputKey(!inputKey); // Clears file by forcing re-render
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
@@ -106,21 +108,21 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         defaultMessage="To be uploaded..."
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Verify file on upload"
-            id="verify-checkbox"
-            value={verifyFile}
-            checked={verifyFile}
-            onChange={() => setVerifyFile(!verifyFile)}
-          />
-          <DocumentSelection
-            htmlForAndIdProp="upload-doc"
-            handleDocType={handleDocType}
-            docType={docType}
-          />
-          <br />
           <FormControl fullWidth>
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Verify file on upload"
+              id="verify-checkbox"
+              value={verifyFile}
+              checked={verifyFile}
+              onChange={() => setVerifyFile(!verifyFile)}
+            />
+            <DocumentSelection
+              htmlForAndIdProp="upload-doc"
+              handleDocType={handleDocType}
+              docType={docType}
+            />
+            <br />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 name="date"
@@ -132,10 +134,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               />
               <FormHelperText>MM/DD/YYYY</FormHelperText>
             </LocalizationProvider>
-          </FormControl>
-          <br />
-          <br />
-          <FormControl fullWidth>
+            <br />
             <TextField
               name="description"
               multiline
@@ -145,14 +144,22 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
             />
-          </FormControl>
-          <br />
-          <br />
-          <FormControl fullWidth>
+            <br />
+            {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
+            <Button
+              variant="contained"
+              type="button"
+              color="secondary"
+              onClick={clearInputFields}
+              endIcon={<BackspaceOutlined />}
+            >
+              Clear Form
+            </Button>
+            <br />
             <Button
               variant="contained"
               component="label"
-              color="primary"
+              color="tertiary"
               id="upload-doctype"
               name="uploadDoctype"
               onChange={(e) => setFile(e.target.files[0])}
@@ -172,29 +179,27 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             >
               File to upload: {file ? file.name : 'No file selected'}
             </FormHelperText>
-            <Button
-              variant="contained"
-              disabled={state.processing || !file}
-              type="submit"
-              color="primary"
-              startIcon={<FileUploadIcon />}
-            >
-              Upload file
-            </Button>
-          </FormControl>
-          <br />
-          <br />
-          {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
-          <FormControl fullWidth>
-            <Button
-              variant="contained"
-              type="button"
-              color="secondary"
-              onClick={clearInputFields}
-              startIcon={<ClearIcon />}
-            >
-              Clear Form
-            </Button>
+            <DialogActions>
+              <Button
+                variant="outlined"
+                color="error"
+                endIcon={<ClearIcon />}
+                onClick={() => setShowModal(false)}
+                fullWidth
+              >
+                CANCEL
+              </Button>
+              <Button
+                variant="contained"
+                disabled={state.processing || !file}
+                type="submit"
+                color="primary"
+                startIcon={<FileUploadIcon />}
+                fullWidth
+              >
+                Upload
+              </Button>
+            </DialogActions>
           </FormControl>
         </form>
       </FormSection>
