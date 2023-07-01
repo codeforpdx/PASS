@@ -38,7 +38,7 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
       return 1;
     }
     return 0;
-  }
+  };
 
   const userListCopy = [...userListObject.userList];
 
