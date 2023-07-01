@@ -8,7 +8,7 @@ import { createPublicContainer } from '../utils';
 import {
   fetchProfileInfo,
   updateProfileInfo,
-  uploadProfileImg,
+  uploadProfileImage,
   removeProfileImage,
   updateUserActivity
 } from '../model-helpers';
@@ -35,15 +35,19 @@ export const SignedInUserContextProvider = ({ children }) => {
   const { session } = useSession();
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [userInfo, setUserInfo] = useState({
-    podUrl: null
+    podUrl: null,
+    profileData: null
   });
 
   const userInfoMemo = useMemo(
     () => ({
       podUrl: userInfo.podUrl,
+      profileData: userInfo.profileData,
+      userInfo,
+      setUserInfo,
       fetchProfileInfo,
       updateProfileInfo,
-      uploadProfileImg,
+      uploadProfileImage,
       removeProfileImage
     }),
     [userInfo, loadingUserInfo]
@@ -55,9 +59,11 @@ export const SignedInUserContextProvider = ({ children }) => {
         const { webId } = session.info;
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         podUrl = podUrl || webId.split('profile')[0];
+        const profileData = await fetchProfileInfo(session);
         setUserInfo({
           ...userInfo,
-          podUrl
+          podUrl,
+          profileData
         });
         await Promise.all([
           updateUserActivity(session, podUrl),

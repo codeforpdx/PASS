@@ -30,7 +30,8 @@ import ProfileImageField from '../components/Profile/ProfileImageField';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { fetchProfileInfo, updateProfileInfo } = useContext(SignedInUserContext);
+  const { updateProfileInfo, userInfo, setUserInfo, fetchProfileInfo, profileData } =
+    useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
 
@@ -40,15 +41,16 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
-    const profileObject = await fetchProfileInfo(session);
+    const profileDataSolid = await fetchProfileInfo(session);
+    setUserInfo({ ...userInfo, profileData: profileDataSolid });
 
-    setProfileName(profileObject.profileInfo.profileName);
-    setNickname(profileObject.profileInfo.nickname);
+    setProfileName(profileDataSolid.profileInfo.profileName);
+    setNickname(profileDataSolid.profileInfo.nickname);
 
     let profileImageBlob;
 
-    if (profileObject.profileInfo.profileImage) {
-      profileImageBlob = await getBlobFromSolid(session, profileObject.profileInfo.profileImage);
+    if (profileDataSolid.profileInfo.profileImage) {
+      profileImageBlob = await getBlobFromSolid(session, profileDataSolid.profileInfo.profileImage);
     }
     setProfileImg(profileImageBlob);
   };
@@ -65,7 +67,6 @@ const Profile = () => {
 
   const handleUpdateProfile = async (event) => {
     event.preventDefault();
-    const profileData = await fetchProfileInfo(session);
 
     const inputValues = {
       profileName,

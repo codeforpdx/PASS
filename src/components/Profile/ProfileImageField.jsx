@@ -37,20 +37,16 @@ import { SignedInUserContext } from '../../contexts';
  */
 const ProfileImageField = ({ loadProfileData, profileImg }) => {
   const { session } = useSession();
-  const { fetchProfileInfo, removeProfileImage, uploadProfileImg } =
-    useContext(SignedInUserContext);
+  const { profileData, removeProfileImage, uploadProfileImage } = useContext(SignedInUserContext);
 
   const handleProfileImage = async (event) => {
-    const profileData = await fetchProfileInfo(session);
-
-    await uploadProfileImg(session, profileData, event.target.files[0]);
+    await uploadProfileImage(session, profileData, event.target.files[0]);
 
     loadProfileData();
   };
 
   const handleRemoveProfileImg = async () => {
     if (window.confirm("You're about to delete your profile image. Do you wish to continue?")) {
-      const profileData = await fetchProfileInfo(session);
       await removeProfileImage(session, profileData);
 
       loadProfileData();

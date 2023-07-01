@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,7 +21,15 @@ import { useTheme } from '@mui/material/styles';
  * @name NavMenu
  */
 
-const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
+const NavMenu = ({
+  menuId,
+  openMenu,
+  setOpenMenu,
+  anchorEl,
+  setAnchorEl,
+  setShowConfirmation,
+  profileImageBlob
+}) => {
   const theme = useTheme();
 
   const handleMenuClose = () => {
@@ -53,7 +62,20 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           </Button>
         </MenuItem>
         <MenuItem>
-          <Button variant="text" startIcon={<AccountCircle />}>
+          <Button
+            variant="text"
+            startIcon={
+              profileImageBlob ? (
+                <Avatar
+                  src={profileImageBlob}
+                  alt="PASS profile"
+                  sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
+                />
+              ) : (
+                <AccountCircle />
+              )
+            }
+          >
             <NavLink
               to="/PASS/profile"
               style={{ textDecoration: 'none', color: theme.palette.primary.main }}

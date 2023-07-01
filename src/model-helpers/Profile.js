@@ -88,12 +88,13 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
  * Function that upload profile image of user onto their profile container and
  * reference it on their
  *
+ * @function uploadProfileImage
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} profileData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
  * @param {Blob} inputImage - File blob being uploaded for profile image
  */
-export const uploadProfileImg = async (session, profileData, inputImage) => {
+export const uploadProfileImage = async (session, profileData, inputImage) => {
   let { profileDataset, profileThing } = profileData;
 
   const profileContainer = `${session.info.webId.split('profile')[0]}profile/`;
@@ -118,6 +119,7 @@ export const uploadProfileImg = async (session, profileData, inputImage) => {
  * Function that removes the profile image being used on their Pod and removes
  * the field for profile image
  *
+ * @function removeProfileImage
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} profileData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing

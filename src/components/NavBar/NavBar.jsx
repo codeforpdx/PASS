@@ -1,9 +1,10 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
@@ -15,6 +16,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+// Utility Imports
+import { getBlobFromSolid } from '../../utils';
+// Contexts Imports
+import { SignedInUserContext } from '../../contexts';
 // Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavbarLinks from './NavbarLinks';
@@ -59,6 +64,22 @@ const NavBar = () => {
     localStorage.clear();
     setShowConfirmationModal(false);
   };
+
+  const { profileData } = useContext(SignedInUserContext);
+  const [profileImageBlob, setProfileImageBlob] = useState(null);
+
+  const loadProfileImage = async () => {
+    if (profileData?.profileInfo.profileImage) {
+      const imageBlob = await getBlobFromSolid(session, profileData.profileInfo.profileImage);
+      setProfileImageBlob(imageBlob);
+    } else {
+      setProfileImageBlob(null);
+    }
+  };
+
+  useEffect(() => {
+    loadProfileImage();
+  }, [profileData]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -117,7 +138,15 @@ const NavBar = () => {
                   onClick={handleOpenMenu}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  {profileImageBlob ? (
+                    <Avatar
+                      src={profileImageBlob}
+                      alt="PASS profile"
+                      sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
+                    />
+                  ) : (
+                    <AccountCircle />
+                  )}
                 </IconButton>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -140,6 +169,7 @@ const NavBar = () => {
                   anchorEl={anchorEl}
                   setAnchorEl={setAnchorEl}
                   setShowConfirmation={setShowConfirmationModal}
+                  profileImageBlob={profileImageBlob}
                 />
               )}
               {/* modal/popup renders when showConfirmationModal state is true */}
