@@ -44,6 +44,8 @@ export const SignedInUserContextProvider = ({ children }) => {
       podUrl: userInfo.podUrl,
       profileData: userInfo.profileData,
       setProfileData: async (profileData) => setUserInfo({ ...userInfo, profileData }),
+      loadProfileData: async () =>
+        setUserInfo({ ...userInfo, profileData: await fetchProfileInfo(session) }),
       fetchProfileInfo,
       updateProfileInfo,
       uploadProfileImage,
@@ -59,6 +61,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         podUrl = podUrl || webId.split('profile')[0];
         const profileData = await fetchProfileInfo(session);
+        localStorage.setItem('restoreProfileData', JSON.stringify(profileData));
         setUserInfo({
           ...userInfo,
           podUrl,

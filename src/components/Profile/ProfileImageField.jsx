@@ -19,10 +19,9 @@ import { SignedInUserContext } from '../../contexts';
  *
  * @typedef profileImageFieldProps
  * @type {object}
- * @property {() => void} loadProfileData - The handler function for loading
- * data from profile card
  * @property {Blob} profileImg - The existing file blob being used for profile
  * card
+ * @property {() => void} setProfileImg - Set function for profileImg
  * @memberof typedefs
  */
 
@@ -35,9 +34,10 @@ import { SignedInUserContext } from '../../contexts';
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ loadProfileData, profileImg }) => {
+const ProfileImageField = ({ profileImg, setProfileImg }) => {
   const { session } = useSession();
-  const { profileData, removeProfileImage, uploadProfileImage } = useContext(SignedInUserContext);
+  const { profileData, loadProfileData, removeProfileImage, uploadProfileImage } =
+    useContext(SignedInUserContext);
 
   const handleProfileImage = async (event) => {
     await uploadProfileImage(session, profileData, event.target.files[0]);
@@ -50,6 +50,8 @@ const ProfileImageField = ({ loadProfileData, profileImg }) => {
       await removeProfileImage(session, profileData);
 
       loadProfileData();
+      localStorage.setItem('profileImageBlob', null);
+      setProfileImg(null);
     }
   };
 

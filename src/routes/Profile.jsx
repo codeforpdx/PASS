@@ -13,8 +13,6 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getBlobFromSolid } from '../utils';
-// Custom Hook Imports
-import { useStateLocalStorage } from '../hooks';
 // Contexts Imports
 import { SignedInUserContext } from '../contexts';
 // Component Inputs
@@ -32,33 +30,37 @@ import ProfileImageField from '../components/Profile/ProfileImageField';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { updateProfileInfo, setProfileData, fetchProfileInfo, profileData } =
-    useContext(SignedInUserContext);
+  const { updateProfileInfo, loadProfileData, profileData } = useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const [profileName, setProfileName] = useStateLocalStorage('profileName');
-  const [nickname, setNickname] = useStateLocalStorage('nickname');
-  const [profileImg, setProfileImg] = useStateLocalStorage('profileImg');
+  const restoredProfileData = JSON.parse(localStorage.getItem('restoreProfileData'));
 
-  const [edit, setEdit] = useState(false);
+  const [profileName, setProfileName] = useState(
+    profileData?.profileInfo.profileName || restoredProfileData.profileInfo?.profileName
+  );
+  const [nickname, setNickname] = useState(
+    profileData?.profileInfo.nickname || restoredProfileData.profileInfo?.nickname
+  );
+  const profileImgUrl =
+    profileData?.profileInfo.profileImage || restoredProfileData.profileInfo?.profileImage;
 
-  const loadProfileData = async () => {
-    const profileDataSolid = await fetchProfileInfo(session);
-    setProfileData(profileDataSolid);
+  const [profileImg, setProfileImg] = useState(
+    JSON.parse(localStorage.getItem('profileImageBlob'))
+  );
 
-    setProfileName(profileDataSolid.profileInfo.profileName);
-    setNickname(profileDataSolid.profileInfo.nickname);
-
-    let profileImageBlob;
-
-    if (profileDataSolid.profileInfo.profileImage) {
-      profileImageBlob = await getBlobFromSolid(session, profileDataSolid.profileInfo.profileImage);
+  const handleGetProfileImage = async () => {
+    if (profileImgUrl) {
+      const profileImageBlob = await getBlobFromSolid(session, profileImgUrl);
+      localStorage.setItem('profileImageBlob', JSON.stringify(profileImageBlob));
       setProfileImg(profileImageBlob);
     } else {
+      localStorage.setItem('profileImageBlob', null);
       setProfileImg(null);
     }
   };
+
+  const [edit, setEdit] = useState(false);
 
   const handleCancelEdit = () => {
     loadProfileData();
@@ -87,6 +89,10 @@ const Profile = () => {
   useEffect(() => {
     loadProfileData();
   }, []);
+
+  useEffect(() => {
+    handleGetProfileImage();
+  }, [profileImgUrl]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
@@ -166,7 +172,7 @@ const Profile = () => {
               />
             </Box>
           </form>
-          <ProfileImageField loadProfileData={loadProfileData} profileImg={profileImg} />
+          <ProfileImageField profileImg={profileImg} setProfileImg={setProfileImg} />
         </Box>
       </Box>
     </Box>
