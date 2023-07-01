@@ -29,24 +29,34 @@ import { ProfileInputField, ProfileImageField } from '../components/Profile';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { updateProfileInfo, loadProfileData, profileData } = useContext(SignedInUserContext);
+  const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
+    useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const restoredProfileData = JSON.parse(localStorage.getItem('restoreProfileData'));
+  const [profileName, setProfileName] = useState(profileData?.profileInfo.profileName);
+  const [nickname, setNickname] = useState(profileData?.profileInfo.nickname);
+  const [profileImgUrl, setProfileImgUrl] = useState(profileData?.profileInfo.profileImage);
 
-  const [profileName, setProfileName] = useState(
-    profileData?.profileInfo.profileName || restoredProfileData.profileInfo?.profileName
-  );
-  const [nickname, setNickname] = useState(
-    profileData?.profileInfo.nickname || restoredProfileData.profileInfo?.nickname
-  );
-  const profileImgUrl =
-    profileData?.profileInfo.profileImage || restoredProfileData.profileInfo?.profileImage;
-
+  // Note: initial getItem from localStorage after browser refresh will error
+  // since the old file blob will not longer be valid, however, because
+  // profileImgUrl would be reset, a new profileImageBlob would be set from
+  // handleGetProfileImage
   const [profileImg, setProfileImg] = useState(
     JSON.parse(localStorage.getItem('profileImageBlob'))
   );
+
+  const [edit, setEdit] = useState(false);
+
+  const loadProfileData = async () => {
+    const profileDataSolid = await fetchProfileInfo(session);
+    localStorage.setItem('restoreProfileData', JSON.stringify(profileDataSolid));
+    setProfileData(profileDataSolid);
+
+    setProfileName(profileDataSolid.profileInfo.profileName);
+    setNickname(profileDataSolid.profileInfo.nickname);
+    setProfileImgUrl(profileDataSolid.profileInfo.profileImage);
+  };
 
   const handleGetProfileImage = async () => {
     if (profileImgUrl) {
@@ -58,8 +68,6 @@ const Profile = () => {
       setProfileImg(null);
     }
   };
-
-  const [edit, setEdit] = useState(false);
 
   const handleCancelEdit = () => {
     loadProfileData();
@@ -171,7 +179,11 @@ const Profile = () => {
               />
             </Box>
           </form>
-          <ProfileImageField profileImg={profileImg} setProfileImg={setProfileImg} />
+          <ProfileImageField
+            profileImg={profileImg}
+            setProfileImg={setProfileImg}
+            loadProfileData={loadProfileData}
+          />
         </Box>
       </Box>
     </Box>

@@ -21,7 +21,9 @@ import { SignedInUserContext } from '../../contexts';
  * @type {object}
  * @property {Blob} profileImg - The existing file blob being used for profile
  * card
- * @property {() => void} setProfileImg - Set function for profileImg
+ * @property {React.Dispatch<any>} setProfileImg - Set function for profileImg
+ * @property {() => void} loadProfileData - Handler function for setting local
+ * state for profile card in PASS
  * @memberof typedefs
  */
 
@@ -34,10 +36,9 @@ import { SignedInUserContext } from '../../contexts';
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ profileImg, setProfileImg }) => {
+const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
   const { session } = useSession();
-  const { profileData, loadProfileData, removeProfileImage, uploadProfileImage } =
-    useContext(SignedInUserContext);
+  const { profileData, removeProfileImage, uploadProfileImage } = useContext(SignedInUserContext);
 
   const handleProfileImage = async (event) => {
     await uploadProfileImage(session, profileData, event.target.files[0]);
