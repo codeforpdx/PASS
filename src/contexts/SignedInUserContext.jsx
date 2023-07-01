@@ -43,8 +43,7 @@ export const SignedInUserContextProvider = ({ children }) => {
     () => ({
       podUrl: userInfo.podUrl,
       profileData: userInfo.profileData,
-      userInfo,
-      setUserInfo,
+      setProfileData: async (profileData) => setUserInfo({ ...userInfo, profileData }),
       fetchProfileInfo,
       updateProfileInfo,
       uploadProfileImage,

@@ -13,6 +13,8 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getBlobFromSolid } from '../utils';
+// Custom Hook Imports
+import { useStateLocalStorage } from '../hooks';
 // Contexts Imports
 import { SignedInUserContext } from '../contexts';
 // Component Inputs
@@ -30,19 +32,20 @@ import ProfileImageField from '../components/Profile/ProfileImageField';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { updateProfileInfo, userInfo, setUserInfo, fetchProfileInfo, profileData } =
+  const { updateProfileInfo, setProfileData, fetchProfileInfo, profileData } =
     useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
 
-  const [profileName, setProfileName] = useState(null);
-  const [nickname, setNickname] = useState(null);
-  const [profileImg, setProfileImg] = useState(null);
+  const [profileName, setProfileName] = useStateLocalStorage('profileName');
+  const [nickname, setNickname] = useStateLocalStorage('nickname');
+  const [profileImg, setProfileImg] = useStateLocalStorage('profileImg');
+
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileDataSolid = await fetchProfileInfo(session);
-    setUserInfo({ ...userInfo, profileData: profileDataSolid });
+    setProfileData(profileDataSolid);
 
     setProfileName(profileDataSolid.profileInfo.profileName);
     setNickname(profileDataSolid.profileInfo.nickname);
@@ -51,8 +54,10 @@ const Profile = () => {
 
     if (profileDataSolid.profileInfo.profileImage) {
       profileImageBlob = await getBlobFromSolid(session, profileDataSolid.profileInfo.profileImage);
+      setProfileImg(profileImageBlob);
+    } else {
+      setProfileImg(null);
     }
-    setProfileImg(profileImageBlob);
   };
 
   const handleCancelEdit = () => {

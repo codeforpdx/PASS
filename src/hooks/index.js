@@ -1,6 +1,7 @@
 import useField from './useField';
 import useRedirectUrl from './useRedirectUrl';
 import useStatusNotification from './useStatusNotification';
+import useStateLocalStorage from './useStateLocalStorage';
 
 /**
  * The hooks module contains custom hooks to assist with form handling or status
@@ -9,4 +10,4 @@ import useStatusNotification from './useStatusNotification';
  * @namespace hooks
  */
 
-export { useField, useRedirectUrl, useStatusNotification };
+export { useField, useRedirectUrl, useStatusNotification, useStateLocalStorage };
