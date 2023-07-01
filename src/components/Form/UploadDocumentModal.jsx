@@ -179,7 +179,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             <FormControl fullWidth>
               <Button
                 variant="contained"
-                disabled={state.processing}
+                disabled={state.processing || !file}
                 type="submit"
                 color="primary"
                 startIcon={<FileUploadIcon />}
