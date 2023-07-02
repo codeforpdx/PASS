@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
-import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
 // Contexts Imports
 import { SignedInUserContext } from '../../contexts';
 
@@ -66,9 +66,7 @@ const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
         gap: '10px'
       }}
     >
-      <InputLabel htmlFor="input-profile-pic" sx={{ color: 'black' }}>
-        Profile Image:{' '}
-      </InputLabel>
+      <Typography color="black">Profile Image: </Typography>
       {profileImg ? (
         <>
           <Avatar
