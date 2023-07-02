@@ -19,7 +19,7 @@ import ClientList from '../components/Clients/ClientList';
 
 const Clients = () => {
   // state for AddClientModal component
-  const [showModal, setShowModal] = useState(false);
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
 
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
@@ -32,14 +32,17 @@ const Clients = () => {
         size="small"
         aria-label="Add Client Button"
         startIcon={<AddIcon />}
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowAddClientModal(true)}
         sx={{ marginTop: '3rem' }}
       >
         Add Client
       </Button>
       <ClientList />
       {/* modal/popup renders when showConfirmationModal state is true */}
-      <AddClientModal showModal={showModal} setShowModal={setShowModal} />
+      <AddClientModal
+        showAddClientModal={showAddClientModal}
+        setShowAddClientModal={setShowAddClientModal}
+      />
     </Container>
   );
 };
