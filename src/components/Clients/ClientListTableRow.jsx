@@ -13,6 +13,8 @@ import { runNotification } from '../../utils';
 // Context Imports
 import { SelectedUserContext, UserListContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+// Component Imports
+import DeleteClientModal from './DeleteClientModal';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -28,6 +30,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
+  const [showDeleteClientModal, setShowClientDeleteModal] = useState(false);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -46,13 +49,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${client.person} from your client list, do you wish to continue?`
-      )
-    ) {
-      return;
-    }
+    setShowClientDeleteModal(false);
     runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
     await removeUser(client);
     runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
@@ -65,45 +62,55 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
   };
 
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">
-        <Checkbox
-          id={labelId}
-          color="primary"
-          checked={selectedUser.webId === client.webId}
-          inputProps={{
-            'aria-labelledby': labelId
-          }}
-          onClick={() => {
-            handleSelectClient(client);
-          }}
-        />
-      </StyledTableCell>
-      <StyledTableCell align="center">{client.person}</StyledTableCell>
-      {/* ***** TODO: Switch this webId to being a small Notes section */}
-      {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
-      {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
-      <StyledTableCell align="center">
-        <Link
-          to={client.webId}
-          target="_blank"
-          rel="noreferrer"
-          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-        >
-          Link to Pod Profile
-        </Link>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={handlePinClick}>
-          {pinnedIcon}
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleDeleteClient()}>
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </StyledTableCell>
-    </StyledTableRow>
+    <>
+      <StyledTableRow>
+        <StyledTableCell align="center">
+          <Checkbox
+            id={labelId}
+            color="primary"
+            checked={selectedUser.webId === client.webId}
+            inputProps={{
+              'aria-labelledby': labelId
+            }}
+            onClick={() => {
+              handleSelectClient(client);
+            }}
+          />
+        </StyledTableCell>
+        <StyledTableCell align="center">{client.person}</StyledTableCell>
+        {/* ***** TODO: Switch this webId to being a small Notes section */}
+        {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
+        {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
+        <StyledTableCell align="center">
+          <Link
+            to={client.webId}
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+          >
+            Link to Pod Profile
+          </Link>
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          <IconButton size="large" edge="end" onClick={handlePinClick}>
+            {pinnedIcon}
+          </IconButton>
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          <IconButton size="large" edge="end" onClick={() => setShowClientDeleteModal(true)}>
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+        </StyledTableCell>
+      </StyledTableRow>
+
+      {/* modal/popup renders when showDeleteClientModal state is true */}
+      <DeleteClientModal
+        showDeleteClientModal={showDeleteClientModal}
+        setShowClientDeleteModal={setShowClientDeleteModal}
+        client={client}
+        handleDeleteClient={handleDeleteClient}
+      />
+    </>
   );
 };
 
