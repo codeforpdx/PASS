@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -73,7 +72,7 @@ const NavBar = () => {
       const imageBlob = await getBlobFromSolid(session, profileData.profileInfo.profileImage);
       setProfileImageBlob(imageBlob);
     } else {
-      if (profileImageBlob) {
+      if (localStorage.getItem('loggedIn') === true) {
         URL.revokeObjectURL(profileImageBlob);
       }
       setProfileImageBlob(null);
@@ -141,15 +140,11 @@ const NavBar = () => {
                   onClick={handleOpenMenu}
                   color="inherit"
                 >
-                  {profileImageBlob ? (
-                    <Avatar
-                      src={profileImageBlob}
-                      alt="PASS profile"
-                      sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
-                    />
-                  ) : (
-                    <AccountCircle />
-                  )}
+                  <Avatar
+                    src={profileImageBlob}
+                    alt="PASS profile"
+                    sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
+                  />
                 </IconButton>
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

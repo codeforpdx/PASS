@@ -64,9 +64,7 @@ const Profile = () => {
       localStorage.setItem('profileImageBlob', JSON.stringify(profileImageBlob));
       setProfileImg(profileImageBlob);
     } else {
-      if (profileImg) {
-        URL.revokeObjectURL(profileImg);
-      }
+      URL.revokeObjectURL(profileImg);
       localStorage.setItem('profileImageBlob', null);
       setProfileImg(null);
     }
@@ -102,7 +100,7 @@ const Profile = () => {
 
   useEffect(() => {
     handleGetProfileImage();
-  }, [profileImgUrl]);
+  }, [profileData]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
