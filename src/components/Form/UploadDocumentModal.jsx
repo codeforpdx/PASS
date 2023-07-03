@@ -1,17 +1,17 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Material UI Imports
+import BackspaceOutlined from '@mui/icons-material/BackspaceOutlined';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import BackspaceOutlined from '@mui/icons-material/BackspaceOutlined';
+import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -108,9 +108,12 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         defaultMessage="To be uploaded..."
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
+          <IconButton onClick={() => setShowModal(false)} sx={{ float: 'right' }}>
+            <ClearIcon fontSize="large" />
+          </IconButton>
           <FormControl fullWidth>
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Switch />}
               label="Verify file on upload"
               id="verify-checkbox"
               value={verifyFile}
@@ -132,7 +135,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                 type="date"
               />
-              <FormHelperText>MM/DD/YYYY</FormHelperText>
             </LocalizationProvider>
             <br />
             <TextField
@@ -159,7 +161,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             <Button
               variant="contained"
               component="label"
-              color="tertiary"
+              color="primary"
               id="upload-doctype"
               name="uploadDoctype"
               onChange={(e) => setFile(e.target.files[0])}
@@ -179,27 +181,17 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             >
               File to upload: {file ? file.name : 'No file selected'}
             </FormHelperText>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                color="error"
-                endIcon={<ClearIcon />}
-                onClick={() => setShowModal(false)}
-                fullWidth
-              >
-                CANCEL
-              </Button>
-              <Button
-                variant="contained"
-                disabled={state.processing || !file}
-                type="submit"
-                color="primary"
-                startIcon={<FileUploadIcon />}
-                fullWidth
-              >
-                Upload
-              </Button>
-            </DialogActions>
+            <br />
+            <Button
+              variant="contained"
+              disabled={state.processing || !file}
+              type="submit"
+              color="primary"
+              startIcon={<FileUploadIcon />}
+              fullWidth
+            >
+              Upload
+            </Button>
           </FormControl>
         </form>
       </FormSection>
