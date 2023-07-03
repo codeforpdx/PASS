@@ -61,8 +61,6 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
   Object.keys(inputValues).forEach((input) => {
     switch (inputValues[input]) {
       case null:
-      case 'null':
-      case 'No value set':
         return;
       case '':
         profileThing = removeStringNoLocale(
@@ -97,7 +95,7 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
 export const uploadProfileImage = async (session, profileData, inputImage) => {
   let { profileDataset, profileThing } = profileData;
 
-  const profileContainer = `${session.info.webId.split('profile')[0]}profile/`;
+  const profileContainer = `${session.info.webId.split('card')[0]}`;
   const profileImgFilename = inputImage.name.replace(' ', '%20');
 
   await saveFileInContainer(profileContainer, inputImage, {
