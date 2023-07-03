@@ -91,6 +91,8 @@ export const updateProfileInfo = async (session, profileData, inputValues) => {
  * @param {object} profileData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
  * @param {Blob} inputImage - File blob being uploaded for profile image
+ * @returns {Promise} Promise - Performs a file upload of your profile image onto
+ * your pod at /profile
  */
 export const uploadProfileImage = async (session, profileData, inputImage) => {
   let { profileDataset, profileThing } = profileData;
