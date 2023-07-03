@@ -64,7 +64,9 @@ const Profile = () => {
       localStorage.setItem('profileImageBlob', JSON.stringify(profileImageBlob));
       setProfileImg(profileImageBlob);
     } else {
-      URL.revokeObjectURL(profileImg);
+      if (profileImg) {
+        URL.revokeObjectURL(profileImg);
+      }
       localStorage.setItem('profileImageBlob', null);
       setProfileImg(null);
     }
