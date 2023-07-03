@@ -80,7 +80,7 @@ const React = require('react');
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
  * @property {string} description - Description of document
- * @property {object} file - An object which contain infomation about the file
+ * @property {object} file - An object which contain information about the file
  * being uploaded as well the document itself
  * @memberof typedefs
  */
