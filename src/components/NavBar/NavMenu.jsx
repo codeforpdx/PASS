@@ -2,7 +2,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 // Material UI Imports
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -65,15 +64,11 @@ const NavMenu = ({
           <Button
             variant="text"
             startIcon={
-              profileImageBlob ? (
-                <Avatar
-                  src={profileImageBlob}
-                  alt="PASS profile"
-                  sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
-                />
-              ) : (
-                <AccountCircle />
-              )
+              <Avatar
+                src={profileImageBlob}
+                alt="PASS profile"
+                sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
+              />
             }
           >
             <NavLink
