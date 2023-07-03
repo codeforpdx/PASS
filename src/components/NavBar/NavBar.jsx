@@ -73,6 +73,7 @@ const NavBar = () => {
       const imageBlob = await getBlobFromSolid(session, profileData.profileInfo.profileImage);
       setProfileImageBlob(imageBlob);
     } else {
+      URL.revokeObjectURL(profileImageBlob);
       setProfileImageBlob(null);
     }
   };

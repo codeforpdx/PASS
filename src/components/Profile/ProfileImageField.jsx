@@ -50,6 +50,7 @@ const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
       await removeProfileImage(session, profileData);
 
       loadProfileData();
+      URL.revokeObjectURL(profileImg);
       localStorage.setItem('profileImageBlob', null);
       setProfileImg(null);
     }
