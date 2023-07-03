@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -67,42 +66,35 @@ const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
       }}
     >
       <Typography color="black">Profile Image: </Typography>
+      <Avatar
+        src={profileImg}
+        alt="PASS profile"
+        sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
+      />
       {profileImg ? (
-        <>
-          <Avatar
-            src={profileImg}
-            alt="PASS profile"
-            sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
-          />
-          <Box sx={{ display: 'flex', gap: '10px' }}>
-            <Button
-              variant="outlined"
-              color="error"
-              sx={{ width: '150px' }}
-              onClick={handleRemoveProfileImg}
-              endIcon={<HideImageIcon />}
-            >
-              Remove Img
-            </Button>
-          </Box>
-        </>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ width: '150px' }}
+          onClick={handleRemoveProfileImg}
+          endIcon={<HideImageIcon />}
+        >
+          Remove Img
+        </Button>
       ) : (
-        <>
-          <AccountCircleIcon sx={{ height: '200px', width: '200px', color: 'lightgray' }} />
-          <Button
-            variant="outlined"
-            component="label"
-            color="primary"
-            id="input-profile-pic"
-            name="inputProfilePic"
-            onChange={handleProfileImage}
-            endIcon={<ImageIcon />}
-            sx={{ width: '150px' }}
-          >
-            Choose Img
-            <input type="file" hidden accept=".gif, .png, .tiff, .jpeg, .jpg, .webp" />
-          </Button>
-        </>
+        <Button
+          variant="outlined"
+          component="label"
+          color="primary"
+          id="input-profile-pic"
+          name="inputProfilePic"
+          onChange={handleProfileImage}
+          endIcon={<ImageIcon />}
+          sx={{ width: '150px' }}
+        >
+          Choose Img
+          <input type="file" hidden accept=".gif, .png, .tiff, .jpeg, .jpg, .webp" />
+        </Button>
       )}
     </Box>
   );
