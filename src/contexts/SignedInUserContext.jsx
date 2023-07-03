@@ -58,10 +58,13 @@ export const SignedInUserContextProvider = ({ children }) => {
         const { webId } = session.info;
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         podUrl = podUrl || webId.split('profile')[0];
+        setUserInfo({
+          ...userInfo,
+          podUrl
+        });
         const profileData = await fetchProfileInfo(session);
         setUserInfo({
           ...userInfo,
-          podUrl,
           profileData
         });
         await Promise.all([

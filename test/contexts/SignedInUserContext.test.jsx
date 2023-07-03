@@ -31,7 +31,7 @@ vi.mock('@inrupt/solid-ui-react', async () => {
         fetch: vi.fn(),
         info: {
           isLoggedIn: false,
-          webId: 'https://example.com/'
+          webId: 'https://example.com/pod/profile/card#me'
         }
       }
     }))
