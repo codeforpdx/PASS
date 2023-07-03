@@ -22,6 +22,14 @@ afterEach(() => {
   cleanup();
 });
 
+vi.mock('../../../src/constants/', () => {
+  const actual = vi.importActual('../../../src/constants/');
+  return {
+    ...actual,
+    SOLID_IDENTITY_PROVIDER: 'https://www.testurl.com/'
+  };
+});
+
 it('renders correctly', () => {
   const { container } = render(<OidcLoginComponent />);
   expect(container).toMatchSnapshot();
