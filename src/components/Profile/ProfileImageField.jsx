@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -37,10 +37,16 @@ import { SignedInUserContext } from '../../contexts';
  */
 const ProfileImageField = ({ loadProfileData }) => {
   const { session } = useSession();
-  const { profileData, removeProfileImage, uploadProfileImage } = useContext(SignedInUserContext);
+  const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
+    useContext(SignedInUserContext);
+  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
 
   const handleProfileImage = async (event) => {
     await uploadProfileImage(session, profileData, event.target.files[0]);
+
+    const updatedProfileData = await fetchProfileInfo(session);
+    localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
+    setProfileImg(updatedProfileData.profileInfo.profileImage);
 
     loadProfileData();
   };
@@ -50,6 +56,8 @@ const ProfileImageField = ({ loadProfileData }) => {
       await removeProfileImage(session, profileData);
 
       loadProfileData();
+      localStorage.removeItem('profileImage');
+      setProfileImg(null);
     }
   };
 
@@ -65,11 +73,11 @@ const ProfileImageField = ({ loadProfileData }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src="https://leekahung.opencommons.net/profile/Lee_KaHung_2017.jpeg"
+        src={profileImg}
         alt="PASS profile"
         sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
       />
-      {'https://leekahung.opencommons.net/profile/Lee_KaHung_2017.jpeg' ? (
+      {profileImg ? (
         <Button
           variant="outlined"
           color="error"

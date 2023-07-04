@@ -15,15 +15,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-// Utility Imports
-import { getBlobFromSolid } from '../../utils';
-// Contexts Imports
-import { SignedInUserContext } from '../../contexts';
 // Component Imports
 import LogoutModal from '../LogoutModal/LogoutModal';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 import OidcLoginComponent from './OidcLoginComponent';
+import { SignedInUserContext } from '../../contexts';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS
@@ -65,22 +62,10 @@ const NavBar = () => {
   };
 
   const { profileData } = useContext(SignedInUserContext);
-  const [profileImageBlob, setProfileImageBlob] = useState(null);
-
-  const loadProfileImage = async () => {
-    if (profileData?.profileInfo.profileImage) {
-      const imageBlob = await getBlobFromSolid(session, profileData.profileInfo.profileImage);
-      setProfileImageBlob(imageBlob);
-    } else {
-      if (localStorage.getItem('loggedIn') === true) {
-        URL.revokeObjectURL(profileImageBlob);
-      }
-      setProfileImageBlob(null);
-    }
-  };
+  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
 
   useEffect(() => {
-    loadProfileImage();
+    setProfileImg(localStorage.getItem('profileImage'));
   }, [profileData]);
 
   return (
@@ -141,7 +126,7 @@ const NavBar = () => {
                   color="inherit"
                 >
                   <Avatar
-                    src={profileImageBlob}
+                    src={profileImg}
                     alt="PASS profile"
                     sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
                   />
@@ -167,7 +152,7 @@ const NavBar = () => {
                   anchorEl={anchorEl}
                   setAnchorEl={setAnchorEl}
                   setShowConfirmation={setShowConfirmationModal}
-                  profileImageBlob={profileImageBlob}
+                  profileImg={profileImg}
                 />
               )}
               {/* modal/popup renders when showConfirmationModal state is true */}

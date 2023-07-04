@@ -27,7 +27,7 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
-  profileImageBlob
+  profileImg
 }) => {
   const theme = useTheme();
 
@@ -65,7 +65,7 @@ const NavMenu = ({
             variant="text"
             startIcon={
               <Avatar
-                src={profileImageBlob}
+                src={profileImg}
                 alt="PASS profile"
                 sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
               />
