@@ -1,6 +1,7 @@
 import AddClientModal from './AddClientModal';
 import ClientList from './ClientList';
 import ClientListTable from './ClientListTable';
+import DeleteClientModal from './DeleteClientModal';
 
 /**
  * Components and functions related to Clients functionality within project PASS
@@ -8,4 +9,4 @@ import ClientListTable from './ClientListTable';
  * @namespace Clients
  */
 
-export { AddClientModal, ClientList, ClientListTable };
+export { AddClientModal, ClientList, ClientListTable, DeleteClientModal };
