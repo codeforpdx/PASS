@@ -106,7 +106,6 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
 
   await saveFileInContainer(profileContainer, inputImage, {
     slug: profileImgFilename,
-    contentType: inputImage.type,
     fetch: session.fetch
   });
 
