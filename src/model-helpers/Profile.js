@@ -1,17 +1,21 @@
 import {
   buildThing,
+  createAcl,
   deleteFile,
+  getFile,
   getStringNoLocale,
   getThing,
   getUrl,
   getWebIdDataset,
   removeStringNoLocale,
   removeUrl,
+  saveAclFor,
   saveFileInContainer,
   saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '../constants';
+import { setupAcl } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -113,6 +117,21 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
   profileDataset = setThing(profileDataset, profileThing);
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+
+  // Create ACL file for profile image
+  const imageResource = await getFile(
+    `${session.info.webId.split('card')[0]}${profileImgFilename}`,
+    { fetch: session.fetch }
+  );
+
+  const resourceAcl = createAcl(imageResource);
+  const newAcl = setupAcl(
+    resourceAcl,
+    session.info.webId,
+    { read: true, write: true, control: true }, // personal access
+    { read: true } // public access
+  );
+  await saveAclFor(imageResource, newAcl, { fetch: session.fetch });
 };
 
 /**

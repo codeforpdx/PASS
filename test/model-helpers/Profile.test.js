@@ -6,6 +6,7 @@ import {
   updateProfileInfo,
   uploadProfileImage
 } from '../../src/model-helpers';
+import * as utils from '../../src/utils';
 
 let session = {};
 const mockWebId = 'https://example.com/pod/profile/card#me';
@@ -152,11 +153,17 @@ describe('uploadProfileImage', () => {
     };
     const mockImageData = new Blob(new Array(9).fill(0), { type: 'image/png' });
     const mockInputImage = new File([mockImageData], 'image.png', { type: 'image/png' });
+    const mockFileResource = solidClient.mockFileFrom('https://example.com/pod/profile/image.png');
+    const mockFileResourceWithAcl = solidClient.addMockResourceAclTo(mockFileResource);
 
     vi.spyOn(solidClient, 'saveFileInContainer');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'setThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
+    vi.spyOn(solidClient, 'getFile').mockResolvedValue(mockFileResource);
+    vi.spyOn(solidClient, 'createAcl');
+    vi.spyOn(utils, 'setupAcl').mockReturnValue(mockFileResourceWithAcl);
+    vi.spyOn(solidClient, 'saveAclFor');
 
     await uploadProfileImage(session, mockData, mockInputImage);
 
@@ -164,6 +171,10 @@ describe('uploadProfileImage', () => {
     expect(solidClient.buildThing).toBeCalled();
     expect(solidClient.setThing).toBeCalled();
     expect(solidClient.saveSolidDatasetAt).toBeCalled();
+    expect(solidClient.getFile).toBeCalled();
+    expect(solidClient.createAcl).toBeCalled();
+    expect(utils.setupAcl).toBeCalled();
+    expect(solidClient.saveAclFor).toBeCalled();
   });
 });
 
