@@ -26,7 +26,6 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@inrupt/solid-client": "^1.24.0",
-    "@inrupt/solid-client-authn-browser": "^1.16.0",
     "@inrupt/solid-ui-react": "^2.8.2",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@mui/base": "^5.0.0-beta.0",

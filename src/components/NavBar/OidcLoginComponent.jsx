@@ -30,7 +30,7 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={window.location.origin}>
+      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={window.location.href}>
         <Button
           variant="contained"
           type="submit"
