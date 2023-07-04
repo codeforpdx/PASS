@@ -11,8 +11,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-// Utility Imports
-import { getBlobFromSolid } from '../utils';
 // Contexts Imports
 import { SignedInUserContext } from '../contexts';
 // Component Inputs
@@ -36,15 +34,6 @@ const Profile = () => {
 
   const [profileName, setProfileName] = useState(profileData?.profileInfo.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo.nickname);
-  const [profileImgUrl, setProfileImgUrl] = useState(profileData?.profileInfo.profileImage);
-
-  // Note: initial getItem from localStorage after browser refresh will error
-  // since the old file blob will not longer be valid, however, because
-  // profileImgUrl would be reset, a new profileImageBlob would be set from
-  // handleGetProfileImage
-  const [profileImg, setProfileImg] = useState(
-    JSON.parse(localStorage.getItem('profileImageBlob'))
-  );
 
   const [edit, setEdit] = useState(false);
 
@@ -55,19 +44,6 @@ const Profile = () => {
 
     setProfileName(profileDataSolid.profileInfo.profileName);
     setNickname(profileDataSolid.profileInfo.nickname);
-    setProfileImgUrl(profileDataSolid.profileInfo.profileImage);
-  };
-
-  const handleGetProfileImage = async () => {
-    if (profileImgUrl) {
-      const profileImageBlob = await getBlobFromSolid(session, profileImgUrl);
-      localStorage.setItem('profileImageBlob', JSON.stringify(profileImageBlob));
-      setProfileImg(profileImageBlob);
-    } else {
-      URL.revokeObjectURL(profileImg);
-      localStorage.setItem('profileImageBlob', null);
-      setProfileImg(null);
-    }
   };
 
   const handleCancelEdit = () => {
@@ -97,10 +73,6 @@ const Profile = () => {
   useEffect(() => {
     loadProfileData();
   }, []);
-
-  useEffect(() => {
-    handleGetProfileImage();
-  }, [profileData]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
@@ -180,11 +152,7 @@ const Profile = () => {
               />
             </Box>
           </form>
-          <ProfileImageField
-            profileImg={profileImg}
-            setProfileImg={setProfileImg}
-            loadProfileData={loadProfileData}
-          />
+          <ProfileImageField loadProfileData={loadProfileData} />
         </Box>
       </Box>
     </Box>

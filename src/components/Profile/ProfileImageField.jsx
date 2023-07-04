@@ -35,7 +35,7 @@ import { SignedInUserContext } from '../../contexts';
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
+const ProfileImageField = ({ loadProfileData }) => {
   const { session } = useSession();
   const { profileData, removeProfileImage, uploadProfileImage } = useContext(SignedInUserContext);
 
@@ -50,9 +50,6 @@ const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
       await removeProfileImage(session, profileData);
 
       loadProfileData();
-      URL.revokeObjectURL(profileImg);
-      localStorage.setItem('profileImageBlob', null);
-      setProfileImg(null);
     }
   };
 
@@ -68,11 +65,11 @@ const ProfileImageField = ({ profileImg, setProfileImg, loadProfileData }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src={profileImg}
+        src="https://leekahung.opencommons.net/profile/Lee_KaHung_2017.jpeg"
         alt="PASS profile"
         sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
       />
-      {profileImg ? (
+      {'https://leekahung.opencommons.net/profile/Lee_KaHung_2017.jpeg' ? (
         <Button
           variant="outlined"
           color="error"
