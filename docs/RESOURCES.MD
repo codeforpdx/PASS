@@ -1,5 +1,5 @@
 ## PASS Development Resources and Tech Stack
-![tech stack](https://drive.google.com/uc?id=1hvs0XKI0hfdlGOJ_oRG-MqQTR9NCtmPy)
+
 -  [![Javascript](https://badges.aleen42.com/src/javascript.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 -  [![Node.JS](https://badges.aleen42.com/src/node.svg)](https://nodejs.org/en)
 -  [![NPM](https://badges.aleen42.com/src/npm.svg)](https://www.npmjs.com/)
@@ -14,10 +14,11 @@
 - <a href="https://www.inrupt.com/"><img src="https://docs.inrupt.com/inrupt-logo-small.svg" alt="InruptIcon" width="18" height="18"> Inrupt(solid library)
 -  <a href="https://eslint.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/ESLint_logo.svg/324px-ESLint_logo.svg.png?20211012234406" alt="SolidProjectIcon" width="18" height="18"> ESLint
 - 🗒️  [JSDoc](https://jsdoc.app/)
+  ![tech stack](https://drive.google.com/uc?id=1hvs0XKI0hfdlGOJ_oRG-MqQTR9NCtmPy)
 
 ---
 
-<h2 id="Additional Resources">📀Additional Resources</h2>
+## Additional Resources
 
 - [Google Slide intro to data management with solid](https://docs.google.com/presentation/d/1eMMB0Wd6lWin4BJPK4Vv3xwqAqVyURhvRlD8oxNi-3s/edit?usp=sharing)
 
@@ -34,3 +35,11 @@
    There is a textual syntax for RDF called Turtle that allows an RDF graph to be completely written in a compact and natural text form, with abbreviations for common usage patterns and data types. Read more on the Turtle spec [here](https://www.w3.org/TR/turtle/)
 
    With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
+
+## Similar Projects
+
+- [My Digital Data Locker](https://vimeo.com/mddl) — a similar project in Baltimore. [More info](https://www.aecf.org/blog/new-digital-data-locker-may-help-people-find-stable-housing). [GitHub](https://github.com/newamericafoundation/MDDL).
+- [AWS Kiip Digital Locker](https://vimeo.com/762041743) — a similar project using AWS.
+- [Digita](https://www.youtube.com/@Digita-ai) — Brussels start-up providing Enterprise Pods to the Flemish government. _Great videos to understand Solid Functionality_
+  - Also, read this [On-boarding with Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrastructure.
+

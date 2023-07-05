@@ -11,7 +11,7 @@
 [![Contributors](https://img.shields.io/github/contributors/codeforpdx/pass)](https://github.com/codeforpdx/PASS/graphs/contributors)
 ![Latest Commit](https://img.shields.io/github/last-commit/codeforpdx/PASS/Development)
 
-PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process.
+PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process. 
 
 # Table of Contents
 
@@ -22,9 +22,7 @@ PASS is an open source digital wallet for providing home insecure individuals a 
        - [Usage](#usage)
 3.  [Contribution Guidelines](#contribution-guidelines)
 4.  [Contributors](#contributors)
-5.  [Tech Stack](#tech-stack)
-6.  [Additional Resources](#additional-resources)
-       - [RDF and TTL](#rdf-and-ttl)
+5.  [Tech Stack and Additional Resources](./docs/RESOURCES.md)
 
 ---
 <h2 id="setup-instructions">1.🔧 Setup Instructions </h2>
@@ -59,7 +57,7 @@ PASS is an open source digital wallet for providing home insecure individuals a 
    ```
       npm run dev
    ```
-9. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
+8. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
 **[⬆️ Back to Top](#PASS)**
 
@@ -116,14 +114,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-<h2 id="tech-stack">4. 🧪 Tech Stack</h2>
-- further details on tech used [here](./docs/RESOURCES.MD)
-  
-**[⬆️ Back to Top](#PASS)**
-
----
-
-<h2 id="contributors">5. 💻 Contributors</h2>
+<h2 id="contributors">4. 💻 Contributors</h2>
 
 | Development Team | UI Team     | UX Team     | Project Management Team |
 | ---------------- | ----------- | ----------- | ----------------------- |
@@ -141,13 +132,12 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 \* Active Contributors
 
-**[⬆️ Back to Top](#PASS)**
-
 ---
 
-<h2 id="Additional Resources">6. 📀Additional Resources</h2>
+<h2 id="tech-stack">5. 🧪 Tech Stack</h2>
 
-- described in detail in [resources.md](./docs/RESOURCES.MD)
+- further details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
+
 
 **[⬆️ Back to Top](#PASS)**
 
