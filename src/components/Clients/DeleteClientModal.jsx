@@ -1,14 +1,21 @@
 // React Imports
-import React from 'react';
+import React, { useContext } from 'react';
 // Material UI Imports
+import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
+// Utility Imports
+import { runNotification } from '../../utils';
+// Custom Hook Imports
+import { useStatusNotification } from '../../hooks';
+// Context Imports
+import { UserListContext } from '../../contexts';
+// Component Imports
+import FormSection from '../Form/FormSection';
 
 /**
  * DeleteClientModal Component - Component that allows users to delete other user's
@@ -20,45 +27,82 @@ import CheckIcon from '@mui/icons-material/Check';
 
 const DeleteClientModal = ({
   showDeleteClientModal,
-  setShowClientDeleteModal,
-  client,
-  handleDeleteClient
-}) => (
-  <Dialog
-    open={showDeleteClientModal}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-description"
-    onClose={() => setShowClientDeleteModal(false)}
-  >
-    <DialogTitle id="dialog-tile">Delete Client?</DialogTitle>
+  setShowDeleteClientModal,
+  selectedClientToDelete
+}) => {
+  const { state, dispatch } = useStatusNotification();
+  const { removeUser } = useContext(UserListContext);
 
-    <DialogContent>
-      <DialogContentText id="dialog-description">
-        {`You're about to delete ${client.person} from your client list, do you wish to continue?`}
-      </DialogContentText>
-    </DialogContent>
+  // Event handler for deleting client from client list
+  const handleDeleteClient = async (event) => {
+    event.preventDefault();
+    runNotification(
+      `Deleting "${selectedClientToDelete.person}" from client list...`,
+      3,
+      state,
+      dispatch
+    );
+    try {
+      await removeUser(selectedClientToDelete);
+      // get it to show this deleted notification
+    } finally {
+      runNotification(
+        `"${selectedClientToDelete.person}" deleted from client list...`,
+        3,
+        state,
+        dispatch
+      );
+      setTimeout(() => {
+        setShowDeleteClientModal(false);
+      }, 1000);
+    }
+  };
 
-    <DialogActions>
-      <Button
-        variant="outlined"
-        color="error"
-        endIcon={<ClearIcon />}
-        onClick={() => setShowClientDeleteModal(false)}
+  return (
+    <Dialog
+      open={showDeleteClientModal}
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-description"
+      onClose={() => setShowDeleteClientModal(false)}
+    >
+      <FormSection
+        title="Delete Client"
+        state={state}
+        statusType="Status"
+        defaultMessage="To be deleted..."
       >
-        CANCEL
-      </Button>
+        <form onSubmit={handleDeleteClient} autoComplete="off">
+          <DialogContent>
+            <DialogContentText id="dialog-description">
+              {`You're about to delete ${selectedClientToDelete?.person} from your client list, do you wish to continue?`}
+            </DialogContentText>
+          </DialogContent>
 
-      <Button
-        variant="contained"
-        color="primary"
-        endIcon={<CheckIcon />}
-        sx={{ marginLeft: '1rem' }}
-        onClick={handleDeleteClient}
-      >
-        DELETE CLIENT
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<ClearIcon />}
+              onClick={() => setShowDeleteClientModal(false)}
+            >
+              CANCEL
+            </Button>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              endIcon={<CheckIcon />}
+              disabled={state.processing}
+              sx={{ marginLeft: '1rem' }}
+            >
+              DELETE CLIENT
+            </Button>
+          </DialogActions>
+        </form>
+      </FormSection>
+    </Dialog>
+  );
+};
 
 export default DeleteClientModal;

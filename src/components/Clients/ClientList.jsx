@@ -20,7 +20,7 @@ const ClientList = () => {
 
   const determineClientListTable = userListObject.userList?.length ? (
     // render if clients
-    <ClientListTable statusType="Status" defaultMessage="No actions performed" />
+    <ClientListTable />
   ) : (
     // render if no clients
     <EmptyListNotification type="clients" />
