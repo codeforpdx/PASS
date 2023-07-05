@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Page Imports
 import { Home, Clients, Messages, Documents, Profile } from './pages';
 

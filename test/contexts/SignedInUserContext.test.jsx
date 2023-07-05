@@ -8,7 +8,7 @@ import {
   buildThing,
   createThing
 } from '@inrupt/solid-client';
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';

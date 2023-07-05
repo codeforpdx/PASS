@@ -1,8 +1,7 @@
 // React Imports
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-// Inrupt Library Imports
-import { SessionProvider } from '@inrupt/solid-ui-react';
+import { SessionProvider } from '@contexts';
 // Material UI Imports
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

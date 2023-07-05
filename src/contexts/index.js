@@ -10,3 +10,4 @@ export * from './SelectedUserContext';
 export * from './UserListContext';
 export * from './MessageContext';
 export * from './DocumentListContext';
+export * from './SessionContext';

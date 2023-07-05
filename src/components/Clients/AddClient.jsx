@@ -1,29 +1,22 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-import { useSession, useStatusNotification, useField } from '@hooks';
-// Material UI Imports
-import Button from '@mui/material/Button';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
+import { useStatusNotification, useField, useSession } from '@hooks';
 // Utility Imports
 import { ENV } from '../../constants';
 import { runNotification } from '../../utils';
 import { createUser } from '../../model-helpers/User';
+// Custom Hook Imports
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
 
 /**
- * AddClientModal Component - Component that allows users to add other user's
+ * AddClient Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Clients
- * @name AddClientModal
+ * @memberof Forms
+ * @name AddClient
  */
 
 const renderWebId = (username) => {
@@ -32,10 +25,11 @@ const renderWebId = (username) => {
   return `${template[0]}${username}${template[1]}`;
 };
 
-const AddClientModal = ({ showModal, setShowModal }) => {
+const AddClient = () => {
+  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const [userGivenName, setUserGivenName] = useState('');
-  const [userFamilyName, setUserFamilyName] = useState('');
+  const { clearValue: clearUserGivenName, ...userGivenName } = useField('text');
+  const { clearValue: clearUserFamilyName, ...userFamilyName } = useField('text');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
   const { addUser } = useContext(UserListContext);
@@ -47,7 +41,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
   };
 
   const submitUser = async (userObject) => {
-    const user = await createUser(userObject);
+    const user = await createUser(session, userObject);
     await addUser(user);
   };
 
@@ -116,8 +110,8 @@ const AddClientModal = ({ showModal, setShowModal }) => {
         dispatch
       );
       setTimeout(() => {
-        setUserGivenName('');
-        setUserFamilyName('');
+        clearUserGivenName();
+        clearUserFamilyName();
         setUsername('');
         setWebId('');
         dispatch({ type: 'CLEAR_PROCESSING' });
@@ -125,96 +119,64 @@ const AddClientModal = ({ showModal, setShowModal }) => {
     }
   };
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <Dialog open={showModal} aria-labelledby="dialog-title" onClose={() => setShowModal(false)}>
-      <FormSection
-        title="Add Client"
-        state={state}
-        statusType="Status"
-        defaultMessage="To be added..."
+    <FormSection
+      title="Add Client"
+      state={state}
+      statusType="Status"
+      defaultMessage="To be added..."
+    >
+      <form
+        onSubmit={handleAddClient}
+        style={{ marginTop: '20px', marginBottom: '20px' }}
+        autoComplete="off"
       >
-        <form onSubmit={handleAddClient} autoComplete="off">
-          <FormControl fullWidth>
-            <TextField
-              id="add-user-given-name"
-              name="addUserGivenName"
-              label="First/given name"
-              autoComplete="given-name"
-              value={userGivenName}
-              onChange={(e) => setUserGivenName(e.target.value)}
-              required
-              fullWidth
-              autoFocus
-            />
-          </FormControl>
+        <div>
+          <label htmlFor="add-user-given-name">First/given name: </label>
+          <input id="add-user-given-name" name="addUserGivenName" {...userGivenName} />
+        </div>
+        <br />
+        <div>
+          <label htmlFor="add-user-last-name">Last/family name: </label>
+          <input id="add-user-last-name" name="addUserFamilyName" {...userFamilyName} />
+        </div>
+        <br />
+        <div>
+          <label htmlFor="add-username">username:</label>
           <br />
           <br />
-          <TextField
-            id="add-user-last-name"
-            name="addUserFamilyName"
-            label="Last/family name"
-            autoComplete="family-name"
-            value={userFamilyName}
-            onChange={(e) => setUserFamilyName(e.target.value)}
-            required
-            fullWidth
-          />
-          <br />
-          <br />
-          <TextField
+          <input
             id="add-username"
             name="addUsername"
-            label="username"
-            autoComplete="username"
+            size="25"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
-            required
-            fullWidth
           />
+        </div>
+        <br />
+        <label htmlFor="add-webId">
+          WebId:
           <br />
-          <br />
-          <TextField
+          <input
             id="add-webId"
             name="addWebId"
-            placeholder="WebId"
-            autoComplete="webid"
-            value={webId}
+            size="25"
             type="text"
+            value={webId}
             onChange={(e) => {
               setWebId(e.target.value);
             }}
-            fullWidth
           />
-          <br />
-          <br />
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<ClearIcon />}
-              onClick={() => setShowModal(false)}
-              fullWidth
-            >
-              CANCEL
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<CheckIcon />}
-              // TODO: Determine what to do with modals after submitting.
-              // e.g. should it close automatically but have a pop-up status alert, remain open briefly, etc.
-              // onClick={() => setShowModal(false)}
-              type="submit"
-              disabled={state.processing}
-              fullWidth
-            >
-              ADD CLIENT
-            </Button>
-          </DialogActions>
-        </form>
-      </FormSection>
-    </Dialog>
+        </label>
+        <br />
+        <button type="submit" disabled={state.processing}>
+          Add Client
+        </button>
+      </form>
+    </FormSection>
   );
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 };
 
-export default AddClientModal;
+export default AddClient;

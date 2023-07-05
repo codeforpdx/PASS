@@ -1,6 +1,8 @@
 // React Imports
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+// Inrupt Library Imports
+import { useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -72,7 +74,7 @@ const NavMenu = ({
             }
           >
             <NavLink
-              to="/PASS/profile"
+              to="/profile"
               style={{ textDecoration: 'none', color: theme.palette.primary.main }}
             >
               Profile
