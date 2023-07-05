@@ -23,14 +23,14 @@ import { StatusNotification } from '../Notification';
 const FormSection = ({ title, state, statusType, defaultMessage, children }) => (
   <Box
     sx={{
-      marginTop: 3,
+      marginTop: 1,
       display: 'inline-block',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      mx: '5px',
+      mx: '3px',
       padding: '20px',
-      minWidth: '350px',
+      minWidth: '50%',
       boxShadow: 2
     }}
   >

@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // Component Imports
-import AddClientModal from '../components/Clients/AddClientModal';
+import AddClientModal from '../components/Modals/AddClientModal';
 import ClientList from '../components/Clients/ClientList';
 
 /**

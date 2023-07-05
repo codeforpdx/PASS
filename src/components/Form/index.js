@@ -1,4 +1,3 @@
-import UploadDocumentModal from './UploadDocumentModal';
 import SetAclPermissionForm from './SetAclPermissionForm';
 import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
 /**
@@ -8,4 +7,4 @@ import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
  * @namespace Forms
  */
 
-export { UploadDocumentModal, SetAclPermissionForm, SetAclPermsDocContainerForm };
+export { SetAclPermissionForm, SetAclPermsDocContainerForm };

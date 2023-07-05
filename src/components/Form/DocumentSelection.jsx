@@ -18,7 +18,7 @@ import DOC_TYPES from '../../constants/doc_types';
  */
 
 const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
-  <Box sx={{ marginTop: '20px' }}>
+  <Box>
     <FormControl sx={{ width: 220 }} required>
       <InputLabel id={`${htmlForAndIdProp}-label`}>Select Document Type</InputLabel>
       <Select

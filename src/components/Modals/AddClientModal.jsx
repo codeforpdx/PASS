@@ -6,9 +6,12 @@ import { useSession } from '@inrupt/solid-ui-react';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { ENV } from '../../constants';
@@ -140,6 +143,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
         <form onSubmit={handleAddClient} autoComplete="off">
           <FormControl fullWidth>
             <TextField
+              margin="normal"
               id="add-user-given-name"
               name="addUserGivenName"
               label="First/given name"
@@ -151,9 +155,8 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               autoFocus
             />
           </FormControl>
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-user-last-name"
             name="addUserFamilyName"
             label="Last/family name"
@@ -163,9 +166,8 @@ const AddClientModal = ({ showModal, setShowModal }) => {
             required
             fullWidth
           />
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-username"
             name="addUsername"
             label="username"
@@ -175,9 +177,8 @@ const AddClientModal = ({ showModal, setShowModal }) => {
             required
             fullWidth
           />
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-webId"
             name="addWebId"
             placeholder="WebId"
@@ -188,9 +189,21 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               setWebId(e.target.value);
             }}
             fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    // onClick={}
+                    // onMouseDown={}
+                    edge="end"
+                  >
+                    <ContentCopyIcon />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
-          <br />
-          <br />
           <DialogActions>
             <Button
               variant="outlined"

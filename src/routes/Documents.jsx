@@ -8,11 +8,8 @@ import Button from '@mui/material/Button';
 import Remove from '@mui/icons-material/Remove';
 import Typography from '@mui/material/Typography';
 // Component Imports
-import {
-  UploadDocumentModal,
-  SetAclPermissionForm,
-  SetAclPermsDocContainerForm
-} from '../components/Form';
+import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
+import UploadDocumentModal from '../components/Modals/UploadDocumentModal';
 import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
 
