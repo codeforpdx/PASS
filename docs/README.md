@@ -2,8 +2,9 @@
 
 ## State of Build/Tech Stack
 
-The current build is made with React 18 for the front-end and bundled using Vite. The solid-ui-react library has been incorporated to the application along with Inrupt's other client libraries for Solid (see CONTRIBUTING.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
+The current build is made with React 18 for the front-end and bundled using Vite. The solid-ui-react library has been incorporated to the application along with Inrupt's other client libraries for Solid (see RESOURCES.md for links to solid react and client library documentation). Several node scripts has been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
 
+## PASS Terminal Commands
 To generate the full React development documentation of the application locally, the following command can be ran:
 
 ```shell
@@ -81,7 +82,7 @@ From here you can access Solid servers online.
 PASS includes some dev tools that allow you to run a SOLID pod on your local machine for testing instead of an online provider.
 To do so, you will need to edit the root `.env` file.
 
-1. Set the `VITE_SOLID_IDENTITY_PROVIDER_DEV` to `localhost:3000` (or whereever else you wish to host the server). You can find a premade example in `env_templates/dev.env`.
+1. Set the `VITE_SOLID_IDENTITY_PROVIDER_DEV` to `localhost:3000` (or where ever else you wish to host the server). You can find a pre made example in `env_templates/dev.env`.
 
 2. Start the SOLID server in a shell window
 

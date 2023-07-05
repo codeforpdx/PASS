@@ -2,11 +2,15 @@
 
 ## Project summary
 
-Building out a decentralized application to enable house insecure individuals to securely store their documents electronically. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents.
+PASS is a decentralized application to enable home insecure individuals to electronically securely store their documents. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents.
 
 ## Tech Stack Overview
 
-[Link to tech stack image](https://drive.google.com/file/d/1jC4A5sqRqoidxB9lS71SomMkNSpvWzU6/view?usp=sharing)
+can be found in [Resources.md](./RESOURCES.md)
+
+## Code of Conduct
+
+By participating in this project, you are expected to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure to read and understand it before contributing.
 
 ## Get started
 
