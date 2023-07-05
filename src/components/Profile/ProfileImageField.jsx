@@ -99,7 +99,7 @@ const ProfileImageField = ({ loadProfileData }) => {
           sx={{ width: '150px' }}
         >
           Choose Img
-          <input type="file" hidden accept=".gif, .png, .tiff, .jpeg, .jpg, .webp" />
+          <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
         </Button>
       )}
     </Box>

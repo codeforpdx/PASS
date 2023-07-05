@@ -102,10 +102,15 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
   let { profileDataset, profileThing } = profileData;
 
   const profileContainer = `${session.info.webId.split('card')[0]}`;
-  const profileImgFilename = inputImage.name.replace(' ', '%20');
+  let profileImgFilename = inputImage.name.replace(' ', '%20');
+
+  if (profileImgFilename.endsWith('.jpg')) {
+    profileImgFilename = profileImgFilename.replace('.jpg', '.jpeg');
+  }
 
   await saveFileInContainer(profileContainer, inputImage, {
     slug: profileImgFilename,
+    contentType: inputImage.type,
     fetch: session.fetch
   });
 
