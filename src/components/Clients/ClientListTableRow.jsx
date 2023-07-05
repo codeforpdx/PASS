@@ -11,10 +11,8 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Context Imports
-import { SelectedUserContext, UserListContext } from '../../contexts';
+import { SelectedUserContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-// Component Imports
-import DeleteClientModal from './DeleteClientModal';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -25,12 +23,17 @@ import DeleteClientModal from './DeleteClientModal';
  */
 
 // determine what gets rendered in the table body
-const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
+const ClientListTableRow = ({
+  labelId,
+  client,
+  state,
+  dispatch,
+  setShowDeleteClientModal,
+  setSelectedClientToDelete
+}) => {
   const theme = useTheme();
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
-  const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
-  const [showDeleteClientModal, setShowClientDeleteModal] = useState(false);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -47,70 +50,58 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     setSelectedUser(clientToSelect);
   };
 
-  // Event handler for deleting client from client list
-  const handleDeleteClient = async () => {
-    setShowClientDeleteModal(false);
-    runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
-    await removeUser(client);
-    runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
-  };
-
   // Event handler for pinning client to top of table
   // ***** TODO: Add in moving pinned row to top of table
   const handlePinClick = () => {
     setPinned(!pinned);
   };
 
-  return (
-    <>
-      <StyledTableRow>
-        <StyledTableCell align="center">
-          <Checkbox
-            id={labelId}
-            color="primary"
-            checked={selectedUser.webId === client.webId}
-            inputProps={{
-              'aria-labelledby': labelId
-            }}
-            onClick={() => {
-              handleSelectClient(client);
-            }}
-          />
-        </StyledTableCell>
-        <StyledTableCell align="center">{client.person}</StyledTableCell>
-        {/* ***** TODO: Switch this webId to being a small Notes section */}
-        {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
-        {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
-        <StyledTableCell align="center">
-          <Link
-            to={client.webId}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-          >
-            Link to Pod Profile
-          </Link>
-        </StyledTableCell>
-        <StyledTableCell align="center">
-          <IconButton size="large" edge="end" onClick={handlePinClick}>
-            {pinnedIcon}
-          </IconButton>
-        </StyledTableCell>
-        <StyledTableCell align="center">
-          <IconButton size="large" edge="end" onClick={() => setShowClientDeleteModal(true)}>
-            <DeleteOutlineOutlinedIcon />
-          </IconButton>
-        </StyledTableCell>
-      </StyledTableRow>
+  // Event handler for deleting a client from client list
+  const handleSelectClientToDelete = () => {
+    setSelectedClientToDelete(client);
+    setShowDeleteClientModal(true);
+  };
 
-      {/* modal/popup renders when showDeleteClientModal state is true */}
-      <DeleteClientModal
-        showDeleteClientModal={showDeleteClientModal}
-        setShowClientDeleteModal={setShowClientDeleteModal}
-        client={client}
-        handleDeleteClient={handleDeleteClient}
-      />
-    </>
+  return (
+    <StyledTableRow>
+      <StyledTableCell align="center">
+        <Checkbox
+          id={labelId}
+          color="primary"
+          checked={selectedUser.webId === client.webId}
+          inputProps={{
+            'aria-labelledby': labelId
+          }}
+          onClick={() => {
+            handleSelectClient(client);
+          }}
+        />
+      </StyledTableCell>
+      <StyledTableCell align="center">{client.person}</StyledTableCell>
+      {/* ***** TODO: Switch this webId to being a small Notes section */}
+      {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
+      {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
+      <StyledTableCell align="center">
+        <Link
+          to={client.webId}
+          target="_blank"
+          rel="noreferrer"
+          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+        >
+          Link to Pod Profile
+        </Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <IconButton size="large" edge="end" onClick={handlePinClick}>
+          {pinnedIcon}
+        </IconButton>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <IconButton size="large" edge="end" onClick={handleSelectClientToDelete}>
+          <DeleteOutlineOutlinedIcon />
+        </IconButton>
+      </StyledTableCell>
+    </StyledTableRow>
   );
 };
 

@@ -7,8 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // Component Imports
-import AddClientModal from '../components/Clients/AddClientModal';
-import ClientList from '../components/Clients/ClientList';
+import { AddClientModal, ClientList } from '../components/Clients';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -38,7 +37,8 @@ const Clients = () => {
         Add Client
       </Button>
       <ClientList />
-      {/* modal/popup renders when showConfirmationModal state is true */}
+
+      {/* modal/popup renders when showAddClientModal state is true */}
       <AddClientModal
         showAddClientModal={showAddClientModal}
         setShowAddClientModal={setShowAddClientModal}
