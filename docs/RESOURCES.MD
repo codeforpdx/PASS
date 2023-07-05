@@ -36,6 +36,13 @@
 
    With PASS we are looking into using RDF to link between pods and store metadata in turtle files. We are exploring the use of ttl files to enable organizations to query into an individuals pod to see if certain documents are present, while restricting access to the documents themselves.
 
+## Introductory PASS Readings
+
+- [PASS Vision, Problem and Solution Statement](https://docs.google.com/document/d/1mK4-nFlpRtnsbDAuoDgSo3Fsoi2_JDfMyU4nuBjnAMo/edit?usp=share_link)
+- [PASS Team, Scheduled Meetings and Current Tasks](https://docs.google.com/document/d/19U2QseBXbv_KmWSAjZvch5n-5L5E66dxPuUTiytDi3I/edit?usp=share_link)
+- [PASS User Flow](https://docs.google.com/presentation/d/18tU0o2jW6bZUt8ayMk1Uju3Fe52O4hVl2Ii2JGmiORQ/edit?usp=share_link)
+- [PASS Architecture](https://docs.google.com/document/d/19v5D-nhSGQYrjMkck64w0jmCgQtLcHQhUcmvJzUkbhg/edit?usp=share_link)
+
 ## Similar Projects
 
 - [My Digital Data Locker](https://vimeo.com/mddl) — a similar project in Baltimore. [More info](https://www.aecf.org/blog/new-digital-data-locker-may-help-people-find-stable-housing). [GitHub](https://github.com/newamericafoundation/MDDL).

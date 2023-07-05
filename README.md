@@ -13,7 +13,7 @@
 
 PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process. 
 
-# Table of Contents
+# Contents
 
 1.  [Setup Instructions](#setup-instructions)
 2.  [Project Overview](#project-overview)
@@ -91,11 +91,11 @@ In Portland, housing insecure individuals struggle to maintain documents often r
    - Able to share verified documents with clients
    - Will have several users per organization
 
-
 - User registers for a WebID (similar to an email address)
 - User data remains in their pod (which is associated to WebID)
 - User authorizes applications and other users to read/write/control data in pod
-
+- Full product road map [here](docs/ROADMAP.md)
+  
 <h2 id="usage">📱 Usage</h2>
   
 - template area to describe usage
@@ -137,7 +137,6 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 <h2 id="tech-stack">5. 🧪 Tech Stack</h2>
 
 - further details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
-
 
 **[⬆️ Back to Top](#PASS)**
 
