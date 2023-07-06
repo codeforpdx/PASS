@@ -77,7 +77,7 @@ const saveToPod = async (session, { dataset, containerUrl }) => {
  * @returns {object} An new docListObject containing any updates
  */
 export const addDocument = async (docDesc, file, { docList, dataset, containerUrl }, session) => {
-  if (docList.find((oldDoc) => oldDoc.name === docDesc.name))
+  if (docList.find((oldDoc) => oldDoc.name === docDesc.name.replace('.jpg', '.jpeg')))
     throw new Error('File already exists');
   const docThing = await makeDocIntoThing(docDesc, containerUrl, file);
   const newDocDesc = parseDocFromThing(docThing);
@@ -89,7 +89,7 @@ export const addDocument = async (docDesc, file, { docList, dataset, containerUr
   const newObj = await saveToPod(session, newDocObject);
   await saveFileInContainer(`${containerUrl}`, file, {
     fetch: session.fetch,
-    slug: file.name
+    slug: file.name.replaceAll(' ', '%20').replace('.jpg', '.jpeg')
   });
   return newObj;
 };

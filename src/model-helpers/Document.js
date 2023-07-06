@@ -136,7 +136,7 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
  */
 export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
   const checksum = await createFileChecksum(file);
-  const cleanedFileName = file.name.replaceAll(' ', '%20');
+  const cleanedFileName = file.name.replaceAll(' ', '%20').replace('.jpg', '.jpeg');
   let thing = buildThing(createThing({ name: docDesc.name }))
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
