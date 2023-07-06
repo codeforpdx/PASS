@@ -63,7 +63,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 - Good people to ping for reviews:
   - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
-  - Documentation -- Danica, Florian(flo), Jared K
+  - Documentation -- Danica, Florian (Flo), Jared K
 - Include screenshots whenever you’re building a frontend feature.
   
 6. Make a pull request ⬇️

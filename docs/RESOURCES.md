@@ -14,6 +14,9 @@
 <a href="https://www.inrupt.com/"><img src="https://docs.inrupt.com/inrupt-logo-small.svg" alt="InruptIcon" width="18" height="18"> Inrupt(solid library)
 <a href="https://eslint.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/ESLint_logo.svg/324px-ESLint_logo.svg.png?20211012234406" alt="SolidProjectIcon" width="18" height="18"> ESLint
 🗒️  [JSDoc](https://jsdoc.app/)
+
+---
+
   ![tech stack](https://drive.google.com/uc?id=1hvs0XKI0hfdlGOJ_oRG-MqQTR9NCtmPy)
 
 ---
