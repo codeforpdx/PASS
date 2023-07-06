@@ -43,6 +43,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 1. Search through open [issues](https://github.com/codeforpdx/PASS/issues)
 2. Find an issue that interests you
 3. Check if someone is currently working on that issue and if a [pull request](https://github.com/codeforpdx/PASS/pulls) exists.
+4. Assign yourself to issue and leave a comment stating your intentions.
 - ## Clone the repo
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub ou can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.

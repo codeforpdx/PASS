@@ -15,17 +15,17 @@ PASS is an open source digital wallet for providing home insecure individuals a 
 
 # Contents
 
-1.  [Setup Instructions](#setup-instructions)
-2.  [Project Overview](#project-overview)
-       - [Terminology](#terminology) 
-       - [User Flows](#user-flows)
+1.  [Setup Instructions](#1-setup-instructions-🔧)
+2.  [Project Overview](#2-project-overview-🚧)
+       - [Terminology](#terminology-🗣️)
+       - [User Flows](#user-flows-🔀)
        - [Usage](#usage)
-3.  [Contribution Guidelines](#contribution-guidelines)
-4.  [Contributors](#contributors)
-5.  [Tech Stack and Additional Resources](./docs/RESOURCES.md)
+3.  [Contribution Guidelines](#3-contribution-guidelines-🧑‍💻)
+4.  [Contributors](#4-contributors-💻)
+5.  [Tech Stack and Additional Resources](#5-tech-stack-🧪)
 
 ---
-<h2 id="setup-instructions">1.🔧 Setup Instructions </h2>
+## 1. Setup Instructions 🔧
 
    Currently we require Node version 16 or higher and NPM for our package manager.  Most places recommend using a node version manager to install node and npm. To proceed using NVM perform the following.. 
 
@@ -59,16 +59,17 @@ PASS is an open source digital wallet for providing home insecure individuals a 
    ```
 8. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
+Further information can be found in [Contributing.md](./docs/CONTRIBUTING.md)
+
 **[⬆️ Back to Top](#PASS)**
 
 ---
 
-<h2 id="project-overview">2. 🚧 Project Overview </h2>
-
+## 2. Project Overview 🚧 
 
 In Portland, housing insecure individuals struggle to maintain documents often required to receive government and/or non-profit services. With PASS, we are building out an application to enable housing insecure individuals to store their personal documents in decentralized data stores, called Pods. Pass will also provide a platform for Organizations to assist with providing and processing documents required for housing assistance. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their data. Verified organizations will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod to help process housing assistance applications.
 
-<h2 id="terminology">🗣️ Terminology</h2>
+###  Terminology 🗣️
 
 - Individual/Client - housing insecure person using services to interact with organizations.
 - Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
@@ -76,8 +77,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - Folder/Container - referring to the URI location of document data in ttl files using Solid API with Inrupt library.
 - ACL - Access Control List is used to manage Solid Pods by allowing users to control who can access and modify their data.
 
-<h2 id="user-flows">🔀 User Flows</h2>
-
+### User Flows 🔀
 
 1. Individual/Client
    - Upload and Maintain Documents
@@ -96,7 +96,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - User authorizes applications and other users to read/write/control data in pod
 - Full product road map [here](docs/ROADMAP.md)
   
-<h2 id="usage">📱 Usage</h2>
+### Usage 📱
   
 - template area to describe usage
 
@@ -104,7 +104,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-<h2 id="contribution-guidelines">3. 🧑‍💻 Contribution Guidelines</h2>
+## 3. Contribution Guidelines 🧑‍💻
 
 -  Start by checking out the detailed on-boarding [CONTRIBUTING.MD](./docs/CONTRIBUTING.md).
 -  Join our [Discord](https://discord.gg/Ts923xaUYV). [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
@@ -114,7 +114,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-<h2 id="contributors">4. 💻 Contributors</h2>
+## 4. Contributors 💻>
 
 | Development Team | UI Team     | UX Team     | Project Management Team |
 | ---------------- | ----------- | ----------- | ----------------------- |
@@ -134,9 +134,9 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-<h2 id="tech-stack">5. 🧪 Tech Stack</h2>
+## 5. Tech Stack 🧪
 
-- further details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
+- Details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
 
 **[⬆️ Back to Top](#PASS)**
 
