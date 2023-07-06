@@ -55,24 +55,27 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 3. Create a new branch to work on your feature:
     - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
     - `git pull origin Development` - to sync with PASS Development branch
+    - this can also be done directly from an issue in GitHub
+
+      <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
 
 4. Work on feature in your own branch.
 
 5. When ready, push up for review:
    - `git push origin <your branch name>`
 
-- Good people to ping for reviews:
+- Recommended reviewers:
   - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
-  - Documentation -- Danica, Florian (Flo), Jared K
+  - Documentation -- Danica B, Jared K, Ka Hung L
 - Include screenshots whenever you’re building a frontend feature.
   
-6. Make a pull request ⬇️
+1. Make a pull request ⬇️
 
 - ## Submitting a Pull Request
    If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback and request reviews.
 1. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 - ## Bug Reporting Template
-  Bugs are reported via the git-hub built in issues for the repo https://github.com/codeforpdx/PASS/issues. 
+  Bugs are reported via the GitHub built-in issues for the repo https://github.com/codeforpdx/PASS/issues. 
 
   Provide general introduction to the issue logging and why it is relevant. 
 

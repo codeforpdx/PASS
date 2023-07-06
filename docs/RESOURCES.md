@@ -6,13 +6,13 @@
 [![React](https://badges.aleen42.com/src/react.svg)](https://react.dev/)
 [![Vite](https://badges.aleen42.com/src/vitejs.svg)](https://vitejs.dev/)
 [![ESLint](https://badges.aleen42.com/src/eslint.svg)](https://eslint.org/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Git-Hub](https://badges.aleen42.com/src/github.svg)](https://github.com/codeforpdx/PASS)
 [![Discord](https://badges.aleen42.com/src/discord.svg)](https://discord.com/)
 [![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?style=for-the-badge&logo=google-meet&logoColor=white)](https://meet.google.com/)
 [![Material UI](https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/)
 <a href="https://solidproject.org"><img src="https://solidproject.org/assets/img/solid-emblem.svg" alt="SolidProjectIcon" width="18" height="18"> Solid Project
 <a href="https://www.inrupt.com/"><img src="https://docs.inrupt.com/inrupt-logo-small.svg" alt="InruptIcon" width="18" height="18"> Inrupt(solid library)
-<a href="https://eslint.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/ESLint_logo.svg/324px-ESLint_logo.svg.png?20211012234406" alt="SolidProjectIcon" width="18" height="18"> ESLint
 🗒️  [JSDoc](https://jsdoc.app/)
 
 ---

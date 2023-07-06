@@ -70,7 +70,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
    ```
 4. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
-Further information can be found in [Contributing.md](./docs/CONTRIBUTING.md)
+Further information can be found in [CONTRIBUTING.md](./docs/CONTRIBUTING.md) & [docs/README.md](./docs/README.md)
 
 **[⬆️ Back to Top](#PASS)**
 
