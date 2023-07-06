@@ -25,12 +25,11 @@ can be found in [Resources.md](./RESOURCES.md)
 
 ## 3. Code of Conduct
 
-By participating in this project, you are expected to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure to read and understand it before contributing. (code of conduct subject to change)
+By participating in this project, you are expected to uphold our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure to read and understand it before contributing. (code of conduct subject to change post Code For America re-branding)
 
 ## 4. Connect With the Team
 
 -  Join [Code for PDX Discord](https://discord.gg/FEX9KUMH). If you run into any issues, shoot an email to our CodeForPDX brigade leader, Hugh: Hugh@codeforpdx.org or join the discord and drop a message in [introductions](https://discord.com/channels/1068260532806766733/1075286322530484256) or [general-chat](https://discord.com/channels/1068260532806766733/1068260535080063028).
--  (optional) Say hello in [introductions](https://discord.com/channels/1068260532806766733/1075286322530484256) take make the team aware of your presence. 
 -  Post your GitHub name in the [**#github-access-request**](https://discord.com/channels/1068260532806766733/1078124139983945858) channel and we’ll add you to our [GitHub](https://github.com/codeforpdx/PASS). We keep track of technical and non-technical tasks in [GitHub Projects](https://github.com/orgs/codeforpdx/projects/3).
 - Introduce yourself and post your email in the [**#pass**](https://discord.com/channels/1068260532806766733/1075285803137257544) channel so we can add you to our [Google Drive](https://drive.google.com/drive/u/0/folders/1zTEd34K7Eg7rvg71zS6Uzbwrsct2Lx9E?ths=true). You can also request access privately from Flo -- florian@codeforpdx.org.
 -  Pass is composed of three teams: UX/UI, Project Management, and Developers (back and front end). We are currently meeting in separate groups based on team member availability. The development team meets virtually every Tuesday at 7pm via Google Meet. Bi-weekly in person full group meetings are also back in session!!(details in discord)
@@ -56,7 +55,6 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 3. Create a new branch to work on your feature:
     - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
     - `git pull origin Development` - to sync with PASS Development branch
-
 
 4. Work on feature in your own branch.
 
@@ -109,5 +107,32 @@ name of issue screenshot
 - ## Testing
 
 - ## Code Styling/Linting
+
+Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint, you can run:
+
+```shell
+npm run lint
+```
+---
+
+To fix potential lint errors, you can run:
+
+```shell
+npm run lint:fix
+```
+---
+
+You can also check the formatting of the existing code using Prettier by running:
+
+```shell
+npm run prettier:check
+```
+---
+
+This will enable Prettier to check if the existing code follows the rules for this project in .prettierrc.js. To format the project with existing Prettier settings, simply run:
+
+```shell
+npm run prettier:run
+```
 
 **[⬆️ Back to Top](#contributing-to-pass)**

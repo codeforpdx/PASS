@@ -1,6 +1,7 @@
 # Purpose of PASS and MVP Outline
 
 ## Project Goals
+
 The ultimate purpose of this project is to create a decentralized, federated system that puts users in control of their own data. Primarily home-insecure individuals who are most at risk of losing their important documents. We have validated through the Portland State University Homelessness Research & Action Collaborative (HRAC) that keeping important documents safe and available is a major problem of the housing insecure community and there are no good offerings today. 
 
 Similar efforts are being done in Baltimore, New York, and Los Angeles, as well as internationally, but they have yet to show success. None of them, though, have attempted to design a decentralized, federated system.

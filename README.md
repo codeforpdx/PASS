@@ -1,5 +1,5 @@
 
-<h1 id="PASS">PASS - Personal Access System for Services </h1>
+# PASS - Personal Access System for Services
 
 [![License](https://img.shields.io/github/license/codeforpdx/PASS)](https://github.com/codeforpdx/PASS/blob/Master/LICENSE)
 [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
@@ -11,15 +11,16 @@
 [![Contributors](https://img.shields.io/github/contributors/codeforpdx/pass)](https://github.com/codeforpdx/PASS/graphs/contributors)
 ![Latest Commit](https://img.shields.io/github/last-commit/codeforpdx/PASS/Development)
 
-PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process. 
+PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process. PASS uses [SOLID](https://solidproject.org/) to facilitate de-centralized storage that always keeps users in control of their data.
 
-# Contents
+PASS is currently in Development heading towards [Minimum Viable Product](./docs/ROADMAP.md)
+
+## Contents
 
 1.  [Setup Instructions](#1-setup-instructions-🔧)
 2.  [Project Overview](#2-project-overview-🚧)
        - [Terminology](#terminology-🗣️)
        - [User Flows](#user-flows-🔀)
-       - [Usage](#usage)
 3.  [Contribution Guidelines](#3-contribution-guidelines-🧑‍💻)
 4.  [Contributors](#4-contributors-💻)
 5.  [Tech Stack and Additional Resources](#5-tech-stack-🧪)
@@ -55,7 +56,7 @@ PASS is an open source digital wallet for providing home insecure individuals a 
    ```
 7. Run the project: 
    ```
-      npm run dev
+   npm run dev
    ```
 8. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
@@ -96,10 +97,6 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - User authorizes applications and other users to read/write/control data in pod
 - Full product road map [here](docs/ROADMAP.md)
   
-### Usage 📱
-  
-- template area to describe usage
-
 **[⬆️ Back to Top](#PASS)**
 
 ---
@@ -138,8 +135,4 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 - Details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
 
-**[⬆️ Back to Top](#PASS)**
-
-
-
-
+**[⬆️ Back to Top](#pass---personal-access-system-for-services)**
