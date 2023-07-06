@@ -1,6 +1,7 @@
 # Contributing to PASS
 
 ## Contents
+
 1. [Project Summary](#1-project-summary)
 2. [Tech Stack & Resources](#2-tech-stack--resources)
 3. [Code of Conduct](#3-code-of-conduct)
@@ -39,10 +40,12 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 ## 5. Development Process
 
 - ## Choosing an Issue
+  
 1. Search through open [issues](https://github.com/codeforpdx/PASS/issues)
 2. Find an issue that interests you
 3. Check if someone is currently working on that issue and if a [pull request](https://github.com/codeforpdx/PASS/pulls) exists.
 4. Assign yourself to issue and leave a comment stating your intentions.
+  
 - ## Clone the repo
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub ou can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.
@@ -67,47 +70,34 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 - Recommended reviewers:
   - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
   - Documentation -- Danica B, Jared K, Ka Hung L
-- Include screenshots whenever you’re building a frontend feature.
+  - Include screenshots whenever you’re building a frontend feature.
   
 1. Make a pull request ⬇️
 
 - ## Submitting a Pull Request
+  
    If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback and request reviews.
+
 1. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 - ## Bug Reporting Template
-  Bugs are reported via the GitHub built-in issues for the repo https://github.com/codeforpdx/PASS/issues. 
+  
+  - Bugs are reported via the GitHub built-in issues for the repo https://github.com/codeforpdx/PASS/issues. 
+  - Current bug reporting template can be found [here](../.github/ISSUE_TEMPLATE/bug_report.md) and will automatically populate when creating an issue in GitHub.
 
   Provide general introduction to the issue logging and why it is relevant. 
 
-```
-**Context**
-[provide more detailed introduction to the issue itself and why it is relevant]
+*UNDER CONSTRUCTION🚧*
+- ## Requesting a Feature
+  
+  - Current feature request template can be found [here](../.github/ISSUE_TEMPLATE/feature_request.md) and will automatically populate when creating an issue in GitHub.
 
-**Process**
-[ordered list the process to finding and recreating the issue, example below]
-- User goes to delete a dataset (to save space or whatever)
-- User gets popup modal warning
-- User deletes and it's lost forever
-
-**Expected result**
-[describe what you would expect to have resulted from this process]
-
-**Current result**
-[describe what you you currently experience from this process, and thereby explain the bug]
-
-**Possible Fix**
-[not obligatory, but suggest fixes or reasons for the bug]
-
-Modal tells the user what dataset is being deleted, like “You are about to delete this dataset: car_crashes_2014.”
-A temporary "Trashcan" where you can recover a just deleted dataset if you mess up (maybe it's only good for a few hours, and then it cleans the cache assuming you made the right decision).
-
-**if relevant, include a screenshot**
-name of issue screenshot
-```
-
-- ## Requesting Product Enhancement
+*UNDER CONSTRUCTION🚧*
 
 - ## Testing
+  
+  - All PASS unit tests are done with vitest library 
+
+*UNDER CONSTRUCTION🚧*
 
 - ## Code Styling/Linting
 
