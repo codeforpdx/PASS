@@ -26,9 +26,9 @@
 - [Inrupt](https://docs.inrupt.com/developer-tools/javascript/client-libraries/) provides JavaScript client libraries to help developers create Solid applications. Will be used to upload and query data in pods. Data will be stored in `ttl` files.
 - [Inrupt Access Requests and Grants](https://docs.inrupt.com/ess/latest/security/access-requests-grants/)
 - [Access Authorization](https://solid.github.io/data-interoperability-panel/specification/#access-authorization%E2%91%A0) to a pod.
-- [`solid-ui-react`](https://solid-ui-react.docs.inrupt.com/?path=/story/intro--page), a React library to make development with Solid simple(ish).
-  
+- [solid-ui-react](https://solid-ui-react.docs.inrupt.com/?path=/story/intro--page), a React library to make development with Solid simple(ish).
 - [rdf-and-ttl](https://www.w3.org/TR/turtle/)
+- [Using jsDocs in PASS](README.md)
 
    The Resource Description Framework (RDF) is a framework for expressing information about resources. Resources can be anything, including documents, people, physical objects, and abstract concepts. RDF is intended for situations in which information on the Web needs to be processed by applications, rather than being only displayed to people. Read more about RDF [here](https://www.w3.org/TR/rdf11-primer/). See how RDF is used within Solid [here](https://solidproject.org/developers/vocabularies/well-known/core).
 
@@ -49,4 +49,3 @@
 - [AWS Kiip Digital Locker](https://vimeo.com/762041743) — a similar project using AWS.
 - [Digita](https://www.youtube.com/@Digita-ai) — Brussels start-up providing Enterprise Pods to the Flemish government. _Great videos to understand Solid Functionality_
   - Also, read this [On-boarding with Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrastructure.
-
