@@ -20,7 +20,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 1.  [Setup Instructions](#1-setup-instructions-🔧)
 2.  [Project Overview](#2-project-overview-🚧)
        - [Terminology](#terminology-🗣️)
-       - [User Flows](#user-flows-🔀)
+       - [Usage & User Flows](#usage--user-flows-🔀)
 3.  [Contribution Guidelines](#3-contribution-guidelines-🧑‍💻)
 4.  [Contributors](#4-contributors-💻)
 5.  [Tech Stack and Additional Resources](#5-tech-stack-🧪)
@@ -78,7 +78,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - Folder/Container - referring to the URI location of document data in ttl files using Solid API with Inrupt library.
 - ACL - Access Control List is used to manage Solid Pods by allowing users to control who can access and modify their data.
 
-### User Flows 🔀
+### Usage & User Flows 🔀
 
 1. Individual/Client
    - Upload and Maintain Documents
@@ -93,8 +93,8 @@ In Portland, housing insecure individuals struggle to maintain documents often r
    - Will have several users per organization
 
 - User registers for a WebID (similar to an email address)
-- User data remains in their pod (which is associated to WebID)
 - User authorizes applications and other users to read/write/control data in pod
+- User data remains in their pod (which is associated to WebID)
 - Full product road map [here](docs/ROADMAP.md)
   
 **[⬆️ Back to Top](#PASS)**
@@ -104,8 +104,8 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 ## 3. Contribution Guidelines 🧑‍💻
 
 -  Start by checking out the detailed on-boarding [CONTRIBUTING.MD](./docs/CONTRIBUTING.md).
--  Join our [Discord](https://discord.gg/Ts923xaUYV). [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
--  Request git-hub access on Discord in the github-access-request channel of the General category.
+-  Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
+-  Request git-hub access on Discord in the [github-access-request](https://discord.com/channels/1068260532806766733/1078124139983945858) channel of the General category.
   
 **[⬆️ Back to Top](#PASS)**
 
