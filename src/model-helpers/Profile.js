@@ -2,7 +2,7 @@ import {
   buildThing,
   createAcl,
   deleteFile,
-  getFile,
+  getSourceUrl,
   getStringNoLocale,
   getThing,
   getUrl,
@@ -15,7 +15,7 @@ import {
   setThing
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '../constants';
-import { setupAcl } from '../utils';
+import { saveSourceUrlToThing, setupAcl } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -102,40 +102,31 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
   let { profileDataset, profileThing } = profileData;
 
   const profileContainer = `${session.info.webId.split('card')[0]}`;
-  let profileImgFilename = inputImage.name.replace(' ', '%20');
+  const profileImgFilename = inputImage.name.replace(' ', '%20');
 
-  if (profileImgFilename.endsWith('.jpg')) {
-    profileImgFilename = profileImgFilename.replace('.jpg', '.jpeg');
-  }
-
-  await saveFileInContainer(profileContainer, inputImage, {
+  const savedFile = await saveFileInContainer(profileContainer, inputImage, {
     slug: profileImgFilename,
     contentType: inputImage.type,
     fetch: session.fetch
   });
 
-  profileThing = buildThing(profileThing)
-    .addUrl(RDF_PREDICATES.profileImg, `${profileContainer}${profileImgFilename}`)
-    .build();
+  const savedFilePath = getSourceUrl(savedFile);
 
+  // Saving file path to source URL after saving to cover edge cases with .jpg/.jpeg
+  profileThing = saveSourceUrlToThing(profileThing, savedFilePath);
   profileDataset = setThing(profileDataset, profileThing);
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 
   // Create ACL file for profile image
-  const imageResource = await getFile(
-    `${session.info.webId.split('card')[0]}${profileImgFilename}`,
-    { fetch: session.fetch }
-  );
-
-  const resourceAcl = createAcl(imageResource);
+  const resourceAcl = createAcl(savedFile);
   const newAcl = setupAcl(
     resourceAcl,
     session.info.webId,
     { read: true, write: true, control: true }, // personal access
     { read: true } // public access
   );
-  await saveAclFor(imageResource, newAcl, { fetch: session.fetch });
+  await saveAclFor(savedFile, newAcl, { fetch: session.fetch });
 };
 
 /**

@@ -157,7 +157,8 @@ describe('uploadProfileImage', () => {
     const mockFileResourceWithAcl = solidClient.addMockResourceAclTo(mockFileResource);
 
     vi.spyOn(solidClient, 'saveFileInContainer');
-    vi.spyOn(solidClient, 'buildThing');
+    vi.spyOn(solidClient, 'getSourceUrl');
+    vi.spyOn(utils, 'saveSourceUrlToThing').mockReturnValue(mockData.profileThing);
     vi.spyOn(solidClient, 'setThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
     vi.spyOn(solidClient, 'getFile').mockResolvedValue(mockFileResource);
@@ -168,7 +169,7 @@ describe('uploadProfileImage', () => {
     await uploadProfileImage(session, mockData, mockInputImage);
 
     expect(solidClient.saveFileInContainer).toBeCalled();
-    expect(solidClient.buildThing).toBeCalled();
+    expect(utils.saveSourceUrlToThing).toBeCalled();
     expect(solidClient.setThing).toBeCalled();
     expect(solidClient.saveSolidDatasetAt).toBeCalled();
     expect(solidClient.getFile).toBeCalled();

@@ -39,7 +39,6 @@ const Profile = () => {
 
   const loadProfileData = async () => {
     const profileDataSolid = await fetchProfileInfo(session);
-    localStorage.setItem('restoreProfileData', JSON.stringify(profileDataSolid));
     setProfileData(profileDataSolid);
 
     setProfileName(profileDataSolid.profileInfo.profileName);

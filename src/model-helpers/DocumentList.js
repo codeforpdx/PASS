@@ -7,10 +7,12 @@ import {
   saveFileInContainer,
   getThing,
   removeThing,
-  deleteFile
+  deleteFile,
+  getSourceUrl
 } from '@inrupt/solid-client';
 
 import { makeDocIntoThing, parseDocFromThing } from './Document';
+import { saveSourceUrlToThing } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -77,20 +79,28 @@ const saveToPod = async (session, { dataset, containerUrl }) => {
  * @returns {object} An new docListObject containing any updates
  */
 export const addDocument = async (docDesc, file, { docList, dataset, containerUrl }, session) => {
-  if (docList.find((oldDoc) => oldDoc.name === docDesc.name.replace('.jpg', '.jpeg')))
+  if (docList.find((oldDoc) => oldDoc.name === docDesc.name))
     throw new Error('File already exists');
-  const docThing = await makeDocIntoThing(docDesc, containerUrl, file);
+  let docThing = await makeDocIntoThing(docDesc, file);
   const newDocDesc = parseDocFromThing(docThing);
   const newDocObject = {
     docList: docList.concat([newDocDesc]),
     dataset: setThing(dataset, docThing),
     containerUrl
   };
-  const newObj = await saveToPod(session, newDocObject);
-  await saveFileInContainer(`${containerUrl}`, file, {
+
+  const savedFile = await saveFileInContainer(`${containerUrl}`, file, {
     fetch: session.fetch,
-    slug: file.name.replaceAll(' ', '%20').replace('.jpg', '.jpeg')
+    slug: file.name.replaceAll(' ', '%20')
   });
+
+  // Saving file path to source URL after saving to cover edge cases with .jpg/.jpeg
+  const savedFilePath = getSourceUrl(savedFile);
+  docThing = saveSourceUrlToThing(docThing, savedFilePath);
+  newDocObject.dataset = setThing(dataset, docThing);
+
+  const newObj = await saveToPod(session, newDocObject);
+
   return newObj;
 };
 
