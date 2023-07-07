@@ -26,7 +26,7 @@ describe('createUser', () => {
       familyName: 'Cry',
       webId: `${mockPodUrl}profile/card`
     };
-    const newUser = await createUser(session, mockUserSubmission);
+    const newUser = await createUser(mockUserSubmission);
     expect(newUser).toMatchObject({
       familyName: 'Cry',
       givenName: 'Far',
