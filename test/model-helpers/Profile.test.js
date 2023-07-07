@@ -160,6 +160,8 @@ describe('uploadProfileImage', () => {
     vi.spyOn(solidClient, 'getSourceUrl');
     vi.spyOn(utils, 'saveSourceUrlToThing').mockReturnValue(mockData.profileThing);
     vi.spyOn(solidClient, 'setThing');
+    vi.spyOn(solidClient, 'getFile').mockReturnValue(mockFileResource);
+    vi.spyOn(solidClient, 'createAcl');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
     vi.spyOn(solidClient, 'createAcl');
     vi.spyOn(utils, 'setupAcl').mockReturnValue(mockFileResourceWithAcl);
@@ -170,6 +172,8 @@ describe('uploadProfileImage', () => {
     expect(solidClient.saveFileInContainer).toBeCalled();
     expect(utils.saveSourceUrlToThing).toBeCalled();
     expect(solidClient.setThing).toBeCalled();
+    expect(solidClient.getFile).toBeCalled();
+    expect(solidClient.createAcl).toBeCalled();
     expect(solidClient.saveSolidDatasetAt).toBeCalled();
     expect(solidClient.createAcl).toBeCalled();
     expect(utils.setupAcl).toBeCalled();
