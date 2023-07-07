@@ -452,8 +452,9 @@ export const buildMessageTTL = (
  *
  * @param {ThingLocal} thing - Associated Thing with source URL
  * @param {URL} sourceUrl - The source URL to the related Thing
+ * @param {string} urlPredicate - The string related to which predicate to use
  * @returns {ThingLocal} thing - The updated Thing with the sourceURL now attached
  * to the RDF
  */
-export const saveSourceUrlToThing = (thing, sourceUrl) =>
-  buildThing(thing).addUrl(RDF_PREDICATES.url, sourceUrl).build();
+export const saveSourceUrlToThing = (thing, sourceUrl, urlPredicate) =>
+  buildThing(thing).addUrl(RDF_PREDICATES[urlPredicate], sourceUrl).build();

@@ -96,7 +96,7 @@ export const addDocument = async (docDesc, file, { docList, dataset, containerUr
 
   // Saving file path to source URL after saving to cover edge cases with .jpg/.jpeg
   const savedFilePath = getSourceUrl(savedFile);
-  docThing = saveSourceUrlToThing(docThing, savedFilePath);
+  docThing = saveSourceUrlToThing(docThing, savedFilePath, 'url');
   newDocObject.dataset = setThing(dataset, docThing);
 
   const newObj = await saveToPod(session, newDocObject);

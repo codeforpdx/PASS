@@ -2,6 +2,7 @@ import {
   buildThing,
   createAcl,
   deleteFile,
+  getFile,
   getSourceUrl,
   getStringNoLocale,
   getThing,
@@ -113,20 +114,22 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
   const savedFilePath = getSourceUrl(savedFile);
 
   // Saving file path to source URL after saving to cover edge cases with .jpg/.jpeg
-  profileThing = saveSourceUrlToThing(profileThing, savedFilePath);
+  profileThing = saveSourceUrlToThing(profileThing, savedFilePath, 'profileImg');
   profileDataset = setThing(profileDataset, profileThing);
 
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 
   // Create ACL file for profile image
-  const resourceAcl = createAcl(savedFile);
+  const imageResource = await getFile(savedFilePath, { fetch: session.fetch });
+
+  const resourceAcl = createAcl(imageResource);
   const newAcl = setupAcl(
     resourceAcl,
     session.info.webId,
     { read: true, write: true, control: true }, // personal access
     { read: true } // public access
   );
-  await saveAclFor(savedFile, newAcl, { fetch: session.fetch });
+  await saveAclFor(imageResource, newAcl, { fetch: session.fetch });
 };
 
 /**
