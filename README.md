@@ -28,6 +28,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 3.  [Contribution Guidelines](#3-contribution-guidelines-🧑‍💻)
 4.  [Contributors](#4-contributors-💻)
 5.  [Tech Stack and Additional Resources](#5-tech-stack-🧪)
+6.  [Code of Conduct](#6-code-of-conduct-🌏)
 
 ---
 ## 1. Setup Instructions 🔧
@@ -144,5 +145,10 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 ## 5. Tech Stack 🧪
 
 - Details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
+
+## 6. Code of Conduct 🌏
+
+- [Code for PDX code of conduct](https://github.com/codeforpdx/codeofconduct/blob/master/README.md)
+
 
 **[⬆️ Back to Top](#pass---personal-access-system-for-services)**
