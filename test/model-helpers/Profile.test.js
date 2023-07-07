@@ -156,12 +156,11 @@ describe('uploadProfileImage', () => {
     const mockFileResource = solidClient.mockFileFrom('https://example.com/pod/profile/image.png');
     const mockFileResourceWithAcl = solidClient.addMockResourceAclTo(mockFileResource);
 
-    vi.spyOn(solidClient, 'saveFileInContainer');
+    vi.spyOn(solidClient, 'saveFileInContainer').mockResolvedValue(mockFileResource);
     vi.spyOn(solidClient, 'getSourceUrl');
     vi.spyOn(utils, 'saveSourceUrlToThing').mockReturnValue(mockData.profileThing);
     vi.spyOn(solidClient, 'setThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
-    vi.spyOn(solidClient, 'getFile').mockResolvedValue(mockFileResource);
     vi.spyOn(solidClient, 'createAcl');
     vi.spyOn(utils, 'setupAcl').mockReturnValue(mockFileResourceWithAcl);
     vi.spyOn(solidClient, 'saveAclFor');
@@ -172,7 +171,6 @@ describe('uploadProfileImage', () => {
     expect(utils.saveSourceUrlToThing).toBeCalled();
     expect(solidClient.setThing).toBeCalled();
     expect(solidClient.saveSolidDatasetAt).toBeCalled();
-    expect(solidClient.getFile).toBeCalled();
     expect(solidClient.createAcl).toBeCalled();
     expect(utils.setupAcl).toBeCalled();
     expect(solidClient.saveAclFor).toBeCalled();
