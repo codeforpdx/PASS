@@ -12,7 +12,7 @@ import {
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '../constants';
 
-import { setDocAclForUser } from '../utils/network/session-helper';
+import { setDocAclForUser } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
