@@ -63,6 +63,7 @@ export const SignedInUserContextProvider = ({ children }) => {
           podUrl
         });
         const profileData = await fetchProfileInfo(session);
+        localStorage.setItem('profileImage', profileData.profileInfo.profileImage);
         setUserInfo({
           ...userInfo,
           profileData
