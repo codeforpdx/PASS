@@ -73,7 +73,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 
 Further information can be found in [CONTRIBUTING.md](./docs/CONTRIBUTING.md) & [docs/README.md](./docs/README.md)
 
-**[⬆️ Back to Top](#PASS)**
+**[⬆️ Back to Top](#pass---personal-access-system-for-services)**
 
 ---
 
@@ -108,7 +108,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - User data remains in their pod (which is associated to WebID)
 - Full product road map [here](docs/ROADMAP.md)
   
-**[⬆️ Back to Top](#PASS)**
+**[⬆️ Back to Top](#pass---personal-access-system-for-services)**
 
 ---
 
@@ -118,11 +118,11 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 -  Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
 -  Request git-hub access on Discord in the [github-access-request](https://discord.com/channels/1068260532806766733/1078124139983945858) channel of the General category.
   
-**[⬆️ Back to Top](#PASS)**
+**[⬆️ Back to Top](#pass---personal-access-system-for-services)**
 
 ---
 
-## 4. Contributors 💻>
+## 4. Contributors 💻
 
 | Development Team | UI Team     | UX Team     | Project Management Team |
 | ---------------- | ----------- | ----------- | ----------------------- |
