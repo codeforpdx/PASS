@@ -1,9 +1,10 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
+import DeleteClientModal from './DeleteClientModal';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
@@ -18,9 +19,26 @@ const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
   const { loadingUsers } = useContext(UserListContext);
 
+  // state for DeleteClientModal component
+  const [showDeleteClientModal, setShowDeleteClientModal] = useState(false);
+
+  // state for selected client to delete
+  const [selectedClientToDelete, setSelectedClientToDelete] = useState(null);
+
   const determineClientListTable = userListObject.userList?.length ? (
     // render if clients
-    <ClientListTable />
+    <>
+      <ClientListTable
+        setSelectedClientToDelete={setSelectedClientToDelete}
+        setShowDeleteClientModal={setShowDeleteClientModal}
+      />
+      {/* modal/popup renders when showDeleteClientModal state is true */}
+      <DeleteClientModal
+        showDeleteClientModal={showDeleteClientModal}
+        setShowDeleteClientModal={setShowDeleteClientModal}
+        selectedClientToDelete={selectedClientToDelete}
+      />
+    </>
   ) : (
     // render if no clients
     <EmptyListNotification type="clients" />

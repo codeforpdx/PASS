@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // Material UI Imports
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +13,6 @@ import { useStatusNotification } from '../../hooks';
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTableRow from './ClientListTableRow';
-import DeleteClientModal from './DeleteClientModal';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
@@ -26,52 +25,40 @@ const columnTitlesArray = ['Select', 'Client', 'WebID', 'Pin', 'Delete'];
  * @name ClientListTable
  */
 
-const ClientListTable = () => {
+const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
-  // state for DeleteClientModal component
-  const [showDeleteClientModal, setShowDeleteClientModal] = useState(false);
-  // state for selected client to delete
-  const [selectedClientToDelete, setSelectedClientToDelete] = useState(null);
 
   return (
-    <>
-      <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
-        <Table aria-label="client list table">
-          <TableHead>
-            <TableRow>
-              {columnTitlesArray.map((columnTitle) => (
-                <StyledTableCell key={columnTitle} align="center">
-                  {columnTitle}
-                </StyledTableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userListObject?.userList.map((client, index) => {
-              const labelId = `clientlist-checkbox-${index}`;
-              return (
-                <ClientListTableRow
-                  key={client.webId}
-                  labelId={labelId}
-                  client={client}
-                  state={state}
-                  dispatch={dispatch}
-                  setShowDeleteClientModal={setShowDeleteClientModal}
-                  setSelectedClientToDelete={setSelectedClientToDelete}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {/* modal/popup renders when showDeleteClientModal state is true */}
-      <DeleteClientModal
-        showDeleteClientModal={showDeleteClientModal}
-        setShowDeleteClientModal={setShowDeleteClientModal}
-        selectedClientToDelete={selectedClientToDelete}
-      />
-    </>
+    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+      <Table aria-label="client list table">
+        <TableHead>
+          <TableRow>
+            {columnTitlesArray.map((columnTitle) => (
+              <StyledTableCell key={columnTitle} align="center">
+                {columnTitle}
+              </StyledTableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {userListObject?.userList.map((client, index) => {
+            const labelId = `clientlist-checkbox-${index}`;
+            return (
+              <ClientListTableRow
+                key={client.webId}
+                labelId={labelId}
+                client={client}
+                state={state}
+                dispatch={dispatch}
+                setShowDeleteClientModal={setShowDeleteClientModal}
+                setSelectedClientToDelete={setSelectedClientToDelete}
+              />
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
