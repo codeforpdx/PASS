@@ -115,6 +115,7 @@ export const createSettingsContainer = async (session, podUrl) => {
 export const initializeSolidProfile = async (session, podUrl) => {
   let profileDataset = await getWebIdDataset(session.info.webId);
   let profileThing = getThing(profileDataset, session.info.webId);
+  let updated = false;
 
   const preferenceFile = getUrl(profileThing, RDF_PREDICATES.preferenceFile);
   if (!preferenceFile) {
@@ -122,6 +123,7 @@ export const initializeSolidProfile = async (session, podUrl) => {
       .addUrl(RDF_PREDICATES.preferenceFile, `${podUrl}settings/prefs.ttl`)
       .build();
     profileDataset = setThing(profileDataset, profileThing);
+    updated = true;
   }
 
   const publicTypeIndex = getUrl(profileThing, RDF_PREDICATES.publicTypeIndex);
@@ -130,6 +132,7 @@ export const initializeSolidProfile = async (session, podUrl) => {
       .addUrl(RDF_PREDICATES.publicTypeIndex, `${podUrl}settings/publicTypeIndex.ttl`)
       .build();
     profileDataset = setThing(profileDataset, profileThing);
+    updated = true;
   }
 
   const privateTypeIndex = getUrl(profileThing, RDF_PREDICATES.privateTypeIndex);
@@ -138,12 +141,14 @@ export const initializeSolidProfile = async (session, podUrl) => {
       .addUrl(RDF_PREDICATES.privateTypeIndex, `${podUrl}settings/privateTypeIndex.ttl`)
       .build();
     profileDataset = setThing(profileDataset, profileThing);
+    updated = true;
   }
 
   const storage = getUrl(profileThing, RDF_PREDICATES.storage);
   if (!storage) {
     profileThing = buildThing(profileThing).addUrl(RDF_PREDICATES.storage, podUrl).build();
     profileDataset = setThing(profileDataset, profileThing);
+    updated = true;
   }
 
   const inbox = getUrl(profileThing, RDF_PREDICATES.inbox);
@@ -152,9 +157,12 @@ export const initializeSolidProfile = async (session, podUrl) => {
       .addUrl(RDF_PREDICATES.inbox, `${podUrl}PASS/Inbox/`)
       .build();
     profileDataset = setThing(profileDataset, profileThing);
+    updated = true;
   }
 
-  await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+  if (updated) {
+    await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+  }
 };
 
 /**
