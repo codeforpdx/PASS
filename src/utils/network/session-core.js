@@ -3,8 +3,8 @@ import {
   getSolidDataset,
   getThingAll,
   getFile,
-  getSolidDatasetWithAcl,
-  hasResourceAcl
+  hasResourceAcl,
+  getSolidDatasetWithAcl
 } from '@inrupt/solid-client';
 import { INTERACTION_TYPES } from '../../constants';
 import {

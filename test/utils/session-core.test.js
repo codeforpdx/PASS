@@ -1,9 +1,10 @@
-import { getFile, createContainerAt, getSolidDataset } from '@inrupt/solid-client';
+import * as solidClient from '@inrupt/solid-client';
 import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
 import {
   createInbox,
   createOutbox,
   createPublicContainer,
+  createDocumentsContainer,
   getBlobFromSolid
 } from '../../src/utils/network/session-core';
 import * as sessionHelpers from '../../src/utils/network/session-helper';
@@ -30,17 +31,17 @@ describe('createInbox', () => {
 
   it('just runs getSolidDataset if container exist', async () => {
     await createInbox(session, inboxContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).not.toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).not.toBeCalled();
   });
 
   it('runs catch block if getSolidDataset rejects', async () => {
-    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
-    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+    solidClient.getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockResolvedValue();
 
     await createInbox(session, inboxContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
   });
 });
@@ -62,17 +63,17 @@ describe('createOutbox', () => {
 
   it('just runs getSolidDataset if container exist', async () => {
     await createOutbox(session, outboxContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).not.toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).not.toBeCalled();
   });
 
   it('runs catch block if getSolidDataset rejects', async () => {
-    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
-    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
+    solidClient.getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockResolvedValue();
 
     await createOutbox(session, outboxContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
   });
 });
@@ -94,20 +95,69 @@ describe('createPublicContainer', () => {
 
   it('just runs getSolidDataset if container exist', async () => {
     await createPublicContainer(session, publicContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).not.toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).not.toBeCalled();
   });
 
   it('runs catch block if getSolidDataset rejects', async () => {
-    getSolidDataset.mockRejectedValueOnce(Error('No data found'));
-    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockReturnValue();
-    vi.spyOn(sessionHelpers, 'setDocAclForPublic').mockReturnValue();
+    solidClient.getSolidDataset.mockRejectedValueOnce(Error('No data found'));
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockResolvedValue();
+    vi.spyOn(sessionHelpers, 'setDocAclForPublic').mockResolvedValue();
 
     await createPublicContainer(session, publicContainerUrl);
-    expect(getSolidDataset).toBeCalled();
-    expect(createContainerAt).toBeCalled();
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).toBeCalled();
     expect(sessionHelpers.setDocAclForUser).toBeCalled();
     expect(sessionHelpers.setDocAclForPublic).toBeCalled();
+  });
+});
+
+describe('createDocumentsContainer', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: `${mockPodUrl}profile/card#me`
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const publicContainerUrl = `${mockPodUrl}PASS/Documents/`;
+
+  it('runs getSolidDatasetWithAcl if container exist and hasResourceAcl is true', async () => {
+    vi.spyOn(solidClient, 'hasResourceAcl').mockReturnValue(true);
+    vi.spyOn(solidClient, 'getSolidDatasetWithAcl').mockResolvedValue();
+
+    await createDocumentsContainer(session, publicContainerUrl);
+    expect(solidClient.getSolidDatasetWithAcl).toBeCalled();
+    expect(solidClient.hasResourceAcl).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).not.toBeCalled();
+    expect(solidClient.createContainerAt).not.toBeCalled();
+  });
+
+  it('runs getSolidDatasetWithAcl if container exist and hasResourceAcl is false', async () => {
+    vi.spyOn(solidClient, 'hasResourceAcl').mockReturnValue(false);
+    vi.spyOn(solidClient, 'getSolidDatasetWithAcl').mockResolvedValue();
+
+    await createDocumentsContainer(session, publicContainerUrl);
+    expect(solidClient.getSolidDatasetWithAcl).toBeCalled();
+    expect(solidClient.hasResourceAcl).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
+    expect(solidClient.createContainerAt).not.toBeCalled();
+  });
+
+  it('runs catch block if getSolidDatasetWithAcl rejects', async () => {
+    vi.spyOn(solidClient, 'getSolidDatasetWithAcl').mockRejectedValue();
+    vi.spyOn(sessionHelpers, 'setDocAclForUser').mockResolvedValue();
+
+    await createDocumentsContainer(session, publicContainerUrl);
+    expect(solidClient.getSolidDatasetWithAcl).toBeCalled();
+    expect(solidClient.hasResourceAcl).not.toBeCalled();
+    expect(solidClient.createContainerAt).toBeCalled();
+    expect(sessionHelpers.setDocAclForUser).toBeCalled();
   });
 });
 
@@ -127,7 +177,7 @@ describe('getBlobFromSolid', () => {
   it('returns a blob URL', async () => {
     const mockFileUrl = 'https://pod.example.com/PASS/Documents/Passport/test.pdf';
     const fileBlob = new Blob(['file content'], { type: 'application/pdf' });
-    getFile.mockResolvedValue(fileBlob);
+    solidClient.getFile.mockResolvedValue(fileBlob);
 
     // Mocking URL.createObjectURL since the function is not available for Node
     const createObjectURLMock = vi.fn().mockReturnValue('mock-url');
