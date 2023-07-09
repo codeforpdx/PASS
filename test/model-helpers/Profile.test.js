@@ -62,7 +62,7 @@ describe('initializeSolidProfile', () => {
     vi.clearAllMocks();
   });
 
-  it('run saveSolidDatasetAt only if update is true', async () => {
+  it('does not run saveSolidDatasetAt when update is false', async () => {
     vi.spyOn(solidClient, 'getWebIdDataset').mockResolvedValue();
     vi.spyOn(solidClient, 'getThing').mockReturnValue();
     vi.spyOn(solidClient, 'getUrl').mockReturnValue(true);
@@ -71,6 +71,25 @@ describe('initializeSolidProfile', () => {
     await initializeSolidProfile(session, mockPodUrl);
 
     expect(solidClient.saveSolidDatasetAt).not.toBeCalled();
+  });
+
+  const buildThing = vi.fn().mockReturnValue({
+    addUrl: vi.fn().mockReturnValue(),
+    build: vi.fn().mockReturnValue()
+  });
+
+  it('run saveSolidDatasetAt when update is true', async () => {
+    vi.spyOn(solidClient, 'getWebIdDataset').mockResolvedValue();
+    vi.spyOn(solidClient, 'getThing').mockReturnValue();
+    vi.spyOn(solidClient, 'getUrl').mockReturnValue(false);
+    buildThing.mockReturnValue();
+    vi.spyOn(solidClient, 'setThing').mockReturnValue();
+    vi.spyOn(solidClient, 'saveSolidDatasetAt');
+
+    await initializeSolidProfile(session, mockPodUrl);
+
+    expect(solidClient.setThing).toBeCalledTimes(5);
+    expect(solidClient.saveSolidDatasetAt).toBeCalled();
   });
 });
 
