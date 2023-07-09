@@ -82,12 +82,12 @@ export const createSettingsContainer = async (session, podUrl) => {
     );
 
     // Generate Preference File Document
-    const newPreferenceFileThing = buildThing(createThing({ name: 'Preferences_file' }))
+    const newPreferenceFileThing = buildThing(createThing({ name: 'preferences_file' }))
       .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.preferenceFile)
       .addStringNoLocale(RDF_PREDICATES.title, 'Preferences file')
       .build();
 
-    const newPreferenceFileDocumentsThing = buildThing(createThing({ name: session.info.webid }))
+    const newPreferenceFileDocumentsThing = buildThing(createThing({ name: 'type_index_files' }))
       .addUrl(RDF_PREDICATES.publicTypeIndex, `${settingsContainerUrl}publicTypeIndex.ttl`)
       .addUrl(RDF_PREDICATES.privateTypeIndex, `${settingsContainerUrl}privateTypeIndex.ttl`)
       .build();
