@@ -60,7 +60,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
-        setProfileData(profileData);
+        setProfileData(fetchedProfileData);
         await Promise.all([
           createPublicContainer(session, podUrl),
           generateDocumentsAcl(session, podUrl),
@@ -75,6 +75,8 @@ export const SignedInUserContextProvider = ({ children }) => {
       loadUserInfo();
     }
   }, [session.info.isLoggedIn]);
+
+  console.log(userInfoMemo);
 
   return (
     <SignedInUserContext.Provider value={userInfoMemo}>{children}</SignedInUserContext.Provider>
