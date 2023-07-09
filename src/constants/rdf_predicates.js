@@ -1,4 +1,4 @@
-import { SCHEMA_INRUPT, FOAF } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, FOAF, LDP, RDF } from '@inrupt/vocab-common-rdf';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
@@ -26,7 +26,16 @@ const RDF_PREDICATES = {
   accountablePerson: 'https://schema.org/accountablePerson',
   profileName: FOAF.name,
   profileImg: FOAF.img,
-  nickname: FOAF.nick
+  nickname: FOAF.nick,
+  type: RDF.type,
+  preferenceFile: 'http://www.w3.org/ns/pim/space#preferencesFile',
+  publicTypeIndex: 'http://www.w3.org/ns/solid/terms#publicTypeIndex',
+  privateTypeIndex: 'http://www.w3.org/ns/solid/terms#privateTypeIndex',
+  typeIndex: 'http://www.w3.org/ns/solid/terms#TypeIndex',
+  listedDocument: 'http://www.w3.org/ns/solid/terms#ListedDocument',
+  unlistedDocument: 'http://www.w3.org/ns/solid/terms#UnlistedDocument',
+  storage: 'http://www.w3.org/ns/pim/space#storage',
+  inbox: LDP.inbox
 };
 
 export default RDF_PREDICATES;

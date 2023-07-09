@@ -1,8 +1,12 @@
 import {
   buildThing,
   createAcl,
+  createContainerAt,
+  createSolidDataset,
+  createThing,
   deleteFile,
   getFile,
+  getSolidDataset,
   getSourceUrl,
   getStringNoLocale,
   getThing,
@@ -21,6 +25,137 @@ import { saveSourceUrlToThing, setupAcl } from '../utils';
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
+
+/**
+ * @typedef {import('@inrupt/solid-client').Thing} Thing
+ */
+
+/**
+ * @typedef {import('@inrupt/solid-client').SolidDataset} SolidDataset
+ */
+
+/**
+ * Function that generates the settings container to store the Preference File
+ * Document and the Type Index Documents for the profile if settings are missing
+ *
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - Pod URL of user
+ * @returns {Promise} Promise - Generate the settings container in Solid Pod if
+ * the settings container are missing from the Pod
+ */
+export const createSettingsContainer = async (session, podUrl) => {
+  const settingsContainerUrl = `${podUrl}settings/`;
+
+  try {
+    await getSolidDataset(settingsContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(settingsContainerUrl, { fetch: session.fetch });
+
+    // Generate Public Type Index Documents
+    const newPublicTypeIndexThing = buildThing(createThing({ name: 'public_Type_Index' }))
+      .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.typeIndex)
+      .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.listedDocument)
+      .build();
+
+    let newPublicTypeIndexDataset = createSolidDataset();
+    newPublicTypeIndexDataset = setThing(newPublicTypeIndexDataset, newPublicTypeIndexThing);
+
+    await saveSolidDatasetAt(
+      `${settingsContainerUrl}publicTypeIndex.ttl`,
+      newPublicTypeIndexDataset,
+      { slug: 'publicTypeIndex.ttl', fetch: session.fetch }
+    );
+
+    // Generate Private Type Index Documents
+    const newPrivateTypeIndexThing = buildThing(createThing({ name: 'private_Type_Index' }))
+      .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.typeIndex)
+      .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.unlistedDocument)
+      .build();
+
+    let newPrivateTypeIndexDataset = createSolidDataset();
+    newPrivateTypeIndexDataset = setThing(newPrivateTypeIndexDataset, newPrivateTypeIndexThing);
+
+    await saveSolidDatasetAt(
+      `${settingsContainerUrl}privateTypeIndex.ttl`,
+      newPrivateTypeIndexDataset,
+      { slug: 'privateTypeIndex.ttl', fetch: session.fetch }
+    );
+
+    // Generate Preference File Document
+    const newPreferenceFileThing = buildThing(createThing({ name: 'Preferences_file' }))
+      .addUrl(RDF_PREDICATES.type, RDF_PREDICATES.preferenceFile)
+      .addStringNoLocale(RDF_PREDICATES.title, 'Preferences file')
+      .build();
+
+    const newPreferenceFileDocumentsThing = buildThing(createThing({ name: session.info.webid }))
+      .addUrl(RDF_PREDICATES.publicTypeIndex, `${settingsContainerUrl}publicTypeIndex.ttl`)
+      .addUrl(RDF_PREDICATES.privateTypeIndex, `${settingsContainerUrl}privateTypeIndex.ttl`)
+      .build();
+
+    let newPreferenceFileDataset = createSolidDataset();
+    newPreferenceFileDataset = setThing(newPreferenceFileDataset, newPreferenceFileThing);
+    newPreferenceFileDataset = setThing(newPreferenceFileDataset, newPreferenceFileDocumentsThing);
+
+    await saveSolidDatasetAt(`${settingsContainerUrl}prefs.ttl`, newPreferenceFileDataset, {
+      slug: 'prefs.ttl',
+      fetch: session.fetch
+    });
+  }
+};
+
+/**
+ * Function that initializes Solid Profile to the v1 specification of the Solid
+ * WebID Profile: https://solid.github.io/webid-profile/
+ *
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - Pod URL of user
+ * @returns {Promise} Promise - Initializes Solid Profile to v1 specifications
+ * in case there are fields missing in the profile
+ */
+export const initializeSolidProfile = async (session, podUrl) => {
+  let profileDataset = await getWebIdDataset(session.info.webId);
+  let profileThing = getThing(profileDataset, session.info.webId);
+
+  const preferenceFile = getUrl(profileThing, RDF_PREDICATES.preferenceFile);
+  if (!preferenceFile) {
+    profileThing = buildThing(profileThing)
+      .addUrl(RDF_PREDICATES.preferenceFile, `${podUrl}settings/prefs.ttl`)
+      .build();
+    profileDataset = setThing(profileDataset, profileThing);
+  }
+
+  const publicTypeIndex = getUrl(profileThing, RDF_PREDICATES.publicTypeIndex);
+  if (!publicTypeIndex) {
+    profileThing = buildThing(profileThing)
+      .addUrl(RDF_PREDICATES.publicTypeIndex, `${podUrl}settings/publicTypeIndex.ttl`)
+      .build();
+    profileDataset = setThing(profileDataset, profileThing);
+  }
+
+  const privateTypeIndex = getUrl(profileThing, RDF_PREDICATES.privateTypeIndex);
+  if (!privateTypeIndex) {
+    profileThing = buildThing(profileThing)
+      .addUrl(RDF_PREDICATES.privateTypeIndex, `${podUrl}settings/privateTypeIndex.ttl`)
+      .build();
+    profileDataset = setThing(profileDataset, profileThing);
+  }
+
+  const storage = getUrl(profileThing, RDF_PREDICATES.storage);
+  if (!storage) {
+    profileThing = buildThing(profileThing).addUrl(RDF_PREDICATES.storage, podUrl).build();
+    profileDataset = setThing(profileDataset, profileThing);
+  }
+
+  const inbox = getUrl(profileThing, RDF_PREDICATES.inbox);
+  if (!inbox) {
+    profileThing = buildThing(profileThing)
+      .addUrl(RDF_PREDICATES.inbox, `${podUrl}PASS/Inbox/`)
+      .build();
+    profileDataset = setThing(profileDataset, profileThing);
+  }
+
+  await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
+};
 
 /**
  * A function fetches the user's profile information from their webId's profile
