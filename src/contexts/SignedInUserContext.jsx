@@ -4,7 +4,7 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createDocumentsContainer, createPublicContainer } from '../utils';
+import { generateDocumentsAcl, createPublicContainer } from '../utils';
 import {
   fetchProfileInfo,
   updateProfileInfo,
@@ -68,7 +68,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         });
         await Promise.all([
           createPublicContainer(session, podUrl),
-          createDocumentsContainer(session, podUrl),
+          generateDocumentsAcl(session, podUrl),
           updateUserActivity(session, podUrl)
         ]);
       } finally {
