@@ -4,7 +4,7 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { generateDocumentsAcl, createPublicContainer } from '../utils';
+import { createDocumentsContainer, createPublicContainer } from '../utils';
 import {
   fetchProfileInfo,
   updateProfileInfo,
@@ -54,17 +54,18 @@ export const SignedInUserContextProvider = ({ children }) => {
     const loadUserInfo = async () => {
       try {
         const { webId } = session.info;
-        const fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
-        setPodUrl(fetchedPodUrl || webId.split('profile')[0]);
+        let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
+        fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
+        setPodUrl(fetchedPodUrl);
         const fetchedProfileData = await fetchProfileInfo(session);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
         setProfileData(fetchedProfileData);
         await Promise.all([
-          createPublicContainer(session, podUrl),
-          generateDocumentsAcl(session, podUrl),
-          updateUserActivity(session, podUrl)
+          createPublicContainer(session, fetchedPodUrl),
+          createDocumentsContainer(session, fetchedPodUrl),
+          updateUserActivity(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

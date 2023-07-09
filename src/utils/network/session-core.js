@@ -3,7 +3,8 @@ import {
   getSolidDataset,
   getThingAll,
   getFile,
-  hasAcl
+  getSolidDatasetWithAcl,
+  hasResourceAcl
 } from '@inrupt/solid-client';
 import { INTERACTION_TYPES } from '../../constants';
 import {
@@ -122,20 +123,29 @@ export const createPublicContainer = async (session, podUrl) => {
  * access to the user
  *
  * @memberof utils
- * @function generateDocumentsAcl
+ * @function createDocumentsContainer
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - The user's Pod URL
  * @returns {Promise} Promise - Generates a Documents container for Pod upon log
  * in if user's Pod does not have the an outbox to begin with
  */
-export const generateDocumentsAcl = async (session, podUrl) => {
+export const createDocumentsContainer = async (session, podUrl) => {
   const documentsContainerUrl = `${podUrl}PASS/Documents/`;
 
-  const solidDataset = await getSolidDataset(documentsContainerUrl, {
-    fetch: session.fetch
-  });
+  try {
+    const solidDataset = await getSolidDatasetWithAcl(documentsContainerUrl, {
+      fetch: session.fetch
+    });
 
-  if (!hasAcl(solidDataset)) {
+    const resourceAclExists = hasResourceAcl(solidDataset);
+
+    if (!resourceAclExists) {
+      await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
+    }
+  } catch {
+    await createContainerAt(documentsContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
     await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
   }
 };
