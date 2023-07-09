@@ -37,7 +37,7 @@ const DeleteClientModal = ({
   const handleDeleteClient = async (event) => {
     event.preventDefault();
     runNotification(
-      `Deleting "${selectedClientToDelete.person}" from client list...`,
+      `Deleting "${selectedClientToDelete?.person}" from client list...`,
       3,
       state,
       dispatch
@@ -46,7 +46,7 @@ const DeleteClientModal = ({
       await removeUser(selectedClientToDelete);
     } finally {
       runNotification(
-        `"${selectedClientToDelete.person}" deleted from client list...`,
+        `"${selectedClientToDelete?.person}" deleted from client list...`,
         3,
         state,
         dispatch
@@ -91,6 +91,7 @@ const DeleteClientModal = ({
               type="submit"
               variant="contained"
               color="primary"
+              aria-label="Delete Client Button"
               endIcon={<CheckIcon />}
               disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
