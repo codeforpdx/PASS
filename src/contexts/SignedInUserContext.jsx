@@ -4,7 +4,7 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createPublicContainer } from '../utils';
+import { createDocumentsContainer, createPublicContainer } from '../utils';
 import {
   fetchProfileInfo,
   updateProfileInfo,
@@ -58,21 +58,18 @@ export const SignedInUserContextProvider = ({ children }) => {
         const { webId } = session.info;
         let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         podUrl = podUrl || webId.split('profile')[0];
-        setUserInfo({
-          ...userInfo,
-          podUrl
-        });
         const profileData = await fetchProfileInfo(session);
         if (profileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', profileData.profileInfo.profileImage);
         }
         setUserInfo({
-          ...userInfo,
+          podUrl,
           profileData
         });
         await Promise.all([
-          updateUserActivity(session, podUrl),
-          createPublicContainer(session, podUrl)
+          createPublicContainer(session, podUrl),
+          createDocumentsContainer(session, podUrl),
+          updateUserActivity(session, podUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

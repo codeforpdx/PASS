@@ -1,4 +1,10 @@
-import { createContainerAt, getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import {
+  createContainerAt,
+  getSolidDataset,
+  getThingAll,
+  getFile,
+  hasAcl
+} from '@inrupt/solid-client';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -65,30 +71,28 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @function setDocContainerAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
+ * @param {URL} podUrl - URL of the user's Pod
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
-export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-  const urlsToSet = [
-    containerUrl,
-    `${containerUrl}Bank_Statement/`,
-    `${containerUrl}Passport/`,
-    `${containerUrl}Drivers_License/`
-  ];
-
+export const setDocContainerAclPermission = async (
+  session,
+  permissions,
+  podUrl,
+  otherPodUsername
+) => {
+  const containerUrl = `${podUrl}PASS/Documents/`;
   const otherPodUrl = getPodUrl(otherPodUsername);
   const webId = `${otherPodUrl}profile/card#me`;
 
-  urlsToSet.forEach(async (url) => {
-    await setDocAclForUser(session, url, 'update', webId, permissions);
-  });
+  await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
 };
 
 /**
  * Function that creates a public container in the user's Pod when logging in for
- * the first time
+ * the first time or if Public is missing and initialize it with an ACL with
+ * access to the user
  *
  * @memberof utils
  * @function createPublicContainer
@@ -109,6 +113,37 @@ export const createPublicContainer = async (session, podUrl) => {
     // Generate ACL file for container
     await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
     await setDocAclForPublic(session, publicContainerUrl, { read: true });
+  }
+};
+
+/**
+ * Function that creates a Documents container in the user's Pod when logging in
+ * for the first time or if Documents is missing and initialize it with an ACL with
+ * access to the user
+ *
+ * @memberof utils
+ * @function createDocumentsContainer
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The user's Pod URL
+ * @returns {Promise} Promise - Generates a Documents container for Pod upon log
+ * in if user's Pod does not have the an outbox to begin with
+ */
+export const createDocumentsContainer = async (session, podUrl) => {
+  const documentsContainerUrl = `${podUrl}PASS/Documents/`;
+
+  try {
+    const solidDataset = await getSolidDataset(documentsContainerUrl, {
+      fetch: session.fetch
+    });
+
+    if (!hasAcl(solidDataset)) {
+      await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
+    }
+  } catch {
+    await createContainerAt(documentsContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
   }
 };
 
