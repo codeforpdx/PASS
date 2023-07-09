@@ -14,12 +14,20 @@ vi.mock('@inrupt/solid-ui-react', () => ({
   )
 }));
 
-vi.mock('../../../src/constants/');
-
 afterEach(() => {
   vi.clearAllMocks();
   localStorage.clear();
   cleanup();
+});
+
+vi.mock('../../../src/constants/', () => {
+  const actual = vi.importActual('../../../src/constants/');
+  return {
+    ...actual,
+    ENV: {
+      VITE_SOLID_IDENTITY_PROVIDER: 'https://www.testurl.com/'
+    }
+  };
 });
 
 it('renders correctly', () => {
