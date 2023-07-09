@@ -34,38 +34,33 @@ export const SignedInUserContext = createContext({});
 export const SignedInUserContextProvider = ({ children }) => {
   const { session } = useSession();
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
-  const [userInfo, setUserInfo] = useState({
-    podUrl: null,
-    profileData: null
-  });
+  const [podUrl, setPodUrl] = useState('');
+  const [profileData, setProfileData] = useState(null);
 
   const userInfoMemo = useMemo(
     () => ({
-      podUrl: userInfo.podUrl,
-      profileData: userInfo.profileData,
-      setProfileData: async (profileData) => setUserInfo({ ...userInfo, profileData }),
+      podUrl,
+      profileData,
+      setProfileData: async (newProfileData) => setProfileData(newProfileData),
       fetchProfileInfo,
       updateProfileInfo,
       uploadProfileImage,
       removeProfileImage
     }),
-    [userInfo, loadingUserInfo]
+    [podUrl, profileData, loadingUserInfo]
   );
 
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
         const { webId } = session.info;
-        let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
-        podUrl = podUrl || webId.split('profile')[0];
-        const profileData = await fetchProfileInfo(session);
-        if (profileData.profileInfo.profileImage) {
-          localStorage.setItem('profileImage', profileData.profileInfo.profileImage);
+        const fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
+        setPodUrl(fetchedPodUrl || webId.split('profile')[0]);
+        const fetchedProfileData = await fetchProfileInfo(session);
+        if (fetchedProfileData.profileInfo.profileImage) {
+          localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
-        setUserInfo({
-          podUrl,
-          profileData
-        });
+        setProfileData(profileData);
         await Promise.all([
           createPublicContainer(session, podUrl),
           generateDocumentsAcl(session, podUrl),
