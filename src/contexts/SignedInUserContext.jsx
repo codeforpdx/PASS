@@ -76,8 +76,6 @@ export const SignedInUserContextProvider = ({ children }) => {
     }
   }, [session.info.isLoggedIn]);
 
-  console.log(userInfoMemo);
-
   return (
     <SignedInUserContext.Provider value={userInfoMemo}>{children}</SignedInUserContext.Provider>
   );
