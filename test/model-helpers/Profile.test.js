@@ -1,7 +1,9 @@
 import * as solidClient from '@inrupt/solid-client';
 import { beforeEach, afterEach, describe, expect, vi, it } from 'vitest';
 import {
+  createSettingsContainer,
   fetchProfileInfo,
+  initializeSolidProfile,
   removeProfileImage,
   updateProfileInfo,
   uploadProfileImage
@@ -10,8 +12,67 @@ import * as utils from '../../src/utils';
 
 let session = {};
 const mockWebId = 'https://example.com/pod/profile/card#me';
+const mockPodUrl = 'https://example.com/pod/';
 
 vi.mock('@inrupt/solid-client');
+
+describe('createSettingsContainer', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: mockWebId
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('runs only getSolidDataset if container exists', async () => {
+    vi.spyOn(solidClient, 'getSolidDataset').mockResolvedValue();
+
+    await createSettingsContainer(session, mockPodUrl);
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.saveSolidDatasetAt).not.toBeCalled();
+  });
+
+  it('runs catch block, create container, and generates three new datasets', async () => {
+    vi.spyOn(solidClient, 'getSolidDataset').mockRejectedValue();
+    vi.spyOn(solidClient, 'createContainerAt').mockResolvedValue();
+    vi.spyOn(solidClient, 'saveSolidDatasetAt').mockResolvedValue();
+
+    await createSettingsContainer(session, mockPodUrl);
+    expect(solidClient.getSolidDataset).toBeCalled();
+    expect(solidClient.createContainerAt).toBeCalled();
+    expect(solidClient.saveSolidDatasetAt).toBeCalledTimes(3);
+  });
+});
+
+describe('initializeSolidProfile', () => {
+  beforeEach(() => {
+    session = {
+      fetch: vi.fn(),
+      info: {
+        webId: mockWebId
+      }
+    };
+  });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('run saveSolidDatasetAt only if update is true', async () => {
+    vi.spyOn(solidClient, 'getWebIdDataset').mockResolvedValue();
+    vi.spyOn(solidClient, 'getThing').mockReturnValue();
+    vi.spyOn(solidClient, 'getUrl').mockReturnValue(true);
+    vi.spyOn(solidClient, 'saveSolidDatasetAt');
+
+    await initializeSolidProfile(session, mockPodUrl);
+
+    expect(solidClient.saveSolidDatasetAt).not.toBeCalled();
+  });
+});
 
 describe('fetchProfileInfo', () => {
   beforeEach(() => {
