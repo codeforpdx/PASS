@@ -9,10 +9,13 @@ import {
 
 import sha256 from 'crypto-js/sha256';
 
-import getDriversLicenseData from '../utils/barcode/barcode-scan';
-import formattedDate from '../utils/barcode/barcode-date-parser';
 import { RDF_PREDICATES } from '../constants';
-import { getUserSigningKey, signDocumentTtlFile } from '../utils/cryptography/credentials-helper';
+import {
+  getUserSigningKey,
+  signDocumentTtlFile,
+  getDriversLicenseData,
+  formattedDate
+} from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -127,21 +130,18 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
  * @function makeDocIntoThing
  * @memberof Document
  * @param {object} docDesc - the doc
- * @param {URL} documentUrl - a url
  * @param {fileObjectType} file - file blob
  * @returns {Promise<ThingLocal>} a thing
  */
-export const makeDocIntoThing = async (docDesc, documentUrl, file) => {
+export const makeDocIntoThing = async (docDesc, file) => {
   const checksum = await createFileChecksum(file);
-  const cleanedFileName = file.name.replaceAll(' ', '%20');
   let thing = buildThing(createThing({ name: docDesc.name }))
     .addDate(RDF_PREDICATES.uploadDate, new Date())
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.additionalType, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, docDesc.description)
-    .addUrl(RDF_PREDICATES.url, `${documentUrl}${cleanedFileName}`);
+    .addStringNoLocale(RDF_PREDICATES.description, docDesc.description);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, new Date(docDesc.date));
   thing = await addAdditionalInfo(docDesc, thing, file);
