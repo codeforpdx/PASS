@@ -31,30 +31,62 @@ export const StyledButton2 = styled('button')({
   }
 });
 
+// export const PaginationContainer = styled.div`
+//   ul {
+//     display: flex;
+//     justify-content: center;
+//     list-style-type: none;
+//     padding: 0;
+//   }
+
+//   li:not(:last-child) {
+//     margin-right: 4px;
+//   }
+
+//   a {
+//     color: #000;
+//     text-decoration: none;
+//     padding: 8px 16px;
+//     border-radius: 4px;
+//     background-color: #eaeaea;
+//     cursor: pointer;
+//   }
+
+//   a:active {
+//     background-color: #555;
+//     color: #fff;
+//   }
+// `;
+
 export const PaginationContainer = styled.div`
-  ul {
+  .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style-type: none;
-    padding: 0;
+    gap: 5px;
   }
 
-  li:not(:last-child) {
-    margin-right: 4px;
-  }
-
-  a {
-    color: #000;
-    text-decoration: none;
+  .pagination .page {
+    background-color: #017969;
+    color: #fff;
     padding: 8px 16px;
     border-radius: 4px;
-    background-color: #eaeaea;
+    text-decoration: none;
     cursor: pointer;
   }
 
-  a:active {
-    background-color: #555;
-    color: #fff;
+  .pagination .page:hover {
+    background-color: #004d3e;
+  }
+
+  .active-page {
+    color: #debc59;
+  }
+
+  .chevron {
+    background-color: #017969;
+    color: #debc59;
   }
 `;
 

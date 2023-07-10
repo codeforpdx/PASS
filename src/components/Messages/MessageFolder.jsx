@@ -85,12 +85,17 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         <PaginationContainer>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel=">"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount === 0 ? 1 : pageCount}
-            previousLabel="< previous"
+            previousLabel="<"
             renderOnZeroPageCount={null}
+            className="pagination"
+            previousLinkClassName="page"
+            nextLinkClassName="page"
+            pageLinkClassName="page"
+            activeClassName="active-page"
           />
         </PaginationContainer>
       </Box>
