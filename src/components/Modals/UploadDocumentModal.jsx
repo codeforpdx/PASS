@@ -1,16 +1,14 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Material UI Imports
-import BackspaceOutlined from '@mui/icons-material/BackspaceOutlined';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Grid';
 import SearchIcon from '@mui/icons-material/Search';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
@@ -56,6 +54,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
+    setShowModal(false);
   };
 
   // Event handler for form/document submission to Pod
@@ -101,11 +100,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog
-      open={showModal}
-      aria-labelledby="upload-document-dialog"
-      onClose={() => setShowModal(false)}
-    >
+    <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <FormSection
         title="Upload Document"
         state={state}
@@ -113,41 +108,34 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         defaultMessage="To be uploaded..."
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
-          <FormControl>
-            <FormControlLabel
-              control={<Switch />}
-              label="Verify file on upload"
-              id="verify-checkbox"
-              value={verifyFile}
-              checked={verifyFile}
-              onChange={() => setVerifyFile(!verifyFile)}
+          <FormControlLabel
+            control={<Switch />}
+            label="Verify file on upload"
+            id="verify-checkbox"
+            value={verifyFile}
+            checked={verifyFile}
+            onChange={() => setVerifyFile(!verifyFile)}
+          />
+          <FormControl fullWidth>
+            <DocumentSelection
+              htmlForAndIdProp="upload-doc"
+              handleDocType={handleDocType}
+              docType={docType}
             />
-            <Grid
-              container
-              spacing={{
-                xs: 1
-              }}
-            >
-              <Grid item xs={12} sm={6}>
-                <DocumentSelection
-                  htmlForAndIdProp="upload-doc"
-                  handleDocType={handleDocType}
-                  docType={docType}
+            <br />
+            <FormControl>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="date"
+                  format="MM/DD/YYYY"
+                  label="Expiration Date"
+                  value={expireDate}
+                  onChange={(newExpireDate) => setExpireDate(newExpireDate)}
+                  type="date"
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    name="date"
-                    format="MM/DD/YYYY"
-                    label="Expiration Date"
-                    value={expireDate}
-                    onChange={(newExpireDate) => setExpireDate(newExpireDate)}
-                    type="date"
-                  />
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
+              </LocalizationProvider>
+            </FormControl>
+            <br />
             <TextField
               name="description"
               multiline
@@ -156,22 +144,45 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
-              margin="normal"
             />
-            {/* TODO: Determine whether we want a pop-up warning for the user to confirm this action */}
-            <ButtonGroup aria-label="primary button group" fullWidth>
+            <br />
+            <Button
+              variant="outlined"
+              component="label"
+              color="primary"
+              id="upload-doctype"
+              name="uploadDoctype"
+              onChange={(e) => setFile(e.target.files[0])}
+              required
+              startIcon={<SearchIcon />}
+            >
+              Choose file
+              <input
+                type="file"
+                hidden
+                accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
+              />
+            </Button>
+            <FormHelperText
+              sx={{
+                width: '200px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              File to upload: {file ? file.name : 'No file selected'}
+            </FormHelperText>
+            <DialogActions>
               <Button
                 variant="outlined"
-                component="label"
-                color="primary"
-                id="upload-doctype"
-                name="uploadDoctype"
-                onChange={(e) => setFile(e.target.files[0])}
-                required
-                startIcon={<SearchIcon />}
+                color="error"
+                startIcon={<ClearIcon />}
+                onClick={clearInputFields}
+                fullWidth
+                helperText="Please enter your name"
               >
-                Choose file
-                <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png" />
+                CANCEL
               </Button>
               <Button
                 variant="contained"
@@ -183,38 +194,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               >
                 Upload
               </Button>
-            </ButtonGroup>
-            <FormHelperText
-              sx={{
-                width: '200px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-              }}
-            >
-              File to upload: {file ? file.name : 'No file selected'}
-            </FormHelperText>
-            <ButtonGroup aria-label="secondary button group" fullWidth>
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<ClearIcon />}
-                onClick={() => setShowModal(false)}
-                fullWidth
-                helperText="Please enter your name"
-              >
-                CANCEL
-              </Button>
-              <Button
-                variant="contained"
-                type="button"
-                color="secondary"
-                onClick={clearInputFields}
-                startIcon={<BackspaceOutlined />}
-              >
-                Clear Form
-              </Button>
-            </ButtonGroup>
+            </DialogActions>
           </FormControl>
         </form>
       </FormSection>

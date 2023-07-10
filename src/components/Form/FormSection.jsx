@@ -15,7 +15,7 @@ import { StatusNotification } from '../Notification';
  *
  * @memberof Forms
  * @name FormSection
- * @param {formSectionProps} formSectionProps - A react prop that consists of
+ * @param {formSectionProps} formSectionProps - A React prop that consists of
  * that consist of title, state, statusType, defaultMessage, and children (see
  * {@link formSectionProps})
  */
@@ -24,7 +24,7 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
   <Box
     sx={{
       marginTop: 1,
-      display: 'inline-block',
+      display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
@@ -34,14 +34,7 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
       boxShadow: 2
     }}
   >
-    <Typography
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      mb={2}
-      variant="h5"
-      component="h3"
-    >
+    <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
       {title}
     </Typography>
     {children}

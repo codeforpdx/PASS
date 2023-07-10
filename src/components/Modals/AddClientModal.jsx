@@ -190,7 +190,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label="copy-webid"
                     // onClick={}
                     // onMouseDown={}
                     edge="end"
