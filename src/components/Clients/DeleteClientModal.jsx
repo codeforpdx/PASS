@@ -81,6 +81,7 @@ const DeleteClientModal = ({
             <Button
               variant="outlined"
               color="error"
+              aria-label="Cancel Button"
               endIcon={<ClearIcon />}
               onClick={() => setShowDeleteClientModal(false)}
             >

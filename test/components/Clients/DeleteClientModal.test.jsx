@@ -1,6 +1,6 @@
+import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import { DeleteClientModal } from '../../../src/components/Clients';
 import { UserListContext } from '../../../src/contexts';
@@ -9,42 +9,39 @@ afterEach(() => {
   cleanup();
 });
 
-it('shows when showDeleteClientModal is true', () => {
-  const setModal = () => {};
-  const removeUser = vi.fn();
+const client = { person: 'tim' };
+const removeUser = vi.fn();
+const setModal = () => {};
+
+it('renders/mounts when showDeleteClientModal is true', () => {
   const { queryByLabelText } = render(
     <UserListContext.Provider value={{ removeUser }}>
       <DeleteClientModal
         showDeleteClientModal
         setShowDeleteClientModal={setModal}
-        selectedClientToDelete={{ person: 'tim' }}
+        selectedClientToDelete={client}
       />
     </UserListContext.Provider>
   );
   const deleteButton = queryByLabelText('Delete Client Button');
+  const cancelButton = queryByLabelText('Cancel Button');
   expect(deleteButton).not.toBeNull();
+  expect(cancelButton).not.toBeNull();
 });
 
-it('hides when showDeleteClientModal is false', () => {
-  const setModal = () => {};
-  const removeUser = vi.fn();
+it('hides/unmounts when showDeleteClientModal is false', () => {
   const { queryByLabelText } = render(
     <UserListContext.Provider value={{ removeUser }}>
-      <DeleteClientModal
-        setShowDeleteClientModal={setModal}
-        selectedClientToDelete={{ person: 'tim' }}
-      />
+      <DeleteClientModal setShowDeleteClientModal={setModal} selectedClientToDelete={client} />
     </UserListContext.Provider>
   );
   const deleteButton = queryByLabelText('Delete Client Button');
+  const cancelButton = queryByLabelText('Cancel Button');
   expect(deleteButton).toBeNull();
+  expect(cancelButton).toBeNull();
 });
 
-it('triggers delete client when delete button is clicked', async () => {
-  const user = userEvent.setup();
-  const setModal = () => {};
-  const removeUser = vi.fn();
-  const client = { person: 'tim' };
+it('triggers removeUser/deletion of client when delete button is clicked', async () => {
   const { getByLabelText } = render(
     <UserListContext.Provider value={{ removeUser }}>
       <DeleteClientModal
@@ -54,9 +51,25 @@ it('triggers delete client when delete button is clicked', async () => {
       />
     </UserListContext.Provider>
   );
+  const user = userEvent.setup();
   const deleteButton = getByLabelText('Delete Client Button');
   await user.click(deleteButton);
   expect(removeUser).toBeCalledWith(client);
 });
 
-it('closes without an action when cancel button in clicked', () => {});
+it('closes without an action when cancel button is clicked', async () => {
+  const { getByLabelText } = render(
+    <UserListContext.Provider value={{ removeUser }}>
+      <DeleteClientModal
+        showDeleteClientModal
+        setShowDeleteClientModal={setModal}
+        selectedClientToDelete={client}
+      />
+    </UserListContext.Provider>
+  );
+  const user = userEvent.setup();
+  const cancelButton = getByLabelText('Cancel Button');
+  await user.click(cancelButton);
+  const closeModal = vi.fn();
+  expect(closeModal).toHaveBeenCalledOnce();
+});
