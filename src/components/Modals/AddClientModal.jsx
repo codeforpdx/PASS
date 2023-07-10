@@ -1,7 +1,5 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -39,7 +37,6 @@ const renderWebId = (username) => {
 };
 
 const AddClientModal = ({ showModal, setShowModal }) => {
-  const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -54,7 +51,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
   };
 
   const submitUser = async (userObject) => {
-    const user = await createUser(session, userObject);
+    const user = await createUser(userObject);
     await addUser(user);
   };
 

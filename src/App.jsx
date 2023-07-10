@@ -28,11 +28,11 @@ const App = () => (
     <SessionProvider>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Layout ariaLabel="Home Page">
-          <UserDataContextProvider>
+        <UserDataContextProvider>
+          <Layout ariaLabel="Home Page">
             <AppRoutes />
-          </UserDataContextProvider>
-        </Layout>
+          </Layout>
+        </UserDataContextProvider>
       </ThemeProvider>
     </SessionProvider>
   </Router>
