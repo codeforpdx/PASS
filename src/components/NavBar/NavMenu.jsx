@@ -47,30 +47,36 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
       sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
-        <MenuItem sx={{ display: { md: 'none' } }}>
-          <Button variant="text" startIcon={<NotificationsIcon />}>
-            Notifications
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<NotificationsIcon />}
+          sx={{ display: { md: 'none'}, color: "primary.main", width: "100%" }}
+        >
+          Notifications
         </MenuItem>
         <MenuItem
           component={Button}
-          variant="primary"
           startIcon={<AccountCircle />}
           href={session.info.webId}
           target="_blank"
           rel="noreferrer"
+          sx={{ color: "primary.main", width: "100%" }}
         >
           Profile
         </MenuItem>
         <Divider />
-        <MenuItem component={Button} startIcon={<SettingsIcon />} variant="primary">
+        <MenuItem
+          component={Button}
+          startIcon={<SettingsIcon />}
+          sx={{ color: "primary.main", width: "100%" }}
+        >
           Settings
         </MenuItem>
         <MenuItem
           component={Button}
           startIcon={<LogoutIcon />}
           onClick={() => setShowConfirmation(true)}
-          variant="error"
+          sx={{ color: "error.main", width: "100%" }}
         >
           Log Out
         </MenuItem>

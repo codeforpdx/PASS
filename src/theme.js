@@ -29,31 +29,6 @@ const theme = createTheme({
       main: '#64748B',
       contrastText: '#fff'
     }
-  },
-  components: {
-    MuiMenuItemBase: {
-      styleOverrides: {
-        root: {
-          color: '#017969'
-        }
-      }
-    },
-    MuiMenuItem: {
-      variants: [
-        {
-          props: { variant: 'primary' },
-          style: {
-            color: '#017969'
-          }
-        },
-        {
-          props: { variant: 'error' },
-          style: {
-            color: '#d32f2f'
-          }
-        }
-      ]
-    }
   }
 });
 
