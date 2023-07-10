@@ -83,8 +83,12 @@ const NavbarLinks = () => {
         {routesArray.map((item) => {
           const currentRoute = useLocation().pathname.includes(item.path);
           return (
-            <MenuItem key={item.label} disableTouchRipple>
-              <Button variant="text">
+            <MenuItem 
+              key={item.label}
+              disableTouchRipple
+              component={Button}
+              sx={{width: "100%"}}
+              >
                 <NavLink
                   to={item.path}
                   end
@@ -97,7 +101,6 @@ const NavbarLinks = () => {
                 >
                   {item.label}
                 </NavLink>
-              </Button>
             </MenuItem>
           );
         })}
