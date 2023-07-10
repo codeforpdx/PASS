@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { PaginationContainer } from './MessageStyles';
 // Component Imports
 import MessagePreview from './MessagePreview';
-import { LoadingAnimation } from '../Notification';
+import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
@@ -40,6 +40,19 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
     setOffset(newOffset);
   };
 
+  const noMessages = <EmptyListNotification type="messages" />;
+  const withMessages = currentMessages.map((message) => (
+    <MessagePreview key={message.messageId} message={message} folderType={folderType} />
+  ));
+
+  const handleMessages = () => {
+    if (currentMessages.length > 0) {
+      return withMessages;
+    }
+
+    return noMessages;
+  };
+
   return (
     <Box
       component="section"
@@ -62,14 +75,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         >
           Refresh
         </Button>
-        {loadMessages ? (
-          <LoadingAnimation loadingItem="messages" />
-        ) : (
-          currentMessages &&
-          currentMessages.map((message) => (
-            <MessagePreview key={message.messageId} message={message} folderType={folderType} />
-          ))
-        )}
+        {loadMessages ? <LoadingAnimation loadingItem="messages" /> : handleMessages()}
       </Box>
       <Box>
         <PaginationContainer>
