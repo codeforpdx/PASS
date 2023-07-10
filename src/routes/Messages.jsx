@@ -79,6 +79,7 @@ const Messages = () => {
           variant="contained"
           onClick={() => setShowForm(!showForm)}
           startIcon={<CreateIcon />}
+          sx={{ backgroundColor: 'secondary.main' }}
         >
           New Message
         </Button>

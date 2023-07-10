@@ -41,7 +41,7 @@ const MessagePreview = ({ message, folderType }) => {
           {message.sender} - {message.title}
         </StyledHeader>
         {showContents && folderType === 'Inbox' && (
-          <Button variant="outlined" type="button" onClick={handleReplyMessage}>
+          <Button variant="contained" type="button" onClick={handleReplyMessage}>
             Reply
           </Button>
         )}
