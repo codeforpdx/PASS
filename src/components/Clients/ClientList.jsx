@@ -27,11 +27,21 @@ const ClientList = () => {
 
   const determineClientListTable = userListObject.userList?.length ? (
     // render if clients
+    <ClientListTable
+      setSelectedClientToDelete={setSelectedClientToDelete}
+      setShowDeleteClientModal={setShowDeleteClientModal}
+    />
+  ) : (
+    // render if no clients
+    <EmptyListNotification type="clients" />
+  );
+
+  // MAIN RETURN OF COMPONENT
+  return loadingUsers ? (
+    <LoadingAnimation loadingItem="clients" />
+  ) : (
     <>
-      <ClientListTable
-        setSelectedClientToDelete={setSelectedClientToDelete}
-        setShowDeleteClientModal={setShowDeleteClientModal}
-      />
+      {determineClientListTable}
       {/* modal/popup renders when showDeleteClientModal state is true */}
       <DeleteClientModal
         showDeleteClientModal={showDeleteClientModal}
@@ -39,13 +49,7 @@ const ClientList = () => {
         selectedClientToDelete={selectedClientToDelete}
       />
     </>
-  ) : (
-    // render if no clients
-    <EmptyListNotification type="clients" />
   );
-
-  // MAIN RETURN OF COMPONENT
-  return loadingUsers ? <LoadingAnimation loadingItem="clients" /> : determineClientListTable;
 };
 
 export default ClientList;
