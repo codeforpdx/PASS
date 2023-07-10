@@ -68,7 +68,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      }, 2000);
       return;
     }
 
@@ -81,7 +81,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      }, 2000);
       return;
     }
     // ===== END OF ERROR DISPLAY OPTIONS =====
@@ -123,7 +123,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         setWebId('');
         dispatch({ type: 'CLEAR_PROCESSING' });
         setShowAddClientModal(false);
-      }, 1000);
+      }, 2000);
     }
   };
 

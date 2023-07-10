@@ -38,7 +38,7 @@ const DeleteClientModal = ({
     event.preventDefault();
     runNotification(
       `Deleting "${selectedClientToDelete?.person}" from client list...`,
-      3,
+      5,
       state,
       dispatch
     );
@@ -47,13 +47,13 @@ const DeleteClientModal = ({
     } finally {
       runNotification(
         `"${selectedClientToDelete?.person}" deleted from client list...`,
-        3,
+        5,
         state,
         dispatch
       );
       setTimeout(() => {
         setShowDeleteClientModal(false);
-      }, 1000);
+      }, 2000);
     }
   };
 
