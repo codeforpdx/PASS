@@ -1,8 +1,7 @@
 /**
  * The utils module to help run functions for PASS forms, notifications, and
- * Solid Session. The file session-core contains functions that is exported to
- * PASS, while session-helper contains functions that is only exported to
- * session-core
+ * Solid Session, and Pod management. The file session-core contains functions
+ * that is exported to PASS
  *
  * @module utils
  * @namespace utils
@@ -16,3 +15,4 @@ export { runNotification, getDriversLicenseData, formattedDate };
 export * from './cryptography/credentials-helper';
 export * from './network/session-core';
 export * from './network/session-helper';
+export * from './pod-management/pod-helper';
