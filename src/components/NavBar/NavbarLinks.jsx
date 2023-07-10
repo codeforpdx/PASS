@@ -23,7 +23,7 @@ const NavbarLinks = () => {
   const theme = useTheme();
 
   // Tabs workaround to match route on login
-  let location = useLocation().pathname.slice(6);
+  let location = useLocation().pathname.split('/')[1];
   if (location === '') {
     location = 'clients';
   }

@@ -4,14 +4,12 @@ import React, { useState } from 'react';
 import { LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { TextField, Box, Button } from '@mui/material';
-// Custom Hook Imports
-import { useRedirectUrl } from '../../hooks';
 // Constants Imports
 import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const [oidcIssuer, setOidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
-  const redirectUrl = useRedirectUrl();
+  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || ''
+  const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
 
   return (
     <>
@@ -32,7 +30,10 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={redirectUrl}>
+      <LoginButton
+        oidcIssuer={oidcIssuer}
+        redirectUrl={`${window.location.protocol}//${window.location.host}/clients`}
+      >
         <Button
           variant="contained"
           type="submit"

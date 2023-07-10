@@ -1,15 +1,13 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
-// Custom Hook Imports
-import { useRedirectUrl } from './hooks';
 // Page Imports
 import { Home, Clients, Messages, Documents, Profile } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
-  isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
+  isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
 
 /**
  * The main application routing for PASS
@@ -20,24 +18,8 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
 
 const AppRoutes = () => {
   const { session } = useSession();
-  const redirectUrl = useRedirectUrl();
-  const [restore, setRestore] = useState(false);
   const restorePath = localStorage.getItem('restorePath');
-  const path = restorePath ?? '/PASS/clients';
-
-  useEffect(() => {
-    const performanceEntries = window.performance.getEntriesByType('navigation');
-    if (performanceEntries[0].type === 'reload' && performanceEntries.length === 1) {
-      setRestore(true);
-    }
-
-    if (restore && localStorage.getItem('loggedIn')) {
-      session.login({
-        oidcIssuer: localStorage.getItem('oidcIssuer'),
-        redirectUrl
-      });
-    }
-  }, [restore]);
+  const path = restorePath ?? '/clients';
 
   useEffect(() => {
     if (session.info.isLoggedIn) localStorage.setItem('loggedIn', true);
@@ -47,14 +29,14 @@ const AppRoutes = () => {
     <Routes>
       <Route
         exact
-        path="/PASS/"
+        path="/"
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/PASS/clients" element={<Clients />} />
-        <Route path="/PASS/documents" element={<Documents />} />
-        <Route path="/PASS/messages" element={<Messages />} />
-        <Route path="/PASS/profile" element={<Profile />} />
+        <Route path="/clients" element={<Clients />} />
+        <Route path="/documents" element={<Documents />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>

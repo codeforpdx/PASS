@@ -1,5 +1,4 @@
 import useField from './useField';
-import useRedirectUrl from './useRedirectUrl';
 import useStatusNotification from './useStatusNotification';
 
 /**
@@ -9,4 +8,4 @@ import useStatusNotification from './useStatusNotification';
  * @namespace hooks
  */
 
-export { useField, useRedirectUrl, useStatusNotification };
+export { useField, useStatusNotification };

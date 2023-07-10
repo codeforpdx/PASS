@@ -1,6 +1,6 @@
 // React Imports
 import React from 'react';
-import { HashRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 // Inrupt Library Imports
 import { SessionProvider } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -24,8 +24,9 @@ import AppRoutes from './AppRoutes';
  */
 
 const App = () => (
-  <Router>
-    <SessionProvider>
+    <SessionProvider
+        restorePreviousSession={localStorage.getItem('loggedIn')}
+    >
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <UserDataContextProvider>
@@ -35,7 +36,6 @@ const App = () => (
         </UserDataContextProvider>
       </ThemeProvider>
     </SessionProvider>
-  </Router>
 );
 
 export default App;
