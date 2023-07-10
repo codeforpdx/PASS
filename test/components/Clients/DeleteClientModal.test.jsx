@@ -77,6 +77,7 @@ it('closes without an action when cancel button is clicked', async () => {
     const [showModal, setShowModal] = useState(true);
 
     return (
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       <UserListContext.Provider value={{ removeUser }}>
         <DeleteClientModal
           showDeleteClientModal={showModal}
