@@ -19,12 +19,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  useMemo
-} from "react";
+import React, { createContext, useState, useEffect, useMemo } from 'react';
 
 import {
   fetch,
@@ -32,12 +27,10 @@ import {
   logout,
   handleIncomingRedirect,
   getDefaultSession,
-  onSessionRestore as onSessionRestoreClient,
-} from "@inrupt/solid-client-authn-browser";
+  onSessionRestore as onSessionRestoreClient
+} from '@inrupt/solid-client-authn-browser';
 
-import {
-  getProfileAll,
-} from "@inrupt/solid-client";
+import { getProfileAll } from '@inrupt/solid-client';
 
 export const SessionContext = createContext({
   login,
@@ -45,7 +38,7 @@ export const SessionContext = createContext({
   fetch,
   session: getDefaultSession(),
   sessionRequestInProgress: true,
-  profile: undefined,
+  profile: undefined
 });
 
 export const SessionProvider = ({
@@ -55,13 +48,11 @@ export const SessionProvider = ({
   sessionRequestInProgress: defaultSessionRequestInProgress,
   restorePreviousSession,
   skipLoadingProfile,
-  onSessionRestore,
+  onSessionRestore
 }) => {
-  const restoreSession =
-    restorePreviousSession || typeof onSessionRestore !== "undefined";
+  const restoreSession = restorePreviousSession || typeof onSessionRestore !== 'undefined';
   const [session, setSession] = useState(getDefaultSession());
-  const [profile, setProfile] =
-    useState();
+  const [profile, setProfile] = useState();
 
   useEffect(() => {
     if (onSessionRestore !== undefined) {
@@ -70,27 +61,24 @@ export const SessionProvider = ({
   }, [onSessionRestore]);
 
   const defaultInProgress =
-    typeof defaultSessionRequestInProgress === "undefined"
+    typeof defaultSessionRequestInProgress === 'undefined'
       ? !session.info.isLoggedIn
       : defaultSessionRequestInProgress;
 
   // If loggedin is true, we're not making a session request.
-  const [sessionRequestInProgress, setSessionRequestInProgress] =
-    useState(defaultInProgress);
+  const [sessionRequestInProgress, setSessionRequestInProgress] = useState(defaultInProgress);
 
   let currentLocation;
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     currentLocation = window.location;
   }
   useEffect(() => {
-    console.log('handling redirect');
     handleIncomingRedirect({
       url: window.location.href,
-      restorePreviousSession: restoreSession,
+      restorePreviousSession: restoreSession
     })
       .then(async (sessionInfo) => {
-        console.log(`handled redirect: ${JSON.stringify(sessionInfo)}`);
         if (skipLoadingProfile === true) {
           return;
         }
@@ -99,7 +87,7 @@ export const SessionProvider = ({
         // user's WebID is.
         if (sessionInfo?.webId !== undefined) {
           const profiles = await getProfileAll(sessionInfo?.webId, {
-            fetch: session.fetch,
+            fetch: session.fetch
           });
 
           setProfile(profiles);
@@ -116,17 +104,10 @@ export const SessionProvider = ({
         setSessionRequestInProgress(false);
       });
 
-    getDefaultSession().on("logout", () => {
+    getDefaultSession().on('logout', () => {
       setSession(getDefaultSession());
     });
-  }, [
-    session,
-    sessionId,
-    onError,
-    currentLocation,
-    restoreSession,
-    skipLoadingProfile,
-  ]);
+  }, [session, sessionId, onError, currentLocation, restoreSession, skipLoadingProfile]);
 
   const contextLogin = async (options) => {
     setSessionRequestInProgress(true);
@@ -157,21 +138,18 @@ export const SessionProvider = ({
     }
   };
 
-  const sessionMemo = useMemo( () => ({
-    session,
-    login: contextLogin,
-    logout: contextLogout,
-    sessionRequestInProgress,
-    setSessionRequestInProgress,
-    fetch,
-    profile
-  }), [session, profile, sessionRequestInProgress])
-
-  return (
-    <SessionContext.Provider
-      value={sessionMemo}
-    >
-      {children}
-    </SessionContext.Provider>
+  const sessionMemo = useMemo(
+    () => ({
+      session,
+      login: contextLogin,
+      logout: contextLogout,
+      sessionRequestInProgress,
+      setSessionRequestInProgress,
+      fetch,
+      profile
+    }),
+    [session, profile, sessionRequestInProgress]
   );
+
+  return <SessionContext.Provider value={sessionMemo}>{children}</SessionContext.Provider>;
 };

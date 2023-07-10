@@ -19,20 +19,19 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { useContext } from "react";
-import { SessionContext } from "../contexts/SessionContext";
+import { useContext } from 'react';
+import { SessionContext } from '../contexts/SessionContext';
 
 const useSession = () => {
-  const { session, sessionRequestInProgress, fetch, login, logout } =
-    useContext(SessionContext);
+  const { session, sessionRequestInProgress, fetch, login, logout } = useContext(SessionContext);
 
   return {
     session,
     sessionRequestInProgress,
     fetch,
     login,
-    logout,
+    logout
   };
-}
+};
 
 export default useSession;

@@ -8,26 +8,14 @@ import { TextField, Box, Button } from '@mui/material';
 import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const { login } = useSession(); 
+  const { login } = useSession();
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
   const loginHandler = async () => {
-    window.console.log(`logging in with: ${oidcIssuer}`);
     const redirectUrl = window.location.href;
-    try {
-      const loginResult = await login(
-        {oidcIssuer,
-        redirectUrl}
-      )
-      window.console.log(loginResult);
-      localStorage.setItem('oidcIssuer', oidcIssuer);
-    } catch(e) {
-      console.error(e);
-    }
-    finally{
-      window.console.log('login complete');
-    }
-  }
+    await login({ oidcIssuer, redirectUrl });
+    localStorage.setItem('oidcIssuer', oidcIssuer);
+  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }} />
@@ -47,23 +35,23 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-        <Button
-          variant="contained"
-          type="submit"
-          color="secondary"
-          size="large"
-          aria-label="Login Button"
-          onClick={() => {
+      <Button
+        variant="contained"
+        type="submit"
+        color="secondary"
+        size="large"
+        aria-label="Login Button"
+        onClick={() => {
+          loginHandler();
+        }}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
             loginHandler();
-          }}
-          onKeyUp={(event) => {
-            if (event.key === "Enter") {
-              loginHandler();
-            }
-          }}
-        >
-          Login
-        </Button>
+          }
+        }}
+      >
+        Login
+      </Button>
     </>
   );
 };

@@ -19,14 +19,10 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import React, { useContext } from "react";
-import { SessionContext } from "@contexts";
+import React, { useContext } from 'react';
+import { SessionContext } from '@contexts';
 
-const LogoutButton = ({
-  children,
-  onLogout,
-  onError,
-}) => {
+const LogoutButton = ({ children, onLogout, onError }) => {
   const { logout } = useContext(SessionContext);
 
   const logoutHandler = async () => {
@@ -36,21 +32,16 @@ const LogoutButton = ({
     } catch (error) {
       if (onError) onError(error);
     }
-  }
+  };
 
   const keyDownHandler = (e) => {
     e.preventDefault();
 
-    return e.key === "Enter" ? logoutHandler() : Promise.resolve();
-  }
+    return e.key === 'Enter' ? logoutHandler() : Promise.resolve();
+  };
 
   return children ? (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={logoutHandler}
-      onKeyDown={keyDownHandler}
-    >
+    <div role="button" tabIndex={0} onClick={logoutHandler} onKeyDown={keyDownHandler}>
       {children}
     </div>
   ) : (
