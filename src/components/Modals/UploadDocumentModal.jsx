@@ -114,6 +114,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             value={verifyFile}
             checked={verifyFile}
             onChange={() => setVerifyFile(!verifyFile)}
+            sx={{ mb: 1 }}
           />
           <FormControl fullWidth>
             <DocumentSelection
