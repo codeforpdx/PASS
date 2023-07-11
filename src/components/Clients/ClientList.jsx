@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
-import DeleteClientModal from './DeleteClientModal';
+import DeleteClientModal from '../Modals/DeleteClientModal';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
