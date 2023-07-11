@@ -108,6 +108,6 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   - In Vitest, tests are simply async functions that throw errors for failures.
   - To run all repository unit tests `npm run test`
   - To run a single test `npm run test "<filename>.test.js"` 
-    > Example: `npm run test navBar.test.js`
+    > Example: `npm run test "navBar.test.js"`
 
 **[⬆️ Back to Top](#contributing-to-pass)**
