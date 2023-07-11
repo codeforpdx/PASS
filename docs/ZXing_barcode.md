@@ -26,13 +26,13 @@ To see the results on the Solid Client Server, navigate below to the Search Docu
 
 **Entry Point to the Code**
 
-For developers new to a code base, often being pointed to where user interaction first interfaces with the code base is a good place to start. In the case of the barcode scanner functionality, this can be found within the UploadDocumentForm.jsx component within the src/components directory:
+For developers new to a code base, often being pointed to where user interaction first interfaces with the code base is a good place to start. In the case of the barcode scanner functionality, this can be found within the UploadDocumentModal.jsx component within the src/components directory:
 
 ```
-src/components/Form/UploadDocumentForm.jsx
+src/components/Form/UploadDocumentModal.jsx
 ```
 
-At the time of this writing, the line specific to uploading files can be found within the handler function within the UploadDocumentForm component, where the entry point of what happens when the user clicks on the "Upload file", as this triggers the handleFormSubmission function. This function in turn calls the makeHandleFormSubmission function found within the utils directory, where the majority of the barcode scanner logic lives:
+At the time of this writing, the line specific to uploading files can be found within the handler function within the UploadDocumentModal component, where the entry point of what happens when the user clicks on the "Upload file", as this triggers the handleFormSubmission function. This function in turn calls the makeHandleFormSubmission function found within the utils directory, where the majority of the barcode scanner logic lives:
 
 ```
 src/utils/frontend/FormSubmissionHelper.js
@@ -50,7 +50,7 @@ The uploadDocument() contains a great deal of logic specific to solid and we sta
 src/utils/network/session-helper.js
 ```
 
-There we see the logic specific to @inrupt/solid-client, which takes our fileObject and documentUrl and builds a generic .ttl file to be sent to the Solid server. Specific to the barcode scanner is the if statement which checks to see if the user has selected the "Driver's License" document from the "File to upload:" in the UploadDocumentForm.jsx component. Upon inspection of this if statement, we see that if the user has selected "Driver's License", the function returns the value of a separate helper function called createDriversLicenseTtlFile(). This lengthy function is very similar to the createResourceTtlFile() function, but starts itself with a helper function of its own called getDriversLicenseData, which takes the fileObject.file as an argument. This helper function is defined in:
+There we see the logic specific to @inrupt/solid-client, which takes our fileObject and documentUrl and builds a generic .ttl file to be sent to the Solid server. Specific to the barcode scanner is the if statement which checks to see if the user has selected the "Driver's License" document from the "File to upload:" in the UploadDocumentModal.jsx component. Upon inspection of this if statement, we see that if the user has selected "Driver's License", the function returns the value of a separate helper function called createDriversLicenseTtlFile(). This lengthy function is very similar to the createResourceTtlFile() function, but starts itself with a helper function of its own called getDriversLicenseData, which takes the fileObject.file as an argument. This helper function is defined in:
 
 ```
 src/utils/barcode/barcode-scan.js
