@@ -22,13 +22,13 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 ## Contents
 
 1.  [Setup Instructions](#1-setup-instructions)
-2.  [Project Overview](#2-project-overview-🚧)
-       - [Terminology](#terminology-🗣️)
-       - [Features and usage](#features-and-usage-🔀)
-3.  [Contribution Guidelines](#3-contribution-guidelines-🧑‍💻)
-4.  [Contributors](#4-contributors-💻)
-5.  [Tech Stack and Additional Resources](#5-tech-stack-🧪)
-6.  [Code of Conduct](#6-code-of-conduct-🌏)
+2.  [Project Overview](#2-project-overview)
+       - [Terminology](#terminology)
+       - [Features and usage](#features-and-usage)
+3.  [Contribution Guidelines](#3-contribution-guidelines)
+4.  [Contributors](#4-contributors)
+5.  [Tech Stack and Additional Resources](#5-tech-stack)
+6.  [Code of Conduct](#6-code-of-conduct)
 
 ---
 ## 1. Setup Instructions
@@ -77,11 +77,11 @@ Further information can be found in [CONTRIBUTING.md](./docs/CONTRIBUTING.md) & 
 
 ---
 
-## 2. Project Overview 🚧 
+## 2. Project Overview
 
 In Portland, housing insecure individuals struggle to maintain documents often required to receive government and/or non-profit services. With PASS, we are building out an application to enable housing insecure individuals to store their personal documents in decentralized data stores, called Pods. PASS will also provide a platform for Organizations to assist with providing and processing documents required for housing assistance. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their data. Verified organizations will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod to help process housing assistance applications.
 
-###  Terminology 🗣️
+###  Terminology
 
 - Individual/Client - housing insecure person using services to interact with organizations.
 - Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
@@ -89,7 +89,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 - Folder/Container - referring to the URI location of document data in ttl files using Solid API with Inrupt's library.
 - ACL - Access Control List is used to manage Solid Pods by allowing users to control who can access and modify their data.
 
-### Features and Usage 🔀
+### Features and Usage
 
 1. Individual/Client
    - Upload and Maintain Documents
@@ -112,7 +112,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-## 3. Contribution Guidelines 🧑‍💻
+## 3. Contribution Guidelines
 
 -  Start by checking out the detailed on-boarding [CONTRIBUTING.MD](./docs/CONTRIBUTING.md).
 -  Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
@@ -122,7 +122,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-## 4. Contributors 💻
+## 4. Contributors
 
 | Development Team | UI Team     | UX Team     | Project Management Team |
 | ---------------- | ----------- | ----------- | ----------------------- |
@@ -142,11 +142,11 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ---
 
-## 5. Tech Stack 🧪
+## 5. Tech Stack
 
 - Details on tech used and additional resources in [resources.md](./docs/RESOURCES.MD)
 
-## 6. Code of Conduct 🌏
+## 6. Code of Conduct
 
 - [Code for PDX code of conduct](https://github.com/codeforpdx/codeofconduct/blob/master/README.md)
 
