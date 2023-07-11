@@ -2,7 +2,7 @@
 
 ## State of Build/Tech Stack
 
-The current build is made with React 18 for the front-end and bundled using Vite. The solid-ui-react library has been incorporated to the application along with Inrupt's other client libraries for Solid (see [RESOURCES.md](RESOURCES.md) for links to solid react and client library documentation). Several node scripts have been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
+The current build is made with React 18 for the front-end and bundled using Vite. We have incorporated Inrupt's Javascript libraries for Solid into the application. See [RESOURCES.md](RESOURCES.md). Several node scripts have been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
 
 ## PASS Terminal Commands 💻
 To generate the full React development documentation of the application locally, the following command can be ran:
@@ -35,6 +35,8 @@ npm run docs:clear
 This will clear all, but /docs/README.md and /docs/ZXING_barcode.md from your branch.
 
 ---
+
+## Linting
 
 Linting and formatting for this project has also been setup using ESlint and Prettier. To lint your changes with ESLint, you can run:
 

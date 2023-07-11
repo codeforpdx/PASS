@@ -15,7 +15,6 @@
     - [Unit Testing](#unit-testing)
     - [Code Styling/Linting](#code-stylinglinting)
   
-  The development process is still being written in collaboration with active devs
 ## 1. Project summary
 
 PASS is a decentralized application aiming to enable home insecure individuals to electronically securely store their documents. Verified organizations seeking documentation from individuals will utilize PASS to request and review documents from individuals, as well as share documents with individuals. Individuals will need to grant permission to organizations before they can access documents allowing them to always remain in control of their data.
@@ -65,19 +64,25 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 4. Work on feature in your own branch.
 
-5. When ready, push up for review:
-   - `git push origin <your branch name>`
+5. When ready, push to GitHub
 
-- Recommended reviewers:
-  - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
-  - Documentation -- Danica B, Jared K, Ka Hung L.
-  - Include screenshots whenever you’re building a frontend feature.
+ - `git push origin <your branch name>`
+    
+6. Code Styling/Linting
+
+   Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint follow the instructions [here](./README.md#linting)
 
 - ## Submitting a Pull Request
   
    If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback and request reviews.
 
 1. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
+
+- Recommended reviewers:
+  - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
+  - Documentation -- Danica B, Jared K, Ka Hung L.
+  - Include screenshots whenever you’re building a frontend feature.
+
 - ## Bug Reporting Template
   
   - Bugs are reported via the GitHub built-in issues page for the repository https://github.com/codeforpdx/PASS/issues. 
@@ -95,34 +100,5 @@ By participating in this project, you are expected to uphold our [Code of Conduc
    *UNDER CONSTRUCTION🚧*
   - All PASS unit tests are done with [Vitest](https://vitest.dev/).
   - In Vitest, tests are simply async functions that throw errors for failures.
-
-- ## Code Styling/Linting
-
-  Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint, you can run:
-
-```shell
-npm run lint
-```
----
-
-To fix potential lint errors, you can run:
-
-```shell
-npm run lint:fix
-```
----
-
-You can also check the formatting of the existing code using Prettier by running:
-
-```shell
-npm run prettier:check
-```
----
-
-This will enable Prettier to check if the existing code follows the rules for this project in .prettierrc.js. To format the project with existing Prettier settings, simply run:
-
-```shell
-npm run prettier:run
-```
 
 **[⬆️ Back to Top](#contributing-to-pass)**
