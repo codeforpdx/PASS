@@ -48,5 +48,5 @@
 
 - [My Digital Data Locker](https://vimeo.com/mddl) — a similar project in Baltimore. [More info](https://www.aecf.org/blog/new-digital-data-locker-may-help-people-find-stable-housing). [GitHub](https://github.com/newamericafoundation/MDDL).
 - [AWS Kiip Digital Locker](https://vimeo.com/762041743) — a similar project using AWS.
-- Digita — Brussels start-up providing Enterprise Pods to the Flemish government. _Great videos to understand Solid Functionality_
-  - Also, read this [On-boarding with Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrastructure.
+- Digita — Brussels start-up providing Enterprise Pods to the Flemish government. 
+- Also, read this [On-boarding with Solid](https://medium.com/@JacksonMorgan/the-full-complexity-of-onboarding-with-solid-7aeaa842358) article to help wrap your head around Solid infrastructure.

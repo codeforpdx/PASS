@@ -5,6 +5,7 @@
 The current build is made with React 18 for the front-end and bundled using Vite. We have incorporated Inrupt's Javascript libraries for Solid into the application. See [RESOURCES.md](RESOURCES.md). Several node scripts have been setup for ease of development, namely for linting, formatting, and generating JSDoc documentation for the React version of the application. Vitest and jsdom are libraries being used for unit tests.
 
 ## PASS Terminal Commands 💻
+
 To generate the full React development documentation of the application locally, the following command can be ran:
 
 ```shell
@@ -65,7 +66,7 @@ This will enable Prettier to check if the existing code follows the rules for th
 npm run prettier:run
 ```
 
-## Run PASS locally ⚙️
+## Run PASS Locally ⚙️
 
 To get a running version of this branch, clone from this branch into a directory and run the following within the directory containing the package.json:
 
