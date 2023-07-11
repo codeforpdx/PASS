@@ -1,7 +1,7 @@
 
 # PASS - Personal Access System for Services
 
-<img src ="logo.png" width="175">
+<img src ="./src/assets/logo.png" width="175">
 
 [![License](https://img.shields.io/github/license/codeforpdx/PASS)](https://github.com/codeforpdx/PASS/blob/Master/LICENSE)
 [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
