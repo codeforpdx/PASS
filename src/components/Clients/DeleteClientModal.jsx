@@ -44,6 +44,8 @@ const DeleteClientModal = ({
     );
     try {
       await removeUser(selectedClientToDelete);
+    } catch (e) {
+      runNotification(`Client deletion failed. Reason: ${e.message}`);
     } finally {
       runNotification(
         `"${selectedClientToDelete?.person}" deleted from client list...`,
@@ -73,7 +75,7 @@ const DeleteClientModal = ({
         <form onSubmit={handleDeleteClient} autoComplete="off">
           <DialogContent>
             <DialogContentText id="dialog-description">
-              {`Are you sure you want to delete ${selectedClientToDelete?.person} from your client list?`}
+              {`Are you sure you want to delete "${selectedClientToDelete?.person}" from your client list?`}
             </DialogContentText>
           </DialogContent>
 
