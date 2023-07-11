@@ -20,8 +20,7 @@ import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
 // Component Imports
-import DocumentSelection from '../Form/DocumentSelection';
-import FormSection from '../Form/FormSection';
+import { DocumentSelection, FormSection } from '../Form';
 import { DocumentListContext } from '../../contexts';
 
 /**
@@ -146,8 +145,9 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               placeholder="Add a description here"
             />
             <br />
+            {/* File to upload: {file ? file.name : 'No file selected'} */}
             <Button
-              variant="outlined"
+              variant={file ? 'contained' : 'outlined'}
               component="label"
               color="primary"
               id="upload-doctype"
@@ -180,7 +180,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 startIcon={<ClearIcon />}
                 onClick={clearInputFields}
                 fullWidth
-                helperText="Please enter your name"
+                helpertext="Please enter your name"
               >
                 CANCEL
               </Button>

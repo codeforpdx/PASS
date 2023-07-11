@@ -20,7 +20,7 @@ import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from '../Form/FormSection';
+import { FormSection } from '../Form';
 
 /**
  * AddClientModal Component - Component that allows users to add other user's
@@ -189,12 +189,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    aria-label="copy-webid"
-                    // onClick={}
-                    // onMouseDown={}
-                    edge="end"
-                  >
+                  <IconButton aria-label="copy-webid" edge="end">
                     <ContentCopyIcon />
                   </IconButton>
                 </InputAdornment>

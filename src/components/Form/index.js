@@ -1,3 +1,5 @@
+import DocumentSelection from './DocumentSelection';
+import FormSection from './FormSection';
 import SetAclPermissionForm from './SetAclPermissionForm';
 import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
 /**
@@ -7,4 +9,4 @@ import SetAclPermsDocContainerForm from './SetAclPermsDocContainerForm';
  * @namespace Forms
  */
 
-export { SetAclPermissionForm, SetAclPermsDocContainerForm };
+export { DocumentSelection, FormSection, SetAclPermissionForm, SetAclPermsDocContainerForm };
