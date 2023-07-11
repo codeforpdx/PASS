@@ -83,21 +83,19 @@ const NavbarLinks = () => {
         {routesArray.map((item) => {
           const currentRoute = useLocation().pathname.includes(item.path);
           return (
-            <MenuItem key={item.label} disableTouchRipple>
-              <Button variant="text">
-                <NavLink
-                  to={item.path}
-                  end
-                  style={{
-                    fontWeight: currentRoute ? 'bold' : '',
-                    color: currentRoute ? theme.palette.tertiary.main : theme.palette.primary.main,
-                    textDecoration: 'none'
-                  }}
-                  onClick={handleNavigateToMenuClose}
-                >
-                  {item.label}
-                </NavLink>
-              </Button>
+            <MenuItem key={item.label} disableTouchRipple component={Button} sx={{ width: '100%' }}>
+              <NavLink
+                to={item.path}
+                end
+                style={{
+                  fontWeight: currentRoute ? 'bold' : '',
+                  color: currentRoute ? theme.palette.tertiary.main : theme.palette.primary.main,
+                  textDecoration: 'none'
+                }}
+                onClick={handleNavigateToMenuClose}
+              >
+                {item.label}
+              </NavLink>
             </MenuItem>
           );
         })}
@@ -105,7 +103,11 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={location}
+        value={
+          routesArray.map((route) => route.label.toLowerCase()).includes(location)
+            ? location
+            : false
+        }
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"

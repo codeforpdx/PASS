@@ -48,17 +48,16 @@ const SetAclPermsDocContainerForm = () => {
     const permissions = event.target.setAclPerms.value
       ? {
           read: event.target.setAclPerms.value === 'Give',
-          write: event.target.setAclPerms.value === 'Give',
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    let podUsername = event.target.setAclTo.value;
+    let otherPodUsername = event.target.setAclTo.value;
 
-    if (!podUsername) {
-      podUsername = selectedUser.username;
+    if (!otherPodUsername) {
+      otherPodUsername = selectedUser.username;
     }
 
-    if (!podUsername) {
+    if (!otherPodUsername) {
       runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
@@ -66,7 +65,7 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (getPodUrl(podUsername) === podUrl) {
+    if (getPodUrl(otherPodUsername) === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
@@ -88,7 +87,7 @@ const SetAclPermsDocContainerForm = () => {
     }
 
     try {
-      await setDocContainerAclPermission(session, permissions, podUsername);
+      await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${

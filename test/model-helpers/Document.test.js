@@ -25,7 +25,7 @@ describe('docDescToThing', () => {
       date: new Date('December 17, 1995'),
       description: 'description'
     };
-    const thing = await makeDocIntoThing(doc, 'http://example.com', testFile);
+    const thing = await makeDocIntoThing(doc, testFile);
     const newDoc = parseDocFromThing(thing);
     expect(newDoc).toMatchObject({
       name: 'name',
