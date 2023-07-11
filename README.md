@@ -21,7 +21,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 
 ## Contents
 
-1.  [Setup Instructions](#1-setup-instructions-🔧)
+1.  [Setup Instructions](#1-setup-instructions)
 2.  [Project Overview](#2-project-overview-🚧)
        - [Terminology](#terminology-🗣️)
        - [Features and usage](#features-and-usage-🔀)
@@ -31,7 +31,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 6.  [Code of Conduct](#6-code-of-conduct-🌏)
 
 ---
-## 1. Setup Instructions 🔧
+## 1. Setup Instructions
 
 - ### Prerequisites
 
