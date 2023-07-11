@@ -21,22 +21,9 @@ const TestConsumer = () => {
 };
 
 vi.mock('@inrupt/solid-client');
-
-vi.mock('@inrupt/solid-ui-react', async () => {
-  const lib = await vi.importActual('@inrupt/solid-ui-react');
-  return {
-    ...lib,
-    useSession: vi.fn(() => ({
-      session: {
-        fetch: vi.fn(),
-        info: {
-          isLoggedIn: false,
-          webId: 'https://example.com/pod/profile/card#me'
-        }
-      }
-    }))
-  };
-});
+vi.mock('@hooks', () => ({
+  useSession: vi.fn()
+}));
 
 describe('SignedInUserContext', () => {
   afterEach(() => {
