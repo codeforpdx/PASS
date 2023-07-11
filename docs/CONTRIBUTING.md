@@ -9,9 +9,10 @@
 5. [Development Process](#5-development-process)
     - [Choosing an Issue](#choosing-an-issue)
     - [Clone the Repo](#clone-the-repo)
-    - [Submitting a Pull Request]()
+    - [Submitting a Pull Request](#submitting-a-pull-request)
     - [Bug Reporting Template](#bug-reporting-template)
     - [Requesting A Feature](#requesting-a-feature)
+    - [Enhancement Request](#enhancement-request)
     - [Unit Testing](#unit-testing)
     - [Code Styling/Linting](#code-stylinglinting)
   
@@ -95,10 +96,18 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   - Features are requested via the GitHub built-in issue page for the repository https://github.com/codeforpdx/PASS/issues.
   - Current feature request template can be found [here](../.github/ISSUE_TEMPLATE/feature_request.md) and will automatically populate when creating an issue in GitHub.
 
+- ## Enhancement Request
+
+  - Enhancements are requested via the GitHub built-in issues page for the repository https://github.com/codeforpdx/PASS/issues. 
+  - Current bug reporting template can be found [here](../.github/ISSUE_TEMPLATE/enhancement_request.md) and will automatically populate when creating an issue in GitHub.
+  
 - ## Unit Testing 
   
    *UNDER CONSTRUCTION🚧*
   - All PASS unit tests are done with [Vitest](https://vitest.dev/).
   - In Vitest, tests are simply async functions that throw errors for failures.
+  - To run all repository unit tests `npm run test`
+  - To run a single test `npm run test "<filename>.test.js"` 
+    > Example: `npm run test navBar.test.js`
 
 **[⬆️ Back to Top](#contributing-to-pass)**
