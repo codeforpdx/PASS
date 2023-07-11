@@ -55,45 +55,52 @@ const NavMenu = ({
       sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
-        <MenuItem sx={{ display: { md: 'none' } }}>
-          <Button variant="text" startIcon={<NotificationsIcon />}>
-            Notifications
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<NotificationsIcon />}
+          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+        >
+          Notifications
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            startIcon={
-              <Avatar
-                src={profileImg}
-                alt="PASS profile"
-                sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
-              />
-            }
+        <MenuItem
+          component={Button}
+          sx={{ width: '100%' }}
+          startIcon={
+            <Avatar
+              src={profileImg}
+              alt="PASS profile"
+              sx={{
+                height: '24px',
+                width: '24px',
+                objectFit: 'contain',
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main
+              }}
+            />
+          }
+        >
+          <NavLink
+            to="/PASS/profile"
+            style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           >
-            <NavLink
-              to="/PASS/profile"
-              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
-            >
-              Profile
-            </NavLink>
-          </Button>
+            Profile
+          </NavLink>
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <Button variant="text" startIcon={<SettingsIcon />}>
-            Settings
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<SettingsIcon />}
+          sx={{ color: theme.palette.primary.main, width: '100%' }}
+        >
+          Settings
         </MenuItem>
-        <MenuItem>
-          <Button
-            variant="text"
-            color="error"
-            startIcon={<LogoutIcon />}
-            onClick={() => setShowConfirmation(true)}
-          >
-            Log Out
-          </Button>
+        <MenuItem
+          component={Button}
+          startIcon={<LogoutIcon />}
+          onClick={() => setShowConfirmation(true)}
+          sx={{ color: theme.palette.error.main, width: '100%' }}
+        >
+          Log Out
         </MenuItem>
       </MenuList>
     </Menu>
