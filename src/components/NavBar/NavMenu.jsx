@@ -50,7 +50,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
         <MenuItem
           component={Button}
           startIcon={<NotificationsIcon />}
-          sx={{ display: { md: 'none'}, color: "primary.main", width: "100%" }}
+          sx={{ display: { md: 'none' }, color: 'primary.main', width: '100%' }}
         >
           Notifications
         </MenuItem>
@@ -60,7 +60,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           href={session.info.webId}
           target="_blank"
           rel="noreferrer"
-          sx={{ color: "primary.main", width: "100%" }}
+          sx={{ color: 'primary.main', width: '100%' }}
         >
           Profile
         </MenuItem>
@@ -68,7 +68,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
         <MenuItem
           component={Button}
           startIcon={<SettingsIcon />}
-          sx={{ color: "primary.main", width: "100%" }}
+          sx={{ color: 'primary.main', width: '100%' }}
         >
           Settings
         </MenuItem>
@@ -76,7 +76,7 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           component={Button}
           startIcon={<LogoutIcon />}
           onClick={() => setShowConfirmation(true)}
-          sx={{ color: "error.main", width: "100%" }}
+          sx={{ color: 'error.main', width: '100%' }}
         >
           Log Out
         </MenuItem>
