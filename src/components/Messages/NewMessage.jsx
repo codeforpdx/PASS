@@ -37,14 +37,16 @@ const NewMessage = ({ closeForm, oldMessage = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
+  const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
-    title: oldMessage ? `RE:${oldMessage.title}` : '',
-    message: oldMessage ? `>${oldMessage.message.split('\n').join('\n>')} \n\n` : '',
+    title: oldMessage ? `RE:${oldMessage.title.replace('RE:', '')}` : '',
+    message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
     messageUrl: oldMessage ? oldMessage.messageUrl : ''
   });
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
@@ -85,6 +87,8 @@ const NewMessage = ({ closeForm, oldMessage = '' }) => {
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
         setError(err.message);
+      } finally {
+        setOriginalMessage('');
       }
     }
 
@@ -122,6 +126,9 @@ const NewMessage = ({ closeForm, oldMessage = '' }) => {
           id="recipientPodUrl"
           onChange={(e) => handleChange(e)}
         />
+
+        <div>Original Message:</div>
+        <div>{oldMessage && originalMessage}</div>
 
         <label htmlFor="message">Message*: </label>
         <StyledTextArea

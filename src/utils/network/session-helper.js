@@ -432,7 +432,7 @@ export const buildMessageTTL = (session, date, messageObject, messageMetadata, b
       RDF_PREDICATES.url,
       buildFor === 'sender'
         ? `${messageMetadata.podUrl}PASS/Outbox/${messageMetadata.messageSlug}.ttl`
-        : `${messageMetadata.podUrl}PASS/Inbox/${messageMetadata.messageSlug}.ttl`
+        : `${messageMetadata.recipientPodUrl}PASS/Inbox/${messageMetadata.messageSlug}.ttl`
     )
     .build();
 

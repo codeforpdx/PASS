@@ -178,18 +178,19 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     podUrl,
     senderName,
     recipientName,
+    recipientPodUrl,
     recipientWebId,
     messageSlug
   };
 
-  const newSolidDatasets = ['recipient', 'sender'].map((person) =>
+  const newSolidDatasets = ['sender', 'recipient'].map((person) =>
     buildMessageTTL(session, date, messageObject, messageMetadata, person)
   );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[0], messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDatasets[1], messageSlug)
+      saveMessageTTL(session, outboxUrl, newSolidDatasets[0], messageSlug),
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[1], messageSlug)
     ]);
   } catch (error) {
     throw new Error(
