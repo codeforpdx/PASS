@@ -58,32 +58,39 @@ const NavMenu = ({
         <MenuItem
           component={Button}
           startIcon={<NotificationsIcon />}
-          sx={{ display: { md: 'none' }, color: 'primary.main', width: '100%' }}
+          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
           Notifications
         </MenuItem>
         <MenuItem
-        component={Button}
-        startIcon={<Avatar
-          src={profileImg}
-          alt="PASS profile"
-          sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
-        />}
+          component={Button}
+          sx={{ width: '100%' }}
+          startIcon={
+            <Avatar
+              src={profileImg}
+              alt="PASS profile"
+              sx={{
+                height: '24px',
+                width: '24px',
+                objectFit: 'contain',
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main
+              }}
+            />
+          }
         >
-
-            <NavLink
-              to="/PASS/profile"
-              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
-            >
-              Profile
-            </NavLink>
-
+          <NavLink
+            to="/PASS/profile"
+            style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+          >
+            Profile
+          </NavLink>
         </MenuItem>
         <Divider />
         <MenuItem
           component={Button}
           startIcon={<SettingsIcon />}
-          sx={{ color: 'primary.main', width: '100%' }}
+          sx={{ color: theme.palette.primary.main, width: '100%' }}
         >
           Settings
         </MenuItem>
@@ -91,7 +98,7 @@ const NavMenu = ({
           component={Button}
           startIcon={<LogoutIcon />}
           onClick={() => setShowConfirmation(true)}
-          sx={{ color: 'error.main', width: '100%' }}
+          sx={{ color: theme.palette.error.main, width: '100%' }}
         >
           Log Out
         </MenuItem>
