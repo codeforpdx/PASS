@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { render, cleanup, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi, afterEach } from 'vitest';
-import { DeleteClientModal } from '../../../src/components/Clients';
+import { DeleteClientModal } from '../../../src/components/Modals';
 import { UserListContext } from '../../../src/contexts';
 
 // clear created dom after each test, to start fresh for next
