@@ -86,7 +86,7 @@ const React = require('react');
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
  * @property {string} description - Description of document
- * @property {object} file - An object which contain infomation about the file
+ * @property {object} file - An object which contain information about the file
  * being uploaded as well the document itself
  * @memberof typedefs
  */
@@ -116,7 +116,6 @@ const React = require('react');
  * @property {string} givenName - First/given name of user
  * @property {string} familyName - Last/family name of user
  * @property {URL} webId - A user's webId
- * @property {Date|null} dateModified - The last active date using PASS
  * @memberof typedefs
  */
 

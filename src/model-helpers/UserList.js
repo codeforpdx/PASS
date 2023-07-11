@@ -10,7 +10,7 @@ import {
   removeThing
 } from '@inrupt/solid-client';
 
-import { setDocAclForUser } from '../utils/network/session-helper';
+import { setDocAclForUser } from '../utils';
 
 import { RDF_PREDICATES } from '../constants';
 
@@ -60,20 +60,17 @@ const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
  * @memberof UserList
  * @function parseFromDataset
  * @param {SolidDataset} usersDataset - dataset to convert to array
- * @param {Session} session - session to use for saving
  * @returns {object} An new userListObject containing any updates
  */
-const parseFromDataset = async (usersDataset, session) => {
+const parseFromDataset = async (usersDataset) => {
   const userList = [];
   const allUsersThing = getThingAll(usersDataset).filter(
     (thing) => !thing.url.includes('#userlist')
   );
-  await Promise.all(
-    allUsersThing.map(async (userThing) => {
-      const userObject = await parseUserFromThing(userThing, session);
-      userList.push(userObject);
-    })
-  );
+  allUsersThing.map(async (userThing) => {
+    const userObject = parseUserFromThing(userThing);
+    userList.push(userObject);
+  });
 
   return userList;
 };

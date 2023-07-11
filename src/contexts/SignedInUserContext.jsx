@@ -4,8 +4,14 @@ import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
-import { createPublicContainer } from '../utils';
-import { updateUserActivity } from '../model-helpers';
+import { createDocumentsContainer, createPublicContainer } from '../utils';
+import {
+  fetchProfileInfo,
+  updateProfileInfo,
+  uploadProfileImage,
+  removeProfileImage,
+  updateUserActivity
+} from '../model-helpers';
 
 /**
  * React Context for users list from Solid Pod
@@ -28,30 +34,38 @@ export const SignedInUserContext = createContext({});
 export const SignedInUserContextProvider = ({ children }) => {
   const { session } = useSession();
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
-  const [userInfo, setUserInfo] = useState({
-    podUrl: null
-  });
+  const [podUrl, setPodUrl] = useState('');
+  const [profileData, setProfileData] = useState(null);
 
   const userInfoMemo = useMemo(
     () => ({
-      podUrl: userInfo.podUrl
+      podUrl,
+      profileData,
+      setProfileData: async (newProfileData) => setProfileData(newProfileData),
+      fetchProfileInfo,
+      updateProfileInfo,
+      uploadProfileImage,
+      removeProfileImage
     }),
-    [userInfo, loadingUserInfo]
+    [podUrl, profileData, loadingUserInfo]
   );
 
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
         const { webId } = session.info;
-        let podUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
-        podUrl = podUrl || webId.split('profile')[0];
-        setUserInfo({
-          ...userInfo,
-          podUrl
-        });
+        let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
+        fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
+        setPodUrl(fetchedPodUrl);
+        const fetchedProfileData = await fetchProfileInfo(session);
+        if (fetchedProfileData.profileInfo.profileImage) {
+          localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
+        }
+        setProfileData(fetchedProfileData);
         await Promise.all([
-          updateUserActivity(session, podUrl),
-          createPublicContainer(session, podUrl)
+          createPublicContainer(session, fetchedPodUrl),
+          createDocumentsContainer(session, fetchedPodUrl),
+          updateUserActivity(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

@@ -103,7 +103,11 @@ const NavbarLinks = () => {
 
       {/* will show on larger screen (tablet/desktop view) */}
       <Tabs
-        value={location}
+        value={
+          routesArray.map((route) => route.label.toLowerCase()).includes(location)
+            ? location
+            : false
+        }
         textColor="inherit"
         indicatorColor="secondary"
         aria-label="tabs"

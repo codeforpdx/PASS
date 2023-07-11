@@ -31,7 +31,7 @@ vi.mock('@inrupt/solid-ui-react', async () => {
         fetch: vi.fn(),
         info: {
           isLoggedIn: false,
-          webId: 'https://example.com/'
+          webId: 'https://example.com/pod/profile/card#me'
         }
       }
     }))
@@ -55,7 +55,8 @@ describe('SignedInUserContext', () => {
     useSession.mockReturnValue({
       session: {
         info: {
-          isLoggedIn: true
+          isLoggedIn: true,
+          webId: 'https://example.com/pod/profile/card#me'
         }
       }
     });

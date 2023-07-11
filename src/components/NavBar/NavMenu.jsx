@@ -1,9 +1,8 @@
 // React Imports
 import React from 'react';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { NavLink } from 'react-router-dom';
 // Material UI Imports
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -12,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -20,8 +20,16 @@ import SettingsIcon from '@mui/icons-material/Settings';
  * @name NavMenu
  */
 
-const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShowConfirmation }) => {
-  const { session } = useSession();
+const NavMenu = ({
+  menuId,
+  openMenu,
+  setOpenMenu,
+  anchorEl,
+  setAnchorEl,
+  setShowConfirmation,
+  profileImg
+}) => {
+  const theme = useTheme();
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -55,14 +63,21 @@ const NavMenu = ({ menuId, openMenu, setOpenMenu, anchorEl, setAnchorEl, setShow
           Notifications
         </MenuItem>
         <MenuItem
-          component={Button}
-          startIcon={<AccountCircle />}
-          href={session.info.webId}
-          target="_blank"
-          rel="noreferrer"
-          sx={{ color: 'primary.main', width: '100%' }}
+        component={Button}
+        startIcon={<Avatar
+          src={profileImg}
+          alt="PASS profile"
+          sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
+        />}
         >
-          Profile
+
+            <NavLink
+              to="/PASS/profile"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              Profile
+            </NavLink>
+
         </MenuItem>
         <Divider />
         <MenuItem

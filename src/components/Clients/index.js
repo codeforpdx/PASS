@@ -1,4 +1,3 @@
-import AddClient from './AddClient';
 import AddClientModal from './AddClientModal';
 import ClientList from './ClientList';
 import ClientListTable from './ClientListTable';
@@ -9,4 +8,4 @@ import ClientListTable from './ClientListTable';
  * @namespace Clients
  */
 
-export { AddClient, AddClientModal, ClientList, ClientListTable };
+export { AddClientModal, ClientList, ClientListTable };

@@ -46,7 +46,7 @@ const UploadDocumentForm = () => {
     setVerifyFile(false);
     setDocType('');
     setFile('');
-    setInputKey(!inputKey); // clears file by forcing re-render
+    setInputKey(!inputKey); // Clears file by forcing re-render
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
@@ -56,20 +56,13 @@ const UploadDocumentForm = () => {
   const handleDocUpload = async (e) => {
     e.preventDefault();
 
-    if (!docType) {
-      runNotification('Upload failed. Reason: No document type selected.', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
     const fileDesc = {
       name: file.name,
       type: docType,
       date: expireDate,
       description: docDescription
     };
+    dispatch({ type: 'SET_PROCESSING' });
     runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
 
     try {
@@ -91,6 +84,7 @@ const UploadDocumentForm = () => {
       }
     } finally {
       clearInputFields();
+      dispatch({ type: 'CLEAR_PROCESSING' });
     }
   };
 
@@ -156,7 +150,11 @@ const UploadDocumentForm = () => {
               required
             >
               Choose file
-              <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png" />
+              <input
+                type="file"
+                hidden
+                accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
+              />
             </Button>
             <FormHelperText
               sx={{
@@ -171,7 +169,12 @@ const UploadDocumentForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+            <Button
+              variant="contained"
+              disabled={state.processing || !file}
+              type="submit"
+              color="primary"
+            >
               Upload file
             </Button>
           </FormControl>
