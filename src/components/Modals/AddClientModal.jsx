@@ -36,7 +36,7 @@ const renderWebId = (username) => {
   return `${template[0]}${username}${template[1]}`;
 };
 
-const AddClientModal = ({ showModal, setShowModal }) => {
+const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -71,7 +71,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
       );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      }, 2000);
       return;
     }
 
@@ -84,7 +84,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
       );
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      }, 2000);
       return;
     }
     // ===== END OF ERROR DISPLAY OPTIONS =====
@@ -125,12 +125,17 @@ const AddClientModal = ({ showModal, setShowModal }) => {
         setUsername('');
         setWebId('');
         dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+        setShowAddClientModal(false);
+      }, 2000);
     }
   };
 
   return (
-    <Dialog open={showModal} aria-labelledby="dialog-title" onClose={() => setShowModal(false)}>
+    <Dialog
+      open={showAddClientModal}
+      aria-labelledby="dialog-title"
+      onClose={() => setShowAddClientModal(false)}
+    >
       <FormSection
         title="Add Client"
         state={state}
@@ -201,7 +206,7 @@ const AddClientModal = ({ showModal, setShowModal }) => {
               variant="outlined"
               color="error"
               endIcon={<ClearIcon />}
-              onClick={() => setShowModal(false)}
+              onClick={() => setShowAddClientModal(false)}
               fullWidth
             >
               CANCEL
