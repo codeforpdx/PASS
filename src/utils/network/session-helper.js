@@ -456,7 +456,14 @@ export const buildMessageTTL = (session, date, messageObject, messageMetadata, b
   if (messageObject.inReplyTo) {
     replyTo = buildThing(createThing({ name: 'replyTo' }))
       .addStringNoLocale(RDF_PREDICATES.identifier, messageObject.inReplyTo)
-      .addUrl(RDF_PREDICATES.url, messageObject.messageUrl)
+      .addUrl(
+        RDF_PREDICATES.url,
+        buildFor === 'sender'
+          ? messageObject.messageUrl
+          : `${`${messageMetadata.recipientPodUrl}PASS/Outbox/`}${
+              messageObject.messageUrl.split(`${messageMetadata.podUrl}PASS/Inbox/`)[1]
+            }`
+      )
       .build();
 
     newSolidDataset = setThing(newSolidDataset, replyTo);
