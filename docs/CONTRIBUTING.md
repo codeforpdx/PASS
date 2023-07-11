@@ -56,16 +56,17 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 2. Setup instructions to locally run PASS can be found in the [readme](../README.md).
 
 3. Create a new branch to work on your feature:
-    - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the naming convention issue-\<number\>/\<branch name\> Example: `issue-112/delete-client-modal`
+    - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention `issue-\<number\>/\<branch name\>` 
+      > Example: `issue-112/delete-client-modal`
     - `git pull origin Development` - to sync with PASS Development branch
     - This can also be done directly from an issue in GitHub.
 
       <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
     - If done manually, link branch to corresponding GitHub issue.
 
-4. Work on feature in your own branch.
+1. Work on feature in your own branch.
 
-5. When ready, push to GitHub
+2. When ready, push to GitHub
 
  - `git push origin <your branch name>`
     
