@@ -4,9 +4,12 @@ import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { ENV } from '../../constants';
@@ -17,7 +20,7 @@ import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import FormSection from '../Form/FormSection';
+import { FormSection } from '../Form';
 
 /**
  * AddClientModal Component - Component that allows users to add other user's
@@ -142,6 +145,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         <form onSubmit={handleAddClient} autoComplete="off">
           <FormControl fullWidth>
             <TextField
+              margin="normal"
               id="add-user-given-name"
               name="addUserGivenName"
               label="First/given name"
@@ -153,9 +157,8 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
               autoFocus
             />
           </FormControl>
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-user-last-name"
             name="addUserFamilyName"
             label="Last/family name"
@@ -165,9 +168,8 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
             required
             fullWidth
           />
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-username"
             name="addUsername"
             label="username"
@@ -177,9 +179,8 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
             required
             fullWidth
           />
-          <br />
-          <br />
           <TextField
+            margin="normal"
             id="add-webId"
             name="addWebId"
             placeholder="WebId"
@@ -190,9 +191,16 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
               setWebId(e.target.value);
             }}
             fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton aria-label="copy-webid" edge="end">
+                    <ContentCopyIcon />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
-          <br />
-          <br />
           <DialogActions>
             <Button
               variant="outlined"

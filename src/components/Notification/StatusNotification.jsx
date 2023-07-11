@@ -24,7 +24,7 @@ import StatusMessage from './StatusMessage';
 const StatusNotification = ({ state, statusType, defaultMessage }) => (
   <Box
     sx={{
-      marginTop: 3,
+      marginTop: 1,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
