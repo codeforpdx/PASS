@@ -12,7 +12,6 @@ import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
-import { StatusNotification } from '../Notification';
 import ClientListTableRow from './ClientListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
@@ -26,7 +25,7 @@ const columnTitlesArray = ['Select', 'Client', 'WebID', 'Pin', 'Delete'];
  * @name ClientListTable
  */
 
-const ClientListTable = ({ statusType, defaultMessage }) => {
+const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
@@ -66,12 +65,13 @@ const ClientListTable = ({ statusType, defaultMessage }) => {
                 client={client}
                 state={state}
                 dispatch={dispatch}
+                setShowDeleteClientModal={setShowDeleteClientModal}
+                setSelectedClientToDelete={setSelectedClientToDelete}
               />
             );
           })}
         </TableBody>
       </Table>
-      <StatusNotification state={state} statusType={statusType} defaultMessage={defaultMessage} />
     </TableContainer>
   );
 };
