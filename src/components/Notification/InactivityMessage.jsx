@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // Inrupt Library Imports
 import { LogoutButton } from '@inrupt/solid-ui-react';
 // Styling Imports
@@ -19,6 +19,9 @@ import Button from '@mui/base/Button';
 const InactivityMessage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [activeUser, setActiveUser] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(5);
+  const logoutTimer = useRef();
 
   // Checks for active user by looking for a loggedIn key in local storage
   useEffect(() => {
@@ -26,7 +29,7 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after three minutes of inactivity
+  // Toggles the popup after twenty-five minutes of inactivity
   useEffect(() => {
     let timer = null;
 
@@ -35,7 +38,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 180000);
+      }, 1500000);
     };
 
     const handleUserActivity = () => {
@@ -58,11 +61,39 @@ const InactivityMessage = () => {
     };
   }, []);
 
+  /* Starts a five minute timer when the inactivity window pops up. 
+     Logs the user out and refreshes the page if time elapses. */
+  useEffect(() => {
+    if (showPopup) {
+      logoutTimer.current = setInterval(() => {
+        if (seconds === 0 && minutes === 0) {
+          handleLogout();
+          window.location.reload(false);
+        } else if (seconds === 0) {
+          setSeconds(59);
+          setMinutes((minutes) => minutes - 1);
+        } 
+          else if (seconds > 0) {
+          setSeconds((seconds) => seconds - 1);
+        }
+      }, 1000)
+    }
+    return () => clearInterval(logoutTimer.current);
+  }, [showPopup, seconds, minutes])
+
   // Event handler for logout and removing items from localStorage
   // Returns user to home page upon successful logout
   const handleLogout = () => {
     localStorage.clear();
   };
+
+  // Event handler for popup's continue button
+  // Closes the window, and resets the timer
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setSeconds(0);
+    setMinutes(5);
+  }
 
   return (
     showPopup &&
@@ -70,13 +101,14 @@ const InactivityMessage = () => {
       <StyledOverlay>
         <StyledModal>
           <StyledContainer>
-            <p>You have been inactive for a few minutes now. Would you like to log out?</p>
+            <p>You have been inactive for a while now. Would you like to log out?</p>
             <ButtonsContainer>
-              <StyledButton onClick={() => setShowPopup(false)}>Continue Session</StyledButton>
+              <StyledButton onClick={handleClosePopup}>Continue Session</StyledButton>
               <LogoutButton>
                 <StyledLogoutButton onClick={handleLogout}>Log Out</StyledLogoutButton>
               </LogoutButton>
             </ButtonsContainer>
+            <p>You will automatically be logged out in {minutes}:{seconds.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false})}</p>
           </StyledContainer>
         </StyledModal>
       </StyledOverlay>
