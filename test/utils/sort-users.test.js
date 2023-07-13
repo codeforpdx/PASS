@@ -18,10 +18,12 @@ const comparePerson = (a, b) => {
     return 0;
 };
 
-const results = [...testArray].sort(comparePerson)
+
 
 describe('Sorting', ()=> {
     it('array should be sorted by familyName', () => {
+        const results = [...testArray].sort(comparePerson)
+        
         testArray.sort(comparePerson)
         expect(results).toStrictEqual([...testArray].sort(comparePerson))
     })
