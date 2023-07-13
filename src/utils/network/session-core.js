@@ -159,7 +159,7 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
 
   const senderUsername = podUrl.split('/')[2].split('.')[0];
 
-  const senderName = await getUserProfileName(session, session.info.webId);
+  const senderName = (await getUserProfileName(session, session.info.webId)) || senderUsername;
   let recipientName;
 
   try {
