@@ -163,7 +163,8 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   let recipientName;
 
   try {
-    recipientName = await getUserProfileName(session, recipientWebId);
+    const recipientUsername = recipientPodUrl.split('/')[2].split('.')[0];
+    recipientName = (await getUserProfileName(session, recipientWebId)) || recipientUsername;
   } catch (error) {
     throw new Error('Message failed to send. Reason: Recipient username not found');
   }
