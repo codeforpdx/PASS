@@ -64,11 +64,11 @@ export const PaginationContainer = styled.div`
     justify-content: center;
     align-items: center;
     list-style-type: none;
-    gap: 5px;
+    gap: 3px;
   }
 
   .pagination .page {
-    background-color: #017969;
+    background-color: #74b0a8;
     color: #fff;
     padding: 8px 16px;
     border-radius: 4px;
@@ -80,12 +80,15 @@ export const PaginationContainer = styled.div`
     background-color: #004d3e;
   }
 
-  .active-page {
-    color: #debc59;
+  .page-prev {
+    margin-right: 1rem;
   }
 
-  .chevron {
-    background-color: #017969;
+  .page-next {
+    margin-left: 1rem;
+  }
+
+  .active-page {
     color: #debc59;
   }
 `;

@@ -93,7 +93,9 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
             renderOnZeroPageCount={null}
             className="pagination"
             previousLinkClassName="page"
+            previousClassName="page-prev"
             nextLinkClassName="page"
+            nextClassName="page-next"
             pageLinkClassName="page"
             activeClassName="active-page"
           />
