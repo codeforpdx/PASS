@@ -1,6 +1,7 @@
 import { expect, vi, it, describe } from 'vitest';
 import { webcrypto } from 'crypto';
 import { buildThing, createThing } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
 import { RDF_PREDICATES } from '../../src/constants';
 import { makeDocIntoThing, parseDocFromThing } from '../../src/model-helpers/Document';
@@ -22,7 +23,7 @@ describe('docDescToThing', () => {
     const doc = {
       name: 'name',
       type: 'type',
-      date: new Date('December 17, 1995'),
+      date: dayjs('December 17, 1995').$d,
       description: 'description'
     };
     const thing = await makeDocIntoThing(doc, testFile);
@@ -43,12 +44,12 @@ describe('parseDocument', () => {
     const doc = {
       name: 'name',
       type: 'type',
-      date: new Date('December 17, 1995'),
+      date: dayjs('December 17, 1995').$d,
       description: 'description'
     };
 
     const thing = buildThing(createThing({ name: doc.name }))
-      .addDate(RDF_PREDICATES.uploadDate, new Date())
+      .addDate(RDF_PREDICATES.uploadDate, dayjs().$d)
       .addStringNoLocale(RDF_PREDICATES.name, doc.name)
       .addStringNoLocale(RDF_PREDICATES.identifier, doc.type)
       .addDate(RDF_PREDICATES.endDate, doc.date)

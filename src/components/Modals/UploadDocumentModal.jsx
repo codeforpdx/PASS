@@ -148,7 +148,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             <br />
             {/* File to upload: {file ? file.name : 'No file selected'} */}
             <Button
-              variant={file ? 'contained' : 'outlined'}
+              variant={file ? 'outlined' : 'contained'}
               component="label"
               color="primary"
               id="upload-doctype"

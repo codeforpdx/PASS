@@ -10,6 +10,7 @@ import {
   getUrl,
   getThing
 } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import { RDF_PREDICATES } from '../constants';
 
 import { setDocAclForUser } from '../utils';
@@ -64,13 +65,13 @@ export const updateUserActivity = async (session, podUrl) => {
     const activeTTLThing = getThing(activityDataset, `${activityDocUrl}#active`);
 
     const activeTTL = buildThing(activeTTLThing)
-      .setDatetime(RDF_PREDICATES.dateModified, new Date())
+      .setDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
       .build();
 
     await saveActivity(activeTTL);
   } catch {
     const newActiveTTL = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .addDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
       .build();
 
     activityDataset = createSolidDataset();

@@ -1,4 +1,5 @@
 import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -173,9 +174,9 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     throw new Error('Message failed to send. Reason: Recipient username not found');
   }
 
-  const date = new Date();
-  const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
-  const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const date = dayjs().$d;
+  const dateYYYYMMDD = dayjs().format('YYYYMMDD');
+  const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
 
   const newSolidDataset = buildMessageTTL(
     session,

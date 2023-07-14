@@ -20,6 +20,7 @@ import {
   getDatetime,
   createSolidDataset
 } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
 import formattedDate from '../barcode/barcode-date-parser';
@@ -226,7 +227,7 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   ttlFile = buildThing(ttlFile)
     .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
     .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .setDatetime(RDF_PREDICATES.dateModified, new Date())
+    .setDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 
@@ -270,15 +271,15 @@ const createFileChecksum = async (fileObject) => {
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
   const dlData = await getDriversLicenseData(fileObject.file);
   return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
+    .addDate(RDF_PREDICATES.expires, dayjs(`${formattedDate(dlData.DBA)}`).$d)
     .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
     .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
     .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addDate(RDF_PREDICATES.dateIssued, new Date(`${formattedDate(dlData.DBD)}`))
-    .addDate(RDF_PREDICATES.dateOfBirth, new Date(`${formattedDate(dlData.DBB)}`))
+    .addDate(RDF_PREDICATES.dateIssued, dayjs(`${formattedDate(dlData.DBD)}`).$d)
+    .addDate(RDF_PREDICATES.dateOfBirth, dayjs(`${formattedDate(dlData.DBB)}`).$d)
     .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
     .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
     .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
@@ -321,7 +322,7 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
   }
 
   return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
     .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
