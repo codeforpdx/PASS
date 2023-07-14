@@ -92,12 +92,12 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
             previousLabel="<"
             renderOnZeroPageCount={null}
             className="pagination"
-            previousLinkClassName="page"
-            previousClassName="page-prev"
-            nextLinkClassName="page"
-            nextClassName="page-next"
-            pageLinkClassName="page"
-            activeClassName="active-page"
+            previousLinkClassName="page-red"
+            previousClassName="chevron"
+            nextLinkClassName="page-red"
+            nextClassName="chevron"
+            pageLinkClassName="page-green"
+            activeLinkClassName="active-page"
           />
         </PaginationContainer>
       </Box>

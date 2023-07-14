@@ -31,33 +31,6 @@ export const StyledButton2 = styled('button')({
   }
 });
 
-// export const PaginationContainer = styled.div`
-//   ul {
-//     display: flex;
-//     justify-content: center;
-//     list-style-type: none;
-//     padding: 0;
-//   }
-
-//   li:not(:last-child) {
-//     margin-right: 4px;
-//   }
-
-//   a {
-//     color: #000;
-//     text-decoration: none;
-//     padding: 8px 16px;
-//     border-radius: 4px;
-//     background-color: #eaeaea;
-//     cursor: pointer;
-//   }
-
-//   a:active {
-//     background-color: #555;
-//     color: #fff;
-//   }
-// `;
-
 export const PaginationContainer = styled.div`
   .pagination {
     display: flex;
@@ -67,29 +40,46 @@ export const PaginationContainer = styled.div`
     gap: 3px;
   }
 
-  .pagination .page {
-    background-color: #74b0a8;
+  .page-green,
+  .page-red,
+  .page-yellow {
     color: #fff;
+    font-weight: bold;
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
   }
 
-  .pagination .page:hover {
-    background-color: #004d3e;
+  .page-green {
+    background-color: #74b0a8;
+    &:hover {
+      background-color: #017969;
+    }
   }
 
-  .page-prev {
-    margin-right: 1rem;
+  .page-red {
+    background-color: #bf7c84;
+    &:hover {
+      background-color: #961020;
+    }
   }
 
-  .page-next {
-    margin-left: 1rem;
+  .page-yellow {
+    background-color: #e3d2a0;
+    &:hover {
+      background-color: #debc59;
+    }
+  }
+
+  .chevron {
+    margin: 0 1.5rem;
   }
 
   .active-page {
+    background-color: #017969;
     color: #debc59;
+    cursor: default;
   }
 `;
 
