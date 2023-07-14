@@ -9,7 +9,6 @@ import {
   buildThing,
   setThing,
   saveSolidDatasetAt,
-  getProfileAll,
   getThing,
   getStringNoLocale,
   saveSolidDatasetInContainer,
@@ -19,7 +18,8 @@ import {
   setPublicDefaultAccess,
   getDatetime,
   createSolidDataset,
-  getUrl
+  getUrl,
+  getWebIdDataset
 } from '@inrupt/solid-client';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
@@ -342,9 +342,9 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
  * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
  */
 
-export const getUserProfileName = async (session, webId) => {
-  const profile = await getProfileAll(webId, { fetch: session.fetch });
-  const profileDataThing = getThing(profile.webIdProfile, webId);
+export const getUserProfileName = async (webId) => {
+  const profile = await getWebIdDataset(webId);
+  const profileDataThing = getThing(profile, webId);
   return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
 };
 

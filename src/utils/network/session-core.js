@@ -157,22 +157,13 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
-  const senderUsername = podUrl.split('/')[2].split('.')[0];
-
-  const senderName = (await getUserProfileName(session, session.info.webId)) || senderUsername;
-  let recipientName;
-
-  try {
-    const recipientUsername = recipientPodUrl.split('/')[2].split('.')[0];
-    recipientName = (await getUserProfileName(session, recipientWebId)) || recipientUsername;
-  } catch (error) {
-    throw new Error('Message failed to send. Reason: Recipient username not found');
-  }
+  const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
+  const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
 
   const date = new Date();
   const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
   const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-  const messageSlug = `${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+  const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
 
   const messageMetadata = {
     messageId: uuidv4(),
