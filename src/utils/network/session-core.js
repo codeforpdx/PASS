@@ -1,5 +1,6 @@
 import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -152,50 +153,42 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
  * saves a copy on the sender's outbox
  */
 export const sendMessageTTL = async (session, messageObject, podUrl) => {
-  const { recipientUsername } = messageObject;
-  const containerUrl = getContainerUrl(
-    session,
-    'Inbox',
-    INTERACTION_TYPES.CROSS,
-    recipientUsername
-  );
+  const { recipientPodUrl } = messageObject;
+  const recipientWebId = `${recipientPodUrl}profile/card#me`;
+  const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
-  const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const otherPodUrl = getPodUrl(recipientUsername);
-  const recipientWebId = `${otherPodUrl}profile/card#me`;
-
-  const senderName = await getUserProfileName(session, session.info.webId);
-  let recipientName;
-
-  try {
-    recipientName = await getUserProfileName(session, recipientWebId);
-  } catch (error) {
-    throw new Error('Message failed to send. Reason: Recipient username not found');
-  }
+  const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
+  const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
 
   const date = dayjs().$d;
   const dateYYYYMMDD = dayjs().format('YYYYMMDD');
   const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
 
-  const newSolidDataset = buildMessageTTL(
-    session,
-    date,
-    messageObject,
+  const messageMetadata = {
+    messageId: uuidv4(),
+    podUrl,
     senderName,
     recipientName,
-    recipientWebId
-  );
+    recipientPodUrl,
+    recipientWebId,
+    messageSlug
+  };
 
-  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+  const newSolidDatasets = ['sender', 'recipient'].map((person) =>
+    buildMessageTTL(session, date, messageObject, messageMetadata, person)
+  );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, outboxUrl, newSolidDatasets[0], messageSlug),
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[1], messageSlug)
     ]);
   } catch (error) {
-    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
+    throw new Error(
+      'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
+    );
   }
 };
 

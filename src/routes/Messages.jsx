@@ -75,8 +75,15 @@ const Messages = () => {
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
-        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
-          <CreateIcon sx={{ marginRight: '10px' }} />
+        <Button
+          variant="contained"
+          onClick={() => setShowForm(!showForm)}
+          startIcon={<CreateIcon />}
+          sx={{
+            backgroundColor: 'secondary.main',
+            ':hover': { backgroundColor: 'secondary.dark' }
+          }}
+        >
           New Message
         </Button>
         <Tabs value={boxType} sx={{ padding: '0 30px' }}>
