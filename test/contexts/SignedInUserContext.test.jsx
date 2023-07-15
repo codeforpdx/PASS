@@ -9,6 +9,7 @@ import {
   createThing
 } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
+import dayjs from 'dayjs';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';
@@ -46,7 +47,7 @@ describe('SignedInUserContext', () => {
 
   it('fetches user data if user is logged in', async () => {
     const newActiveTTL = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .addDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
       .build();
 
     const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');

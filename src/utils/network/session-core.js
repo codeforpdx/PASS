@@ -1,4 +1,5 @@
 import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { INTERACTION_TYPES } from '../../constants';
 import {
@@ -160,9 +161,9 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
   const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
 
-  const date = new Date();
-  const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
-  const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const date = dayjs().$d;
+  const dateYYYYMMDD = dayjs().format('YYYYMMDD');
+  const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
   const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
 
   const messageMetadata = {

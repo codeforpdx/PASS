@@ -1,5 +1,7 @@
 // React Imports
 import React from 'react';
+// Other Library Imports
+import dayjs from 'dayjs';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -93,7 +95,7 @@ const legalLinks = [
     target: '_blank',
     rel: 'noopenner',
     ml: 0.5,
-    text: `©${new Date().getFullYear()}`,
+    text: `©${dayjs().year()}`,
     title: 'Code for PDX'
   }
 ];
