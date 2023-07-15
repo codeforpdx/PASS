@@ -117,7 +117,7 @@ const createFileChecksum = async (file) => {
  * @returns {Promise<ThingLocal>} a thing
  */
 const addAdditionalInfo = async (docDesc, thing, file) => {
-  if (docDesc.type === 'DriversLicense') {
+  if (docDesc.type === "Driver's License") {
     const retThing = await addDriversLicenseInfo(thing, file);
     return retThing;
   }

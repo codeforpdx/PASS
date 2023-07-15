@@ -30,7 +30,7 @@ const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
         name="document"
       >
         {Object.entries(DOC_TYPES).map(([key, value]) => (
-          <MenuItem key={key} value={key}>
+          <MenuItem key={key} value={value}>
             {value}
           </MenuItem>
         ))}

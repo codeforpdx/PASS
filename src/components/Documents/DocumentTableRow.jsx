@@ -11,7 +11,6 @@ import { getBlobFromSolid } from '../../utils';
 // Context Imports
 import { DocumentListContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-import DOC_TYPES from '../../constants/doc_types';
 
 /**
  * DocumentTableRow Component - A row in the Document Table
@@ -48,7 +47,7 @@ const DocumentTableRow = ({ document }) => {
   return (
     <StyledTableRow>
       <StyledTableCell align="center">{name}</StyledTableCell>
-      <StyledTableCell align="center">{DOC_TYPES[type]}</StyledTableCell>
+      <StyledTableCell align="center">{type}</StyledTableCell>
       <StyledTableCell align="center">{description}</StyledTableCell>
       <StyledTableCell align="center">
         {uploadDate ? uploadDate.toDateString() : ''}
