@@ -41,14 +41,14 @@ export const PaginationContainer = styled.div`
   }
 
   .page-green,
-  .page-red,
-  .page-yellow {
+  .page-red {
     color: #fff;
     font-weight: bold;
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
+    display: flex;
   }
 
   .page-green {
@@ -65,20 +65,12 @@ export const PaginationContainer = styled.div`
     }
   }
 
-  .page-yellow {
-    background-color: #e3d2a0;
-    &:hover {
-      background-color: #debc59;
-    }
-  }
-
   .chevron {
     margin: 0 1.5rem;
   }
 
   .active-page {
     background-color: #017969;
-    color: #debc59;
     cursor: default;
   }
 `;
