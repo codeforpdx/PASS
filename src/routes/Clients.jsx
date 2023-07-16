@@ -7,8 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // Component Imports
-import AddClientModal from '../components/Clients/AddClientModal';
-import ClientList from '../components/Clients/ClientList';
+import { AddClientModal } from '../components/Modals';
+import { ClientList } from '../components/Clients';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -19,7 +19,7 @@ import ClientList from '../components/Clients/ClientList';
 
 const Clients = () => {
   // state for AddClientModal component
-  const [showModal, setShowModal] = useState(false);
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
 
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
@@ -32,14 +32,18 @@ const Clients = () => {
         size="small"
         aria-label="Add Client Button"
         startIcon={<AddIcon />}
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowAddClientModal(true)}
         sx={{ marginTop: '3rem' }}
       >
         Add Client
       </Button>
       <ClientList />
-      {/* modal/popup renders when showConfirmationModal state is true */}
-      <AddClientModal showModal={showModal} setShowModal={setShowModal} />
+
+      {/* modal/popup renders when showAddClientModal state is true */}
+      <AddClientModal
+        showAddClientModal={showAddClientModal}
+        setShowAddClientModal={setShowAddClientModal}
+      />
     </Container>
   );
 };

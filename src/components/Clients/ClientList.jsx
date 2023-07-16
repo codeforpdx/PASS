@@ -1,9 +1,10 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
+import DeleteClientModal from '../Modals/DeleteClientModal';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
@@ -18,16 +19,37 @@ const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
   const { loadingUsers } = useContext(UserListContext);
 
+  // state for DeleteClientModal component
+  const [showDeleteClientModal, setShowDeleteClientModal] = useState(false);
+
+  // state for selected client to delete
+  const [selectedClientToDelete, setSelectedClientToDelete] = useState(null);
+
   const determineClientListTable = userListObject.userList?.length ? (
     // render if clients
-    <ClientListTable statusType="Status" defaultMessage="No actions performed" />
+    <ClientListTable
+      setSelectedClientToDelete={setSelectedClientToDelete}
+      setShowDeleteClientModal={setShowDeleteClientModal}
+    />
   ) : (
     // render if no clients
     <EmptyListNotification type="clients" />
   );
 
   // MAIN RETURN OF COMPONENT
-  return loadingUsers ? <LoadingAnimation loadingItem="clients" /> : determineClientListTable;
+  return loadingUsers ? (
+    <LoadingAnimation loadingItem="clients" />
+  ) : (
+    <>
+      {determineClientListTable}
+      {/* modal/popup renders when showDeleteClientModal state is true */}
+      <DeleteClientModal
+        showDeleteClientModal={showDeleteClientModal}
+        setShowDeleteClientModal={setShowDeleteClientModal}
+        selectedClientToDelete={selectedClientToDelete}
+      />
+    </>
+  );
 };
 
 export default ClientList;

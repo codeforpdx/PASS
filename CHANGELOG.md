@@ -37,7 +37,7 @@
 - Updated all relevant components/functions using createDocAclForUser with new setDocAclForUser function (#183)
 - Optimized session-core functions (#183)
 - Included new JSDoc for new barcode scanner functions (#179)
-- Updated clearDoc.js and .gitignore to accomedate for new ZXing_barcaode.md (#179)
+- Updated clearDoc.js and .gitignore to accommodate for new ZXing_barcode.md (#179)
 - Organized utils directory into 4 subdirectories and rerouted import paths (#171)
 - Refactored contexts for userList from session-core to src/modal-helpers (#169)
 - Replaced removeKeys function with localStorage.clear (#167)

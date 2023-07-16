@@ -11,7 +11,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Context Imports
-import { SelectedUserContext, UserListContext } from '../../contexts';
+import { SelectedUserContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
@@ -23,10 +23,16 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  */
 
 // determine what gets rendered in the table body
-const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
+const ClientListTableRow = ({
+  labelId,
+  client,
+  state,
+  dispatch,
+  setShowDeleteClientModal,
+  setSelectedClientToDelete
+}) => {
   const theme = useTheme();
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
-  const { removeUser } = useContext(UserListContext);
   const [pinned, setPinned] = useState(false);
 
   // determine what icon gets rendered in the pinned column
@@ -44,24 +50,16 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     setSelectedUser(clientToSelect);
   };
 
-  // Event handler for deleting client from client list
-  const handleDeleteClient = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${client.person} from your client list, do you wish to continue?`
-      )
-    ) {
-      return;
-    }
-    runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
-    await removeUser(client);
-    runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
-  };
-
   // Event handler for pinning client to top of table
   // ***** TODO: Add in moving pinned row to top of table
   const handlePinClick = () => {
     setPinned(!pinned);
+  };
+
+  // Event handler for deleting a client from client list
+  const handleSelectClientToDelete = () => {
+    setSelectedClientToDelete(client);
+    setShowDeleteClientModal(true);
   };
 
   return (
@@ -99,7 +97,7 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleDeleteClient()}>
+        <IconButton size="large" edge="end" onClick={handleSelectClientToDelete}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
