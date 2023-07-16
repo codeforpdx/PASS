@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 // Styling Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+// Material UI Imports
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // Component Imports
 import MessagePreview from './MessagePreview';
 import { PaginationContainer } from './MessageStyles';
@@ -85,11 +88,11 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         <PaginationContainer>
           <ReactPaginate
             breakLabel="..."
-            nextLabel=">"
+            nextLabel={<ChevronRightIcon />}
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount === 0 ? 1 : pageCount}
-            previousLabel="<"
+            previousLabel={<ChevronLeftIcon />}
             renderOnZeroPageCount={null}
             className="pagination"
             previousLinkClassName="page-red"
