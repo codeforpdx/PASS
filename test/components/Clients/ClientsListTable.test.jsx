@@ -6,7 +6,6 @@ import { UserListContext } from '../../../src/contexts/UserListContext';
 import { SelectedUserContext } from '../../../src/contexts/SelectedUserContext';
 import { SignedInUserContext } from '../../../src/contexts/SignedInUserContext';
 
-
 it('renders all clients from client context', () => {
   const users = [
     { familyName: 'Abby', givenName: 'Aaron', webId: 'https://example.com' },
