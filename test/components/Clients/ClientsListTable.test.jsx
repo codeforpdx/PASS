@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { expect, it, vi } from 'vitest';
+import { expect, it } from 'vitest';
 import ClientListTable from '../../../src/components/Clients/ClientListTable';
 import { UserListContext } from '../../../src/contexts/UserListContext';
 import { SelectedUserContext } from '../../../src/contexts/SelectedUserContext';

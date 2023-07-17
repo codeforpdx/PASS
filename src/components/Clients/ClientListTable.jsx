@@ -39,7 +39,6 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
     return 0;
   };
 
-  console.log(userListObject)
   const userListCopy = [...userListObject.userList];
 
   const sortedUserList = userListCopy.sort(comparePerson);
