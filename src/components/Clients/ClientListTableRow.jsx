@@ -63,7 +63,7 @@ const ClientListTableRow = ({
   };
 
   return (
-    <StyledTableRow data-testid="clientTableRow">
+    <StyledTableRow>
       <StyledTableCell align="center">
         <Checkbox
           id={labelId}
