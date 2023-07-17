@@ -7,15 +7,19 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 /**
+ * @typedef {import("../../typedefs.js").loadingAnimationProps} loadingAnimationProps
+ */
+
+/**
  * LoadingAnimation Component - Displays a div containing title of what is being
  * loaded and an animated loading progress bar. Must pass loadingItem attribute
  * as a string of the "title" of what is being loaded.
  *
  * @memberof Notification
  * @name LoadingAnimation
+ * @param {loadingAnimationProps} Props - Component props for LoadingAnimation
  * @returns {React.ReactElement} a div of what is currently loading
  */
-
 const LoadingAnimation = ({ loadingItem }) => (
   <Box
     sx={{
