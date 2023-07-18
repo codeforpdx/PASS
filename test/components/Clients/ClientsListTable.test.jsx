@@ -44,21 +44,10 @@ it('sorts clients by familyName', () => {
     { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
   ];
 
-  const expectedArray = [
-    { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' },
-    { familyName: 'Zeigler', person: 'Aaron Zeigler', webId: 'https://example.com/Zeigler' }
-  ];
+  const { getByText } = render(<MockTableComponent users={[...originalArray]} />);
 
-  const comparePerson = (a, b) => {
-    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
-      return -1;
-    }
-    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  };
+  const client1 = getByText('Aaron Zeigler')
+  const client2 = getByText('Bob Builder')
 
-  const result = [...originalArray].sort(comparePerson);
-  expect(result).toEqual(expectedArray);
+  expect(client1.compareDocumentPosition(client2)).toBe(2)
 });
