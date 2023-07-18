@@ -38,7 +38,6 @@ it('renders all clients from client context', () => {
   expect(row2.cells.item(1).innerHTML).toBe('Bob Builder');
 });
 
-
 it('sorts clients by familyName', () => {
   const originalArray = [
     { familyName: 'Zeigler', person: 'Aaron Zeigler', webId: 'https://example.com/Zeigler' },
@@ -60,6 +59,6 @@ it('sorts clients by familyName', () => {
     return 0;
   };
 
-  const result = [...originalArray].sort(comparePerson)
-  expect(result).toEqual(expectedArray)
+  const result = [...originalArray].sort(comparePerson);
+  expect(result).toEqual(expectedArray);
 });
