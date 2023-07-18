@@ -21,14 +21,7 @@ import { sendMessageTTL, getMessageTTL } from '../../utils';
 import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
- * component
- *
- * @typedef newMessageProps
- * @type {object}
- * @property {() => void} closeForm - The function used to trigger NewMessage to
- * close
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").newMessageProps} newMessageProps
  */
 
 /**
@@ -40,16 +33,20 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  * @param {newMessageProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const NewMessage = ({ closeForm }) => {
+const NewMessage = ({ closeForm, oldMessage = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
+  const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
-    recipientUsername: '',
-    title: '',
-    message: ''
+    recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
+    title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
+    message: '',
+    inReplyTo: oldMessage ? oldMessage.messageId : '',
+    messageUrl: oldMessage ? oldMessage.messageUrl : ''
   });
+
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
@@ -68,8 +65,8 @@ const NewMessage = ({ closeForm }) => {
 
     if (!message.title) {
       setError('Please enter a value for Message Title');
-    } else if (!message.recipientUsername) {
-      setError('Please enter a value for Recipient Username');
+    } else if (!message.recipientPodUrl) {
+      setError('Please enter a value for Recipient Pod URL');
     } else if (!message.message) {
       setError('Please enter a value for the Message');
     } else {
@@ -77,12 +74,12 @@ const NewMessage = ({ closeForm }) => {
         await sendMessageTTL(session, message, podUrl);
 
         setMessage({
-          recipientUsername: '',
+          recipientPodUrl: '',
           title: '',
           message: ''
         });
         setError('');
-        setSuccess(`Message successfully sent to ${message.recipientUsername}`);
+        setSuccess(`Message successfully sent to ${message.recipientPodUrl}`);
         setSuccessTimeout(true);
         setTimeout(() => {
           setSuccessTimeout(false);
@@ -90,6 +87,8 @@ const NewMessage = ({ closeForm }) => {
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
         setError(err.message);
+      } finally {
+        setOriginalMessage('');
       }
     }
 
@@ -109,7 +108,7 @@ const NewMessage = ({ closeForm }) => {
         </CancelButton>
         <StyledNotice>* indicates a required field</StyledNotice>
 
-        <StyledHeader2>New Message</StyledHeader2>
+        <StyledHeader2>{oldMessage ? 'Reply To' : 'New Message'}</StyledHeader2>
         <label htmlFor="title">Subject*: </label>
         <StyledInput
           value={message.title}
@@ -119,14 +118,17 @@ const NewMessage = ({ closeForm }) => {
           onChange={(e) => handleChange(e)}
         />
 
-        <label htmlFor="recipientUsername">To*: </label>
+        <label htmlFor="recipientPodUrl">To*: </label>
         <StyledInput
-          value={message.recipientUsername}
+          value={message.recipientPodUrl}
           type="text"
-          name="recipientUsername"
-          id="recipientUsername"
+          name="recipientPodUrl"
+          id="recipientPodUrl"
           onChange={(e) => handleChange(e)}
         />
+
+        <div>Original Message:</div>
+        <div>{oldMessage && originalMessage}</div>
 
         <label htmlFor="message">Message*: </label>
         <StyledTextArea

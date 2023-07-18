@@ -83,21 +83,19 @@ const NavbarLinks = () => {
         {routesArray.map((item) => {
           const currentRoute = useLocation().pathname.includes(item.path);
           return (
-            <MenuItem key={item.label} disableTouchRipple>
-              <Button variant="text">
-                <NavLink
-                  to={item.path}
-                  end
-                  style={{
-                    fontWeight: currentRoute ? 'bold' : '',
-                    color: currentRoute ? theme.palette.tertiary.main : theme.palette.primary.main,
-                    textDecoration: 'none'
-                  }}
-                  onClick={handleNavigateToMenuClose}
-                >
-                  {item.label}
-                </NavLink>
-              </Button>
+            <MenuItem key={item.label} disableTouchRipple component={Button} sx={{ width: '100%' }}>
+              <NavLink
+                to={item.path}
+                end
+                style={{
+                  fontWeight: currentRoute ? 'bold' : '',
+                  color: currentRoute ? theme.palette.tertiary.main : theme.palette.primary.main,
+                  textDecoration: 'none'
+                }}
+                onClick={handleNavigateToMenuClose}
+              >
+                {item.label}
+              </NavLink>
             </MenuItem>
           );
         })}

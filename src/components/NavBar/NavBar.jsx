@@ -16,7 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
-import LogoutModal from '../LogoutModal/LogoutModal';
+import LogoutModal from '../Modals/LogoutModal';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 import OidcLoginComponent from './OidcLoginComponent';

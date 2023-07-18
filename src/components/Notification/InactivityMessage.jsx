@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import LogoutButton from '../LogoutModal/LogoutButton';
+import LogoutButton from '../Modals/LogoutButton';
 /**
  * Inactivity Notification Component - Component that displays a popup modal
  * after 30 minutes of inactivity, prompting the user to either logout or

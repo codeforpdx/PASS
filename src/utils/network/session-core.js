@@ -1,4 +1,6 @@
-import { createContainerAt, getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import { INTERACTION_TYPES } from '../../constants';
 import {
   getContainerUrl,
@@ -7,7 +9,6 @@ import {
   saveMessageTTL,
   parseMessageTTL,
   buildMessageTTL,
-  setDocAclForPublic,
   getPodUrl
 } from './session-helper';
 
@@ -65,51 +66,22 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @function setDocContainerAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
+ * @param {URL} podUrl - URL of the user's Pod
  * @param {string} otherPodUsername - Username to other user's Pod or empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
-export const setDocContainerAclPermission = async (session, permissions, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-  const urlsToSet = [
-    containerUrl,
-    `${containerUrl}Bank_Statement/`,
-    `${containerUrl}Passport/`,
-    `${containerUrl}Drivers_License/`
-  ];
-
+export const setDocContainerAclPermission = async (
+  session,
+  permissions,
+  podUrl,
+  otherPodUsername
+) => {
+  const containerUrl = `${podUrl}PASS/Documents/`;
   const otherPodUrl = getPodUrl(otherPodUsername);
   const webId = `${otherPodUrl}profile/card#me`;
 
-  urlsToSet.forEach(async (url) => {
-    await setDocAclForUser(session, url, 'update', webId, permissions);
-  });
-};
-
-/**
- * Function that creates a public container in the user's Pod when logging in for
- * the first time
- *
- * @memberof utils
- * @function createPublicContainer
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The user's Pod URL
- * @returns {Promise} Promise - Generates a public container for Pod upon log in
- * if user's Pod does not have the an outbox to begin with
- */
-
-export const createPublicContainer = async (session, podUrl) => {
-  const publicContainerUrl = `${podUrl}PASS/Public/`;
-
-  try {
-    await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(publicContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
-    await setDocAclForPublic(session, publicContainerUrl, { read: true });
-  }
+  await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
 };
 
 /*
@@ -181,101 +153,42 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
  * saves a copy on the sender's outbox
  */
 export const sendMessageTTL = async (session, messageObject, podUrl) => {
-  const { recipientUsername } = messageObject;
-  const containerUrl = getContainerUrl(
-    session,
-    'Inbox',
-    INTERACTION_TYPES.CROSS,
-    recipientUsername
-  );
+  const { recipientPodUrl } = messageObject;
+  const recipientWebId = `${recipientPodUrl}profile/card#me`;
+  const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
-  const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const otherPodUrl = getPodUrl(recipientUsername);
-  const recipientWebId = `${otherPodUrl}profile/card#me`;
+  const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
+  const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
 
-  const senderName = await getUserProfileName(session, session.info.webId);
-  let recipientName;
+  const date = dayjs().$d;
+  const dateYYYYMMDD = dayjs().format('YYYYMMDD');
+  const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
 
-  try {
-    recipientName = await getUserProfileName(session, recipientWebId);
-  } catch (error) {
-    throw new Error('Message failed to send. Reason: Recipient username not found');
-  }
-
-  const date = new Date();
-  const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
-  const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-
-  const newSolidDataset = buildMessageTTL(
-    session,
-    date,
-    messageObject,
+  const messageMetadata = {
+    messageId: uuidv4(),
+    podUrl,
     senderName,
     recipientName,
-    recipientWebId
-  );
+    recipientPodUrl,
+    recipientWebId,
+    messageSlug
+  };
 
-  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+  const newSolidDatasets = ['sender', 'recipient'].map((person) =>
+    buildMessageTTL(session, date, messageObject, messageMetadata, person)
+  );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, outboxUrl, newSolidDatasets[0], messageSlug),
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[1], messageSlug)
     ]);
   } catch (error) {
-    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
-  }
-};
-
-/**
- * Function that creates an outbox container in the user's Pod when logging in for
- * the first time
- *
- * @memberof utils
- * @function createOutbox
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
- * user's Pod does not have the an outbox to begin with
- */
-
-export const createOutbox = async (session, podUrl) => {
-  const outboxContainerUrl = `${podUrl}PASS/Outbox/`;
-
-  try {
-    await getSolidDataset(outboxContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that creates an inbox container in the user's Pod when logging in for
- * the first time
- *
- * @memberof utils
- * @function createInbox
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
- * user's Pod does not have the an outbox to begin with
- */
-
-export const createInbox = async (session, podUrl) => {
-  const inboxContainerUrl = `${podUrl}PASS/Inbox/`;
-
-  try {
-    await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(inboxContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
-    await setDocAclForPublic(session, inboxContainerUrl, { append: true });
+    throw new Error(
+      'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
+    );
   }
 };
 
