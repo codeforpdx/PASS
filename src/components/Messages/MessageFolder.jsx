@@ -1,10 +1,9 @@
 // React Imports
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-// Styling Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// Material UI Imports
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // Component Imports
