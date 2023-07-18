@@ -37,3 +37,29 @@ it('renders all clients from client context', () => {
   expect(row1.cells.item(1).innerHTML).toBe('Aaron Abby');
   expect(row2.cells.item(1).innerHTML).toBe('Bob Builder');
 });
+
+
+it('sorts clients by familyName', () => {
+  const originalArray = [
+    { familyName: 'Zeigler', person: 'Aaron Zeigler', webId: 'https://example.com/Zeigler' },
+    { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
+  ];
+
+  const expectedArray = [
+    { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' },
+    { familyName: 'Zeigler', person: 'Aaron Zeigler', webId: 'https://example.com/Zeigler' }
+  ];
+
+  const comparePerson = (a, b) => {
+    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
+      return -1;
+    }
+    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const result = [...originalArray].sort(comparePerson)
+  expect(result).toEqual(expectedArray)
+});
