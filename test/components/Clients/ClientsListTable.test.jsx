@@ -46,8 +46,8 @@ it('sorts clients by familyName', () => {
 
   const { getByText } = render(<MockTableComponent users={[...originalArray]} />);
 
-  const client1 = getByText('Aaron Zeigler')
-  const client2 = getByText('Bob Builder')
+  const client1 = getByText('Aaron Zeigler');
+  const client2 = getByText('Bob Builder');
 
-  expect(client1.compareDocumentPosition(client2)).toBe(2)
+  expect(client1.compareDocumentPosition(client2)).toBe(2);
 });
