@@ -24,9 +24,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const InactivityMessage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [activeUser, setActiveUser] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(5);
+  const [secondsToLogout, setSecondsToLogout] = useState(300);
   const logoutTimer = useRef();
+  const timeToForcedLogout = useRef();
+
+  // Event handler for logout and removing items from localStorage
+  // Returns user to home page upon successful logout
+  const handleLogout = () => {
+    localStorage.clear();
+  };
 
   // Checks for active user by looking for a loggedIn key in local storage
   useEffect(() => {
@@ -66,21 +72,11 @@ const InactivityMessage = () => {
     };
   }, []);
 
-  /* Starts a five minute timer when the inactivity window pops up. 
-     Logs the user out and refreshes the page if time elapses. */
+  // Starts a five minute timer when the inactivity window pops up.
   useEffect(() => {
     if (showPopup) {
       logoutTimer.current = setInterval(() => {
-        if (seconds === 0 && minutes === 0) {
-          handleLogout();
-          window.location.reload(false);
-        } else if (seconds === 0) {
-          setSeconds(59);
-          setMinutes((minutes) => minutes - 1);
-        } 
-          else if (seconds > 0) {
-          setSeconds((seconds) => seconds - 1);
-        }
+          setSecondsToLogout((prev) => prev - 1);
       }, 1000)
     }
     return () => clearInterval(logoutTimer.current);
