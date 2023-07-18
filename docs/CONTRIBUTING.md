@@ -59,10 +59,21 @@ By participating in this project, you are expected to uphold our [Code of Conduc
     - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention `issue-\<number\>/\<branch name\>` 
       > Example: `issue-112/delete-client-modal`
     - `git pull origin Development` - to sync with PASS Development branch
-    - This can also be done directly from an issue in GitHub.
+    - This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development).
 
-      <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
-    - If done manually, link branch to corresponding GitHub issue.
+  > A. Create a branch by clicking `create a branch` under Development within the issues page.
+  >
+  >  <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
+
+  > B. Select `change branch source`.
+  >
+  >  <img src="https://drive.google.com/uc?id=1ciU2NgtAjkEx3Pi5FnzxNxDjw0KkZXF-" width="200">
+
+  > C. Select Development as the base branch.
+  >
+  >  <img src="https://drive.google.com/uc?id=1rqRkau7lxTVEcwRFc8NcHRf-Z4U_lVxb" width="200">
+
+  - If done manually via command line, link branch to corresponding GitHub issue.
 
 1. Work on feature in your own branch.
 
