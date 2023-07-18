@@ -1,11 +1,12 @@
 // React Imports
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 // Context Imports
 import {
   MessageContextProvider,
-  SelectUserContext,
+  SelectedUserContextProvider,
   UserListContextProvider,
-  SignedInUserContextProvider
+  SignedInUserContextProvider,
+  DocumentListContextProvider
 } from '.';
 
 /**
@@ -17,20 +18,16 @@ import {
  * Context from Provider
  */
 
-const UserDataContextProvider = ({ children }) => {
-  const [selectedUser, setSelectedUser] = useState('');
-
-  const selectedUserObject = useMemo(() => ({ selectedUser, setSelectedUser }), [selectedUser]);
-
-  return (
-    <SignedInUserContextProvider>
-      <SelectUserContext.Provider value={selectedUserObject}>
-        <UserListContextProvider>
+const UserDataContextProvider = ({ children }) => (
+  <SignedInUserContextProvider>
+    <SelectedUserContextProvider>
+      <UserListContextProvider>
+        <DocumentListContextProvider>
           <MessageContextProvider>{children}</MessageContextProvider>
-        </UserListContextProvider>
-      </SelectUserContext.Provider>
-    </SignedInUserContextProvider>
-  );
-};
+        </DocumentListContextProvider>
+      </UserListContextProvider>
+    </SelectedUserContextProvider>
+  </SignedInUserContextProvider>
+);
 
 export default UserDataContextProvider;

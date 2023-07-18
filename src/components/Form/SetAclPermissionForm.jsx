@@ -8,16 +8,16 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext, SignedInUserContext } from '../../contexts';
+import { SelectedUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -33,8 +33,8 @@ import FormSection from './FormSection';
 const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectedUserContext);
+  const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
 
@@ -43,8 +43,6 @@ const SetAclPermissionForm = () => {
   };
 
   const clearInputFields = () => {
-    clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -58,7 +56,7 @@ const SetAclPermissionForm = () => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser;
+      podUsername = selectedUser.username;
     }
 
     if (!podUsername) {
@@ -102,7 +100,9 @@ const SetAclPermissionForm = () => {
       await setDocAclPermission(session, docType, permissions, podUsername);
 
       runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${podUsername} for ${docType}.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+          selectedUser.person ?? username
+        } for ${docType}.`,
         5,
         state,
         dispatch
@@ -127,14 +127,15 @@ const SetAclPermissionForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl>
-            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
+          <FormControl fullWidth>
+            <InputLabel htmlFor="set-acl-to" label="Set permissions to:" />
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              {...username}
-              placeholder={selectedUser}
-              label="Search username"
+              value={selectedUser.person ? selectedUser.username : username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={selectedUser.username}
+              label="Search Username"
               required
             />
           </FormControl>
@@ -146,12 +147,7 @@ const SetAclPermissionForm = () => {
           <br />
           <FormControl fullWidth>
             <FormLabel htmlFor="set-acl-perm-label">Select permission setting:</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="set-acl-perm-label"
-              name="set-acl-perm"
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
+            <RadioGroup row aria-labelledby="set-acl-perm-label" name="set-acl-perm">
               <FormControlLabel
                 value="Give"
                 control={<Radio />}

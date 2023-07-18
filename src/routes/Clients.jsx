@@ -1,19 +1,14 @@
 // React Imports
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 // React Router Imports
 import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import LinearProgress from '@mui/material/LinearProgress';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 // Component Imports
-import AddClientModal from '../components/Clients/AddClientModal';
-import ClientList from '../components/Clients/ClientList';
-import { UserListContext } from '../contexts';
+import { AddClientModal } from '../components/Modals';
+import { ClientList } from '../components/Clients';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -24,35 +19,12 @@ import { UserListContext } from '../contexts';
 
 const Clients = () => {
   // state for AddClientModal component
-  const [showModal, setShowModal] = useState(false);
-
-  const { loadingUsers } = useContext(UserListContext);
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
 
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
 
-  return loadingUsers ? (
-    <Container>
-      <Box
-        sx={{
-          marginTop: 18,
-          marginBottom: 18,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          padding: '20px'
-        }}
-      >
-        <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-          <Typography variant="h5" component="h2" mb={2} align="center">
-            Loading clients...
-          </Typography>
-          <LinearProgress />
-        </Paper>
-      </Box>
-    </Container>
-  ) : (
+  return (
     <Container>
       <Button
         variant="contained"
@@ -60,14 +32,18 @@ const Clients = () => {
         size="small"
         aria-label="Add Client Button"
         startIcon={<AddIcon />}
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowAddClientModal(true)}
         sx={{ marginTop: '3rem' }}
       >
         Add Client
       </Button>
       <ClientList />
-      {/* modal/popup renders when showConfirmationModal state is true */}
-      <AddClientModal showModal={showModal} setShowModal={setShowModal} />
+
+      {/* modal/popup renders when showAddClientModal state is true */}
+      <AddClientModal
+        showAddClientModal={showAddClientModal}
+        setShowAddClientModal={setShowAddClientModal}
+      />
     </Container>
   );
 };

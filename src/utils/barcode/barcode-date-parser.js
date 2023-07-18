@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 /**
  * Formats dates returned from barcode scanner
  * into consistent format (i.e. 2023-12-31)
@@ -10,8 +12,7 @@
 
 const formattedDate = (dateStr) => {
   const dateStrWithSpaces = dateStr.replace(/(\d{2})(\d{2})(\d{4})/, '$1 $2 $3');
-  const newDate = new Date(dateStrWithSpaces);
-  return newDate.toISOString().substring(0, 10);
+  return dayjs(dateStrWithSpaces).toISOString();
 };
 
 export default formattedDate;

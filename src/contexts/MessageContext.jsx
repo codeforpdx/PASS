@@ -1,6 +1,6 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
-// Inrupt Imports
+// Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';
@@ -18,7 +18,7 @@ import { SignedInUserContext } from './SignedInUserContext';
  * @memberof contexts
  */
 
-const MessageContext = createContext([]);
+export const MessageContext = createContext([]);
 
 /**
  * The Provider for MessageContext
@@ -50,11 +50,12 @@ export const MessageContextProvider = ({ children }) => {
 
   /**
    * A function that generates a Users container if logging in for the first
-   * time and initalizes the list of users from Solid
+   * time and initializes the list of users from Solid
    *
    * @function fetchData
    */
   const fetchData = async () => {
+    setLoadMessages(true);
     await Promise.all([createOutbox(session, podUrl), createInbox(session, podUrl)]);
 
     try {
@@ -76,5 +77,3 @@ export const MessageContextProvider = ({ children }) => {
 
   return <MessageContext.Provider value={messageObject}>{children}</MessageContext.Provider>;
 };
-
-export default MessageContext;

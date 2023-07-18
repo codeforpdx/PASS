@@ -8,10 +8,10 @@ const React = require('react');
  * A React props object for the StatusMessage component
  *
  * @exports statusMessageProps
- * @typedef statusMessageProps
- * @type {object}
+ * @typedef {object} statusMessageProps
  * @property {string} notification - File status message
- * @property {string} [locationUrl] - URL location of file, if exist
+ * @property {URL} [locationUrl] - URL location of file, if exist
+ * @property {string} [filename] - Name of the file being processed
  * @memberof typedefs
  */
 
@@ -19,14 +19,12 @@ const React = require('react');
  * A React props object for the StatusNotification component
  *
  * @exports statusNotificationProps
- * @typedef statusNotificationProps
- * @type {object}
- * @property {string} notification - File status message
+ * @typedef {object} statusNotificationProps
+ * @property {statusNotificationObject} state - The state used for statusNotification
  * @property {string} statusType - Type of file status (i.e. file upload, file
  * fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not
  * triggered
- * @property {URL} [locationUrl] - URL location of file, if exist
  * @memberof typedefs
  */
 
@@ -35,8 +33,7 @@ const React = require('react');
  * function for the custom useField hook
  *
  * @exports useFieldObject
- * @typedef useFieldObject
- * @type {object}
+ * @typedef {object} useFieldObject
  * @property {string} type - Type attribute of HTML input element
  * @property {string} value - The value of input element
  * @property {Function} onChange - Event handler for changes in input element
@@ -50,8 +47,7 @@ const React = require('react');
  * StatusNotification and StatusMessage components
  *
  * @exports statusNotificationObject
- * @typedef statusNotificationObject
- * @type {object}
+ * @typedef {object} statusNotificationObject
  * @property {URL|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
@@ -68,8 +64,7 @@ const React = require('react');
  * function from the custom useStatusNotification hook
  *
  * @exports useStatusNotificationObject
- * @typedef useStatusNotificationObject
- * @type {object}
+ * @typedef {object} useStatusNotificationObject
  * @property {statusNotificationObject} statusNotificationObject - An object
  * consisting of the state for status notifications (see {@link statusNotificationObject})
  * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch
@@ -81,12 +76,11 @@ const React = require('react');
  * An input object for functions related to file uploads to Solid's Pod
  *
  * @exports fileObjectType
- * @typedef fileObjectType
- * @type {object}
+ * @typedef {object} fileObjectType
  * @property {string} type - Type of document
  * @property {string} date - Date of upload
  * @property {string} description - Description of document
- * @property {object} file - An object which contain infomation about the file
+ * @property {object} file - An object which contain information about the file
  * being uploaded as well the document itself
  * @memberof typedefs
  */
@@ -95,8 +89,7 @@ const React = require('react');
  * A React props object for FormSection component
  *
  * @exports formSectionProps
- * @typedef formSectionProps
- * @type {object}
+ * @typedef {object} formSectionProps
  * @property {string} title - Title of form section
  * @property {statusNotificationObject} state - The state for status notification
  * (see {@link statusNotificationObject})
@@ -110,13 +103,11 @@ const React = require('react');
  * An object that stores the user's name and their Pod URL
  *
  * @exports userListObject
- * @typedef userListObject
- * @type {object}
+ * @typedef {object} userListObject
  * @property {string} person - Full name of user
  * @property {string} givenName - First/given name of user
  * @property {string} familyName - Last/family name of user
  * @property {URL} webId - A user's webId
- * @property {Date|null} dateModified - The last active date using PASS
  * @memberof typedefs
  */
 
@@ -124,13 +115,62 @@ const React = require('react');
  * An object that stores the user's name and their Pod URL
  *
  * @exports messageListObject
- * @typedef messageListObject
- * @type {object}
+ * @typedef {object} messageListObject
  * @property {string} message - Message content
+ * @property {string} messageId - Message ID
+ * @property {URL} messageUrl - URL of message being sent
  * @property {string} title - Message title
  * @property {Date} uploadDate - Time of message sent
  * @property {string} sender - Name of sender
+ * @property {URL} senderWebId - WebId of the sender
  * @property {string} recipient - Name of recipient
+ * @memberof typedefs
+ */
+
+/**
+ * messageFolderProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @exports messageFolderProps
+ * @typedef {object} messageFolderProps
+ * @property {string} folderType - The name of the message box, i.e. "inbox" or
+ * "outbox"
+ * @property {() => Promise<void>} handleRefresh - The handle function for message
+ * folder refresh
+ * @property {boolean} loadMessages - Boolean for triggering loading message
+ * @property {messageListObject[]} messageList - A list of messages from Solid Pod
+ * @memberof typedefs
+ */
+
+/**
+ * messagePreviewProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @exports messagePreviewProps
+ * @typedef {object} messagePreviewProps
+ * @property {string} message - The content of the message sent
+ * @property {string} folderType - Type of message box
+ * @memberof typedefs
+ */
+
+/**
+ * messageFolderProps is an object that stores the props for the MessageFolder
+ * component
+ *
+ * @exports newMessageProps
+ * @typedef {object} newMessageProps
+ * @property {() => void} closeForm - The function used to trigger NewMessage to
+ * close
+ * @memberof typedefs
+ */
+
+/**
+ * loadingAnimationProps is an object that stores the props for the LoadingAnimation
+ * component
+ *
+ * @exports loadingAnimationProps
+ * @typedef {object} loadingAnimationProps
+ * @property {string} loadingItem - The name of what you plan on loading
  * @memberof typedefs
  */
 

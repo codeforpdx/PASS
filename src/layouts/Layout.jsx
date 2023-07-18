@@ -12,7 +12,14 @@ import Footer from '../components/Footer/Footer';
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
   return (
-    <Box aria-label={ariaLabel} sx={{ minHeight: '100vh' }}>
+    <Box
+      aria-label={ariaLabel}
+      sx={{
+        display: 'grid',
+        gridTemplateRows: { xs: 'none', sm: '64px 1fr 280px' },
+        minHeight: '100vh'
+      }}
+    >
       <NavBar />
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}

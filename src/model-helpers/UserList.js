@@ -10,7 +10,7 @@ import {
   removeThing
 } from '@inrupt/solid-client';
 
-import { setDocAclForUser } from '../utils/network/session-helper';
+import { setDocAclForUser } from '../utils';
 
 import { RDF_PREDICATES } from '../constants';
 
@@ -60,20 +60,17 @@ const makeIntoDataset = (usersList, dataset = createSolidDataset()) => {
  * @memberof UserList
  * @function parseFromDataset
  * @param {SolidDataset} usersDataset - dataset to convert to array
- * @param {Session} session - session to use for saving
  * @returns {object} An new userListObject containing any updates
  */
-const parseFromDataset = async (usersDataset, session) => {
+const parseFromDataset = async (usersDataset) => {
   const userList = [];
   const allUsersThing = getThingAll(usersDataset).filter(
     (thing) => !thing.url.includes('#userlist')
   );
-  await Promise.all(
-    allUsersThing.map(async (userThing) => {
-      const userObject = await parseUserFromThing(userThing, session);
-      userList.push(userObject);
-    })
-  );
+  allUsersThing.map(async (userThing) => {
+    const userObject = parseUserFromThing(userThing);
+    userList.push(userObject);
+  });
 
   return userList;
 };
@@ -155,20 +152,19 @@ export const removeUser = async (user, session, { userList, dataset, listUrl }) 
  * @returns {object} An new userListObject containing any updates
  */
 export const loadUserList = async (session, podUrl) => {
-  const userListUrl = `${podUrl}PASS/Users/userlist.ttl`;
+  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
   let dataset;
   let userList;
   try {
-    dataset = await getSolidDataset(userListUrl, { fetch: session.fetch });
+    dataset = await getSolidDataset(listUrl, { fetch: session.fetch });
     userList = await parseFromDataset(dataset, session);
   } catch {
     dataset = makeIntoDataset([]);
-    dataset = await saveSolidDatasetAt(userListUrl, dataset, {
+    dataset = await saveSolidDatasetAt(listUrl, dataset, {
       fetch: session.fetch
     });
     userList = [];
-    await setDocAclForUser(session, userListUrl, 'create', session.info.webId);
+    await setDocAclForUser(session, listUrl, 'create', session.info.webId);
   }
-  const listUrl = `${podUrl}PASS/Users/userlist.ttl`;
   return { dataset, userList, listUrl };
 };

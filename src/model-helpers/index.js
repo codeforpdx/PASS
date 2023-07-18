@@ -1,6 +1,3 @@
-import { loadUserList, addUser, removeUser, saveToPod } from './UserList';
-import { updateUserActivity, makeUserIntoThing } from './User';
-
 /**
  * The model-helper module is utility module that helps with the management of
  * users in a users list
@@ -9,4 +6,8 @@ import { updateUserActivity, makeUserIntoThing } from './User';
  * @name model-helper
  */
 
-export { loadUserList, updateUserActivity, addUser, removeUser, saveToPod, makeUserIntoThing };
+export * from './UserList';
+export * from './User';
+export * from './Document';
+export * from './DocumentList';
+export * from './Profile';

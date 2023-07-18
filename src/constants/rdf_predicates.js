@@ -1,7 +1,8 @@
-import { SCHEMA_INRUPT } from '@inrupt/vocab-common-rdf';
+import { SCHEMA_INRUPT, FOAF } from '@inrupt/vocab-common-rdf';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
+  about: 'https://schema.org/about',
   uploadDate: 'https://schema.org/uploadDate',
   dateOfBirth: 'https://schema.org/birthDate',
   additionalType: 'https://schema.org/additionalType',
@@ -21,9 +22,11 @@ const RDF_PREDICATES = {
   message: 'https://schema.org/Message',
   recipient: 'https://schema.org/recipient',
   sender: 'https://schema.org/sender',
-  profileName: 'http://xmlns.com/foaf/0.1/name',
   sha256: 'https://schema.org/sha256',
-  accountablePerson: 'https://schema.org/accountablePerson'
+  accountablePerson: 'https://schema.org/accountablePerson',
+  profileName: FOAF.name,
+  profileImg: FOAF.img,
+  nickname: FOAF.nick
 };
 
 export default RDF_PREDICATES;

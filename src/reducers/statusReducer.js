@@ -23,7 +23,8 @@ export const initialStatusState = {
   message: '',
   timeoutID: null,
   file: null,
-  processing: false
+  processing: false,
+  verifyFile: false
 };
 
 /**
@@ -45,8 +46,6 @@ const statusReducer = (state, action) => {
       return { ...state, message: action.payload };
     case 'SET_TIMEOUT_ID':
       return { ...state, timeoutID: action.payload };
-    case 'SET_FILE':
-      return { ...state, file: action.payload };
     case 'SET_PROCESSING':
       return { ...state, processing: true };
     case 'TOGGLE_VERIFY_FILE':

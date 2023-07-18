@@ -2,8 +2,6 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import { StatusNotification } from '../Notification';
@@ -17,46 +15,31 @@ import { StatusNotification } from '../Notification';
  *
  * @memberof Forms
  * @name FormSection
- * @param {formSectionProps} formSectionProps - A react prop that consists of
+ * @param {formSectionProps} formSectionProps - A React prop that consists of
  * that consist of title, state, statusType, defaultMessage, and children (see
  * {@link formSectionProps})
  */
 
 const FormSection = ({ title, state, statusType, defaultMessage, children }) => (
-  <Container>
-    <Box
-      sx={{
-        marginTop: 3,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <Paper
-        elevation={2}
-        sx={{ display: 'inline-block', mx: '2px', padding: '20px', minWidth: '400px' }}
-      >
-        <Typography
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          mb={2}
-          variant="h5"
-          component="h3"
-        >
-          {title}
-        </Typography>
-        {children}
-        <StatusNotification
-          notification={state.message}
-          statusType={statusType}
-          defaultMessage={defaultMessage}
-          locationUrl={state.documentUrl}
-        />
-      </Paper>
-    </Box>
-  </Container>
+  <Box
+    sx={{
+      marginTop: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      mx: '3px',
+      padding: '20px',
+      minWidth: '50%',
+      boxShadow: 2
+    }}
+  >
+    <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
+      {title}
+    </Typography>
+    {children}
+    <StatusNotification state={state} statusType={statusType} defaultMessage={defaultMessage} />
+  </Box>
 );
 
 export default FormSection;

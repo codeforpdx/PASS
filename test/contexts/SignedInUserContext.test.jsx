@@ -9,10 +9,11 @@ import {
   createThing
 } from '@inrupt/solid-client';
 import { useSession } from '@inrupt/solid-ui-react';
+import dayjs from 'dayjs';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';
-import flushPromises from '../testHelpers';
+import flushPromises from '../helpers/testHelpers';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);
@@ -31,7 +32,7 @@ vi.mock('@inrupt/solid-ui-react', async () => {
         fetch: vi.fn(),
         info: {
           isLoggedIn: false,
-          webId: 'https://example.com/'
+          webId: 'https://example.com/pod/profile/card#me'
         }
       }
     }))
@@ -46,7 +47,7 @@ describe('SignedInUserContext', () => {
 
   it('fetches user data if user is logged in', async () => {
     const newActiveTTL = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .addDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
       .build();
 
     const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');
@@ -55,7 +56,8 @@ describe('SignedInUserContext', () => {
     useSession.mockReturnValue({
       session: {
         info: {
-          isLoggedIn: true
+          isLoggedIn: true,
+          webId: 'https://example.com/pod/profile/card#me'
         }
       }
     });

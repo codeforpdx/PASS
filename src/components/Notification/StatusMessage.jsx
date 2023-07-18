@@ -1,6 +1,7 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
+import Box from '@mui/material/Box';
 // import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 
@@ -21,7 +22,7 @@ import Typography from '@mui/material/Typography';
  * notification and locationUrl, which is optional (see {@link statusMessageProps})
  */
 
-const StatusMessage = ({ notification, locationUrl }) => {
+const StatusMessage = ({ notification, locationUrl, filename }) => {
   if (locationUrl) {
     return (
       <Typography sx={{ fontWeight: 'bold' }}>
@@ -34,11 +35,30 @@ const StatusMessage = ({ notification, locationUrl }) => {
   }
 
   return (
-    <Typography sx={{ fontWeight: 'bold' }}>
-      {notification}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <Typography sx={{ fontWeight: 'bold' }}>{notification}</Typography>
+      {filename && (
+        <Typography
+          sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            maxWidth: '300px',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          File: {filename}
+        </Typography>
+      )}
       {/* <br />
       <CircularProgress /> */}
-    </Typography>
+    </Box>
   );
 };
 
