@@ -16,7 +16,7 @@ import CheckIcon from '@mui/icons-material/Check';
  * LogoutModal Component - Popup modal for users to confirm
  * they actually want to logout of their Solid Pod
  *
- * @memberof Login
+ * @memberof Modals
  * @name LogoutModal
  */
 

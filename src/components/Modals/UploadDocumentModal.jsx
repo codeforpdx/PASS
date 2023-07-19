@@ -27,7 +27,7 @@ import { DocumentListContext } from '../../contexts';
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
- * @memberof Forms
+ * @memberof Modals
  * @name UploadDocumentModal
  */
 

@@ -21,7 +21,7 @@ import FormSection from '../Form/FormSection';
  * DeleteClientModal Component - Component that allows users to delete other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Clients
+ * @memberof Modals
  * @name DeleteClientModal
  */
 

@@ -3,36 +3,14 @@ import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import Container from '@mui/material/Container';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Unstable_Grid2';
-import Link from '@mui/material/Link';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 // Utility Imports
 import { sendMessageTTL, getMessageTTL } from '../../utils';
 // Context Imports
@@ -50,14 +28,15 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  */
 
 /**
- * New Message Component - Component that allows user to write
+ * NewMessageModal Component - Component that allows user to write
  *  a message to another user from their inbox
  *
- * @memberof Inbox
- * @name NewMessage
+ * @memberof Modals
+ * @name NewMessageModal
  * @param {newMessageProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
+
 const NewMessageModal = ({ showModal, setShowModal }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);

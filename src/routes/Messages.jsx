@@ -27,6 +27,7 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @name Messages
  * @returns {React.JSX.Element} The Messages Page
  */
+
 const Messages = () => {
   const location = useLocation();
 

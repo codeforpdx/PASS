@@ -21,6 +21,7 @@ import NewMessage from './NewMessage';
  * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
  */
+
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [replyMessage, setReplyMessage] = useState(false);
