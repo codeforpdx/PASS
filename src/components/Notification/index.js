@@ -1,6 +1,8 @@
+import EmptyListNotification from './EmptyListNotification';
+import InactivityMessage from './InactivityMessage';
+import LoadingAnimation from './LoadingAnimation';
 import StatusMessage from './StatusMessage';
 import StatusNotification from './StatusNotification';
-import InactivityMessage from './InactivityMessage';
 
 /**
  * Components and functions related to Status Notification functionality within
@@ -9,4 +11,10 @@ import InactivityMessage from './InactivityMessage';
  * @namespace Notifications
  */
 
-export { StatusMessage, StatusNotification, InactivityMessage };
+export {
+  EmptyListNotification,
+  InactivityMessage,
+  LoadingAnimation,
+  StatusMessage,
+  StatusNotification
+};

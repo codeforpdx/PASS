@@ -1,7 +1,16 @@
 // React imports
 import React, { useState } from 'react';
 // Styling Imports
-import styled from 'styled-components';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
+// Component Imports
+import NewMessage from './NewMessage';
+
+/**
+ * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
+ */
 
 /**
  * Message Preview Component - Component that displays message previews from
@@ -9,47 +18,51 @@ import styled from 'styled-components';
  *
  * @memberof Inbox
  * @name MessagePreview
+ * @param {messagePreviewProps} Props - Component props for MessagePreview
+ * @returns {React.JSX.Element} React component for MessagePreview
  */
-
-const MessagePreview = ({ message }) => {
+const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
+  const [replyMessage, setReplyMessage] = useState(false);
 
   const handleClick = () => {
     setShowContents(!showContents);
   };
 
+  const handleReplyMessage = () => {
+    setReplyMessage(!replyMessage);
+  };
+
   return (
     <StyledPreview onClick={() => handleClick()}>
       <StyledDate>{message.uploadDate.toLocaleDateString()}</StyledDate>
-      <StyledHeader>
-        {message.sender} - {message.title}
-      </StyledHeader>
-      {showContents && <p style={{ wordWrap: 'break-word' }}>{message.message}</p>}
+      <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <StyledHeader>
+          {message.sender} - {message.title}
+        </StyledHeader>
+        {showContents && folderType === 'Inbox' && (
+          <Button variant="contained" type="button" onClick={handleReplyMessage}>
+            Reply
+          </Button>
+        )}
+      </Box>
+      {showContents && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', margin: 3, gap: '10px' }}>
+          <Box sx={{ display: 'flex', gap: '10px' }}>
+            <Typography>Content:</Typography>
+            <Box>
+              {message.message.split('\n').map((line, index) => (
+                <Typography sx={{ wordWrap: 'break-word' }} key={line + String(index)}>
+                  {line}
+                </Typography>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {replyMessage && <NewMessage oldMessage={message} closeForm={() => setReplyMessage(false)} />}
     </StyledPreview>
   );
 };
-
-const StyledPreview = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  border: '2px solid black',
-  borderRadius: '10px',
-  padding: '5px',
-  cursor: 'pointer',
-  '&:hover': {
-    boxShadow: '2px 3px 2px rgba(0, 0, 0, .4)'
-  }
-});
-
-const StyledDate = styled('p')({
-  margin: 0,
-  padding: 0
-});
-
-const StyledHeader = styled('h1')({
-  margin: 0,
-  padding: 0,
-  fontSize: '1.2rem'
-});
 
 export default MessagePreview;

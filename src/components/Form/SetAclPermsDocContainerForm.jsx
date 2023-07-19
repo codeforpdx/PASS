@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -15,9 +15,9 @@ import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
 // Custom Hook Imports
-import { useField, useStatusNotification } from '../../hooks';
+import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { SelectUserContext, SignedInUserContext } from '../../contexts';
+import { SelectedUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -33,13 +33,11 @@ import FormSection from './FormSection';
 const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { clearValue: clearUsername, ...username } = useField('text');
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectedUserContext);
+  const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
 
   const clearInputFields = () => {
-    clearUsername();
-    setSelectedUser('');
     dispatch({ type: 'CLEAR_PROCESSING' });
   };
 
@@ -50,17 +48,16 @@ const SetAclPermsDocContainerForm = () => {
     const permissions = event.target.setAclPerms.value
       ? {
           read: event.target.setAclPerms.value === 'Give',
-          write: event.target.setAclPerms.value === 'Give',
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    let podUsername = event.target.setAclTo.value;
+    let otherPodUsername = event.target.setAclTo.value;
 
-    if (!podUsername) {
-      podUsername = selectedUser;
+    if (!otherPodUsername) {
+      otherPodUsername = selectedUser.username;
     }
 
-    if (!podUsername) {
+    if (!otherPodUsername) {
       runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
@@ -68,7 +65,7 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    if (getPodUrl(podUsername) === podUrl) {
+    if (getPodUrl(otherPodUsername) === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
@@ -90,12 +87,12 @@ const SetAclPermsDocContainerForm = () => {
     }
 
     try {
-      await setDocContainerAclPermission(session, permissions, podUsername);
+      await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
 
       runNotification(
-        `${
-          permissions.read ? 'Give' : 'Revoke'
-        } permission to ${podUsername} for Documents Container.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+          selectedUser.person ?? username
+        } for Documents Container.`,
         5,
         state,
         dispatch
@@ -125,9 +122,10 @@ const SetAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              {...username}
-              placeholder={selectedUser}
-              label="Search username"
+              value={selectedUser.person ? selectedUser.username : username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={selectedUser.username}
+              label="Search Username"
               required
             />
           </FormControl>

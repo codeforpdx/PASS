@@ -1,20 +1,18 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// React Router Imports
 import { Link } from 'react-router-dom';
 // Material UI Imports
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Utility Imports
 import { runNotification } from '../../utils';
 // Context Imports
-import { SelectUserContext, UserListContext } from '../../contexts';
+import { SelectedUserContext } from '../../contexts';
+import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -25,39 +23,31 @@ import { SelectUserContext, UserListContext } from '../../contexts';
  */
 
 // determine what gets rendered in the table body
-const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
+const ClientListTableRow = ({
+  labelId,
+  client,
+  state,
+  dispatch,
+  setShowDeleteClientModal,
+  setSelectedClientToDelete
+}) => {
   const theme = useTheme();
-  const { setSelectedUser } = useContext(SelectUserContext);
-  const { removeUser } = useContext(UserListContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const [pinned, setPinned] = useState(false);
-  const [selected, setSelected] = useState(false);
-
-  // determine what gets rendered in the date modified cell of table
-  const modifiedDate = client.dateModified
-    ? client.dateModified.toLocaleDateString()
-    : 'Not available';
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
   // Event handler for selecting client from client list
-  const handleSelectClient = async (clientToSelect, selectedClientUrl) => {
-    runNotification(`Client "${clientToSelect}" selected.`, 3, state, dispatch);
-    setSelectedUser(selectedClientUrl.split('/')[2].split('.')[0]);
-  };
-
-  // Event handler for deleting client from client list
-  const handleDeleteClient = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${client.person} from your client list, do you wish to continue?`
-      )
-    ) {
+  const handleSelectClient = async (clientToSelect) => {
+    if (clientToSelect.webId === selectedUser.webId) {
+      runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
+      setSelectedUser();
       return;
     }
-    runNotification(`Deleting "${client.person}" from client list...`, 3, state, dispatch);
-    await removeUser(client);
-    runNotification(`"${client.person}" deleted from client list...`, 3, state, dispatch);
+
+    runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
+    setSelectedUser(clientToSelect);
   };
 
   // Event handler for pinning client to top of table
@@ -66,19 +56,24 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
     setPinned(!pinned);
   };
 
+  // Event handler for deleting a client from client list
+  const handleSelectClientToDelete = () => {
+    setSelectedClientToDelete(client);
+    setShowDeleteClientModal(true);
+  };
+
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
         <Checkbox
           id={labelId}
           color="primary"
-          checked={selected}
+          checked={selectedUser.webId === client.webId}
           inputProps={{
             'aria-labelledby': labelId
           }}
           onClick={() => {
-            setSelected(!selected);
-            handleSelectClient(client.person, client.podUrl);
+            handleSelectClient(client);
           }}
         />
       </StyledTableCell>
@@ -93,17 +88,16 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
           rel="noreferrer"
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          {client.webId}
+          Link to Pod Profile
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="center">{modifiedDate}</StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
           {pinnedIcon}
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleDeleteClient()}>
+        <IconButton size="large" edge="end" onClick={handleSelectClientToDelete}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
@@ -112,34 +106,3 @@ const ClientListTableRow = ({ labelId, client, state, dispatch }) => {
 };
 
 export default ClientListTableRow;
-
-// ======= TABLE STYLING STARTS HERE =======
-// ***** TODO: Switch this styled components to MUI
-
-// styling for table cells
-const StyledTableCell = styled(TableCell)(() => {
-  const theme = useTheme();
-  return {
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-    }
-  };
-});
-
-// styling for table rows
-const StyledTableRow = styled(TableRow)(() => {
-  const theme = useTheme();
-  return {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.primary.slight
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0
-    }
-  };
-});

@@ -16,6 +16,10 @@ import { RDF_PREDICATES } from '../../constants';
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
  */
 
+/**
+ * @typedef {import('@inrupt/solid-client').SolidDataset} SolidDataset
+ */
+
 const generateRsaKeyStrings = async () => {
   const { privateKey, publicKey } = await window.crypto.subtle.generateKey(
     {
@@ -142,7 +146,7 @@ export const getUserSigningKey = async (session) => {
  *
  * @memberof utils
  * @function serializeDataSet
- * @param {import('@inrupt/solid-client').SolidDataset} dataSet - Inrupt Dataset you want to serialize
+ * @param {SolidDataset} dataSet - Inrupt Dataset you want to serialize
  * @returns {Promise} Promise that resolves to dataset serialized into a ttl string
  */
 export const serializeDataSet = async (dataSet) => {
