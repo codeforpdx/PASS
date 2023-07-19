@@ -14,7 +14,8 @@ import { getMessageTTL } from '../utils';
 // Context Imports
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
-import { NewMessage, MessageFolder } from '../components/Messages';
+import { NewMessageModal } from '../components/Modals';
+import { MessageFolder } from '../components/Messages';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -70,14 +71,15 @@ const Messages = () => {
   }, [outboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
         <Button
           variant="contained"
-          onClick={() => setShowForm(!showForm)}
+          // onClick={() => setShowModal(!showModal)}
+          onClick={() => setShowModal(true)}
           startIcon={<CreateIcon />}
           sx={{
             backgroundColor: 'secondary.main',
@@ -104,7 +106,7 @@ const Messages = () => {
         loadMessages={loadMessages}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+      {showModal && <NewMessageModal closeForm={() => setShowModal(!showModal)} />}
     </Box>
   );
 };
