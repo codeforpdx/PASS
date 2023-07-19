@@ -20,6 +20,8 @@
   ![tech stack](https://drive.google.com/uc?id=1Vkn9hGlSyv6Y9tY_R6SfEGoj5MJTGDDy)
 
 ---
+## Design Board
+  - [Figma Design Board](https://www.figma.com/file/BfsGjGbFUVvtqNq18sykoY/Pass-Project?type=design&node-id=1216-2986&mode=design) contains UX design for the PASS project.
 
 ## Additional Resources
 
