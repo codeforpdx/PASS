@@ -50,17 +50,24 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub you can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.
    - Open terminal & change working directory to the location you want the repository cloned to.
-   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux)
-   - `git remote add origin https://github.com/codeforpdx/PASS.git` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
+   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) 
+   - This will set the git origin to `https://github.com/codeforpdx/PASS.git
+` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
+   - Change directory to the cloned directory, in this case /PASS: `cd ./PASS`
+   - Origin can be verified by running `git remote -v` which should show:
+      ```
+     origin https://github.com/codeforpdx/PASS.git (fetch)
+     origin https://github.com/codeforpdx/PASS.git (push)
+      ```
 
-2. Setup instructions to locally run PASS can be found in the [readme](../README.md).
-
-3. Create a new branch to work on your feature (We recommend doing this via terminal) Branches should all be based off of `Development`:
+1. Create a new branch to work on your feature (We recommend doing this via terminal) Branches should all be based off of `Development`:
     
-    A. `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
+    A. `git checkout -b "<your branch name>" Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
       > Example: `112/delete-client-modal`
 
-    B. `git pull origin Development` - to sync with PASS Development branch
+    B. `git fetch origin Development` - to pull updates PASS Development branch.
+
+    C. `git rebase origin/Development` - to rebase updates from Development with current branch. During the rebase process, if conflicts exist git will pause to allow resolution. the process can be continued with `git rebase --continue` or cancelled with `git rebase --abort`.
   
   > This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development). If done manually via command line, link branch to corresponding GitHub issue.
   >
@@ -76,10 +83,13 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   >
   >  <img src="https://drive.google.com/uc?id=1rqRkau7lxTVEcwRFc8NcHRf-Z4U_lVxb" width="200">
 
-  - Work on feature in your own branch.
+  - Work on feature in your own branch. Setup instructions to locally run PASS can be found in the [readme](../README.md).
 
-  - When ready, push to GitHub in terminal: `git push origin <your branch name>`
-    
+  - When feature is ready:
+    - run `git add .` to add all changed files in commit. or `git add <fileName>` to include an individual file.
+    - run `git commit -m "some message abut changes in commit"` with a concise message to describe what changes are included in the push.
+    -  push to GitHub in terminal: `git push origin <your branch name>`
+  
 1. Code Styling/Linting
 
    Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint follow the instructions [here](./README.md#linting)
