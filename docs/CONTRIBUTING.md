@@ -55,10 +55,10 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 2. Setup instructions to locally run PASS can be found in the [readme](../README.md).
 
-3. Create a new branch to work on your feature (We recommend doing this via terminal.) Branches should all be based off of `Development`:
+3. Create a new branch to work on your feature (We recommend doing this via terminal) Branches should all be based off of `Development`:
     
-    A. `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`issue-<number><branch-name>` with a concise title.
-      > Example: `issue-112/delete-client-modal`
+    A. `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
+      > Example: `112/delete-client-modal`
 
     B. `git pull origin Development` - to sync with PASS Development branch
   
@@ -80,7 +80,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
   - When ready, push to GitHub in terminal: `git push origin <your branch name>`
     
-4. Code Styling/Linting
+1. Code Styling/Linting
 
    Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint follow the instructions [here](./README.md#linting)
 
