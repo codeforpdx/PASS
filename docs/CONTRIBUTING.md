@@ -50,8 +50,8 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub you can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.
    - Open terminal & change working directory to the location you want the repository cloned to.
-   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) This will set the git origin to `https://github.com/codeforpdx/PASS.git
-` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
+   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) This will set the git origin to `https://github.com/codeforpdx/PASS.git`. By default the branch is set to Master.
+ [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
    - Change directory to the cloned directory, in this case /PASS: `cd ./PASS`
    - Origin can be verified by running `git remote -v` which should show:
       ```
@@ -61,12 +61,10 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 1. Create a new branch to work on your feature (We recommend doing this via terminal) Branches should all be based off of `Development`:
     
-    A. `git checkout -b "<your branch name>" Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
+    A. `git switch Development` or `git checkout Development` - to switch to the Development branch.
+
+    B. `git checkout -b "<your branch name>"` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
       > Example: `112/delete-client-modal`
-
-    B. `git fetch origin Development` - to pull updates PASS Development branch.
-
-    C. `git rebase origin/Development` - to rebase updates from Development with current branch. During the rebase process, if conflicts exist git will pause to allow resolution. the process can be continued with `git rebase --continue` or cancelled with `git rebase --abort`.
   
   > This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development). If done manually via command line, link branch to corresponding GitHub issue.
   >
