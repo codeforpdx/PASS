@@ -55,12 +55,15 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 2. Setup instructions to locally run PASS can be found in the [readme](../README.md).
 
-3. Create a new branch to work on your feature:
-    - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention `issue-\<number\>/\<branch name\>` 
+3. Create a new branch to work on your feature (We recommend doing this via terminal.) Branches should all be based off of `Development`:
+    
+    A. `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`issue-<number><branch-name>` with a concise title.
       > Example: `issue-112/delete-client-modal`
-    - `git pull origin Development` - to sync with PASS Development branch
-    - This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development).
 
+    B. `git pull origin Development` - to sync with PASS Development branch
+  
+  > This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development). If done manually via command line, link branch to corresponding GitHub issue.
+  >
   > A. Create a branch by clicking `create a branch` under Development within the issues page.
   >
   >  <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
@@ -73,15 +76,11 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   >
   >  <img src="https://drive.google.com/uc?id=1rqRkau7lxTVEcwRFc8NcHRf-Z4U_lVxb" width="200">
 
-  - If done manually via command line, link branch to corresponding GitHub issue.
+  - Work on feature in your own branch.
 
-1. Work on feature in your own branch.
-
-2. When ready, push to GitHub
-
- - `git push origin <your branch name>`
+  - When ready, push to GitHub in terminal: `git push origin <your branch name>`
     
-6. Code Styling/Linting
+4. Code Styling/Linting
 
    Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint follow the instructions [here](./README.md#linting)
 
@@ -89,11 +88,11 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   
    If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback and request reviews.
 
-1. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
+-  Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 
 - Recommended reviewers:
-  - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
-  - Documentation -- Danica B, Jared K, Ka Hung L.
+  - Development -- Jared K, Ka Hung L, Kevin M, Tim S, Scott B
+  - Documentation -- Jared K, Ka Hung L
   - Include screenshots whenever you’re building a frontend feature.
 
 - ## Bug Reporting Template
