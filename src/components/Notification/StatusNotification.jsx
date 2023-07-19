@@ -21,7 +21,7 @@ import StatusMessage from './StatusMessage';
  * is optional (see {@link statusNotificationProps})
  */
 
-const StatusNotification = ({ state, statusType, defaultMessage }) => (
+const StatusNotification = ({ state, statusType, defaultMessage, file }) => (
   <Box
     sx={{
       marginTop: 1,
@@ -36,7 +36,7 @@ const StatusNotification = ({ state, statusType, defaultMessage }) => (
       <StatusMessage
         notification={state.message}
         locationUrl={state.documentUrl}
-        filename={state.file?.name}
+        filename={file?.name}
       />
     ) : (
       <Typography>{defaultMessage}</Typography>

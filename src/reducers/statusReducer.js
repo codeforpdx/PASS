@@ -22,7 +22,6 @@ export const initialStatusState = {
   documentUrl: null,
   message: '',
   timeoutID: null,
-  file: null,
   processing: false,
   verifyFile: false
 };
@@ -56,8 +55,6 @@ const statusReducer = (state, action) => {
       return { ...state, message: '' };
     case 'CLEAR_TIMEOUT_ID':
       return { ...state, timeoutID: null };
-    case 'CLEAR_FILE':
-      return { ...state, file: null };
     case 'CLEAR_PROCESSING':
       return { ...state, processing: false };
     case 'CLEAR_VERIFY_FILE':
