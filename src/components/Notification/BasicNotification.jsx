@@ -6,7 +6,7 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const BasicSnackbar = ({open, onClose, severity, message}) => {
+const BasicNotification = ({open, onClose, severity, message}) => {
  
 
   return (
@@ -20,4 +20,4 @@ const BasicSnackbar = ({open, onClose, severity, message}) => {
   );
 }
 
-export default BasicSnackbar
+export default BasicNotification
