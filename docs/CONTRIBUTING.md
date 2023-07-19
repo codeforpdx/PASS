@@ -50,8 +50,7 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub you can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.
    - Open terminal & change working directory to the location you want the repository cloned to.
-   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) 
-   - This will set the git origin to `https://github.com/codeforpdx/PASS.git
+   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) This will set the git origin to `https://github.com/codeforpdx/PASS.git
 ` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
    - Change directory to the cloned directory, in this case /PASS: `cd ./PASS`
    - Origin can be verified by running `git remote -v` which should show:

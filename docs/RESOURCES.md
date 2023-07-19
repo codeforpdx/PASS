@@ -21,7 +21,7 @@
 
 ---
 ## Design Board
-  - [Figma Design Board](https://www.figma.com/file/BfsGjGbFUVvtqNq18sykoY/Pass-Project?type=design&node-id=1216-2986&mode=design) contains UX design for the PASS project.
+  - [Figma Design Board](https://www.figma.com/file/BfsGjGbFUVvtqNq18sykoY/Pass-Project?type=design&node-id=1216%3A2986&mode=design&t=6wwtu9VDctN6SvkL-1) contains UX design for the PASS project.
 
 ## Additional Resources
 
