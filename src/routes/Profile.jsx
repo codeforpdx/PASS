@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
+import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -15,6 +16,9 @@ import Typography from '@mui/material/Typography';
 import { SignedInUserContext } from '../contexts';
 // Component Inputs
 import { ProfileInputField, ProfileImageField } from '../components/Profile';
+import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
+import { UploadDocumentModal } from '../components/Modals';
+import DocumentTable from '../components/Documents/DocumentTable';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -29,6 +33,7 @@ const Profile = () => {
   const { session } = useSession();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
+  const [showModal, setShowModal] = useState(false);
 
   localStorage.setItem('restorePath', location.pathname);
 
@@ -74,8 +79,16 @@ const Profile = () => {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '20px',
+        padding: '30px'
+      }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
 
         <Typography>
@@ -87,13 +100,48 @@ const Profile = () => {
 
         {/* TODO: Refactor/optimize the form below once we have more input */}
         {/* fields to update profile for */}
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <form onSubmit={handleUpdateProfile}>
+        <Box
+          style={{
+            display: 'flex',
+            gap: '15px',
+            padding: '10px'
+          }}
+        >
+          <ProfileImageField loadProfileData={loadProfileData} />
+          <form
+            onSubmit={handleUpdateProfile}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 0 3px 0 black',
+              justifyContent: 'space-between',
+              padding: '20px'
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
-                gap: '10px',
-                marginBottom: 2
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <ProfileInputField
+                inputName="Name"
+                inputValue={profileName}
+                setInputValue={setProfileName}
+                edit={edit}
+              />
+              <ProfileInputField
+                inputName="Nickname"
+                inputValue={nickname}
+                setInputValue={setNickname}
+                edit={edit}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '10px'
               }}
             >
               {edit ? (
@@ -130,29 +178,22 @@ const Profile = () => {
                 </Button>
               )}
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <ProfileInputField
-                inputName="Name"
-                inputValue={profileName}
-                setInputValue={setProfileName}
-                edit={edit}
-              />
-              <ProfileInputField
-                inputName="Nickname"
-                inputValue={nickname}
-                setInputValue={setNickname}
-                edit={edit}
-              />
-            </Box>
           </form>
-          <ProfileImageField loadProfileData={loadProfileData} />
         </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          aria-label="Add Client Button"
+          startIcon={<AddIcon />}
+          onClick={() => setShowModal(true)}
+        >
+          Add Document
+        </Button>
+        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
+        <DocumentTable />
+        <SetAclPermsDocContainerForm />
+        <SetAclPermissionForm />
       </Box>
     </Box>
   );
