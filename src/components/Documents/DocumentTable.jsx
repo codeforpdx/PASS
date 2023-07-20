@@ -37,7 +37,7 @@ const DocumentTable = () => {
   const determineDocumentsTable = documentListObject?.docList?.length ? (
     // render if documents
     <Container>
-      <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+      <TableContainer component={Paper} sx={{ margin: '1rem 0' }}>
         <Table aria-label="Documents Table">
           <TableHead>
             <TableRow>

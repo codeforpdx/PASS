@@ -66,8 +66,10 @@ const ProfileImageField = ({ loadProfileData }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: '300px',
-        alignItems: 'flex-start',
+        justifyContent: 'center',
+        alignItems: 'center',
+        boxShadow: '0 0 3px 0 black',
+        padding: '20px',
         gap: '10px'
       }}
     >
@@ -75,7 +77,7 @@ const ProfileImageField = ({ loadProfileData }) => {
       <Avatar
         src={profileImg}
         alt="PASS profile"
-        sx={{ height: '200px', width: '200px', objectFit: 'contain' }}
+        sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />
       {profileImg ? (
         <Button
