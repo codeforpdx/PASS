@@ -21,7 +21,7 @@ import { runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
-import { DocumentListContext } from '../../contexts';
+import { DocumentListContext, UserDocumentListContext } from '../../contexts';
 
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
@@ -31,7 +31,7 @@ import { DocumentListContext } from '../../contexts';
  * @name UploadDocumentModal
  */
 
-const UploadDocumentModal = ({ showModal, setShowModal }) => {
+const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
@@ -39,7 +39,8 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const [verifyFile, setVerifyFile] = useState(false);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
-  const { addDocument, replaceDocument } = useContext(DocumentListContext);
+  const { addDocument, replaceDocument } =
+    user === 'personal' ? useContext(UserDocumentListContext) : useContext(DocumentListContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);

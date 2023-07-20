@@ -190,8 +190,8 @@ const Profile = () => {
         >
           Add Document
         </Button>
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
-        <DocumentTable />
+        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} user="personal" />
+        <DocumentTable user="personal" />
         <SetAclPermsDocContainerForm />
         <SetAclPermissionForm />
       </Box>

@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 // Utility Imports
 import { getBlobFromSolid } from '../../utils';
 // Context Imports
-import { DocumentListContext } from '../../contexts';
+import { DocumentListContext, UserDocumentListContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 import DOC_TYPES from '../../constants/doc_types';
 
@@ -18,13 +18,15 @@ import DOC_TYPES from '../../constants/doc_types';
  *
  * @memberof Documents
  * @name DocumentTableRow
+ * @param user
  * @param document
  * @returns {React.ReactElement}
  */
 
-const DocumentTableRow = ({ document }) => {
+const DocumentTableRow = ({ user, document }) => {
   const { session } = useSession();
-  const { removeDocument } = useContext(DocumentListContext);
+  const { removeDocument } =
+    user === 'personal' ? useContext(UserDocumentListContext) : useContext(DocumentListContext);
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
 
