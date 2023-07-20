@@ -28,12 +28,17 @@ import { saveSourceUrlToThing, setupAcl } from '../utils';
  *
  * @function fetchProfileInfo
  * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} [webId] - WebId of selected user
  * @returns {Promise<object>} Object - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
  */
-export const fetchProfileInfo = async (session) => {
-  const profileDataset = await getWebIdDataset(session.info.webId);
-  const profileThing = getThing(profileDataset, session.info.webId);
+export const fetchProfileInfo = async (session, webId = '') => {
+  const profileDataset = webId
+    ? await getWebIdDataset(webId)
+    : await getWebIdDataset(session.info.webId);
+  const profileThing = webId
+    ? getThing(profileDataset, webId)
+    : getThing(profileDataset, session.info.webId);
 
   const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
   const nickname = getStringNoLocale(profileThing, RDF_PREDICATES.nickname);

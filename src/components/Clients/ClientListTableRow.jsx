@@ -1,6 +1,8 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+// Inrupt Imports
+import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -13,6 +15,7 @@ import { runNotification } from '../../utils';
 // Context Imports
 import { SelectedUserContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+import { fetchProfileInfo } from '../../model-helpers';
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -32,6 +35,7 @@ const ClientListTableRow = ({
   setSelectedClientToDelete
 }) => {
   const theme = useTheme();
+  const { session } = useSession();
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const [pinned, setPinned] = useState(false);
 
@@ -47,7 +51,8 @@ const ClientListTableRow = ({
     }
 
     runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
-    setSelectedUser(clientToSelect);
+    const profileData = await fetchProfileInfo(session, clientToSelect.webId);
+    setSelectedUser({ ...clientToSelect, ...profileData.profileInfo });
   };
 
   // Event handler for pinning client to top of table
@@ -82,14 +87,16 @@ const ClientListTableRow = ({
       {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
       {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
       <StyledTableCell align="center">
-        <Link
-          to={client.webId}
-          target="_blank"
-          rel="noreferrer"
-          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-        >
-          Link to Pod Profile
-        </Link>
+        {selectedUser.webId === client.webId ? (
+          <Link
+            to="/PASS/clients/profile"
+            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+          >
+            Link to Pod Profile
+          </Link>
+        ) : (
+          <p style={{ opacity: 0.5 }}>Link to Pod Profile</p>
+        )}
       </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>
