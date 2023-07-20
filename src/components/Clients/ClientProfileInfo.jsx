@@ -12,11 +12,15 @@ const ClientProfileInfo = ({ selectedUser }) => (
       display: 'flex',
       gap: '20px',
       alignItems: 'center',
-      padding: '1rem',
+      padding: '20px',
       marginTop: '1rem'
     }}
   >
-    <Avatar src={selectedUser.profileImage} />
+    <Avatar
+      src={selectedUser.profileImage}
+      alt="PASS profile"
+      sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
+    />
     <Box>
       <Typography>First/Given Name: {selectedUser.givenName}</Typography>
       <Typography>Last/Family Name: {selectedUser.familyName}</Typography>
