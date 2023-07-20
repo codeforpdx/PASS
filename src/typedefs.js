@@ -177,4 +177,74 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * setAclPermsDocContainerFormProps is an object that stores the props for the
+ * SetAclPermsDocContainerForm component
+ *
+ * @exports setAclPermsDocContainerFormProps
+ * @typedef {object} setAclPermsDocContainerFormProps
+ * @property {string} user - Type of user
+ * @memberof typedefs
+ */
+
+/**
+ * setAclPermissionFormProps is an object that stores the props for the
+ * SetAclPermissionForm component
+ *
+ * @exports setAclPermissionFormProps
+ * @typedef {object} setAclPermissionFormProps
+ * @property {string} user - Type of user
+ * @memberof typedefs
+ */
+
+/**
+ * profilePageProps is an object that stores the props for the Profile Page
+ *
+ * @exports profilePageProps
+ * @typedef {object} profilePageProps
+ * @property {string} user - Type of user
+ * @memberof typedefs
+ */
+
+/**
+ * clientListTableProps is an object that stores the props for the
+ * ClientListTable component
+ *
+ * @exports clientListTableProps
+ * @typedef {object} clientListTableProps
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
+ * clientListTableRowProps is an object that stores the props for the
+ * ClientListTableRow component
+ *
+ * @exports clientListTableRowProps
+ * @typedef {object} clientListTableRowProps
+ * @property {string} labelId - Unique Id for row
+ * @property {object} client - Object containing client information
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
+ * uploadDocumentModalProps is an object that stores the props for the
+ * UploadDocumentModal component
+ *
+ * @exports uploadDocumentModalProps
+ * @typedef {object} uploadDocumentModalProps
+ * @property {string} user - Type of user
+ * @property {object} showModal - Boolean for showing upload documents modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @memberof typedefs
+ */
+
 exports.unused = {};

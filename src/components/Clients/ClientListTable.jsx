@@ -7,8 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
@@ -16,17 +14,21 @@ import ClientListTableRow from './ClientListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Select', 'Client', 'WebID', 'Pin', 'Delete'];
+const columnTitlesArray = ['Client', 'Client Profile', 'Pin', 'Delete'];
+
+/**
+ * @typedef {import("../../typedefs.js").clientListTableProps} clientListTableProps
+ */
 
 /**
  * ClientListTable Component - Component that generates table of clients from data within ClientList
  *
  * @memberof Clients
  * @name ClientListTable
+ * @param {clientListTableProps} Props - Props for ClientListTableRow
+ * @returns {React.JSX.Element} The ClientListTableRow Component
  */
-
 const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
-  const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
   const comparePerson = (a, b) => {
@@ -63,8 +65,6 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
                 key={client.webId}
                 labelId={labelId}
                 client={client}
-                state={state}
-                dispatch={dispatch}
                 setShowDeleteClientModal={setShowDeleteClientModal}
                 setSelectedClientToDelete={setSelectedClientToDelete}
               />

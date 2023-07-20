@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -11,7 +11,6 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 // Contexts Imports
 import { SelectedUserContext, SignedInUserContext } from '../contexts';
@@ -23,12 +22,16 @@ import DocumentTable from '../components/Documents/DocumentTable';
 import { ClientProfileInfo } from '../components/Clients';
 
 /**
+ * @typedef {import("../typedefs.js").profilePageProps} profilePageProps
+ */
+
+/**
  * Profile Page - Page that displays the user's profile card information and
  * allow users to edit/update them on PASS
  *
  * @memberof Pages
  * @name Profile
- * @param {string} [user] - Type of profile
+ * @param {profilePageProps} Props - Props for Profile Page
  * @returns {React.JSX.Element} The Profile Page
  */
 const Profile = ({ user }) => {
@@ -37,7 +40,6 @@ const Profile = ({ user }) => {
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
   const [showModal, setShowModal] = useState(false);
-  const { podUrl } = useContext(SignedInUserContext);
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
@@ -192,24 +194,17 @@ const Profile = ({ user }) => {
           </Box>
         ) : (
           <>
-            <Button
-              variant="contained"
-              color="secondary"
-              aria-label="Back Button"
-              startIcon={<BackspaceIcon />}
-              sx={{ margin: '1rem 0' }}
-              onClick={() => setSelectedUser()}
-            >
-              <Link to="/PASS/clients" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to="/PASS/clients" style={{ textDecoration: 'none', color: 'white' }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                aria-label="Back Button"
+                startIcon={<BackspaceIcon />}
+                onClick={() => setSelectedUser()}
+              >
                 Go Back
-              </Link>
-            </Button>
-            {podUrl === selectedUser.podUrl ? (
-              <Typography>Personal Pod</Typography>
-            ) : (
-              <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
-            )}
-
+              </Button>
+            </Link>
             <ClientProfileInfo selectedUser={selectedUser} />
           </>
         )}
@@ -224,10 +219,10 @@ const Profile = ({ user }) => {
         >
           Add Document
         </Button>
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} user="personal" />
-        <DocumentTable user="personal" />
-        <SetAclPermsDocContainerForm />
-        <SetAclPermissionForm />
+        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} user={user} />
+        <DocumentTable user={user} />
+        <SetAclPermsDocContainerForm user={user} />
+        <SetAclPermissionForm user={user} />
       </Box>
     </Box>
   );

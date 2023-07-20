@@ -5,17 +5,19 @@ import { Link } from 'react-router-dom';
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
-import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-// Utility Imports
-import { runNotification } from '../../utils';
 // Context Imports
 import { SelectedUserContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 import { fetchProfileInfo } from '../../model-helpers';
+
+/**
+ * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps
+ */
 
 /**
  * ClientListTableRow Component - Component that generates the individual table
@@ -23,20 +25,18 @@ import { fetchProfileInfo } from '../../model-helpers';
  *
  * @memberof Clients
  * @name ClientListTableRow
+ * @param {clientListTableRowProps} Props - Props for ClientListTableRow
+ * @returns {React.JSX.Element} The ClientListTableRow Component
  */
-
-// determine what gets rendered in the table body
 const ClientListTableRow = ({
   labelId,
   client,
-  state,
-  dispatch,
   setShowDeleteClientModal,
   setSelectedClientToDelete
 }) => {
   const theme = useTheme();
   const { session } = useSession();
-  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
+  const { setSelectedUser } = useContext(SelectedUserContext);
   const [pinned, setPinned] = useState(false);
 
   // determine what icon gets rendered in the pinned column
@@ -44,13 +44,6 @@ const ClientListTableRow = ({
 
   // Event handler for selecting client from client list
   const handleSelectClient = async (clientToSelect) => {
-    if (clientToSelect.webId === selectedUser.webId) {
-      runNotification(`Client "${clientToSelect.person}" unselected.`, 3, state, dispatch);
-      setSelectedUser();
-      return;
-    }
-
-    runNotification(`Client "${clientToSelect.person}" selected.`, 3, state, dispatch);
     const profileData = await fetchProfileInfo(session, clientToSelect.webId);
     setSelectedUser({ ...clientToSelect, ...profileData.profileInfo });
   };
@@ -68,35 +61,25 @@ const ClientListTableRow = ({
   };
 
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">
-        <Checkbox
-          id={labelId}
-          color="primary"
-          checked={selectedUser.webId === client.webId}
-          inputProps={{
-            'aria-labelledby': labelId
-          }}
-          onClick={() => {
-            handleSelectClient(client);
-          }}
-        />
-      </StyledTableCell>
+    <StyledTableRow id={labelId}>
       <StyledTableCell align="center">{client.person}</StyledTableCell>
       {/* ***** TODO: Switch this webId to being a small Notes section */}
       {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
       {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
       <StyledTableCell align="center">
-        {selectedUser.webId === client.webId ? (
-          <Link
-            to="/PASS/clients/profile"
-            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+        <Link
+          to="/PASS/clients/profile"
+          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+        >
+          <Button
+            onClick={() => {
+              handleSelectClient(client);
+            }}
+            sx={{ textTransform: 'capitalize' }}
           >
-            Link to Pod Profile
-          </Link>
-        ) : (
-          <p style={{ opacity: 0.5 }}>Link to Pod Profile</p>
-        )}
+            Link to Profile
+          </Button>
+        </Link>
       </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" edge="end" onClick={handlePinClick}>

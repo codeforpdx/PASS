@@ -24,13 +24,18 @@ import { DocumentSelection, FormSection } from '../Form';
 import { DocumentListContext, UserDocumentListContext } from '../../contexts';
 
 /**
+ * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
+ */
+
+/**
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name UploadDocumentModal
+ * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
+ * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
-
 const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);

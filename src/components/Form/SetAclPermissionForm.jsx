@@ -23,14 +23,19 @@ import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
 /**
+ * @typedef {import("../../typedefs.js").setAclPermissionFormProps} setAclPermissionFormProps
+ */
+
+/**
  * SetAclPermissionForm Component - Component that generates the form for setting
  * document ACL permissions to another user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name SetAclPermissionForm
+ * @param {setAclPermissionFormProps} Props - Props for SetAclPermissionForm
+ * @returns {React.JSX.Element} The SetAclPermissionForm Component
  */
-
-const SetAclPermissionForm = () => {
+const SetAclPermissionForm = ({ user }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectedUserContext);
@@ -96,31 +101,40 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    try {
-      await setDocAclPermission(session, docType, permissions, podUsername);
+    // Routine for setting permissions to specific files
+    if (user === 'personal') {
+      try {
+        await setDocAclPermission(session, docType, permissions, podUsername);
 
-      runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person ?? username
-        } for ${docType}.`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-    } catch (error) {
-      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
+        runNotification(
+          `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+            selectedUser.person ?? username
+          } for ${docType}.`,
+          5,
+          state,
+          dispatch
+        );
+        setTimeout(() => {
+          clearInputFields();
+        }, 3000);
+      } catch (error) {
+        runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+        setTimeout(() => {
+          clearInputFields();
+        }, 3000);
+      }
     }
+
+    // Routine for requesting permissions to specific file
+    // TODO: Create request permissions function for specific file
+    setTimeout(() => {
+      clearInputFields();
+    }, 3000);
   };
 
   return (
     <FormSection
-      title="Permission to Files"
+      title={`${user === 'personal' ? 'Set' : 'Request'} Permission to File`}
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -164,7 +178,7 @@ const SetAclPermissionForm = () => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Set Permission
+              {user === 'personal' ? 'Set' : 'Request'} Permission
             </Button>
           </FormControl>
         </form>

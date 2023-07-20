@@ -6,7 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Page Imports
-import { Home, Clients, Messages, Documents, Profile } from './routes';
+import { Home, Clients, Messages, Profile } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
@@ -15,9 +15,8 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
  * The main application routing for PASS
  *
  * @name AppRoutes
- * @returns {React.JSX.Element}
+ * @returns {React.JSX.Element} The main routing component for PASS
  */
-
 const AppRoutes = () => {
   const { session } = useSession();
   const redirectUrl = useRedirectUrl();
@@ -53,7 +52,6 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
         <Route path="/PASS/clients/profile" element={<Profile />} />
-        <Route path="/PASS/documents" element={<Documents />} />
         <Route path="/PASS/messages" element={<Messages />} />
         <Route path="/PASS/profile" element={<Profile user="personal" />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />

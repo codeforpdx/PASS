@@ -22,15 +22,20 @@ import { SelectedUserContext, SignedInUserContext } from '../../contexts';
 import FormSection from './FormSection';
 
 /**
+ * @typedef {import("../../typedefs.js").setAclPermsDocContainerFormProps} setAclPermsDocContainerFormProps
+ */
+
+/**
  * SetAclPermsDocContainerForm Component - Component that generates the form for
  * setting ACL permissions to another user's Documents container in their Solid
  * Pod via Solid Session
  *
  * @memberof Forms
  * @name SetAclPermsDocContainerForm
+ * @param {setAclPermsDocContainerFormProps} Props - Props for component
+ * @returns {React.JSX.Element} The SetAclPermsDocContainerForm Component
  */
-
-const SetAclPermsDocContainerForm = () => {
+const SetAclPermsDocContainerForm = ({ user }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { selectedUser } = useContext(SelectedUserContext);
@@ -86,31 +91,42 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    try {
-      await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
+    // Routine for setting permissions to Documents
+    if (user === 'personal') {
+      try {
+        await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
 
-      runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person ?? username
-        } for Documents Container.`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-    } catch (error) {
-      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
+        runNotification(
+          `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+            selectedUser.person ?? username
+          } for Documents Container.`,
+          5,
+          state,
+          dispatch
+        );
+        setTimeout(() => {
+          clearInputFields();
+        }, 3000);
+      } catch (error) {
+        runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+        setTimeout(() => {
+          clearInputFields();
+        }, 3000);
+      }
     }
+
+    // Routine for requesting permissions to Documents
+    // TODO: Create request permissions function for Documents
+    setTimeout(() => {
+      clearInputFields();
+    }, 3000);
   };
 
   return (
     <FormSection
-      title="Permission to Documents Container"
+      title={
+        user === 'personal' ? 'Set Permission to Documents' : 'Request Permissions to Documents'
+      }
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -118,7 +134,9 @@ const SetAclPermsDocContainerForm = () => {
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl>
-            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
+            <Typography htmlFor="set-acl-to">
+              {user === 'personal' ? 'Set' : 'Request'} permissions to username:
+            </Typography>
             <TextField
               id="set-acl-to"
               name="setAclTo"
@@ -154,7 +172,7 @@ const SetAclPermsDocContainerForm = () => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              Set Permission
+              {user === 'personal' ? 'Set' : 'Request'} Permission
             </Button>
           </FormControl>
         </form>
