@@ -72,7 +72,7 @@ const NavBar = () => {
   }, [profileData]);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ width: '100vw' }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
           <Typography variant="h4" noWrap component="div" mr="10px">
