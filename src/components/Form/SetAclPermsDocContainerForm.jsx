@@ -140,9 +140,9 @@ const SetAclPermsDocContainerForm = ({ user }) => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={selectedUser.person ? selectedUser.username : username}
+              value={user !== 'personal' ? selectedUser.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={selectedUser.username}
+              placeholder={user !== 'personal' && selectedUser.username}
               label="Search Username"
               required
             />
