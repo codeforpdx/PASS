@@ -35,7 +35,6 @@ const NavbarLinks = () => {
       textColor="inherit"
       indicatorColor="secondary"
       aria-label="tabs"
-      sx={{ display: { xs: 'none', md: 'flex' } }}
     >
       {routesArray.map((item) => (
         <Tab
