@@ -3,27 +3,24 @@ import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 // Component Imports
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
 import UploadDocumentModal from '../components/Modals/UploadDocumentModal';
 import { SelectedUserContext, SignedInUserContext } from '../contexts';
 import DocumentTable from '../components/Documents/DocumentTable';
+import { ClientProfileInfo } from '../components/Clients';
 
 const ClientsProfile = () => {
   const [showModal, setShowModal] = useState(false);
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);
 
   const location = useLocation();
   localStorage.setItem('restorePath', location.pathname);
-
-  console.log(selectedUser);
 
   return (
     <Box
@@ -41,6 +38,7 @@ const ClientsProfile = () => {
         aria-label="Back Button"
         startIcon={<BackspaceIcon />}
         sx={{ margin: '1rem 0' }}
+        onClick={() => setSelectedUser()}
       >
         <Link to="/PASS/clients" style={{ textDecoration: 'none', color: 'white' }}>
           Go Back
@@ -52,21 +50,7 @@ const ClientsProfile = () => {
         <Typography>Client selected: {selectedUser.person || selectedUser.podUrl}</Typography>
       )}
 
-      <Paper
-        sx={{
-          display: 'flex',
-          gap: '20px',
-          alignItems: 'center',
-          padding: '1rem',
-          marginTop: '1rem'
-        }}
-      >
-        <Avatar src={selectedUser.profileImage} />
-        <Box>
-          <Typography>First/Given Name: {selectedUser.givenName}</Typography>
-          <Typography>Last/Family Name: {selectedUser.familyName}</Typography>
-        </Box>
-      </Paper>
+      <ClientProfileInfo selectedUser={selectedUser} />
 
       <Button
         variant="contained"
