@@ -31,8 +31,7 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Clients', path: '/PASS/clients' },
-    { label: 'Documents', path: '/PASS/documents' },
-    { label: 'Messages', path: '/PASS/messages' }
+    { label: 'Documents', path: '/PASS/documents' }
   ];
 
   // Navigate To... button and menu (small screens)

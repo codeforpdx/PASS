@@ -1,5 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
+// React Router Imports
+import { NavLink } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -7,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
+import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -80,8 +83,25 @@ const NavBar = () => {
               <Box>
                 <NavbarLinks />
               </Box>
+
               <Box sx={{ flexGrow: 1 }} />
+
+              {/* DESKTOP */}
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                {/* messages icon */}
+                <IconButton
+                  component={NavLink}
+                  size="large"
+                  aria-label="show new messages"
+                  edge="start"
+                  color="inherit"
+                  to="/PASS/Messages"
+                >
+                  <Badge color="error">
+                    <EmailIcon />
+                  </Badge>
+                </IconButton>
+                {/* notifications icon */}
                 <IconButton
                   size="large"
                   aria-label="show new notifications"
@@ -93,6 +113,7 @@ const NavBar = () => {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
+                {/* notifications menu */}
                 <Menu
                   id="menu-appbar-notifications"
                   anchorEl={anchorElNotifications}
@@ -116,6 +137,7 @@ const NavBar = () => {
                     <p style={{ color: theme.palette.primary.main }}>Notification 2</p>
                   </MenuItem>
                 </Menu>
+                {/* profile icon */}
                 <IconButton
                   size="large"
                   edge="end"
@@ -132,7 +154,10 @@ const NavBar = () => {
                   />
                 </IconButton>
               </Box>
+
+              {/* MOBILE */}
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                {/* hamburger icon */}
                 <IconButton
                   size="large"
                   aria-label="show more"
@@ -144,6 +169,8 @@ const NavBar = () => {
                   <MenuIcon />
                 </IconButton>
               </Box>
+
+              {/* mobile menu */}
               {openMenu && (
                 <NavMenu
                   menuId={menuId}
@@ -155,6 +182,7 @@ const NavBar = () => {
                   profileImg={profileImg}
                 />
               )}
+
               {/* modal/popup renders when showConfirmationModal state is true */}
               <LogoutModal
                 showConfirmation={showConfirmationModal}
