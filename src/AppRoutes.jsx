@@ -6,7 +6,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 // Custom Hook Imports
 import { useRedirectUrl } from './hooks';
 // Page Imports
-import { Home, Clients, Messages, Documents, Profile, ClientsProfile } from './routes';
+import { Home, Clients, Messages, Documents, Profile } from './routes';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/PASS/" replace />;
@@ -52,10 +52,10 @@ const AppRoutes = () => {
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/PASS/clients" element={<Clients />} />
-        <Route path="/PASS/clients/profile" element={<ClientsProfile />} />
+        <Route path="/PASS/clients/profile" element={<Profile />} />
         <Route path="/PASS/documents" element={<Documents />} />
         <Route path="/PASS/messages" element={<Messages />} />
-        <Route path="/PASS/profile" element={<Profile />} />
+        <Route path="/PASS/profile" element={<Profile user="personal" />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>
