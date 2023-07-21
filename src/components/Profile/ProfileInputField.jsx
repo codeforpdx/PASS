@@ -23,7 +23,7 @@ import InputLabel from '@mui/material/InputLabel';
  * ProfileInputField Component - Component that creates the editable inputs fields
  * for the Profile page
  *
- * @memberof Inbox
+ * @memberof Profile
  * @name ProfileInputField
  * @param {profileInputFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage

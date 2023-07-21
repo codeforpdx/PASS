@@ -30,7 +30,7 @@ import { SignedInUserContext } from '../../contexts';
  * ProfileImageField Component - Component that creates the editable inputs fields
  * for the Profile page
  *
- * @memberof Inbox
+ * @memberof Profile
  * @name ProfileImageField
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage

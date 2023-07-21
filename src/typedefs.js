@@ -247,4 +247,15 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * clientProfileProps is an object that stores the props for the
+ * ClientProfile component
+ *
+ * @exports clientProfileProps
+ * @typedef {object} clientProfileProps
+ * @property {object} selectedUser - Selected User context
+ * @property {() => void} setSelectedUser - Set function for selected user context
+ * @memberof typedefs
+ */
+
 exports.unused = {};
