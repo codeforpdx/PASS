@@ -1,18 +1,21 @@
 // React Imports
 import React, { useState } from 'react';
 // Inrupt Library Imports
-import { LoginButton } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Material UI Imports
 import { TextField, Box, Button } from '@mui/material';
-// Custom Hook Imports
-import { useRedirectUrl } from '../../hooks';
 // Constants Imports
 import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const [oidcIssuer, setOidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
-  const redirectUrl = useRedirectUrl();
-
+  const { login } = useSession();
+  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
+  const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+  const loginHandler = async () => {
+    const redirectUrl = window.location.href;
+    await login({ oidcIssuer, redirectUrl });
+    localStorage.setItem('oidcIssuer', oidcIssuer);
+  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }} />
@@ -32,20 +35,23 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={redirectUrl}>
-        <Button
-          variant="contained"
-          type="submit"
-          color="secondary"
-          size="large"
-          aria-label="Login Button"
-          onClick={() => {
-            localStorage.setItem('oidcIssuer', oidcIssuer);
-          }}
-        >
-          Login
-        </Button>
-      </LoginButton>
+      <Button
+        variant="contained"
+        type="submit"
+        color="secondary"
+        size="large"
+        aria-label="Login Button"
+        onClick={() => {
+          loginHandler();
+        }}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            loginHandler();
+          }
+        }}
+      >
+        Login
+      </Button>
     </>
   );
 };

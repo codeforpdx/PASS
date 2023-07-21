@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession, useStatusNotification } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,8 +14,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { SelectedUserContext, SignedInUserContext } from '../../contexts';
 // Component Imports

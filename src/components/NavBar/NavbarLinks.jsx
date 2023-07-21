@@ -23,15 +23,15 @@ const NavbarLinks = () => {
   const theme = useTheme();
 
   // Tabs workaround to match route on login
-  let location = useLocation().pathname.slice(6);
+  let location = useLocation().pathname.split('/')[1];
   if (location === '') {
     location = 'clients';
   }
 
   // array of current nav links for menus
   const routesArray = [
-    { label: 'Clients', path: '/PASS/clients' },
-    { label: 'Messages', path: '/PASS/messages' }
+    { label: 'Clients', path: '/clients' },
+    { label: 'Messages', path: '/messages' }
   ];
 
   // Navigate To... button and menu (small screens)

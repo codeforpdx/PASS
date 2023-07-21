@@ -11,3 +11,4 @@ export * from './UserListContext';
 export * from './MessageContext';
 export * from './ClientDocumentListContext';
 export * from './UserDocumentListContext';
+export * from './SessionContext';

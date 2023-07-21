@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext } from 'react';
 // Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';

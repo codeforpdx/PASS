@@ -1,7 +1,7 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 import { getPodUrlAll } from '@inrupt/solid-client';
 // Utility Imports
 import { createDocumentsContainer, createPublicContainer } from '../utils';

@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
 import BackspaceIcon from '@mui/icons-material/Backspace';
