@@ -194,7 +194,7 @@ const Profile = ({ user }) => {
           </Box>
         ) : (
           <>
-            <Link to="/PASS/clients" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to="/clients" style={{ textDecoration: 'none', color: 'white' }}>
               <Button
                 variant="contained"
                 color="secondary"

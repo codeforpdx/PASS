@@ -65,7 +65,7 @@ const ClientListTableRow = ({
       <StyledTableCell align="center">{client.person}</StyledTableCell>
       <StyledTableCell align="center">
         <Link
-          to="/PASS/clients/profile"
+          to={`/clients/${labelId}`}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
           <Button

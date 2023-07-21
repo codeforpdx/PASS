@@ -58,18 +58,15 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedUserList?.map((client, index) => {
-            const labelId = `clientlist-checkbox-${index}`;
-            return (
-              <ClientListTableRow
-                key={client.webId}
-                labelId={labelId}
-                client={client}
-                setShowDeleteClientModal={setShowDeleteClientModal}
-                setSelectedClientToDelete={setSelectedClientToDelete}
-              />
-            );
-          })}
+          {sortedUserList?.map((client, index) => (
+            <ClientListTableRow
+              key={client.webId}
+              labelId={index + 1}
+              client={client}
+              setShowDeleteClientModal={setShowDeleteClientModal}
+              setSelectedClientToDelete={setSelectedClientToDelete}
+            />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

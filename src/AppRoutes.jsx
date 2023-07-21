@@ -29,8 +29,10 @@ const AppRoutes = () => {
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/clients" element={<Clients />} />
-        <Route path="/clients/profile" element={<Profile />} />
+        <Route path="/clients">
+          <Route index element={<Clients />} />
+          <Route path=":id" element={<Profile />} />
+        </Route>
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile" element={<Profile user="personal" />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
