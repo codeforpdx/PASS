@@ -72,7 +72,7 @@ const NavBar = () => {
   }, [profileData]);
 
   return (
-    <Box sx={{ width: '100vw' }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
           <Typography variant="h4" noWrap component="div" mr="10px">
@@ -80,10 +80,7 @@ const NavBar = () => {
           </Typography>
           {session.info.isLoggedIn ? (
             <>
-              <Box>
-                <NavbarLinks />
-              </Box>
-
+              <NavbarLinks />
               <Box sx={{ flexGrow: 1 }} />
 
               {/* DESKTOP */}
@@ -95,7 +92,7 @@ const NavBar = () => {
                   aria-label="show new messages"
                   edge="start"
                   color="inherit"
-                  to="/PASS/Messages"
+                  to="/messages"
                   sx={{ marginRight: '10px' }}
                 >
                   <Badge color="error">
@@ -161,7 +158,7 @@ const NavBar = () => {
                 {/* hamburger icon */}
                 <IconButton
                   size="large"
-                  aria-label="show more"
+                  aria-label="menu"
                   aria-controls={menuId}
                   aria-haspopup="true"
                   onClick={handleOpenMenu}
