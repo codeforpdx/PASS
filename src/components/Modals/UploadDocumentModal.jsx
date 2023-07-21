@@ -114,15 +114,17 @@ const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
         file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
-          <FormControlLabel
-            control={<Switch />}
-            label="Verify file on upload"
-            id="verify-checkbox"
-            value={verifyFile}
-            checked={verifyFile}
-            onChange={() => setVerifyFile(!verifyFile)}
-            sx={{ mb: 1 }}
-          />
+          {user !== 'personal' && (
+            <FormControlLabel
+              control={<Switch />}
+              label="Verify file on upload"
+              id="verify-checkbox"
+              value={verifyFile}
+              checked={verifyFile}
+              onChange={() => setVerifyFile(!verifyFile)}
+              sx={{ mb: 1 }}
+            />
+          )}
           <FormControl fullWidth>
             <DocumentSelection
               htmlForAndIdProp="upload-doc"
