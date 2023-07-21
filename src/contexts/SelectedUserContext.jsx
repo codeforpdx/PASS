@@ -12,7 +12,7 @@ export const SelectedUserContext = createContext({});
 
 export const SelectedUserContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
-  const [selectedUser, setSelectedUser] = useState({ podUrl });
+  const [selectedUser, setSelectedUser] = useState({ podUrl, username: '' });
 
   const selectedUserMemo = useMemo(
     () => ({

@@ -279,7 +279,6 @@ const React = require('react');
  * @exports clientProfileProps
  * @typedef {object} clientProfileProps
  * @property {object} clientProfile - Client profile object
- * @property {() => void} setSelectedUser - Set function for selected user context
  * @memberof typedefs
  */
 

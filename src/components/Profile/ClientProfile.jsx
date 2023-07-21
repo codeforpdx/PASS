@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {clientProfileProps} Props - Props for ClientProfile component
  * @returns {React.JSX.Element} The ClientProfile Component
  */
-const ClientProfile = ({ clientProfile, setSelectedUser }) => (
+const ClientProfile = ({ clientProfile }) => (
   <>
     <Link to="/clients" style={{ textDecoration: 'none', color: 'white' }}>
       <Button
@@ -28,7 +28,8 @@ const ClientProfile = ({ clientProfile, setSelectedUser }) => (
         color="secondary"
         aria-label="Back Button"
         startIcon={<BackspaceIcon />}
-        onClick={() => setSelectedUser()}
+        /* Temporary solution to clear Documents List after removing permissions */
+        onClick={() => window.location.reload(true)}
       >
         Go Back
       </Button>
