@@ -1,6 +1,5 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -23,9 +22,7 @@ import DocumentTable from '../components/Documents/DocumentTable';
 const Documents = () => {
   // state for UploadDocumentModal component
   const [showModal, setShowModal] = useState(false);
-  const location = useLocation();
-
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', '/documents');
 
   const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { podUrl } = useContext(SignedInUserContext);

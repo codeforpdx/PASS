@@ -30,6 +30,17 @@ module.exports = {
   settings: {
     jsdoc: {
       mode: 'typescript'
+    },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@hooks', './src/hooks'],
+          ['@contexts', './src/contexts'],
+          ['@pages', './src/pages'],
+          ['@utils', './src/utils'],
+          ['@components', './src/components']
+        ]
+      }
     }
   }
 };

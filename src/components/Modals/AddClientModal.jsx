@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -15,8 +16,6 @@ import TextField from '@mui/material/TextField';
 import { ENV } from '../../constants';
 import { runNotification } from '../../utils';
 import { createUser } from '../../model-helpers/User';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports

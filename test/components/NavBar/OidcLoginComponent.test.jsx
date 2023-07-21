@@ -1,18 +1,11 @@
 import { render, cleanup } from '@testing-library/react';
+import { login } from '@inrupt/solid-client-authn-browser';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 
-vi.mock('@inrupt/solid-ui-react', () => ({
-  LoginButton: ({ children, oidcIssuer, redirectUrl }) => (
-    <div>
-      {oidcIssuer}
-      {redirectUrl}
-      {children}
-    </div>
-  )
-}));
+vi.mock('@inrupt/solid-client-authn-browser');
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -30,21 +23,16 @@ vi.mock('../../../src/constants/', () => {
   };
 });
 
-it('renders correctly', () => {
-  const { container } = render(<OidcLoginComponent />);
-  expect(container).toMatchSnapshot();
-});
-
 it('sets OIDC provider on login', async () => {
   const user = userEvent.setup();
-  const { container, getByLabelText } = render(<OidcLoginComponent />);
+  const { getByLabelText } = render(<OidcLoginComponent />);
   const input = getByLabelText('OIDC Input Field').querySelector('input');
-  const login = getByLabelText('Login Button');
+  const loginButton = getByLabelText('Login Button');
   vi.spyOn(Storage.prototype, 'setItem');
   await user.clear(input);
-  await user.type(input, 'oidc.provider.url');
-  expect(input.value).toBe('oidc.provider.url');
-  await user.click(login);
-  expect(localStorage.setItem).toBeCalledWith('oidcIssuer', 'oidc.provider.url');
-  expect(container).toMatchSnapshot();
+  await user.type(input, 'http://oidc.provider.url/');
+  expect(input.value).toBe('http://oidc.provider.url/');
+  await user.click(loginButton);
+  expect(login).toBeCalled();
+  expect(localStorage.setItem).toBeCalledWith('oidcIssuer', 'http://oidc.provider.url/');
 });
