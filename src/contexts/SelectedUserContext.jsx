@@ -17,13 +17,13 @@ export const SelectedUserContextProvider = ({ children }) => {
   const selectedUserMemo = useMemo(
     () => ({
       selectedUser,
-      setSelectedUser: async (user) => setSelectedUser(user || { podUrl })
+      setSelectedUser: async (user) => setSelectedUser(user || { podUrl, username: '' })
     }),
     [selectedUser, podUrl]
   );
 
   useEffect(() => {
-    if (podUrl) setSelectedUser({ podUrl });
+    if (podUrl) setSelectedUser({ podUrl, username: '' });
   }, [podUrl]);
 
   return (

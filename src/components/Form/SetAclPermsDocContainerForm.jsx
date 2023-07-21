@@ -140,7 +140,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
               name="setAclTo"
               value={user !== 'personal' ? selectedUser.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={user !== 'personal' && selectedUser.username}
+              placeholder={user !== 'personal' ? selectedUser.username : username}
               label="Search Username"
               required
             />

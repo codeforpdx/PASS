@@ -221,8 +221,8 @@ const Profile = ({ user }) => {
         </Button>
         <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} user={user} />
         <DocumentTable user={user} />
-        <SetAclPermsDocContainerForm user={user} />
-        <SetAclPermissionForm user={user} />
+        <SetAclPermsDocContainerForm selectedUser={selectedUser} user={user} />
+        <SetAclPermissionForm selectedUser={selectedUser} user={user} />
       </Box>
     </Box>
   );
