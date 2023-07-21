@@ -41,7 +41,7 @@ const Profile = ({ user }) => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const { setSelectedUser } = useContext(SelectedUserContext);
 
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
 
   useEffect(() => {
     const fetchClientProfile = async () => {
