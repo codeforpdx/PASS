@@ -1,8 +1,8 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-// Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+// Custom Hook Imports
+import { useSession } from '@hooks';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
