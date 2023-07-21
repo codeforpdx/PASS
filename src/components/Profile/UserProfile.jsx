@@ -14,6 +14,14 @@ import { SignedInUserContext } from '@contexts';
 import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
 
+/**
+ * The UserProfile Component is a component that renders the user's profile on
+ * PASS
+ *
+ * @memberof Profile
+ * @name UserProfile
+ * @returns {React.JSX.Element} The UserProfile Component
+ */
 const UserProfile = () => {
   const { session } = useSession();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =

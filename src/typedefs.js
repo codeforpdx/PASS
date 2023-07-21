@@ -258,4 +258,32 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * profileImageFieldProps is an object that stores the props for the ProfileInputField
+ * component
+ *
+ * @exports profileImageFieldProps
+ * @typedef {object} profileImageFieldProps
+ * @property {Blob} profileImg - The existing file blob being used for profile
+ * card
+ * @property {React.Dispatch<any>} setProfileImg - Set function for profileImg
+ * @property {() => void} loadProfileData - Handler function for setting local
+ * state for profile card in PASS
+ * @memberof typedefs
+ */
+
+/**
+ * profileInputFieldProps is an object that stores the props for the ProfileInputField
+ * component
+ *
+ * @exports profileInputFieldProps
+ * @typedef {object} profileInputFieldProps
+ * @property {string} inputName - Name of input field
+ * @property {string} inputValue - Value of input field used for updating profile
+ * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
+ * function for inputValue
+ * @property {boolean} edit - Boolean used to toggle edit inputs
+ * @memberof typedefs
+ */
+
 exports.unused = {};

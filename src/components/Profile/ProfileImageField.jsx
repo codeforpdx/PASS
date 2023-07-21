@@ -13,17 +13,7 @@ import Typography from '@mui/material/Typography';
 import { SignedInUserContext } from '../../contexts';
 
 /**
- * profileImageFieldProps is an object that stores the props for the ProfileInputField
- * component
- *
- * @typedef profileImageFieldProps
- * @type {object}
- * @property {Blob} profileImg - The existing file blob being used for profile
- * card
- * @property {React.Dispatch<any>} setProfileImg - Set function for profileImg
- * @property {() => void} loadProfileData - Handler function for setting local
- * state for profile card in PASS
- * @memberof typedefs
+ * @typedef {import("../../typedefs").profileImageFieldProps} profileImageFieldProps
  */
 
 /**

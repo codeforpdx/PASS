@@ -6,17 +6,7 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 /**
- * profileInputFieldProps is an object that stores the props for the ProfileInputField
- * component
- *
- * @typedef profileInputFieldProps
- * @type {object}
- * @property {string} inputName - Name of input field
- * @property {string} inputValue - Value of input field used for updating profile
- * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
- * function for inputValue
- * @property {boolean} edit - Boolean used to toggle edit inputs
- * @memberof typedefs
+ * @typedef {import("../../typedefs").profileInputFieldProps} profileInputFieldProps
  */
 
 /**
