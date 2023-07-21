@@ -63,9 +63,6 @@ const ClientListTableRow = ({
   return (
     <StyledTableRow id={labelId}>
       <StyledTableCell align="center">{client.person}</StyledTableCell>
-      {/* ***** TODO: Switch this webId to being a small Notes section */}
-      {/* seems having a link or even displaying another user's pod is completely useless/irrelevant */}
-      {/* see no reason it would ever need to be used, but notes/comments will be of utmost importance to caseworkers */}
       <StyledTableCell align="center">
         <Link
           to="/PASS/clients/profile"
