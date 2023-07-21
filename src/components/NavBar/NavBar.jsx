@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // React Router Imports
 import { NavLink } from 'react-router-dom';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import AppBar from '@mui/material/AppBar';

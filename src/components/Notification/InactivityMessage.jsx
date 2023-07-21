@@ -1,7 +1,5 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
-// Inrupt Library Imports
-import { LogoutButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -12,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import LogoutButton from '../Modals/LogoutButton';
 /**
  * Inactivity Notification Component - Component that displays a popup modal
  * after 30 minutes of inactivity, prompting the user to either logout or

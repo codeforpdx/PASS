@@ -26,8 +26,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@inrupt/solid-client": "^1.24.0",
-    "@inrupt/solid-client-authn-browser": "^1.12.3",
-    "@inrupt/solid-ui-react": "^2.8.2",
+    "@inrupt/solid-client-authn-browser": "1.15.0",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@mui/base": "^5.0.0-beta.0",
     "@mui/icons-material": "^5.11.16",
@@ -54,6 +53,7 @@
     "last 3 edge versions"
   ],
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
     "@solid/community-server": "^5.1.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -65,6 +65,8 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.6.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsdoc": "^40.1.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",

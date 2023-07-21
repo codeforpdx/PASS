@@ -1,7 +1,5 @@
 // React Imports
 import React, { useState } from 'react';
-// React Router Imports
-import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -21,8 +19,7 @@ const Clients = () => {
   // state for AddClientModal component
   const [showAddClientModal, setShowAddClientModal] = useState(false);
 
-  const location = useLocation();
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', '/clients');
 
   return (
     <Container>

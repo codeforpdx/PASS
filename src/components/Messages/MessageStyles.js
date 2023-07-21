@@ -32,29 +32,46 @@ export const StyledButton2 = styled('button')({
 });
 
 export const PaginationContainer = styled.div`
-  ul {
+  .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style-type: none;
-    padding: 0;
+    gap: 3px;
   }
 
-  li:not(:last-child) {
-    margin-right: 4px;
-  }
-
-  a {
-    color: #000;
-    text-decoration: none;
+  .page-green,
+  .page-red {
+    color: #fff;
+    font-weight: bold;
     padding: 8px 16px;
     border-radius: 4px;
-    background-color: #eaeaea;
+    text-decoration: none;
     cursor: pointer;
+    display: flex;
   }
 
-  a:active {
-    background-color: #555;
-    color: #fff;
+  .page-green {
+    background-color: #74b0a8;
+    &:hover {
+      background-color: #017969;
+    }
+  }
+
+  .page-red {
+    background-color: #bf7c84;
+    &:hover {
+      background-color: #961020;
+    }
+  }
+
+  .chevron {
+    margin: 0 1.5rem;
+  }
+
+  .active-page {
+    background-color: #017969;
+    cursor: default;
   }
 `;
 

@@ -16,15 +16,15 @@ import Tabs from '@mui/material/Tabs';
 
 const NavbarLinks = () => {
   // Tabs workaround to match route on login
-  let location = useLocation().pathname.slice(6);
+  let location = useLocation().pathname.split('/')[1];
   if (location === '') {
     location = 'clients';
   }
 
   // array of current nav links for menus
   const routesArray = [
-    { label: 'Clients', path: '/PASS/clients' },
-    { label: 'Documents', path: '/PASS/documents' }
+    { label: 'Clients', path: 'clients' },
+    { label: 'Documents', path: 'documents' }
   ];
 
   return (
