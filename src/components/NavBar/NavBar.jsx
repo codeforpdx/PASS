@@ -96,6 +96,7 @@ const NavBar = () => {
                   edge="start"
                   color="inherit"
                   to="/PASS/Messages"
+                  sx={{ marginRight: '10px' }}
                 >
                   <Badge color="error">
                     <EmailIcon />
