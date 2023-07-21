@@ -111,13 +111,13 @@ const SetAclPermsDocContainerForm = ({ user }) => {
           clearInputFields();
         }, 3000);
       }
+    } else {
+      // Routine for requesting permissions to Documents
+      // TODO: Create request permissions function for Documents
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
     }
-
-    // Routine for requesting permissions to Documents
-    // TODO: Create request permissions function for Documents
-    setTimeout(() => {
-      clearInputFields();
-    }, 3000);
   };
 
   return (

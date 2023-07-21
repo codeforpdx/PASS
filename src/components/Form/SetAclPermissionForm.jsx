@@ -119,13 +119,13 @@ const SetAclPermissionForm = ({ user }) => {
           clearInputFields();
         }, 3000);
       }
+    } else {
+      // Routine for requesting permissions to specific file
+      // TODO: Create request permissions function for specific file
+      setTimeout(() => {
+        clearInputFields();
+      }, 3000);
     }
-
-    // Routine for requesting permissions to specific file
-    // TODO: Create request permissions function for specific file
-    setTimeout(() => {
-      clearInputFields();
-    }, 3000);
   };
 
   return (

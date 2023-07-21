@@ -5,8 +5,9 @@ import { createSolidDataset } from '@inrupt/solid-client';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Context Imports
-import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
 import { SelectedUserContext } from './SelectedUserContext';
+// Model Imports
+import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
 
 /**
  * React Context for showing all documents in a user's pod

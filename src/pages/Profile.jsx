@@ -81,13 +81,12 @@ const Profile = ({ user }) => {
           </Link>
         </Typography>
 
-        {/* TODO: Refactor/optimize the form below once we have more input */}
-        {/* fields to update profile for */}
         {user === 'personal' ? (
           <UserProfile />
         ) : (
           <ClientProfile clientProfile={clientProfile} setSelectedUser={setSelectedUser} />
         )}
+
         <Button
           variant="contained"
           color="secondary"
