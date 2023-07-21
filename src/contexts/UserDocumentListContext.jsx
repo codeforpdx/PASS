@@ -16,11 +16,11 @@ import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '
 export const UserDocumentListContext = createContext([]);
 
 /**
- * The Provider for DocumentListContext
+ * The Provider for UserDocumentListContext
  *
  * @memberof contexts
- * @function DocumentListContextProvider
- * @param {React.JSX.Element} children - consumers of documentListContext
+ * @function UserDocumentListContextProvider
+ * @param {React.JSX.Element} children - consumers of UserDocumentListContext
  * @returns {React.JSX.Element}
  * Context from Provider
  */

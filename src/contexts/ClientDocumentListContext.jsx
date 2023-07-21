@@ -14,18 +14,18 @@ import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '
  * @name UserListContext
  * @memberof contexts
  */
-export const DocumentListContext = createContext([]);
+export const ClientDocumentListContext = createContext([]);
 
 /**
- * The Provider for DocumentListContext
+ * The Provider for ClientDocumentListContext
  *
  * @memberof contexts
- * @function DocumentListContextProvider
- * @param {React.JSX.Element} children - consumers of documentListContext
+ * @function ClientDocumentListContextProvider
+ * @param {React.JSX.Element} children - consumers of ClientDocumentListContext
  * @returns {React.JSX.Element}
  * Context from Provider
  */
-export const DocumentListContextProvider = ({ children }) => {
+export const ClientDocumentListContextProvider = ({ children }) => {
   const [documentListObject, setDocumentListObject] = useState({});
   const [loadingDocuments, setLoadingDocuments] = useState(true);
   const { selectedUser } = useContext(SelectedUserContext);
@@ -63,6 +63,8 @@ export const DocumentListContextProvider = ({ children }) => {
   }, [selectedUser]);
 
   return (
-    <DocumentListContext.Provider value={documentListMemo}>{children}</DocumentListContext.Provider>
+    <ClientDocumentListContext.Provider value={documentListMemo}>
+      {children}
+    </ClientDocumentListContext.Provider>
   );
 };

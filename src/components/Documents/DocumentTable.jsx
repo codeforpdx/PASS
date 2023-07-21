@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // Component Imports
-import { DocumentListContext, UserDocumentListContext } from '../../contexts';
+import { ClientDocumentListContext, UserDocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
@@ -25,7 +25,9 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 const DocumentTable = ({ user }) => {
   const { documentListObject, loadingDocuments } =
-    user === 'personal' ? useContext(UserDocumentListContext) : useContext(DocumentListContext);
+    user === 'personal'
+      ? useContext(UserDocumentListContext)
+      : useContext(ClientDocumentListContext);
   const columnTitlesArray = [
     'Name',
     'Type',
