@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {clientProfileProps} Props - Props for ClientProfile component
  * @returns {React.JSX.Element} The ClientProfile Component
  */
-const ClientProfile = ({ selectedUser, setSelectedUser }) => (
+const ClientProfile = ({ clientProfile, setSelectedUser }) => (
   <>
     <Link to="/clients" style={{ textDecoration: 'none', color: 'white' }}>
       <Button
@@ -43,13 +43,13 @@ const ClientProfile = ({ selectedUser, setSelectedUser }) => (
       }}
     >
       <Avatar
-        src={selectedUser.profileImage}
+        src={clientProfile?.profileImage}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />
       <Box>
-        <Typography>First/Given Name: {selectedUser.givenName}</Typography>
-        <Typography>Last/Family Name: {selectedUser.familyName}</Typography>
+        <Typography>First/Given Name: {clientProfile?.givenName}</Typography>
+        <Typography>Last/Family Name: {clientProfile?.familyName}</Typography>
       </Box>
     </Paper>
   </>

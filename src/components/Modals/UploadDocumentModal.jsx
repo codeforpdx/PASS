@@ -21,7 +21,7 @@ import { runNotification } from '../../utils';
 import { useStatusNotification } from '../../hooks';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
-import { ClientDocumentListContext, UserDocumentListContext } from '../../contexts';
+import { DocumentListContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
@@ -44,10 +44,7 @@ const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
   const [verifyFile, setVerifyFile] = useState(false);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
-  const { addDocument, replaceDocument } =
-    user === 'personal'
-      ? useContext(UserDocumentListContext)
-      : useContext(ClientDocumentListContext);
+  const { addDocument, replaceDocument } = useContext(DocumentListContext);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);

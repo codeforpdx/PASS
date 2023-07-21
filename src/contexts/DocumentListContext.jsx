@@ -1,12 +1,12 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
-import { createSolidDataset } from '@inrupt/solid-client';
 // Inrupt Imports
+import { createSolidDataset } from '@inrupt/solid-client';
+// Custom Hook Imports
 import { useSession } from '@hooks';
-
 // Context Imports
-import { SelectedUserContext } from './SelectedUserContext';
 import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
+import { SelectedUserContext } from './SelectedUserContext';
 
 /**
  * React Context for showing all documents in a user's pod
@@ -14,18 +14,18 @@ import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '
  * @name UserListContext
  * @memberof contexts
  */
-export const ClientDocumentListContext = createContext([]);
+export const DocumentListContext = createContext([]);
 
 /**
- * The Provider for ClientDocumentListContext
+ * The Provider for DocumentListContext
  *
  * @memberof contexts
- * @function ClientDocumentListContextProvider
- * @param {React.JSX.Element} children - consumers of ClientDocumentListContext
+ * @function DocumentListContextProvider
+ * @param {React.JSX.Element} children - consumers of DocumentListContext
  * @returns {React.JSX.Element}
  * Context from Provider
  */
-export const ClientDocumentListContextProvider = ({ children }) => {
+export const DocumentListContextProvider = ({ children }) => {
   const [documentListObject, setDocumentListObject] = useState({});
   const [loadingDocuments, setLoadingDocuments] = useState(true);
   const { selectedUser } = useContext(SelectedUserContext);
@@ -63,8 +63,6 @@ export const ClientDocumentListContextProvider = ({ children }) => {
   }, [selectedUser]);
 
   return (
-    <ClientDocumentListContext.Provider value={documentListMemo}>
-      {children}
-    </ClientDocumentListContext.Provider>
+    <DocumentListContext.Provider value={documentListMemo}>{children}</DocumentListContext.Provider>
   );
 };

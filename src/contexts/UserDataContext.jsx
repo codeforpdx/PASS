@@ -6,8 +6,7 @@ import {
   SelectedUserContextProvider,
   UserListContextProvider,
   SignedInUserContextProvider,
-  ClientDocumentListContextProvider,
-  UserDocumentListContextProvider
+  DocumentListContextProvider
 } from '.';
 
 /**
@@ -23,11 +22,9 @@ const UserDataContextProvider = ({ children }) => (
   <SignedInUserContextProvider>
     <SelectedUserContextProvider>
       <UserListContextProvider>
-        <UserDocumentListContextProvider>
-          <ClientDocumentListContextProvider>
-            <MessageContextProvider>{children}</MessageContextProvider>
-          </ClientDocumentListContextProvider>
-        </UserDocumentListContextProvider>
+        <DocumentListContextProvider>
+          <MessageContextProvider>{children}</MessageContextProvider>
+        </DocumentListContextProvider>
       </UserListContextProvider>
     </SelectedUserContextProvider>
   </SignedInUserContextProvider>

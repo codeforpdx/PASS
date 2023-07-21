@@ -1,8 +1,6 @@
 // React Imports
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-// Custom Hook Imports
-import { useSession } from '@hooks';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -11,9 +9,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Context Imports
-import { SelectedUserContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-import { fetchProfileInfo } from '../../model-helpers';
+import { SelectedUserContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps
@@ -35,18 +32,11 @@ const ClientListTableRow = ({
   setSelectedClientToDelete
 }) => {
   const theme = useTheme();
-  const { session } = useSession();
-  const { setSelectedUser } = useContext(SelectedUserContext);
   const [pinned, setPinned] = useState(false);
+  const { setSelectedUser } = useContext(SelectedUserContext);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
-
-  // Event handler for selecting client from client list
-  const handleSelectClient = async (clientToSelect) => {
-    const profileData = await fetchProfileInfo(session, clientToSelect.webId);
-    setSelectedUser({ ...clientToSelect, ...profileData.profileInfo });
-  };
 
   // Event handler for pinning client to top of table
   // ***** TODO: Add in moving pinned row to top of table
@@ -66,14 +56,10 @@ const ClientListTableRow = ({
       <StyledTableCell align="center">
         <Link
           to={`/clients/${labelId}`}
+          state={{ client }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button
-            onClick={() => {
-              handleSelectClient(client);
-            }}
-            sx={{ textTransform: 'capitalize' }}
-          >
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setSelectedUser(client)}>
             Link to Profile
           </Button>
         </Link>

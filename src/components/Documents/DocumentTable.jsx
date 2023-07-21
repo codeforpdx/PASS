@@ -9,25 +9,26 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // Component Imports
-import { ClientDocumentListContext, UserDocumentListContext } from '../../contexts';
+import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
- * DocumentTable Component - Displays a table containing all documents accessible in a pod
+ * @typedef {import("../../typedefs.js").documentTableProps} documentTableProps
+ */
+
+/**
+ * DocumentTable Component - The Document Table that shows the list of documents
+ * stored on Solid
  *
  * @memberof Documents
  * @name DocumentTable
- * @param user
- * @returns {React.ReactElement} a table of documents
+ * @param {documentTableProps} Props - Props for DocumentTable
+ * @returns {React.JSX.Element} The DocumentTable component
  */
-
-const DocumentTable = ({ user }) => {
-  const { documentListObject, loadingDocuments } =
-    user === 'personal'
-      ? useContext(UserDocumentListContext)
-      : useContext(ClientDocumentListContext);
+const DocumentTable = ({ user, client }) => {
+  const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
   const columnTitlesArray = [
     'Name',
     'Type',
@@ -54,7 +55,12 @@ const DocumentTable = ({ user }) => {
           </TableHead>
           <TableBody>
             {documentListObject?.docList.map((document) => (
-              <DocumentTableRow key={document.name} document={document} user={user} />
+              <DocumentTableRow
+                key={document.name}
+                document={document}
+                user={user}
+                client={client}
+              />
             ))}
           </TableBody>
         </Table>

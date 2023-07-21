@@ -9,26 +9,25 @@ import IconButton from '@mui/material/IconButton';
 // Utility Imports
 import { getBlobFromSolid } from '../../utils';
 // Context Imports
-import { ClientDocumentListContext, UserDocumentListContext } from '../../contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 import DOC_TYPES from '../../constants/doc_types';
+import { DocumentListContext } from '../../contexts';
+
+/**
+ * @typedef {import("../../typedefs.js").documentTableRowProps} documentTableRowProps
+ */
 
 /**
  * DocumentTableRow Component - A row in the Document Table
  *
  * @memberof Documents
  * @name DocumentTableRow
- * @param user
- * @param document
- * @returns {React.ReactElement}
+ * @param {documentTableRowProps} Props - Props for DocumentTableRow
+ * @returns {React.JSX.Element} The DocumentTableRow component
  */
-
-const DocumentTableRow = ({ user, document }) => {
+const DocumentTableRow = ({ document }) => {
   const { session } = useSession();
-  const { removeDocument } =
-    user === 'personal'
-      ? useContext(UserDocumentListContext)
-      : useContext(ClientDocumentListContext);
+  const { removeDocument } = useContext(DocumentListContext);
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
 

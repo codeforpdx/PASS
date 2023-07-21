@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
@@ -12,6 +12,8 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
+// Context Imports
+import { SelectedUserContext } from '../../contexts';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -30,6 +32,7 @@ const NavMenu = ({
   profileImg
 }) => {
   const theme = useTheme();
+  const { setSelectedUser } = useContext(SelectedUserContext);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -82,6 +85,7 @@ const NavMenu = ({
           <NavLink
             to="/profile"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            onClick={() => setSelectedUser()}
           >
             Profile
           </NavLink>

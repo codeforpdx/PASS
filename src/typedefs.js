@@ -174,6 +174,7 @@ const React = require('react');
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
+ * @property {string} animationType - Type of loading animation
  * @memberof typedefs
  */
 
@@ -244,6 +245,30 @@ const React = require('react');
  * @property {object} showModal - Boolean for showing upload documents modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
+ * @property {object} [client] - The object container a client
+ * @memberof typedefs
+ */
+
+/**
+ * documentTableRowProps is an object that stores the props for the DocumentTableRow
+ * component
+ *
+ * @exports documentTableRowProps
+ * @typedef {object} documentTableRowProps
+ * @property {string} user - Type of user
+ * @property {object} [client] - The object container a client
+ * @property {File} document - File object containing the document
+ * @memberof typedefs
+ */
+
+/**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {string} user - Type of user
+ * @property {File} document - File object containing the document
  * @memberof typedefs
  */
 
@@ -253,7 +278,7 @@ const React = require('react');
  *
  * @exports clientProfileProps
  * @typedef {object} clientProfileProps
- * @property {object} selectedUser - Selected User context
+ * @property {object} clientProfile - Client profile object
  * @property {() => void} setSelectedUser - Set function for selected user context
  * @memberof typedefs
  */

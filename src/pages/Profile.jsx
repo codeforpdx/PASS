@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
@@ -8,14 +8,15 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// Contexts Imports
-import { SelectedUserContext } from '../contexts';
 // Component Inputs
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
 import { UploadDocumentModal } from '../components/Modals';
-import DocumentTable from '../components/Documents/DocumentTable';
+import { DocumentTable } from '../components/Documents';
 import UserProfile from '../components/Profile/UserProfile';
 import ClientProfile from '../components/Profile/ClientProfile';
+import { fetchProfileInfo } from '../model-helpers';
+import { LoadingAnimation } from '../components/Notification';
+import { SelectedUserContext } from '../contexts';
 
 /**
  * @typedef {import("../typedefs.js").profilePageProps} profilePageProps
@@ -32,12 +33,34 @@ import ClientProfile from '../components/Profile/ClientProfile';
  */
 const Profile = ({ user }) => {
   const location = useLocation();
+  const client = location.state?.client;
+  const [clientProfile, setClientProfile] = useState(null);
   const { session } = useSession();
   const [showModal, setShowModal] = useState(false);
-  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
-  const webIdUrl = user === 'personal' ? session.info.webId : selectedUser.webId;
+  const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const { setSelectedUser } = useContext(SelectedUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
+
+  useEffect(() => {
+    const fetchClientProfile = async () => {
+      const profileData = await fetchProfileInfo(session, client.webId);
+      setClientProfile({ ...client, ...profileData.profileInfo });
+    };
+
+    if (client) fetchClientProfile();
+  }, [client]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingProfile(false);
+    }, 1000);
+  }, []);
+
+  if (loadingProfile) {
+    return <LoadingAnimation loadingItem="Profile" animationType="circular" />;
+  }
 
   return (
     <Box
@@ -63,7 +86,7 @@ const Profile = ({ user }) => {
         {user === 'personal' ? (
           <UserProfile />
         ) : (
-          <ClientProfile selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+          <ClientProfile clientProfile={clientProfile} setSelectedUser={setSelectedUser} />
         )}
         <Button
           variant="contained"
@@ -75,10 +98,15 @@ const Profile = ({ user }) => {
         >
           Add Document
         </Button>
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} user={user} />
-        <DocumentTable user={user} />
-        <SetAclPermsDocContainerForm selectedUser={selectedUser} user={user} />
-        <SetAclPermissionForm selectedUser={selectedUser} user={user} />
+        <UploadDocumentModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          user={user}
+          client={client}
+        />
+        <DocumentTable user={user} client={client} />
+        <SetAclPermsDocContainerForm user={user} />
+        <SetAclPermissionForm user={user} />
       </Box>
     </Box>
   );
