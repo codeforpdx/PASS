@@ -1,7 +1,6 @@
 import ClientList from './ClientList';
 import ClientListTable from './ClientListTable';
 import ClientListTableRow from './ClientListTableRow';
-import ClientProfileInfo from './ClientProfileInfo';
 
 /**
  * Components and functions related to Clients functionality within project PASS
@@ -9,4 +8,4 @@ import ClientProfileInfo from './ClientProfileInfo';
  * @namespace Clients
  */
 
-export { ClientList, ClientListTable, ClientListTableRow, ClientProfileInfo };
+export { ClientList, ClientListTable, ClientListTableRow };
