@@ -243,11 +243,9 @@ const React = require('react');
  *
  * @exports uploadDocumentModalProps
  * @typedef {object} uploadDocumentModalProps
- * @property {string} user - Type of user
  * @property {object} showModal - Boolean for showing upload documents modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
- * @property {object} [client] - The object container a client
  * @memberof typedefs
  */
 
