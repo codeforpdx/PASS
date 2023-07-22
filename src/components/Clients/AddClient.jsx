@@ -1,16 +1,14 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 import { TextField, Button } from '@mui/material';
-import { useSession } from '@inrupt/solid-ui-react';
+import { useStatusNotification, useSession } from '@hooks';
 
 // Utility Imports
-import { runNotification, clearProcessing } from '../../utils';
+import { runNotification, clearProcessing } from '@utils/frontend/notification-helper';
 
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { UserListContext } from '../../contexts';
-import registerPod from '../../utils/network/registration-helper';
+import { UserListContext } from '@contexts';
+import registerPod from '@utils/network/registration-helper';
 
 // Component Imports
 import { createUser } from '../../model-helpers/User';

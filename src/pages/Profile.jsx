@@ -26,7 +26,7 @@ import { ProfileInputField, ProfileImageField } from '../components/Profile';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
+  const { podUrl, updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
@@ -76,7 +76,12 @@ const Profile = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '30px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-
+        <Typography>
+          Your Signup Link:{' '}
+          <Link
+            href={`${window.location.origin}/signup?podUrl=${podUrl}`}
+          >{`${window.location.origin}/signup?podUrl=${podUrl}`}</Link>
+        </Typography>
         <Typography>
           User WebId:{' '}
           <Link href={session.info.webId} target="_blank" rel="noreferrer">

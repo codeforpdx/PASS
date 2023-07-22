@@ -3,6 +3,7 @@ import Documents from './Documents';
 import Home from './Home';
 import Messages from './Messages';
 import Profile from './Profile';
+import Signup from './Signup';
 
 /**
  * The main pages in PASS
@@ -10,4 +11,4 @@ import Profile from './Profile';
  * @namespace Pages
  */
 
-export { Clients, Documents, Home, Messages, Profile };
+export { Clients, Documents, Home, Messages, Profile, Signup };

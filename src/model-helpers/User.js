@@ -8,8 +8,7 @@ import {
   getPodUrlAll,
   getStringNoLocale,
   getUrl,
-  getThing,
-  getDate
+  getThing
 } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { RDF_PREDICATES } from '../constants';
@@ -95,7 +94,6 @@ export const updateUserActivity = async (session, podUrl) => {
  * @memberof User
  * @function createUser
  * @param {object} userSubmission - an object from a form submission containing the user creation data
- * @param {Session} session - Solid's Session Object {@link Session}
  * @returns {Promise<object>} Promise - Updates last active time of user to lastActive.ttl
  */
 export const createUser = async (userSubmission) => {
@@ -131,8 +129,6 @@ export const parseUserFromThing = (userThing) => {
   const givenName = getStringNoLocale(userThing, RDF_PREDICATES.givenName);
   const familyName = getStringNoLocale(userThing, RDF_PREDICATES.familyName);
   const username = getStringNoLocale(userThing, RDF_PREDICATES.alternateName);
-  const email = getStringNoLocale(userThing, RDF_PREDICATES.email);
-  const dateOfBirth = getDate(userThing, RDF_PREDICATES.dateOfBirth);
   const webId = getUrl(userThing, RDF_PREDICATES.identifier);
   const podUrl = getUrl(userThing, RDF_PREDICATES.URL);
   return { person, username, givenName, familyName, webId, podUrl };
