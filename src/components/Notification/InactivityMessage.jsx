@@ -41,7 +41,9 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after twenty-five minutes of inactivity
+  // Toggles the popup after twenty-five minutes of inactivity.
+  // Begins five minute timer upon displaying popup for user to
+  // either continue, or be forcibly logged out.
   useEffect(() => {
     let timer = null;
 
