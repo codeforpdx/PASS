@@ -35,8 +35,17 @@ const DocumentTableRow = ({ document }) => {
 
   const handleShowDocumentLocal = async (urlToOpen) => {
     const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
-    window.open(urlFileBlob);
-    URL.revokeObjectURL(urlFileBlob);
+    const newWindow = window.open(urlFileBlob);
+
+    if (newWindow) {
+      newWindow.addEventListener('beforeunload', () => {
+        // Clear Blob from browser memory when new window is closed
+        URL.revokeObjectURL(urlFileBlob);
+      });
+    } else {
+      // If window cannot be opened, we can immediately clear the Blob from browser memory
+      URL.revokeObjectURL(urlFileBlob);
+    }
   };
 
   // Event handler for deleting client from client list
