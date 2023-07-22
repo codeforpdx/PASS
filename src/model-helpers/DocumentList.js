@@ -182,6 +182,5 @@ export const loadDocumentList = async (session, podUrl) => {
     });
     docList = [];
   }
-
   return { dataset, docList, containerUrl };
 };

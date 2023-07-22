@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
@@ -7,16 +7,15 @@ import { useSession } from '@hooks';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 // Component Inputs
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
 import { UploadDocumentModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
-import UserProfile from '../components/Profile/UserProfile';
-import ClientProfile from '../components/Profile/ClientProfile';
+import { ProfileComponent } from '../components/Profile';
 import { fetchProfileInfo } from '../model-helpers';
 import { LoadingAnimation } from '../components/Notification';
-import { DocumentListContext } from '../contexts';
 
 /**
  * @typedef {import("../typedefs.js").profilePageProps} profilePageProps
@@ -39,7 +38,6 @@ const Profile = ({ user }) => {
   const [showModal, setShowModal] = useState(false);
   const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
-  const { setClient } = useContext(DocumentListContext);
 
   localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
 
@@ -59,7 +57,11 @@ const Profile = ({ user }) => {
   }, []);
 
   if (loadingProfile) {
-    return <LoadingAnimation loadingItem="Profile" animationType="circular" />;
+    return (
+      <LoadingAnimation loadingItem="Profile">
+        <CircularProgress />
+      </LoadingAnimation>
+    );
   }
 
   return (
@@ -81,11 +83,7 @@ const Profile = ({ user }) => {
           </Link>
         </Typography>
 
-        {user === 'personal' ? (
-          <UserProfile />
-        ) : (
-          <ClientProfile clientProfile={clientProfile} setClient={setClient} />
-        )}
+        <ProfileComponent clientProfile={clientProfile} />
 
         <Button
           variant="contained"

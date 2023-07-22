@@ -25,12 +25,7 @@ import { DocumentListContext } from '../../contexts';
  * @param {clientListTableRowProps} Props - Props for ClientListTableRow
  * @returns {React.JSX.Element} The ClientListTableRow Component
  */
-const ClientListTableRow = ({
-  labelId,
-  client,
-  setShowDeleteClientModal,
-  setSelectedClientToDelete
-}) => {
+const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClientToDelete }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setClient } = useContext(DocumentListContext);
@@ -51,8 +46,7 @@ const ClientListTableRow = ({
   };
 
   return (
-    <StyledTableRow id={labelId}>
-      <StyledTableCell align="center">{client.person}</StyledTableCell>
+    <StyledTableRow>
       <StyledTableCell align="center">
         <Link
           to={`/clients/${encodeURIComponent(client.webId)}`}
@@ -60,7 +54,7 @@ const ClientListTableRow = ({
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
           <Button sx={{ textTransform: 'capitalize' }} onClick={() => setClient(client)}>
-            Link to Profile
+            {client.person}
           </Button>
         </Link>
       </StyledTableCell>

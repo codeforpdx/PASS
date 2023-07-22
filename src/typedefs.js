@@ -169,12 +169,15 @@ const React = require('react');
 
 /**
  * loadingAnimationProps is an object that stores the props for the LoadingAnimation
- * component
+ * component; By default LinearProgress will be used as the default animation,
+ * if used as a provider, i.e. wrapping children animation components, the wrapped
+ * component will be used instaed for animation
  *
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
- * @property {string} animationType - Type of loading animation
+ * @property {React.JSX.Element} children - If used as a provider, wrapped component
+ * will be used as the animation
  * @memberof typedefs
  */
 
@@ -226,7 +229,6 @@ const React = require('react');
  *
  * @exports clientListTableRowProps
  * @typedef {object} clientListTableRowProps
- * @property {string} labelId - Unique Id for row
  * @property {object} client - Object containing client information
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
  * - React set function for DeleteClientModal
@@ -273,11 +275,11 @@ const React = require('react');
  */
 
 /**
- * clientProfileProps is an object that stores the props for the
- * ClientProfile component
+ * profileComponentProps is an object that stores the props for the
+ * ProfileComponent component
  *
- * @exports clientProfileProps
- * @typedef {object} clientProfileProps
+ * @exports profileComponentProps
+ * @typedef {object} profileComponentProps
  * @property {object} clientProfile - Client profile object
  * @memberof typedefs
  */

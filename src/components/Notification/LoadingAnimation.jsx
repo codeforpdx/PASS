@@ -2,7 +2,6 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -21,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {loadingAnimationProps} Props - Component props for LoadingAnimation
  * @returns {React.ReactElement} a div of what is currently loading
  */
-const LoadingAnimation = ({ loadingItem, animationType = 'linear' }) => (
+const LoadingAnimation = ({ loadingItem, children }) => (
   <Box
     sx={{
       my: '3rem',
@@ -36,7 +35,7 @@ const LoadingAnimation = ({ loadingItem, animationType = 'linear' }) => (
       <Typography variant="h5" component="h2" mb={2} align="center">
         Loading {loadingItem}...
       </Typography>
-      {animationType === 'linear' ? <LinearProgress /> : <CircularProgress />}
+      {children || <LinearProgress />}
     </Paper>
   </Box>
 );

@@ -14,7 +14,7 @@ import ClientListTableRow from './ClientListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Client', 'Client Profile', 'Pin', 'Delete'];
+const columnTitlesArray = ['Client', 'Pin', 'Delete'];
 
 /**
  * @typedef {import("../../typedefs.js").clientListTableProps} clientListTableProps
@@ -58,10 +58,9 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedUserList?.map((client, index) => (
+          {sortedUserList?.map((client) => (
             <ClientListTableRow
               key={client.webId}
-              labelId={index + 1}
               client={client}
               setShowDeleteClientModal={setShowDeleteClientModal}
               setSelectedClientToDelete={setSelectedClientToDelete}
