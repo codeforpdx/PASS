@@ -187,7 +187,7 @@ const React = require('react');
  *
  * @exports setAclPermsDocContainerFormProps
  * @typedef {object} setAclPermsDocContainerFormProps
- * @property {string} user - Type of user
+ * @property {object} client - The client object
  * @memberof typedefs
  */
 
@@ -197,7 +197,7 @@ const React = require('react');
  *
  * @exports setAclPermissionFormProps
  * @typedef {object} setAclPermissionFormProps
- * @property {string} user - Type of user
+ * @property {object} client - The client object
  * @memberof typedefs
  */
 

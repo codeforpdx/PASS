@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getPodUrl, runNotification, setDocAclPermission } from '@utils';
 // Context Imports
-import { DocumentListContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -33,10 +33,9 @@ import FormSection from './FormSection';
  * @param {setAclPermissionFormProps} Props - Props for SetAclPermissionForm
  * @returns {React.JSX.Element} The SetAclPermissionForm Component
  */
-const SetAclPermissionForm = ({ user }) => {
+const SetAclPermissionForm = ({ client }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { client } = useContext(DocumentListContext);
   const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
@@ -100,7 +99,7 @@ const SetAclPermissionForm = ({ user }) => {
     }
 
     // Routine for setting permissions to specific files
-    if (user === 'personal') {
+    if (!client) {
       try {
         await setDocAclPermission(session, docType, permissions, podUsername);
 
@@ -132,7 +131,7 @@ const SetAclPermissionForm = ({ user }) => {
 
   return (
     <FormSection
-      title={`${user === 'personal' ? 'Set' : 'Request'} Permission to File`}
+      title={`${client ? 'Request' : 'Set'} Permission to File`}
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -144,9 +143,9 @@ const SetAclPermissionForm = ({ user }) => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={user !== 'personal' ? client?.username : username}
+              value={client ? client?.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={user !== 'personal' ? client?.username : username}
+              placeholder={client ? client?.username : username}
               label="Search Username"
               required
             />
@@ -176,7 +175,7 @@ const SetAclPermissionForm = ({ user }) => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              {user === 'personal' ? 'Set' : 'Request'} Permission
+              {client ? 'Request' : 'Set'} Permission
             </Button>
           </FormControl>
         </form>

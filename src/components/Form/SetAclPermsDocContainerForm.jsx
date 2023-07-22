@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocContainerAclPermission } from '@utils';
 // Context Imports
-import { DocumentListContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -33,10 +33,9 @@ import FormSection from './FormSection';
  * @param {setAclPermsDocContainerFormProps} Props - Props for component
  * @returns {React.JSX.Element} The SetAclPermsDocContainerForm Component
  */
-const SetAclPermsDocContainerForm = ({ user }) => {
+const SetAclPermsDocContainerForm = ({ client }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { client } = useContext(DocumentListContext);
   const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -90,7 +89,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
     }
 
     // Routine for setting permissions to Documents
-    if (user === 'personal') {
+    if (!client) {
       try {
         await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
 
@@ -122,9 +121,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
 
   return (
     <FormSection
-      title={
-        user === 'personal' ? 'Set Permission to Documents' : 'Request Permissions to Documents'
-      }
+      title={`${client ? 'Request' : 'Set'} Permission to Documents`}
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -133,14 +130,14 @@ const SetAclPermsDocContainerForm = ({ user }) => {
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl>
             <Typography htmlFor="set-acl-to">
-              {user === 'personal' ? 'Set' : 'Request'} permissions to username:
+              {client ? 'Request' : 'Set'} permissions to username:
             </Typography>
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={user !== 'personal' ? client?.username : username}
+              value={client ? client?.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={user !== 'personal' ? client?.username : username}
+              placeholder={client ? client?.username : username}
               label="Search Username"
               required
             />
@@ -170,7 +167,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              {user === 'personal' ? 'Set' : 'Request'} Permission
+              {client ? 'Request' : 'Set'} Permission
             </Button>
           </FormControl>
         </form>

@@ -103,8 +103,8 @@ const Profile = ({ user }) => {
           client={client}
         />
         <DocumentTable user={user} client={client} />
-        <SetAclPermsDocContainerForm user={user} />
-        <SetAclPermissionForm user={user} />
+        <SetAclPermsDocContainerForm user={user} client={client} />
+        <SetAclPermissionForm user={user} client={client} />
       </Box>
     </Box>
   );
