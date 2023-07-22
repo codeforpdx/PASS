@@ -34,6 +34,7 @@ const DocumentTableRow = ({ document }) => {
   const handleShowDocumentLocal = async (urlToOpen) => {
     const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
     window.open(urlFileBlob);
+    URL.revokeObjectURL(urlFileBlob);
   };
 
   // Event handler for deleting client from client list

@@ -16,7 +16,7 @@ import UserProfile from '../components/Profile/UserProfile';
 import ClientProfile from '../components/Profile/ClientProfile';
 import { fetchProfileInfo } from '../model-helpers';
 import { LoadingAnimation } from '../components/Notification';
-import { SelectedUserContext } from '../contexts';
+import { DocumentListContext } from '../contexts';
 
 /**
  * @typedef {import("../typedefs.js").profilePageProps} profilePageProps
@@ -39,7 +39,7 @@ const Profile = ({ user }) => {
   const [showModal, setShowModal] = useState(false);
   const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
-  const { setSelectedUser } = useContext(SelectedUserContext);
+  const { setClient } = useContext(DocumentListContext);
 
   localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
 
@@ -84,7 +84,7 @@ const Profile = ({ user }) => {
         {user === 'personal' ? (
           <UserProfile />
         ) : (
-          <ClientProfile clientProfile={clientProfile} setSelectedUser={setSelectedUser} />
+          <ClientProfile clientProfile={clientProfile} setClient={setClient} />
         )}
 
         <Button

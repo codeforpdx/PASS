@@ -13,7 +13,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
-import { SelectedUserContext, SignedInUserContext } from '../../contexts';
+import { DocumentListContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -34,7 +34,7 @@ import FormSection from './FormSection';
 const SetAclPermissionForm = ({ user }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { client } = useContext(DocumentListContext);
   const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
@@ -57,7 +57,7 @@ const SetAclPermissionForm = ({ user }) => {
     let podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
-      podUsername = selectedUser.username;
+      podUsername = client?.username;
     }
 
     if (!podUsername) {
@@ -104,7 +104,7 @@ const SetAclPermissionForm = ({ user }) => {
 
         runNotification(
           `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-            selectedUser.person ?? username
+            client?.person ?? username
           } for ${docType}.`,
           5,
           state,
@@ -142,9 +142,9 @@ const SetAclPermissionForm = ({ user }) => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={user !== 'personal' ? selectedUser.username : username}
+              value={user !== 'personal' ? client?.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={user !== 'personal' ? selectedUser.username : username}
+              placeholder={user !== 'personal' ? client?.username : username}
               label="Search Username"
               required
             />

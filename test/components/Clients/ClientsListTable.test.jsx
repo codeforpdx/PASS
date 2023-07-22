@@ -4,16 +4,13 @@ import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import ClientListTable from '../../../src/components/Clients/ClientListTable';
 import { UserListContext } from '../../../src/contexts/UserListContext';
-import { SelectedUserContext } from '../../../src/contexts/SelectedUserContext';
 
 /* eslint-disable react/jsx-no-constructed-context-values */
 const MockTableComponent = ({ users }) => (
   <BrowserRouter>
-    <SelectedUserContext.Provider value={{ selectedUser: { webId: 'https://example.com' } }}>
-      <UserListContext.Provider value={{ userListObject: { userList: users } }}>
-        <ClientListTable />
-      </UserListContext.Provider>
-    </SelectedUserContext.Provider>
+    <UserListContext.Provider value={{ userListObject: { userList: users } }}>
+      <ClientListTable />
+    </UserListContext.Provider>
   </BrowserRouter>
 );
 /* eslint-enable react/jsx-no-constructed-context-values */

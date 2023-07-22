@@ -3,7 +3,6 @@ import React from 'react';
 // Context Imports
 import {
   MessageContextProvider,
-  SelectedUserContextProvider,
   UserListContextProvider,
   SignedInUserContextProvider,
   DocumentListContextProvider
@@ -20,13 +19,11 @@ import {
 
 const UserDataContextProvider = ({ children }) => (
   <SignedInUserContextProvider>
-    <SelectedUserContextProvider>
-      <UserListContextProvider>
-        <DocumentListContextProvider>
-          <MessageContextProvider>{children}</MessageContextProvider>
-        </DocumentListContextProvider>
-      </UserListContextProvider>
-    </SelectedUserContextProvider>
+    <UserListContextProvider>
+      <DocumentListContextProvider>
+        <MessageContextProvider>{children}</MessageContextProvider>
+      </DocumentListContextProvider>
+    </UserListContextProvider>
   </SignedInUserContextProvider>
 );
 

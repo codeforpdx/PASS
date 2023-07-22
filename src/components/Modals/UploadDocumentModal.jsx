@@ -36,7 +36,7 @@ import { DocumentListContext } from '../../contexts';
  * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
-const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
+const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
@@ -113,17 +113,15 @@ const UploadDocumentModal = ({ user, showModal, setShowModal }) => {
         file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
-          {user !== 'personal' && (
-            <FormControlLabel
-              control={<Switch />}
-              label="Verify file on upload"
-              id="verify-checkbox"
-              value={verifyFile}
-              checked={verifyFile}
-              onChange={() => setVerifyFile(!verifyFile)}
-              sx={{ mb: 1 }}
-            />
-          )}
+          <FormControlLabel
+            control={<Switch />}
+            label="Verify file on upload"
+            id="verify-checkbox"
+            value={verifyFile}
+            checked={verifyFile}
+            onChange={() => setVerifyFile(!verifyFile)}
+            sx={{ mb: 1 }}
+          />
           <FormControl fullWidth>
             <DocumentSelection
               htmlForAndIdProp="upload-doc"

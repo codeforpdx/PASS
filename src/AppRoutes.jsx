@@ -31,7 +31,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/clients">
           <Route index element={<Clients />} />
-          <Route path=":id" element={<Profile />} />
+          <Route path=":webId" element={<Profile />} />
         </Route>
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile" element={<Profile user="personal" />} />

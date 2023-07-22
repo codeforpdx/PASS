@@ -10,7 +10,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Context Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-import { SelectedUserContext } from '../../contexts';
+import { DocumentListContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps
@@ -33,7 +33,7 @@ const ClientListTableRow = ({
 }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
-  const { setSelectedUser } = useContext(SelectedUserContext);
+  const { setClient } = useContext(DocumentListContext);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -55,11 +55,11 @@ const ClientListTableRow = ({
       <StyledTableCell align="center">{client.person}</StyledTableCell>
       <StyledTableCell align="center">
         <Link
-          to={`/clients/${labelId}`}
+          to={`/clients/${encodeURIComponent(client.webId)}`}
           state={{ client }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setSelectedUser(client)}>
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setClient(client)}>
             Link to Profile
           </Button>
         </Link>

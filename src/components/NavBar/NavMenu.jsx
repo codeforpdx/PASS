@@ -13,7 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
-import { SelectedUserContext } from '../../contexts';
+import { DocumentListContext } from '../../contexts';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -32,7 +32,7 @@ const NavMenu = ({
   profileImg
 }) => {
   const theme = useTheme();
-  const { setSelectedUser } = useContext(SelectedUserContext);
+  const { setClient } = useContext(DocumentListContext);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -85,7 +85,7 @@ const NavMenu = ({
           <NavLink
             to="/profile"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
-            onClick={() => setSelectedUser()}
+            onClick={() => setClient(null)}
           >
             Profile
           </NavLink>

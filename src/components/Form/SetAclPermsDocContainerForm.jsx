@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 // Utility Imports
 import { getPodUrl, runNotification, setDocContainerAclPermission } from '../../utils';
 // Context Imports
-import { SelectedUserContext, SignedInUserContext } from '../../contexts';
+import { DocumentListContext, SignedInUserContext } from '../../contexts';
 // Component Imports
 import FormSection from './FormSection';
 
@@ -36,7 +36,7 @@ import FormSection from './FormSection';
 const SetAclPermsDocContainerForm = ({ user }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { client } = useContext(DocumentListContext);
   const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -57,7 +57,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
     let otherPodUsername = event.target.setAclTo.value;
 
     if (!otherPodUsername) {
-      otherPodUsername = selectedUser.username;
+      otherPodUsername = client?.username;
     }
 
     if (!otherPodUsername) {
@@ -96,7 +96,7 @@ const SetAclPermsDocContainerForm = ({ user }) => {
 
         runNotification(
           `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-            selectedUser.person ?? username
+            client?.person ?? username
           } for Documents Container.`,
           5,
           state,
@@ -138,9 +138,9 @@ const SetAclPermsDocContainerForm = ({ user }) => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={user !== 'personal' ? selectedUser.username : username}
+              value={user !== 'personal' ? client?.username : username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={user !== 'personal' ? selectedUser.username : username}
+              placeholder={user !== 'personal' ? client?.username : username}
               label="Search Username"
               required
             />
