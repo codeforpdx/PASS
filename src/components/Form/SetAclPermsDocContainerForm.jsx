@@ -101,11 +101,9 @@ const SetAclPermsDocContainerForm = ({ client }) => {
           state,
           dispatch
         );
-        setTimeout(() => {
-          clearInputFields();
-        }, 3000);
       } catch (error) {
         runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+      } finally {
         setTimeout(() => {
           clearInputFields();
         }, 3000);
