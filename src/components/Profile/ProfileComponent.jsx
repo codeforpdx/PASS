@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
-import Typography from '@mui/material/Typography';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
@@ -35,7 +34,6 @@ const ProfileComponent = ({ clientProfile }) => {
 
   const [profileName, setProfileName] = useState(profileData?.profileInfo.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo.nickname);
-
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
@@ -48,7 +46,6 @@ const ProfileComponent = ({ clientProfile }) => {
 
   const handleCancelEdit = () => {
     loadProfileData();
-
     setEdit(!edit);
   };
 
@@ -100,29 +97,26 @@ const ProfileComponent = ({ clientProfile }) => {
             gap: '10px'
           }}
         >
-          {!clientProfile ? (
-            <>
-              <ProfileInputField
-                inputName="Name"
-                inputValue={profileName}
-                setInputValue={setProfileName}
-                edit={edit}
-              />
-              <ProfileInputField
-                inputName="Nickname"
-                inputValue={nickname}
-                setInputValue={setNickname}
-                edit={edit}
-              />
-            </>
-          ) : (
-            <>
-              <Typography>
-                Name: {clientProfile?.givenName} {clientProfile?.familyName}
-              </Typography>
-              <Typography>Nickname: {clientProfile?.nickname}</Typography>
-            </>
-          )}
+          <>
+            <ProfileInputField
+              inputName="Name"
+              inputValue={
+                clientProfile
+                  ? `${clientProfile?.givenName} ${clientProfile.familyName}`
+                  : profileName
+              }
+              setInputValue={setProfileName}
+              edit={edit}
+              disabled={clientProfile}
+            />
+            <ProfileInputField
+              inputName="Nickname"
+              inputValue={clientProfile ? `${clientProfile?.nickname || 'No value set'}` : nickname}
+              setInputValue={setNickname}
+              edit={edit}
+              disabled={clientProfile}
+            />
+          </>
         </Box>
         {!clientProfile && (
           <Box
