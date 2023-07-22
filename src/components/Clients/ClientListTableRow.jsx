@@ -9,8 +9,9 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Context Imports
+import { DocumentListContext } from '@contexts';
+// Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-import { DocumentListContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps

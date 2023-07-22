@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
@@ -15,12 +15,13 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+// Context Imports
+import { SignedInUserContext } from '@contexts';
 // Component Imports
 import LogoutModal from '../Modals/LogoutModal';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 import OidcLoginComponent from './OidcLoginComponent';
-import { SignedInUserContext } from '../../contexts';
 
 /**
  * NavBar Component - Component that generates NavBar section for PASS

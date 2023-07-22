@@ -1,17 +1,19 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Imports
+// Custon Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 // Utility Imports
-import { getBlobFromSolid } from '../../utils';
+import { getBlobFromSolid } from '@utils';
 // Context Imports
+import { DocumentListContext } from '@contexts';
+// Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+// Constants Imports
 import DOC_TYPES from '../../constants/doc_types';
-import { DocumentListContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").documentTableRowProps} documentTableRowProps

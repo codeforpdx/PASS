@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Inrupt Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
@@ -10,7 +10,7 @@ import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
 import Typography from '@mui/material/Typography';
 // Contexts Imports
-import { SignedInUserContext } from '../../contexts';
+import { SignedInUserContext } from '@contexts';
 
 /**
  * @typedef {import("../../typedefs").profileImageFieldProps} profileImageFieldProps

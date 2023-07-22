@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
 import DeleteClientModal from '../Modals/DeleteClientModal';

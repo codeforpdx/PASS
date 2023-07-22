@@ -1,5 +1,7 @@
 // React Imports
 import React, { useContext } from 'react';
+// Custom Hook Imports
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -9,13 +11,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 // Utility Imports
-import { runNotification } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
+import { runNotification } from '@utils';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
 // Component Imports
-import FormSection from '../Form/FormSection';
+import { FormSection } from '../Form';
 
 /**
  * DeleteClientModal Component - Component that allows users to delete other user's

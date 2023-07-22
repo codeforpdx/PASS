@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
+// Custom Hook Imports
 import { useSession, useStatusNotification } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -12,8 +13,9 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
-import { DocumentListContext, SignedInUserContext } from '../../contexts';
+import { getPodUrl, runNotification, setDocAclPermission } from '@utils';
+// Context Imports
+import { DocumentListContext, SignedInUserContext } from '@contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';

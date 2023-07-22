@@ -8,8 +8,9 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
-import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';

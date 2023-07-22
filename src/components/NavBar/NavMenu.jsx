@@ -13,7 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
-import { DocumentListContext } from '../../contexts';
+import { DocumentListContext } from '@contexts';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS

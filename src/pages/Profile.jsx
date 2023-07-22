@@ -1,7 +1,7 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// Inrupt Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
@@ -9,12 +9,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+// Model Imports
+import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
 import { UploadDocumentModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
-import { fetchProfileInfo } from '../model-helpers';
 import { LoadingAnimation } from '../components/Notification';
 
 /**
