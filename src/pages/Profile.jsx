@@ -32,15 +32,21 @@ import { LoadingAnimation } from '../components/Notification';
  * @returns {React.JSX.Element} The Profile Page
  */
 const Profile = ({ user }) => {
+  // Route related states
   const location = useLocation();
-  const client = location.state?.client;
-  const [clientProfile, setClientProfile] = useState(null);
+  localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
+
+  // Documents related states
   const { session } = useSession();
   const [showModal, setShowModal] = useState(false);
-  const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
-  const [loadingProfile, setLoadingProfile] = useState(true);
 
-  localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
+  // Client related states
+  const client = location.state?.client;
+  const [clientProfile, setClientProfile] = useState(null);
+  const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
+
+  // Profile related states
+  const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
     const fetchClientProfile = async () => {
