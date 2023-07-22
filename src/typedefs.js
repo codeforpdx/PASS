@@ -265,7 +265,7 @@ const React = require('react');
  *
  * @exports profileComponentProps
  * @typedef {object} profileComponentProps
- * @property {object} clientProfile - Client profile object
+ * @property {object} clientProfile - Client object with data from profile
  * @memberof typedefs
  */
 
@@ -275,11 +275,9 @@ const React = require('react');
  *
  * @exports profileImageFieldProps
  * @typedef {object} profileImageFieldProps
- * @property {Blob} profileImg - The existing file blob being used for profile
- * card
- * @property {React.Dispatch<any>} setProfileImg - Set function for profileImg
  * @property {() => void} loadProfileData - Handler function for setting local
  * state for profile card in PASS
+ * @property {object} clientProfile - Client object with data from profile
  * @memberof typedefs
  */
 
