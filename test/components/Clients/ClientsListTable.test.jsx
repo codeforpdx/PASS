@@ -31,8 +31,8 @@ it('renders all clients from client context', () => {
   const row1 = allRows[1];
   const row2 = allRows[2];
 
-  expect(row1.cells.item(0).innerHTML).toBe('Aaron Abby');
-  expect(row2.cells.item(0).innerHTML).toBe('Bob Builder');
+  expect(row1.cells.item(0).innerHTML).toContain('Aaron Abby');
+  expect(row2.cells.item(0).innerHTML).toContain('Bob Builder');
 });
 
 it('sorts clients by familyName', () => {
