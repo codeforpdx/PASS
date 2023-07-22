@@ -33,12 +33,8 @@ import { saveSourceUrlToThing, setupAcl } from '../utils';
  * to the person on their profile card, the profile dataset, and the profile Thing
  */
 export const fetchProfileInfo = async (session, webId = '') => {
-  const profileDataset = webId
-    ? await getWebIdDataset(webId)
-    : await getWebIdDataset(session.info.webId);
-  const profileThing = webId
-    ? getThing(profileDataset, webId)
-    : getThing(profileDataset, session.info.webId);
+  const profileDataset = await getWebIdDataset(webId || session.info.webId);
+  const profileThing = getThing(profileDataset, webId || session.info.webId);
 
   const profileName = getStringNoLocale(profileThing, RDF_PREDICATES.profileName);
   const nickname = getStringNoLocale(profileThing, RDF_PREDICATES.nickname);
