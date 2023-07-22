@@ -14,8 +14,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
- * after 30 minutes of inactivity, prompting the user to either logout or
- * continue their session.
+ * after 25 minutes of inactivity, prompting the user to either logout or
+ * continue their session. If the user does not act within five minutes of
+ * the popup appearing, they are forcibly logged out.
  *
  * @memberof Notification
  * @name InactivityMessage
@@ -40,7 +41,7 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after thirty minutes of inactivity
+  // Toggles the popup after twenty-five minutes of inactivity
   useEffect(() => {
     let timer = null;
 
@@ -49,7 +50,11 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 1800000);
+        timeToForcedLogout.current = setTimeout(() => {
+          handleLogout();
+          window.location.reload();
+        }, 300000);
+      }, 1500000);
     };
 
     const handleUserActivity = () => {
@@ -76,27 +81,14 @@ const InactivityMessage = () => {
   useEffect(() => {
     if (showPopup) {
       logoutTimer.current = setInterval(() => {
-          setSecondsToLogout((prev) => prev - 1);
+          if ( secondsToLogout > 0 ) setSecondsToLogout((prev) => prev - 1);
       }, 1000)
     }
-    return () => clearInterval(logoutTimer.current);
-  }, [showPopup, seconds, minutes])
-
-  // Event handler for logout and removing items from localStorage
-  // Returns user to home page upon successful logout
-  // TODO: In future PR, add countdown timer to automatically log user out if they do not select continue
-  // (e.g. "You will be automatically logged out in 5:00 minutes")
-  const handleLogout = () => {
-    localStorage.clear();
-  };
-
-  // Event handler for popup's continue button
-  // Closes the window, and resets the timer
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    setSeconds(0);
-    setMinutes(5);
-  }
+    return () => {
+      clearInterval(logoutTimer.current);
+      if (showPopup == false) setSecondsToLogout(300);
+    }
+  }, [showPopup, secondsToLogout])
 
   return (
     showPopup &&
@@ -111,6 +103,11 @@ const InactivityMessage = () => {
         <DialogContent id="inactivity-message-description">
           <DialogContentText>
             You have been inactive for a while now. Would you like to continue using PASS?
+            You will automatically be logged out in {Math.floor(secondsToLogout/60)}:
+                                                    {(secondsToLogout % 60).toLocaleString('en-US', {
+                                                      minimumIntegerDigits: 2,
+                                                      useGrouping: false
+                                                    })}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -129,7 +126,10 @@ const InactivityMessage = () => {
             color="primary"
             endIcon={<CheckIcon />}
             sx={{ marginLeft: '1rem' }}
-            onClick={() => setShowPopup(false)}
+            onClick={() => {
+              clearTimeout(timeToForcedLogout.current);
+              setShowPopup(false);
+              }}
           >
             Continue
           </Button>
