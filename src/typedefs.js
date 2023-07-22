@@ -257,19 +257,6 @@ const React = require('react');
  *
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
- * @property {string} user - Type of user
- * @property {object} [client] - The object container a client
- * @property {File} document - File object containing the document
- * @memberof typedefs
- */
-
-/**
- * documentTableProps is an object that stores the props for the DocumentTable
- * component
- *
- * @exports documentTableProps
- * @typedef {object} documentTableProps
- * @property {string} user - Type of user
  * @property {File} document - File object containing the document
  * @memberof typedefs
  */
