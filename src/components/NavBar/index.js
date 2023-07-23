@@ -1,5 +1,8 @@
 import NavBar from './NavBar';
+import NavbarDesktop from './NavbarDesktop';
 import NavbarLinks from './NavbarLinks';
+import NavbarLoggedOut from './NavbarLoggedOut';
+import NavbarMobile from './NavbarMobile';
 import NavMenu from './NavMenu';
 
 /**
@@ -8,4 +11,4 @@ import NavMenu from './NavMenu';
  * @namespace NavBar
  */
 
-export { NavBar, NavbarLinks, NavMenu };
+export { NavBar, NavbarDesktop, NavbarLinks, NavbarLoggedOut, NavbarMobile, NavMenu };
