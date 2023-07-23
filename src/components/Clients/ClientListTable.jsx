@@ -46,7 +46,7 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   const sortedUserList = userListCopy.sort(comparePerson);
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+    <TableContainer component={Paper} sx={{ margin: '1rem 0' }}>
       <Table aria-label="client list table">
         <TableHead>
           <TableRow>
