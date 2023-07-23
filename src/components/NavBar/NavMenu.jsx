@@ -28,6 +28,7 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
+  handleNotificationsMenu,
   profileImg
 }) => {
   const theme = useTheme();
@@ -73,6 +74,7 @@ const NavMenu = ({
         <MenuItem
           component={Button}
           startIcon={<NotificationsIcon />}
+          onClick={handleNotificationsMenu}
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
           Notifications
