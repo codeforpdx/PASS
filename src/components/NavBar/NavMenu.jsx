@@ -63,7 +63,7 @@ const NavMenu = ({
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
           <NavLink
-            to="/PASS/Messages"
+            to="/messages"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           >
             Messages
