@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, queryByLabelText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
 
 it('renders icon menu when on screen larger than mobile', () => {
-  render(<NavbarDesktop />);
+  const { queryByLabelText } = render(<NavbarDesktop />);
 
   const logo = queryByLabelText('logo');
   const navLinks = queryByLabelText('navigation links');
