@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, getByLabelText } from '@testing-library/react';
 import { expect, it, afterEach } from 'vitest';
-import { useSession } from '@hooks';
+import { SessionContext } from '../../../src/contexts';
 import NavBar from '../../../src/components/NavBar/NavBar';
 
 // clear created dom after each test, to start fresh for next
@@ -15,10 +15,6 @@ const resizeWindow = (x, y) => {
   window.innerHeight = y;
   window.dispatchEvent(new Event('resize'));
 };
-
-// trying to produce a session context
-const { session } = useSession();
-const SessionContext = session.info.isLoggedIn;
 
 it('renders NavbarLoggedOut when user is not logged in', () => {
   render(
