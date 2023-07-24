@@ -1,14 +1,8 @@
 import React from 'react';
-import { render, cleanup, queryByLabelText } from '@testing-library/react';
-import { expect, it, afterEach } from 'vitest';
+import { render, queryByLabelText } from '@testing-library/react';
+import { expect, it } from 'vitest';
 import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
 
-// clear created dom after each test, to start fresh for next
-afterEach(() => {
-  cleanup();
-});
-
-// goes in NavbarDesktop test file
 it('renders icon menu when on screen larger than mobile', () => {
   render(<NavbarDesktop />);
 
