@@ -16,6 +16,7 @@ import { useStatusNotification } from '../../hooks';
 import { UserListContext } from '../../contexts';
 // Component Imports
 import FormSection from '../Form/FormSection';
+import BasicNotification from '../Notification/BasicNotification';
 
 /**
  * DeleteClientModal Component - Component that allows users to delete other user's
@@ -38,6 +39,7 @@ const DeleteClientModal = ({
     event.preventDefault();
     runNotification(
       `Deleting "${selectedClientToDelete?.person}" from client list...`,
+      'success',
       5,
       state,
       dispatch
@@ -49,6 +51,7 @@ const DeleteClientModal = ({
     } finally {
       runNotification(
         `"${selectedClientToDelete?.person}" deleted from client list...`,
+        'success',
         5,
         state,
         dispatch
@@ -104,6 +107,7 @@ const DeleteClientModal = ({
           </DialogActions>
         </form>
       </FormSection>
+      <BasicNotification severity={state.severity} open={state.message} message={state.message}/>
     </Dialog>
   );
 };

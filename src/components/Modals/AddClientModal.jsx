@@ -21,6 +21,7 @@ import { useStatusNotification } from '../../hooks';
 import { UserListContext } from '../../contexts';
 // Component Imports
 import { FormSection } from '../Form';
+import BasicNotification from '../Notification/BasicNotification';
 
 /**
  * AddClientModal Component - Component that allows users to add other user's
@@ -58,7 +59,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const notifyStartSubmission = (userObject) => {
     // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username && !userObject.webId) {
-      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
+      runNotification(`Operation failed. Reason: No WebId provided`, 'error', 5, state, dispatch);
       return;
     }
 
@@ -93,6 +94,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
 
     runNotification(
       `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
+      'succes',
       5,
       state,
       dispatch
@@ -115,6 +117,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     } finally {
       runNotification(
         `"${userObject.givenName} ${userObject.familyName}" added to client list`,
+        'error',
         5,
         state,
         dispatch
@@ -227,6 +230,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
           </DialogActions>
         </form>
       </FormSection>
+      <BasicNotification severity={state.severity} open={state.message} message={state.message}/>
     </Dialog>
   );
 };

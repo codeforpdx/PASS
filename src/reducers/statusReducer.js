@@ -21,6 +21,7 @@
 export const initialStatusState = {
   documentUrl: null,
   message: '',
+  severity: '',
   timeoutID: null,
   file: null,
   processing: false,
@@ -43,7 +44,7 @@ const statusReducer = (state, action) => {
     case 'SET_DOCUMENT_LOCATION':
       return { ...state, documentUrl: action.payload };
     case 'SET_MESSAGE':
-      return { ...state, message: action.payload };
+      return { ...state, message: action.payload, severity: action.payload.severity };
     case 'SET_TIMEOUT_ID':
       return { ...state, timeoutID: action.payload };
     case 'SET_PROCESSING':
