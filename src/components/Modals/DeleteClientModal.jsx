@@ -107,7 +107,7 @@ const DeleteClientModal = ({
           </DialogActions>
         </form>
       </FormSection>
-      <BasicNotification severity={state.severity} open={state.message} message={state.message}/>
+      <BasicNotification severity={state.severity} message={state.message} />
     </Dialog>
   );
 };
