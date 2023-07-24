@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, getByLabelText } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { expect, it, afterEach } from 'vitest';
 import { SessionContext } from '../../../src/contexts';
 import NavBar from '../../../src/components/NavBar/NavBar';
@@ -17,8 +17,8 @@ const resizeWindow = (x, y) => {
 };
 
 it('renders NavbarLoggedOut when user is not logged in', () => {
-  render(
-    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+  const { getByLabelText } = render(
+    <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
       <NavBar />
     </SessionContext.Provider>
   );
@@ -30,8 +30,8 @@ it('renders NavbarLoggedOut when user is not logged in', () => {
 it('renders NavbarDesktop when user is logged in on larger screen device', () => {
   resizeWindow(1200, 900);
 
-  render(
-    <SessionContext.Provider value={{ session: { info: { loggedIn: true } } }}>
+  const { getByLabelText } = render(
+    <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
       <NavBar />
     </SessionContext.Provider>
   );
@@ -44,8 +44,8 @@ it('renders NavbarDesktop when user is logged in on larger screen device', () =>
 it('renders NavbarMobile when user is logged in on smaller screen device', () => {
   resizeWindow(500, 900);
 
-  render(
-    <SessionContext.Provider value={{ session: { info: { loggedIn: true } } }}>
+  const { getByLabelText } = render(
+    <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
       <NavBar />
     </SessionContext.Provider>
   );
