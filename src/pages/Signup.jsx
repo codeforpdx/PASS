@@ -5,6 +5,7 @@ import { TextField, Button, CardHeader } from '@mui/material';
 import {
   buildThing,
   createThing,
+  getPodUrlAll,
   mockSolidDatasetFrom,
   saveSolidDatasetAt,
   setThing
@@ -67,9 +68,8 @@ export const registerPod = async (
 };
 
 export const subscribeToUser = async (userPodUrl, myProfile) => {
-  const { myWebId, myPodUrl, myEmail } = myProfile;
-  const [username] = myEmail.split('@');
-  const thing = buildThing(createThing({ name: username }))
+  const { myWebId, myPodUrl, myUsername } = myProfile;
+  const thing = buildThing(createThing({ name: myUsername }))
     .addUrl(RDF_PREDICATES.identifier, myWebId)
     .addUrl(RDF_PREDICATES.URL, myPodUrl)
     .build();
@@ -96,10 +96,12 @@ const Signup = () => {
       confirmPassword
     });
 
+    const username = email.split('@');
+
     await subscribeToUser(`${caseManagerPodUrl}PASS/`, {
       myWebId: webId,
       myPodUrl: podBaseUrl,
-      myEmail: email
+      myUsername: username
     });
   };
 
@@ -119,7 +121,18 @@ const Signup = () => {
 
   const completeLogin = async () => {
     const sessionInfo = await handleIncomingRedirect();
-    console.log(sessionInfo);
+    if (sessionInfo?.isLoggedIn) {
+      const caseManagerPodUrl = searchParams.get('podUrl');
+      let [podUrl] = await getPodUrlAll(sessionInfo.webId);
+      podUrl = podUrl ?? sessionInfo.webId.split('profile')[0];
+      const username = sessionInfo.webId;
+
+      await subscribeToUser(`${caseManagerPodUrl}PASS/`, {
+        myWebId: sessionInfo.webId,
+        myPodUrl: podUrl,
+        myUsername: username
+      });
+    }
   };
 
   useEffect(() => {
