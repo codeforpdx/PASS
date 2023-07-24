@@ -50,27 +50,44 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 1. Clone repo to local environment in IDE of choice. If you are new to Git/GitHub you can also check out [this article](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) for a broad overview.
    - Open terminal & change working directory to the location you want the repository cloned to.
-   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux)
-   - `git remote add origin https://github.com/codeforpdx/PASS.git` [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
+   - `git clone https://github.com/codeforpdx/PASS.git` [learn more about git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?platform=linux) This will set the git origin to `https://github.com/codeforpdx/PASS.git`. By default the branch is set to Master.
+ [learn more about git remote](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories)
+   - Change directory to the cloned directory, in this case /PASS: `cd ./PASS`
+   - Origin can be verified by running `git remote -v` which should show:
+      ```
+     origin https://github.com/codeforpdx/PASS.git (fetch)
+     origin https://github.com/codeforpdx/PASS.git (push)
+      ```
 
-2. Setup instructions to locally run PASS can be found in the [readme](../README.md).
-
-3. Create a new branch to work on your feature:
-    - `git checkout -b <your branch name> Development` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention `issue-\<number\>/\<branch name\>` 
-      > Example: `issue-112/delete-client-modal`
-    - `git pull origin Development` - to sync with PASS Development branch
-    - This can also be done directly from an issue in GitHub.
-
-      <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
-    - If done manually, link branch to corresponding GitHub issue.
-
-1. Work on feature in your own branch.
-
-2. When ready, push to GitHub
-
- - `git push origin <your branch name>`
+1. Create a new branch to work on your feature (We recommend doing this via terminal) Branches should all be based off of `Development`:
     
-6. Code Styling/Linting
+    A. `git switch Development` or `git checkout Development` - to switch to the Development branch.
+
+    B. `git checkout -b "<your branch name>"` [learn more about git branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout) using the recommended naming convention:`<issue number><branch name>` with a concise title.
+      > Example: `112/delete-client-modal`
+  
+  > This can also be done directly from an issue in GitHub with the following three steps(Default branch is Master and will need to be changed to Development). If done manually via command line, link branch to corresponding GitHub issue.
+  >
+  > A. Create a branch by clicking `create a branch` under Development within the issues page.
+  >
+  >  <img src="https://drive.google.com/uc?id=11zUuOYSkv8K0CJE_snet12YSdyLDKP8q" width="200"/>
+
+  > B. Select `change branch source`.
+  >
+  >  <img src="https://drive.google.com/uc?id=1ciU2NgtAjkEx3Pi5FnzxNxDjw0KkZXF-" width="200">
+
+  > C. Select Development as the base branch.
+  >
+  >  <img src="https://drive.google.com/uc?id=1rqRkau7lxTVEcwRFc8NcHRf-Z4U_lVxb" width="200">
+
+  - Work on feature in your own branch. Setup instructions to locally run PASS can be found in the [readme](../README.md).
+
+  - When feature is ready:
+    - run `git add .` to add all changed files in commit. or `git add <fileName>` to include an individual file.
+    - run `git commit -m "some message abut changes in commit"` with a concise message to describe what changes are included in the push.
+    -  push to GitHub in terminal: `git push origin <your branch name>`
+  
+1. Code Styling/Linting
 
    Linting and formatting for this project has also been setup using ESlint and Prettier. They are included as dependencies and will be installed while following the instructions of the readme. To lint your changes with ESLint follow the instructions [here](./README.md#linting)
 
@@ -78,11 +95,11 @@ By participating in this project, you are expected to uphold our [Code of Conduc
   
    If you are new to GitHub and/or the team, feel free to make your first pull request on the README/Contributing documentation to familiarize yourself with the project and GitHub. Add any comments and/or feedback and request reviews.
 
-1. Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
+-  Make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) to the `Development` branch. Request reviews from members of the team - you’ll need their approval to merge. \*\*Make sure to close your branch once merged.
 
 - Recommended reviewers:
-  - Development -- Jared K, Ka Hung L., Kevin M., Tim S., Scott B.
-  - Documentation -- Danica B, Jared K, Ka Hung L.
+  - Development -- Jared K, Ka Hung L, Kevin M, Tim S, Scott B
+  - Documentation -- Jared K, Ka Hung L
   - Include screenshots whenever you’re building a frontend feature.
 
 - ## Bug Reporting Template

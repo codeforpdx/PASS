@@ -3,7 +3,7 @@ import React from 'react';
 import { expect, it, afterEach, describe } from 'vitest';
 import { ThemeProvider } from '@mui/material/styles';
 
-import Home from '../../src/routes/Home';
+import Home from '../../src/pages/Home';
 import theme from '../../src/theme';
 
 const HomeWithContexts = () => (

@@ -29,7 +29,7 @@ To see the results on the Solid Client Server, navigate below to the Search Docu
 For developers new to a code base, often being pointed to where user interaction first interfaces with the code base is a good place to start. In the case of the barcode scanner functionality, this can be found within the UploadDocumentModal.jsx component within the src/components directory:
 
 ```
-src/components/Form/UploadDocumentModal.jsx
+src/components/Modals/UploadDocumentModal.jsx
 ```
 
 At the time of this writing, the line specific to uploading files can be found within the handler function within the UploadDocumentModal component, where the entry point of what happens when the user clicks on the "Upload file", as this triggers the handleFormSubmission function. This function in turn calls the makeHandleFormSubmission function found within the utils directory, where the majority of the barcode scanner logic lives:

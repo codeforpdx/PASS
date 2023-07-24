@@ -1,7 +1,5 @@
 // React Imports
 import React from 'react';
-// Solid Imports
-import { LogoutButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
+
+import LogoutButton from './LogoutButton';
 
 /**
  * LogoutModal Component - Popup modal for users to confirm
@@ -44,7 +44,6 @@ const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) =>
       >
         NO
       </Button>
-      {/* NECESSARY WRAPPER FOR SOLID/POD LOGOUT FUNCTIONALITY */}
       <LogoutButton>
         <Button
           variant="outlined"

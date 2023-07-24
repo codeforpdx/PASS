@@ -11,7 +11,7 @@ const React = require('react');
  * @typedef {object} statusMessageProps
  * @property {string} notification - File status message
  * @property {URL} [locationUrl] - URL location of file, if exist
- * @property {string} [filename] - Name of the file being processed
+ * @property {string|null} [filename] - Name of the file being processed
  * @memberof typedefs
  */
 
@@ -25,6 +25,8 @@ const React = require('react');
  * fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not
  * triggered
+ * @property {File|null} [file] - File object to be uploaded, if chosen, else
+ * returns null
  * @memberof typedefs
  */
 
@@ -51,7 +53,6 @@ const React = require('react');
  * @property {URL|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
- * @property {object|null} file - Object that includes file in question
  * @property {boolean} processing - Boolean on whether application is uploading,
  * fetching, querying data from Solid
  * @property {boolean} verifyFile - Boolean on whether to verify file upon file
@@ -95,6 +96,8 @@ const React = require('react');
  * (see {@link statusNotificationObject})
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
+ * @property {File|null} [file] - File object, if choosen for upload, else return
+ * null
  * @property {React.ReactElement} children - JSX Element of the wrapped form
  * @memberof typedefs
  */

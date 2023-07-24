@@ -80,7 +80,7 @@ const NavMenu = ({
           }
         >
           <NavLink
-            to="/PASS/profile"
+            to="/profile"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           >
             Profile
