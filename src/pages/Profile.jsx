@@ -79,8 +79,12 @@ const Profile = () => {
         <Typography>
           Your Signup Link:{' '}
           <Link
-            href={`${window.location.origin}/signup?webId=${encodeURIComponent(session.info.webId)}`}
-          >{`${window.location.origin}/signup?webId=${encodeURIComponent(session.info.webId)}`}</Link>
+            href={`${window.location.origin}/signup?webId=${encodeURIComponent(
+              session.info.webId
+            )}`}
+          >{`${window.location.origin}/signup?webId=${encodeURIComponent(
+            session.info.webId
+          )}`}</Link>
         </Typography>
         <Typography>
           Your WebId:{' '}

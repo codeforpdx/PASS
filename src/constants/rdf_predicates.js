@@ -27,6 +27,6 @@ const RDF_PREDICATES = {
   profileName: FOAF.name,
   profileImg: FOAF.img,
   nickname: FOAF.nick
-}
+};
 
 export default RDF_PREDICATES;

@@ -32,8 +32,8 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   const comparePerson = (a, b) => {
     if (!a.familyName) return -1;
     if (!b.familyName) return 1;
-    const [ aFam ] = a.familyName;
-    const [ bFam ] = b.familyName;
+    const [aFam] = a.familyName;
+    const [bFam] = b.familyName;
     if (aFam?.toLowerCase() < bFam?.toLowerCase()) {
       return -1;
     }

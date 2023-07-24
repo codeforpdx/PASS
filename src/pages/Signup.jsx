@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, CardHeader } from '@mui/material';
+import { TextField, Button, CardHeader, Slide, Alert } from '@mui/material';
 
 import {
   buildThing,
@@ -8,7 +8,7 @@ import {
   getPodUrlAll,
   mockSolidDatasetFrom,
   saveSolidDatasetAt,
-  setThing,
+  setThing
 } from '@inrupt/solid-client';
 
 import { RDF_PREDICATES } from '@constants';
@@ -22,7 +22,6 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { fetchProfileInfo } from '../model-helpers';
-
 /**
  * Signup - First screen in the user registration flow.
  * Allows users to either create a pod, or sign into an existing pod
@@ -89,10 +88,10 @@ const Signup = () => {
   const [searchParams] = useSearchParams();
   const [oidcIssuer, setOidcIssuer] = useState('');
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
-  const [ caseManagerPodUrl, setCaseManagerPodUrl ] = useState('');
-  const [profileData, setProfileData] = useState({}); 
+  const [caseManagerPodUrl, setCaseManagerPodUrl] = useState('');
+  const [profileData, setProfileData] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
   const registerAndSubscribe = async () => {
-
     const { webId, podBaseUrl } = await registerPod({
       email,
       password,
@@ -111,6 +110,7 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     registerAndSubscribe();
+    setShowAlert(true);
   };
 
   const startLogin = async () => {
@@ -133,6 +133,7 @@ const Signup = () => {
         myPodUrl: podUrl,
         myUsername: username
       });
+      setShowAlert(true);
     }
   };
 
@@ -140,7 +141,7 @@ const Signup = () => {
     setCaseManagerPodUrl(caseManagerWebId.split('profile'));
     const profile = await fetchProfileInfo(caseManagerWebId);
     setProfileData(profile.profileInfo);
-  }
+  };
 
   useEffect(() => {
     loadProfile();
@@ -267,6 +268,11 @@ const Signup = () => {
               Sign Into Pod
             </Button>
           </Card>
+          <Slide direction="up" in={showAlert} mountOnEnter unmountOnExit>
+            <Alert onClose={() => setShowAlert(false)}>
+              You have successfully registered with {profileData.profileName}
+            </Alert>
+          </Slide>
         </Paper>
       </Box>
     </Container>
