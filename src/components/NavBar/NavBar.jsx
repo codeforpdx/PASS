@@ -18,7 +18,7 @@ import NavbarMobile from './NavbarMobile';
  * @name NavBar
  */
 
-const NavBarNew = () => {
+const NavBar = () => {
   const { session } = useSession();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -48,4 +48,4 @@ const NavBarNew = () => {
   );
 };
 
-export default NavBarNew;
+export default NavBar;
