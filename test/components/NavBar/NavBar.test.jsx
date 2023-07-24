@@ -1,15 +1,17 @@
 import React from 'react';
 import { render, cleanup, getByLabelText } from '@testing-library/react';
-import { expect, it, vi, afterEach } from 'vitest';
-import NavBar from '../../../src/components/NavBar/NavBar';
+import { expect, it, afterEach } from 'vitest';
 import { useSession } from '@hooks';
+import NavBar from '../../../src/components/NavBar/NavBar';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
   cleanup();
 });
 
+// trying to produce a session context
 const { session } = useSession();
+const SessionContext = session.info.isLoggedIn;
 
 it('renders NavbarLoggedOut when user is not logged in', () => {
   render(
@@ -24,7 +26,7 @@ it('renders NavbarLoggedOut when user is not logged in', () => {
 
 it('renders NavbarDesktop when user is logged in on larger screen device', () => {
   render(
-    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+    <SessionContext.Provider value={{ session: { info: { loggedIn: true } } }}>
       <NavBar />
     </SessionContext.Provider>
   );
@@ -36,7 +38,7 @@ it('renders NavbarDesktop when user is logged in on larger screen device', () =>
 
 it('renders NavbarMobile when user is logged in on smaller screen device', () => {
   render(
-    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+    <SessionContext.Provider value={{ session: { info: { loggedIn: true } } }}>
       <NavBar />
     </SessionContext.Provider>
   );

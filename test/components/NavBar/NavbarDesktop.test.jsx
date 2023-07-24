@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-  waitForElementToBeRemoved,
-  queryByLabelText
-} from '@testing-library/react';
-import { expect, it, vi, afterEach } from 'vitest';
+import { render, cleanup, queryByLabelText } from '@testing-library/react';
+import { expect, it, afterEach } from 'vitest';
 import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
 
 // clear created dom after each test, to start fresh for next
