@@ -1,43 +1,47 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-  waitForElementToBeRemoved,
-  queryByLabelText
-} from '@testing-library/react';
+import { render, cleanup, getByLabelText } from '@testing-library/react';
 import { expect, it, vi, afterEach } from 'vitest';
 import NavBar from '../../../src/components/NavBar/NavBar';
-import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
-import NavbarMobile from '../../../src/components/NavBar/NavbarMobile';
-import NavbarLoggedOut from '../../../src/components/NavBar/NavbarLoggedOut';
+import { useSession } from '@hooks';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
   cleanup();
 });
 
+const { session } = useSession();
+
 it('renders NavbarLoggedOut when user is not logged in', () => {
-  render(<NavBar />);
+  render(
+    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+      <NavBar />
+    </SessionContext.Provider>
+  );
+  const loginButton = getByLabelText('Login Button');
 
-  // run a context where user is logged out
-
-  expect(<NavbarLoggedOut />).not.toBeNull();
+  expect(loginButton).not.toBeNull();
 });
 
 it('renders NavbarDesktop when user is logged in on larger screen device', () => {
-  render(<NavBar />);
-
-  // run a context where user is logged in
+  render(
+    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+      <NavBar />
+    </SessionContext.Provider>
+  );
   // run a media query for screen size above mobile
+  const iconMenu = getByLabelText('menu');
 
-  expect(<NavbarDesktop />).not.toBeNull();
+  expect(iconMenu).not.toBeNull();
 });
 
 it('renders NavbarMobile when user is logged in on smaller screen device', () => {
-  render(<NavBar />);
-
-  // run a context where user is logged in
+  render(
+    <SessionContext.Provider value={{ session: { info: { loggedIn: false } } }}>
+      <NavBar />
+    </SessionContext.Provider>
+  );
   // run a media query for screen size to be mobile
+  const hamburgerMenu = getByLabelText('mobile menu');
 
-  expect(<NavbarMobile />).not.toBeNull();
+  expect(hamburgerMenu).not.toBeNull();
 });
