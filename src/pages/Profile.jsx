@@ -26,7 +26,7 @@ import { ProfileInputField, ProfileImageField } from '../components/Profile';
 const Profile = () => {
   const location = useLocation();
   const { session } = useSession();
-  const { podUrl, updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
+  const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
 
   localStorage.setItem('restorePath', location.pathname);
@@ -37,7 +37,7 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
-    const profileDataSolid = await fetchProfileInfo(session);
+    const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
 
     setProfileName(profileDataSolid.profileInfo.profileName);
@@ -79,18 +79,16 @@ const Profile = () => {
         <Typography>
           Your Signup Link:{' '}
           <Link
-            href={`${window.location.origin}/signup?podUrl=${podUrl}`}
-          >{`${window.location.origin}/signup?podUrl=${podUrl}`}</Link>
+            href={`${window.location.origin}/signup?webId=${encodeURIComponent(session.info.webId)}`}
+          >{`${window.location.origin}/signup?webId=${encodeURIComponent(session.info.webId)}`}</Link>
         </Typography>
         <Typography>
-          User WebId:{' '}
+          Your WebId:{' '}
           <Link href={session.info.webId} target="_blank" rel="noreferrer">
             {session.info.webId}
           </Link>
         </Typography>
 
-        {/* TODO: Refactor/optimize the form below once we have more input */}
-        {/* fields to update profile for */}
         <Box style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <form onSubmit={handleUpdateProfile}>
             <Box

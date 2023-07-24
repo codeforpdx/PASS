@@ -8,7 +8,7 @@ import {
   getPodUrlAll,
   mockSolidDatasetFrom,
   saveSolidDatasetAt,
-  setThing
+  setThing,
 } from '@inrupt/solid-client';
 
 import { RDF_PREDICATES } from '@constants';
@@ -21,6 +21,7 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { fetchProfileInfo } from '../model-helpers';
 
 /**
  * Signup - First screen in the user registration flow.
@@ -87,8 +88,10 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [searchParams] = useSearchParams();
   const [oidcIssuer, setOidcIssuer] = useState('');
+  const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
+  const [ caseManagerPodUrl, setCaseManagerPodUrl ] = useState('');
+  const [profileData, setProfileData] = useState({}); 
   const registerAndSubscribe = async () => {
-    const caseManagerPodUrl = searchParams.get('podUrl');
 
     const { webId, podBaseUrl } = await registerPod({
       email,
@@ -105,7 +108,6 @@ const Signup = () => {
     });
   };
 
-  // Event handler for adding user from users list
   const handleSubmit = async (event) => {
     event.preventDefault();
     registerAndSubscribe();
@@ -122,7 +124,6 @@ const Signup = () => {
   const completeLogin = async () => {
     const sessionInfo = await handleIncomingRedirect();
     if (sessionInfo?.isLoggedIn) {
-      const caseManagerPodUrl = searchParams.get('podUrl');
       let [podUrl] = await getPodUrlAll(sessionInfo.webId);
       podUrl = podUrl ?? sessionInfo.webId.split('profile')[0];
       const username = sessionInfo.webId;
@@ -135,7 +136,14 @@ const Signup = () => {
     }
   };
 
+  const loadProfile = async () => {
+    setCaseManagerPodUrl(caseManagerWebId.split('profile'));
+    const profile = await fetchProfileInfo(caseManagerWebId);
+    setProfileData(profile.profileInfo);
+  }
+
   useEffect(() => {
+    loadProfile();
     completeLogin();
   }, []);
 
@@ -170,7 +178,7 @@ const Signup = () => {
           >
             Register For PASS
           </Typography>
-          <p>You will register with {searchParams.get('podUrl')}</p>
+          <p>You will register with {profileData.profileName ?? searchParams.get('webId')}</p>
           <Card
             variant="outlined"
             sx={{

@@ -30,10 +30,14 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   const { userListObject } = useContext(UserListContext);
 
   const comparePerson = (a, b) => {
-    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
+    if (!a.familyName) return -1;
+    if (!b.familyName) return 1;
+    const [ aFam ] = a.familyName;
+    const [ bFam ] = b.familyName;
+    if (aFam?.toLowerCase() < bFam?.toLowerCase()) {
       return -1;
     }
-    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
+    if (aFam?.toLowerCase() > bFam?.toLowerCase()) {
       return 1;
     }
     return 0;

@@ -44,7 +44,7 @@ const ProfileImageField = ({ loadProfileData }) => {
   const handleProfileImage = async (event) => {
     await uploadProfileImage(session, profileData, event.target.files[0]);
 
-    const updatedProfileData = await fetchProfileInfo(session);
+    const updatedProfileData = await fetchProfileInfo(session.info.webId);
     localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
     setProfileImg(updatedProfileData.profileInfo.profileImage);
 
