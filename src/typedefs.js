@@ -202,15 +202,6 @@ const React = require('react');
  */
 
 /**
- * profilePageProps is an object that stores the props for the Profile Page
- *
- * @exports profilePageProps
- * @typedef {object} profilePageProps
- * @property {string} user - Type of user
- * @memberof typedefs
- */
-
-/**
  * clientListTableProps is an object that stores the props for the
  * ClientListTable component
  *
