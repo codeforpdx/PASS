@@ -32,16 +32,16 @@ const ProfileComponent = ({ clientProfile }) => {
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
 
-  const [profileName, setProfileName] = useState(profileData?.profileInfo.profileName);
-  const [nickname, setNickname] = useState(profileData?.profileInfo.nickname);
+  const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
+  const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
 
-    setProfileName(profileDataSolid.profileInfo.profileName);
-    setNickname(profileDataSolid.profileInfo.nickname);
+    setProfileName(profileDataSolid.profileInfo?.profileName);
+    setNickname(profileDataSolid.profileInfo?.nickname);
   };
 
   const handleCancelEdit = () => {
@@ -101,7 +101,7 @@ const ProfileComponent = ({ clientProfile }) => {
             inputName="Name"
             inputValue={
               clientProfile
-                ? `${clientProfile?.givenName} ${clientProfile.familyName}`
+                ? `${clientProfile?.givenName ?? ''} ${clientProfile?.familyName ?? ''}`
                 : profileName
             }
             setInputValue={setProfileName}
@@ -110,7 +110,7 @@ const ProfileComponent = ({ clientProfile }) => {
           />
           <ProfileInputField
             inputName="Nickname"
-            inputValue={clientProfile ? `${clientProfile?.nickname || 'No value set'}` : nickname}
+            inputValue={clientProfile ? clientProfile?.nickname : nickname}
             setInputValue={setNickname}
             edit={edit}
             disabled={clientProfile}
