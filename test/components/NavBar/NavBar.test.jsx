@@ -6,25 +6,23 @@ import { expect, it, afterEach, describe } from 'vitest';
 import { SessionContext } from '@contexts';
 import NavBar from '../../../src/components/NavBar/NavBar';
 
-const createMatchMedia = (width) => (
-  (query) => ({
-    matches: mediaQuery.match(query, { width }),
-    addListener: () => {},
-    removeListener: () => {}
-  })
-);
+const createMatchMedia = (width) => (query) => ({
+  matches: mediaQuery.match(query, { width }),
+  addListener: () => {},
+  removeListener: () => {}
+});
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
   cleanup();
 });
 
-describe("login tests", () => {
+describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {
     const { getByLabelText } = render(
-        <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
-          <NavBar />
-        </SessionContext.Provider>
+      <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
+        <NavBar />
+      </SessionContext.Provider>
     );
     const loginButton = getByLabelText('Login Button');
 
@@ -32,7 +30,7 @@ describe("login tests", () => {
   });
 });
 
-describe("resize tests", () => {
+describe('resize tests', () => {
   it('renders NavbarDesktop when user is logged in on larger screen device', () => {
     window.matchMedia = createMatchMedia(1200);
 
