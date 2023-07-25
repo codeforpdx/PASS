@@ -41,6 +41,7 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
+  //   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
     recipientUsername: '',
@@ -103,6 +104,7 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => setShowModal(false)}
+      // onClose={() => setShowConfirmation(false)}
     >
       <Box
         // component="form"
@@ -173,6 +175,7 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
               color="error"
               startIcon={<ClearIcon />}
               onClick={() => setShowModal(false)}
+              // onClick={closeForm}
               fullWidth
             >
               CANCEL
@@ -190,7 +193,6 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
 
           {error && <div>{error}</div>}
           {success && successTimeout && <div>{success}</div>}
-          {/* </Box> */}
         </form>
       </Box>
     </Dialog>

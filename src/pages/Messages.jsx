@@ -76,8 +76,8 @@ const Messages = () => {
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
         <Button
           variant="contained"
-          // onClick={() => setShowModal(!showModal)}
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowModal(!showModal)}
+          // onClick={() => setShowModal(true)}
           startIcon={<CreateIcon />}
           sx={{
             backgroundColor: 'secondary.main',
@@ -104,7 +104,8 @@ const Messages = () => {
         loadMessages={loadMessages}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
-      {showModal && <NewMessageModal closeForm={() => setShowModal(!showModal)} />}
+      {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
+      {/* <NewMessageModal closeForm={() => setShowModal(!showModal)} />} */}
     </Box>
   );
 };
