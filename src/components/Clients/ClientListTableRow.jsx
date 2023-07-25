@@ -59,13 +59,16 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
           </Button>
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={handlePinClick}>
+      <StyledTableCell
+        align="center"
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <IconButton size="large" onClick={handlePinClick}>
           {pinnedIcon}
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={handleSelectClientToDelete}>
+        <IconButton size="large" onClick={handleSelectClientToDelete}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>

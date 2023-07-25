@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 // Component Imports
@@ -22,19 +23,33 @@ const Clients = () => {
   localStorage.setItem('restorePath', '/clients');
 
   return (
-    <Container>
-      <Button
-        variant="contained"
-        color="secondary"
-        size="small"
-        aria-label="Add Client Button"
-        startIcon={<AddIcon />}
-        onClick={() => setShowAddClientModal(true)}
-        sx={{ marginTop: '3rem' }}
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start'
+        }}
       >
-        Add Client
-      </Button>
-      <ClientList />
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          aria-label="Add Client Button"
+          startIcon={<AddIcon />}
+          onClick={() => setShowAddClientModal(true)}
+          sx={{ marginTop: '3rem' }}
+        >
+          Add Client
+        </Button>
+        <ClientList />
+      </Box>
 
       {/* modal/popup renders when showAddClientModal state is true */}
       <AddClientModal
