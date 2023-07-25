@@ -19,33 +19,26 @@ import { ProfileComponent } from '../components/Profile';
 import { LoadingAnimation } from '../components/Notification';
 
 /**
- * @typedef {import("../typedefs.js").profilePageProps} profilePageProps
- */
-
-/**
  * Profile Page - Page that displays the user's profile card information and
  * allow users to edit/update them on PASS
  *
  * @memberof Pages
  * @name Profile
- * @param {profilePageProps} Props - Props for Profile Page
  * @returns {React.JSX.Element} The Profile Page
  */
-const Profile = ({ user }) => {
+const Profile = () => {
   // Route related states
   const location = useLocation();
-  localStorage.setItem('restorePath', user === 'personal' ? '/profile' : '/clients');
+  localStorage.setItem('restorePath', '/profile');
 
   // Documents related states
   const { session } = useSession();
   const [showModal, setShowModal] = useState(false);
 
-  // Client related states
+  // Profile related states
   const client = location.state?.client;
   const [clientProfile, setClientProfile] = useState(null);
-  const webIdUrl = user === 'personal' ? session.info.webId : client?.webId;
-
-  // Profile related states
+  const webIdUrl = client?.webId ?? session.info.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
@@ -54,7 +47,11 @@ const Profile = ({ user }) => {
       setClientProfile({ ...client, ...profileData.profileInfo });
     };
 
-    if (client) fetchClientProfile();
+    if (client) {
+      fetchClientProfile();
+    } else {
+      setClientProfile(null);
+    }
   }, [client]);
 
   useEffect(() => {

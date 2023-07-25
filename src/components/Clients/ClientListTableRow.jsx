@@ -50,7 +50,7 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
     <StyledTableRow>
       <StyledTableCell align="center">
         <Link
-          to={`/clients/${encodeURIComponent(client.webId)}`}
+          to={`/profile/${encodeURIComponent(client.webId)}`}
           state={{ client }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >

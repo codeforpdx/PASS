@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -82,13 +82,14 @@ const NavMenu = ({
             />
           }
         >
-          <NavLink
+          <Link
             to="/profile"
+            state={{ client: null }}
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
             onClick={() => setClient(null)}
           >
             Profile
-          </NavLink>
+          </Link>
         </MenuItem>
         <Divider />
         <MenuItem
