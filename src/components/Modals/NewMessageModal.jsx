@@ -20,9 +20,9 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  * messageFolderProps is an object that stores the props for the MessageFolder
  * component
  *
- * @typedef newMessageProps
+ * @typedef newMessageModalProps
  * @type {object}
- * @property {() => void} closeForm - The function used to trigger NewMessage to
+ * @property {() => void} closeForm - The function used to trigger NewMessageModal to
  * close
  * @memberof typedefs
  */
@@ -33,20 +33,22 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  *
  * @memberof Modals
  * @name NewMessageModal
- * @param {newMessageProps} Props - Props used for NewMessage
- * @returns {React.JSX.Element} React component for NewMessage
+ * @param {newMessageModalProps} Props - Props used for NewMessageModal
+ * @returns {React.JSX.Element} React component for NewMessageModal
  */
 
-const NewMessageModal = ({ showModal, setShowModal }) => {
+const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
-  //   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
+  const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
-    recipientUsername: '',
-    title: '',
-    message: ''
+    recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
+    title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
+    message: '',
+    inReplyTo: oldMessage ? oldMessage.messageId : '',
+    messageUrl: oldMessage ? oldMessage.messageUrl : ''
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -66,8 +68,8 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
 
     if (!message.title) {
       setError('Please enter a value for Message Title');
-    } else if (!message.recipientUsername) {
-      setError('Please enter a value for Recipient Username');
+    } else if (!message.recipientPodUrl) {
+      setError('Please enter a value for Recipient Pod URL');
     } else if (!message.message) {
       setError('Please enter a value for the Message');
     } else {
@@ -75,12 +77,12 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
         await sendMessageTTL(session, message, podUrl);
 
         setMessage({
-          recipientUsername: '',
+          recipientPodUrl: '',
           title: '',
           message: ''
         });
         setError('');
-        setSuccess(`Message successfully sent to ${message.recipientUsername}`);
+        setSuccess(`Message successfully sent to ${message.recipientPodUrl}`);
         setSuccessTimeout(true);
         setTimeout(() => {
           setSuccessTimeout(false);
@@ -88,6 +90,8 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
         setError(err.message);
+      } finally {
+        setOriginalMessage('');
       }
     }
 
@@ -123,16 +127,16 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
       >
         <form onSubmit={(e) => handleSubmit(e)} autoComplete="off">
           <Typography display="flex" justifyContent="center" variant="h5">
-            New Message
+            {oldMessage ? 'Reply To' : 'New Message'}
           </Typography>
           {/* <Box component="form" onSubmit={handleSubmit} noValidate> */}
           {/* <label htmlFor="recipientUsername">To*: </label> */}
           <TextField
             margin="normal"
-            value={message.recipientUsername}
+            value={message.recipientPodUrl}
             type="text"
-            name="recipientUsername"
-            id="recipientUsername"
+            name="recipientPodUrl"
+            id="recipientPodUrl"
             onChange={(e) => handleChange(e)}
             required
             autoFocus
@@ -154,16 +158,19 @@ const NewMessageModal = ({ showModal, setShowModal }) => {
             fullWidth
           />
 
+          <div>{oldMessage && originalMessage}</div>
+
           {/* <label htmlFor="message">Message*: </label> */}
           <TextField
             margin="normal"
+            value={message.message}
+            type="text"
             name="message"
             id="message"
+            onChange={(e) => handleChange(e)}
             multiline
             rows={6}
             label="Enter Message"
-            value={message.message}
-            onChange={(e) => handleChange(e)}
             placeholder="Add a description here"
             required
             fullWidth

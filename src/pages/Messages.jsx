@@ -77,7 +77,6 @@ const Messages = () => {
         <Button
           variant="contained"
           onClick={() => setShowModal(!showModal)}
-          // onClick={() => setShowModal(true)}
           startIcon={<CreateIcon />}
           sx={{
             backgroundColor: 'secondary.main',

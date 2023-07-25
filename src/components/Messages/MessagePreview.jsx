@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 // Component Imports
 // import NewMessage from './NewMessage';
-import NewMessageModal from '../Modals';
+import { NewMessageModal } from '../Modals';
 
 /**
  * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
