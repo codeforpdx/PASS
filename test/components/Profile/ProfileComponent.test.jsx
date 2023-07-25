@@ -17,32 +17,28 @@ const mockSignedInUserContextMemo = {
   updateProfileInfo: vi.fn(),
   setProfileData: vi.fn(),
   profileData: {
-    profileInfo
+    profileInfo: {
+      profileName: null,
+      nickname: null,
+      profileImg: null
+    }
   },
-  fetchProfileInfo: vi
-    .spyOn(profileHelper, 'fetchProfileInfo')
-    .mockResolvedValue({ profileData: profileInfo })
+  fetchProfileInfo: vi.spyOn(profileHelper, 'fetchProfileInfo').mockResolvedValue({
+    profileData: profileInfo
+  })
 };
-
-const MockProfileComponent = ({ mockClientProfile }) => (
-  <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-    <ProfileComponent clientProfile={mockClientProfile} />
-  </SignedInUserContext.Provider>
-);
 
 describe('ProfileComponent', () => {
   afterEach(() => cleanup());
 
-  it('renders edit button for ProfileInputFields when clientProfile is null', () => {
-    const { queryByRole } = render(<MockProfileComponent mockClientProfile={null} />);
-    const editButton = queryByRole('button', { name: 'Edit' });
-
-    expect(editButton).not.toBeNull();
-  });
-
   it('renders cancel and update buttons after clicking on edit button', async () => {
-    const { queryByRole } = render(<MockProfileComponent mockClientProfile={null} />);
+    const { queryByRole } = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent clientProfile={null} />
+      </SignedInUserContext.Provider>
+    );
     let editButton = queryByRole('button', { name: 'Edit' });
+    expect(editButton).not.toBeNull();
 
     const user = userEvent.setup();
     await user.click(editButton);
@@ -58,7 +54,11 @@ describe('ProfileComponent', () => {
   });
 
   it('renders edit buttons after clicking on cancel button', async () => {
-    const { queryByRole } = render(<MockProfileComponent mockClientProfile={null} />);
+    const { queryByRole } = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent clientProfile={null} />
+      </SignedInUserContext.Provider>
+    );
     let editButton = queryByRole('button', { name: 'Edit' });
     let cancelButton;
 
@@ -76,7 +76,11 @@ describe('ProfileComponent', () => {
   });
 
   it('renders no edit button for ProfileInputFields in clientProfile is not null', () => {
-    const { queryByRole } = render(<MockProfileComponent mockClientProfile={{}} />);
+    const { queryByRole } = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent clientProfile={{}} />
+      </SignedInUserContext.Provider>
+    );
     const editButton = queryByRole('button', { name: 'Edit' });
 
     expect(editButton).toBeNull();
