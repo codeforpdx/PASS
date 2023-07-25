@@ -31,7 +31,7 @@ const mockSignedInUserContextMemo = {
 describe('ProfileComponent', () => {
   afterEach(() => cleanup());
 
-  it('renders cancel and update buttons after clicking on edit button', async () => {
+  it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
         <ProfileComponent clientProfile={null} />
@@ -61,15 +61,20 @@ describe('ProfileComponent', () => {
     );
     let editButton = queryByRole('button', { name: 'Edit' });
     let cancelButton;
+    let updateButton;
 
     const user = userEvent.setup();
     await user.click(editButton);
 
+    updateButton = queryByRole('button', { name: 'Update' });
     cancelButton = queryByRole('button', { name: 'Cancel' });
     await user.click(cancelButton);
 
     editButton = queryByRole('button', { name: 'Edit' });
     expect(editButton).not.toBeNull();
+
+    updateButton = queryByRole('button', { name: 'Update' });
+    expect(updateButton).toBeNull();
 
     cancelButton = queryByRole('button', { name: 'Cancel' });
     expect(cancelButton).toBeNull();
