@@ -20,20 +20,15 @@ import { SignedInUserContext } from '@contexts';
 import FormSection from './FormSection';
 
 /**
- * @typedef {import("../../typedefs.js").setAclPermsDocContainerFormProps} setAclPermsDocContainerFormProps
- */
-
-/**
  * SetAclPermsDocContainerForm Component - Component that generates the form for
  * setting ACL permissions to another user's Documents container in their Solid
  * Pod via Solid Session
  *
  * @memberof Forms
  * @name SetAclPermsDocContainerForm
- * @param {setAclPermsDocContainerFormProps} Props - Props for component
  * @returns {React.JSX.Element} The SetAclPermsDocContainerForm Component
  */
-const SetAclPermsDocContainerForm = ({ client }) => {
+const SetAclPermsDocContainerForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [username, setUsername] = useState('');
@@ -53,11 +48,7 @@ const SetAclPermsDocContainerForm = ({ client }) => {
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    let otherPodUsername = event.target.setAclTo.value;
-
-    if (!otherPodUsername) {
-      otherPodUsername = client?.username;
-    }
+    const otherPodUsername = event.target.setAclTo.value;
 
     if (!otherPodUsername) {
       runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
@@ -88,29 +79,20 @@ const SetAclPermsDocContainerForm = ({ client }) => {
       return;
     }
 
-    // Routine for setting permissions to Documents
-    if (!client) {
-      try {
-        await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
+    try {
+      await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
 
-        runNotification(
-          `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-            client?.person ?? username
-          } for Documents Container.`,
-          5,
-          state,
-          dispatch
-        );
-      } catch (error) {
-        runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
-      } finally {
-        setTimeout(() => {
-          clearInputFields();
-        }, 3000);
-      }
-    } else {
-      // Routine for requesting permissions to Documents
-      // TODO: Create request permissions function for Documents
+      runNotification(
+        `${
+          permissions.read ? 'Give' : 'Revoke'
+        } permission to ${username} for Documents Container.`,
+        5,
+        state,
+        dispatch
+      );
+    } catch (error) {
+      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+    } finally {
       setTimeout(() => {
         clearInputFields();
       }, 3000);
@@ -119,7 +101,7 @@ const SetAclPermsDocContainerForm = ({ client }) => {
 
   return (
     <FormSection
-      title={`${client ? 'Request' : 'Set'} Permission to Documents`}
+      title="Set Permission to Documents"
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -127,15 +109,13 @@ const SetAclPermsDocContainerForm = ({ client }) => {
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl>
-            <Typography htmlFor="set-acl-to">
-              {client ? 'Request' : 'Set'} permissions to username:
-            </Typography>
+            <Typography htmlFor="set-acl-to">Set permissions to username:</Typography>
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={client ? client?.username : username}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={client ? client?.username : username}
+              placeholder={username}
               label="Search Username"
               required
             />
@@ -165,7 +145,7 @@ const SetAclPermsDocContainerForm = ({ client }) => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              {client ? 'Request' : 'Set'} Permission
+              Set Permission
             </Button>
           </FormControl>
         </form>

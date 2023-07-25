@@ -101,8 +101,12 @@ const Profile = () => {
         </Button>
         <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
         <DocumentTable />
-        <SetAclPermsDocContainerForm client={client} />
-        <SetAclPermissionForm client={client} />
+        {!client && (
+          <>
+            <SetAclPermsDocContainerForm />
+            <SetAclPermissionForm />
+          </>
+        )}
       </Box>
     </Box>
   );

@@ -21,19 +21,14 @@ import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
 
 /**
- * @typedef {import("../../typedefs.js").setAclPermissionFormProps} setAclPermissionFormProps
- */
-
-/**
  * SetAclPermissionForm Component - Component that generates the form for setting
  * document ACL permissions to another user's Solid Pod via Solid Session
  *
  * @memberof Forms
  * @name SetAclPermissionForm
- * @param {setAclPermissionFormProps} Props - Props for SetAclPermissionForm
  * @returns {React.JSX.Element} The SetAclPermissionForm Component
  */
-const SetAclPermissionForm = ({ client }) => {
+const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const [username, setUsername] = useState('');
@@ -55,11 +50,7 @@ const SetAclPermissionForm = ({ client }) => {
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
-    let podUsername = event.target.setAclTo.value;
-
-    if (!podUsername) {
-      podUsername = client?.username;
-    }
+    const podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
       runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
@@ -98,29 +89,18 @@ const SetAclPermissionForm = ({ client }) => {
       return;
     }
 
-    // Routine for setting permissions to specific files
-    if (!client) {
-      try {
-        await setDocAclPermission(session, docType, permissions, podUsername);
+    try {
+      await setDocAclPermission(session, docType, permissions, podUsername);
 
-        runNotification(
-          `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-            client?.person ?? username
-          } for ${docType}.`,
-          5,
-          state,
-          dispatch
-        );
-      } catch (error) {
-        runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
-      } finally {
-        setTimeout(() => {
-          clearInputFields();
-        }, 3000);
-      }
-    } else {
-      // Routine for requesting permissions to specific file
-      // TODO: Create request permissions function for specific file
+      runNotification(
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${username} for ${docType}.`,
+        5,
+        state,
+        dispatch
+      );
+    } catch (error) {
+      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+    } finally {
       setTimeout(() => {
         clearInputFields();
       }, 3000);
@@ -129,7 +109,7 @@ const SetAclPermissionForm = ({ client }) => {
 
   return (
     <FormSection
-      title={`${client ? 'Request' : 'Set'} Permission to File`}
+      title="Set Permission to File"
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -141,9 +121,9 @@ const SetAclPermissionForm = ({ client }) => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={client ? client?.username : username}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={client ? client?.username : username}
+              placeholder={username}
               label="Search Username"
               required
             />
@@ -173,7 +153,7 @@ const SetAclPermissionForm = ({ client }) => {
               />
             </RadioGroup>
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
-              {client ? 'Request' : 'Set'} Permission
+              Set Permission
             </Button>
           </FormControl>
         </form>
