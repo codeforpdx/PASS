@@ -150,7 +150,6 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     registerAndLogin();
-    setShowAlert(true);
   };
 
   const startLogin = async () => {
