@@ -2,7 +2,7 @@
 import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
 import { createSolidDataset } from '@inrupt/solid-client';
 // Inrupt Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 
 // Context Imports
 import { SelectedUserContext } from './SelectedUserContext';

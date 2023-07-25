@@ -29,6 +29,20 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
+  const comparePerson = (a, b) => {
+    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
+      return -1;
+    }
+    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const userListCopy = [...userListObject.userList];
+
+  const sortedUserList = userListCopy.sort(comparePerson);
+
   return (
     <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
       <Table aria-label="client list table">
@@ -42,7 +56,7 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
           </TableRow>
         </TableHead>
         <TableBody>
-          {userListObject?.userList.map((client, index) => {
+          {sortedUserList?.map((client, index) => {
             const labelId = `clientlist-checkbox-${index}`;
             return (
               <ClientListTableRow

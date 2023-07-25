@@ -74,11 +74,11 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       date: expireDate,
       description: docDescription
     };
-    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+    runNotification(`Uploading file to Solid...`, 3, state, dispatch);
 
     try {
       await addDocument(fileDesc, file);
-      runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
+      runNotification(`File uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
         'A file of this name and type already exists on the pod. Would you like to replace it?';
@@ -87,7 +87,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
             await replaceDocument(fileDesc, file);
-            runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+            runNotification(`File updated on Solid.`, 5, state, dispatch);
           }
           break;
         default:
@@ -105,6 +105,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         state={state}
         statusType="Upload status"
         defaultMessage="To be uploaded..."
+        file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel

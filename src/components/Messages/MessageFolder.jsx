@@ -1,12 +1,14 @@
 // React Imports
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-// Styling Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { PaginationContainer } from './MessageStyles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // Component Imports
 import MessagePreview from './MessagePreview';
+import { PaginationContainer } from './MessageStyles';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
@@ -82,12 +84,19 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         <PaginationContainer>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel={<ChevronRightIcon />}
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount === 0 ? 1 : pageCount}
-            previousLabel="< previous"
+            previousLabel={<ChevronLeftIcon />}
             renderOnZeroPageCount={null}
+            className="pagination"
+            previousLinkClassName="page-red"
+            previousClassName="chevron"
+            nextLinkClassName="page-red"
+            nextClassName="chevron"
+            pageLinkClassName="page-green"
+            activeLinkClassName="active-page"
           />
         </PaginationContainer>
       </Box>

@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
 // Styling Imports
 import {
   CancelButton,
