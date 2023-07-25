@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 // Component Imports
-import NewMessage from './NewMessage';
+import NewMessageModal from '../Modals';
 
 /**
  * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
@@ -61,7 +61,9 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Box>
       )}
-      {replyMessage && <NewMessage oldMessage={message} closeForm={() => setReplyMessage(false)} />}
+      {replyMessage && (
+        <NewMessageModal oldMessage={message} closeForm={() => setReplyMessage(false)} />
+      )}
     </StyledPreview>
   );
 };
