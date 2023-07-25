@@ -108,12 +108,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => setShowModal(false)}
-      // onClose={() => setShowConfirmation(false)}
     >
       <Box
-        // component="form"
-        // maxWidth="xs"
-        // onSubmit={handleSubmit}
         noValidate
         sx={{
           display: 'flex',
@@ -129,8 +125,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
           <Typography display="flex" justifyContent="center" variant="h5">
             {oldMessage ? 'Reply To' : 'New Message'}
           </Typography>
-          {/* <Box component="form" onSubmit={handleSubmit} noValidate> */}
-          {/* <label htmlFor="recipientUsername">To*: </label> */}
           <TextField
             margin="normal"
             value={message.recipientPodUrl}
@@ -158,9 +152,16 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             fullWidth
           />
 
-          <div>{oldMessage && originalMessage}</div>
+          <TextField
+            margin="normal"
+            value={oldMessage && originalMessage}
+            type="oldMessage"
+            name="oldMessage"
+            id="oldMessage"
+            label="Old Message"
+            fullWidth
+          />
 
-          {/* <label htmlFor="message">Message*: </label> */}
           <TextField
             margin="normal"
             value={message.message}
@@ -182,7 +183,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
               color="error"
               startIcon={<ClearIcon />}
               onClick={() => setShowModal(false)}
-              // onClick={closeForm}
               fullWidth
             >
               CANCEL
