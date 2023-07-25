@@ -38,7 +38,13 @@ const textFieldStyle = {
   margin: '8px'
 };
 
-export const registerPod = async (
+const cardStyle = {
+  padding: '8px',
+  margin: '8px',
+  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+};
+
+const registerPod = async (
   { email, password, confirmPassword },
   oidcProvider = import.meta.env.VITE_SOLID_POD_SERVER
 ) => {
@@ -67,7 +73,7 @@ export const registerPod = async (
   return response.json();
 };
 
-export const subscribeToUser = async (userPodUrl, myProfile) => {
+const subscribeToUser = async (userPodUrl, myProfile) => {
   const { myWebId, myPodUrl, myUsername } = myProfile;
   const thing = buildThing(createThing({ name: myUsername }))
     .addUrl(RDF_PREDICATES.identifier, myWebId)
@@ -91,6 +97,7 @@ const Signup = () => {
   const [caseManagerPodUrl, setCaseManagerPodUrl] = useState('');
   const [profileData, setProfileData] = useState({});
   const [showAlert, setShowAlert] = useState(false);
+
   const registerAndSubscribe = async () => {
     const { webId, podBaseUrl } = await registerPod({
       email,
@@ -180,14 +187,7 @@ const Signup = () => {
             Register For PASS
           </Typography>
           <p>You will register with {profileData.profileName ?? searchParams.get('webId')}</p>
-          <Card
-            variant="outlined"
-            sx={{
-              padding: '8px',
-              margin: '8px',
-              boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-            }}
-          >
+          <Card variant="outlined" sx={cardStyle}>
             <CardHeader title="Set Up a New Pod" />
 
             <form onSubmit={handleSubmit} style={formRowStyle} autoComplete="off">
@@ -232,14 +232,7 @@ const Signup = () => {
               </Button>
             </form>
           </Card>
-          <Card
-            variant="outlined"
-            sx={{
-              margin: '8px',
-              padding: '8px',
-              boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-            }}
-          >
+          <Card variant="outlined" sx={cardStyle}>
             <CardHeader title="Use an Existing Pod" />
             <TextField
               style={textFieldStyle}
