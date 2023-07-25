@@ -97,26 +97,24 @@ const ProfileComponent = ({ clientProfile }) => {
             gap: '10px'
           }}
         >
-          <>
-            <ProfileInputField
-              inputName="Name"
-              inputValue={
-                clientProfile
-                  ? `${clientProfile?.givenName} ${clientProfile.familyName}`
-                  : profileName
-              }
-              setInputValue={setProfileName}
-              edit={edit}
-              disabled={clientProfile}
-            />
-            <ProfileInputField
-              inputName="Nickname"
-              inputValue={clientProfile ? `${clientProfile?.nickname || 'No value set'}` : nickname}
-              setInputValue={setNickname}
-              edit={edit}
-              disabled={clientProfile}
-            />
-          </>
+          <ProfileInputField
+            inputName="Name"
+            inputValue={
+              clientProfile
+                ? `${clientProfile?.givenName} ${clientProfile.familyName}`
+                : profileName
+            }
+            setInputValue={setProfileName}
+            edit={edit}
+            disabled={clientProfile}
+          />
+          <ProfileInputField
+            inputName="Nickname"
+            inputValue={clientProfile ? `${clientProfile?.nickname || 'No value set'}` : nickname}
+            setInputValue={setNickname}
+            edit={edit}
+            disabled={clientProfile}
+          />
         </Box>
         {!clientProfile && (
           <Box
