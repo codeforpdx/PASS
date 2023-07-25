@@ -8,7 +8,8 @@ import {
   getThing,
   removeThing,
   deleteFile,
-  getSourceUrl
+  getSourceUrl,
+  createContainerAt
 } from '@inrupt/solid-client';
 
 import { makeDocIntoThing, parseDocFromThing } from './Document';
@@ -89,10 +90,20 @@ export const addDocument = async (docDesc, file, { docList, dataset, containerUr
     containerUrl
   };
 
-  const savedFile = await saveFileInContainer(`${containerUrl}`, file, {
-    fetch: session.fetch,
-    slug: file.name.replaceAll(' ', '%20')
-  });
+  let savedFile;
+
+  try {
+    savedFile = await saveFileInContainer(containerUrl, file, {
+      fetch: session.fetch,
+      slug: file.name.replaceAll(' ', '%20')
+    });
+  } catch {
+    createContainerAt(containerUrl, { fetch: session.fetch });
+    savedFile = await saveFileInContainer(containerUrl, file, {
+      fetch: session.fetch,
+      slug: file.name.replaceAll(' ', '%20')
+    });
+  }
 
   // Saving file path to source URL after saving to cover edge cases with .jpg/.jpeg
   const savedFilePath = getSourceUrl(savedFile);

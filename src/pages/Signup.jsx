@@ -4,16 +4,27 @@ import { TextField, Button, CardHeader, Slide, Alert } from '@mui/material';
 
 import {
   buildThing,
+  createAcl,
+  createContainerAt,
   createThing,
   getPodUrlAll,
+  getSolidDatasetWithAcl,
+  getResourceAcl,
   mockSolidDatasetFrom,
   saveSolidDatasetAt,
-  setThing
+  setAgentDefaultAccess,
+  setAgentResourceAccess,
+  setThing,
+  saveAclFor
 } from '@inrupt/solid-client';
 
 import { RDF_PREDICATES } from '@constants';
 
-import { login, handleIncomingRedirect } from '@inrupt/solid-client-authn-browser';
+import {
+  login,
+  handleIncomingRedirect,
+  getDefaultSession
+} from '@inrupt/solid-client-authn-browser';
 
 import { useSearchParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -44,10 +55,7 @@ const cardStyle = {
   boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
 };
 
-const registerPod = async (
-  { email, password, confirmPassword },
-  oidcProvider = import.meta.env.VITE_SOLID_POD_SERVER
-) => {
+const registerPod = async ({ email, password, confirmPassword }, oidcProvider) => {
   const [podName] = email.split('@');
 
   const oidcRegistrationPath = `${oidcProvider}idp/register/`;
@@ -87,36 +95,61 @@ const subscribeToUser = async (userPodUrl, myProfile) => {
   await saveSolidDatasetAt(datasetUrl, dataset);
 };
 
+const initializePod = async (sessionInfo, caseManagerWebId, fetch) => {
+  let [podUrl] = await getPodUrlAll(sessionInfo.webId);
+  podUrl = podUrl ?? sessionInfo.webId.split('profile')[0];
+  try {
+    await createContainerAt(`${podUrl}PASS`, { fetch });
+  } finally {
+    const datasetWithAcl = await getSolidDatasetWithAcl(`${podUrl}PASS/`, { fetch });
+    let acl = getResourceAcl(datasetWithAcl) ?? createAcl(datasetWithAcl);
+    acl = setAgentResourceAccess(acl, caseManagerWebId, {
+      read: true,
+      append: true,
+      write: true,
+      control: false
+    });
+    acl = setAgentDefaultAccess(acl, caseManagerWebId, {
+      read: true,
+      append: true,
+      write: true,
+      control: false
+    });
+    await saveAclFor(datasetWithAcl, acl, { fetch });
+  }
+};
+
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [searchParams] = useSearchParams();
-  const [oidcIssuer, setOidcIssuer] = useState('');
+  const [oidcIssuer, setOidcIssuer] = useState(import.meta.env.VITE_SOLID_POD_SERVER);
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
-  const [caseManagerPodUrl, setCaseManagerPodUrl] = useState('');
   const [profileData, setProfileData] = useState({});
   const [showAlert, setShowAlert] = useState(false);
+  const [session] = useState(getDefaultSession());
 
-  const registerAndSubscribe = async () => {
-    const { webId, podBaseUrl } = await registerPod({
-      email,
-      password,
-      confirmPassword
-    });
+  const registerAndLogin = async () => {
+    await registerPod(
+      {
+        email,
+        password,
+        confirmPassword
+      },
+      oidcIssuer
+    );
 
-    const username = email.split('@');
-
-    await subscribeToUser(`${caseManagerPodUrl}PASS/`, {
-      myWebId: webId,
-      myPodUrl: podBaseUrl,
-      myUsername: username
+    await login({
+      oidcIssuer,
+      redirectUrl: window.location.href,
+      clientName: 'PASS Registration'
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    registerAndSubscribe();
+    registerAndLogin();
     setShowAlert(true);
   };
 
@@ -131,21 +164,23 @@ const Signup = () => {
   const completeLogin = async () => {
     const sessionInfo = await handleIncomingRedirect();
     if (sessionInfo?.isLoggedIn) {
+      const [caseManagerPodUrl] = caseManagerWebId.split('profile');
       let [podUrl] = await getPodUrlAll(sessionInfo.webId);
       podUrl = podUrl ?? sessionInfo.webId.split('profile')[0];
       const username = sessionInfo.webId;
-
-      await subscribeToUser(`${caseManagerPodUrl}PASS/`, {
-        myWebId: sessionInfo.webId,
-        myPodUrl: podUrl,
-        myUsername: username
-      });
+      await Promise.all([
+        subscribeToUser(`${caseManagerPodUrl}PASS/`, {
+          myWebId: sessionInfo.webId,
+          myPodUrl: podUrl,
+          myUsername: username
+        }),
+        initializePod(sessionInfo, caseManagerWebId, session.fetch)
+      ]);
       setShowAlert(true);
     }
   };
 
   const loadProfile = async () => {
-    setCaseManagerPodUrl(caseManagerWebId.split('profile'));
     const profile = await fetchProfileInfo(caseManagerWebId);
     setProfileData(profile.profileInfo);
   };
@@ -242,6 +277,7 @@ const Signup = () => {
               value={oidcIssuer}
               onChange={(e) => setOidcIssuer(e.target.value)}
             />
+            <br />
             <Button
               variant="contained"
               color="primary"
