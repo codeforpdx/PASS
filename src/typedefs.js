@@ -268,4 +268,19 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * profileEditButtonGroupProps is an object that stores the props for the
+ * ProfileInputField component
+ *
+ * @exports profileEditButtonGroupProps
+ * @typedef {object} profileEditButtonGroupProps
+ * @property {string} edit - Boolean state for editing values in the
+ * ProfileInputField component
+ * @property {() => void} handleCancelEdit - Handler function for canceling edit for
+ * ProfileInputField component
+ * @property {() => void} handleEditInput - Handler function for editing the
+ * ProfileInputField component
+ * @memberof typedefs
+ */
+
 exports.unused = {};

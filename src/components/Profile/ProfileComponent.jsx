@@ -4,15 +4,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
-import EditIcon from '@mui/icons-material/Edit';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
 import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
+import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 
 /**
  * @typedef {import("../../typedefs.js").profileComponentProps} profileComponentProps
@@ -117,46 +114,11 @@ const ProfileComponent = ({ clientProfile }) => {
           />
         </Box>
         {!clientProfile && (
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '10px'
-            }}
-          >
-            {edit ? (
-              <>
-                <Button
-                  variant="outlined"
-                  type="button"
-                  color="error"
-                  endIcon={<ClearIcon />}
-                  onClick={handleCancelEdit}
-                  sx={{ width: '100px' }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="outlined"
-                  type="submit"
-                  endIcon={<CheckIcon />}
-                  sx={{ width: '100px' }}
-                >
-                  Update
-                </Button>
-              </>
-            ) : (
-              <Button
-                variant="outlined"
-                type="button"
-                color="primary"
-                endIcon={<EditIcon />}
-                onClick={handleEditInput}
-                sx={{ width: '100px' }}
-              >
-                Edit
-              </Button>
-            )}
-          </Box>
+          <ProfileEditButtonGroup
+            edit={edit}
+            handleCancelEdit={handleCancelEdit}
+            handleEditInput={handleEditInput}
+          />
         )}
       </form>
     </Box>
