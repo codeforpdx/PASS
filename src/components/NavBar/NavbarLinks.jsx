@@ -34,7 +34,7 @@ const NavbarLinks = () => {
       }
       textColor="inherit"
       indicatorColor="secondary"
-      aria-label="tabs"
+      aria-label="navigation tabs"
     >
       {routesArray.map((item) => (
         <Tab
