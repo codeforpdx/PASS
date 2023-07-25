@@ -182,26 +182,6 @@ const React = require('react');
  */
 
 /**
- * setAclPermsDocContainerFormProps is an object that stores the props for the
- * SetAclPermsDocContainerForm component
- *
- * @exports setAclPermsDocContainerFormProps
- * @typedef {object} setAclPermsDocContainerFormProps
- * @property {object} client - The client object
- * @memberof typedefs
- */
-
-/**
- * setAclPermissionFormProps is an object that stores the props for the
- * SetAclPermissionForm component
- *
- * @exports setAclPermissionFormProps
- * @typedef {object} setAclPermissionFormProps
- * @property {object} client - The client object
- * @memberof typedefs
- */
-
-/**
  * clientListTableProps is an object that stores the props for the
  * ClientListTable component
  *
