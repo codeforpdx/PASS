@@ -37,7 +37,7 @@ const ProfileComponent = ({ clientProfile }) => {
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
-    const profileDataSolid = await fetchProfileInfo(session);
+    const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
 
     setProfileName(profileDataSolid.profileInfo.profileName);

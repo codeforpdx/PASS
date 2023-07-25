@@ -43,7 +43,7 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchClientProfile = async () => {
-      const profileData = await fetchProfileInfo(session, client.webId);
+      const profileData = await fetchProfileInfo(webIdUrl);
       setClientProfile({ ...client, ...profileData.profileInfo });
     };
 
