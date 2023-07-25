@@ -30,13 +30,7 @@ const Clients = () => {
         alignItems: 'center'
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start'
-        }}
-      >
+      <Box>
         <Button
           variant="contained"
           color="secondary"
