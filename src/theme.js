@@ -51,9 +51,8 @@ const theme = createTheme({
           color: 'black'
         }
       }
-    },
-    
-  },
+    }
+  }
 });
 
 export default theme;

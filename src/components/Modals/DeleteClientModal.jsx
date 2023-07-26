@@ -33,12 +33,12 @@ const DeleteClientModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
-  const [showSpinner, setShowSpinner] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false);
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
     event.preventDefault();
-    setShowSpinner(true)
+    setShowSpinner(true);
     runNotification(
       `Deleting "${selectedClientToDelete?.person}" from client list...`,
       'success',
@@ -58,7 +58,7 @@ const DeleteClientModal = ({
         state,
         dispatch
       );
-      setShowSpinner(false)
+      setShowSpinner(false);
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
