@@ -5,8 +5,6 @@ import { useSession } from '@hooks';
 // Material UI Imports
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// Context Imports
-import { SignedInUserContext } from '@contexts';
 // Component Import
 import { LogoutModal } from '../Modals';
 import NavbarDesktop from './NavbarDesktop';

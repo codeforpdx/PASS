@@ -66,12 +66,12 @@ const NavMenu = ({
           startIcon={<EmailIcon />}
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
-          <NavLink
+          <Link
             to="/messages"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           >
             Messages
-          </NavLink>
+          </Link>
         </MenuItem>
         {/* notifications */}
         <MenuItem
