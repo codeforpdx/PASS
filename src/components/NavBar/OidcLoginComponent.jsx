@@ -11,6 +11,7 @@ const OidcLoginComponent = () => {
   const { login } = useSession();
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+  localStorage.setItem('oidcIssuer', oidcIssuer);
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
     await login({ oidcIssuer, redirectUrl });

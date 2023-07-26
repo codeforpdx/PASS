@@ -11,16 +11,6 @@ let session = {};
 
 vi.mock('@inrupt/solid-client');
 
-vi.mock('../../src/constants/', () => {
-  const actual = vi.importActual('../../src/constants/');
-  return {
-    ...actual,
-    ENV: {
-      VITE_SOLID_IDENTITY_PROVIDER: 'https://example.com/'
-    }
-  };
-});
-
 describe('setDocContainerAclPermission', () => {
   beforeEach(() => {
     session = {
@@ -29,6 +19,7 @@ describe('setDocContainerAclPermission', () => {
         webId: `${mockPodUrl}profile/card#me`
       }
     };
+    localStorage.setItem('oidcIssuer', 'https://example.com/');
   });
   afterEach(() => {
     vi.clearAllMocks();
