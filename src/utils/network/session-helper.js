@@ -25,7 +25,7 @@ import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
 import formattedDate from '../barcode/barcode-date-parser';
-import { ENV, RDF_PREDICATES } from '../../constants';
+import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client').Access} Access
@@ -91,7 +91,7 @@ export const placeFileInContainer = async (session, fileObject, containerUrl) =>
  */
 
 export const getPodUrl = (username) => {
-  const podOidcIssuer = ENV.VITE_SOLID_IDENTITY_PROVIDER;
+  const podOidcIssuer = localStorage.getItem('oidcIssuer');
   return `${podOidcIssuer.split('/')[0]}//${username}.${podOidcIssuer.split('/')[2]}/`;
 };
 

@@ -14,7 +14,6 @@ const OidcLoginComponent = () => {
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
     await login({ oidcIssuer, redirectUrl });
-    localStorage.setItem('oidcIssuer', oidcIssuer);
   };
   return (
     <>
