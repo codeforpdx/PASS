@@ -1,5 +1,7 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+// Inrupt Library Imports
+import { LogoutButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -10,11 +12,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import LogoutButton from '../Modals/LogoutButton';
 /**
  * Inactivity Notification Component - Component that displays a popup modal
- * after 30 minutes of inactivity, prompting the user to either logout or
- * continue their session.
+ * after 25 minutes of inactivity, prompting the user to either logout or
+ * continue their session. If the user does not act within five minutes of
+ * the popup appearing, they are forcibly logged out.
  *
  * @memberof Notification
  * @name InactivityMessage
@@ -23,6 +25,14 @@ import LogoutButton from '../Modals/LogoutButton';
 const InactivityMessage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [activeUser, setActiveUser] = useState(false);
+  const [secondsToLogout, setSecondsToLogout] = useState(15);
+  const logoutTimer = useRef();
+
+  // Event handler for logout and removing items from localStorage
+  // Returns user to home page upon successful logout
+  const handleLogout = () => {
+    localStorage.clear();
+  };
 
   // Checks for active user by looking for a loggedIn key in local storage
   useEffect(() => {
@@ -30,7 +40,7 @@ const InactivityMessage = () => {
     setActiveUser(activeCheck === 'true');
   }, []);
 
-  // Toggles the popup after thirty minutes of inactivity
+  // Toggles the popup after twenty-five minutes of inactivity.
   useEffect(() => {
     let timer = null;
 
@@ -39,7 +49,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 1800000);
+      }, 1500);
     };
 
     const handleUserActivity = () => {
@@ -62,13 +72,24 @@ const InactivityMessage = () => {
     };
   }, []);
 
-  // Event handler for logout and removing items from localStorage
-  // Returns user to home page upon successful logout
-  // TODO: In future PR, add countdown timer to automatically log user out if they do not select continue
-  // (e.g. "You will be automatically logged out in 5:00 minutes")
-  const handleLogout = () => {
-    localStorage.clear();
-  };
+  // Starts a five minute timer when the inactivity window pops up.
+  // If secondsToLogout reaches 0, forcibly logs the user out.
+  useEffect(() => {
+    if (showPopup) {
+      logoutTimer.current = setInterval(() => {
+          if ( secondsToLogout > 0 ) {
+            setSecondsToLogout((prev) => prev - 1);
+          } else if ( secondsToLogout == 0 ) {
+            handleLogout();
+            window.location.reload();
+          }
+      }, 1000)
+    }
+    return () => {
+      clearInterval(logoutTimer.current);
+      if (showPopup == false) setSecondsToLogout(15);
+    }
+  }, [showPopup, secondsToLogout])
 
   return (
     showPopup &&
@@ -83,6 +104,11 @@ const InactivityMessage = () => {
         <DialogContent id="inactivity-message-description">
           <DialogContentText>
             You have been inactive for a while now. Would you like to continue using PASS?
+            You will automatically be logged out in {Math.floor(secondsToLogout/60)}:
+                                                    {(secondsToLogout % 60).toLocaleString('en-US', {
+                                                      minimumIntegerDigits: 2,
+                                                      useGrouping: false
+                                                    })}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
