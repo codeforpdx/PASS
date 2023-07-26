@@ -36,7 +36,7 @@ const OidcLoginComponent = () => {
       <Box sx={{ marginRight: '32px' }} />
       <Button
         variant="contained"
-        type="button"
+        type="submit"
         color="secondary"
         size="large"
         aria-label="Login Button"

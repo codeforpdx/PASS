@@ -19,6 +19,7 @@ describe('setDocContainerAclPermission', () => {
         webId: `${mockPodUrl}profile/card#me`
       }
     };
+
     localStorage.setItem('oidcIssuer', 'https://example.com/');
   });
   afterEach(() => {
