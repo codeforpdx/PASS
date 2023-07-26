@@ -104,7 +104,6 @@ const Messages = () => {
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
       {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
-      {/* <NewMessageModal closeForm={() => setShowModal(!showModal)} />} */}
     </Box>
   );
 };

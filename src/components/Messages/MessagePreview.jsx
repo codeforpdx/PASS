@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 // Component Imports
-// import NewMessage from './NewMessage';
 import { NewMessageModal } from '../Modals';
 
 /**
@@ -26,12 +25,14 @@ import { NewMessageModal } from '../Modals';
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [replyMessage, setReplyMessage] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
     setShowContents(!showContents);
   };
 
   const handleReplyMessage = () => {
+    setShowModal(!showModal);
     setReplyMessage(!replyMessage);
   };
 
@@ -43,7 +44,13 @@ const MessagePreview = ({ message, folderType }) => {
           {message.sender} - {message.title}
         </StyledHeader>
         {showContents && folderType === 'Inbox' && (
-          <Button variant="contained" type="button" onClick={handleReplyMessage}>
+          <Button
+            variant="contained"
+            type="button"
+            onClick={handleReplyMessage}
+            // onClick={() => setShowModal(!showModal)}
+            // closeForm={() => setReplyMessage(true)}
+          >
             Reply
           </Button>
         )}
@@ -62,9 +69,13 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Box>
       )}
-      {/* {replyMessage && <NewMessage oldMessage={message} closeForm={() => setReplyMessage(false)} />} */}
       {replyMessage && (
-        <NewMessageModal oldMessage={message} closeForm={() => setReplyMessage(false)} />
+        <NewMessageModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          oldMessage={message}
+          closeForm={() => setReplyMessage(false)}
+        />
       )}
     </StyledPreview>
   );

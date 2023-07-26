@@ -45,7 +45,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
-    title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
+    title: oldMessage ? `RE: ${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
     message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
     messageUrl: oldMessage ? oldMessage.messageUrl : ''
@@ -137,8 +137,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             label="To"
             fullWidth
           />
-
-          {/* <label htmlFor="title">Subject*: </label> */}
           <TextField
             margin="normal"
             value={message.title}
@@ -151,14 +149,23 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             inputProps={{ maxLength: '24' }}
             fullWidth
           />
-
           <TextField
             margin="normal"
             value={oldMessage && originalMessage}
-            type="oldMessage"
-            name="oldMessage"
-            id="oldMessage"
-            label="Old Message"
+            type="previousMessage"
+            name="previousMessage"
+            id="previousMessage"
+            label="Previous Message"
+            // helperText="Previous message"
+            // variant="filled"
+            multiline
+            rows={3}
+            InputProps={{
+              readOnly: true
+            }}
+            InputLabelProps={{
+              shrink: true
+            }}
             fullWidth
           />
 
@@ -176,7 +183,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             required
             fullWidth
           />
-
           <DialogActions>
             <Button
               variant="outlined"
@@ -197,7 +203,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
               Submit
             </Button>
           </DialogActions>
-
           {error && <div>{error}</div>}
           {success && successTimeout && <div>{success}</div>}
         </form>
