@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -27,6 +28,7 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
+  handleNotificationsMenu,
   profileImg
 }) => {
   const theme = useTheme();
@@ -55,13 +57,29 @@ const NavMenu = ({
       sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
     >
       <MenuList>
+        {/* messages */}
+        <MenuItem
+          component={Button}
+          startIcon={<EmailIcon />}
+          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+        >
+          <NavLink
+            to="/messages"
+            style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+          >
+            Messages
+          </NavLink>
+        </MenuItem>
+        {/* notifications */}
         <MenuItem
           component={Button}
           startIcon={<NotificationsIcon />}
+          onClick={handleNotificationsMenu}
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
           Notifications
         </MenuItem>
+        {/* profile */}
         <MenuItem
           component={Button}
           sx={{ width: '100%' }}
@@ -87,6 +105,7 @@ const NavMenu = ({
           </NavLink>
         </MenuItem>
         <Divider />
+        {/* settings */}
         <MenuItem
           component={Button}
           startIcon={<SettingsIcon />}
@@ -94,6 +113,7 @@ const NavMenu = ({
         >
           Settings
         </MenuItem>
+        {/* logout */}
         <MenuItem
           component={Button}
           startIcon={<LogoutIcon />}

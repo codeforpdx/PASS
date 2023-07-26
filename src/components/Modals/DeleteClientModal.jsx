@@ -27,7 +27,7 @@ import BasicNotification from '../Notification/BasicNotification';
  */
 
 const DeleteClientModal = ({
-  showDeleteClientModal,
+  showDeleteClientModal = false,
   setShowDeleteClientModal,
   selectedClientToDelete
 }) => {
