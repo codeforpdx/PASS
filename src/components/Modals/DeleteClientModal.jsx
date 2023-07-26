@@ -26,7 +26,7 @@ import { FormSection } from '../Form';
  */
 
 const DeleteClientModal = ({
-  showDeleteClientModal,
+  showDeleteClientModal = false,
   setShowDeleteClientModal,
   selectedClientToDelete
 }) => {
