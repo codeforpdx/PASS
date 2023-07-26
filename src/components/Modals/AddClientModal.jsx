@@ -42,6 +42,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false)
   const { addUser } = useContext(UserListContext);
 
   const wrappedSetUsername = (value) => {
@@ -103,6 +104,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   // Event handler for adding client to users list
   const handleAddClient = async (event) => {
     event.preventDefault();
+    setShowSpinner(true)
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
@@ -129,6 +131,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         dispatch({ type: 'CLEAR_PROCESSING' });
         setShowAddClientModal(false);
       }, 2000);
+      setShowSpinner(false)
     }
   };
 
@@ -141,6 +144,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       <FormSection
         title="Add Client"
         state={state}
+        showSpinner={showSpinner}
         statusType="Status"
         defaultMessage="To be added..."
       >

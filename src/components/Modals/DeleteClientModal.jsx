@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -33,10 +33,12 @@ const DeleteClientModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
+  const [showSpinner, setShowSpinner] = useState(false)
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
     event.preventDefault();
+    setShowSpinner(true)
     runNotification(
       `Deleting "${selectedClientToDelete?.person}" from client list...`,
       'success',
@@ -56,6 +58,7 @@ const DeleteClientModal = ({
         state,
         dispatch
       );
+      setShowSpinner(false)
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
@@ -72,6 +75,7 @@ const DeleteClientModal = ({
       <FormSection
         title="Delete Client"
         state={state}
+        showSpinner={showSpinner}
         statusType="Status"
         defaultMessage="To be deleted..."
       >
