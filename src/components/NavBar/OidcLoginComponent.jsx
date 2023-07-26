@@ -14,6 +14,7 @@ const OidcLoginComponent = () => {
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
     await login({ oidcIssuer, redirectUrl });
+    localStorage.setItem('oidcIssuer', oidcIssuer);
   };
   return (
     <>
@@ -42,12 +43,10 @@ const OidcLoginComponent = () => {
         aria-label="Login Button"
         onClick={() => {
           loginHandler();
-          localStorage.setItem('oidcIssuer', oidcIssuer);
         }}
         onKeyUp={(event) => {
           if (event.key === 'Enter') {
             loginHandler();
-            localStorage.setItem('oidcIssuer', oidcIssuer);
           }
         }}
       >
