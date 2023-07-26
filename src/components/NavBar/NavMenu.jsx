@@ -1,6 +1,6 @@
 // React Imports
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -13,6 +13,8 @@ import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -32,6 +34,7 @@ const NavMenu = ({
   profileImg
 }) => {
   const theme = useTheme();
+  const { setClient } = useContext(DocumentListContext);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -63,12 +66,12 @@ const NavMenu = ({
           startIcon={<EmailIcon />}
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
-          <NavLink
+          <Link
             to="/messages"
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           >
             Messages
-          </NavLink>
+          </Link>
         </MenuItem>
         {/* notifications */}
         <MenuItem
@@ -97,12 +100,14 @@ const NavMenu = ({
             />
           }
         >
-          <NavLink
+          <Link
             to="/profile"
+            state={{ client: null }}
             style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            onClick={() => setClient(null)}
           >
             Profile
-          </NavLink>
+          </Link>
         </MenuItem>
         <Divider />
         {/* settings */}

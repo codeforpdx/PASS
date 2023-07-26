@@ -6,8 +6,8 @@ import App from '../src/App';
 
 vi.mock('@inrupt/solid-client');
 
-vi.mock('@inrupt/solid-ui-react', async () => {
-  const lib = await vi.importActual('@inrupt/solid-ui-react');
+vi.mock('../src/hooks/useSession.js', async () => {
+  const lib = await vi.importActual('../src/hooks/useSession.js');
   return {
     ...lib,
     useSession: vi.fn(() => ({
