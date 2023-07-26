@@ -31,7 +31,7 @@ describe('ProfileInputField', () => {
     expect(inputElement).toHaveAttribute('disabled');
   });
 
-  it('renders ProfileInputField with name Alice', () => {
+  it('renders ProfileInputField with empty string and placeholder for "No value set" if inputValue is null', () => {
     const mockInputValue = null;
     const { queryByRole } = render(<MockProfileComponent name={mockInputValue} />);
     const inputElement = queryByRole('textbox');

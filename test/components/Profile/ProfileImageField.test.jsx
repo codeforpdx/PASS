@@ -30,6 +30,9 @@ describe('ProfileImageField', () => {
     const buttonElement = queryByRole('button');
     expect(buttonElement.textContent).toBe('Remove Img');
 
+    const muiAvatar = queryByRole('img');
+    expect(muiAvatar).toHaveAttribute('src', 'https://example.com/user.png');
+
     const svgElement = queryByTestId('PersonIcon');
     expect(svgElement).toBeNull();
   });
@@ -43,7 +46,7 @@ describe('ProfileImageField', () => {
     expect(svgElement).not.toBeNull();
   });
 
-  it('renders no button with image with clientprofile is not null and has profile image', () => {
+  it('renders no button with image if clientProfile is not null and has profile image', () => {
     const mockClientProfile = { profileImg: 'https://example.com/client.png' };
     const { queryByRole, queryByTestId } = render(
       <MockProfileComponent mockClientProfile={mockClientProfile} />

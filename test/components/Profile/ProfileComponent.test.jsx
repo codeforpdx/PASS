@@ -80,7 +80,7 @@ describe('ProfileComponent', () => {
     expect(cancelButton).toBeNull();
   });
 
-  it('renders no edit button for ProfileInputFields in clientProfile is not null', () => {
+  it('renders no edit button for ProfileInputFields if clientProfile is not null', () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
         <ProfileComponent clientProfile={{}} />
