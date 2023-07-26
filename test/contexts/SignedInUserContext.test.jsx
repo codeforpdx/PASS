@@ -14,7 +14,6 @@ import { expect, it, afterEach, describe, vi } from 'vitest';
 import { fetchProfileInfo } from '../../src/model-helpers';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';
-import flushPromises from '../helpers/testHelpers';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);
@@ -59,12 +58,12 @@ describe('SignedInUserContext', () => {
     });
     fetchProfileInfo.mockResolvedValue({ profileInfo: {} });
     getPodUrlAll.mockResolvedValue(['https://example.com/pod/']);
-    const { container } = render(
+    const { findByText } = render(
       <SignedInUserContextProvider>
         <TestConsumer />
       </SignedInUserContextProvider>
     );
-    await flushPromises();
-    expect(container).toMatchSnapshot();
+    const val = await findByText('https://example.com/pod/');
+    expect(val).not.toBeNull();
   });
 });
