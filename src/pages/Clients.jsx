@@ -1,12 +1,13 @@
 // React Imports
-import React, { useState } from 'react';
+import React from 'react';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import { Link } from '@mui/material';
 // Component Imports
-import { AddClientModal } from '../components/Modals';
-import { ClientList } from '../components/Clients';
+import { ClientList } from '@components/Clients';
+import { useSession } from '@hooks';
 
 /**
  * Clients Component - Component that generates Clients Page for PASS
@@ -16,9 +17,7 @@ import { ClientList } from '../components/Clients';
  */
 
 const Clients = () => {
-  // state for AddClientModal component
-  const [showAddClientModal, setShowAddClientModal] = useState(false);
-
+  const { session } = useSession();
   localStorage.setItem('restorePath', '/clients');
 
   return (
@@ -29,18 +28,21 @@ const Clients = () => {
         size="small"
         aria-label="Add Client Button"
         startIcon={<AddIcon />}
-        onClick={() => setShowAddClientModal(true)}
         sx={{ marginTop: '3rem' }}
       >
-        Add Client
+        <Link
+          href={`${window.location.origin}/signup?webId=${encodeURIComponent(session.info.webId)}`}
+          style={{
+            textDecoration: 'none',
+            color: 'inherit'
+          }}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Add Client
+        </Link>
       </Button>
       <ClientList />
-
-      {/* modal/popup renders when showAddClientModal state is true */}
-      <AddClientModal
-        showAddClientModal={showAddClientModal}
-        setShowAddClientModal={setShowAddClientModal}
-      />
     </Container>
   );
 };
