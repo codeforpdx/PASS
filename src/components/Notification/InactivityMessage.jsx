@@ -66,19 +66,19 @@ const InactivityMessage = () => {
   useEffect(() => {
     if (showPopup) {
       logoutTimer.current = setInterval(() => {
-          if ( secondsToLogout > 0 ) {
-            setSecondsToLogout((prev) => prev - 1);
-          } else if ( secondsToLogout === 0 ) {
-            logout();
-            setShowPopup(false);
-          }
-      }, 1000)
+        if (secondsToLogout > 0) {
+          setSecondsToLogout((prev) => prev - 1);
+        } else if (secondsToLogout === 0) {
+          logout();
+          setShowPopup(false);
+        }
+      }, 1000);
     }
     return () => {
       clearInterval(logoutTimer.current);
       if (showPopup === false) setSecondsToLogout(300);
-    }
-  }, [showPopup, secondsToLogout])
+    };
+  }, [showPopup, secondsToLogout]);
 
   return (
     showPopup &&
@@ -92,12 +92,12 @@ const InactivityMessage = () => {
         <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
         <DialogContent id="inactivity-message-description">
           <DialogContentText>
-            You have been inactive for a while now. Would you like to continue using PASS?
-            You will automatically be logged out in {Math.floor(secondsToLogout/60)}:
-                                                    {(secondsToLogout % 60).toLocaleString('en-US', {
-                                                      minimumIntegerDigits: 2,
-                                                      useGrouping: false
-                                                    })}
+            You have been inactive for a while now. Would you like to continue using PASS? You will
+            automatically be logged out in {Math.floor(secondsToLogout / 60)}:
+            {(secondsToLogout % 60).toLocaleString('en-US', {
+              minimumIntegerDigits: 2,
+              useGrouping: false
+            })}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
