@@ -17,7 +17,8 @@
     "prettier:check": "prettier --check 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "prettier:run": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "dev:pod": "community-solid-server",
-    "dev:pod:stored": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
+    "dev:pod:stored": "community-solid-server -c @css:config/file.json -f local_temp_server_files/",
+    "pod": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
   },
   "keywords": [],
   "author": "",
