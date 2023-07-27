@@ -42,6 +42,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
+  const [replyMessage, setReplyMessage] = useState(false);
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
@@ -62,16 +63,21 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
     });
   };
 
+  const handleReplyMessage = () => {
+    setShowModal(!showModal);
+    setReplyMessage(!replyMessage);
+  };
+
   // Handles submit (awaiting functionality for this)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!message.title) {
-      setError('Please enter a value for Message Title');
+      setError('Please enter a title');
     } else if (!message.recipientPodUrl) {
-      setError('Please enter a value for Recipient Pod URL');
+      setError('Please enter a recipient Pod URL');
     } else if (!message.message) {
-      setError('Please enter a value for the Message');
+      setError('Please enter a message');
     } else {
       try {
         await sendMessageTTL(session, message, podUrl);
@@ -107,7 +113,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
     <Dialog
       open={showModal}
       aria-labelledby="new-message-modal"
-      onClose={() => setShowModal(false)}
+      onClose={() => handleReplyMessage(false)}
     >
       <Box
         noValidate
@@ -152,17 +158,18 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
           <TextField
             margin="normal"
             value={oldMessage && originalMessage}
-            type="previousMessage"
+            type="text"
             name="previousMessage"
             id="previousMessage"
             label="Previous Message"
-            // helperText="Previous message"
-            // variant="filled"
+            variant="filled"
+            sx={{ display: oldMessage ? 'block' : 'none' }}
             multiline
             rows={3}
             InputProps={{
               readOnly: true
             }}
+            // disabled
             InputLabelProps={{
               shrink: true
             }}
@@ -179,7 +186,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             multiline
             rows={6}
             label="Enter Message"
-            placeholder="Add a description here"
             required
             fullWidth
           />

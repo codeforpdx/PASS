@@ -16,7 +16,7 @@ import { NewMessageModal } from '../Modals';
  * Message Preview Component - Component that displays message previews from
  * user's Inbox container
  *
- * @memberof Inbox
+ * @memberof Messages
  * @name MessagePreview
  * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
@@ -48,8 +48,6 @@ const MessagePreview = ({ message, folderType }) => {
             variant="contained"
             type="button"
             onClick={handleReplyMessage}
-            // onClick={() => setShowModal(!showModal)}
-            // closeForm={() => setReplyMessage(true)}
           >
             Reply
           </Button>
@@ -74,7 +72,6 @@ const MessagePreview = ({ message, folderType }) => {
           showModal={showModal}
           setShowModal={setShowModal}
           oldMessage={message}
-          closeForm={() => setReplyMessage(false)}
         />
       )}
     </StyledPreview>

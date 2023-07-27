@@ -78,10 +78,7 @@ const Messages = () => {
           variant="contained"
           onClick={() => setShowModal(!showModal)}
           startIcon={<CreateIcon />}
-          sx={{
-            backgroundColor: 'secondary.main',
-            ':hover': { backgroundColor: 'secondary.dark' }
-          }}
+          color="secondary"
         >
           New Message
         </Button>
