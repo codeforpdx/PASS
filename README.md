@@ -71,6 +71,25 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
    ```
 4. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
+- ### Setting up a Development Pod Server
+    
+   PASS is able to connect to any solid-spec compliant pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
+
+1. Clone and install dependencies. `npm i`
+
+2. In the project's root directory, copy the `env.template` file into a `.env` file. In bash you can use this command:
+    ```bash
+    cp env.template .env
+    ```
+
+3. Run `npm run pod` to launch the pod server. The server will begin listening on `http://localhost:3000`, and will create a folder in the PASS project folder called `local_temp_server_files`. You can find all server and pod files there.
+
+4. Open a browser and navigate to `http://localhost:3000`. You should encounter a screen asking you to set up the server and create an account. Create your first account, and your server will be ready for development.
+
+5. Launch PASS with `npm run dev`. Click the `Login` button on the home page. If everything has been set up right, you should be redirected to your local pod server to finish login.
+
+Note: The `npm run pod` command will launch a server that stores documents on your local file system. If you don't want to store documents, and want all server data to be deleted on shutdown, you can run `npm run pod:temp`
+
 Further information can be found in [CONTRIBUTING.md](./docs/CONTRIBUTING.md) & [docs/README.md](./docs/README.md)
 
 **[⬆️ Back to Top](#pass---personal-access-system-for-services)**
