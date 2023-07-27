@@ -16,8 +16,7 @@
     "lint:fix": "eslint --fix 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx' '__mocks__/**/*.js'",
     "prettier:check": "prettier --check 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "prettier:run": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
-    "dev:pod": "community-solid-server",
-    "dev:pod:stored": "community-solid-server -c @css:config/file.json -f local_temp_server_files/",
+    "pod:temp": "community-solid-server",
     "pod": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
   },
   "keywords": [],
