@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState, useEffect, useRef } from 'react';
+// Inrupt Imports
+import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -21,16 +23,10 @@ import LogoutButton from '../Modals/LogoutButton';
  */
 
 const InactivityMessage = () => {
+  const { session, logout } = useSession();
   const [showPopup, setShowPopup] = useState(false);
-  const [activeUser, setActiveUser] = useState(false);
   const [secondsToLogout, setSecondsToLogout] = useState(300);
   const logoutTimer = useRef();
-
-  // Checks for active user by looking for a loggedIn key in local storage
-  useEffect(() => {
-    const activeCheck = localStorage.getItem('loggedIn');
-    setActiveUser(activeCheck === 'true');
-  }, []);
 
   // Toggles the popup after twenty-five minutes of inactivity
   useEffect(() => {
@@ -64,22 +60,17 @@ const InactivityMessage = () => {
     };
   }, []);
 
-  // Event handler for logout and removing items from localStorage
-  // Returns user to home page upon successful logout
-  const handleLogout = () => {
-    localStorage.clear();
-  };
-
-  // Starts a five minute timer when the inactivity window pops up.
-  // If secondsToLogout reaches 0, forcibly logs the user out.
+  /* Starts a five minute timer that is displayed to the user when the 
+  inactivity window pops up. If said timer runs out, the user is 
+  forcibly logged out. */
   useEffect(() => {
     if (showPopup) {
       logoutTimer.current = setInterval(() => {
           if ( secondsToLogout > 0 ) {
             setSecondsToLogout((prev) => prev - 1);
           } else if ( secondsToLogout == 0 ) {
-            handleLogout();
-            window.location.reload();
+            logout();
+            setShowPopup(false);
           }
       }, 1000)
     }
@@ -91,7 +82,7 @@ const InactivityMessage = () => {
 
   return (
     showPopup &&
-    activeUser && (
+    session.info.isLoggedIn && (
       <Dialog
         open={showPopup}
         onClose={() => setShowPopup(false)}
@@ -115,7 +106,7 @@ const InactivityMessage = () => {
               variant="outlined"
               color="error"
               endIcon={<LogoutIcon />}
-              onClick={handleLogout}
+              onClick={() => logout()}
             >
               Log Out
             </Button>
