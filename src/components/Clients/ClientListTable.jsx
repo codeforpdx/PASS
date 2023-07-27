@@ -7,26 +7,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
 // Component Imports
 import ClientListTableRow from './ClientListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Select', 'Client', 'WebID', 'Pin', 'Delete'];
+const columnTitlesArray = ['Client', 'Pin', 'Delete'];
+
+/**
+ * @typedef {import("../../typedefs.js").clientListTableProps} clientListTableProps
+ */
 
 /**
  * ClientListTable Component - Component that generates table of clients from data within ClientList
  *
  * @memberof Clients
  * @name ClientListTable
+ * @param {clientListTableProps} Props - Props for ClientListTableRow
+ * @returns {React.JSX.Element} The ClientListTableRow Component
  */
-
 const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
-  const { state, dispatch } = useStatusNotification();
   const { userListObject } = useContext(UserListContext);
 
   const comparePerson = (a, b) => {
@@ -44,7 +46,7 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   const sortedUserList = userListCopy.sort(comparePerson);
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+    <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
       <Table aria-label="client list table">
         <TableHead>
           <TableRow>
@@ -56,20 +58,14 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedUserList?.map((client, index) => {
-            const labelId = `clientlist-checkbox-${index}`;
-            return (
-              <ClientListTableRow
-                key={client.webId}
-                labelId={labelId}
-                client={client}
-                state={state}
-                dispatch={dispatch}
-                setShowDeleteClientModal={setShowDeleteClientModal}
-                setSelectedClientToDelete={setSelectedClientToDelete}
-              />
-            );
-          })}
+          {sortedUserList?.map((client) => (
+            <ClientListTableRow
+              key={client.webId}
+              client={client}
+              setShowDeleteClientModal={setShowDeleteClientModal}
+              setSelectedClientToDelete={setSelectedClientToDelete}
+            />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

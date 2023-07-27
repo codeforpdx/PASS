@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
+// Custom Hook Imports
 import { useSession, useStatusNotification } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -12,8 +13,9 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { getPodUrl, runNotification, setDocAclPermission } from '../../utils';
-import { SelectedUserContext, SignedInUserContext } from '../../contexts';
+import { getPodUrl, runNotification, setDocAclPermission } from '@utils';
+// Context Imports
+import { SignedInUserContext } from '@contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
@@ -24,12 +26,11 @@ import FormSection from './FormSection';
  *
  * @memberof Forms
  * @name SetAclPermissionForm
+ * @returns {React.JSX.Element} The SetAclPermissionForm Component
  */
-
 const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
-  const { selectedUser } = useContext(SelectedUserContext);
   const [username, setUsername] = useState('');
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
@@ -49,11 +50,7 @@ const SetAclPermissionForm = () => {
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
-    let podUsername = event.target.setAclTo.value;
-
-    if (!podUsername) {
-      podUsername = selectedUser.username;
-    }
+    const podUsername = event.target.setAclTo.value;
 
     if (!podUsername) {
       runNotification('Set permissions failed. Reason: Username not provided.', 5, state, dispatch);
@@ -96,18 +93,14 @@ const SetAclPermissionForm = () => {
       await setDocAclPermission(session, docType, permissions, podUsername);
 
       runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          selectedUser.person ?? username
-        } for ${docType}.`,
+        `${permissions.read ? 'Give' : 'Revoke'} permission to ${username} for ${docType}.`,
         5,
         state,
         dispatch
       );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
     } catch (error) {
       runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+    } finally {
       setTimeout(() => {
         clearInputFields();
       }, 3000);
@@ -116,7 +109,7 @@ const SetAclPermissionForm = () => {
 
   return (
     <FormSection
-      title="Permission to Files"
+      title="Set Permission to File"
       state={state}
       statusType="Permission status"
       defaultMessage="To be set..."
@@ -128,9 +121,9 @@ const SetAclPermissionForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={selectedUser.person ? selectedUser.username : username}
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder={selectedUser.username}
+              placeholder={username}
               label="Search Username"
               required
             />

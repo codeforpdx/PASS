@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {loadingAnimationProps} Props - Component props for LoadingAnimation
  * @returns {React.ReactElement} a div of what is currently loading
  */
-const LoadingAnimation = ({ loadingItem }) => (
+const LoadingAnimation = ({ loadingItem, children }) => (
   <Box
     sx={{
       my: '3rem',
@@ -35,7 +35,7 @@ const LoadingAnimation = ({ loadingItem }) => (
       <Typography variant="h5" component="h2" mb={2} align="center">
         Loading {loadingItem}...
       </Typography>
-      <LinearProgress />
+      {children || <LinearProgress />}
     </Paper>
   </Box>
 );

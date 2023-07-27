@@ -13,11 +13,13 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { ENV } from '../../constants';
-import { runNotification } from '../../utils';
-import { createUser } from '../../model-helpers/User';
+import { runNotification } from '@utils';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
+// Model Imports
+import { createUser } from '../../model-helpers/User';
+// Constants Imports
+import { ENV } from '../../constants';
 // Component Imports
 import { FormSection } from '../Form';
 

@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 // Page Imports
-import { Home, Clients, Messages, Documents, Profile } from './pages';
+import { Home, Clients, Messages, Profile } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -13,7 +13,7 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
  * The main application routing for PASS
  *
  * @name AppRoutes
- * @returns {React.JSX.Element} - Project Routes
+ * @returns {React.JSX.Element} The main routing component for PASS
  */
 const AppRoutes = () => {
   const { session } = useSession();
@@ -30,9 +30,11 @@ const AppRoutes = () => {
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/clients" element={<Clients />} />
-        <Route path="/documents" element={<Documents />} />
         <Route path="/messages" element={<Messages />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile">
+          <Route index element={<Profile />} />
+          <Route path=":webId" element={<Profile />} />
+        </Route>
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>
