@@ -75,7 +75,7 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
     
    PASS is able to connect to any solid-spec compliant pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
 
-1. Clone and install dependencies. `npm i`
+1. Clone and install dependencies. [See previous section](#clone-and-install-dependencies)
 
 2. In the project's root directory, copy the `env.template` file into a `.env` file. In bash you can use this command:
     ```bash
