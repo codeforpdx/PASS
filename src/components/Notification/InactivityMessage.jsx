@@ -68,7 +68,7 @@ const InactivityMessage = () => {
       logoutTimer.current = setInterval(() => {
           if ( secondsToLogout > 0 ) {
             setSecondsToLogout((prev) => prev - 1);
-          } else if ( secondsToLogout == 0 ) {
+          } else if ( secondsToLogout === 0 ) {
             logout();
             setShowPopup(false);
           }
@@ -76,7 +76,7 @@ const InactivityMessage = () => {
     }
     return () => {
       clearInterval(logoutTimer.current);
-      if (showPopup == false) setSecondsToLogout(300);
+      if (showPopup === false) setSecondsToLogout(300);
     }
   }, [showPopup, secondsToLogout])
 
