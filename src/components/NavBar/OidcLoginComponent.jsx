@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 // Inrupt Library Imports
 import { LoginButton } from '@inrupt/solid-ui-react';
 // Material UI Imports
@@ -12,6 +12,7 @@ import { ENV } from '../../constants';
 const OidcLoginComponent = () => {
   const [oidcIssuer, setOidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
   const redirectUrl = useRedirectUrl();
+  const buttonRef = useRef(null)
 
   return (
     <>
@@ -22,6 +23,9 @@ const OidcLoginComponent = () => {
         variant="filled"
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
+        onKeyUp={(e) => {
+          if(e.key === 'Enter') buttonRef.current.click()
+        }}
         InputProps={{
           disableUnderline: true,
           'aria-label': 'OIDC Input Field'
@@ -39,6 +43,7 @@ const OidcLoginComponent = () => {
           color="secondary"
           size="large"
           aria-label="Login Button"
+          ref={buttonRef}
           onClick={() => {
             localStorage.setItem('oidcIssuer', oidcIssuer);
           }}
