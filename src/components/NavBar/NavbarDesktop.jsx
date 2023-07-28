@@ -61,9 +61,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
-          <Typography variant="h4" noWrap component="div" mr="10px" aria-label="logo">
-            PASS
-          </Typography>
+        <img src='src\assets\pass-logo.png' alt='logo' className='navbar-logo'/>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
           <Box aria-label="menu" sx={{ display: { xs: 'none', md: 'flex' } }}>
