@@ -85,7 +85,6 @@ const InactivityMessage = () => {
     session.info.isLoggedIn && (
       <Dialog
         open={showPopup}
-        onClose={() => setShowPopup(false)}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
       >
