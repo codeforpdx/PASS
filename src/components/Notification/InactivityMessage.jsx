@@ -106,7 +106,10 @@ const InactivityMessage = () => {
               variant="outlined"
               color="error"
               endIcon={<LogoutIcon />}
-              onClick={() => logout()}
+              onClick={() => {
+                localStorage.clear();
+                logout();
+              }}
             >
               Log Out
             </Button>
