@@ -8,8 +8,7 @@ import {
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
-  buildMessageTTL,
-  getPodUrl
+  buildMessageTTL
 } from './session-helper';
 
 /**
@@ -46,15 +45,19 @@ import {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {string} fileType - Type of document
  * @param {Access} permissions - The Access object for setting ACL in Solid
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {string} podToSetPermissionsToURL - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
+export const setDocAclPermission = async (
+  session,
+  fileType,
+  permissions,
+  podToSetPermissionsToURL
+) => {
   const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
   const documentUrl = `${containerUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
+  const webId = `${podToSetPermissionsToURL}profile/card#me`;
 
   await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
@@ -67,7 +70,7 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {string} podToSetPermissionsToURL - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
@@ -75,11 +78,10 @@ export const setDocContainerAclPermission = async (
   session,
   permissions,
   podUrl,
-  otherPodUsername
+  podToSetPermissionsToURL
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
+  const webId = `${podToSetPermissionsToURL}profile/card#me`;
 
   await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
 };

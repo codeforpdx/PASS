@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { getPodUrl, runNotification, setDocContainerAclPermission } from '@utils';
+import { runNotification, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -31,7 +31,7 @@ const SetAclPermsDocContainerForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [permissionState, setPermissionState] = useState({
-    username: '',
+    podToSetPermissionsTo: '',
     permissionType: ''
   });
 
@@ -49,22 +49,22 @@ const SetAclPermsDocContainerForm = () => {
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    const otherPodUsername = event.target.setAclTo.value;
+    const podToSetPermissionsToURL = event.target.setAclTo.value;
 
-    if (!otherPodUsername) {
-      runNotification(
-        'FAILED TO SET PERMISSIONS. REASON: PodURL not provided.',
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-      return;
-    }
+    // if (!podToSetPermissionsToURL) {
+    //   runNotification(
+    //     'FAILED TO SET PERMISSIONS. REASON: PodURL not provided.',
+    //     5,
+    //     state,
+    //     dispatch
+    //   );
+    //   setTimeout(() => {
+    //     clearInputFields();
+    //   }, 3000);
+    //   return;
+    // }
 
-    if (getPodUrl(otherPodUsername) === podUrl) {
+    if (podToSetPermissionsToURL === podUrl) {
       runNotification(
         'FAILED TO SET PERMISSIONS. REASON: Current user Pod cannot change container permissions to itself.',
         5,
@@ -86,11 +86,11 @@ const SetAclPermsDocContainerForm = () => {
     // }
 
     try {
-      await setDocContainerAclPermission(session, permissions, podUrl, otherPodUsername);
+      await setDocContainerAclPermission(session, permissions, podUrl, podToSetPermissionsToURL);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          permissionState.username
+          permissionState.podToSetPermissionsTo
         } for Documents Container.`,
         5,
         state,
@@ -135,9 +135,11 @@ const SetAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={permissionState.username}
-              onChange={(e) => setPermissionState({ ...permissionState, username: e.target.value })}
-              placeholder={permissionState.username}
+              value={permissionState.podToSetPermissionsTo}
+              onChange={(e) =>
+                setPermissionState({ ...permissionState, podToSetPermissionsTo: e.target.value })
+              }
+              placeholder={permissionState.podToSetPermissionsTo}
               label="Enter PodURL"
               required
             />
@@ -148,7 +150,7 @@ const SetAclPermsDocContainerForm = () => {
               variant="contained"
               disabled={
                 state.processing ||
-                permissionState.username === '' ||
+                permissionState.podToSetPermissionsTo === '' ||
                 permissionState.permissionType === ''
               }
               type="submit"

@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { getPodUrl, runNotification, setDocAclPermission } from '@utils';
+import { runNotification, setDocAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -32,7 +32,7 @@ const SetAclPermissionForm = () => {
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
   const [permissionState, setPermissionState] = useState({
-    username: '',
+    podToSetPermissionsTo: '',
     permissionType: ''
   });
 
@@ -51,9 +51,9 @@ const SetAclPermissionForm = () => {
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
-    const podUsername = event.target.setAclTo.value;
+    const podToSetPermissionsToURL = event.target.setAclTo.value;
 
-    if (!podUsername) {
+    if (!podToSetPermissionsToURL) {
       runNotification('Set permissions failed. Reason: PodURL not provided.', 5, state, dispatch);
       setTimeout(() => {
         clearInputFields();
@@ -61,7 +61,7 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    if (getPodUrl(podUsername) === podUrl) {
+    if (podToSetPermissionsToURL === podUrl) {
       runNotification(
         'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
         5,
@@ -91,11 +91,11 @@ const SetAclPermissionForm = () => {
     }
 
     try {
-      await setDocAclPermission(session, docType, permissions, podUsername);
+      await setDocAclPermission(session, docType, permissions, podToSetPermissionsToURL);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          permissionState.username
+          permissionState.podToSetPermissionsTo
         } for ${docType}.`,
         5,
         state,
@@ -140,9 +140,11 @@ const SetAclPermissionForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={permissionState.username}
-              onChange={(e) => setPermissionState({ ...permissionState, username: e.target.value })}
-              placeholder={permissionState.username}
+              value={permissionState.podToSetPermissionsTo}
+              onChange={(e) =>
+                setPermissionState({ ...permissionState, podToSetPermissionsTo: e.target.value })
+              }
+              placeholder={permissionState.podToSetPermissionsTo}
               label="Enter PodURL"
               required
             />
