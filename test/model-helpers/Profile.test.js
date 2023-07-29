@@ -43,7 +43,7 @@ describe('fetchProfileInfo', () => {
       url: 'https://example.com/pod/profile/card#me'
     });
 
-    const results = await fetchProfileInfo(session);
+    const results = await fetchProfileInfo(session.info.webId);
 
     expect(results).toHaveProperty('profileInfo.profileName');
     expect(results).toHaveProperty('profileInfo.nickname');

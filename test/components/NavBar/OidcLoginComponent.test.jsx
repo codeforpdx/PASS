@@ -28,11 +28,10 @@ it('sets OIDC provider on login', async () => {
   const { getByLabelText } = render(<OidcLoginComponent />);
   const input = getByLabelText('OIDC Input Field').querySelector('input');
   const loginButton = getByLabelText('Login Button');
-  vi.spyOn(Storage.prototype, 'setItem');
   await user.clear(input);
   await user.type(input, 'http://oidc.provider.url/');
   expect(input.value).toBe('http://oidc.provider.url/');
   await user.click(loginButton);
   expect(login).toBeCalled();
-  expect(localStorage.setItem).toBeCalledWith('oidcIssuer', 'http://oidc.provider.url/');
+  expect(localStorage.getItem('oidcIssuer')).toBe('http://oidc.provider.url/');
 });

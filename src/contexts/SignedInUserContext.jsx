@@ -57,7 +57,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(session);
+        const fetchedProfileData = await fetchProfileInfo(webId);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
