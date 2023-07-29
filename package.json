@@ -16,8 +16,8 @@
     "lint:fix": "eslint --fix 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx' '__mocks__/**/*.js'",
     "prettier:check": "prettier --check 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
     "prettier:run": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'test/**/*.js' 'test/**/*.jsx'",
-    "dev:pod": "community-solid-server",
-    "dev:pod:stored": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
+    "podserver:temp": "community-solid-server",
+    "podserver": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
   },
   "keywords": [],
   "author": "",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@solid/community-server": "^5.1.0",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.1",

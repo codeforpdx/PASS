@@ -1,11 +1,11 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// Component Imports
+// Component Import
 import { LogoutModal } from '../Modals';
 import NavbarDesktop from './NavbarDesktop';
 import NavbarLoggedOut from './NavbarLoggedOut';

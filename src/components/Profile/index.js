@@ -1,5 +1,6 @@
 import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
+import ProfileComponent from './ProfileComponent';
 
 /**
  * Components and functions related to the Profile card on Solid and displaying
@@ -8,4 +9,4 @@ import ProfileInputField from './ProfileInputField';
  * @namespace Profile
  */
 
-export { ProfileImageField, ProfileInputField };
+export { ProfileImageField, ProfileInputField, ProfileComponent };
