@@ -69,6 +69,7 @@ const InactivityMessage = () => {
         if (secondsToLogout > 0) {
           setSecondsToLogout((prev) => prev - 1);
         } else if (secondsToLogout === 0) {
+          localStorage.clear()
           logout();
           setShowPopup(false);
         }
