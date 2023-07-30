@@ -1,23 +1,37 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import Alert from '@mui/material/Alert';
+import { useNotification } from '../../hooks/useNotification';
 
-const Alert = forwardRef((props, ref) => (
-  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
-));
+const BasicNotification = ({ severity, message, id }) => {
+  // const [open, setOpen] = useState(false);
+  const notify = useNotification()
+  console.log(id, 'id of this component')
+  const timerID = useRef(null)
+  // useEffect(() => {
+  //   if (message !== '') {
+  //     setOpen(true);
+  //   }
+  // }, [message]);
 
-const BasicNotification = ({ severity, message }) => {
-  const [open, setOpen] = useState(false);
+  const handleDismiss = () => {
+    notify.remove(id)
+    console.log(id, 'id to be deleted')
+  }
 
   useEffect(() => {
-    if (message !== '') {
-      setOpen(true);
+    timerID.current = setTimeout(() => {
+      handleDismiss()
+    }, 8000)
+
+    return () => {
+      clearTimeout(timerID.current)
     }
-  }, [message]);
+  },[])
 
   return (
-    <Snackbar open={open}>
-      <Alert severity={severity} sx={{ width: '100%' }}>
+    <Snackbar open={open} id={id}>
+      <Alert severity={severity} variant="filled" elevation={6} sx={{ width: '100%' }}>
         {message}
       </Alert>
     </Snackbar>

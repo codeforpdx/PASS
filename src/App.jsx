@@ -5,6 +5,7 @@ import { SessionProvider } from '@contexts';
 // Material UI Imports
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { NotificationContextProvider } from './contexts/NotificationContext';
 // Context Imports
 import UserDataContextProvider from './contexts/UserDataContext';
 // Theme Imports
@@ -25,13 +26,15 @@ const App = () => (
   <SessionProvider restorePreviousSession>
     <CssBaseline />
     <ThemeProvider theme={theme}>
-      <UserDataContextProvider>
-        <BrowserRouter>
-          <Layout>
-            <AppRoutes />
-          </Layout>
-        </BrowserRouter>
-      </UserDataContextProvider>
+      <NotificationContextProvider>
+        <UserDataContextProvider>
+          <BrowserRouter>
+            <Layout>
+              <AppRoutes />
+            </Layout>
+          </BrowserRouter>
+        </UserDataContextProvider>
+      </NotificationContextProvider>
     </ThemeProvider>
   </SessionProvider>
 );
