@@ -49,22 +49,9 @@ const SetAclPermsDocContainerForm = () => {
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    const podToSetPermissionsToURL = event.target.setAclTo.value;
+    const podUrlToSetPermissionsTo = event.target.setAclTo.value;
 
-    // if (!podToSetPermissionsToURL) {
-    //   runNotification(
-    //     'FAILED TO SET PERMISSIONS. REASON: PodURL not provided.',
-    //     5,
-    //     state,
-    //     dispatch
-    //   );
-    //   setTimeout(() => {
-    //     clearInputFields();
-    //   }, 3000);
-    //   return;
-    // }
-
-    if (podToSetPermissionsToURL === podUrl) {
+    if (podUrlToSetPermissionsTo === podUrl) {
       runNotification(
         'FAILED TO SET PERMISSIONS. REASON: Current user Pod cannot change container permissions to itself.',
         5,
@@ -77,16 +64,8 @@ const SetAclPermsDocContainerForm = () => {
       return;
     }
 
-    // if (permissions === undefined) {
-    //   runNotification('FAILED TO SET PERMISSIONS. REASON: Permissions not set.', 5, state, dispatch);
-    //   setTimeout(() => {
-    //     clearInputFields();
-    //   }, 3000);
-    //   return;
-    // }
-
     try {
-      await setDocContainerAclPermission(session, permissions, podUrl, podToSetPermissionsToURL);
+      await setDocContainerAclPermission(session, permissions, podUrl, podUrlToSetPermissionsTo);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${

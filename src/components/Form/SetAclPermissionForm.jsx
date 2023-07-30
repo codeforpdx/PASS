@@ -51,19 +51,11 @@ const SetAclPermissionForm = () => {
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
-    const podToSetPermissionsToURL = event.target.setAclTo.value;
+    const podUrlToSetPermissionsTo = event.target.setAclTo.value;
 
-    if (!podToSetPermissionsToURL) {
-      runNotification('Set permissions failed. Reason: PodURL not provided.', 5, state, dispatch);
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-      return;
-    }
-
-    if (podToSetPermissionsToURL === podUrl) {
+    if (podUrlToSetPermissionsTo === podUrl) {
       runNotification(
-        'Set permissions failed. Reason: Current user Pod cannot change container permissions to itself.',
+        'FAILED TO SET PERMISSIONS. REASON: Current user Pod cannot change container permissions to itself.',
         5,
         state,
         dispatch
@@ -74,24 +66,8 @@ const SetAclPermissionForm = () => {
       return;
     }
 
-    if (permissions === undefined) {
-      runNotification('Set permissions failed. Reason: Permissions not set.', 5, state, dispatch);
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-      return;
-    }
-
-    if (!docType) {
-      runNotification('Search failed. Reason: No document type selected.', 5, state, dispatch);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
-      return;
-    }
-
     try {
-      await setDocAclPermission(session, docType, permissions, podToSetPermissionsToURL);
+      await setDocAclPermission(session, docType, permissions, podUrl, podUrlToSetPermissionsTo);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
@@ -102,7 +78,7 @@ const SetAclPermissionForm = () => {
         dispatch
       );
     } catch (error) {
-      runNotification('Set permissions failed. Reason: File not found.', 5, state, dispatch);
+      runNotification('FAILED TO SET PERMISSIONS. REASON: File not found.', 5, state, dispatch);
     } finally {
       setTimeout(() => {
         clearInputFields();
