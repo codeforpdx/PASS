@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '../../utils';
 // Custom Hook Imports
 import { useStatusNotification } from '../../hooks';
+import { useNotification } from '../../hooks/useNotification';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
@@ -31,40 +32,28 @@ const DeleteClientModal = ({
   setShowDeleteClientModal,
   selectedClientToDelete
 }) => {
+  const notify = useNotification();
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
   const [showSpinner, setShowSpinner] = useState(false);
-
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
     event.preventDefault();
     setShowSpinner(true);
-    runNotification(
-      `Deleting "${selectedClientToDelete?.person}" from client list...`,
-      'success',
-      5,
-      state,
-      dispatch
-    );
+    // notify.addNotification('info',`Deleting "${selectedClientToDelete?.person}" from client list...`)
     try {
       await removeUser(selectedClientToDelete);
     } catch (e) {
       runNotification(`Client deletion failed. Reason: ${e.message}`);
     } finally {
-      runNotification(
-        `"${selectedClientToDelete?.person}" deleted from client list...`,
-        'success',
-        5,
-        state,
-        dispatch
-      );
+      notify.addNotification('success',`"${selectedClientToDelete?.person}" deleted from client list...`)
       setShowSpinner(false);
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
     }
   };
-
+  console.log('notify state from deleteClient modal', notify.state)
   return (
     <Dialog
       open={showDeleteClientModal}
@@ -111,7 +100,6 @@ const DeleteClientModal = ({
           </DialogActions>
         </form>
       </FormSection>
-      <BasicNotification severity={state.severity} message={state.message} />
     </Dialog>
   );
 };

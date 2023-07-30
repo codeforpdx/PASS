@@ -16,11 +16,12 @@ import TextField from '@mui/material/TextField';
 import { ENV } from '../../constants';
 import { runNotification } from '../../utils';
 import { createUser } from '../../model-helpers/User';
+// Custom Hook imports
+import { useNotification } from '../../hooks/useNotification';
 // Context Imports
 import { UserListContext } from '../../contexts';
 // Component Imports
 import { FormSection } from '../Form';
-import BasicNotification from '../Notification/BasicNotification';
 
 /**
  * AddClientModal Component - Component that allows users to add other user's
@@ -44,6 +45,8 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const [webId, setWebId] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
   const { addUser } = useContext(UserListContext);
+
+  const notify = useNotification();
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -92,13 +95,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
 
     dispatch({ type: 'SET_PROCESSING' });
 
-    runNotification(
-      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
-      'succes',
-      5,
-      state,
-      dispatch
-    );
+    // notify.addNotification('info',`Adding "${userObject.givenName} ${userObject.familyName}" to client list...`)
   };
 
   // Event handler for adding client to users list
@@ -116,13 +113,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     try {
       await submitUser(userObject);
     } finally {
-      runNotification(
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
-        'error',
-        5,
-        state,
-        dispatch
-      );
+      notify.addNotification('success',`"${userObject.givenName} ${userObject.familyName}" added to client list`)
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
@@ -134,7 +125,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       setShowSpinner(false);
     }
   };
-
+  
   return (
     <Dialog
       open={showAddClientModal}
@@ -233,7 +224,6 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
           </DialogActions>
         </form>
       </FormSection>
-      <BasicNotification severity={state.severity} message={state.message} />
     </Dialog>
   );
 };

@@ -1,7 +1,6 @@
 export const notificationReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_NOTIFICATION':
-        console.log('add notifican in reducter')
       return {
         ...state,
         notifications: [...state.notifications, action.payload]
