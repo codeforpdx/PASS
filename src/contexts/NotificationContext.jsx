@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { notificationReducer } from '../reducers/notificationReducer';
+import  notificationReducer  from '../reducers/notificationReducer';
 import NotificationContainer from '../components/Notification/NotificationContainer';
 
 export const NotificationContext = createContext();
