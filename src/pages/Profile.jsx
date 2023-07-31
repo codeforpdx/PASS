@@ -17,6 +17,7 @@ import { UploadDocumentModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
 import { LoadingAnimation } from '../components/Notification';
+import Camera from '../components/Modals/Camera';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -108,6 +109,7 @@ const Profile = () => {
           </>
         )}
       </Box>
+      <Camera />
     </Box>
   );
 };

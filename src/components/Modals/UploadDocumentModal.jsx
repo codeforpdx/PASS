@@ -11,7 +11,6 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-import SearchIcon from '@mui/icons-material/Search';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -23,6 +22,7 @@ import { runNotification } from '@utils';
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
+import UploadButtonGroup from './UploadButtonGroup';
 
 /**
  * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
@@ -153,24 +153,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               placeholder="Add a description here"
             />
             <br />
-            {/* File to upload: {file ? file.name : 'No file selected'} */}
-            <Button
-              variant={file ? 'outlined' : 'contained'}
-              component="label"
-              color="primary"
-              id="upload-doctype"
-              name="uploadDoctype"
-              onChange={(e) => setFile(e.target.files[0])}
-              required
-              startIcon={<SearchIcon />}
-            >
-              Choose file
-              <input
-                type="file"
-                hidden
-                accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
-              />
-            </Button>
+            <UploadButtonGroup file={file} setFile={setFile} />
             <FormHelperText
               sx={{
                 width: '200px',
@@ -189,6 +172,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 onClick={clearInputFields}
                 fullWidth
                 helpertext="Please enter your name"
+                sx={{ borderRadius: '20px' }}
               >
                 CANCEL
               </Button>
@@ -199,6 +183,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 color="primary"
                 startIcon={<FileUploadIcon />}
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Upload
               </Button>
