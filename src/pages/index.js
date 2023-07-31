@@ -1,5 +1,4 @@
 import Clients from './Clients';
-import Documents from './Documents';
 import Home from './Home';
 import Messages from './Messages';
 import Profile from './Profile';
@@ -10,4 +9,4 @@ import Profile from './Profile';
  * @namespace Pages
  */
 
-export { Clients, Documents, Home, Messages, Profile };
+export { Clients, Home, Messages, Profile };

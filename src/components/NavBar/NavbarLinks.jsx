@@ -22,10 +22,7 @@ const NavbarLinks = () => {
   }
 
   // array of current nav links for menus
-  const routesArray = [
-    { label: 'Clients', path: 'clients' },
-    { label: 'Documents', path: 'documents' }
-  ];
+  const routesArray = [{ label: 'Clients', path: '/clients' }];
 
   return (
     <Tabs

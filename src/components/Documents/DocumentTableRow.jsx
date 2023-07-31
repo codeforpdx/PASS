@@ -1,27 +1,32 @@
 // React Imports
 import React, { useContext } from 'react';
-// Inrupt Imports
+// Custon Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 // Utility Imports
-import { getBlobFromSolid } from '../../utils';
+import { getBlobFromSolid } from '@utils';
 // Context Imports
-import { DocumentListContext } from '../../contexts';
+import { DocumentListContext } from '@contexts';
+// Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+// Constants Imports
 import DOC_TYPES from '../../constants/doc_types';
+
+/**
+ * @typedef {import("../../typedefs.js").documentTableRowProps} documentTableRowProps
+ */
 
 /**
  * DocumentTableRow Component - A row in the Document Table
  *
  * @memberof Documents
  * @name DocumentTableRow
- * @param document
- * @returns {React.ReactElement}
+ * @param {documentTableRowProps} Props - Props for DocumentTableRow
+ * @returns {React.JSX.Element} The DocumentTableRow component
  */
-
 const DocumentTableRow = ({ document }) => {
   const { session } = useSession();
   const { removeDocument } = useContext(DocumentListContext);

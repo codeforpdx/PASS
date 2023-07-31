@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useState, useEffect } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';

@@ -1,12 +1,12 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect, useContext } from 'react';
-import { createSolidDataset } from '@inrupt/solid-client';
 // Inrupt Imports
+import { createSolidDataset } from '@inrupt/solid-client';
+// Custom Hook Imports
 import { useSession } from '@hooks';
-
-// Context Imports
-import { SelectedUserContext } from './SelectedUserContext';
+// Model Imports
 import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
+import { SignedInUserContext } from './SignedInUserContext';
 
 /**
  * React Context for showing all documents in a user's pod
@@ -21,19 +21,22 @@ export const DocumentListContext = createContext([]);
  *
  * @memberof contexts
  * @function DocumentListContextProvider
- * @param {React.JSX.Element} children - consumers of documentListContext
+ * @param {React.JSX.Element} children - consumers of DocumentListContext
  * @returns {React.JSX.Element}
  * Context from Provider
  */
 export const DocumentListContextProvider = ({ children }) => {
   const [documentListObject, setDocumentListObject] = useState({});
   const [loadingDocuments, setLoadingDocuments] = useState(true);
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { podUrl } = useContext(SignedInUserContext);
+  const [client, setClient] = useState(null);
   const { session } = useSession();
 
   const documentListMemo = useMemo(
     () => ({
       documentListObject,
+      client,
+      setClient,
       addDocument: async (docDesc, file) =>
         setDocumentListObject(await addDocument(docDesc, file, documentListObject, session)),
       replaceDocument: async (docDesc, file) =>
@@ -50,17 +53,17 @@ export const DocumentListContextProvider = ({ children }) => {
       setDocumentListObject({
         docList: [],
         dataset: createSolidDataset(),
-        containerUrl: `${selectedUser.podUrl}PASS/Documents/`
+        containerUrl: client ? `${client?.podUrl}PASS/Documents/` : `${podUrl}PASS/Documents/`
       });
       try {
-        setDocumentListObject(await loadDocumentList(session, selectedUser.podUrl));
+        setDocumentListObject(await loadDocumentList(session, client ? client?.podUrl : podUrl));
       } finally {
         setLoadingDocuments(false);
       }
     };
 
-    if (selectedUser && selectedUser.podUrl) loadDocuments();
-  }, [selectedUser]);
+    if (podUrl) loadDocuments();
+  }, [podUrl, client?.podUrl]);
 
   return (
     <DocumentListContext.Provider value={documentListMemo}>{children}</DocumentListContext.Provider>
