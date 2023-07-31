@@ -51,19 +51,6 @@ const SetAclPermsDocContainerForm = () => {
       : undefined;
     const podUrlToSetPermissionsTo = event.target.setAclTo.value;
 
-    if (podUrlToSetPermissionsTo === podUrl) {
-      runNotification(
-        'FAILED TO SET PERMISSIONS. REASON: Current user Pod cannot change container permissions to itself.',
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-      return;
-    }
-
     try {
       await setDocContainerAclPermission(session, permissions, podUrl, podUrlToSetPermissionsTo);
 
@@ -121,6 +108,12 @@ const SetAclPermsDocContainerForm = () => {
               placeholder={permissionState.podToSetPermissionsTo}
               label="Enter PodURL"
               required
+              error={permissionState.podToSetPermissionsTo === podUrl}
+              helperText={
+                permissionState.podToSetPermissionsTo === podUrl
+                  ? 'Cannot modify your permissions to your own pod.'.toUpperCase()
+                  : ''
+              }
             />
           </FormControl>
 
@@ -130,7 +123,8 @@ const SetAclPermsDocContainerForm = () => {
               disabled={
                 state.processing ||
                 permissionState.podToSetPermissionsTo === '' ||
-                permissionState.permissionType === ''
+                permissionState.permissionType === '' ||
+                permissionState.podToSetPermissionsTo === podUrl
               }
               type="submit"
               color="primary"

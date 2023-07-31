@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 // Utility Imports
 import { runNotification, setDocAclPermission } from '@utils';
 // Context Imports
@@ -53,19 +54,6 @@ const SetAclPermissionForm = () => {
       : undefined;
     const podUrlToSetPermissionsTo = event.target.setAclTo.value;
 
-    if (podUrlToSetPermissionsTo === podUrl) {
-      runNotification(
-        'FAILED TO SET PERMISSIONS. REASON: Current user Pod cannot change container permissions to itself.',
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
-      return;
-    }
-
     try {
       await setDocAclPermission(session, docType, permissions, podUrl, podUrlToSetPermissionsTo);
 
@@ -95,6 +83,18 @@ const SetAclPermissionForm = () => {
     >
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
+          <Typography
+            variant="subtitle2"
+            mb={2}
+            sx={{
+              width: '250px',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >
+            File Name: LongAssFileNameToTestIfThisIsWorkingCorrectly
+          </Typography>
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
@@ -123,6 +123,12 @@ const SetAclPermissionForm = () => {
               placeholder={permissionState.podToSetPermissionsTo}
               label="Enter PodURL"
               required
+              error={permissionState.podToSetPermissionsTo === podUrl}
+              helperText={
+                permissionState.podToSetPermissionsTo === podUrl
+                  ? 'Cannot modify your permissions to your own pod.'.toUpperCase()
+                  : ''
+              }
             />
           </FormControl>
 
@@ -133,7 +139,12 @@ const SetAclPermissionForm = () => {
           />
 
           <FormControl fullWidth sx={{ marginTop: '2rem' }}>
-            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
+            <Button
+              variant="contained"
+              disabled={permissionState.podToSetPermissionsTo === podUrl || state.processing}
+              type="submit"
+              color="primary"
+            >
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Give or Revoke Permission'}
