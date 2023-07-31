@@ -10,8 +10,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 // Utility Imports
 import { runNotification } from '@utils';
-// Custom Hook Imports
+// Context Imports
 import { UserListContext } from '@contexts';
+// Custom Hook Imports
 import { useNotification } from '../../hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
