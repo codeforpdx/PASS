@@ -1,3 +1,4 @@
+import React from 'react';
 import BasicNotification from './BasicNotification';
 
 const NotificationContainer = ({ notifications }) => (

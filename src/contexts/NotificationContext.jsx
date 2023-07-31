@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { notificationReducer } from '../reducers/notificationReducer';
 import NotificationContainer from '../components/Notification/NotificationContainer';
 
@@ -21,7 +21,7 @@ export const NotificationContextProvider = ({ children }) => {
   };
   return (
     <NotificationContext.Provider value={{ addNotification, remove, state }}>
-        <NotificationContainer notifications={state.notifications}/>
+      <NotificationContainer notifications={state.notifications} />
       {children}
     </NotificationContext.Provider>
   );

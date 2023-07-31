@@ -63,7 +63,6 @@ const DeleteClientModal = ({
     >
       <FormSection
         title="Delete Client"
-        state={state}
         showSpinner={showSpinner}
         statusType="Status"
         defaultMessage="To be deleted..."
@@ -92,7 +91,6 @@ const DeleteClientModal = ({
               color="primary"
               aria-label="Delete Client Button"
               endIcon={<CheckIcon />}
-              disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
             >
               DELETE CLIENT
