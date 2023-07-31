@@ -1,4 +1,4 @@
-export const notificationReducer = (state, action) => {
+const notificationReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_NOTIFICATION':
       return {
@@ -14,3 +14,5 @@ export const notificationReducer = (state, action) => {
       throw new Error(`Can not ${action.type}`);
   }
 };
+
+export default notificationReducer;
