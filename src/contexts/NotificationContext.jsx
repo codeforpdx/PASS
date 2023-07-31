@@ -12,7 +12,6 @@ export const NotificationContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(notificationReducer, initialState);
 
   const addNotification = (severity, message) => {
-    console.log('Add Notification ran')
     const id = Math.floor(Math.random() * 10000000);
     dispatch({ type: 'ADD_NOTIFICATION', payload: { id, message, severity } });
   };

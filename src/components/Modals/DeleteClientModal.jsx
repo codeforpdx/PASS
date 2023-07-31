@@ -11,10 +11,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 // Utility Imports
 import { runNotification } from '@utils';
 // Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
-import { useNotification } from '../../hooks/useNotification';
-// Context Imports
 import { UserListContext } from '@contexts';
+import { useNotification } from '../../hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -32,7 +30,6 @@ const DeleteClientModal = ({
   selectedClientToDelete
 }) => {
   const notify = useNotification();
-  const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
   const [showSpinner, setShowSpinner] = useState(false);
   // Event handler for deleting client from client list
@@ -45,14 +42,17 @@ const DeleteClientModal = ({
     } catch (e) {
       runNotification(`Client deletion failed. Reason: ${e.message}`);
     } finally {
-      notify.addNotification('success',`"${selectedClientToDelete?.person}" deleted from client list...`)
+      notify.addNotification(
+        'success',
+        `"${selectedClientToDelete?.person}" deleted from client list...`
+      );
       setShowSpinner(false);
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
     }
   };
-  console.log('notify state from deleteClient modal', notify.state)
+  
   return (
     <Dialog
       open={showDeleteClientModal}

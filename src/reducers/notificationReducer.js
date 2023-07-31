@@ -6,7 +6,6 @@ export const notificationReducer = (state, action) => {
         notifications: [...state.notifications, action.payload]
       };
     case 'DELETE_NOTIFICATION':
-        console.log('delete notification is being called in reducer')
       const updatedNotifications = state.notifications.filter(
         (notification) => notification.id !== action.payload
       );

@@ -11,7 +11,6 @@ const BasicNotification = ({ severity, message, id }) => {
 
   const handleDismiss = () => {
     notify.remove(id);
-    console.log(id, 'id to be deleted');
   };
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const BasicNotification = ({ severity, message, id }) => {
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} id={id}>
+      <Snackbar id={id}>
         <Alert severity={severity} variant="filled" elevation={6} sx={{ width: '100%' }}>
           {message}
         </Alert>

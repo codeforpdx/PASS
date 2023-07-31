@@ -115,7 +115,10 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     try {
       await submitUser(userObject);
     } finally {
-      notify.addNotification('success',`"${userObject.givenName} ${userObject.familyName}" added to client list`)
+      notify.addNotification(
+        'success',
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`
+      );
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
@@ -127,7 +130,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       setShowSpinner(false);
     }
   };
-  
+
   return (
     <Dialog
       open={showAddClientModal}
