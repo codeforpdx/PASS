@@ -5,18 +5,29 @@ import Box from '@mui/material/Box';
 
 const Camera = () => {
   const [startCamera, setStartCamera] = useState(false);
-  const handleCamera = () => {
-    setStartCamera(!startCamera);
-    const video = document.getElementById('video');
+  const video = document.getElementById('video');
 
-    if (startCamera) {
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((stream) => {
+  const handleStartCamera = () => {
+    setStartCamera(true);
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then((stream) => {
         video.srcObject = stream;
         video.play();
+      })
+      .catch((error) => {
+        console.log(`Error accessing camera, ${error}`);
       });
-      return;
-    }
+  };
 
+  const handleStopCamera = () => {
+    setStartCamera(false);
+
+    const tracks = video.srcObject?.getTracks();
+    tracks.forEach((track) => {
+      track.stop();
+    });
     video.srcObject = null;
   };
 
@@ -24,9 +35,15 @@ const Camera = () => {
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <video id="video" style={{ border: '1px solid black', width: '320px', height: '240px' }} />
-        <button type="button" onClick={handleCamera}>
-          Start camera
-        </button>
+        {startCamera ? (
+          <button type="button" onClick={handleStopCamera}>
+            Stop camera
+          </button>
+        ) : (
+          <button type="button" onClick={handleStartCamera}>
+            Start camera
+          </button>
+        )}
       </Box>
       <canvas id="canvas" style={{ width: '320px', height: '240px' }} />
       <div>
