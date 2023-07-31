@@ -33,8 +33,7 @@ import { FormSection } from '../Form';
 
 const renderWebId = (username) => {
   const oidcProvider = ENV.VITE_SOLID_IDENTITY_PROVIDER.split('//')[1];
-  const template = ['https://', `.${oidcProvider}/profile/card#me`];
-  return `${template[0]}${username}${template[1]}`;
+  return `https://${username}.${oidcProvider}/profile/card#me`;
 };
 
 const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
