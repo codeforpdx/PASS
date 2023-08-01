@@ -118,17 +118,7 @@ const SetAclPermsDocContainerForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <Button
-              variant="contained"
-              disabled={
-                state.processing
-                // permissionState.podUrlToSetPermissionsTo === '' ||
-                // permissionState.permissionType === '' ||
-                // permissionState.podUrlToSetPermissionsTo === podUrl
-              }
-              type="submit"
-              color="primary"
-            >
+            <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Give or Revoke Permission'}
