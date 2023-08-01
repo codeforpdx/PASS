@@ -18,6 +18,8 @@ import { runNotification } from '@utils';
 import { UserListContext } from '@contexts';
 // Model Imports
 import { createUser } from '../../model-helpers/User';
+// Constants Imports
+import { ENV } from '../../constants';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -30,8 +32,9 @@ import { FormSection } from '../Form';
  */
 
 const renderWebId = (username) => {
-  const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
-  return new URL(`${username}/profile/card#me`, baseUrl);
+  const oidcProvider = ENV.VITE_SOLID_IDENTITY_PROVIDER.split('//')[1];
+  const template = ['https://', `.${oidcProvider}profile/card#me`];
+  return `${template[0]}${username}${template[1]}`;
 };
 
 const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
