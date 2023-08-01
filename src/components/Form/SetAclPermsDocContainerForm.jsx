@@ -49,10 +49,10 @@ const SetAclPermsDocContainerForm = () => {
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    const webIdToSetPermissionsTo = event.target.setAclTo.value;
+    const webIdToAssignPermissionsTo = event.target.setAclTo.value;
 
     try {
-      await setDocContainerAclPermission(session, permissions, podUrl, webIdToSetPermissionsTo);
+      await setDocContainerAclPermission(session, permissions, podUrl, webIdToAssignPermissionsTo);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${

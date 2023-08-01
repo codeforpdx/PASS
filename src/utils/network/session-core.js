@@ -44,7 +44,7 @@ import {
  * @param {string} docType - Type of document
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} podUrlToSetPermissionsTo - URL of the other user's Pod to give/revoke permissions OR empty string
+ * @param {string} webIdToAssignPermissionsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
@@ -70,7 +70,7 @@ export const setDocAclPermission = async (
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} podUrlToSetPermissionsTo - URL of the other user's Pod to give/revoke permissions OR empty string
+ * @param {string} webIdToAssignPermissionsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
@@ -78,10 +78,10 @@ export const setDocContainerAclPermission = async (
   session,
   permissions,
   podUrl,
-  webIdToSetPermissionsTo
+  webIdToAssignPermissionsTo
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const webId = webIdToSetPermissionsTo;
+  const webId = webIdToAssignPermissionsTo;
 
   await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
 };
