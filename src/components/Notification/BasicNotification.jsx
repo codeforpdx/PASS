@@ -25,7 +25,7 @@ const BasicNotification = ({ severity, message, id }) => {
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar id={id}>
+      <Snackbar open={message} id={id}>
         <Alert severity={severity} variant="filled" elevation={6} sx={{ width: '100%' }}>
           {message}
         </Alert>
