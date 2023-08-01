@@ -8,22 +8,29 @@ assignees: ''
 ---
 
 
-**Feature Title**: [Concise description of the feature]
+### Feature Title:
+Please provide a CONCISE description of the proposed feature.
 
-**Feature Description**:
-Please provide a detailed description of the proposed feature.
+---
+### Feature Description:
+Please provide a DETAILED description of the proposed feature.
 
-**Use Case**:
+---
+### Use Case:
 Explain when and why this feature would be used. Try to include as much detail as possible.
 
-**Proposed Solution**:
-If you have a solution in mind, please outline it here. If not, that's okay too.
+---
+### Proposed Solution:
+If you have a solution in mind, please outline it here.
 
-**Alternative Solutions**:
+---
+### Alternative Solutions:
 If there are alternative ways to solve this problem, please list them here.
 
-**Screenshots (if applicable)**:
+---
+### Screenshots (if applicable):
 Include any screenshots that may be helpful.
 
-**Additional Context**:
+---
+### Additional Context:
 Please provide any other information that might be helpful.
