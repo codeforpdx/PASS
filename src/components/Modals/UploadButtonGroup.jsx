@@ -27,21 +27,23 @@ const UploadButtonGroup = ({ file, setFile }) => (
         accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
       />
     </Button>
-    <Button
-      variant={file ? 'outlined' : 'contained'}
-      component="label"
-      color="primary"
-      id="upload-doctype"
-      name="uploadDoctype"
-      onChange={(e) => setFile(e.target.files[0])}
-      fullWidth
-      required
-      startIcon={<PhotoCameraIcon />}
-      sx={{ borderRadius: '20px', marginLeft: '8px' }}
-    >
-      Capture image
-      <input type="file" hidden accept="image/*" capture="environment" />
-    </Button>
+    {window.matchMedia('(max-width: 768px').matches && (
+      <Button
+        variant={file ? 'outlined' : 'contained'}
+        component="label"
+        color="primary"
+        id="upload-doctype"
+        name="uploadDoctype"
+        onChange={(e) => setFile(e.target.files[0])}
+        fullWidth
+        required
+        startIcon={<PhotoCameraIcon />}
+        sx={{ borderRadius: '20px', marginLeft: '8px' }}
+      >
+        Capture image
+        <input type="file" hidden accept="image/*" capture="environment" />
+      </Button>
+    )}
   </Box>
 );
 
