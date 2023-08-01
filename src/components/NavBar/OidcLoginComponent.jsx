@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
-import { TextField, Box, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 // Constants Imports
 import { ENV } from '../../constants';
 
