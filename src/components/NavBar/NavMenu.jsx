@@ -61,18 +61,15 @@ const NavMenu = ({
     >
       <MenuList>
         {/* messages */}
-        <MenuItem
-          component={Button}
-          startIcon={<EmailIcon />}
-          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
-        >
-          <Link
-            to="/messages"
-            style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+        <Link to="/messages" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
+          <MenuItem
+            component={Button}
+            startIcon={<EmailIcon />}
+            sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
           >
             Messages
-          </Link>
-        </MenuItem>
+          </MenuItem>
+        </Link>
         {/* notifications */}
         <MenuItem
           component={Button}
@@ -83,32 +80,32 @@ const NavMenu = ({
           Notifications
         </MenuItem>
         {/* profile */}
-        <MenuItem
-          component={Button}
-          sx={{ width: '100%' }}
-          startIcon={
-            <Avatar
-              src={profileImg}
-              alt="PASS profile"
-              sx={{
-                height: '24px',
-                width: '24px',
-                objectFit: 'contain',
-                color: theme.palette.primary.contrastText,
-                backgroundColor: theme.palette.primary.main
-              }}
-            />
-          }
+        <Link
+          to="/profile"
+          state={{ client: null }}
+          style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+          onClick={() => setClient(null)}
         >
-          <Link
-            to="/profile"
-            state={{ client: null }}
-            style={{ textDecoration: 'none', color: theme.palette.primary.main }}
-            onClick={() => setClient(null)}
+          <MenuItem
+            component={Button}
+            sx={{ width: '100%' }}
+            startIcon={
+              <Avatar
+                src={profileImg}
+                alt="PASS profile"
+                sx={{
+                  height: '24px',
+                  width: '24px',
+                  objectFit: 'contain',
+                  color: theme.palette.primary.contrastText,
+                  backgroundColor: theme.palette.primary.main
+                }}
+              />
+            }
           >
             Profile
-          </Link>
-        </MenuItem>
+          </MenuItem>
+        </Link>
         <Divider />
         {/* settings */}
         <MenuItem
