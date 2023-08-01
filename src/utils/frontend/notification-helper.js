@@ -13,7 +13,6 @@ import React from 'react';
  * @function runNotification
  * @param {string} message - File status message for upload, fetch, or delete
  * file
- * @param {string} severity - Severity declairation for message
  * @param {number} time - Duration of message in seconds
  * @param {statusNotificationObject} state - The state related to status
  * notifications (see {@link statusNotificationObject})
@@ -24,7 +23,6 @@ import React from 'react';
 
 const runNotification = (
   message,
-  severity,
   time, // in seconds
   state,
   dispatch
@@ -35,7 +33,7 @@ const runNotification = (
     clearTimeout(state.timeoutID);
   }
 
-  dispatch({ type: 'SET_MESSAGE', payload: message, severity });
+  dispatch({ type: 'SET_MESSAGE', payload: message });
 
   // set timeout for potentially new notification
   const timeout = setTimeout(() => {

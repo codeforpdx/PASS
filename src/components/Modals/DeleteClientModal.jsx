@@ -1,5 +1,7 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+// Custom Hook Imports
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,8 +14,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '@utils';
 // Context Imports
 import { UserListContext } from '@contexts';
-// Custom Hook Imports
-import  useNotification  from '../../hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -30,30 +30,35 @@ const DeleteClientModal = ({
   setShowDeleteClientModal,
   selectedClientToDelete
 }) => {
-  const notify = useNotification();
+  const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
-  const [showSpinner, setShowSpinner] = useState(false);
+
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
     event.preventDefault();
-    setShowSpinner(true);
-    // notify.addNotification('info',`Deleting "${selectedClientToDelete?.person}" from client list...`)
+    runNotification(
+      `Deleting "${selectedClientToDelete?.person}" from client list...`,
+      5,
+      state,
+      dispatch
+    );
     try {
       await removeUser(selectedClientToDelete);
     } catch (e) {
       runNotification(`Client deletion failed. Reason: ${e.message}`);
     } finally {
-      notify.addNotification(
-        'success',
-        `"${selectedClientToDelete?.person}" deleted from client list...`
+      runNotification(
+        `"${selectedClientToDelete?.person}" deleted from client list...`,
+        5,
+        state,
+        dispatch
       );
-      setShowSpinner(false);
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
     }
   };
-  
+
   return (
     <Dialog
       open={showDeleteClientModal}
@@ -63,7 +68,7 @@ const DeleteClientModal = ({
     >
       <FormSection
         title="Delete Client"
-        showSpinner={showSpinner}
+        state={state}
         statusType="Status"
         defaultMessage="To be deleted..."
       >
@@ -91,6 +96,7 @@ const DeleteClientModal = ({
               color="primary"
               aria-label="Delete Client Button"
               endIcon={<CheckIcon />}
+              disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
             >
               DELETE CLIENT

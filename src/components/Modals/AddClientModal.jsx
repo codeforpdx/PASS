@@ -18,8 +18,6 @@ import { runNotification } from '@utils';
 import { UserListContext } from '@contexts';
 // Model Imports
 import { createUser } from '../../model-helpers/User';
-// Custom Hook imports
-import  useNotification  from '../../hooks/useNotification';
 // Constants Imports
 import { ENV } from '../../constants';
 // Component Imports
@@ -45,10 +43,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const [showSpinner, setShowSpinner] = useState(false);
   const { addUser } = useContext(UserListContext);
-
-  const notify = useNotification();
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -64,7 +59,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const notifyStartSubmission = (userObject) => {
     // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username && !userObject.webId) {
-      runNotification(`Operation failed. Reason: No WebId provided`, 'error', 5, state, dispatch);
+      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
     }
 
@@ -97,13 +92,17 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
 
     dispatch({ type: 'SET_PROCESSING' });
 
-    // notify.addNotification('info',`Adding "${userObject.givenName} ${userObject.familyName}" to client list...`)
+    runNotification(
+      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
+      5,
+      state,
+      dispatch
+    );
   };
 
   // Event handler for adding client to users list
   const handleAddClient = async (event) => {
     event.preventDefault();
-    setShowSpinner(true);
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
@@ -115,9 +114,11 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     try {
       await submitUser(userObject);
     } finally {
-      notify.addNotification(
-        'success',
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`
+      runNotification(
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
+        5,
+        state,
+        dispatch
       );
       setTimeout(() => {
         setUserGivenName('');
@@ -127,7 +128,6 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         dispatch({ type: 'CLEAR_PROCESSING' });
         setShowAddClientModal(false);
       }, 2000);
-      setShowSpinner(false);
     }
   };
 
@@ -140,7 +140,6 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       <FormSection
         title="Add Client"
         state={state}
-        showSpinner={showSpinner}
         statusType="Status"
         defaultMessage="To be added..."
       >
