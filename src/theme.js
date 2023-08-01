@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+const purpleTheme = createTheme({
   typography: { fontFamily: 'Roboto, sans-serif' },
   palette: {
     primary: {
@@ -32,4 +32,4 @@ const theme = createTheme({
   }
 });
 
-export default theme;
+export default purpleTheme;
