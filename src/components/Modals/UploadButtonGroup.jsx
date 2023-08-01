@@ -40,6 +40,7 @@ const UploadButtonGroup = ({ file, setFile }) => (
       sx={{ borderRadius: '20px', marginLeft: '8px' }}
     >
       Capture image
+      <input type="file" hidden accept="image/*" capture="environment" />
     </Button>
   </Box>
 );
