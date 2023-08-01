@@ -18,18 +18,18 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  */
 
 /**
- * ClientListTableRow Component - Component that generates the individual table
- * rows of clients from data within ClientList
+ * ContactListTableRow Component - Component that generates the individual table
+ * rows of clients from data within ContactList
  *
- * @memberof Clients
- * @name ClientListTableRow
- * @param {clientListTableRowProps} Props - Props for ClientListTableRow
- * @returns {React.JSX.Element} The ClientListTableRow Component
+ * @memberof Contacts
+ * @name ContactListTableRow
+ * @param {clientListTableRowProps} Props - Props for ContactListTableRow
+ * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClientToDelete }) => {
+const ContactListTableRow = ({ client, setShowDeleteContactModal, setSelectedContactToDelete }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
-  const { setClient } = useContext(DocumentListContext);
+  const { setContact } = useContext(DocumentListContext);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -41,9 +41,9 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
   };
 
   // Event handler for deleting a client from client list
-  const handleSelectClientToDelete = () => {
-    setSelectedClientToDelete(client);
-    setShowDeleteClientModal(true);
+  const handleSelectContactToDelete = () => {
+    setSelectedContactToDelete(client);
+    setShowDeleteContactModal(true);
   };
 
   return (
@@ -54,7 +54,7 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
           state={{ client }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setClient(client)}>
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(client)}>
             {client.person}
           </Button>
         </Link>
@@ -68,7 +68,7 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" onClick={handleSelectClientToDelete}>
+        <IconButton size="large" onClick={handleSelectContactToDelete}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
@@ -76,4 +76,4 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
   );
 };
 
-export default ClientListTableRow;
+export default ContactListTableRow;

@@ -1,16 +1,15 @@
 // React Imports
-import React, { createContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@hooks';
 import { getPodUrlAll } from '@inrupt/solid-client';
+import { SessionContext } from './SessionContext';
 // Utility Imports
 import { createDocumentsContainer, createPublicContainer } from '../utils';
 import {
   fetchProfileInfo,
   updateProfileInfo,
   uploadProfileImage,
-  removeProfileImage,
-  updateUserActivity
+  removeProfileImage
 } from '../model-helpers';
 
 /**
@@ -32,7 +31,7 @@ export const SignedInUserContext = createContext({});
  */
 
 export const SignedInUserContextProvider = ({ children }) => {
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [podUrl, setPodUrl] = useState('');
   const [profileData, setProfileData] = useState(null);
@@ -64,8 +63,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         setProfileData(fetchedProfileData);
         await Promise.all([
           createPublicContainer(session, fetchedPodUrl),
-          createDocumentsContainer(session, fetchedPodUrl),
-          updateUserActivity(session, fetchedPodUrl)
+          createDocumentsContainer(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

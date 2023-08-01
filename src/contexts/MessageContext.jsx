@@ -1,7 +1,7 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@hooks';
+import { SessionContext } from './SessionContext';
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';
 // Context Imports
@@ -32,7 +32,7 @@ export const MessageContext = createContext([]);
 export const MessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
   const [loadMessages, setLoadMessages] = useState(true);
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
   const [inboxList, setInboxList] = useState([]);
 
   const [outboxList, setOutboxList] = useState([]);

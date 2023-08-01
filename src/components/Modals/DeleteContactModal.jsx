@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React from 'react';
 // Custom Hook Imports
 import { useStatusNotification } from '@hooks';
 // Material UI Imports
@@ -12,70 +12,61 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 // Utility Imports
 import { runNotification } from '@utils';
-// Context Imports
-import { UserListContext } from '@contexts';
 // Component Imports
 import { FormSection } from '../Form';
 
 /**
- * DeleteClientModal Component - Component that allows users to delete other user's
+ * DeleteContactModal Component - Component that allows users to delete other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Clients
- * @name DeleteClientModal
+ * @memberof Contacts
+ * @name DeleteContactModal
  */
 
-const DeleteClientModal = ({
-  showDeleteClientModal = false,
-  setShowDeleteClientModal,
-  selectedClientToDelete
+const DeleteContactModal = ({
+  showDeleteContactModal = false,
+  setShowDeleteContactModal,
+  selectedContactToDelete
 }) => {
   const { state, dispatch } = useStatusNotification();
-  const { removeUser } = useContext(UserListContext);
 
   // Event handler for deleting client from client list
-  const handleDeleteClient = async (event) => {
+  const handleDeleteContact = async (event) => {
     event.preventDefault();
     runNotification(
-      `Deleting "${selectedClientToDelete?.person}" from client list...`,
+      `Deleting "${selectedContactToDelete?.person}" from client list...`,
       5,
       state,
       dispatch
     );
-    try {
-      await removeUser(selectedClientToDelete);
-    } catch (e) {
-      runNotification(`Client deletion failed. Reason: ${e.message}`);
-    } finally {
-      runNotification(
-        `"${selectedClientToDelete?.person}" deleted from client list...`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        setShowDeleteClientModal(false);
-      }, 2000);
-    }
+    runNotification(
+      `"${selectedContactToDelete?.person}" deleted from client list...`,
+      5,
+      state,
+      dispatch
+    );
+    setTimeout(() => {
+      setShowDeleteContactModal(false);
+    }, 2000);
   };
 
   return (
     <Dialog
-      open={showDeleteClientModal}
+      open={showDeleteContactModal}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
-      onClose={() => setShowDeleteClientModal(false)}
+      onClose={() => setShowDeleteContactModal(false)}
     >
       <FormSection
-        title="Delete Client"
+        title="Delete Contact"
         state={state}
         statusType="Status"
         defaultMessage="To be deleted..."
       >
-        <form onSubmit={handleDeleteClient} autoComplete="off">
+        <form onSubmit={handleDeleteContact} autoComplete="off">
           <DialogContent>
             <DialogContentText id="dialog-description">
-              {`Are you sure you want to delete "${selectedClientToDelete?.person}" from your client list?`}
+              {`Are you sure you want to delete "${selectedContactToDelete?.person}" from your client list?`}
             </DialogContentText>
           </DialogContent>
 
@@ -85,7 +76,7 @@ const DeleteClientModal = ({
               color="error"
               aria-label="Cancel Button"
               endIcon={<ClearIcon />}
-              onClick={() => setShowDeleteClientModal(false)}
+              onClick={() => setShowDeleteContactModal(false)}
             >
               CANCEL
             </Button>
@@ -94,7 +85,7 @@ const DeleteClientModal = ({
               type="submit"
               variant="contained"
               color="primary"
-              aria-label="Delete Client Button"
+              aria-label="Delete Contact Button"
               endIcon={<CheckIcon />}
               disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
@@ -108,4 +99,4 @@ const DeleteClientModal = ({
   );
 };
 
-export default DeleteClientModal;
+export default DeleteContactModal;

@@ -20,17 +20,19 @@
  */
 
 import { useContext } from 'react';
-import { SessionContext } from '../contexts/SessionContext';
+import { SessionContext } from '@contexts';
 
 const useSession = () => {
-  const { session, sessionRequestInProgress, fetch, login, logout } = useContext(SessionContext);
+  const { podUrls, session, sessionRequestInProgress, fetch, login, logout } =
+    useContext(SessionContext);
 
   return {
     session,
     sessionRequestInProgress,
     fetch,
     login,
-    logout
+    logout,
+    podUrl: podUrls.length > 0 ? podUrls[0] : session.info.webId.split('profile')
   };
 };
 

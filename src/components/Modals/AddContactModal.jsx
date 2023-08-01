@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
@@ -14,21 +14,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { runNotification } from '@utils';
-// Context Imports
-import { UserListContext } from '@contexts';
-// Model Imports
-import { createUser } from '../../model-helpers/User';
 // Constants Imports
 import { ENV } from '../../constants';
 // Component Imports
 import { FormSection } from '../Form';
 
 /**
- * AddClientModal Component - Component that allows users to add other user's
+ * AddContactModal Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Clients
- * @name AddClientModal
+ * @memberof Contacts
+ * @name AddContactModal
  */
 
 const renderWebId = (username) => {
@@ -37,23 +33,17 @@ const renderWebId = (username) => {
   return `${template[0]}${username}${template[1]}`;
 };
 
-const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
+const AddContactModal = ({ showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const { addUser } = useContext(UserListContext);
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
     const renderedWebId = renderWebId(value);
     setWebId(renderedWebId);
-  };
-
-  const submitUser = async (userObject) => {
-    const user = await createUser(userObject);
-    await addUser(user);
   };
 
   const notifyStartSubmission = (userObject) => {
@@ -101,7 +91,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   };
 
   // Event handler for adding client to users list
-  const handleAddClient = async (event) => {
+  const handleAddContact = async (event) => {
     event.preventDefault();
     const userObject = {
       givenName: event.target.addUserGivenName.value,
@@ -111,39 +101,21 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     };
 
     notifyStartSubmission(userObject, state, dispatch);
-    try {
-      await submitUser(userObject);
-    } finally {
-      runNotification(
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        setUserGivenName('');
-        setUserFamilyName('');
-        setUsername('');
-        setWebId('');
-        dispatch({ type: 'CLEAR_PROCESSING' });
-        setShowAddClientModal(false);
-      }, 2000);
-    }
   };
 
   return (
     <Dialog
-      open={showAddClientModal}
+      open={showAddContactModal}
       aria-labelledby="dialog-title"
-      onClose={() => setShowAddClientModal(false)}
+      onClose={() => setShowAddContactModal(false)}
     >
       <FormSection
-        title="Add Client"
+        title="Add Contact"
         state={state}
         statusType="Status"
         defaultMessage="To be added..."
       >
-        <form onSubmit={handleAddClient} autoComplete="off">
+        <form onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
@@ -207,7 +179,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
               variant="outlined"
               color="error"
               endIcon={<ClearIcon />}
-              onClick={() => setShowAddClientModal(false)}
+              onClick={() => setShowAddContactModal(false)}
               fullWidth
             >
               CANCEL
@@ -232,4 +204,4 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   );
 };
 
-export default AddClientModal;
+export default AddContactModal;

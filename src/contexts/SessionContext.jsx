@@ -30,7 +30,7 @@ import {
   onSessionRestore as onSessionRestoreClient
 } from '@inrupt/solid-client-authn-browser';
 
-import { getProfileAll } from '@inrupt/solid-client';
+import { getProfileAll, getPodUrlAll } from '@inrupt/solid-client';
 
 export const SessionContext = createContext({
   login,
@@ -53,6 +53,7 @@ export const SessionProvider = ({
   const restoreSession = restorePreviousSession || typeof onSessionRestore !== 'undefined';
   const [session, setSession] = useState(getDefaultSession());
   const [profile, setProfile] = useState();
+  const [podUrls, setPodUrls] = useState([]);
 
   useEffect(() => {
     if (onSessionRestore !== undefined) {
@@ -89,8 +90,12 @@ export const SessionProvider = ({
           const profiles = await getProfileAll(sessionInfo?.webId, {
             fetch: session.fetch
           });
+          const tempPodUrls = await getPodUrlAll(sessionInfo?.webId, {
+            fetch: session.fetch
+          });
 
           setProfile(profiles);
+          setPodUrls(tempPodUrls);
         }
       })
       .catch((error) => {
@@ -129,6 +134,7 @@ export const SessionProvider = ({
     try {
       await logout();
       setProfile(undefined);
+      setPodUrls([]);
     } catch (error) {
       if (onError) {
         onError(error);
@@ -146,7 +152,8 @@ export const SessionProvider = ({
       sessionRequestInProgress,
       setSessionRequestInProgress,
       fetch,
-      profile
+      profile,
+      podUrls
     }),
     [session, profile, sessionRequestInProgress]
   );
