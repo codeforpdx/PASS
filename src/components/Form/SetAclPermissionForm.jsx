@@ -52,7 +52,7 @@ const SetAclPermissionForm = () => {
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
-    const webIdToSetPermsTo = `${permissionState.podUrlToSetPermissionsTo}/profile/card#me`;
+    const webIdToSetPermsTo = `${permissionState.podUrlToSetPermissionsTo}profile/card#me`;
 
     try {
       await setDocAclPermission(session, docType, permissions, podUrl, webIdToSetPermsTo);
