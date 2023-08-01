@@ -30,7 +30,7 @@ const greenTheme = createTheme({
       contrastText: '#fff'
     }
   }
-})
+});
 
 // const purpleTheme = createTheme({
 //   typography: { fontFamily: 'Roboto, sans-serif' },
