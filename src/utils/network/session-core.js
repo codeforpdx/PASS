@@ -53,11 +53,11 @@ export const setDocAclPermission = async (
   docType,
   permissions,
   podUrl,
-  podUrlToSetPermissionsTo
+  webIdToAssignPermissionsTo
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
   const documentUrl = `${containerUrl}${docType.replace("'", '').replace(' ', '_')}/`;
-  const webId = `${podUrlToSetPermissionsTo}profile/card#me`;
+  const webId = webIdToAssignPermissionsTo;
 
   await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
 };
@@ -78,10 +78,10 @@ export const setDocContainerAclPermission = async (
   session,
   permissions,
   podUrl,
-  podUrlToSetPermissionsTo
+  webIdToSetPermissionsTo
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const webId = `${podUrlToSetPermissionsTo}profile/card#me`;
+  const webId = webIdToSetPermissionsTo;
 
   await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
 };

@@ -31,7 +31,7 @@ const SetAclPermsDocContainerForm = () => {
   const { state, dispatch } = useStatusNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [permissionState, setPermissionState] = useState({
-    podToSetPermissionsTo: '',
+    webIdToSetPermissionsTo: '',
     permissionType: ''
   });
 
@@ -49,14 +49,14 @@ const SetAclPermsDocContainerForm = () => {
           append: event.target.setAclPerms.value === 'Give'
         }
       : undefined;
-    const podUrlToSetPermissionsTo = event.target.setAclTo.value;
+    const webIdToSetPermissionsTo = event.target.setAclTo.value;
 
     try {
-      await setDocContainerAclPermission(session, permissions, podUrl, podUrlToSetPermissionsTo);
+      await setDocContainerAclPermission(session, permissions, podUrl, webIdToSetPermissionsTo);
 
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          permissionState.podToSetPermissionsTo
+          permissionState.webIdToSetPermissionsTo
         } for Documents Container.`,
         5,
         state,
@@ -101,16 +101,16 @@ const SetAclPermsDocContainerForm = () => {
             <TextField
               id="set-acl-to"
               name="setAclTo"
-              value={permissionState.podToSetPermissionsTo}
+              value={permissionState.webIdToSetPermissionsTo}
               onChange={(e) =>
-                setPermissionState({ ...permissionState, podToSetPermissionsTo: e.target.value })
+                setPermissionState({ ...permissionState, webIdToSetPermissionsTo: e.target.value })
               }
-              placeholder={permissionState.podToSetPermissionsTo}
-              label="Enter PodURL"
+              placeholder={permissionState.webIdToSetPermissionsTo}
+              label="Enter webID"
               required
-              error={permissionState.podToSetPermissionsTo === podUrl}
+              error={permissionState.webIdToSetPermissionsTo === podUrl}
               helperText={
-                permissionState.podToSetPermissionsTo === podUrl
+                permissionState.webIdToSetPermissionsTo === podUrl
                   ? 'Cannot modify your permissions to your own pod.'.toUpperCase()
                   : ''
               }
@@ -122,9 +122,9 @@ const SetAclPermsDocContainerForm = () => {
               variant="contained"
               disabled={
                 state.processing ||
-                permissionState.podToSetPermissionsTo === '' ||
+                permissionState.webIdToSetPermissionsTo === '' ||
                 permissionState.permissionType === '' ||
-                permissionState.podToSetPermissionsTo === podUrl
+                permissionState.webIdToSetPermissionsTo === podUrl
               }
               type="submit"
               color="primary"
