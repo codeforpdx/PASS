@@ -73,7 +73,7 @@ const SetAclPermsDocContainerForm = () => {
 
   return (
     <FormSection
-      title="Permission for all Documents"
+      title="Permission for Container"
       state={state}
       statusType="Status"
       defaultMessage="No action yet..."
@@ -96,7 +96,7 @@ const SetAclPermsDocContainerForm = () => {
               <MenuItem value="Revoke">Revoke Permission</MenuItem>
             </Select>
           </FormControl>
-
+          <br />
           <FormControl fullWidth sx={{ marginBottom: '2rem' }}>
             <TextField
               id="set-acl-to"
@@ -116,15 +116,15 @@ const SetAclPermsDocContainerForm = () => {
               }
             />
           </FormControl>
-
+          <br />
           <FormControl fullWidth>
             <Button
               variant="contained"
               disabled={
-                state.processing ||
-                permissionState.podUrlToSetPermissionsTo === '' ||
-                permissionState.permissionType === '' ||
-                permissionState.podUrlToSetPermissionsTo === podUrl
+                state.processing
+                // permissionState.podUrlToSetPermissionsTo === '' ||
+                // permissionState.permissionType === '' ||
+                // permissionState.podUrlToSetPermissionsTo === podUrl
               }
               type="submit"
               color="primary"

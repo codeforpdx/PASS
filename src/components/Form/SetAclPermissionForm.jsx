@@ -76,7 +76,7 @@ const SetAclPermissionForm = () => {
 
   return (
     <FormSection
-      title="Permission for [FileName]"
+      title="Permission for Document"
       state={state}
       statusType="Status"
       defaultMessage="No action yet..."
@@ -93,8 +93,10 @@ const SetAclPermissionForm = () => {
               textOverflow: 'ellipsis'
             }}
           >
-            File Name: LongAssFileNameToTestIfThisIsWorkingCorrectly
+            <span style={{ color: 'grey' }}>File Name: </span>
+            LongAssFileNameToTestIfThisIsWorkingCorrectly
           </Typography>
+
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
@@ -111,7 +113,7 @@ const SetAclPermissionForm = () => {
               <MenuItem value="Revoke">Revoke Permission</MenuItem>
             </Select>
           </FormControl>
-
+          <br />
           <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
             <TextField
               id="set-acl-to"
