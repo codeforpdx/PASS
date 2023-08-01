@@ -38,17 +38,20 @@ const Contacts = () => {
 
       contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
       contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
-      contacts.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
-      contacts.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
+      contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
+      contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
       contacts.push(contact);
     });
     return contacts;
   };
 
-  const { data, isLoading, isError } = useDataset(URL('PASS/userlist.ttl', podUrl), session.fetch);
+  const { data, isLoading, isError, error } = useDataset(
+    new URL('PASS/Users/userlist.ttl', podUrl),
+    session.fetch
+  );
 
   if (isLoading) return <LoadingAnimation loadingItem="clients" />;
-  if (isError) return <Typography>Error loading contacts list</Typography>;
+  if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
   return (
     <Container
       sx={{

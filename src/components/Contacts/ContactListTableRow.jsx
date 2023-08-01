@@ -14,19 +14,19 @@ import { DocumentListContext } from '@contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
- * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps
+ * @typedef {import("../../typedefs.js").contactListTableRowProps} contactListTableRowProps
  */
 
 /**
  * ContactListTableRow Component - Component that generates the individual table
- * rows of clients from data within ContactList
+ * rows of contacts from data within ContactList
  *
  * @memberof Contacts
  * @name ContactListTableRow
- * @param {clientListTableRowProps} Props - Props for ContactListTableRow
+ * @param {contactListTableRowProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTableRow = ({ client, setShowDeleteContactModal, setSelectedContactToDelete }) => {
+const ContactListTableRow = ({ contact, setShowDeleteContactModal, setSelectedContactToDelete }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);
@@ -34,15 +34,15 @@ const ContactListTableRow = ({ client, setShowDeleteContactModal, setSelectedCon
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
-  // Event handler for pinning client to top of table
+  // Event handler for pinning contact to top of table
   // ***** TODO: Add in moving pinned row to top of table
   const handlePinClick = () => {
     setPinned(!pinned);
   };
 
-  // Event handler for deleting a client from client list
+  // Event handler for deleting a contact from contact list
   const handleSelectContactToDelete = () => {
-    setSelectedContactToDelete(client);
+    setSelectedContactToDelete(contact);
     setShowDeleteContactModal(true);
   };
 
@@ -50,12 +50,12 @@ const ContactListTableRow = ({ client, setShowDeleteContactModal, setSelectedCon
     <StyledTableRow>
       <StyledTableCell align="center">
         <Link
-          to={`/profile/${encodeURIComponent(client.webId)}`}
-          state={{ client }}
+          to={`/profile/${encodeURIComponent(contact.webId)}`}
+          state={{ contact }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(client)}>
-            {client.person}
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(contact)}>
+            {`${contact.givenName} ${contact.familyName}`}
           </Button>
         </Link>
       </StyledTableCell>

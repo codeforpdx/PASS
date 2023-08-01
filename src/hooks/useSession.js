@@ -32,7 +32,7 @@ const useSession = () => {
     fetch,
     login,
     logout,
-    podUrl: podUrls.length > 0 ? podUrls[0] : session.info.webId.split('profile')
+    podUrl: podUrls.length > 0 ? podUrls[0] : session.info.webId?.split('profile')[0]
   };
 };
 
