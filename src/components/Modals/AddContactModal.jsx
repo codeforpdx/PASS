@@ -33,7 +33,7 @@ const renderWebId = (username) => {
   return `${template[0]}${username}${template[1]}`;
 };
 
-const AddContactModal = ({ showAddContactModal, setShowAddContactModal }) => {
+const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -101,6 +101,8 @@ const AddContactModal = ({ showAddContactModal, setShowAddContactModal }) => {
     };
 
     notifyStartSubmission(userObject, state, dispatch);
+    await addContact(userObject);
+    setShowAddContactModal(false);
   };
 
   return (

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 function useDataset(url, fetch) {
   const fetchSolidDataset = async () => {
-    const myDataset = await getSolidDataset(url.toString(), { fetch });
+    const myDataset = await getSolidDataset(url, { fetch });
 
     return myDataset;
   };

@@ -11,8 +11,9 @@ import { useDataset, useSession } from '@hooks';
 import { AddContactModal, DeleteContactModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
-import { getStringNoLocale, getThingAll, getUrl } from '@inrupt/solid-client';
+import { getStringNoLocale, getThingAll, getUrl, buildThing, createThing, setThing, saveSolidDatasetAt } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**
  * Contacts Component - Component that generates Contacts Page for PASS
@@ -25,10 +26,12 @@ const Contacts = () => {
   localStorage.setItem('restorePath', '/clients');
   // state for AddContactModal component
   const { session, podUrl } = useSession();
+  const listUrl = new URL('PASS/Users/userlist.ttl', podUrl);
   const [showAddContactModal, setShowAddContactModal] = useState(false);
 
   const [showDeleteContactModal, setShowDeleteContactModal] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
+  const queryClient = useQueryClient();
 
   const parseContacts = (data) => {
     const contactThings = getThingAll(data);
@@ -46,9 +49,30 @@ const Contacts = () => {
   };
 
   const { data, isLoading, isError, error } = useDataset(
-    new URL('PASS/Users/userlist.ttl', podUrl),
+    listUrl.toString(),
     session.fetch
   );
+  
+  const makeContactIntoThing = ({ username, givenName, familyName, webId, podUrl: newPodUrl }) =>
+    buildThing(createThing({ name: username }))
+      .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
+      .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
+      .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
+      .addStringNoLocale(RDF_PREDICATES.alternateName, username)
+      .addUrl(RDF_PREDICATES.identifier, webId)
+      .addUrl(RDF_PREDICATES.URL, newPodUrl)
+      .build();
+
+  const addContact = useMutation({
+    mutationFn: (newContact) => {
+      const thing = makeContactIntoThing(newContact);
+      const newDataset = setThing(data, thing);
+      saveSolidDatasetAt(listUrl, newDataset, { fetch: session.fetch })
+    },
+    onSuccess: (resData) => {
+      queryClient.setQueryData([listUrl.toString()], () => resData)
+    }
+  })
 
   if (isLoading) return <LoadingAnimation loadingItem="clients" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
