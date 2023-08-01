@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import { TextField, Box, Button } from '@mui/material';
