@@ -19,7 +19,7 @@ const AppRoutes = () => {
   const { session } = useSession();
   const restorePath = localStorage.getItem('restorePath');
   const loggedIn = session.info.isLoggedIn;
-  const path = loggedIn ? restorePath || '/clients' : '/';
+  const path = loggedIn ? restorePath || '/contacts' : '/';
 
   return (
     <Routes>
@@ -29,7 +29,7 @@ const AppRoutes = () => {
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/clients" element={<Contacts />} />
+        <Route path="/contacts" element={<Contacts />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile">
           <Route index element={<Profile />} />

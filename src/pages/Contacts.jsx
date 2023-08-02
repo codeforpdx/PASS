@@ -33,7 +33,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
  */
 
 const Contacts = () => {
-  localStorage.setItem('restorePath', '/clients');
+  localStorage.setItem('restorePath', '/contacts');
   // state for AddContactModal component
   const { session, podUrl } = useSession();
   const listUrl = new URL('PASS/Users/userlist.ttl', podUrl);
@@ -65,7 +65,11 @@ const Contacts = () => {
     return contacts;
   };
 
-  const { data, isLoading, isError, error } = useDataset(listUrl.toString(), session.fetch);
+  const { data, isLoading, isError, error } = useDataset(
+    listUrl.toString(),
+    session.fetch,
+    true
+  );
 
   const saveData = async (dataset) => {
     const savedDataset = await saveSolidDatasetAt(listUrl.toString(), dataset, {
