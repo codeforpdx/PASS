@@ -121,7 +121,7 @@ const SetAclPermsDocContainerForm = () => {
             <Button variant="contained" disabled={state.processing} type="submit" color="primary">
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
-                : 'Give or Revoke Permission'}
+                : 'Set Permission'}
             </Button>
           </FormControl>
         </form>

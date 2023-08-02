@@ -149,7 +149,7 @@ const SetAclPermissionForm = () => {
             >
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
-                : 'Give or Revoke Permission'}
+                : 'Set Permission'}
             </Button>
           </FormControl>
         </form>
