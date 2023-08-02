@@ -1,6 +1,5 @@
-import React, { createContext, useReducer } from 'react';
-import  notificationReducer  from '../reducers/notificationReducer';
-import NotificationContainer from '../components/Notification/NotificationContainer';
+import React, { createContext, useReducer, useMemo } from 'react';
+import notificationReducer from '../reducers/notificationReducer';
 
 export const NotificationContext = createContext();
 
@@ -19,9 +18,18 @@ export const NotificationContextProvider = ({ children }) => {
   const remove = (id) => {
     dispatch({ type: 'DELETE_NOTIFICATION', payload: id });
   };
+
+  const notificationObject = useMemo(
+    () => ({
+      addNotification,
+      remove,
+      state
+    }),
+    [state]
+  );
+
   return (
-    <NotificationContext.Provider value={{ addNotification, remove, state }}>
-      <NotificationContainer notifications={state.notifications} />
+    <NotificationContext.Provider value={notificationObject}>
       {children}
     </NotificationContext.Provider>
   );
