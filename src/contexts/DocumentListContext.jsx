@@ -6,6 +6,7 @@ import { createSolidDataset } from '@inrupt/solid-client';
 import { useSession } from '@hooks';
 // Model Imports
 import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
+// Context Imports
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
@@ -53,10 +54,10 @@ export const DocumentListContextProvider = ({ children }) => {
       setDocumentListObject({
         docList: [],
         dataset: createSolidDataset(),
-        containerUrl: client ? `${client?.podUrl}PASS/Documents/` : `${podUrl}PASS/Documents/`
+        containerUrl: client ? `${client.podUrl}PASS/Documents/` : `${podUrl}PASS/Documents/`
       });
       try {
-        setDocumentListObject(await loadDocumentList(session, client ? client?.podUrl : podUrl));
+        setDocumentListObject(await loadDocumentList(session, client ? client.podUrl : podUrl));
       } finally {
         setLoadingDocuments(false);
       }
