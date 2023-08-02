@@ -66,7 +66,7 @@ const SetAclPermissionForm = () => {
         dispatch
       );
     } catch (error) {
-      runNotification('FAILED TO SET PERMISSIONS. REASON: File not found.', 5, state, dispatch);
+      runNotification('Failed to set permissions. Reason: File not found.', 5, state, dispatch);
     } finally {
       setTimeout(() => {
         clearInputFields();
@@ -94,7 +94,8 @@ const SetAclPermissionForm = () => {
             }}
           >
             <span style={{ color: 'grey' }}>File Name: </span>
-            LongAssFileNameToTestIfThisIsWorkingCorrectly
+            {/* TODO: adjust here to show filename of the one that triggered this form */}
+            filename.jpeg
           </Typography>
 
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>

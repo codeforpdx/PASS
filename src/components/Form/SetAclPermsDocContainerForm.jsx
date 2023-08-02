@@ -63,7 +63,7 @@ const SetAclPermsDocContainerForm = () => {
         dispatch
       );
     } catch (error) {
-      runNotification('FAILED TO SET PERMISSIONS. REASON: File not found.', 5, state, dispatch);
+      runNotification('Failed to set permissions. Reason: File not found.', 5, state, dispatch);
     } finally {
       setTimeout(() => {
         clearInputFields();
