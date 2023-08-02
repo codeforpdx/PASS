@@ -1,18 +1,19 @@
 // React Imports
 import React, { useState, useEffect, useRef } from 'react';
-// Inrupt Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+// Component Imports
 import LogoutButton from '../Modals/LogoutButton';
+
 /**
  * Inactivity Notification Component - Component that displays a popup modal
  * after 25 minutes of inactivity, prompting the user to either logout or

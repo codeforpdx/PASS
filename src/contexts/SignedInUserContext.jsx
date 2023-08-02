@@ -1,10 +1,12 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect } from 'react';
-// Inrupt Library Imports
-import { useSession } from '@hooks';
+// Inrupt Imports
 import { getPodUrlAll } from '@inrupt/solid-client';
+// Custom Hook Imports
+import { useSession } from '@hooks';
 // Utility Imports
 import { createDocumentsContainer, createPublicContainer } from '../utils';
+// Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
