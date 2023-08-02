@@ -1,12 +1,12 @@
 // React Imports
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { SessionProvider } from '@contexts';
 // Material UI Imports
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { NotificationContextProvider } from './contexts/NotificationContext';
 // Context Imports
+import { SessionProvider } from '@contexts';
 import UserDataContextProvider from './contexts/UserDataContext';
 // Theme Imports
 import theme from './theme';
