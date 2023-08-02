@@ -24,6 +24,12 @@ const OidcLoginComponent = () => {
         variant="filled"
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            loginHandler();
+            localStorage.setItem('oidcIssuer', oidcIssuer);
+          }
+        }}
         InputProps={{
           disableUnderline: true,
           'aria-label': 'OIDC Input Field'
@@ -43,12 +49,6 @@ const OidcLoginComponent = () => {
         onClick={() => {
           loginHandler();
           localStorage.setItem('oidcIssuer', oidcIssuer);
-        }}
-        onKeyUp={(event) => {
-          if (event.key === 'Enter') {
-            loginHandler();
-            localStorage.setItem('oidcIssuer', oidcIssuer);
-          }
         }}
       >
         Login
