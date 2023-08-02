@@ -1,6 +1,5 @@
 import useField from './useField';
 import useSession from './useSession';
-import useDataset from './useDataset';
 import useStatusNotification from './useStatusNotification';
 import useContactsList from './useContactsList';
 /**
@@ -10,4 +9,4 @@ import useContactsList from './useContactsList';
  * @namespace hooks
  */
 
-export { useField, useStatusNotification, useSession, useDataset, useContactsList };
+export { useField, useStatusNotification, useSession, useContactsList };
