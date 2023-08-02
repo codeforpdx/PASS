@@ -65,11 +65,7 @@ const Contacts = () => {
     return contacts;
   };
 
-  const { data, isLoading, isError, error } = useDataset(
-    listUrl.toString(),
-    session.fetch,
-    true
-  );
+  const { data, isLoading, isError, error } = useDataset(listUrl.toString(), session.fetch, true);
 
   const saveData = async (dataset) => {
     const savedDataset = await saveSolidDatasetAt(listUrl.toString(), dataset, {
