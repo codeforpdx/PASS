@@ -14,8 +14,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { runNotification } from '@utils';
-// Constants Imports
-import { ENV } from '../../constants';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -28,9 +26,8 @@ import { FormSection } from '../Form';
  */
 
 const renderWebId = (username) => {
-  const oidcProvider = ENV.VITE_SOLID_IDENTITY_PROVIDER.split('//')[1];
-  const template = ['https://', `.${oidcProvider}profile/card#me`];
-  return `${template[0]}${username}${template[1]}`;
+  const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
+  return new URL(`${username}/profile/card#me`, baseUrl);
 };
 
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
@@ -101,8 +98,24 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     };
 
     notifyStartSubmission(userObject, state, dispatch);
-    await addContact(userObject);
-    setShowAddContactModal(false);
+    try {
+      await addContact(userObject);
+    } finally {
+      runNotification(
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
+        5,
+        state,
+        dispatch
+      );
+      setTimeout(() => {
+        setUserGivenName('');
+        setUserFamilyName('');
+        setUsername('');
+        setWebId('');
+        dispatch({ type: 'CLEAR_PROCESSING' });
+        setShowAddContactModal(false);
+      }, 2000);
+    }
   };
 
   return (

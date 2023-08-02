@@ -26,7 +26,11 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  * @param {contactListTableRowProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTableRow = ({ contact, setShowDeleteContactModal, setSelectedContactToDelete }) => {
+const ContactListTableRow = ({
+  contact,
+  setShowDeleteContactModal,
+  setSelectedContactToDelete
+}) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);

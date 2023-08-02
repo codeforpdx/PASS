@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { render, cleanup, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi, afterEach } from 'vitest';
-import { DeleteClientModal } from '../../../src/components/Modals';
-import { UserListContext } from '../../../src/contexts';
+import { DeleteContactModal } from '../../../src/components/Modals';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
@@ -11,17 +10,15 @@ afterEach(() => {
 });
 
 it('renders/mounts when showDeleteClientModal is true', () => {
-  const removeUser = vi.fn();
+  const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const { queryByLabelText } = render(
-    <UserListContext.Provider value={{ removeUser }}>
-      <DeleteClientModal
-        showDeleteClientModal
-        setShowDeleteClientModal={setModal}
-        selectedClientToDelete={client}
-      />
-    </UserListContext.Provider>
+    <DeleteContactModal
+      setShowDeleteClientModal={setModal}
+      selectedClientToDelete={client}
+      removeContact={removeContact}
+    />
   );
 
   const deleteButton = queryByLabelText('Delete Client Button');
@@ -32,13 +29,15 @@ it('renders/mounts when showDeleteClientModal is true', () => {
 });
 
 it('hides/unmounts when showDeleteClientModal is false', () => {
-  const removeUser = vi.fn();
+  const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const { queryByLabelText } = render(
-    <UserListContext.Provider value={{ removeUser }}>
-      <DeleteClientModal setShowDeleteClientModal={setModal} selectedClientToDelete={client} />
-    </UserListContext.Provider>
+    <DeleteContactModal
+      setShowDeleteClientModal={setModal}
+      selectedClientToDelete={client}
+      removeContact={removeContact}
+    />
   );
 
   const deleteButton = queryByLabelText('Delete Client Button');
@@ -49,42 +48,38 @@ it('hides/unmounts when showDeleteClientModal is false', () => {
 });
 
 it('triggers removeUser/deletion of client when delete button is clicked', async () => {
-  const removeUser = vi.fn();
+  const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const user = userEvent.setup();
   const { getByLabelText } = render(
-    <UserListContext.Provider value={{ removeUser }}>
-      <DeleteClientModal
-        showDeleteClientModal
-        setShowDeleteClientModal={setModal}
-        selectedClientToDelete={client}
-      />
-    </UserListContext.Provider>
+    <DeleteContactModal
+      setShowDeleteClientModal={setModal}
+      selectedClientToDelete={client}
+      removeContact={removeContact}
+    />
   );
 
   const deleteButton = getByLabelText('Delete Client Button');
 
   await user.click(deleteButton);
-  expect(removeUser).toBeCalledWith(client);
+  expect(removeContact).toBeCalledWith(client);
 });
 
 it('closes without an action when cancel button is clicked', async () => {
-  const removeUser = vi.fn();
+  const removeContact = vi.fn();
   const client = { person: 'john' };
   const user = userEvent.setup();
   const ModalWrapper = () => {
-    const [showModal, setShowModal] = useState(true);
+    const [setShowModal] = useState(true);
 
     return (
       // eslint-disable-next-line react/jsx-no-constructed-context-values
-      <UserListContext.Provider value={{ removeUser }}>
-        <DeleteClientModal
-          showDeleteClientModal={showModal}
-          setShowDeleteClientModal={setShowModal}
-          selectedClientToDelete={client}
-        />
-      </UserListContext.Provider>
+      <DeleteContactModal
+        setShowDeleteClientModal={setShowModal}
+        selectedClientToDelete={client}
+        removeContact={removeContact}
+      />
     );
   };
 
@@ -96,5 +91,5 @@ it('closes without an action when cancel button is clicked', async () => {
   await waitForElementToBeRemoved(() => queryByLabelText('Cancel Button'));
   const hiddenCancelButton = queryByLabelText('Cancel Button');
   expect(hiddenCancelButton).toBeNull();
-  expect(removeUser).not.toBeCalled();
+  expect(removeContact).not.toBeCalled();
 });

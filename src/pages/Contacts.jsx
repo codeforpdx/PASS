@@ -11,7 +11,15 @@ import { useDataset, useSession } from '@hooks';
 import { AddContactModal, DeleteContactModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
-import { getStringNoLocale, getThingAll, getUrl, buildThing, createThing, setThing, saveSolidDatasetAt } from '@inrupt/solid-client';
+import {
+  getStringNoLocale,
+  getThingAll,
+  getUrl,
+  buildThing,
+  createThing,
+  setThing,
+  saveSolidDatasetAt
+} from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -48,31 +56,31 @@ const Contacts = () => {
     return contacts;
   };
 
-  const { data, isLoading, isError, error } = useDataset(
-    listUrl.toString(),
-    session.fetch
-  );
-  
-  const makeContactIntoThing = ({ username, givenName, familyName, webId, podUrl: newPodUrl }) =>
+  const { data, isLoading, isError, error } = useDataset(listUrl.toString(), session.fetch);
+
+  const makeContactIntoThing = ({ username, givenName, familyName, webId }) =>
     buildThing(createThing({ name: username }))
       .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
       .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
       .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
       .addStringNoLocale(RDF_PREDICATES.alternateName, username)
       .addUrl(RDF_PREDICATES.identifier, webId)
-      .addUrl(RDF_PREDICATES.URL, newPodUrl)
+      .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
       .build();
 
   const addContact = useMutation({
-    mutationFn: (newContact) => {
+    mutationFn: async (newContact) => {
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
-      saveSolidDatasetAt(listUrl, newDataset, { fetch: session.fetch })
+      const savedDataset = await saveSolidDatasetAt(listUrl.toString(), newDataset, {
+        fetch: session.fetch
+      });
+      return savedDataset;
     },
     onSuccess: (resData) => {
-      queryClient.setQueryData([listUrl.toString()], () => resData)
+      queryClient.setQueryData([listUrl.toString()], () => resData);
     }
-  })
+  });
 
   if (isLoading) return <LoadingAnimation loadingItem="clients" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
@@ -111,6 +119,7 @@ const Contacts = () => {
       <AddContactModal
         showAddContactModal={showAddContactModal}
         setShowAddContactModal={setShowAddContactModal}
+        addContact={addContact.mutate}
       />
       <DeleteContactModal
         showDeleteContactModal={showDeleteContactModal}

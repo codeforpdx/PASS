@@ -2,15 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import ClientListTable from '../../../src/components/Clients/ClientListTable';
-import { UserListContext } from '../../../src/contexts/UserListContext';
+import { ContactListTable } from '@components/Contacts';
 
 /* eslint-disable react/jsx-no-constructed-context-values */
 const MockTableComponent = ({ users }) => (
   <BrowserRouter>
-    <UserListContext.Provider value={{ userListObject: { userList: users } }}>
-      <ClientListTable />
-    </UserListContext.Provider>
+    <ContactListTable contacts={users} />
   </BrowserRouter>
 );
 /* eslint-enable react/jsx-no-constructed-context-values */
