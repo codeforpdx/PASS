@@ -24,7 +24,6 @@ import { NewMessageModal } from '../Modals';
  */
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
-  // const [replyMessage, setReplyMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {

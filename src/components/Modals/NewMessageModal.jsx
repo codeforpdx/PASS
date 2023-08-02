@@ -45,7 +45,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
-    title: oldMessage ? `RE: ${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
+    title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
     message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
     messageUrl: oldMessage ? oldMessage.messageUrl : ''
@@ -168,13 +168,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             InputProps={{
               readOnly: true
             }}
-            // disabled
             InputLabelProps={{
               shrink: true
             }}
             fullWidth
           />
-
           <TextField
             margin="normal"
             value={message.message}
