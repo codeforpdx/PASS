@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import  useNotification  from '../../hooks/useNotification';
+import useNotification from '../../hooks/useNotification';
 
 const BasicNotification = ({ severity, message, id }) => {
   const notify = useNotification();
