@@ -24,7 +24,7 @@ import { NewMessageModal } from '../Modals';
  */
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
-  const [replyMessage, setReplyMessage] = useState(false);
+  // const [replyMessage, setReplyMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
@@ -32,7 +32,6 @@ const MessagePreview = ({ message, folderType }) => {
   };
 
   const handleReplyMessage = () => {
-    setReplyMessage(!replyMessage);
     setShowModal(!showModal);
   };
 
@@ -63,7 +62,7 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Box>
       )}
-      {replyMessage && (
+      {showModal && (
         <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
       )}
     </StyledPreview>
