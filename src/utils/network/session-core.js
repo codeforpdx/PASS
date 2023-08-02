@@ -164,7 +164,7 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const date = dayjs().$d;
   const dateYYYYMMDD = dayjs().format('YYYYMMDD');
   const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-  const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
+  const messageSlug = `${encodeURIComponent(messageObject.title)}-${dateYYYYMMDD}-${dateISOTime}`;
 
   const messageMetadata = {
     messageId: uuidv4(),
