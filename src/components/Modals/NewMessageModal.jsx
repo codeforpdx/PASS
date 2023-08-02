@@ -17,6 +17,10 @@ import { sendMessageTTL, getMessageTTL } from '../../utils';
 import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
+ * @typedef {import("../../typedefs.js").newMessageProps} newMessageProps
+ */
+
+/**
  * messageFolderProps is an object that stores the props for the MessageFolder
  * component
  *
