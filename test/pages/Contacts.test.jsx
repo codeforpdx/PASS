@@ -55,4 +55,10 @@ describe('Contacts Page', () => {
     const contacts = getByRole('table');
     expect(contacts).not.toBeNull();
   });
+  it('displays empty list message when there are no contacts', () => {
+    useContactsList.mockReturnValue({ data: [] });
+    const { getByLabelText } = render(<Contacts />);
+    const contacts = getByLabelText('No Items Found Box');
+    expect(contacts).not.toBeNull();
+  });
 });
