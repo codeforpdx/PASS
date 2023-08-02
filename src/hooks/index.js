@@ -1,6 +1,6 @@
 import useField from './useField';
-import useStatusNotification from './useStatusNotification';
 import useSession from './useSession';
+import useStatusNotification from './useStatusNotification';
 /**
  * The hooks module contains custom hooks to assist with form handling or status
  * notifications
@@ -8,4 +8,4 @@ import useSession from './useSession';
  * @namespace hooks
  */
 
-export { useField, useStatusNotification, useSession };
+export { useField, useSession, useStatusNotification };
