@@ -1,6 +1,5 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
-// Inrupt Library Imports
 import { SessionContext } from './SessionContext';
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';

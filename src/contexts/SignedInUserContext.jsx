@@ -5,6 +5,7 @@ import { getPodUrlAll } from '@inrupt/solid-client';
 import { SessionContext } from './SessionContext';
 // Utility Imports
 import { createDocumentsContainer, createPublicContainer } from '../utils';
+// Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
