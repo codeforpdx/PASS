@@ -34,7 +34,7 @@ const Contacts = () => {
 
   const { data, isLoading, isError, error, addContact, deleteContact } = useContactsList();
 
-  if (isLoading) return <LoadingAnimation loadingItem="clients" />;
+  if (isLoading) return <LoadingAnimation loadingItem="Contacts" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
   return (
     <Container
@@ -62,7 +62,7 @@ const Contacts = () => {
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
           />
         ) : (
-          <EmptyListNotification type="clients" />
+          <EmptyListNotification type="Contacts" />
         )}
       </Box>
 
