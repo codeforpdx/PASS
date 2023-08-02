@@ -1,7 +1,11 @@
 // React Imports
 import React from 'react';
 // Context Imports
-import { MessageContextProvider, DocumentListContextProvider } from '.';
+import {
+  MessageContextProvider,
+  DocumentListContextProvider,
+  SignedInUserContextProvider
+} from '.';
 
 /**
  * A collection of React Contexts used for PASS to be used as a single wrapper
@@ -13,9 +17,11 @@ import { MessageContextProvider, DocumentListContextProvider } from '.';
  * Context from Provider
  */
 const UserDataContextProvider = ({ children }) => (
-  <DocumentListContextProvider>
-    <MessageContextProvider>{children}</MessageContextProvider>
-  </DocumentListContextProvider>
+  <SignedInUserContextProvider>
+    <DocumentListContextProvider>
+      <MessageContextProvider>{children}</MessageContextProvider>
+    </DocumentListContextProvider>
+  </SignedInUserContextProvider>
 );
 
 export default UserDataContextProvider;
