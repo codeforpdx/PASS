@@ -26,7 +26,7 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  * @param {clientListTableProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTable = ({ setSelectedContactToDelete, setShowDeleteContactModal, contacts }) => (
+const ContactListTable = ({ contacts, deleteContact }) => (
   <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
     <Table aria-label="client list table">
       <TableHead>
@@ -43,8 +43,7 @@ const ContactListTable = ({ setSelectedContactToDelete, setShowDeleteContactModa
           <ContactListTableRow
             key={contact.webId}
             contact={contact}
-            setShowDeleteContactModal={setShowDeleteContactModal}
-            setSelectedContactToDelete={setSelectedContactToDelete}
+            deleteContact={deleteContact}
           />
         ))}
       </TableBody>

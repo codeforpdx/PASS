@@ -26,11 +26,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  * @param {contactListTableRowProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTableRow = ({
-  contact,
-  setShowDeleteContactModal,
-  setSelectedContactToDelete
-}) => {
+const ContactListTableRow = ({ contact, deleteContact }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);
@@ -42,12 +38,6 @@ const ContactListTableRow = ({
   // ***** TODO: Add in moving pinned row to top of table
   const handlePinClick = () => {
     setPinned(!pinned);
-  };
-
-  // Event handler for deleting a contact from contact list
-  const handleSelectContactToDelete = () => {
-    setSelectedContactToDelete(contact);
-    setShowDeleteContactModal(true);
   };
 
   return (
@@ -72,7 +62,7 @@ const ContactListTableRow = ({
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" onClick={handleSelectContactToDelete}>
+        <IconButton size="large" onClick={() => deleteContact(contact)}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>

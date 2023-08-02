@@ -13,6 +13,8 @@ import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
 import {
   getStringNoLocale,
+  getThing,
+  removeThing,
   getThingAll,
   getUrl,
   buildThing,
@@ -41,6 +43,11 @@ const Contacts = () => {
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
   const queryClient = useQueryClient();
 
+  const handleSelectDeleteContact = (contact) => {
+    setSelectedContactToDelete(contact);
+    setShowDeleteContactModal(true);
+  };
+
   const parseContacts = (data) => {
     const contactThings = getThingAll(data);
     const contacts = [];
@@ -51,12 +58,21 @@ const Contacts = () => {
       contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
       contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
       contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
+      contact.username = getStringNoLocale(thing, RDF_PREDICATES.alternateName);
+      contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
       contacts.push(contact);
     });
     return contacts;
   };
 
   const { data, isLoading, isError, error } = useDataset(listUrl.toString(), session.fetch);
+
+  const saveData = async (dataset) => {
+    const savedDataset = await saveSolidDatasetAt(listUrl.toString(), dataset, {
+      fetch: session.fetch
+    });
+    return savedDataset;
+  };
 
   const makeContactIntoThing = ({ username, givenName, familyName, webId }) =>
     buildThing(createThing({ name: username }))
@@ -72,9 +88,20 @@ const Contacts = () => {
     mutationFn: async (newContact) => {
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
-      const savedDataset = await saveSolidDatasetAt(listUrl.toString(), newDataset, {
-        fetch: session.fetch
-      });
+      const savedDataset = await saveData(newDataset);
+      return savedDataset;
+    },
+    onSuccess: (resData) => {
+      queryClient.setQueryData([listUrl.toString()], () => resData);
+    }
+  });
+
+  const deleteContact = useMutation({
+    mutationFn: async (contactToDelete) => {
+      const thingUrl = `${listUrl.toString()}#${contactToDelete.username}`;
+      const thingToRemove = getThing(data, thingUrl);
+      const newDataset = removeThing(data, thingToRemove);
+      const savedDataset = await saveData(newDataset);
       return savedDataset;
     },
     onSuccess: (resData) => {
@@ -106,9 +133,8 @@ const Contacts = () => {
         </Button>
         {getThingAll(data).length > 0 ? (
           <ContactListTable
-            setSelectedContactToDelete={setSelectedContactToDelete}
-            setShowDeleteContactModal={setShowDeleteContactModal}
             contacts={parseContacts(data)}
+            deleteContact={(contact) => handleSelectDeleteContact(contact)}
           />
         ) : (
           <EmptyListNotification type="clients" />
@@ -125,6 +151,7 @@ const Contacts = () => {
         showDeleteContactModal={showDeleteContactModal}
         setShowDeleteContactModal={setShowDeleteContactModal}
         selectedContactToDelete={selectedContactToDelete}
+        deleteContact={deleteContact.mutate}
       />
     </Container>
   );

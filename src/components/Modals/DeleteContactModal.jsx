@@ -26,7 +26,8 @@ import { FormSection } from '../Form';
 const DeleteContactModal = ({
   showDeleteContactModal = false,
   setShowDeleteContactModal,
-  selectedContactToDelete
+  selectedContactToDelete,
+  deleteContact
 }) => {
   const { state, dispatch } = useStatusNotification();
 
@@ -39,15 +40,21 @@ const DeleteContactModal = ({
       state,
       dispatch
     );
-    runNotification(
-      `"${selectedContactToDelete?.person}" deleted from client list...`,
-      5,
-      state,
-      dispatch
-    );
-    setTimeout(() => {
-      setShowDeleteContactModal(false);
-    }, 2000);
+    try {
+      await deleteContact(selectedContactToDelete);
+      runNotification(
+        `"${selectedContactToDelete?.givenName}" deleted from client list...`,
+        5,
+        state,
+        dispatch
+      );
+    } catch (e) {
+      runNotification(`Client deletion falied. Reason: ${e.message}`);
+    } finally {
+      setTimeout(() => {
+        setShowDeleteContactModal(false);
+      }, 2000);
+    }
   };
 
   return (

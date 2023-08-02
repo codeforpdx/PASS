@@ -1,6 +1,11 @@
 import { getSolidDataset } from '@inrupt/solid-client';
 import { useQuery } from '@tanstack/react-query';
 
+/**
+ *
+ * @param url
+ * @param fetch
+ */
 function useDataset(url, fetch) {
   const fetchSolidDataset = async () => {
     const myDataset = await getSolidDataset(url, { fetch });
