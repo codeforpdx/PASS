@@ -36,7 +36,6 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  * @param {newMessageModalProps} Props - Props used for NewMessageModal
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
-
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);

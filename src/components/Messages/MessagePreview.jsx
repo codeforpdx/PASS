@@ -1,9 +1,10 @@
 // React imports
 import React, { useState } from 'react';
-// Styling Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+// Styling Imports
 import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 // Component Imports
 import { NewMessageModal } from '../Modals';
@@ -21,7 +22,6 @@ import { NewMessageModal } from '../Modals';
  * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
  */
-
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [replyMessage, setReplyMessage] = useState(false);
@@ -32,8 +32,8 @@ const MessagePreview = ({ message, folderType }) => {
   };
 
   const handleReplyMessage = () => {
-    setShowModal(!showModal);
     setReplyMessage(!replyMessage);
+    setShowModal(!showModal);
   };
 
   return (
@@ -44,11 +44,7 @@ const MessagePreview = ({ message, folderType }) => {
           {message.sender} - {message.title}
         </StyledHeader>
         {showContents && folderType === 'Inbox' && (
-          <Button
-            variant="contained"
-            type="button"
-            onClick={handleReplyMessage}
-          >
+          <Button variant="contained" type="button" onClick={handleReplyMessage}>
             Reply
           </Button>
         )}
@@ -68,11 +64,7 @@ const MessagePreview = ({ message, folderType }) => {
         </Box>
       )}
       {replyMessage && (
-        <NewMessageModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          oldMessage={message}
-        />
+        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
       )}
     </StyledPreview>
   );

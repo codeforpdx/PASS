@@ -26,7 +26,6 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @name Messages
  * @returns {React.JSX.Element} The Messages Page
  */
-
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
 
