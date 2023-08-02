@@ -8,7 +8,8 @@ import { MessageContextProvider, DocumentListContextProvider } from '.';
  *
  * @memberof contexts
  * @function UserDataContextProvider
- * @param {React.JSX.Element} children - The wrapped components that consumes
+ * @param {React.JSX.Element} children - The components that consume the data context
+ * @returns {React.JSX.Element} - A react app
  * Context from Provider
  */
 const UserDataContextProvider = ({ children }) => (

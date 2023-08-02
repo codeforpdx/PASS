@@ -9,58 +9,60 @@ afterEach(() => {
   cleanup();
 });
 
-it('renders/mounts when showDeleteClientModal is true', () => {
+it('renders/mounts when showDeleteContactModal is true', () => {
   const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const { queryByLabelText } = render(
     <DeleteContactModal
-      setShowDeleteClientModal={setModal}
-      selectedClientToDelete={client}
+      showDeleteContactModal
+      setShowDeleteContactModal={setModal}
+      selectedContactToDelete={client}
       removeContact={removeContact}
     />
   );
 
-  const deleteButton = queryByLabelText('Delete Client Button');
+  const deleteButton = queryByLabelText('Delete Contact Button');
   const cancelButton = queryByLabelText('Cancel Button');
 
   expect(deleteButton).not.toBeNull();
   expect(cancelButton).not.toBeNull();
 });
 
-it('hides/unmounts when showDeleteClientModal is false', () => {
+it('hides/unmounts when showDeleteContactModal is false', () => {
   const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const { queryByLabelText } = render(
     <DeleteContactModal
-      setShowDeleteClientModal={setModal}
-      selectedClientToDelete={client}
+      setShowDeleteContactModal={setModal}
+      selectedContactToDelete={client}
       removeContact={removeContact}
     />
   );
 
-  const deleteButton = queryByLabelText('Delete Client Button');
+  const deleteButton = queryByLabelText('Delete Contact Button');
   const cancelButton = queryByLabelText('Cancel Button');
 
   expect(deleteButton).toBeNull();
   expect(cancelButton).toBeNull();
 });
 
-it('triggers removeUser/deletion of client when delete button is clicked', async () => {
+it('triggers deleteContact/deletion of contact when delete button is clicked', async () => {
   const removeContact = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const user = userEvent.setup();
   const { getByLabelText } = render(
     <DeleteContactModal
-      setShowDeleteClientModal={setModal}
-      selectedClientToDelete={client}
-      removeContact={removeContact}
+      showDeleteContactModal
+      setShowDeleteContactModal={setModal}
+      selectedContactToDelete={client}
+      deleteContact={removeContact}
     />
   );
 
-  const deleteButton = getByLabelText('Delete Client Button');
+  const deleteButton = getByLabelText('Delete Contact Button');
 
   await user.click(deleteButton);
   expect(removeContact).toBeCalledWith(client);
@@ -71,13 +73,13 @@ it('closes without an action when cancel button is clicked', async () => {
   const client = { person: 'john' };
   const user = userEvent.setup();
   const ModalWrapper = () => {
-    const [setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(true);
 
     return (
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
       <DeleteContactModal
-        setShowDeleteClientModal={setShowModal}
-        selectedClientToDelete={client}
+        showDeleteContactModal={showModal}
+        setShowDeleteContactModal={setShowModal}
+        selectedContactToDelete={client}
         removeContact={removeContact}
       />
     );

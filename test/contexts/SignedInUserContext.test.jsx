@@ -48,14 +48,16 @@ describe('SignedInUserContext', () => {
     fetchProfileInfo.mockResolvedValue({ profileInfo: {} });
     getPodUrlAll.mockResolvedValue(['https://example.com/pod/']);
     const { findByText } = render(
-      <SessionContext.Provider value={{
-        session: {
-          info: {
-            isLoggedIn: true,
-            webId: 'https://example.com/pod/profile/card#me'
+      <SessionContext.Provider
+        value={{
+          session: {
+            info: {
+              isLoggedIn: true,
+              webId: 'https://example.com/pod/profile/card#me'
+            }
           }
         }}
-      }>
+      >
         <SignedInUserContextProvider>
           <TestConsumer />
         </SignedInUserContextProvider>

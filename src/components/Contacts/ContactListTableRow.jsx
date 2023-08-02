@@ -49,7 +49,7 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
           <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(contact)}>
-            {`${contact.givenName} ${contact.familyName}`}
+            {`${contact.person}`}
           </Button>
         </Link>
       </StyledTableCell>

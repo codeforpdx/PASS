@@ -26,29 +26,44 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  * @param {clientListTableProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTable = ({ contacts, deleteContact }) => (
-  <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-    <Table aria-label="client list table">
-      <TableHead>
-        <TableRow>
-          {columnTitlesArray.map((columnTitle) => (
-            <StyledTableCell key={columnTitle} align="center">
-              {columnTitle}
-            </StyledTableCell>
+const ContactListTable = ({ contacts, deleteContact }) => {
+  const comparePerson = (a, b) => {
+    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
+      return -1;
+    }
+    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  };
+  const contactsCopy = [...contacts];
+
+  const sortedContacts = contactsCopy.sort(comparePerson);
+
+  return (
+    <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
+      <Table aria-label="client list table">
+        <TableHead>
+          <TableRow>
+            {columnTitlesArray.map((columnTitle) => (
+              <StyledTableCell key={columnTitle} align="center">
+                {columnTitle}
+              </StyledTableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedContacts?.map((contact) => (
+            <ContactListTableRow
+              key={contact.webId}
+              contact={contact}
+              deleteContact={deleteContact}
+            />
           ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {contacts?.map((contact) => (
-          <ContactListTableRow
-            key={contact.webId}
-            contact={contact}
-            deleteContact={deleteContact}
-          />
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 export default ContactListTable;
