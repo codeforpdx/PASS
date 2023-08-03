@@ -73,7 +73,7 @@ const useContactsList = () => {
     return myDataset;
   };
 
-  const { isLoading, isError, error, data } = useQuery({
+  const { isLoading, isError, error, data, isSuccess } = useQuery({
     queryKey: [url],
     queryFn: fetchContactsList
   });
@@ -106,6 +106,7 @@ const useContactsList = () => {
   return {
     isLoading,
     isError,
+    isSuccess,
     error,
     data: !(isLoading || isError) ? parseContacts(data) : [],
     deleteContact: deleteContactMutation.mutate,
