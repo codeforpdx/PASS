@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState, useContext } from 'react';
+// Custom Hook Imports
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -16,12 +18,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // Utility Imports
-import { runNotification } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
+import { runNotification } from '@utils';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
-import { DocumentListContext } from '../../contexts';
+
+/**
+ * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
+ */
 
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
@@ -29,8 +34,9 @@ import { DocumentListContext } from '../../contexts';
  *
  * @memberof Forms
  * @name UploadDocumentModal
+ * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
+ * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
-
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
@@ -74,11 +80,11 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       date: expireDate,
       description: docDescription
     };
-    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+    runNotification(`Uploading file to Solid...`, 3, state, dispatch);
 
     try {
       await addDocument(fileDesc, file);
-      runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
+      runNotification(`File uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
         'A file of this name and type already exists on the pod. Would you like to replace it?';
@@ -87,7 +93,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
             await replaceDocument(fileDesc, file);
-            runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+            runNotification(`File updated on Solid.`, 5, state, dispatch);
           }
           break;
         default:
@@ -105,6 +111,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         state={state}
         statusType="Upload status"
         defaultMessage="To be uploaded..."
+        file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel

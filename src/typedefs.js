@@ -11,7 +11,7 @@ const React = require('react');
  * @typedef {object} statusMessageProps
  * @property {string} notification - File status message
  * @property {URL} [locationUrl] - URL location of file, if exist
- * @property {string} [filename] - Name of the file being processed
+ * @property {string|null} [filename] - Name of the file being processed
  * @memberof typedefs
  */
 
@@ -25,6 +25,8 @@ const React = require('react');
  * fetch, file delete)
  * @property {string} defaultMessage - Default message when status is not
  * triggered
+ * @property {File|null} [file] - File object to be uploaded, if chosen, else
+ * returns null
  * @memberof typedefs
  */
 
@@ -51,7 +53,6 @@ const React = require('react');
  * @property {URL|null} documentUrl - Url link to document container
  * @property {string} message - Status message for file upload, query, or deletion
  * @property {string|null} timeoutID - Timeout ID for status message
- * @property {object|null} file - Object that includes file in question
  * @property {boolean} processing - Boolean on whether application is uploading,
  * fetching, querying data from Solid
  * @property {boolean} verifyFile - Boolean on whether to verify file upon file
@@ -95,6 +96,8 @@ const React = require('react');
  * (see {@link statusNotificationObject})
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
+ * @property {File|null} [file] - File object, if choosen for upload, else return
+ * null
  * @property {React.ReactElement} children - JSX Element of the wrapped form
  * @memberof typedefs
  */
@@ -166,11 +169,117 @@ const React = require('react');
 
 /**
  * loadingAnimationProps is an object that stores the props for the LoadingAnimation
- * component
+ * component; By default LinearProgress will be used as the default animation,
+ * if used as a provider, i.e. wrapping children animation components, the wrapped
+ * component will be used instaed for animation
  *
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
+ * @property {React.JSX.Element} children - If used as a provider, wrapped component
+ * will be used as the animation
+ * @memberof typedefs
+ */
+
+/**
+ * clientListTableProps is an object that stores the props for the
+ * ClientListTable component
+ *
+ * @exports clientListTableProps
+ * @typedef {object} clientListTableProps
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
+ * clientListTableRowProps is an object that stores the props for the
+ * ClientListTableRow component
+ *
+ * @exports clientListTableRowProps
+ * @typedef {object} clientListTableRowProps
+ * @property {object} client - Object containing client information
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
+ * uploadDocumentModalProps is an object that stores the props for the
+ * UploadDocumentModal component
+ *
+ * @exports uploadDocumentModalProps
+ * @typedef {object} uploadDocumentModalProps
+ * @property {object} showModal - Boolean for showing upload documents modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @memberof typedefs
+ */
+
+/**
+ * documentTableRowProps is an object that stores the props for the DocumentTableRow
+ * component
+ *
+ * @exports documentTableRowProps
+ * @typedef {object} documentTableRowProps
+ * @property {File} document - File object containing the document
+ * @memberof typedefs
+ */
+
+/**
+ * profileComponentProps is an object that stores the props for the
+ * ProfileComponent component
+ *
+ * @exports profileComponentProps
+ * @typedef {object} profileComponentProps
+ * @property {object} [clientProfile] - Client object with data from profile
+ * or null if user profile is selected
+ * @memberof typedefs
+ */
+
+/**
+ * profileImageFieldProps is an object that stores the props for the ProfileInputField
+ * component
+ *
+ * @exports profileImageFieldProps
+ * @typedef {object} profileImageFieldProps
+ * @property {() => void} loadProfileData - Handler function for setting local
+ * state for profile card in PASS
+ * @property {object} [clientProfile] - Client object with data from profile
+ * or null if user profile is selected
+ * @memberof typedefs
+ */
+
+/**
+ * profileInputFieldProps is an object that stores the props for the ProfileInputField
+ * component
+ *
+ * @exports profileInputFieldProps
+ * @typedef {object} profileInputFieldProps
+ * @property {string} inputName - Name of input field
+ * @property {string} inputValue - Value of input field used for updating profile
+ * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
+ * function for inputValue
+ * @property {boolean} edit - Boolean used to toggle edit inputs
+ * @memberof typedefs
+ */
+
+/**
+ * profileEditButtonGroupProps is an object that stores the props for the
+ * ProfileInputField component
+ *
+ * @exports profileEditButtonGroupProps
+ * @typedef {object} profileEditButtonGroupProps
+ * @property {string} edit - Boolean state for editing values in the
+ * ProfileInputField component
+ * @property {() => void} handleCancelEdit - Handler function for canceling edit for
+ * ProfileInputField component
+ * @property {() => void} handleEditInput - Handler function for editing the
+ * ProfileInputField component
  * @memberof typedefs
  */
 

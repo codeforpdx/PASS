@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,13 +13,11 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 // Utility Imports
-import { ENV } from '../../constants';
-import { runNotification } from '../../utils';
-import { createUser } from '../../model-helpers/User';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
+import { runNotification } from '@utils';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
+// Model Imports
+import { createUser } from '../../model-helpers/User';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -31,9 +30,8 @@ import { FormSection } from '../Form';
  */
 
 const renderWebId = (username) => {
-  const oidcProvider = ENV.VITE_SOLID_IDENTITY_PROVIDER.split('//')[1];
-  const template = ['https://', `.${oidcProvider}profile/card#me`];
-  return `${template[0]}${username}${template[1]}`;
+  const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
+  return new URL(`${username}/profile/card#me`, baseUrl);
 };
 
 const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {

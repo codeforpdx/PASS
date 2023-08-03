@@ -1,8 +1,12 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
-// Styling Imports
+// Custom Hook Imports
+import { useSession } from '@hooks';
+// Utility Imports
+import { sendMessageTTL, getMessageTTL } from '@utils';
+// Context Imports
+import { MessageContext, SignedInUserContext } from '@contexts';
+// Component Imports
 import {
   CancelButton,
   StyledButton2,
@@ -15,10 +19,6 @@ import {
   StyledSuccess,
   StyledTextArea
 } from './MessageStyles';
-// Utility Imports
-import { sendMessageTTL, getMessageTTL } from '../../utils';
-// Context Imports
-import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
  * @typedef {import("../../typedefs.js").newMessageProps} newMessageProps

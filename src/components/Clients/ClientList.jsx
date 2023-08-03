@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Context Imports
-import { UserListContext } from '../../contexts';
+import { UserListContext } from '@contexts';
 // Component Imports
 import ClientListTable from './ClientListTable';
 import DeleteClientModal from '../Modals/DeleteClientModal';
@@ -13,8 +13,8 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  *
  * @memberof Clients
  * @name ClientList
+ * @returns {React.JSX.Element} The ClientList Component
  */
-
 const ClientList = () => {
   const { userListObject } = useContext(UserListContext);
   const { loadingUsers } = useContext(UserListContext);
