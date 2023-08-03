@@ -17,18 +17,7 @@ import { sendMessageTTL, getMessageTTL } from '../../utils';
 import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
- * @typedef {import("../../typedefs.js").newMessageProps} newMessageProps
- */
-
-/**
- * messageFolderProps is an object that stores the props for the MessageFolder
- * component
- *
- * @typedef newMessageModalProps
- * @type {object}
- * @property {() => void} closeForm - The function used to trigger NewMessageModal to
- * close
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").newMessageModalProps} newMessageModalProps
  */
 
 /**
@@ -45,7 +34,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
-  const [replyMessage, setReplyMessage] = useState(false);
 
   const [message, setMessage] = useState({
     recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
@@ -68,7 +56,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
 
   const handleReplyMessage = () => {
     setShowModal(!showModal);
-    setReplyMessage(!replyMessage);
   };
 
   // Handles submit (awaiting functionality for this)

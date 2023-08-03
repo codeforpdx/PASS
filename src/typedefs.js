@@ -157,13 +157,15 @@ const React = require('react');
  */
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
+ * newMessageModalProps is an object that stores the props for the NewMessageModal
  * component
  *
- * @exports newMessageProps
- * @typedef {object} newMessageProps
- * @property {() => void} closeForm - The function used to trigger NewMessage to
- * close
+ * @exports newMessageModalProps
+ * @typedef {object} newMessageModalProps
+ * @property {object} showModal - Boolean for showing message modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for showModal
+ * @property {string} oldMessage - The previous message when using the modal to reply
  * @memberof typedefs
  */
 
