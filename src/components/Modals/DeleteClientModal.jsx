@@ -14,7 +14,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '@utils';
 // Context Imports
 import { UserListContext } from '@contexts';
-import useNotification from '../../hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -33,7 +32,6 @@ const DeleteClientModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
-  const notify = useNotification();
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
@@ -55,7 +53,7 @@ const DeleteClientModal = ({
         state,
         dispatch
       );
-      notify.addNotification('success', 'this is a test');
+
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);

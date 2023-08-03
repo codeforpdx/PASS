@@ -16,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import { runNotification } from '@utils';
 // Context Imports
 import { UserListContext } from '@contexts';
+import useNotification from '../../hooks/useNotification';
 // Model Imports
 import { createUser } from '../../model-helpers/User';
 // Component Imports
@@ -36,6 +37,7 @@ const renderWebId = (username) => {
 
 const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const { state, dispatch } = useStatusNotification();
+  const notify = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
@@ -117,6 +119,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         state,
         dispatch
       );
+      notify.addNotification('success', `this is a test`);
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
