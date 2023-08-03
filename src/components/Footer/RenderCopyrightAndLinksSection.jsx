@@ -35,7 +35,7 @@ const legalLinks = [
  * The RenderCopyrightAndLinksSection component renders information about policy,
  * terms and conditions, and the site to Code for PDX
  *
- * @param {footerProps} isReallySmallScreen - The props for footer sub-component
+ * @param {footerProps} Props - The props for footer sub-component
  * @returns {React.JSX.Element} The RenderCopyrightAndLinksSection component
  */
 const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (

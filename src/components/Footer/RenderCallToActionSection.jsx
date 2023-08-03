@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
  * The RenderCallToActionSection component renders information about policy,
  * terms and conditions, and the site to Code for PDX
  *
- * @param {footerProps} isReallySmallScreen - The props for footer sub-component
+ * @param {footerProps} Props - The props for footer sub-component
  * @returns {React.JSX.Element} The RenderCallToActionSection component
  */
 const RenderCallToActionSection = ({ isReallySmallScreen }) => (
