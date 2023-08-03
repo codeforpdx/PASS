@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 // Custom Hook Imports
 import { useStatusNotification } from '@hooks';
+import useNotification from '../../hooks/useNotification';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -32,6 +33,7 @@ const DeleteClientModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
+  const notify = useNotification()
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
@@ -53,6 +55,7 @@ const DeleteClientModal = ({
         state,
         dispatch
       );
+      notify.addNotification('success', 'this is a test')
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
