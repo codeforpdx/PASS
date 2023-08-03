@@ -171,7 +171,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 startIcon={<ClearIcon />}
                 onClick={clearInputFields}
                 fullWidth
-                helpertext="Please enter your name"
                 sx={{ borderRadius: '20px' }}
               >
                 CANCEL
