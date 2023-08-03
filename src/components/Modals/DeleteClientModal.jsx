@@ -33,7 +33,7 @@ const DeleteClientModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
   const { removeUser } = useContext(UserListContext);
-  const notify = useNotification()
+  const notify = useNotification();
 
   // Event handler for deleting client from client list
   const handleDeleteClient = async (event) => {
@@ -55,7 +55,7 @@ const DeleteClientModal = ({
         state,
         dispatch
       );
-      notify.addNotification('success', 'this is a test')
+      notify.addNotification('success', 'this is a test');
       setTimeout(() => {
         setShowDeleteClientModal(false);
       }, 2000);
