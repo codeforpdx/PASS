@@ -18,7 +18,7 @@ const sessionInfo = {
   }
 };
 
-const Wrapper = ({ children }) => (
+const wrapper = ({ children }) => (
   <SessionContext.Provider value={sessionInfo}>
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   </SessionContext.Provider>
@@ -29,7 +29,7 @@ describe('useContactsList', () => {
     getSolidDataset.mockResolvedValue(
       mockSolidDatasetFrom('https://example.com/PASS/Users/userlist.ttl')
     );
-    const { result } = renderHook(useContactsList, { Wrapper });
+    const { result } = renderHook(useContactsList, { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data.length).toBe(0);
   });
