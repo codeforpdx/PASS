@@ -165,7 +165,7 @@ const React = require('react');
  * @property {object} showModal - Boolean for showing message modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for showModal
- * @property {object|string} oldMessage - The previous message when using the modal to reply, 
+ * @property {object|string} oldMessage - The previous message when using the modal to reply,
  * uses a string if empty
  * @memberof typedefs
  */
