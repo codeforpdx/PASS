@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 // Custom Hook Imports
 import { useStatusNotification } from '@hooks';
-import useNotification from '../../hooks/useNotification';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -15,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '@utils';
 // Context Imports
 import { UserListContext } from '@contexts';
+import useNotification from '../../hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
