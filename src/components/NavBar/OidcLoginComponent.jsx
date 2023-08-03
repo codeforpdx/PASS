@@ -1,9 +1,11 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
-import { TextField, Box, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 // Constants Imports
 import { ENV } from '../../constants';
 
@@ -24,6 +26,12 @@ const OidcLoginComponent = () => {
         variant="filled"
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            loginHandler();
+            localStorage.setItem('oidcIssuer', oidcIssuer);
+          }
+        }}
         InputProps={{
           disableUnderline: true,
           'aria-label': 'OIDC Input Field'
@@ -43,12 +51,6 @@ const OidcLoginComponent = () => {
         onClick={() => {
           loginHandler();
           localStorage.setItem('oidcIssuer', oidcIssuer);
-        }}
-        onKeyUp={(event) => {
-          if (event.key === 'Enter') {
-            loginHandler();
-            localStorage.setItem('oidcIssuer', oidcIssuer);
-          }
         }}
       >
         Login

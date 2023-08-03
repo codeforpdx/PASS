@@ -1,6 +1,6 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
-// Inrupt Library Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Utility Imports
 import { createOutbox, createInbox, getMessageTTL } from '../utils';
