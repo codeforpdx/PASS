@@ -283,4 +283,14 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * footerProps is an object that stores the props for the Footer subcomponents
+ *
+ * @exports footerProps
+ * @typedef {object} footerProps
+ * @property {boolean} isReallySmallScreen - Boolean for if screen is below theme
+ * breakdown of 'sm' for MUI
+ * @memberof typedefs
+ */
+
 exports.unused = {};
