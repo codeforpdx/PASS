@@ -63,7 +63,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
           <img
             src="src/assets/pass-logo.png"
             alt="logo"
-            className="navbar-logo"
+            style={{ marginRight: '2rem' }}
             aria-label="logo"
           />
           <NavbarLinks aria-label="navigation links" />
