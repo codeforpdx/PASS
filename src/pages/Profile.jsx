@@ -8,12 +8,17 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import SettingsIcon from '@mui/icons-material/Settings';
 import Typography from '@mui/material/Typography';
 // Model Imports
 import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
-import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
-import { UploadDocumentModal } from '../components/Modals';
+import {
+  UploadDocumentModal,
+  SetAclPermissionModal,
+  SetAclPermsDocContainerModal
+} from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
 import { LoadingAnimation } from '../components/Notification';
@@ -34,6 +39,8 @@ const Profile = () => {
   // Documents related states
   const { session } = useSession();
   const [showModal, setShowModal] = useState(false);
+  const [showAclPermsDocContainerModal, setShowAclPermsDocContainerModal] = useState(false);
+  const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
 
   // Profile related states
   const client = location.state?.client;
@@ -89,6 +96,40 @@ const Profile = () => {
 
         <ProfileComponent clientProfile={clientProfile} />
 
+        {!client && (
+          <>
+            <Container sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                aria-label="Set Container Permissions Button"
+                startIcon={<SettingsIcon />}
+                onClick={() => setShowAclPermsDocContainerModal(true)}
+              >
+                Container Permissions
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                aria-label="Set Document Permissions Button"
+                startIcon={<SettingsIcon />}
+                onClick={() => setShowAclPermissionModal(true)}
+              >
+                Document Permissions
+              </Button>
+            </Container>
+            <SetAclPermsDocContainerModal
+              showModal={showAclPermsDocContainerModal}
+              setShowModal={setShowAclPermsDocContainerModal}
+            />
+            <SetAclPermissionModal
+              showModal={showAclPermissionModal}
+              setShowModal={setShowAclPermissionModal}
+            />
+          </>
+        )}
         <Button
           variant="contained"
           color="secondary"
@@ -101,12 +142,6 @@ const Profile = () => {
         </Button>
         <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
         <DocumentTable />
-        {!client && (
-          <>
-            <SetAclPermsDocContainerForm />
-            <SetAclPermissionForm />
-          </>
-        )}
       </Box>
     </Box>
   );
