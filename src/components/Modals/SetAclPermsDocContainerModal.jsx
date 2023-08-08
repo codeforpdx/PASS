@@ -161,26 +161,6 @@ const SetAclPermsDocContainerModal = ({ showModal, setShowModal }) => {
               >
                 CANCEL
               </Button>
-              {/* <Button
-                variant="outlined"
-                color="error"
-                startIcon={<ClearIcon />}
-                onClick={clearInputFields}
-                fullWidth
-                sx={{ borderRadius: '20px' }}
-              >
-                CANCEL
-              </Button>
-              <Button
-                variant="contained"
-                disabled={permissionState.podUrlToSetPermissionsTo === podUrl || state.processing}
-                type="submit"
-                color="primary"
-              >
-                {permissionState.permissionType
-                  ? `${permissionState.permissionType} Permission`
-                  : 'Set Permission'}
-              </Button> */}
             </FormControl>
           </form>
         </Box>
