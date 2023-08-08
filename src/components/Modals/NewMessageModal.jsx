@@ -88,6 +88,9 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
         setError(err.message);
       } finally {
         setOriginalMessage('');
+        setTimeout(() => {
+          setShowModal(false);
+        }, 2000);
       }
     }
 
