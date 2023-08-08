@@ -6,6 +6,7 @@ import { useSession } from '@hooks';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Context Imports
@@ -27,7 +28,7 @@ import DOC_TYPES from '../../constants/doc_types';
  * @param {documentTableRowProps} Props - Props for DocumentTableRow
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
-const DocumentTableRow = ({ document }) => {
+const DocumentTableRow = ({ document, handlePermissions }) => {
   const { session } = useSession();
   const { removeDocument } = useContext(DocumentListContext);
 
@@ -62,6 +63,11 @@ const DocumentTableRow = ({ document }) => {
       <StyledTableCell align="center">
         <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
           <FileOpenIcon />
+        </IconButton>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <IconButton type="button" onClick={() => handlePermissions(name)}>
+          <SettingsIcon />
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">

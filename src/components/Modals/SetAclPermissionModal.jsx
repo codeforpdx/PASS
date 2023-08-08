@@ -28,15 +28,15 @@ import FormSection from '../Form/FormSection';
 
 /**
  * SetAclPermissionModal Component - Modal component that generates the form for
- * setting ACL permissions to another user's Documents container in their Solid
+ * setting ACL permissions to another user's Document in their Solid
  * Pod via Solid Session
  *
  * @memberof Forms
- * @name SetAclPermsDocContainerModal
+ * @name SetAclPermissionModal
  * @param {setAclPermissionModalProps} Props - Props for SetAclPermissionModal component
  * @returns {React.JSX.Element} The SetAclPermissionModal Component
  */
-const SetAclPermissionModal = ({ showModal, setShowModal }) => {
+const SetAclPermissionModal = ({ showModal, setShowModal, documentName }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
   const { podUrl } = useContext(SignedInUserContext);
@@ -113,8 +113,7 @@ const SetAclPermissionModal = ({ showModal, setShowModal }) => {
               }}
             >
               <span style={{ color: 'grey' }}>File Name: </span>
-              {/* TODO: adjust here to show filename of the one that triggered this form */}
-              filename.jpeg
+              {documentName}
             </Typography>
 
             <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>

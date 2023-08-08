@@ -41,12 +41,22 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [showAclPermsDocContainerModal, setShowAclPermsDocContainerModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
+  const [documentName, setDocumentName] = useState('filename.jpg');
 
   // Profile related states
   const client = location.state?.client;
   const [clientProfile, setClientProfile] = useState(null);
   const webIdUrl = client?.webId ?? session.info.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // Function for the "Permission" buttons in each document
+  // table row that opens the Document Permissions Modal
+  // and sets the File Name to that of the corresponding
+  // file in the table.
+  const handlePermissions = (fileName) => {
+    setDocumentName(fileName);
+    setShowAclPermissionModal(true);
+  };
 
   useEffect(() => {
     const fetchClientProfile = async () => {
@@ -98,7 +108,7 @@ const Profile = () => {
 
         {!client && (
           <>
-            <Container sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
               <Button
                 variant="contained"
                 color="primary"
@@ -111,13 +121,13 @@ const Profile = () => {
               </Button>
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 size="small"
-                aria-label="Set Document Permissions Button"
-                startIcon={<SettingsIcon />}
-                onClick={() => setShowAclPermissionModal(true)}
+                aria-label="Add Client Button"
+                startIcon={<AddIcon />}
+                onClick={() => setShowModal(true)}
               >
-                Document Permissions
+                Add Document
               </Button>
             </Container>
             <SetAclPermsDocContainerModal
@@ -127,21 +137,12 @@ const Profile = () => {
             <SetAclPermissionModal
               showModal={showAclPermissionModal}
               setShowModal={setShowAclPermissionModal}
+              documentName={documentName}
             />
           </>
         )}
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          aria-label="Add Client Button"
-          startIcon={<AddIcon />}
-          onClick={() => setShowModal(true)}
-        >
-          Add Document
-        </Button>
         <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
-        <DocumentTable />
+        <DocumentTable handlePermissions={handlePermissions} />
       </Box>
     </Box>
   );
