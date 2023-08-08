@@ -21,7 +21,6 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
 
 const Contacts = () => {
   localStorage.setItem('restorePath', '/contacts');
-  // state for AddContactModal component
   const [showAddContactModal, setShowAddContactModal] = useState(false);
 
   const [showDeleteContactModal, setShowDeleteContactModal] = useState(false);
@@ -66,7 +65,6 @@ const Contacts = () => {
         )}
       </Box>
 
-      {/* modal/popup renders when showAddContactModal state is true */}
       <AddContactModal
         showAddContactModal={showAddContactModal}
         setShowAddContactModal={setShowAddContactModal}

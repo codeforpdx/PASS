@@ -1,7 +1,7 @@
+import useContactsList from './useContactsList';
 import useField from './useField';
 import useSession from './useSession';
 import useStatusNotification from './useStatusNotification';
-import useContactsList from './useContactsList';
 /**
  * The hooks module contains custom hooks to assist with form handling or status
  * notifications
@@ -9,4 +9,4 @@ import useContactsList from './useContactsList';
  * @namespace hooks
  */
 
-export { useField, useStatusNotification, useSession, useContactsList };
+export { useContactsList, useField, useStatusNotification, useSession };

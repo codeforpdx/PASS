@@ -15,15 +15,15 @@ import { StyledTableCell } from '../Table/TableStyles';
 const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
 
 /**
- * @typedef {import("../../typedefs.js").clientListTableProps} clientListTableProps
+ * @typedef {import("../../typedefs.js").contactListTableProps} contactListTableProps
  */
 
 /**
- * ContactListTable Component - Component that generates table of clients from data within ContactList
+ * ContactListTable Component - Component that generates table of contacts from data within ContactList
  *
  * @memberof Contacts
  * @name ContactListTable
- * @param {clientListTableProps} Props - Props for ContactListTableRow
+ * @param {contactListTableProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
@@ -42,7 +42,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
 
   return (
     <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-      <Table aria-label="client list table">
+      <Table aria-label="contact list table">
         <TableHead>
           <TableRow>
             {columnTitlesArray.map((columnTitle) => (

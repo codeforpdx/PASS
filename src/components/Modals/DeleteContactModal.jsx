@@ -31,11 +31,11 @@ const DeleteContactModal = ({
 }) => {
   const { state, dispatch } = useStatusNotification();
 
-  // Event handler for deleting client from client list
+  // Event handler for deleting from contact list
   const handleDeleteContact = async (event) => {
     event.preventDefault();
     runNotification(
-      `Deleting "${selectedContactToDelete?.person}" from client list...`,
+      `Deleting "${selectedContactToDelete?.person}" from contact list...`,
       5,
       state,
       dispatch
@@ -43,13 +43,13 @@ const DeleteContactModal = ({
     try {
       await deleteContact(selectedContactToDelete);
       runNotification(
-        `"${selectedContactToDelete?.givenName}" deleted from client list...`,
+        `"${selectedContactToDelete?.person}" deleted from contact list...`,
         5,
         state,
         dispatch
       );
     } catch (e) {
-      runNotification(`Client deletion falied. Reason: ${e.message}`);
+      runNotification(`Contact deletion falied. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
         setShowDeleteContactModal(false);
@@ -73,7 +73,7 @@ const DeleteContactModal = ({
         <form onSubmit={handleDeleteContact} autoComplete="off">
           <DialogContent>
             <DialogContentText id="dialog-description">
-              {`Are you sure you want to delete "${selectedContactToDelete?.person}" from your client list?`}
+              {`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
             </DialogContentText>
           </DialogContent>
 
