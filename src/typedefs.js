@@ -162,7 +162,7 @@ const React = require('react');
  *
  * @exports newMessageModalProps
  * @typedef {object} newMessageModalProps
- * @property {object} showModal - Boolean for showing message modal
+ * @property {boolean} showModal - Boolean for showing message modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for showModal
  * @property {object|string} oldMessage - The previous message when using the modal to reply,
@@ -217,7 +217,7 @@ const React = require('react');
  *
  * @exports uploadDocumentModalProps
  * @typedef {object} uploadDocumentModalProps
- * @property {object} showModal - Boolean for showing upload documents modal
+ * @property {boolean} showModal - Boolean for showing upload documents modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
  * @memberof typedefs
