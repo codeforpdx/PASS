@@ -189,16 +189,6 @@ const SetAclPermissionModal = ({ showModal, setShowModal, documentName }) => {
               >
                 CANCEL
               </Button>
-              {/* <Button
-              variant="contained"
-              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || state.processing}
-              type="submit"
-              color="primary"
-            >
-              {permissionState.permissionType
-                ? `${permissionState.permissionType} Permission`
-                : 'Set Permission'}
-            </Button> */}
             </FormControl>
           </form>
         </Box>
