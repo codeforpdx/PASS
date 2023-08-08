@@ -38,7 +38,7 @@ const Profile = () => {
 
   // Documents related states
   const { session } = useSession();
-  const [showModal, setShowModal] = useState(false);
+  const [showAddDocModal, setShowAddDocModal] = useState(false);
   const [showAclPermsDocContainerModal, setShowAclPermsDocContainerModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
   const [documentName, setDocumentName] = useState('filename.jpg');
@@ -125,7 +125,7 @@ const Profile = () => {
                 size="small"
                 aria-label="Add Client Button"
                 startIcon={<AddIcon />}
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowAddDocModal(true)}
               >
                 Add Document
               </Button>
@@ -141,7 +141,7 @@ const Profile = () => {
             />
           </>
         )}
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
+        <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
         <DocumentTable handlePermissions={handlePermissions} />
       </Box>
     </Box>
