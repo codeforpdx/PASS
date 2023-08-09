@@ -1,4 +1,3 @@
-import NewMessage from './NewMessage';
 import MessagePreview from './MessagePreview';
 import MessageFolder from './MessageFolder';
 
@@ -8,4 +7,4 @@ import MessageFolder from './MessageFolder';
  * @namespace Messages
  */
 
-export { NewMessage, MessagePreview, MessageFolder };
+export { MessagePreview, MessageFolder };

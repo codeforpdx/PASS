@@ -32,7 +32,7 @@ import UploadButtonGroup from './UploadButtonGroup';
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
- * @memberof Forms
+ * @memberof Modals
  * @name UploadDocumentModal
  * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
  * @returns {React.JSX.Element} The UploadDocumentModal Component

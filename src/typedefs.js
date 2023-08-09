@@ -96,7 +96,7 @@ const React = require('react');
  * (see {@link statusNotificationObject})
  * @property {string} statusType - Type of action for PASS
  * @property {string} defaultMessage - Default notification message when inactive
- * @property {File|null} [file] - File object, if choosen for upload, else return
+ * @property {File|null} [file] - File object, if chosen for upload, else return
  * null
  * @property {React.ReactElement} children - JSX Element of the wrapped form
  * @memberof typedefs
@@ -157,13 +157,16 @@ const React = require('react');
  */
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
+ * newMessageModalProps is an object that stores the props for the NewMessageModal
  * component
  *
- * @exports newMessageProps
- * @typedef {object} newMessageProps
- * @property {() => void} closeForm - The function used to trigger NewMessage to
- * close
+ * @exports newMessageModalProps
+ * @typedef {object} newMessageModalProps
+ * @property {boolean} showModal - Boolean for showing message modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for showModal
+ * @property {object|string} oldMessage - The previous message when using the modal to reply,
+ * uses a string if empty
  * @memberof typedefs
  */
 
@@ -171,7 +174,7 @@ const React = require('react');
  * loadingAnimationProps is an object that stores the props for the LoadingAnimation
  * component; By default LinearProgress will be used as the default animation,
  * if used as a provider, i.e. wrapping children animation components, the wrapped
- * component will be used instaed for animation
+ * component will be used instead for animation
  *
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
@@ -214,7 +217,7 @@ const React = require('react');
  *
  * @exports uploadDocumentModalProps
  * @typedef {object} uploadDocumentModalProps
- * @property {object} showModal - Boolean for showing upload documents modal
+ * @property {boolean} showModal - Boolean for showing upload documents modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
  * @memberof typedefs
