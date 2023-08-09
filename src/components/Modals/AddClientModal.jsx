@@ -26,7 +26,7 @@ import { FormSection } from '../Form';
  * AddClientModal Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Clients
+ * @memberof Modals
  * @name AddClientModal
  */
 
