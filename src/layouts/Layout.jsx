@@ -14,7 +14,7 @@ import NotificationContainer from '../components/Notification/NotificationContai
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
-  const notify = useNotification();
+  const { state } = useNotification();
 
   return (
     <Box
@@ -29,7 +29,7 @@ const Layout = ({ ariaLabel, children }) => {
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
-      <NotificationContainer notifications={notify.state.notifications} />
+      <NotificationContainer notifications={state.notifications} />
     </Box>
   );
 };

@@ -37,7 +37,7 @@ const renderWebId = (username) => {
 
 const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   const { state, dispatch } = useStatusNotification();
-  const notify = useNotification();
+  const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
@@ -119,7 +119,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         state,
         dispatch
       );
-      notify.addNotification('success', `this is a test`);
+      addNotification('success', `this is a test`);
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
