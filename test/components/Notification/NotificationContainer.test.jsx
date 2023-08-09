@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
