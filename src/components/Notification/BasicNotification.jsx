@@ -5,12 +5,12 @@ import Alert from '@mui/material/Alert';
 import useNotification from '@hooks/useNotification';
 
 const BasicNotification = ({ severity, message, id, 'data-testid': dataTestId }) => {
-  const notify = useNotification();
+  const { remove } = useNotification();
 
   const timerID = useRef(null);
 
   const handleDismiss = () => {
-    notify.remove(id);
+    remove(id);
   };
 
   useEffect(() => {

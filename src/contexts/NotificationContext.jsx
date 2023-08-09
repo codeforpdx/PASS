@@ -1,11 +1,11 @@
 import React, { createContext, useReducer, useMemo } from 'react';
 import notificationReducer from '../reducers/notificationReducer';
 
-export const NotificationContext = createContext();
-
 const initialState = {
   notifications: []
 };
+
+export const NotificationContext = createContext(initialState);
 
 export const NotificationContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(notificationReducer, initialState);
