@@ -18,7 +18,7 @@ import { runNotification, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
-import FormSection from '../Form/FormSection';
+import { FormSection } from '../Form';
 
 /**
  * @typedef {import("../../typedefs.js").setAclPermsDocContainerModalProps} setAclPermsDocContainerModalProps
@@ -45,9 +45,6 @@ const SetAclPermsDocContainerModal = ({ showModal, setShowModal }) => {
 
   const clearInputFields = () => {
     dispatch({ type: 'CLEAR_PROCESSING' });
-  };
-
-  const handleCloseModal = () => {
     setPermissionState({
       podUrlToSetPermissionsTo: '',
       permissionType: ''
@@ -88,9 +85,9 @@ const SetAclPermsDocContainerModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog open={showModal} onClose={handleCloseModal}>
+    <Dialog open={showModal} onClose={clearInputFields}>
       <FormSection
-        title="Permission for Container"
+        title="Permission to all Documents"
         state={state}
         statusType="Status"
         defaultMessage="No action yet..."
@@ -155,7 +152,7 @@ const SetAclPermsDocContainerModal = ({ showModal, setShowModal }) => {
                 variant="outlined"
                 color="error"
                 startIcon={<ClearIcon />}
-                onClick={handleCloseModal}
+                onClick={clearInputFields}
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >

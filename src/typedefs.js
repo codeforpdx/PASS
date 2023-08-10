@@ -224,12 +224,25 @@ const React = require('react');
  */
 
 /**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component.
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {(string) => void} handlePermissions
+ * - Function that sets the correct File Name for the SetAclPermissions Modal, and opens it.
+ * @memberof typedefs
+ */
+
+/**
  * documentTableRowProps is an object that stores the props for the DocumentTableRow
  * component
  *
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
+ * @property {(string) => void} handlePermissions
+ * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -294,6 +307,28 @@ const React = require('react');
  * @property {boolean} isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
  * @memberof typedefs
+ */
+
+/**
+ * setAclPermissionModalProps is an object that stores the props for the setAclPermissionModal component.
+ *
+ * @exports setAclPermissionModalProps
+ * @typedef {object} setAclPermissionModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @property {(string) => void} handlePermissions
+ * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
+ */
+
+/**
+ * setAclPermsDocContainerModalProps is an object that stores the props for the setAclPermsDocContainerModal component.
+ *
+ * @exports setAclPermsDocContainerModalProps
+ * @typedef {object} setAclPermsDocContainerModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermsDocContainerModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
  */
 
 exports.unused = {};
