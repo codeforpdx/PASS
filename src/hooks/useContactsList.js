@@ -91,6 +91,7 @@ const useContactsList = () => {
 
   const addContactMutation = useMutation({
     mutationFn: async (newContact) => {
+      if (!data) await fetchContactsList();
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
       const savedDataset = await saveData(newDataset);
