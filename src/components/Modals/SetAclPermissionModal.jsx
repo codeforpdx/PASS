@@ -19,8 +19,7 @@ import { runNotification, setDocAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
-import DocumentSelection from '../Form/DocumentSelection';
-import FormSection from '../Form/FormSection';
+import { DocumentSelection, FormSection } from '../Form';
 
 /**
  * @typedef {import("../../typedefs.js").setAclPermissionModalProps} setAclPermissionModalProps
@@ -52,9 +51,6 @@ const SetAclPermissionModal = ({ showModal, setShowModal, documentName }) => {
 
   const clearInputFields = () => {
     dispatch({ type: 'CLEAR_PROCESSING' });
-  };
-
-  const handleCloseModal = () => {
     setPermissionState({
       podUrlToSetPermissionsTo: '',
       permissionType: ''
@@ -93,7 +89,7 @@ const SetAclPermissionModal = ({ showModal, setShowModal, documentName }) => {
   };
 
   return (
-    <Dialog open={showModal} onClose={handleCloseModal}>
+    <Dialog open={showModal} onClose={clearInputFields}>
       <FormSection
         title="Permission for Document"
         state={state}
@@ -183,7 +179,7 @@ const SetAclPermissionModal = ({ showModal, setShowModal, documentName }) => {
                 variant="outlined"
                 color="error"
                 startIcon={<ClearIcon />}
-                onClick={handleCloseModal}
+                onClick={clearInputFields}
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >

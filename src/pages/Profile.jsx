@@ -41,7 +41,7 @@ const Profile = () => {
   const [showAddDocModal, setShowAddDocModal] = useState(false);
   const [showAclPermsDocContainerModal, setShowAclPermsDocContainerModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
-  const [documentName, setDocumentName] = useState('filename.jpg');
+  const [documentName, setDocumentName] = useState('');
 
   // Profile related states
   const client = location.state?.client;
@@ -106,42 +106,40 @@ const Profile = () => {
 
         <ProfileComponent clientProfile={clientProfile} />
 
-        {!client && (
-          <>
-            <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                aria-label="Set Container Permissions Button"
-                startIcon={<SettingsIcon />}
-                onClick={() => setShowAclPermsDocContainerModal(true)}
-              >
-                Container Permissions
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                aria-label="Add Client Button"
-                startIcon={<AddIcon />}
-                onClick={() => setShowAddDocModal(true)}
-              >
-                Add Document
-              </Button>
-            </Container>
-            <SetAclPermsDocContainerModal
-              showModal={showAclPermsDocContainerModal}
-              setShowModal={setShowAclPermsDocContainerModal}
-            />
-            <SetAclPermissionModal
-              showModal={showAclPermissionModal}
-              setShowModal={setShowAclPermissionModal}
-              documentName={documentName}
-            />
-          </>
-        )}
+        <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          {!client && (
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              aria-label="Set Container Permissions Button"
+              startIcon={<SettingsIcon />}
+              onClick={() => setShowAclPermsDocContainerModal(true)}
+            >
+              Container Permissions
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            aria-label="Add Client Button"
+            startIcon={<AddIcon />}
+            onClick={() => setShowAddDocModal(true)}
+          >
+            Add Document
+          </Button>
+        </Container>
         <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
+        <SetAclPermsDocContainerModal
+          showModal={showAclPermsDocContainerModal}
+          setShowModal={setShowAclPermsDocContainerModal}
+        />
+        <SetAclPermissionModal
+          showModal={showAclPermissionModal}
+          setShowModal={setShowAclPermissionModal}
+          documentName={documentName}
+        />
         <DocumentTable handlePermissions={handlePermissions} />
       </Box>
     </Box>
