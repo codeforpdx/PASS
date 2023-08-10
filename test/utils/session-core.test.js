@@ -28,14 +28,13 @@ describe('setDocContainerAclPermission', () => {
 
   it('runs setDocAclForUser with the correct inputs', async () => {
     const permissions = { read: true, append: true };
-    const otherPodUsername = 'pod2';
+    const expectedWebId = 'https://pod2.example.com/profile/card#me';
 
     const expectedContainerUrl = 'https://pod.example.com/PASS/Documents/';
-    const expectedWebId = 'https://pod2.example.com/profile/card#me';
 
     vi.spyOn(sessionHelpers, 'setDocAclForUser');
 
-    await setDocContainerAclPermission(session, permissions, mockPodUrl, otherPodUsername);
+    await setDocContainerAclPermission(session, permissions, mockPodUrl, expectedWebId);
 
     expect(sessionHelpers.setDocAclForUser).toBeCalledWith(
       session,

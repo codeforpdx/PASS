@@ -1,12 +1,13 @@
 // React imports
 import React, { useState } from 'react';
-// Styling Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+// Styling Imports
 import { StyledDate, StyledHeader, StyledPreview } from './MessageStyles';
 // Component Imports
-import NewMessage from './NewMessage';
+import { NewMessageModal } from '../Modals';
 
 /**
  * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
@@ -16,21 +17,21 @@ import NewMessage from './NewMessage';
  * Message Preview Component - Component that displays message previews from
  * user's Inbox container
  *
- * @memberof Inbox
+ * @memberof Messages
  * @name MessagePreview
  * @param {messagePreviewProps} Props - Component props for MessagePreview
  * @returns {React.JSX.Element} React component for MessagePreview
  */
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
-  const [replyMessage, setReplyMessage] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
     setShowContents(!showContents);
   };
 
   const handleReplyMessage = () => {
-    setReplyMessage(!replyMessage);
+    setShowModal(!showModal);
   };
 
   return (
@@ -60,7 +61,9 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Box>
       )}
-      {replyMessage && <NewMessage oldMessage={message} closeForm={() => setReplyMessage(false)} />}
+      {showModal && (
+        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
+      )}
     </StyledPreview>
   );
 };
