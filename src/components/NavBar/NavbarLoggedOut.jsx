@@ -20,7 +20,7 @@ const NavbarLoggedOut = () => (
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static" color="primary">
       <Toolbar sx={{ minHeight: '64px' }}>
-        <Link href='/'>
+        <Link href="/">
           <img
             src="src/assets/pass-logo.png"
             alt="logo"
