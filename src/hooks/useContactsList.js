@@ -15,12 +15,11 @@ import {
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 
-const makeContactIntoThing = ({ username, givenName, familyName, webId }) =>
-  buildThing(createThing({ name: username }))
+const makeContactIntoThing = ({ givenName, familyName, webId }) =>
+  buildThing(createThing({ name: encodeURIComponent(webId) }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
-    .addStringNoLocale(RDF_PREDICATES.alternateName, username)
     .addUrl(RDF_PREDICATES.identifier, webId)
     .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
     .build();
@@ -35,7 +34,6 @@ const parseContacts = (data) => {
     contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
     contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
     contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
-    contact.username = getStringNoLocale(thing, RDF_PREDICATES.alternateName);
     contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
     contacts.push(contact);
   });
@@ -92,7 +90,7 @@ const useContactsList = () => {
 
   const deleteContactMutation = useMutation({
     mutationFn: async (contactToDelete) => {
-      const thingUrl = `${url}#${contactToDelete.username}`;
+      const thingUrl = `${url}#${encodeURIComponent(contactToDelete.webId)}`;
       const thingToRemove = getThing(data, thingUrl);
       const newDataset = removeThing(data, thingToRemove);
       const savedDataset = await saveData(newDataset);

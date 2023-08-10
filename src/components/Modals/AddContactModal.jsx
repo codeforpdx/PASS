@@ -93,7 +93,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      username: event.target.addUsername.value,
       webId: event.target.addWebId.value
     };
 
