@@ -101,7 +101,7 @@ export const createOutbox = async (session, podUrl) => {
  * @function createInbox
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - The pod URL of user
- * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
+ * @returns {Promise} Promise - Generates an inbox for Pod upon log in if
  * user's Pod does not have the an outbox to begin with
  */
 export const createInbox = async (session, podUrl) => {
@@ -115,5 +115,29 @@ export const createInbox = async (session, podUrl) => {
     // Generate ACL file for container
     await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
     await setDocAclForPublic(session, inboxContainerUrl, { append: true });
+  }
+};
+
+/**
+ * Function that creates a Profile container in the user's Pod when logging in
+ * for the first time within the PASS container separate from the public profile
+ *
+ * @memberof utils
+ * @function createPrivateProfile
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {URL} podUrl - The pod URL of user
+ * @returns {Promise} Promise - Generates a Profile container for Pod upon log
+ * in if user's Pod does not have the Profile container to begin with PASS
+ */
+export const createPrivateProfile = async (session, podUrl) => {
+  const privateProfileContainerUrl = `${podUrl}PASS/Profile/`;
+
+  try {
+    await getSolidDataset(privateProfileContainerUrl, { fetch: session.fetch });
+  } catch {
+    await createContainerAt(privateProfileContainerUrl, { fetch: session.fetch });
+
+    // Generate ACL file for container
+    await setDocAclForUser(session, privateProfileContainerUrl, 'create', session.info.webId);
   }
 };
