@@ -365,7 +365,7 @@ export const getUserProfileName = async (webId) => {
 
 export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) => {
   await saveSolidDatasetInContainer(containerUrl, solidDatset, {
-    slugSuggestion: `${slug}.ttl`,
+    slugSuggestion: `${encodeURIComponent(slug)}.ttl`,
     contentType: 'text/turtle',
     fetch: session.fetch
   });
