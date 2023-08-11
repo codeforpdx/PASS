@@ -61,7 +61,7 @@ const useContactsList = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
-  const url = new URL('PASS/Users/userlist.ttl', podUrl).toString();
+  const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
 
   const saveData = async (dataset) => {
     const savedDataset = await saveSolidDatasetAt(url, dataset, {
