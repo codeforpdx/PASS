@@ -19,8 +19,8 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  * ContactListTable component
  *
  * @typedef {object} contactListTableProps
- * @property {Array} contacts - this list of contacts to display 
- * @property {Function} deleteContact - method to delete contact 
+ * @property {Array} contacts - this list of contacts to display
+ * @property {Function} deleteContact - method to delete contact
  * @memberof typedefs
  */
 

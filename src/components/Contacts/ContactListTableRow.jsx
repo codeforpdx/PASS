@@ -14,7 +14,13 @@ import { DocumentListContext } from '@contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
- * @typedef {import("../../typedefs.js").contactListTableRowProps} contactListTableRowProps
+ * contactListTableRowProps is an object that stores the props for the
+ * ContactListTableRow component
+ *
+ * @typedef {object} contactListTableRowProps
+ * @property {object} contact - Object containing contact information
+ * @property {Function} deleteContact
+ * - function to delete a chosen contact
  */
 
 /**

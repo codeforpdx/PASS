@@ -29,8 +29,8 @@ import { FormSection } from '../Form';
  *
  * @memberof Contacts
  * @name DeleteContactModal
- * @param {DeleteContactModalParams} root0 - params 
- * @returns {React.JSX.Element} - The delete contact modal 
+ * @param {DeleteContactModalParams} root0 - params
+ * @returns {React.JSX.Element} - The delete contact modal
  */
 const DeleteContactModal = ({
   showDeleteContactModal = false,

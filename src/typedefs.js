@@ -185,20 +185,6 @@ const React = require('react');
  */
 
 /**
- * contactListTableRowProps is an object that stores the props for the
- * ContactListTableRow component
- *
- * @exports contactListTableRowProps
- * @typedef {object} contactListTableRowProps
- * @property {object} contact - Object containing contact information
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteContactModal
- * - React set function for DeleteContactModal
- * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedContactToDelete
- * - React set function for setting contact to be deleted
- * @memberof typedefs
- */
-
-/**
  * uploadDocumentModalProps is an object that stores the props for the
  * UploadDocumentModal component
  *

@@ -41,8 +41,21 @@ const parseContacts = (data) => {
 };
 
 /**
+ * @typedef {object} ContactsList
+ * @property {boolean} isLoading - if the contacts list is loading
+ * @property {boolean} isSuccess - if the contacts list has been loaded
+ * @property {boolean} isError - if an error occurred while fetching the contacts list
+ * @property {object} error - the error that occurred while fetching
+ * @property {Array} data - the contacts
+ * @property {Function} addContact - adds the given contact object to the list
+ * @property {Function} deleteContact - removes a contact from the list
+ */
+
+/**
+ * useContactsList is a wrapper for a react query that manages a ContactsList object
  *
- * @returns {object} - all the data provided by the useQuery call
+ * @returns {ContactsList} - all the data provided by the useQuery call
+ * @memberof hooks
  */
 const useContactsList = () => {
   const queryClient = useQueryClient();

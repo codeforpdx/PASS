@@ -12,12 +12,15 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-// Utility Imports
 import { runNotification } from '@utils';
-// Component Imports
 import { FormSection } from '../Form';
 
-
+/**
+ * @memberof Contcts
+ * @name renderWebId
+ * @param {string} username - username to convert into a webId
+ * @returns {URL} A url of the predicted webID
+ */
 const renderWebId = (username) => {
   const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
   return new URL(`${username}/profile/card#me`, baseUrl);
@@ -87,7 +90,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     );
   };
 
-  // Event handler for adding client to users list
   const handleAddContact = async (event) => {
     event.preventDefault();
     const userObject = {
