@@ -10,7 +10,7 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  */
 
 /**
- * Custom hook that provide the statusNotificationObject as the state and a
+ * Custom hook that provides the statusNotificationObject as the state and a
  * useReducer dispatch function to alter the state
  *
  * @memberof hooks
@@ -19,7 +19,6 @@ import statusReducer, { initialStatusState } from '../reducers/statusReducer';
  * object that contains the StatusNotification state (see
  * {@link statusNotificationObject}) and React's useReducer dispatch function
  */
-
 const useStatusNotification = () => {
   const [state, dispatch] = useReducer(statusReducer, initialStatusState);
 
