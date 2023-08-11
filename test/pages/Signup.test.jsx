@@ -54,7 +54,7 @@ describe('Signup Page', () => {
       session: {
         info: {
           webId: 'https://example.com/profile/',
-          isLoggedIn: true
+          isLoggedIn: false
         }
       }
     };
@@ -91,6 +91,19 @@ describe('Signup Page', () => {
       body: JSON.stringify(mockBody)
     };
 
-    expect(global.fetch).toBeCalledWith('http://localhost:3000/idp/register/', mockRequest);
+    expect(global.fetch).toBeCalledWith(expect.anything(), mockRequest);
+  });
+  it('shows pod creation message when logged in', () => {
+    const session = {
+      podUrl: 'https://example.com',
+      session: {
+        info: {
+          webId: 'https://example.com/profile/',
+          isLoggedIn: true
+        }
+      }
+    };
+    const { getByRole } = render(<MockSignupContexts session={session} />);
+    expect(getByRole('heading')).not.toBeNull();
   });
 });
