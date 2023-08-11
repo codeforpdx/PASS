@@ -16,13 +16,22 @@ import { runNotification } from '@utils';
 import { FormSection } from '../Form';
 
 /**
+ * @typedef {object} DeleteContactModalParams
+ * @property {boolean} showDeleteContactModal - toggle showing modal
+ * @property {Function} setShowDeleteContactModal - used to close the modal
+ * @property {object} selectedContactToDelete - contact object to delete
+ * @property {Function} deleteContact - method that deletes contact
+ */
+
+/**
  * DeleteContactModal Component - Component that allows users to delete other user's
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Contacts
  * @name DeleteContactModal
+ * @param {DeleteContactModalParams} root0 - params 
+ * @returns {React.JSX.Element} - The delete contact modal 
  */
-
 const DeleteContactModal = ({
   showDeleteContactModal = false,
   setShowDeleteContactModal,

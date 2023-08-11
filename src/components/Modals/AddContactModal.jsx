@@ -17,19 +17,21 @@ import { runNotification } from '@utils';
 // Component Imports
 import { FormSection } from '../Form';
 
-/**
- * AddContactModal Component - Component that allows users to add other user's
- * Pod URLs from a user's list stored on their own Pod
- *
- * @memberof Contacts
- * @name AddContactModal
- */
 
 const renderWebId = (username) => {
   const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
   return new URL(`${username}/profile/card#me`, baseUrl);
 };
 
+/**
+ * AddContactModal Component - Component that allows users to add other user's
+ * Pod URLs from a user's list stored on their own Pod
+ *
+ * @memberof Contacts
+ * @name AddContactModal
+ * @param {Function} addContact  - function to add a contact
+ * @returns {React.JSX.Element} - The Add Contact Modal
+ */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
@@ -44,7 +46,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   };
 
   const notifyStartSubmission = (userObject) => {
-    // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username && !userObject.webId) {
       runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
@@ -75,7 +76,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       }, 2000);
       return;
     }
-    // ===== END OF ERROR DISPLAY OPTIONS =====
 
     dispatch({ type: 'SET_PROCESSING' });
 
@@ -202,9 +202,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               variant="contained"
               color="primary"
               endIcon={<CheckIcon />}
-              // TODO: Determine what to do with modals after submitting.
-              // e.g. should it close automatically but have a pop-up status alert, remain open briefly, etc.
-              // onClick={() => setShowModal(false)}
               type="submit"
               disabled={state.processing}
               fullWidth

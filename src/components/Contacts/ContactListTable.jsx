@@ -15,7 +15,13 @@ import { StyledTableCell } from '../Table/TableStyles';
 const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
 
 /**
- * @typedef {import("../../typedefs.js").contactListTableProps} contactListTableProps
+ * contactListTableProps is an object that stores the props for the
+ * ContactListTable component
+ *
+ * @typedef {object} contactListTableProps
+ * @property {Array} contacts - this list of contacts to display 
+ * @property {Function} deleteContact - method to delete contact 
+ * @memberof typedefs
  */
 
 /**

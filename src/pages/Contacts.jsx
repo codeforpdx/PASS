@@ -17,8 +17,8 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
  *
  * @memberof Pages
  * @name Contacts
+ * @returns {React.JSX.Component} - the Contacts Page
  */
-
 const Contacts = () => {
   localStorage.setItem('restorePath', '/contacts');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
