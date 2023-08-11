@@ -4,7 +4,8 @@ const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
   about: 'https://schema.org/about',
   uploadDate: 'https://schema.org/uploadDate',
-  dateOfBirth: 'https://schema.org/birthDate',
+  dateOfBirth:
+    'https://github.com/hmis-interop/logical-model/blob/FY2022-v1.0.0/src/logical-model.n3.owl#DOB',
   additionalType: 'https://schema.org/additionalType',
   conditionsOfAccess: 'https://schema.org/conditionsOfAccess',
   expires: 'https://schema.org/expires',
