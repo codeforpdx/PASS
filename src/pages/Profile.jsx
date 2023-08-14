@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
-import { UploadDocumentModal } from '../components/Modals';
+import { DeleteDocumentModal, UploadDocumentModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
 import { LoadingAnimation } from '../components/Notification';
@@ -33,7 +33,9 @@ const Profile = () => {
 
   // Documents related states
   const { session } = useSession();
-  const [showModal, setShowModal] = useState(false);
+  const [showUploadDocumentModal, setShowUploadDocumentModal] = useState(false);
+  const [showDeleteDocumentModal, setShowDeleteDocumentModal] = useState(false);
+  const [selectedDocumentToDelete, setSelectedDocumentToDelete] = useState(null);
 
   // Profile related states
   const client = location.state?.client;
@@ -95,12 +97,23 @@ const Profile = () => {
           size="small"
           aria-label="Add Client Button"
           startIcon={<AddIcon />}
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowUploadDocumentModal(true)}
         >
           Add Document
         </Button>
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
-        <DocumentTable />
+        <UploadDocumentModal
+          showUploadDocumentModal={showUploadDocumentModal}
+          setShowUploadDocumentModal={setShowUploadDocumentModal}
+        />
+        <DeleteDocumentModal
+          showDeleteDocumentModal={showDeleteDocumentModal}
+          setShowDeleteDocumentModal={setShowDeleteDocumentModal}
+          selectedDocumentToDelete={selectedDocumentToDelete}
+        />
+        <DocumentTable
+          setSelectedDocumentToDelete={setSelectedDocumentToDelete}
+          setShowDeleteDocumentModal={setShowDeleteDocumentModal}
+        />
         {!client && (
           <>
             <SetAclPermsDocContainerForm />
