@@ -37,7 +37,7 @@ import UploadButtonGroup from './UploadButtonGroup';
  * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
-const UploadDocumentModal = ({ showModal, setShowModal }) => {
+const UploadDocumentModal = ({ showUploadDocumentModal, setShowUploadDocumentModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
@@ -59,7 +59,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     setDocDescription('');
     setDocType('');
     setExpireDate(null);
-    setShowModal(false);
+    setShowUploadDocumentModal(false);
   };
 
   // Event handler for form/document submission to Pod
@@ -105,7 +105,11 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
+    <Dialog
+      open={showUploadDocumentModal}
+      aria-labelledby="upload-document-dialog"
+      onClose={clearInputFields}
+    >
       <FormSection
         title="Upload Document"
         state={state}
