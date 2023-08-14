@@ -16,14 +16,19 @@ import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
+ * @typedef {import("../../typedefs.js").documentTableProps} documentTableProps
+ */
+
+/**
  * DocumentTable Component - The Document Table that shows the list of documents
  * stored on Solid
  *
  * @memberof Documents
  * @name DocumentTable
+ * @param {documentTableProps} Props - Props for DocumentTable
  * @returns {React.JSX.Element} The DocumentTable component
  */
-const DocumentTable = () => {
+const DocumentTable = ({ setSelectedDocumentToDelete, setShowDeleteDocumentModal }) => {
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
   const columnTitlesArray = [
     'Name',
@@ -51,7 +56,12 @@ const DocumentTable = () => {
           </TableHead>
           <TableBody>
             {documentListObject?.docList.map((document) => (
-              <DocumentTableRow key={document.name} document={document} />
+              <DocumentTableRow
+                key={document.name}
+                document={document}
+                setSelectedDocumentToDelete={setSelectedDocumentToDelete}
+                setShowDeleteDocumentModal={setShowDeleteDocumentModal}
+              />
             ))}
           </TableBody>
         </Table>

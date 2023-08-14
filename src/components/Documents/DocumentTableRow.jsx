@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React from 'react';
 // Custon Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
@@ -8,8 +8,6 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-// Context Imports
-import { DocumentListContext } from '@contexts';
 // Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 // Constants Imports
@@ -27,9 +25,12 @@ import DOC_TYPES from '../../constants/doc_types';
  * @param {documentTableRowProps} Props - Props for DocumentTableRow
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
-const DocumentTableRow = ({ document }) => {
+const DocumentTableRow = ({
+  document,
+  setSelectedDocumentToDelete,
+  setShowDeleteDocumentModal
+}) => {
   const { session } = useSession();
-  const { removeDocument } = useContext(DocumentListContext);
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
 
@@ -40,14 +41,8 @@ const DocumentTableRow = ({ document }) => {
 
   // Event handler for deleting client from client list
   const handleDeleteDocument = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${document.name} from the pod, do you wish to continue?`
-      )
-    ) {
-      return;
-    }
-    await removeDocument(document.name);
+    setSelectedDocumentToDelete(document);
+    setShowDeleteDocumentModal(true);
   };
 
   return (
