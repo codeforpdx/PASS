@@ -212,14 +212,38 @@ const React = require('react');
  */
 
 /**
+ * deleteDocumentModalProps is an object that stores the props for the
+ * DeleteDocumentModal component
+ *
+ * @exports deleteDocumentModalProps
+ * @typedef {object} deleteDocumentModalProps
+ * @property {boolean} showDeleteDocumentModal - Boolean for showing delete documents modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteDocumentModal
+ * - React set function for setting showDeleteDocumentModal state
+ * @property {object} selectedDocumentToDelete - object containing the particular document to be deleted from document list
+ * @memberof typedefs
+ */
+
+/**
  * uploadDocumentModalProps is an object that stores the props for the
  * UploadDocumentModal component
  *
  * @exports uploadDocumentModalProps
  * @typedef {object} uploadDocumentModalProps
- * @property {boolean} showModal - Boolean for showing upload documents modal
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
- * - React set function for setting showModal state
+ * @property {boolean} showUploadDocumentModal - Boolean for showing upload documents modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowUploadDocumentModal
+ * - React set function for setting showUploadDocumentModal state
+ * @memberof typedefs
+ */
+
+/**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setSelectedDocumentToDelete - Boolean for identifying which document to delete
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteDocumentModal - Boolean for showing delete document modal
  * @memberof typedefs
  */
 
@@ -230,6 +254,8 @@ const React = require('react');
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setSelectedDocumentToDelete - Boolean for identifying which document to delete
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteDocumentModal - Boolean for showing delete document modal
  * @memberof typedefs
  */
 

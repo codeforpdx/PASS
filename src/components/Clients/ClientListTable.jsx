@@ -25,8 +25,8 @@ const columnTitlesArray = ['Client', 'Pin', 'Delete'];
  *
  * @memberof Clients
  * @name ClientListTable
- * @param {clientListTableProps} Props - Props for ClientListTableRow
- * @returns {React.JSX.Element} The ClientListTableRow Component
+ * @param {clientListTableProps} Props - Props for ClientListTable
+ * @returns {React.JSX.Element} The ClientListTable Component
  */
 const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
   const { userListObject } = useContext(UserListContext);
