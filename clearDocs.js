@@ -25,8 +25,4 @@ allMds.forEach((mdFile) => {
  * the temp directory as the docs directory,
  * now containing only the original .md files */
 fs.rmSync(docsDir, { recursive: true, force: true });
-fs.renameSync(tempDir, docsDir, (err) => {
-  if (err) {
-    throw err;
-  }
-});
+fs.renameSync(tempDir, docsDir);
