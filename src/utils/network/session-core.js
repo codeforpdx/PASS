@@ -1,15 +1,12 @@
 import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
-import { INTERACTION_TYPES } from '../../constants';
 import {
-  getContainerUrl,
   setDocAclForUser,
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
-  buildMessageTTL,
-  getPodUrl
+  buildMessageTTL
 } from './session-helper';
 
 /**
@@ -44,19 +41,24 @@ import {
  * @memberof utils
  * @function setDocAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} fileType - Type of document
+ * @param {string} docType - Type of document
  * @param {Access} permissions - The Access object for setting ACL in Solid
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {URL} podUrl - URL of the user's Pod
+ * @param {string} webIdToSetPermsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-  const documentUrl = `${containerUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
+export const setDocAclPermission = async (
+  session,
+  docType,
+  permissions,
+  podUrl,
+  webIdToSetPermsTo
+) => {
+  const containerUrl = `${podUrl}PASS/Documents/`;
+  const documentUrl = `${containerUrl}${docType.replace("'", '').replace(' ', '_')}/`;
 
-  await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
+  await setDocAclForUser(session, documentUrl, 'update', webIdToSetPermsTo, permissions);
 };
 
 /**
@@ -67,7 +69,7 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {string} webIdToSetPermsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
@@ -75,13 +77,11 @@ export const setDocContainerAclPermission = async (
   session,
   permissions,
   podUrl,
-  otherPodUsername
+  webIdToSetPermsTo
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
 
-  await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
+  await setDocAclForUser(session, containerUrl, 'update', webIdToSetPermsTo, permissions);
 };
 
 /*
@@ -164,7 +164,7 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const date = dayjs().$d;
   const dateYYYYMMDD = dayjs().format('YYYYMMDD');
   const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-  const messageSlug = `${messageObject.title.replace(' ', '_')}-${dateYYYYMMDD}-${dateISOTime}`;
+  const messageSlug = `${encodeURIComponent(messageObject.title)}-${dateYYYYMMDD}-${dateISOTime}`;
 
   const messageMetadata = {
     messageId: uuidv4(),

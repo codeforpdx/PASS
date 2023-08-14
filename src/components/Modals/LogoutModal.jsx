@@ -16,21 +16,21 @@ import LogoutButton from './LogoutButton';
  * LogoutModal Component - Popup modal for users to confirm
  * they actually want to logout of their Solid Pod
  *
- * @memberof Login
+ * @memberof Modals
  * @name LogoutModal
  */
 
 const LogoutModal = ({ showConfirmation, setShowConfirmation, handleLogout }) => (
   <Dialog
     open={showConfirmation}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-description"
+    aria-labelledby="logout-dialog-title"
+    aria-describedby="logout-dialog-description"
     onClose={() => setShowConfirmation(false)}
   >
-    <DialogTitle id="dialog-tile">Log out?</DialogTitle>
+    <DialogTitle id="logout-dialog-tile">Log out?</DialogTitle>
 
     <DialogContent>
-      <DialogContentText id="dialog-description">
+      <DialogContentText id="logout-dialog-description">
         This will log you out of your pod. Are you sure?
       </DialogContentText>
     </DialogContent>
