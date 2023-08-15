@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  queryByText,
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect, it } from 'vitest';
-import { NotificationContext } from '../../../src/contexts/NotificationContext';
 import BasicNotification from '../../../src/components/Notification/BasicNotification';
 
 it('renders correctly', () => {
@@ -30,8 +23,6 @@ beforeEach(() => {
 afterEach(() => {
   vi.useRealTimers();
 });
-
-
 
 // it('is deleted after 8 seconds', () => {
 //   const remove = vi.fn();
