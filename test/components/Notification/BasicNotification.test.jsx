@@ -16,13 +16,13 @@ it('renders correctly', () => {
   expect(screen.getByText('my test message')).not.toBeNull();
 });
 
-beforeEach(() => {
-  vi.useFakeTimers();
-});
+// beforeEach(() => {
+//   vi.useFakeTimers();
+// });
 
-afterEach(() => {
-  vi.useRealTimers();
-});
+// afterEach(() => {
+//   vi.useRealTimers();
+// });
 
 // it('is deleted after 8 seconds', () => {
 //   const remove = vi.fn();
