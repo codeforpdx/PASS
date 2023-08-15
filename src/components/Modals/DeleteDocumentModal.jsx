@@ -48,7 +48,7 @@ const DeleteDocumentModal = ({
       dispatch
     );
     try {
-      await removeDocument(selectedDocumentToDelete);
+      await removeDocument(selectedDocumentToDelete?.name);
     } catch (e) {
       runNotification(`Document deletion failed. Reason: ${e.message}`);
     } finally {
