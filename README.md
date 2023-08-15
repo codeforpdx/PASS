@@ -1,7 +1,7 @@
 
 # PASS - Personal Access System for Services
 
-<img src ="./src/assets/logo.png" width="175">
+<img src ="./src/assets/pass-logo.png" width="175">
 
 [![License](https://img.shields.io/github/license/codeforpdx/PASS)](https://github.com/codeforpdx/PASS/blob/Master/LICENSE)
 [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
@@ -37,7 +37,9 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
 
    Currently we require Node version 16 or higher and NPM for our package manager.  Most places recommend using a node version manager to install node and npm. To proceed using NVM perform the following.. 
 
-1. Download NVM for your system. Find instructions here: https://github.com/nvm-sh/nvm
+1. Download NVM for your system. 
+  - For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm 
+  - For Windows users: https://github.com/coreybutler/nvm-windows
    
 2. Install node version 16: 
    ```
