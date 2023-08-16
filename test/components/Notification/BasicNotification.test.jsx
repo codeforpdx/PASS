@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { expect, it } from 'vitest';
+import { expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { act } from 'react-dom/test-utils';
 import BasicNotification from '../../../src/components/Notification/BasicNotification';
 import { NotificationContext } from '../../../src/contexts/NotificationContext';
