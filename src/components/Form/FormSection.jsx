@@ -20,7 +20,7 @@ import { StatusNotification } from '../Notification';
  * {@link formSectionProps})
  */
 
-const FormSection = ({ title, state, statusType, defaultMessage, children }) => (
+const FormSection = ({ title, state, statusType, defaultMessage, file = null, children }) => (
   <Box
     sx={{
       marginTop: 1,
@@ -38,7 +38,12 @@ const FormSection = ({ title, state, statusType, defaultMessage, children }) => 
       {title}
     </Typography>
     {children}
-    <StatusNotification state={state} statusType={statusType} defaultMessage={defaultMessage} />
+    <StatusNotification
+      state={state}
+      statusType={statusType}
+      defaultMessage={defaultMessage}
+      file={file}
+    />
   </Box>
 );
 

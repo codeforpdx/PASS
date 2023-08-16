@@ -1,32 +1,22 @@
 // React Imports
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-// Other Library Imports
-import { v4 as uuidv4 } from 'uuid';
-// Styling Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // Component Imports
 import MessagePreview from './MessagePreview';
 import { PaginationContainer } from './MessageStyles';
+import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
  */
 
 /**
- * messageFolderProps is an object that stores the props for the MessageFolder
- * component
- *
- * @typedef messageFolderProps
- * @type {object}
- * @property {string} folderType - The name of the message box, i.e. "inbox" or
- * "outbox"
- * @property {() => Promise<void>} handleRefresh - The handle function for message
- * folder refresh
- * @property {boolean} loadMessages - Boolean for triggering loading message
- * @property {messageListObject[]} messageList - A list of messages from Solid Pod
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").messageFolderProps} messageFolderProps
  */
 
 /**
@@ -52,6 +42,19 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
     setOffset(newOffset);
   };
 
+  const noMessages = <EmptyListNotification type="messages" />;
+  const withMessages = currentMessages.map((message) => (
+    <MessagePreview key={message.messageId} message={message} folderType={folderType} />
+  ));
+
+  const handleMessages = () => {
+    if (currentMessages.length > 0) {
+      return withMessages;
+    }
+
+    return noMessages;
+  };
+
   return (
     <Box
       component="section"
@@ -74,23 +77,25 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         >
           Refresh
         </Button>
-        {loadMessages ? (
-          <div>Loading messages...</div>
-        ) : (
-          currentMessages &&
-          currentMessages.map((message) => <MessagePreview key={uuidv4()} message={message} />)
-        )}
+        {loadMessages ? <LoadingAnimation loadingItem="messages" /> : handleMessages()}
       </Box>
       <Box>
         <PaginationContainer>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel={<ChevronRightIcon />}
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount === 0 ? 1 : pageCount}
-            previousLabel="< previous"
+            previousLabel={<ChevronLeftIcon />}
             renderOnZeroPageCount={null}
+            className="pagination"
+            previousLinkClassName="page-red"
+            previousClassName="chevron"
+            nextLinkClassName="page-red"
+            nextClassName="chevron"
+            pageLinkClassName="page-green"
+            activeLinkClassName="active-page"
           />
         </PaginationContainer>
       </Box>

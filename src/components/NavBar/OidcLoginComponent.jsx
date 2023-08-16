@@ -1,18 +1,22 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
-import { LoginButton } from '@inrupt/solid-ui-react';
-// Material UI Imports
-import { TextField, Box, Button } from '@mui/material';
 // Custom Hook Imports
-import { useRedirectUrl } from '../../hooks';
+import { useSession } from '@hooks';
+// Material UI Imports
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 // Constants Imports
 import { ENV } from '../../constants';
 
 const OidcLoginComponent = () => {
-  const [oidcIssuer, setOidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
-  const redirectUrl = useRedirectUrl();
-
+  const { login } = useSession();
+  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
+  const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+  const loginHandler = async () => {
+    const redirectUrl = window.location.href;
+    await login({ oidcIssuer, redirectUrl });
+  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }} />
@@ -22,6 +26,12 @@ const OidcLoginComponent = () => {
         variant="filled"
         value={oidcIssuer}
         onChange={(e) => setOidcIssuer(e.target.value)}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            loginHandler();
+            localStorage.setItem('oidcIssuer', oidcIssuer);
+          }
+        }}
         InputProps={{
           disableUnderline: true,
           'aria-label': 'OIDC Input Field'
@@ -32,20 +42,19 @@ const OidcLoginComponent = () => {
         }}
       />
       <Box sx={{ marginRight: '32px' }} />
-      <LoginButton oidcIssuer={oidcIssuer} redirectUrl={redirectUrl}>
-        <Button
-          variant="contained"
-          type="submit"
-          color="secondary"
-          size="large"
-          aria-label="Login Button"
-          onClick={() => {
-            localStorage.setItem('oidcIssuer', oidcIssuer);
-          }}
-        >
-          Login
-        </Button>
-      </LoginButton>
+      <Button
+        variant="contained"
+        type="submit"
+        color="secondary"
+        size="large"
+        aria-label="Login Button"
+        onClick={() => {
+          loginHandler();
+          localStorage.setItem('oidcIssuer', oidcIssuer);
+        }}
+      >
+        Login
+      </Button>
     </>
   );
 };

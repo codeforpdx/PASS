@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState, useContext } from 'react';
+// Custom Hook Imports
+import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -9,28 +11,32 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-import SearchIcon from '@mui/icons-material/Search';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // Utility Imports
-import { runNotification } from '../../utils';
-// Custom Hook Imports
-import { useStatusNotification } from '../../hooks';
+import { runNotification } from '@utils';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
-import { DocumentListContext } from '../../contexts';
+import UploadButtonGroup from './UploadButtonGroup';
+
+/**
+ * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
+ */
 
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
- * @memberof Forms
+ * @memberof Modals
  * @name UploadDocumentModal
+ * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
+ * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
-
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [expireDate, setExpireDate] = useState(null);
@@ -74,11 +80,11 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       date: expireDate,
       description: docDescription
     };
-    runNotification(`Uploading "${file.name}" to Solid...`, 3, state, dispatch);
+    runNotification(`Uploading file to Solid...`, 3, state, dispatch);
 
     try {
       await addDocument(fileDesc, file);
-      runNotification(`File "${file.name}" uploaded to Solid.`, 5, state, dispatch);
+      runNotification(`File uploaded to Solid.`, 5, state, dispatch);
     } catch (error) {
       const confirmationMessage =
         'A file of this name and type already exists on the pod. Would you like to replace it?';
@@ -87,7 +93,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
             await replaceDocument(fileDesc, file);
-            runNotification(`File "${file.name}" updated on Solid.`, 5, state, dispatch);
+            runNotification(`File updated on Solid.`, 5, state, dispatch);
           }
           break;
         default:
@@ -105,6 +111,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         state={state}
         statusType="Upload status"
         defaultMessage="To be uploaded..."
+        file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel
@@ -146,24 +153,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               placeholder="Add a description here"
             />
             <br />
-            {/* File to upload: {file ? file.name : 'No file selected'} */}
-            <Button
-              variant={file ? 'contained' : 'outlined'}
-              component="label"
-              color="primary"
-              id="upload-doctype"
-              name="uploadDoctype"
-              onChange={(e) => setFile(e.target.files[0])}
-              required
-              startIcon={<SearchIcon />}
-            >
-              Choose file
-              <input
-                type="file"
-                hidden
-                accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
-              />
-            </Button>
+            <UploadButtonGroup file={file} setFile={setFile} />
             <FormHelperText
               sx={{
                 width: '200px',
@@ -181,7 +171,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 startIcon={<ClearIcon />}
                 onClick={clearInputFields}
                 fullWidth
-                helpertext="Please enter your name"
+                sx={{ borderRadius: '20px' }}
               >
                 CANCEL
               </Button>
@@ -192,6 +182,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 color="primary"
                 startIcon={<FileUploadIcon />}
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Upload
               </Button>

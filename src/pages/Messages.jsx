@@ -1,8 +1,7 @@
 // React Imports
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+// Custom Hook Imports
+import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,7 +13,8 @@ import { getMessageTTL } from '../utils';
 // Context Imports
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
-import { NewMessage, MessageFolder } from '../components/Messages';
+import { NewMessageModal } from '../components/Modals';
+import { MessageFolder } from '../components/Messages';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -27,9 +27,7 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * @returns {React.JSX.Element} The Messages Page
  */
 const Messages = () => {
-  const location = useLocation();
-
-  localStorage.setItem('restorePath', location.pathname);
+  localStorage.setItem('restorePath', '/messages');
 
   const { podUrl } = useContext(SignedInUserContext);
 
@@ -70,13 +68,17 @@ const Messages = () => {
   }, [outboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
-        <Button variant="contained" onClick={() => setShowForm(!showForm)}>
-          <CreateIcon sx={{ marginRight: '10px' }} />
+        <Button
+          variant="contained"
+          onClick={() => setShowModal(!showModal)}
+          startIcon={<CreateIcon />}
+          color="secondary"
+        >
           New Message
         </Button>
         <Tabs value={boxType} sx={{ padding: '0 30px' }}>
@@ -97,7 +99,7 @@ const Messages = () => {
         loadMessages={loadMessages}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
-      {showForm && <NewMessage closeForm={() => setShowForm(!showForm)} />}
+      {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
     </Box>
   );
 };

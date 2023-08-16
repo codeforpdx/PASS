@@ -1,20 +1,22 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
-// Inrupt Library Imports
-import { LogoutButton } from '@inrupt/solid-ui-react';
+import React, { useState, useEffect, useRef } from 'react';
+// Custom Hook Imports
+import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';
+// Component Imports
+import LogoutButton from '../Modals/LogoutButton';
 
 /**
  * Inactivity Notification Component - Component that displays a popup modal
- * after 30 minutes of inactivity, prompting the user to either logout or
+ * after 25 minutes of inactivity, prompting the user to either logout or
  * continue their session.
  *
  * @memberof Notification
@@ -22,16 +24,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
  */
 
 const InactivityMessage = () => {
+  const { session, logout } = useSession();
   const [showPopup, setShowPopup] = useState(false);
-  const [activeUser, setActiveUser] = useState(false);
+  const [secondsToLogout, setSecondsToLogout] = useState(300);
+  const logoutTimer = useRef();
 
-  // Checks for active user by looking for a loggedIn key in local storage
-  useEffect(() => {
-    const activeCheck = localStorage.getItem('loggedIn');
-    setActiveUser(activeCheck === 'true');
-  }, []);
-
-  // Toggles the popup after thirty minutes of inactivity
+  // Toggles the popup after twenty-five minutes of inactivity
   useEffect(() => {
     let timer = null;
 
@@ -40,7 +38,7 @@ const InactivityMessage = () => {
 
       timer = setTimeout(() => {
         setShowPopup(true);
-      }, 1800000);
+      }, 1500000);
     };
 
     const handleUserActivity = () => {
@@ -63,27 +61,44 @@ const InactivityMessage = () => {
     };
   }, []);
 
-  // Event handler for logout and removing items from localStorage
-  // Returns user to home page upon successful logout
-  // TODO: In future PR, add countdown timer to automatically log user out if they do not select continue
-  // (e.g. "You will be automatically logged out in 5:00 minutes")
-  const handleLogout = () => {
-    localStorage.clear();
-  };
+  /* Starts a five minute timer that is displayed to the user when the 
+  inactivity window pops up. If said timer runs out, the user is 
+  forcibly logged out. */
+  useEffect(() => {
+    if (showPopup) {
+      logoutTimer.current = setInterval(() => {
+        if (secondsToLogout > 0) {
+          setSecondsToLogout((prev) => prev - 1);
+        } else if (secondsToLogout === 0) {
+          localStorage.clear();
+          logout();
+          setShowPopup(false);
+        }
+      }, 1000);
+    }
+    return () => {
+      clearInterval(logoutTimer.current);
+      if (showPopup === false) setSecondsToLogout(300);
+    };
+  }, [showPopup, secondsToLogout]);
 
   return (
     showPopup &&
-    activeUser && (
+    session.info.isLoggedIn && (
       <Dialog
         open={showPopup}
-        onClose={() => setShowPopup(false)}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
       >
         <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
         <DialogContent id="inactivity-message-description">
           <DialogContentText>
-            You have been inactive for a while now. Would you like to continue using PASS?
+            You have been inactive for a while now. Would you like to continue using PASS? You will
+            automatically be logged out in {Math.floor(secondsToLogout / 60)}:
+            {(secondsToLogout % 60).toLocaleString('en-US', {
+              minimumIntegerDigits: 2,
+              useGrouping: false
+            })}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -92,7 +107,10 @@ const InactivityMessage = () => {
               variant="outlined"
               color="error"
               endIcon={<LogoutIcon />}
-              onClick={handleLogout}
+              onClick={() => {
+                localStorage.clear();
+                logout();
+              }}
             >
               Log Out
             </Button>

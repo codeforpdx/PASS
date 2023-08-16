@@ -1,10 +1,12 @@
 // React Imports
 import React, { createContext, useState, useMemo, useEffect } from 'react';
-// Inrupt Library Imports
-import { useSession } from '@inrupt/solid-ui-react';
+// Inrupt Imports
 import { getPodUrlAll } from '@inrupt/solid-client';
+// Custom Hook Imports
+import { useSession } from '@hooks';
 // Utility Imports
 import { createDocumentsContainer, createPublicContainer } from '../utils';
+// Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
@@ -57,7 +59,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(session);
+        const fetchedProfileData = await fetchProfileInfo(webId);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }

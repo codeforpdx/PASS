@@ -1,3 +1,4 @@
+import ProfileComponent from './ProfileComponent';
 import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
 
@@ -8,4 +9,4 @@ import ProfileInputField from './ProfileInputField';
  * @namespace Profile
  */
 
-export { ProfileImageField, ProfileInputField };
+export { ProfileComponent, ProfileImageField, ProfileInputField };

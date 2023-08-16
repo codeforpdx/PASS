@@ -9,7 +9,6 @@ import {
   buildThing,
   setThing,
   saveSolidDatasetAt,
-  getProfileAll,
   getThing,
   getStringNoLocale,
   saveSolidDatasetInContainer,
@@ -18,8 +17,11 @@ import {
   setPublicResourceAccess,
   setPublicDefaultAccess,
   getDatetime,
-  createSolidDataset
+  createSolidDataset,
+  getUrl,
+  getWebIdDataset
 } from '@inrupt/solid-client';
+import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
 import formattedDate from '../barcode/barcode-date-parser';
@@ -226,7 +228,7 @@ export const updateTTLFile = async (session, containerUrl, fileObject) => {
   ttlFile = buildThing(ttlFile)
     .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
     .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .setDatetime(RDF_PREDICATES.dateModified, new Date())
+    .setDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
     .build();
   solidDataset = setThing(solidDataset, ttlFile);
 
@@ -270,15 +272,15 @@ const createFileChecksum = async (fileObject) => {
 const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
   const dlData = await getDriversLicenseData(fileObject.file);
   return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
     .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
     .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addDate(RDF_PREDICATES.expires, new Date(`${formattedDate(dlData.DBA)}`))
+    .addDate(RDF_PREDICATES.expires, dayjs(`${formattedDate(dlData.DBA)}`).$d)
     .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
     .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
     .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addDate(RDF_PREDICATES.dateIssued, new Date(`${formattedDate(dlData.DBD)}`))
-    .addDate(RDF_PREDICATES.dateOfBirth, new Date(`${formattedDate(dlData.DBB)}`))
+    .addDate(RDF_PREDICATES.dateIssued, dayjs(`${formattedDate(dlData.DBD)}`).$d)
+    .addDate(RDF_PREDICATES.dateOfBirth, dayjs(`${formattedDate(dlData.DBB)}`).$d)
     .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
     .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
     .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
@@ -321,7 +323,7 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
   }
 
   return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, new Date())
+    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
     .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
@@ -341,9 +343,9 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
  * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
  */
 
-export const getUserProfileName = async (session, webId) => {
-  const profile = await getProfileAll(webId, { fetch: session.fetch });
-  const profileDataThing = getThing(profile.webIdProfile, webId);
+export const getUserProfileName = async (webId) => {
+  const profile = await getWebIdDataset(webId);
+  const profileDataThing = getThing(profile, webId);
   return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
 };
 
@@ -363,7 +365,7 @@ export const getUserProfileName = async (session, webId) => {
 
 export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) => {
   await saveSolidDatasetInContainer(containerUrl, solidDatset, {
-    slugSuggestion: `${slug}.ttl`,
+    slugSuggestion: `${encodeURIComponent(slug)}.ttl`,
     contentType: 'text/turtle',
     fetch: session.fetch
   });
@@ -387,15 +389,21 @@ export const parseMessageTTL = (messageTTLThing) => {
   const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
   const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
 
+  // Get data related to messageid
+  const messageIdThing = messageTTLThing.find((thing) => thing.url.includes('#messageid'));
+  const messageId = getStringNoLocale(messageIdThing, RDF_PREDICATES.identifier);
+  const messageUrl = getUrl(messageIdThing, RDF_PREDICATES.url);
+
   // Get data related to #sender
   const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
   const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
+  const senderWebId = getUrl(senderThing, RDF_PREDICATES.url);
 
   // Get data related to #recipient
   const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
   const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
 
-  return { message, title, uploadDate, sender, recipient };
+  return { message, messageId, messageUrl, title, uploadDate, sender, senderWebId, recipient };
 };
 
 /**
@@ -405,44 +413,62 @@ export const parseMessageTTL = (messageTTLThing) => {
  * @function buildMessageTTL
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {Date} date - JavaScript Date object
- * @param {string} senderName - Name of sender
- * @param {string} recipientName - Name of recipient
- * @param {URL} recipientWebId - webId of recipient
- * @param {Thing[]} messageTTLThing - List of message Things from message boxes
+ * @param {object} messageObject - Object containing information for the message
+ * content
+ * @param {object} messageMetadata - Object containing information about the message
+ * @param {string} buildFor - String for "Sender" or "Recipient"
  * @returns {object} messageObject - An object containinng the message content,
  * title, uploadDate, sender, and recipient
  */
-
-// TODO: potentially add other useful fields - see https://github.com/codeforpdx/PASS/pull/191#discussion_r1217249834
-
-export const buildMessageTTL = (
-  session,
-  date,
-  messageObject,
-  senderName,
-  recipientName,
-  recipientWebId
-) => {
+export const buildMessageTTL = (session, date, messageObject, messageMetadata, buildFor) => {
   const newMessageTTL = buildThing(createThing({ name: 'message' }))
     .addDatetime(RDF_PREDICATES.uploadDate, date)
     .addStringNoLocale(RDF_PREDICATES.title, messageObject.title)
     .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
     .build();
 
+  const newMessageID = buildThing(createThing({ name: 'messageid' }))
+    .addStringNoLocale(RDF_PREDICATES.identifier, messageMetadata.messageId)
+    .addUrl(
+      RDF_PREDICATES.url,
+      buildFor === 'sender'
+        ? `${messageMetadata.podUrl}PASS/Outbox/${messageMetadata.messageSlug}.ttl`
+        : `${messageMetadata.recipientPodUrl}PASS/Inbox/${messageMetadata.messageSlug}.ttl`
+    )
+    .build();
+
   const senderInfo = buildThing(createThing({ name: 'sender' }))
-    .addStringNoLocale(RDF_PREDICATES.sender, senderName)
+    .addStringNoLocale(RDF_PREDICATES.sender, messageMetadata.senderName)
     .addUrl(RDF_PREDICATES.url, session.info.webId)
     .build();
 
   const recipientInfo = buildThing(createThing({ name: 'recipient' }))
-    .addStringNoLocale(RDF_PREDICATES.recipient, recipientName)
-    .addUrl(RDF_PREDICATES.url, recipientWebId)
+    .addStringNoLocale(RDF_PREDICATES.recipient, messageMetadata.recipientName)
+    .addUrl(RDF_PREDICATES.url, messageMetadata.recipientWebId)
     .build();
 
   let newSolidDataset = createSolidDataset();
-  [newMessageTTL, senderInfo, recipientInfo].forEach((thing) => {
+  [newMessageTTL, newMessageID, senderInfo, recipientInfo].forEach((thing) => {
     newSolidDataset = setThing(newSolidDataset, thing);
   });
+
+  let replyTo;
+
+  if (messageObject.inReplyTo) {
+    replyTo = buildThing(createThing({ name: 'replyTo' }))
+      .addStringNoLocale(RDF_PREDICATES.identifier, messageObject.inReplyTo)
+      .addUrl(
+        RDF_PREDICATES.url,
+        buildFor === 'sender'
+          ? messageObject.messageUrl
+          : `${`${messageMetadata.recipientPodUrl}PASS/Outbox/`}${
+              messageObject.messageUrl.split(`${messageMetadata.podUrl}PASS/Inbox/`)[1]
+            }`
+      )
+      .build();
+
+    newSolidDataset = setThing(newSolidDataset, replyTo);
+  }
 
   return newSolidDataset;
 };

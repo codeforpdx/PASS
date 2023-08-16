@@ -8,20 +8,21 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
-import { DocumentListContext } from '../../contexts';
 import { StyledTableCell } from '../Table/TableStyles';
 import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
- * DocumentTable Component - Displays a table containing all documents accessible in a pod
+ * DocumentTable Component - The Document Table that shows the list of documents
+ * stored on Solid
  *
  * @memberof Documents
  * @name DocumentTable
- * @returns {React.ReactElement} a table of documents
+ * @returns {React.JSX.Element} The DocumentTable component
  */
-
 const DocumentTable = () => {
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
   const columnTitlesArray = [
@@ -37,7 +38,7 @@ const DocumentTable = () => {
   const determineDocumentsTable = documentListObject?.docList?.length ? (
     // render if documents
     <Container>
-      <TableContainer component={Paper} sx={{ marginTop: '3rem', marginBottom: '3rem' }}>
+      <TableContainer component={Paper} sx={{ margin: '1rem 0' }}>
         <Table aria-label="Documents Table">
           <TableHead>
             <TableRow>

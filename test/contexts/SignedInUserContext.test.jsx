@@ -8,11 +8,12 @@ import {
   buildThing,
   createThing
 } from '@inrupt/solid-client';
-import { useSession } from '@inrupt/solid-ui-react';
+import { useSession } from '@hooks';
+import dayjs from 'dayjs';
 import { expect, it, afterEach, describe, vi } from 'vitest';
+import { fetchProfileInfo } from '../../src/model-helpers';
 import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
 import { RDF_PREDICATES } from '../../src/constants';
-import flushPromises from '../helpers/testHelpers';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);
@@ -21,20 +22,15 @@ const TestConsumer = () => {
 };
 
 vi.mock('@inrupt/solid-client');
+vi.mock('@hooks', () => ({
+  useSession: vi.fn()
+}));
+vi.mock('../../src/model-helpers/', async () => {
+  const actual = await vi.importActual('../../src/model-helpers/');
 
-vi.mock('@inrupt/solid-ui-react', async () => {
-  const lib = await vi.importActual('@inrupt/solid-ui-react');
   return {
-    ...lib,
-    useSession: vi.fn(() => ({
-      session: {
-        fetch: vi.fn(),
-        info: {
-          isLoggedIn: false,
-          webId: 'https://example.com/pod/profile/card#me'
-        }
-      }
-    }))
+    ...actual,
+    fetchProfileInfo: vi.fn()
   };
 });
 
@@ -46,7 +42,7 @@ describe('SignedInUserContext', () => {
 
   it('fetches user data if user is logged in', async () => {
     const newActiveTTL = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, new Date())
+      .addDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
       .build();
 
     const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');
@@ -60,13 +56,14 @@ describe('SignedInUserContext', () => {
         }
       }
     });
+    fetchProfileInfo.mockResolvedValue({ profileInfo: {} });
     getPodUrlAll.mockResolvedValue(['https://example.com/pod/']);
-    const { container } = render(
+    const { findByText } = render(
       <SignedInUserContextProvider>
         <TestConsumer />
       </SignedInUserContextProvider>
     );
-    await flushPromises();
-    expect(container).toMatchSnapshot();
+    const val = await findByText('https://example.com/pod/');
+    expect(val).not.toBeNull();
   });
 });

@@ -1,13 +1,12 @@
 import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
-import { INTERACTION_TYPES } from '../../constants';
+import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 import {
-  getContainerUrl,
   setDocAclForUser,
   getUserProfileName,
   saveMessageTTL,
   parseMessageTTL,
-  buildMessageTTL,
-  getPodUrl
+  buildMessageTTL
 } from './session-helper';
 
 /**
@@ -42,19 +41,24 @@ import {
  * @memberof utils
  * @function setDocAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} fileType - Type of document
+ * @param {string} docType - Type of document
  * @param {Access} permissions - The Access object for setting ACL in Solid
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {URL} podUrl - URL of the user's Pod
+ * @param {string} webIdToSetPermsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-export const setDocAclPermission = async (session, fileType, permissions, otherPodUsername) => {
-  const containerUrl = getContainerUrl(session, 'Documents', INTERACTION_TYPES.SELF);
-  const documentUrl = `${containerUrl}${fileType.replace("'", '').replace(' ', '_')}/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
+export const setDocAclPermission = async (
+  session,
+  docType,
+  permissions,
+  podUrl,
+  webIdToSetPermsTo
+) => {
+  const containerUrl = `${podUrl}PASS/Documents/`;
+  const documentUrl = `${containerUrl}${docType.replace("'", '').replace(' ', '_')}/`;
 
-  await setDocAclForUser(session, documentUrl, 'update', webId, permissions);
+  await setDocAclForUser(session, documentUrl, 'update', webIdToSetPermsTo, permissions);
 };
 
 /**
@@ -65,7 +69,7 @@ export const setDocAclPermission = async (session, fileType, permissions, otherP
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} otherPodUsername - Username to other user's Pod or empty string
+ * @param {string} webIdToSetPermsTo - URL of the other user's Pod to give/revoke permissions OR empty string
  * @returns {Promise} Promise - Sets permission for otherPodUsername for the user's
  * Documents container
  */
@@ -73,13 +77,11 @@ export const setDocContainerAclPermission = async (
   session,
   permissions,
   podUrl,
-  otherPodUsername
+  webIdToSetPermsTo
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const otherPodUrl = getPodUrl(otherPodUsername);
-  const webId = `${otherPodUrl}profile/card#me`;
 
-  await setDocAclForUser(session, containerUrl, 'update', webId, permissions);
+  await setDocAclForUser(session, containerUrl, 'update', webIdToSetPermsTo, permissions);
 };
 
 /*
@@ -151,50 +153,42 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
  * saves a copy on the sender's outbox
  */
 export const sendMessageTTL = async (session, messageObject, podUrl) => {
-  const { recipientUsername } = messageObject;
-  const containerUrl = getContainerUrl(
-    session,
-    'Inbox',
-    INTERACTION_TYPES.CROSS,
-    recipientUsername
-  );
+  const { recipientPodUrl } = messageObject;
+  const recipientWebId = `${recipientPodUrl}profile/card#me`;
+  const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
-  const senderUsername = podUrl.split('/')[2].split('.')[0];
-  const otherPodUrl = getPodUrl(recipientUsername);
-  const recipientWebId = `${otherPodUrl}profile/card#me`;
+  const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
+  const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
 
-  const senderName = await getUserProfileName(session, session.info.webId);
-  let recipientName;
+  const date = dayjs().$d;
+  const dateYYYYMMDD = dayjs().format('YYYYMMDD');
+  const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
+  const messageSlug = `${encodeURIComponent(messageObject.title)}-${dateYYYYMMDD}-${dateISOTime}`;
 
-  try {
-    recipientName = await getUserProfileName(session, recipientWebId);
-  } catch (error) {
-    throw new Error('Message failed to send. Reason: Recipient username not found');
-  }
-
-  const date = new Date();
-  const dateYYYYMMDD = date.toISOString().split('T')[0].replace(/-/g, '');
-  const dateISOTime = date.toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-
-  const newSolidDataset = buildMessageTTL(
-    session,
-    date,
-    messageObject,
+  const messageMetadata = {
+    messageId: uuidv4(),
+    podUrl,
     senderName,
     recipientName,
-    recipientWebId
-  );
+    recipientPodUrl,
+    recipientWebId,
+    messageSlug
+  };
 
-  const messageSlug = `requestPerms-${senderUsername}-${dateYYYYMMDD}-${dateISOTime}`;
+  const newSolidDatasets = ['sender', 'recipient'].map((person) =>
+    buildMessageTTL(session, date, messageObject, messageMetadata, person)
+  );
 
   try {
     await Promise.all([
-      saveMessageTTL(session, containerUrl, newSolidDataset, messageSlug),
-      saveMessageTTL(session, outboxUrl, newSolidDataset, messageSlug)
+      saveMessageTTL(session, outboxUrl, newSolidDatasets[0], messageSlug),
+      saveMessageTTL(session, recipientInboxUrl, newSolidDatasets[1], messageSlug)
     ]);
   } catch (error) {
-    throw new Error('Message failed to send. Reason: Inbox does not exist for sender or recipient');
+    throw new Error(
+      'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
+    );
   }
 };
 
