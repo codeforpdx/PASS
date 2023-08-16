@@ -119,7 +119,10 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         state,
         dispatch
       );
-      addNotification('success', `this is a test`);
+      addNotification(
+        'success',
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`
+      );
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
