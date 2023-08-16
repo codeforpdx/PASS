@@ -226,8 +226,8 @@ const React = require('react');
  *
  * @exports documentTableProps
  * @typedef {object} documentTableProps
- * @property {(string) => void} handlePermissions
- * - Function that sets the correct File Name for the SetAclPermissions Modal, and opens it.
+ * @property {(string) => void} handleModal
+ * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -238,7 +238,7 @@ const React = require('react');
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
- * @property {(string) => void} handlePermissions
+ * @property {(string) => void} handleModal
  * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
@@ -307,25 +307,17 @@ const React = require('react');
  */
 
 /**
- * setAclPermissionModalProps is an object that stores the props for the setAclPermissionModal component.
+ * setAclPermissionsModalProps is an object that stores the props for the setAclPermissionsModal component.
  *
- * @exports setAclPermissionModalProps
- * @typedef {object} setAclPermissionModalProps
- * @property {boolean} showModal - Boolean for showing setAclPermissionModal.
+ * @exports setAclPermissionsModalProps
+ * @typedef {object} setAclPermissionsModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionsModal.
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
- * @property {(string) => void} handlePermissions
- * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
- */
-
-/**
- * setAclPermsDocContainerModalProps is an object that stores the props for the setAclPermsDocContainerModal component.
- *
- * @exports setAclPermsDocContainerModalProps
- * @typedef {object} setAclPermsDocContainerModalProps
- * @property {boolean} showModal - Boolean for showing setAclPermsDocContainerModal.
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
- * - React set function for setting showModal state
+ * @property {object} dataset
+ * - State object containing information for which version of modal to display, and
+ * a relevant file name, if any.
+ * @memberof typedefs
  */
 
 exports.unused = {};

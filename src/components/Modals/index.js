@@ -1,9 +1,8 @@
 import AddClientModal from './AddClientModal';
 import DeleteClientModal from './DeleteClientModal';
 import LogoutModal from './LogoutModal';
+import SetAclPermissionsModal from './SetAclPermissionsModal';
 import UploadDocumentModal from './UploadDocumentModal';
-import SetAclPermissionModal from './SetAclPermissionModal';
-import SetAclPermsDocContainerModal from './SetAclPermsDocContainerModal';
 
 /**
  * Modals related to various functionality within project PASS
@@ -15,7 +14,6 @@ export {
   AddClientModal,
   DeleteClientModal,
   LogoutModal,
-  SetAclPermissionModal,
-  SetAclPermsDocContainerModal,
+  SetAclPermissionsModal,
   UploadDocumentModal
 };
