@@ -1,23 +1,14 @@
 import * as solidClient from '@inrupt/solid-client';
-import { expect, vi, it, describe, afterEach, beforeEach } from 'vitest';
-import { createUser, parseUserFromThing, updateUserActivity } from '../../src/model-helpers/User';
+import { expect, vi, it, describe } from 'vitest';
+import { createUser, parseUserFromThing } from '../../src/model-helpers/User';
 import { RDF_PREDICATES } from '../../src/constants';
 
 vi.mock('@inrupt/solid-client');
 
 const mockPodUrl = 'https://pod.example.com/';
-const { getPodUrlAll, saveSolidDatasetAt, getSolidDataset, buildThing, createThing } = solidClient;
-let session = {};
+const { getPodUrlAll, buildThing, createThing } = solidClient;
 
 describe('createUser', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn()
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
   it('properly creates user from form submission', async () => {
     getPodUrlAll.mockResolvedValue([mockPodUrl]);
     const mockUserSubmission = {
@@ -37,52 +28,7 @@ describe('createUser', () => {
   });
 });
 
-describe('updateUserActivity', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn(),
-      info: {
-        webId: `${mockPodUrl}profile/card`
-      }
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('returns existing activity dataset if it exists', async () => {
-    await updateUserActivity(session, mockPodUrl);
-    expect(saveSolidDatasetAt).toBeCalledWith(
-      `${mockPodUrl}PASS/Public/active.ttl`,
-      expect.objectContaining({ type: 'Dataset' }),
-      expect.objectContaining({ fetch: session.fetch })
-    );
-  });
-  it('creates new activity dataset if it does not exist', async () => {
-    vi.spyOn(solidClient, 'setAgentResourceAccess');
-    vi.spyOn(solidClient, 'setPublicResourceAccess');
-    getSolidDataset.mockRejectedValueOnce(Error('dataset does not exist'));
-    await updateUserActivity(session, mockPodUrl);
-    expect(saveSolidDatasetAt).toBeCalledWith(
-      `${mockPodUrl}PASS/Public/active.ttl`,
-      expect.objectContaining({ type: 'Dataset' }),
-      expect.objectContaining({ fetch: session.fetch })
-    );
-    expect(solidClient.setAgentResourceAccess).toBeCalled();
-    expect(solidClient.setPublicResourceAccess).toBeCalled();
-  });
-});
-
 describe('parseUserFromThing', () => {
-  beforeEach(() => {
-    session = {
-      fetch: vi.fn()
-    };
-  });
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   const username = 'hi';
   const givenName = 'ho';
   const familyName = 'twee';

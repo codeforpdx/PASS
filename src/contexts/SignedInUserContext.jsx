@@ -5,14 +5,13 @@ import { getPodUrlAll } from '@inrupt/solid-client';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Utility Imports
-import { createDocumentsContainer, createPublicContainer } from '../utils';
+import { createPASSContainer } from '../utils';
 // Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
   uploadProfileImage,
-  removeProfileImage,
-  updateUserActivity
+  removeProfileImage
 } from '../model-helpers';
 
 /**
@@ -64,11 +63,7 @@ export const SignedInUserContextProvider = ({ children }) => {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
         setProfileData(fetchedProfileData);
-        await Promise.all([
-          createPublicContainer(session, fetchedPodUrl),
-          createDocumentsContainer(session, fetchedPodUrl),
-          updateUserActivity(session, fetchedPodUrl)
-        ]);
+        await createPASSContainer(session, fetchedPodUrl, 'Documents');
       } finally {
         setLoadingUserInfo(false);
       }

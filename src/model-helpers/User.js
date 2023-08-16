@@ -1,19 +1,11 @@
 import {
   buildThing,
   createThing,
-  setThing,
-  saveSolidDatasetAt,
-  getSolidDataset,
-  createSolidDataset,
   getPodUrlAll,
   getStringNoLocale,
-  getUrl,
-  getThing
+  getUrl
 } from '@inrupt/solid-client';
-import dayjs from 'dayjs';
 import { RDF_PREDICATES } from '../constants';
-
-import { setDocAclForUser } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
@@ -26,67 +18,6 @@ import { setDocAclForUser } from '../utils';
 /**
  * @typedef {import("@inrupt/solid-client").ThingLocal} ThingLocal
  */
-
-/**
- * Function that updates a user's last active time on Solid Pod
- *
- * @memberof User
- * @function updateUserActivity
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - the url of the user's pod to update
- * @returns {Promise} Promise - Updates last active time of user to lastActive.ttl
- */
-export const updateUserActivity = async (session, podUrl) => {
-  const activityDocUrl = `${podUrl}PASS/Public/active.ttl`;
-  const accessObject = {
-    read: true,
-    append: true,
-    write: true,
-    control: true
-  };
-  const publicAccessObject = {
-    read: true,
-    append: false,
-    write: false,
-    control: false
-  };
-  let activityDataset;
-
-  const saveActivity = async (ttlFile) => {
-    activityDataset = setThing(activityDataset, ttlFile);
-
-    await saveSolidDatasetAt(activityDocUrl, activityDataset, {
-      fetch: session.fetch
-    });
-  };
-
-  try {
-    activityDataset = await getSolidDataset(activityDocUrl, { fetch: session.fetch });
-    const activeTTLThing = getThing(activityDataset, `${activityDocUrl}#active`);
-
-    const activeTTL = buildThing(activeTTLThing)
-      .setDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
-      .build();
-
-    await saveActivity(activeTTL);
-  } catch {
-    const newActiveTTL = buildThing(createThing({ name: 'active' }))
-      .addDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
-      .build();
-
-    activityDataset = createSolidDataset();
-    await saveActivity(newActiveTTL);
-
-    await setDocAclForUser(
-      session,
-      activityDocUrl,
-      'create',
-      session.info.webId,
-      accessObject,
-      publicAccessObject
-    );
-  }
-};
 
 /**
  * Creates a user object from a provided form submission

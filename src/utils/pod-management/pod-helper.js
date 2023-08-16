@@ -1,119 +1,56 @@
-import {
-  createContainerAt,
-  getSolidDataset,
-  getSolidDatasetWithAcl,
-  hasResourceAcl
-} from '@inrupt/solid-client';
+import { createContainerAt, getSolidDatasetWithAcl, hasResourceAcl } from '@inrupt/solid-client';
 import { setDocAclForPublic, setDocAclForUser } from '../network/session-helper';
 
 /**
- * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ * @typedef {import('@inrupt/solid-client-authn-browser').Session} Session
  */
 
 /**
- * Function that creates a public container in the user's Pod when logging in for
- * the first time or if Public is missing and initialize it with an ACL with
- * access to the user
- *
- * @memberof utils
- * @function createPublicContainer
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The user's Pod URL
- * @returns {Promise} Promise - Generates a public container for Pod upon log in
- * if user's Pod does not have the an outbox to begin with
+ * @typedef {import('@inrupt/solid-client').Access} Access
  */
-export const createPublicContainer = async (session, podUrl) => {
-  const publicContainerUrl = `${podUrl}PASS/Public/`;
-
-  try {
-    await getSolidDataset(publicContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(publicContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, publicContainerUrl, 'create', session.info.webId);
-    await setDocAclForPublic(session, publicContainerUrl, { read: true });
-  }
-};
 
 /**
- * Function that creates a Documents container in the user's Pod when logging in
- * for the first time or if Documents is missing and initialize it with an ACL with
- * access to the user
+ * Function that creates a PASS-specific container in the user's Pod when logging
+ * in for the first time, or if that specific container is missing, re-initialize
+ * it with an ACL with access to the user
  *
  * @memberof utils
- * @function createDocumentsContainer
+ * @function createPASSContainer
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - The user's Pod URL
- * @returns {Promise} Promise - Generates a Documents container for Pod upon log
- * in if user's Pod does not have the an outbox to begin with
+ * @param {string} name - Name of container
+ * @param {Access} [permissions] - Access Object for Public users in ACL file
+ * @returns {Promise} Promise - Generates a PASS-specific container for Pod upon
+ * log in if user's Pod does not have that container to begin with and generates
+ * an ACL file for it if container doesn't have an ACL file
  */
-export const createDocumentsContainer = async (session, podUrl) => {
-  const documentsContainerUrl = `${podUrl}PASS/Documents/`;
+const createPASSContainer = async (session, podUrl, name, permissions = null) => {
+  const containerUrl = `${podUrl}PASS/${name}/`;
 
   try {
-    const solidDataset = await getSolidDatasetWithAcl(documentsContainerUrl, {
+    const solidDataset = await getSolidDatasetWithAcl(containerUrl, {
       fetch: session.fetch
     });
 
+    // Checks for ACL file with container, if it doesn't exist, it'll regenerate
+    // a new ACL file
     const resourceAclExists = hasResourceAcl(solidDataset);
 
     if (!resourceAclExists) {
-      await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
+      await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
+      if (permissions) {
+        await setDocAclForPublic(session, containerUrl, permissions);
+      }
     }
   } catch {
-    await createContainerAt(documentsContainerUrl, { fetch: session.fetch });
+    await createContainerAt(containerUrl, { fetch: session.fetch });
 
     // Generate ACL file for container
-    await setDocAclForUser(session, documentsContainerUrl, 'create', session.info.webId);
+    await setDocAclForUser(session, containerUrl, 'create', session.info.webId);
+    if (permissions) {
+      await setDocAclForPublic(session, containerUrl, permissions);
+    }
   }
 };
 
-/**
- * Function that creates an outbox container in the user's Pod when logging in for
- * the first time
- *
- * @memberof utils
- * @function createOutbox
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
- * user's Pod does not have the an outbox to begin with
- */
-export const createOutbox = async (session, podUrl) => {
-  const outboxContainerUrl = `${podUrl}PASS/Outbox/`;
-
-  try {
-    await getSolidDataset(outboxContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(outboxContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, outboxContainerUrl, 'create', session.info.webId);
-  }
-};
-
-/**
- * Function that creates an inbox container in the user's Pod when logging in for
- * the first time
- *
- * @memberof utils
- * @function createInbox
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise} Promise - Generates an outbox for Pod upon log in if
- * user's Pod does not have the an outbox to begin with
- */
-export const createInbox = async (session, podUrl) => {
-  const inboxContainerUrl = `${podUrl}PASS/Inbox/`;
-
-  try {
-    await getSolidDataset(inboxContainerUrl, { fetch: session.fetch });
-  } catch {
-    await createContainerAt(inboxContainerUrl, { fetch: session.fetch });
-
-    // Generate ACL file for container
-    await setDocAclForUser(session, inboxContainerUrl, 'create', session.info.webId);
-    await setDocAclForPublic(session, inboxContainerUrl, { append: true });
-  }
-};
+export default createPASSContainer;
