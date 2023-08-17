@@ -22,7 +22,10 @@ const EmptyListNotification = ({ type }) => {
   const str3 = `${str2} ${type} will be listed here.`;
 
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Container
+      aria-label="No Items Found Box"
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+    >
       <Box sx={{ my: '3rem' }}>
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
           <Typography variant="h6" component="h2" align="center" color="secondary">

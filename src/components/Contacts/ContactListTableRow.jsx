@@ -14,48 +14,48 @@ import { DocumentListContext } from '@contexts';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
- * @typedef {import("../../typedefs.js").clientListTableRowProps} clientListTableRowProps
+ * contactListTableRowProps is an object that stores the props for the
+ * ContactListTableRow component
+ *
+ * @typedef {object} contactListTableRowProps
+ * @property {object} contact - Object containing contact information
+ * @property {Function} deleteContact
+ * - function to delete a chosen contact
  */
 
 /**
- * ClientListTableRow Component - Component that generates the individual table
- * rows of clients from data within ClientList
+ * ContactListTableRow Component - Component that generates the individual table
+ * rows of contacts from data within ContactList
  *
- * @memberof Clients
- * @name ClientListTableRow
- * @param {clientListTableRowProps} Props - Props for ClientListTableRow
- * @returns {React.JSX.Element} The ClientListTableRow Component
+ * @memberof Contacts
+ * @name ContactListTableRow
+ * @param {contactListTableRowProps} Props - Props for ContactListTableRow
+ * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClientToDelete }) => {
+const ContactListTableRow = ({ contact, deleteContact }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
-  const { setClient } = useContext(DocumentListContext);
+  const { setContact } = useContext(DocumentListContext);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
 
-  // Event handler for pinning client to top of table
+  // Event handler for pinning contact to top of table
   // ***** TODO: Add in moving pinned row to top of table
   const handlePinClick = () => {
     setPinned(!pinned);
-  };
-
-  // Event handler for deleting a client from client list
-  const handleSelectClientToDelete = () => {
-    setSelectedClientToDelete(client);
-    setShowDeleteClientModal(true);
   };
 
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
         <Link
-          to={`/profile/${encodeURIComponent(client.webId)}`}
-          state={{ client }}
+          to={`/profile/${encodeURIComponent(contact.webId)}`}
+          state={{ contact }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setClient(client)}>
-            {client.person}
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(contact)}>
+            {contact.person}
           </Button>
         </Link>
       </StyledTableCell>
@@ -68,7 +68,7 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton size="large" onClick={handleSelectClientToDelete}>
+        <IconButton size="large" onClick={() => deleteContact(contact)}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
@@ -76,4 +76,4 @@ const ClientListTableRow = ({ client, setShowDeleteClientModal, setSelectedClien
   );
 };
 
-export default ClientListTableRow;
+export default ContactListTableRow;

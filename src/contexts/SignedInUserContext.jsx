@@ -1,9 +1,8 @@
 // React Imports
-import React, { createContext, useState, useMemo, useEffect } from 'react';
-// Inrupt Imports
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+// Inrupt Library Imports
 import { getPodUrlAll } from '@inrupt/solid-client';
-// Custom Hook Imports
-import { useSession } from '@hooks';
+import { SessionContext } from './SessionContext';
 // Utility Imports
 import { createPASSContainer } from '../utils';
 // Model Imports
@@ -33,7 +32,7 @@ export const SignedInUserContext = createContext({});
  */
 
 export const SignedInUserContextProvider = ({ children }) => {
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [podUrl, setPodUrl] = useState('');
   const [profileData, setProfileData] = useState(null);

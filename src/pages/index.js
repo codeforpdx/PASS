@@ -1,5 +1,5 @@
-import Clients from './Clients';
 import Home from './Home';
+import Contacts from './Contacts';
 import Messages from './Messages';
 import Profile from './Profile';
 
@@ -9,4 +9,4 @@ import Profile from './Profile';
  * @namespace Pages
  */
 
-export { Clients, Home, Messages, Profile };
+export { Contacts, Home, Messages, Profile };
