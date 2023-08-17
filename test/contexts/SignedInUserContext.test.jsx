@@ -8,12 +8,11 @@ import {
   buildThing,
   createThing
 } from '@inrupt/solid-client';
-import { useSession } from '@hooks';
 import dayjs from 'dayjs';
 import { expect, it, afterEach, describe, vi } from 'vitest';
+import { SignedInUserContext, SignedInUserContextProvider, SessionContext } from '@contexts';
+import { RDF_PREDICATES } from '@constants';
 import { fetchProfileInfo } from '../../src/model-helpers';
-import { SignedInUserContext, SignedInUserContextProvider } from '../../src/contexts';
-import { RDF_PREDICATES } from '../../src/constants';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);
@@ -22,9 +21,7 @@ const TestConsumer = () => {
 };
 
 vi.mock('@inrupt/solid-client');
-vi.mock('@hooks', () => ({
-  useSession: vi.fn()
-}));
+
 vi.mock('../../src/model-helpers/', async () => {
   const actual = await vi.importActual('../../src/model-helpers/');
 
@@ -48,20 +45,23 @@ describe('SignedInUserContext', () => {
     const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');
     getSolidDataset.mockResolvedValue(setThing(dataset, newActiveTTL));
 
-    useSession.mockReturnValue({
-      session: {
-        info: {
-          isLoggedIn: true,
-          webId: 'https://example.com/pod/profile/card#me'
-        }
-      }
-    });
     fetchProfileInfo.mockResolvedValue({ profileInfo: {} });
     getPodUrlAll.mockResolvedValue(['https://example.com/pod/']);
     const { findByText } = render(
-      <SignedInUserContextProvider>
-        <TestConsumer />
-      </SignedInUserContextProvider>
+      <SessionContext.Provider
+        value={{
+          session: {
+            info: {
+              isLoggedIn: true,
+              webId: 'https://example.com/pod/profile/card#me'
+            }
+          }
+        }}
+      >
+        <SignedInUserContextProvider>
+          <TestConsumer />
+        </SignedInUserContextProvider>
+      </SessionContext.Provider>
     );
     const val = await findByText('https://example.com/pod/');
     expect(val).not.toBeNull();

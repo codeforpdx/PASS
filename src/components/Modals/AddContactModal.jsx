@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
@@ -12,35 +12,38 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-// Utility Imports
 import { runNotification } from '@utils';
-// Context Imports
-import { UserListContext } from '@contexts';
-// Model Imports
-import { createUser } from '../../model-helpers/User';
-// Component Imports
 import { FormSection } from '../Form';
 
 /**
- * AddClientModal Component - Component that allows users to add other user's
- * Pod URLs from a user's list stored on their own Pod
- *
- * @memberof Modals
- * @name AddClientModal
+ * @memberof Contcts
+ * @name renderWebId
+ * @param {string} username - username to convert into a webId
+ * @returns {URL} A url of the predicted webID
  */
-
 const renderWebId = (username) => {
   const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
   return new URL(`${username}/profile/card#me`, baseUrl);
 };
 
-const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
+/**
+ * AddContactModal Component - Component that allows users to add other user's
+ * Pod URLs from a user's list stored on their own Pod
+ *
+ * @memberof Contacts
+ * @name AddContactModal
+ * @param {object} props - react props
+ * @param {Function} props.addContact  - function to add a contact
+ * @param {boolean} props.showAddContactModal - whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - toggle modal
+ * @returns {React.JSX.Element} - The Add Contact Modal
+ */
+const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const { addUser } = useContext(UserListContext);
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -48,13 +51,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     setWebId(renderedWebId);
   };
 
-  const submitUser = async (userObject) => {
-    const user = await createUser(userObject);
-    await addUser(user);
-  };
-
   const notifyStartSubmission = (userObject) => {
-    // ===== START OF ERROR DISPLAY OPTIONS =====
     if (!userObject.username && !userObject.webId) {
       runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
       return;
@@ -85,7 +82,6 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
       }, 2000);
       return;
     }
-    // ===== END OF ERROR DISPLAY OPTIONS =====
 
     dispatch({ type: 'SET_PROCESSING' });
 
@@ -97,19 +93,17 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
     );
   };
 
-  // Event handler for adding client to users list
-  const handleAddClient = async (event) => {
+  const handleAddContact = async (event) => {
     event.preventDefault();
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      username: event.target.addUsername.value,
       webId: event.target.addWebId.value
     };
 
     notifyStartSubmission(userObject, state, dispatch);
     try {
-      await submitUser(userObject);
+      await addContact(userObject);
     } finally {
       runNotification(
         `"${userObject.givenName} ${userObject.familyName}" added to client list`,
@@ -123,24 +117,24 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
         setUsername('');
         setWebId('');
         dispatch({ type: 'CLEAR_PROCESSING' });
-        setShowAddClientModal(false);
+        setShowAddContactModal(false);
       }, 2000);
     }
   };
 
   return (
     <Dialog
-      open={showAddClientModal}
+      open={showAddContactModal}
       aria-labelledby="dialog-title"
-      onClose={() => setShowAddClientModal(false)}
+      onClose={() => setShowAddContactModal(false)}
     >
       <FormSection
-        title="Add Client"
+        title="Add Contact"
         state={state}
         statusType="Status"
         defaultMessage="To be added..."
       >
-        <form onSubmit={handleAddClient} autoComplete="off">
+        <form onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
@@ -204,7 +198,7 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
               variant="outlined"
               color="error"
               endIcon={<ClearIcon />}
-              onClick={() => setShowAddClientModal(false)}
+              onClick={() => setShowAddContactModal(false)}
               fullWidth
             >
               CANCEL
@@ -213,9 +207,6 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
               variant="contained"
               color="primary"
               endIcon={<CheckIcon />}
-              // TODO: Determine what to do with modals after submitting.
-              // e.g. should it close automatically but have a pop-up status alert, remain open briefly, etc.
-              // onClick={() => setShowModal(false)}
               type="submit"
               disabled={state.processing}
               fullWidth
@@ -229,4 +220,4 @@ const AddClientModal = ({ showAddClientModal, setShowAddClientModal }) => {
   );
 };
 
-export default AddClientModal;
+export default AddContactModal;

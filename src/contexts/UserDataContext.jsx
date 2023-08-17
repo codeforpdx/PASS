@@ -3,9 +3,8 @@ import React from 'react';
 // Context Imports
 import {
   MessageContextProvider,
-  UserListContextProvider,
-  SignedInUserContextProvider,
-  DocumentListContextProvider
+  DocumentListContextProvider,
+  SignedInUserContextProvider
 } from '.';
 
 /**
@@ -13,17 +12,15 @@ import {
  *
  * @memberof contexts
  * @function UserDataContextProvider
- * @param {React.JSX.Element} children - The wrapped components that consumes
+ * @param {React.JSX.Element} children - The components that consume the data context
+ * @returns {React.JSX.Element} - A react app
  * Context from Provider
  */
-
 const UserDataContextProvider = ({ children }) => (
   <SignedInUserContextProvider>
-    <UserListContextProvider>
-      <DocumentListContextProvider>
-        <MessageContextProvider>{children}</MessageContextProvider>
-      </DocumentListContextProvider>
-    </UserListContextProvider>
+    <DocumentListContextProvider>
+      <MessageContextProvider>{children}</MessageContextProvider>
+    </DocumentListContextProvider>
   </SignedInUserContextProvider>
 );
 
