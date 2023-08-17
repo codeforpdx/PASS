@@ -43,12 +43,6 @@ const Profile = () => {
     modalType: '',
     documentName: ''
   });
-  const [showAddDocModal, setShowAddDocModal] = useState(false);
-  const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
-  const [dataset, setDataset] = useState({
-    modalType: '',
-    documentName: ''
-  });
 
   // Profile related states
   const client = location.state?.client;
