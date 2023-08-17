@@ -29,6 +29,7 @@ export default defineConfig({
       {find: "@pages", replacement: resolve(__dirname, "src/pages")},
       {find: "@utils", replacement: resolve(__dirname, "src/utils")},
       {find: "@components", replacement: resolve(__dirname,"src/components")},
+      {find: "@constants", replacement: resolve(__dirname,"src/constants")},
       withCustomResolver({find: '@inrupt/solid-client', exportConditions: ['import']}),
       withCustomResolver({find: '@inrupt/solid-client-authn-core', exportConditions: ['import']})
     ]

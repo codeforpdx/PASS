@@ -2,26 +2,23 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import ClientListTable from '../../../src/components/Clients/ClientListTable';
-import { UserListContext } from '../../../src/contexts/UserListContext';
+import { ContactListTable } from '@components/Contacts';
 
 /* eslint-disable react/jsx-no-constructed-context-values */
-const MockTableComponent = ({ users }) => (
+const MockTableComponent = ({ contacts }) => (
   <BrowserRouter>
-    <UserListContext.Provider value={{ userListObject: { userList: users } }}>
-      <ClientListTable />
-    </UserListContext.Provider>
+    <ContactListTable contacts={contacts} />
   </BrowserRouter>
 );
 /* eslint-enable react/jsx-no-constructed-context-values */
 
 it('renders all clients from client context', () => {
-  const users = [
+  const contacts = [
     { familyName: 'Abby', person: 'Aaron Abby', webId: 'https://example.com/Abby' },
     { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
   ];
 
-  const { getAllByRole } = render(<MockTableComponent users={users} />);
+  const { getAllByRole } = render(<MockTableComponent contacts={contacts} />);
 
   const allRows = getAllByRole('row');
 
@@ -41,7 +38,7 @@ it('sorts clients by familyName', () => {
     { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
   ];
 
-  const { getByText } = render(<MockTableComponent users={[...originalArray]} />);
+  const { getByText } = render(<MockTableComponent contacts={[...originalArray]} />);
 
   const client1 = getByText('Aaron Zeigler');
   const client2 = getByText('Bob Builder');

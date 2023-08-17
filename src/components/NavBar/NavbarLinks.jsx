@@ -18,11 +18,11 @@ const NavbarLinks = () => {
   // Tabs workaround to match route on login
   let location = useLocation().pathname.split('/')[1];
   if (location === '') {
-    location = 'clients';
+    location = 'contacts';
   }
 
   // array of current nav links for menus
-  const routesArray = [{ label: 'Clients', path: '/clients' }];
+  const routesArray = [{ label: 'Contacts', path: '/contacts' }];
 
   return (
     <Tabs
