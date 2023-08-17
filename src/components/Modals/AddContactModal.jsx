@@ -32,7 +32,10 @@ const renderWebId = (username) => {
  *
  * @memberof Contacts
  * @name AddContactModal
- * @param {Function} addContact  - function to add a contact
+ * @param {object} props - react props
+ * @param {Function} props.addContact  - function to add a contact
+ * @param {boolean} props.showAddContactModal - whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {

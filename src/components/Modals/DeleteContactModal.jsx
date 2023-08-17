@@ -27,9 +27,9 @@ import { FormSection } from '../Form';
  * DeleteContactModal Component - Component that allows users to delete other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Contacts
+ * @memberof Modals
  * @name DeleteContactModal
- * @param {DeleteContactModalParams} root0 - params
+ * @param {DeleteContactModalParams} props - params
  * @returns {React.JSX.Element} - The delete contact modal
  */
 const DeleteContactModal = ({

@@ -10,4 +10,4 @@ import UploadDocumentModal from './UploadDocumentModal';
  * @namespace Modals
  */
 
-export { AddContactModal, NewMessageModal, DeleteContactModal, LogoutModal, UploadDocumentModal };
+export { AddContactModal, DeleteContactModal, LogoutModal, NewMessageModal, UploadDocumentModal };
