@@ -156,6 +156,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             id="previousMessage"
             label="Previous Message"
             variant="filled"
+            // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
+            // Is this something that needs to be addressed?
             sx={{ display: oldMessage ? 'block' : 'none' }}
             multiline
             rows={3}

@@ -43,22 +43,27 @@ const MessagePreview = ({ message, folderType }) => {
         <Box sx={{ flexGrow: 1 }}>
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={5}>
+              <Grid item xs={4} md={5}>
                 <Typography>{message.sender}</Typography>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={4} md={5}>
                 <Typography>{message.title}</Typography>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4} md={2}>
                 <Typography>{message.uploadDate.toLocaleDateString()}</Typography>
               </Grid>
 
               {showContents && (
                 <>
-                  <Divider />
                   <Grid item xs={12}>
+                    <Divider />
                     {message.message.split('\n').map((line, index) => (
-                      <Typography sx={{ wordWrap: 'break-word' }} key={line + String(index)}>
+                      <Typography
+                        sx={{
+                          maxWidth: '80vw'
+                        }}
+                        key={line + String(index)}
+                      >
                         {line}
                       </Typography>
                     ))}
