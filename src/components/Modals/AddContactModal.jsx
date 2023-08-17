@@ -1,6 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 import { useStatusNotification } from '@hooks';
+import useNotification from '../../hooks/useNotification';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -40,6 +41,7 @@ const renderWebId = (username) => {
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
+  const {addNotification} = useNotification()
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
@@ -111,6 +113,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
         state,
         dispatch
       );
+      addNotification('success', `"${userObject.givenName} ${userObject.familyName}" added to client list`)
       setTimeout(() => {
         setUserGivenName('');
         setUserFamilyName('');
