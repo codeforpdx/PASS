@@ -1,28 +1,14 @@
 // React imports
 import React, { useState } from 'react';
 // Material UI Imports
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -56,49 +42,45 @@ const MessagePreview = ({ message, folderType }) => {
       <Paper>
         <Box sx={{ flexGrow: 1 }}>
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Placeholder" src="" />
-            </ListItemAvatar>
-
-            <Grid container spacing={2}>
-              <Grid item xs={6} md={4}>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid item xs={5}>
+                <Typography>{message.sender}</Typography>
+              </Grid>
+              <Grid item xs={5}>
+                <Typography>{message.title}</Typography>
+              </Grid>
+              <Grid item xs={2}>
                 <Typography>{message.uploadDate.toLocaleDateString()}</Typography>
               </Grid>
-              <Grid item xs={6} md={8}>
-                <Typography>
-                  {message.sender} - {message.title}
-                </Typography>
-              </Grid>
+
+              {showContents && (
+                <>
+                  <Divider />
+                  <Grid item xs={12}>
+                    {message.message.split('\n').map((line, index) => (
+                      <Typography sx={{ wordWrap: 'break-word' }} key={line + String(index)}>
+                        {line}
+                      </Typography>
+                    ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    {showContents && folderType === 'Inbox' && (
+                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
+                        Reply
+                      </Button>
+                    )}
+                  </Grid>
+                </>
+              )}
             </Grid>
 
-            <Grid container>
-              <Grid
-                item
-                xs={6}
-                md={8}
-              >
-                {showContents && (
-                  <>
-                    <Divider />
-                    <Typography>Content:</Typography>
-                    <Box>
-                      {message.message.split('\n').map((line, index) => (
-                        <Typography sx={{ wordWrap: 'break-word' }} key={line + String(index)}>
-                          {line}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </>
-                )}
-              </Grid>
-              <Grid item xs={6} md={4}>
-                {showContents && folderType === 'Inbox' && (
-                  <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                    Reply
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
+            {showModal && (
+              <NewMessageModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                oldMessage={message}
+              />
+            )}
           </ListItemButton>
         </Box>
       </Paper>

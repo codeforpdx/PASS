@@ -175,7 +175,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             id="message"
             onChange={(e) => handleChange(e)}
             multiline
-            rows={6}
+            rows={5}
             label="Enter Message"
             required
             fullWidth
