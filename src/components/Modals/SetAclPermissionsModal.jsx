@@ -171,7 +171,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
                 />
               </FormControl>
 
-              {dataset.modalType === 'container' ? (
+              {dataset.modalType === 'document' ? (
                 <DocumentSelection
                   htmlForAndIdProp="set-acl-doctype"
                   handleDocType={handleDocType}
