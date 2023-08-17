@@ -7,7 +7,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 import ShieldIcon from '@mui/icons-material/Shield';
-import ShieldIcon from '@mui/icons-material/Shield';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Context Imports

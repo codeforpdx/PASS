@@ -30,7 +30,6 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  * @memberof Documents
  * @name DocumentTable
  * @param {documentTableProps} Props - Props for DocumentTable component
- * @param {documentTableProps} Props - Props for DocumentTable component
  * @returns {React.JSX.Element} The DocumentTable component
  */
 const DocumentTable = ({ handleAclPermissionsModal }) => {
