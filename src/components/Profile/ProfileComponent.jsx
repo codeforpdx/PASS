@@ -86,9 +86,9 @@ const ProfileComponent = ({ contactProfile }) => {
   }, []);
 
   const renderDateOfBirth = () => {
-    if (clientProfile) {
-      return clientProfile.dateOfBirth
-        ? dayjs(clientProfile.dateOfBirth).format('MM/DD/YYYY')
+    if (contactProfile) {
+      return contactProfile.dateOfBirth
+        ? dayjs(contactProfile.dateOfBirth).format('MM/DD/YYYY')
         : 'No value set';
     }
     return dateOfBirth ? dayjs(dateOfBirth).format('MM/DD/YYYY') : 'No value set';
