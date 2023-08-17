@@ -1,4 +1,5 @@
 import { expect, vi, it, describe } from 'vitest';
+import { webcrypto } from 'crypto';
 import { buildThing, createThing } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
@@ -10,9 +11,8 @@ vi.mock('@inrupt/solid-client');
 const fileText =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eget felis consectetur, condimentum nisl vel, feugiat augue. Suspendisse suscipit est a enim tincidunt, nec mollis leo convallis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in metus elit. Curabitur congue, ipsum non varius aliquam, magna nibh venenatis urna, in facilisis magna turpis id risus. Pellentesque nibh neque, mattis eget consequat ac, dictum at magna. Cras in tempor arcu. In eget hendrerit nulla, vitae aliquet est. Phasellus in neque gravida, ultrices tortor hendrerit, congue mi. Sed in tristique mi, sed porta neque. Praesent et arcu tempus, pharetra nisl eu, congue ligula.';
 
-describe.skip('docDescToThing', () => {
-  // TODO: This throws a getter/setter error.
-  // window.crypto = webcrypto;
+describe('docDescToThing', () => {
+  window.crypto = webcrypto;
 
   it('correctly converts a document description to a thing', async () => {
     const testFile = {

@@ -23,13 +23,12 @@ import { RDF_PREDICATES } from '../../src/constants';
 vi.mock('@inrupt/solid-client');
 vi.mock('../../../src/constants/');
 
-describe.skip('credentials', async () => {
+describe('credentials', async () => {
   // Most of our tests should be in the JSDom browser environment
   // However, JSDom doesn't have a full implementation of Web Crypto
   // Node does, so we use node's implementation for these test
 
-  // TODO: This throws a getter/setter error.
-  // window.crypto = webcrypto;
+  window.crypto = webcrypto;
 
   const { privateKey, publicKey } = await window.crypto.subtle.generateKey(
     {
