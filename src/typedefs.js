@@ -241,7 +241,7 @@ const React = require('react');
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
- * @property {documentName: string, modalType: string) => void} handleAclPermissionsModal
+ * @property {(documentName: string, modalType: string) => void} handleAclPermissionsModal
  * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */

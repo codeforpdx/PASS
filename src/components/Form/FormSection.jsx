@@ -30,8 +30,7 @@ const FormSection = ({ title, state, statusType, defaultMessage, file = null, ch
       alignItems: 'center',
       mx: '3px',
       padding: '20px',
-      minWidth: '50%',
-      boxShadow: 2
+      minWidth: '50%'
     }}
   >
     <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
