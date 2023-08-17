@@ -28,7 +28,7 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  * @param {documentTableProps} Props - Props for DocumentTable component
  * @returns {React.JSX.Element} The DocumentTable component
  */
-const DocumentTable = ({ handleModal }) => {
+const DocumentTable = ({ handleAclPermissionsModal }) => {
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
   const columnTitlesArray = [
     'Name',
@@ -57,7 +57,11 @@ const DocumentTable = ({ handleModal }) => {
           </TableHead>
           <TableBody>
             {documentListObject?.docList.map((document) => (
-              <DocumentTableRow key={document.name} document={document} handleModal={handleModal} />
+              <DocumentTableRow
+                key={document.name}
+                document={document}
+                handleAclPermissionsModal={handleAclPermissionsModal}
+              />
             ))}
           </TableBody>
         </Table>

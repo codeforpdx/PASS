@@ -229,8 +229,8 @@ const React = require('react');
  *
  * @exports documentTableProps
  * @typedef {object} documentTableProps
- * @property {(string) => void} handleModal
- * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
+ * @property {(string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -241,8 +241,8 @@ const React = require('react');
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
- * @property {(string) => void} handleModal
- * - Function for setting the correct File Name for the SetAclPermissions Modal, and opening it.
+ * @property {(string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 

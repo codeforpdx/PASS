@@ -14,7 +14,8 @@ import UploadDocumentModal from './UploadDocumentModal';
 export {
   AddClientModal,
   DeleteClientModal,
-  LogoutModal, NewMessageModal,
+  LogoutModal,
+  NewMessageModal,
   SetAclPermissionsModal,
   UploadDocumentModal
 };

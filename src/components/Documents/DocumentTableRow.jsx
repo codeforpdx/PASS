@@ -28,7 +28,7 @@ import DOC_TYPES from '../../constants/doc_types';
  * @param {documentTableRowProps} Props - Props for DocumentTableRow
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
-const DocumentTableRow = ({ document, handleModal }) => {
+const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
   const { session } = useSession();
   const { removeDocument } = useContext(DocumentListContext);
 
@@ -66,7 +66,7 @@ const DocumentTableRow = ({ document, handleModal }) => {
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleModal('document', name)}>
+        <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name)}>
           <ShieldIcon />
         </IconButton>
       </StyledTableCell>

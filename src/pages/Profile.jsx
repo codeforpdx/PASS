@@ -52,7 +52,7 @@ const Profile = () => {
   // and the file name for the relevant document, (if any)
   // before opening the modal.
 
-  const handleModal = (type, fileName = '') => {
+  const handleAclPermissionsModal = (type, fileName = '') => {
     setDataset({
       documentName: fileName,
       modalType: type
@@ -116,7 +116,7 @@ const Profile = () => {
               size="small"
               aria-label="Set Container Permissions Button"
               startIcon={<ShieldIcon />}
-              onClick={() => handleModal('container')}
+              onClick={() => handleAclPermissionsModal('container')}
             >
               Set Permission to All Documents
             </Button>
@@ -138,7 +138,7 @@ const Profile = () => {
           setShowModal={setShowAclPermissionModal}
           dataset={dataset}
         />
-        <DocumentTable handleModal={handleModal} />
+        <DocumentTable handleAclPermissionsModal={handleAclPermissionsModal} />
       </Box>
     </Box>
   );
