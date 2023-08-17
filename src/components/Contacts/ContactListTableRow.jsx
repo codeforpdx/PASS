@@ -8,9 +8,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
-import { DocumentListContext } from '../../contexts/DocumentListContext';
 
 /**
  * contactListTableRowProps is an object that stores the props for the
