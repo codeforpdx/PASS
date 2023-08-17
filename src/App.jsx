@@ -31,7 +31,7 @@ const App = () => (
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <NotificationContextProvider>
-        <UserDataContextProvider>
+          <UserDataContextProvider>
             <BrowserRouter>
               <Layout>
                 <AppRoutes />
@@ -39,7 +39,7 @@ const App = () => (
             </BrowserRouter>
           </UserDataContextProvider>
         </NotificationContextProvider>
-    </ThemeProvider>
+      </ThemeProvider>
     </SessionProvider>
   </QueryClientProvider>
 );
