@@ -323,4 +323,18 @@ const React = require('react');
  * @memberof typedefs
  */
 
+/**
+ * setAclPermissionsModalProps is an object that stores the props for the setAclPermissionsModal component.
+ *
+ * @exports setAclPermissionsModalProps
+ * @typedef {object} setAclPermissionsModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionsModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @property {object} dataset
+ * - State object containing information for which version of modal to display, and
+ * a relevant file name, if any.
+ * @memberof typedefs
+ */
+
 exports.unused = {};

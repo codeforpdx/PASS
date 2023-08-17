@@ -20,11 +20,16 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  */
 
 /**
+ * @typedef {import("../../typedefs.js").documentTableProps} documentTableProps
+ */
+
+/**
  * DocumentTable Component - The Document Table that shows the list of documents
  * stored on Solid
  *
  * @memberof Documents
  * @name DocumentTable
+ * @param {documentTableProps} Props - Props for DocumentTable component
  * @param {documentTableProps} Props - Props for DocumentTable component
  * @returns {React.JSX.Element} The DocumentTable component
  */
@@ -37,6 +42,7 @@ const DocumentTable = ({ handleAclPermissionsModal }) => {
     'Upload Date',
     'Expiration Date',
     'Preview File',
+    'Permissions',
     'Permissions',
     'Delete'
   ];

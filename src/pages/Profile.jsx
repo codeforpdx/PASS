@@ -10,10 +10,13 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import ShieldIcon from '@mui/icons-material/Shield';
+import Container from '@mui/material/Container';
+import ShieldIcon from '@mui/icons-material/Shield';
 import Typography from '@mui/material/Typography';
 // Model Imports
 import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
+import { UploadDocumentModal, SetAclPermissionsModal } from '../components/Modals';
 import { UploadDocumentModal, SetAclPermissionsModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
@@ -34,6 +37,12 @@ const Profile = () => {
 
   // Documents related states
   const { session } = useSession();
+  const [showAddDocModal, setShowAddDocModal] = useState(false);
+  const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
+  const [dataset, setDataset] = useState({
+    modalType: '',
+    documentName: ''
+  });
   const [showAddDocModal, setShowAddDocModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
   const [dataset, setDataset] = useState({
