@@ -17,7 +17,8 @@
     "prettier:check": "prettier --check \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "prettier:run": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "podserver:temp": "community-solid-server",
-    "podserver": "community-solid-server -c @css:config/file.json -f local_temp_server_files/"
+    "podserver": "community-solid-server -c @css:config/file.json -f local_temp_server_files/",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -77,6 +78,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
     "jsdoc": "^4.0.0",
     "jsdoc-tsimport-plugin": "^1.0.5",
     "jsdom": "^22.0.0",
@@ -85,5 +87,12 @@
     "string_decoder": "^1.3.0",
     "vite": "^4.1.4",
     "vitest": "^0.31.0"
+  },
+  "lint-staged": {
+    "*.{js,css,ts,tsx,jsx}": [
+      "prettier --write",
+      "eslint  --fix",
+      "npm test"
+    ]
   }
 }
