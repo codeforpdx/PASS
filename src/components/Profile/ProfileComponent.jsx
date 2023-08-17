@@ -31,7 +31,7 @@ import ProfileEditButtonGroup from './ProfileEditButtonGroup';
  * @param {profileComponentProps} Props - Props for ClientProfile component
  * @returns {React.JSX.Element} The UserProfile Component
  */
-const ProfileComponent = ({ clientProfile }) => {
+const ProfileComponent = ({ contactProfile }) => {
   const { session } = useSession();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
@@ -102,7 +102,7 @@ const ProfileComponent = ({ clientProfile }) => {
         padding: '10px'
       }}
     >
-      <ProfileImageField loadProfileData={loadProfileData} clientProfile={clientProfile} />
+      <ProfileImageField loadProfileData={loadProfileData} contactProfile={contactProfile} />
       <form
         onSubmit={handleUpdateProfile}
         style={{
@@ -123,20 +123,20 @@ const ProfileComponent = ({ clientProfile }) => {
           <ProfileInputField
             inputName="Name"
             inputValue={
-              clientProfile
-                ? `${clientProfile?.givenName ?? ''} ${clientProfile?.familyName ?? ''}`
+              contactProfile
+                ? `${contactProfile?.givenName ?? ''} ${contactProfile?.familyName ?? ''}`
                 : profileName
             }
             setInputValue={setProfileName}
             edit={edit}
-            disabled={clientProfile}
+            disabled={contactProfile}
           />
           <ProfileInputField
             inputName="Nickname"
-            inputValue={clientProfile ? clientProfile?.nickname : nickname}
+            inputValue={contactProfile ? contactProfile?.nickname : nickname}
             setInputValue={setNickname}
             edit={edit}
-            disabled={clientProfile}
+            disabled={contactProfile}
           />
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <Typography>Date of Birth: </Typography>
@@ -157,7 +157,7 @@ const ProfileComponent = ({ clientProfile }) => {
             )}
           </Box>
         </Box>
-        {!clientProfile && (
+        {!contactProfile && (
           <ProfileEditButtonGroup
             edit={edit}
             handleCancelEdit={handleCancelEdit}

@@ -25,7 +25,7 @@ import { SignedInUserContext } from '@contexts';
  * @param {profileImageFieldProps} Props - Props used for NewMessage
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ loadProfileData, clientProfile }) => {
+const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const { session } = useSession();
   const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
     useContext(SignedInUserContext);
@@ -65,11 +65,11 @@ const ProfileImageField = ({ loadProfileData, clientProfile }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src={clientProfile ? clientProfile.profileImg : profileImg}
+        src={contactProfile ? contactProfile.profileImg : profileImg}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />
-      {!clientProfile &&
+      {!contactProfile &&
         (profileImg ? (
           <Button
             variant="outlined"
