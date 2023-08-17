@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
@@ -10,6 +10,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+import { DocumentListContext } from '../../contexts/DocumentListContext';
 
 /**
  * contactListTableRowProps is an object that stores the props for the
@@ -33,6 +34,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 const ContactListTableRow = ({ contact, deleteContact }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
+  const { setContact } = useContext(DocumentListContext);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -51,7 +53,9 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
           state={{ contact }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }}>{contact.person}</Button>
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(contact)}>
+            {contact.person}
+          </Button>
         </Link>
       </StyledTableCell>
       <StyledTableCell
