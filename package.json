@@ -92,8 +92,8 @@
   "lint-staged": {
     "*.{js,css,ts,tsx,jsx}": [
       "npm run prettier:run",
-      "npm run eslint  ",
-      "npm run  test"
+      "npm run lint  ",
+      "npm run  test:ci"
     ]
   }
 }
