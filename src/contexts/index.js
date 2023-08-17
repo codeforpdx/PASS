@@ -6,7 +6,6 @@
  */
 
 export * from './SignedInUserContext';
-export * from './UserListContext';
 export * from './MessageContext';
 export * from './DocumentListContext';
 export * from './SessionContext';

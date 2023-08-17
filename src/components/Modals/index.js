@@ -1,5 +1,5 @@
-import AddClientModal from './AddClientModal';
-import DeleteClientModal from './DeleteClientModal';
+import AddContactModal from './AddContactModal';
+import DeleteContactModal from './DeleteContactModal';
 import LogoutModal from './LogoutModal';
 import NewMessageModal from './NewMessageModal';
 import UploadDocumentModal from './UploadDocumentModal';
@@ -10,4 +10,4 @@ import UploadDocumentModal from './UploadDocumentModal';
  * @namespace Modals
  */
 
-export { AddClientModal, DeleteClientModal, LogoutModal, NewMessageModal, UploadDocumentModal };
+export { AddContactModal, DeleteContactModal, LogoutModal, NewMessageModal, UploadDocumentModal };

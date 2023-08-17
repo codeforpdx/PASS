@@ -38,7 +38,8 @@ module.exports = {
           ['@contexts', './src/contexts'],
           ['@pages', './src/pages'],
           ['@utils', './src/utils'],
-          ['@components', './src/components']
+          ['@components', './src/components'],
+          ['@constants', './src/constants']
         ]
       }
     }

@@ -1,11 +1,12 @@
 // React Imports
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SessionProvider } from '@contexts';
 // Material UI Imports
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 // Context Imports
-import { SessionProvider } from '@contexts';
 import UserDataContextProvider from './contexts/UserDataContext';
 import { NotificationContextProvider } from './contexts/NotificationContext';
 // Theme Imports
@@ -22,21 +23,25 @@ import Layout from './layouts/Layout';
  * @typedef {import("./typedefs").messageListObject} messageListObject
  */
 
+const queryClient = new QueryClient();
+
 const App = () => (
-  <SessionProvider restorePreviousSession>
-    <CssBaseline />
-    <ThemeProvider theme={theme}>
-      <NotificationContextProvider>
+  <QueryClientProvider client={queryClient}>
+    <SessionProvider restorePreviousSession>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <NotificationContextProvider>
         <UserDataContextProvider>
-          <BrowserRouter>
-            <Layout>
-              <AppRoutes />
-            </Layout>
-          </BrowserRouter>
-        </UserDataContextProvider>
-      </NotificationContextProvider>
+            <BrowserRouter>
+              <Layout>
+                <AppRoutes />
+              </Layout>
+            </BrowserRouter>
+          </UserDataContextProvider>
+        </NotificationContextProvider>
     </ThemeProvider>
-  </SessionProvider>
+    </SessionProvider>
+  </QueryClientProvider>
 );
 
 export default App;
