@@ -3,7 +3,7 @@ import React, { createContext, useState, useMemo, useEffect, useContext } from '
 // Inrupt Imports
 import { createSolidDataset } from '@inrupt/solid-client';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { SessionContext } from './SessionContext';
 // Model Imports
 import { addDocument, removeDocument, replaceDocument, loadDocumentList } from '../model-helpers';
 // Context Imports
@@ -31,7 +31,7 @@ export const DocumentListContextProvider = ({ children }) => {
   const [loadingDocuments, setLoadingDocuments] = useState(true);
   const { podUrl } = useContext(SignedInUserContext);
   const [client, setClient] = useState(null);
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
 
   const documentListMemo = useMemo(
     () => ({

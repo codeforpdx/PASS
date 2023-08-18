@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React from 'react';
 // Material UI Imports
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,30 +7,32 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// Context Imports
-import { UserListContext } from '@contexts';
 // Component Imports
-import ClientListTableRow from './ClientListTableRow';
+import ContactListTableRow from './ContactListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Client', 'Pin', 'Delete'];
+const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
 
 /**
- * @typedef {import("../../typedefs.js").clientListTableProps} clientListTableProps
- */
-
-/**
- * ClientListTable Component - Component that generates table of clients from data within ClientList
+ * contactListTableProps is an object that stores the props for the
+ * ContactListTable component
  *
- * @memberof Clients
- * @name ClientListTable
- * @param {clientListTableProps} Props - Props for ClientListTableRow
- * @returns {React.JSX.Element} The ClientListTableRow Component
+ * @typedef {object} contactListTableProps
+ * @property {Array} contacts - this list of contacts to display
+ * @property {Function} deleteContact - method to delete contact
+ * @memberof typedefs
  */
-const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }) => {
-  const { userListObject } = useContext(UserListContext);
 
+/**
+ * ContactListTable Component - Component that generates table of contacts from data within ContactList
+ *
+ * @memberof Contacts
+ * @name ContactListTable
+ * @param {contactListTableProps} Props - Props for ContactListTableRow
+ * @returns {React.JSX.Element} The ContactListTableRow Component
+ */
+const ContactListTable = ({ contacts, deleteContact }) => {
   const comparePerson = (a, b) => {
     if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
       return -1;
@@ -40,14 +42,13 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
     }
     return 0;
   };
+  const contactsCopy = [...contacts];
 
-  const userListCopy = [...userListObject.userList];
-
-  const sortedUserList = userListCopy.sort(comparePerson);
+  const sortedContacts = contactsCopy.sort(comparePerson);
 
   return (
     <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-      <Table aria-label="client list table">
+      <Table aria-label="contact list table">
         <TableHead>
           <TableRow>
             {columnTitlesArray.map((columnTitle) => (
@@ -58,12 +59,11 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedUserList?.map((client) => (
-            <ClientListTableRow
-              key={client.webId}
-              client={client}
-              setShowDeleteClientModal={setShowDeleteClientModal}
-              setSelectedClientToDelete={setSelectedClientToDelete}
+          {sortedContacts?.map((contact) => (
+            <ContactListTableRow
+              key={contact.webId}
+              contact={contact}
+              deleteContact={deleteContact}
             />
           ))}
         </TableBody>
@@ -72,4 +72,4 @@ const ClientListTable = ({ setSelectedClientToDelete, setShowDeleteClientModal }
   );
 };
 
-export default ClientListTable;
+export default ContactListTable;
