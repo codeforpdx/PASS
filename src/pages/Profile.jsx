@@ -8,12 +8,13 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import ShieldIcon from '@mui/icons-material/Shield';
 import Typography from '@mui/material/Typography';
 // Model Imports
 import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
-import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
-import { UploadDocumentModal } from '../components/Modals';
+import { UploadDocumentModal, SetAclPermissionsModal } from '../components/Modals';
 import { DocumentTable } from '../components/Documents';
 import { ProfileComponent } from '../components/Profile';
 import { LoadingAnimation } from '../components/Notification';
@@ -33,13 +34,31 @@ const Profile = () => {
 
   // Documents related states
   const { session } = useSession();
-  const [showModal, setShowModal] = useState(false);
+  const [showAddDocModal, setShowAddDocModal] = useState(false);
+  const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
+  const [dataset, setDataset] = useState({
+    modalType: '',
+    documentName: ''
+  });
 
   // Profile related states
   const client = location.state?.client;
   const [clientProfile, setClientProfile] = useState(null);
   const webIdUrl = client?.webId ?? session.info.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // Handler for the SetAclPermissions Modal that
+  // sets the appropriate version of the modal to load,
+  // and the file name for the relevant document, (if any)
+  // before opening the modal.
+
+  const handleAclPermissionsModal = (type, fileName = '') => {
+    setDataset({
+      documentName: fileName,
+      modalType: type
+    });
+    setShowAclPermissionModal(true);
+  };
 
   useEffect(() => {
     const fetchClientProfile = async () => {
@@ -89,24 +108,37 @@ const Profile = () => {
 
         <ProfileComponent clientProfile={clientProfile} />
 
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          aria-label="Add Client Button"
-          startIcon={<AddIcon />}
-          onClick={() => setShowModal(true)}
-        >
-          Add Document
-        </Button>
-        <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
-        <DocumentTable />
-        {!client && (
-          <>
-            <SetAclPermsDocContainerForm />
-            <SetAclPermissionForm />
-          </>
-        )}
+        <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          {!client && (
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              aria-label="Set Container Permissions Button"
+              startIcon={<ShieldIcon />}
+              onClick={() => handleAclPermissionsModal('container')}
+            >
+              Set Permission to All Documents
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            aria-label="Add Client Button"
+            startIcon={<AddIcon />}
+            onClick={() => setShowAddDocModal(true)}
+          >
+            Add Document
+          </Button>
+        </Container>
+        <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
+        <SetAclPermissionsModal
+          showModal={showAclPermissionModal}
+          setShowModal={setShowAclPermissionModal}
+          dataset={dataset}
+        />
+        <DocumentTable handleAclPermissionsModal={handleAclPermissionsModal} />
       </Box>
     </Box>
   );

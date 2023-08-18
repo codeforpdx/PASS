@@ -185,6 +185,33 @@ const React = require('react');
  */
 
 /**
+ * clientListTableProps is an object that stores the props for the
+ * ClientListTable component
+ *
+ * @exports clientListTableProps
+ * @typedef {object} clientListTableProps
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
+ * clientListTableRowProps is an object that stores the props for the
+ * ClientListTableRow component
+ *
+ * @exports clientListTableRowProps
+ * @typedef {object} clientListTableRowProps
+ * @property {object} client - Object containing client information
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
+ * - React set function for DeleteClientModal
+ * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
+ * - React set function for setting client to be deleted
+ * @memberof typedefs
+ */
+
+/**
  * uploadDocumentModalProps is an object that stores the props for the
  * UploadDocumentModal component
  *
@@ -197,12 +224,25 @@ const React = require('react');
  */
 
 /**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component.
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {(documentName: string, modalType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
+ * @memberof typedefs
+ */
+
+/**
  * documentTableRowProps is an object that stores the props for the DocumentTableRow
  * component
  *
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
+ * @property {(documentName: string, modalType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -212,7 +252,7 @@ const React = require('react');
  *
  * @exports profileComponentProps
  * @typedef {object} profileComponentProps
- * @property {object} [clientProfile] - Contact object with data from profile
+ * @property {object} [clientProfile] - Client object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -225,7 +265,7 @@ const React = require('react');
  * @typedef {object} profileImageFieldProps
  * @property {() => void} loadProfileData - Handler function for setting local
  * state for profile card in PASS
- * @property {object} [clientProfile] - Contact object with data from profile
+ * @property {object} [clientProfile] - Client object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -266,6 +306,20 @@ const React = require('react');
  * @typedef {object} footerProps
  * @property {boolean} isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
+ * @memberof typedefs
+ */
+
+/**
+ * setAclPermissionsModalProps is an object that stores the props for the setAclPermissionsModal component.
+ *
+ * @exports setAclPermissionsModalProps
+ * @typedef {object} setAclPermissionsModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionsModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @property {object} dataset
+ * - State object containing information for which version of modal to display, and
+ * a relevant file name, if any.
  * @memberof typedefs
  */
 
