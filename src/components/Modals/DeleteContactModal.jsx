@@ -14,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '@utils';
 // Component Imports
 import { FormSection } from '../Form';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @typedef {object} DeleteContactModalParams
@@ -39,6 +40,7 @@ const DeleteContactModal = ({
   deleteContact
 }) => {
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
 
   // Event handler for deleting from contact list
   const handleDeleteContact = async (event) => {
@@ -57,8 +59,13 @@ const DeleteContactModal = ({
         state,
         dispatch
       );
+      addNotification(
+        'success',
+        `"${selectedContactToDelete?.person}" deleted from contact list...`
+      );
     } catch (e) {
       runNotification(`Contact deletion falied. Reason: ${e.message}`);
+      addNotification('error', `Contact deletion falied. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
         setShowDeleteContactModal(false);
