@@ -65,7 +65,7 @@ const DeleteContactModal = ({
       );
     } catch (e) {
       // runNotification(`Contact deletion falied. Reason: ${e.message}`);
-      addNotification('error', `Contact deletion falied. Reason: ${e.message}`);
+      addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
         setShowDeleteContactModal(false);
