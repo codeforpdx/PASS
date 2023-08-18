@@ -64,7 +64,7 @@ const DeleteContactModal = ({
         `"${selectedContactToDelete?.person}" deleted from contact list...`
       );
     } catch (e) {
-      runNotification(`Contact deletion falied. Reason: ${e.message}`);
+      // runNotification(`Contact deletion falied. Reason: ${e.message}`);
       addNotification('error', `Contact deletion falied. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
