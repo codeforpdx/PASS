@@ -59,10 +59,7 @@ const DeleteContactModal = ({
         state,
         dispatch
       );
-      addNotification(
-        'success',
-        `"${selectedContactToDelete?.person}" deleted from contact list.`
-      );
+      addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
     } catch (e) {
       // runNotification(`Contact deletion falied. Reason: ${e.message}`);
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
