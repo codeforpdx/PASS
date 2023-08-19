@@ -66,7 +66,7 @@ const SetAclPermsDocContainerForm = () => {
       );
       addNotification(
         'success',
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
           permissionState.podUrlToSetPermissionsTo
         } for Documents Container.`
       );
