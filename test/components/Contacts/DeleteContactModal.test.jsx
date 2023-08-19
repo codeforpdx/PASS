@@ -3,6 +3,7 @@ import { render, cleanup, waitForElementToBeRemoved } from '@testing-library/rea
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi, afterEach } from 'vitest';
 import { DeleteContactModal } from '../../../src/components/Modals';
+import { NotificationContext } from '../../../src/contexts/NotificationContext';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
@@ -50,16 +51,19 @@ it('hides/unmounts when showDeleteContactModal is false', () => {
 
 it('triggers deleteContact/deletion of contact when delete button is clicked', async () => {
   const removeContact = vi.fn();
+  const addNotification = vi.fn();
   const setModal = () => {};
   const client = { person: 'john' };
   const user = userEvent.setup();
   const { getByLabelText } = render(
-    <DeleteContactModal
-      showDeleteContactModal
-      setShowDeleteContactModal={setModal}
-      selectedContactToDelete={client}
-      deleteContact={removeContact}
-    />
+    <NotificationContext.Provider value={{ addNotification }}>
+      <DeleteContactModal
+        showDeleteContactModal
+        setShowDeleteContactModal={setModal}
+        selectedContactToDelete={client}
+        deleteContact={removeContact}
+      />
+    </NotificationContext.Provider>
   );
 
   const deleteButton = getByLabelText('Delete Contact Button');

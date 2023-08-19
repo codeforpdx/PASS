@@ -4,13 +4,18 @@ import React from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+// Custom hook imports
+import useNotification from '../hooks/useNotification';
 // Component Imports
 import { NavBar } from '../components/NavBar';
 import { InactivityMessage } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
+import NotificationContainer from '../components/Notification/NotificationContainer';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
+  const { state } = useNotification();
+
   return (
     <Box
       aria-label={ariaLabel}
@@ -24,6 +29,7 @@ const Layout = ({ ariaLabel, children }) => {
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
+      <NotificationContainer notifications={state.notifications} />
     </Box>
   );
 };

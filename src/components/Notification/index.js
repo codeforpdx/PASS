@@ -3,6 +3,7 @@ import InactivityMessage from './InactivityMessage';
 import LoadingAnimation from './LoadingAnimation';
 import StatusMessage from './StatusMessage';
 import StatusNotification from './StatusNotification';
+import NotificationContainer from './NotificationContainer';
 
 /**
  * Components and functions related to Status Notification functionality within
@@ -16,5 +17,6 @@ export {
   InactivityMessage,
   LoadingAnimation,
   StatusMessage,
-  StatusNotification
+  StatusNotification,
+  NotificationContainer
 };
