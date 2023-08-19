@@ -23,6 +23,7 @@ import { DocumentListContext } from '@contexts';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
@@ -39,6 +40,7 @@ import UploadButtonGroup from './UploadButtonGroup';
  */
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
@@ -68,6 +70,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
 
     if (!docType) {
       runNotification('Upload failed. Reason: No document type selected.', 5, state, dispatch);
+      addNotification('error', 'Upload failed. Reason: No document type selected.');
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
       }, 3000);
@@ -85,6 +88,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     try {
       await addDocument(fileDesc, file);
       runNotification(`File uploaded to Solid.`, 5, state, dispatch);
+      addNotification('success', `File uploaded to Solid.`);
     } catch (error) {
       const confirmationMessage =
         'A file of this name and type already exists on the pod. Would you like to replace it?';
@@ -94,10 +98,12 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
           if (window.confirm(confirmationMessage)) {
             await replaceDocument(fileDesc, file);
             runNotification(`File updated on Solid.`, 5, state, dispatch);
+            addNotification('success', `File updated on Solid.`);
           }
           break;
         default:
           runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
+          addNotification('error', `File failed to upload. Reason: ${error.message}`);
       }
     } finally {
       clearInputFields();

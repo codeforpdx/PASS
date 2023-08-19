@@ -14,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { runNotification } from '@utils';
 // Component Imports
 import { FormSection } from '../Form';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @typedef {object} DeleteContactModalParams
@@ -27,9 +28,9 @@ import { FormSection } from '../Form';
  * DeleteContactModal Component - Component that allows users to delete other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Contacts
+ * @memberof Modals
  * @name DeleteContactModal
- * @param {DeleteContactModalParams} root0 - params
+ * @param {DeleteContactModalParams} props - params
  * @returns {React.JSX.Element} - The delete contact modal
  */
 const DeleteContactModal = ({
@@ -39,6 +40,7 @@ const DeleteContactModal = ({
   deleteContact
 }) => {
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
 
   // Event handler for deleting from contact list
   const handleDeleteContact = async (event) => {
@@ -57,8 +59,10 @@ const DeleteContactModal = ({
         state,
         dispatch
       );
+      addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
     } catch (e) {
-      runNotification(`Contact deletion falied. Reason: ${e.message}`);
+      // runNotification(`Contact deletion falied. Reason: ${e.message}`);
+      addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
         setShowDeleteContactModal(false);

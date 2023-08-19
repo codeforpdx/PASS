@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import { runNotification } from '@utils';
 import { FormSection } from '../Form';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @memberof Contcts
@@ -32,11 +33,15 @@ const renderWebId = (username) => {
  *
  * @memberof Contacts
  * @name AddContactModal
- * @param {Function} addContact  - function to add a contact
+ * @param {object} props - react props
+ * @param {Function} props.addContact  - function to add a contact
+ * @param {boolean} props.showAddContactModal - whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
@@ -107,6 +112,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
         5,
         state,
         dispatch
+      );
+      addNotification(
+        'success',
+        `"${userObject.givenName} ${userObject.familyName}" added to client list`
       );
       setTimeout(() => {
         setUserGivenName('');
