@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import ShieldIcon from '@mui/icons-material/Shield';
+import SettingsIcon from '@mui/icons-material/Settings';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
@@ -184,7 +184,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
                 disabled={permissionState.podUrlToSetPermissionsTo === podUrl || state.processing}
                 type="submit"
                 color="primary"
-                startIcon={<ShieldIcon />}
+                startIcon={<SettingsIcon />}
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >

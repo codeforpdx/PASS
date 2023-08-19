@@ -6,7 +6,7 @@ import { useSession } from '@hooks';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
-import ShieldIcon from '@mui/icons-material/Shield';
+import SettingsIcon from '@mui/icons-material/Settings';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Context Imports
@@ -67,7 +67,7 @@ const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
       </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name)}>
-          <ShieldIcon />
+          <SettingsIcon />
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">

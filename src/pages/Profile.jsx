@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import ShieldIcon from '@mui/icons-material/Shield';
+import SettingsIcon from '@mui/icons-material/Settings';
 import Typography from '@mui/material/Typography';
 // Model Imports
 import { fetchProfileInfo } from '../model-helpers';
@@ -115,7 +115,7 @@ const Profile = () => {
               color="primary"
               size="small"
               aria-label="Set Container Permissions Button"
-              startIcon={<ShieldIcon />}
+              startIcon={<SettingsIcon />}
               onClick={() => handleAclPermissionsModal('container')}
             >
               Set Permission to All Documents

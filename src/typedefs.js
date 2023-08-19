@@ -185,33 +185,6 @@ const React = require('react');
  */
 
 /**
- * clientListTableProps is an object that stores the props for the
- * ClientListTable component
- *
- * @exports clientListTableProps
- * @typedef {object} clientListTableProps
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
- * - React set function for DeleteClientModal
- * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
- * - React set function for setting client to be deleted
- * @memberof typedefs
- */
-
-/**
- * clientListTableRowProps is an object that stores the props for the
- * ClientListTableRow component
- *
- * @exports clientListTableRowProps
- * @typedef {object} clientListTableRowProps
- * @property {object} client - Object containing client information
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
- * - React set function for DeleteClientModal
- * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
- * - React set function for setting client to be deleted
- * @memberof typedefs
- */
-
-/**
  * uploadDocumentModalProps is an object that stores the props for the
  * UploadDocumentModal component
  *
@@ -252,7 +225,7 @@ const React = require('react');
  *
  * @exports profileComponentProps
  * @typedef {object} profileComponentProps
- * @property {object} [clientProfile] - Client object with data from profile
+ * @property {object} [clientProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -265,7 +238,7 @@ const React = require('react');
  * @typedef {object} profileImageFieldProps
  * @property {() => void} loadProfileData - Handler function for setting local
  * state for profile card in PASS
- * @property {object} [clientProfile] - Client object with data from profile
+ * @property {object} [clientProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
