@@ -102,7 +102,7 @@ export const createOutbox = async (session, podUrl) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} podUrl - The pod URL of user
  * @returns {Promise} Promise - Generates an inbox for Pod upon log in if
- * user's Pod does not have the an outbox to begin with
+ * user's Pod does not have the an inbox to begin with
  */
 export const createInbox = async (session, podUrl) => {
   const inboxContainerUrl = `${podUrl}PASS/Inbox/`;
