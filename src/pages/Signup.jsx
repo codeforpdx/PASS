@@ -1,8 +1,7 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { TextField, Button, CardHeader } from '@mui/material';
-
+// Inrupt Imports
 import {
   createAcl,
   createContainerAt,
@@ -16,16 +15,18 @@ import {
   getStringNoLocale
 } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
-
-import { ENV } from '@constants';
-
+// Material UI imports
+import { TextField, Button, CardHeader } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+// Hooks
 import useContactsList from '@hooks/useContactsList';
 import useSession from '@hooks/useSession';
+
+import { ENV } from '@constants';
 
 const formRowStyle = {
   margin: '20px 0'
@@ -165,6 +166,7 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
             variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <br />
           <TextField
@@ -175,6 +177,7 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
             variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <br />
           <TextField
@@ -185,6 +188,7 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
             variant="outlined"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            required
           />
           <br />
           <Button
