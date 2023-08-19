@@ -18,6 +18,7 @@ import { SignedInUserContext } from '@contexts';
 // Component Imports
 import DocumentSelection from './DocumentSelection';
 import FormSection from './FormSection';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * SetAclPermissionForm Component - Component that generates the form for setting
@@ -30,6 +31,7 @@ import FormSection from './FormSection';
 const SetAclPermissionForm = () => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
   const [permissionState, setPermissionState] = useState({
@@ -65,8 +67,15 @@ const SetAclPermissionForm = () => {
         state,
         dispatch
       );
+      addNotification(
+        'success',
+        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
+          permissionState.podUrlToSetPermissionsTo
+        } for ${docType}.`
+      );
     } catch (error) {
       runNotification('Failed to set permissions. Reason: File not found.', 5, state, dispatch);
+      addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
       setTimeout(() => {
         clearInputFields();

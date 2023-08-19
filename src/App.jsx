@@ -8,6 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 // Context Imports
 import UserDataContextProvider from './contexts/UserDataContext';
+import { NotificationContextProvider } from './contexts/NotificationContext';
 // Theme Imports
 import theme from './theme';
 // Route Imports
@@ -29,13 +30,15 @@ const App = () => (
     <SessionProvider restorePreviousSession>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <UserDataContextProvider>
-          <BrowserRouter>
-            <Layout>
-              <AppRoutes />
-            </Layout>
-          </BrowserRouter>
-        </UserDataContextProvider>
+        <NotificationContextProvider>
+          <UserDataContextProvider>
+            <BrowserRouter>
+              <Layout>
+                <AppRoutes />
+              </Layout>
+            </BrowserRouter>
+          </UserDataContextProvider>
+        </NotificationContextProvider>
       </ThemeProvider>
     </SessionProvider>
   </QueryClientProvider>

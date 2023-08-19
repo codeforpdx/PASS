@@ -29,6 +29,29 @@ const theme = createTheme({
       main: '#64748B',
       contrastText: '#fff'
     }
+  },
+  // color properties TBD for status snackbar severieties
+  components: {
+    MuiAlert: {
+      styleOverrides: {
+        filledSuccess: {
+          backgroundColor: 'green',
+          color: 'white'
+        },
+        filledError: {
+          backgroundColor: '#red',
+          color: 'white'
+        },
+        filledWarning: {
+          backgroundColor: 'orange',
+          color: 'white'
+        },
+        filledInfo: {
+          backgroundColor: 'blue',
+          color: 'white'
+        }
+      }
+    }
   }
 });
 
