@@ -65,9 +65,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
 
     if (!docType) {
       addNotification('error', 'Upload failed. Reason: No document type selected.');
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 3000);
+      setTimeout(() => {}, 3000);
       return;
     }
 
@@ -102,9 +100,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
 
   return (
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
-      <FormSection
-        title="Upload Document"
-      >
+      <FormSection title="Upload Document">
         <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel
             control={<Switch />}

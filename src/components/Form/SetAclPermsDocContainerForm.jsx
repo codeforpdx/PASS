@@ -59,15 +59,12 @@ const SetAclPermsDocContainerForm = () => {
     } catch (error) {
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {
-      }, 3000);
+      setTimeout(() => {}, 3000);
     }
   };
 
   return (
-    <FormSection
-      title="Permission for Container"
-    >
+    <FormSection title="Permission for Container">
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
@@ -108,11 +105,7 @@ const SetAclPermsDocContainerForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-            >
+            <Button variant="contained" type="submit" color="primary">
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Set Permission'}

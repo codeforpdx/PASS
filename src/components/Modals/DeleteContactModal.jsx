@@ -9,8 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 // Component Imports
-import { FormSection } from '../Form';
 import useNotification from '@hooks/useNotification';
+import { FormSection } from '../Form';
 
 /**
  * @typedef {object} DeleteContactModalParams
@@ -59,9 +59,7 @@ const DeleteContactModal = ({
       aria-describedby="dialog-description"
       onClose={() => setShowDeleteContactModal(false)}
     >
-      <FormSection
-        title="Delete Contact"
-      >
+      <FormSection title="Delete Contact">
         <form onSubmit={handleDeleteContact} autoComplete="off">
           <DialogContent>
             <DialogContentText id="dialog-description">

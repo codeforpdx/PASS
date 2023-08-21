@@ -20,11 +20,7 @@ import CircularProgress from '@mui/material/CircularProgress';
  * {@link formSectionProps})
  */
 
-const FormSection = ({
-  title,
-  showSpinner,
-  children
-}) => (
+const FormSection = ({ title, showSpinner, children }) => (
   <Box
     sx={{
       marginTop: 1,

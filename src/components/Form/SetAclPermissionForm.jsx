@@ -42,10 +42,6 @@ const SetAclPermissionForm = () => {
     setDocType(event.target.value);
   };
 
-  const clearInputFields = () => {
-    dispatch({ type: 'CLEAR_PROCESSING' });
-  };
-
   // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
@@ -66,16 +62,12 @@ const SetAclPermissionForm = () => {
     } catch (error) {
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
+      setTimeout(() => {}, 3000);
     }
   };
 
   return (
-    <FormSection
-      title="Permission for Document"
-    >
+    <FormSection title="Permission for Document">
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <Typography
@@ -137,11 +129,7 @@ const SetAclPermissionForm = () => {
           />
 
           <FormControl fullWidth sx={{ marginTop: '2rem' }}>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-            >
+            <Button variant="contained" type="submit" color="primary">
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Set Permission'}
