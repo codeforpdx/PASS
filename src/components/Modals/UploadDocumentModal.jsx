@@ -1,7 +1,5 @@
 // React Imports
 import React, { useState, useContext } from 'react';
-// Custom Hook Imports
-import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -16,8 +14,6 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// Utility Imports
-import { runNotification } from '@utils';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
@@ -39,7 +35,6 @@ import useNotification from '../../hooks/useNotification';
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
-  const { state, dispatch } = useStatusNotification();
   const { addNotification } = useNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
@@ -69,7 +64,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     e.preventDefault();
 
     if (!docType) {
-      runNotification('Upload failed. Reason: No document type selected.', 5, state, dispatch);
       addNotification('error', 'Upload failed. Reason: No document type selected.');
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PROCESSING' });
@@ -83,11 +77,9 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       date: expireDate,
       description: docDescription
     };
-    runNotification(`Uploading file to Solid...`, 3, state, dispatch);
 
     try {
       await addDocument(fileDesc, file);
-      runNotification(`File uploaded to Solid.`, 5, state, dispatch);
       addNotification('success', `File uploaded to Solid.`);
     } catch (error) {
       const confirmationMessage =
@@ -97,12 +89,10 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         case 'File already exists':
           if (window.confirm(confirmationMessage)) {
             await replaceDocument(fileDesc, file);
-            runNotification(`File updated on Solid.`, 5, state, dispatch);
             addNotification('success', `File updated on Solid.`);
           }
           break;
         default:
-          runNotification(`File failed to upload. Reason: ${error.message}`, 5, state, dispatch);
           addNotification('error', `File failed to upload. Reason: ${error.message}`);
       }
     } finally {
@@ -114,10 +104,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <FormSection
         title="Upload Document"
-        state={state}
-        statusType="Upload status"
-        defaultMessage="To be uploaded..."
-        file={file}
       >
         <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel
@@ -183,7 +169,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               </Button>
               <Button
                 variant="contained"
-                disabled={state.processing || !file}
                 type="submit"
                 color="primary"
                 startIcon={<FileUploadIcon />}
