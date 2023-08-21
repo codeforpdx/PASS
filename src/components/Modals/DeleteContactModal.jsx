@@ -1,7 +1,5 @@
 // React Imports
 import React from 'react';
-// Custom Hook Imports
-import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -10,11 +8,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-// Utility Imports
-import { runNotification } from '@utils';
 // Component Imports
 import { FormSection } from '../Form';
-import useNotification from '../../hooks/useNotification';
+import useNotification from '@hooks/useNotification';
 
 /**
  * @typedef {object} DeleteContactModalParams
@@ -39,29 +35,15 @@ const DeleteContactModal = ({
   selectedContactToDelete,
   deleteContact
 }) => {
-  const { state, dispatch } = useStatusNotification();
   const { addNotification } = useNotification();
 
   // Event handler for deleting from contact list
   const handleDeleteContact = async (event) => {
     event.preventDefault();
-    runNotification(
-      `Deleting "${selectedContactToDelete?.person}" from contact list...`,
-      5,
-      state,
-      dispatch
-    );
     try {
       await deleteContact(selectedContactToDelete);
-      runNotification(
-        `"${selectedContactToDelete?.person}" deleted from contact list...`,
-        5,
-        state,
-        dispatch
-      );
       addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
     } catch (e) {
-      // runNotification(`Contact deletion falied. Reason: ${e.message}`);
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
     } finally {
       setTimeout(() => {
@@ -79,9 +61,6 @@ const DeleteContactModal = ({
     >
       <FormSection
         title="Delete Contact"
-        state={state}
-        statusType="Status"
-        defaultMessage="To be deleted..."
       >
         <form onSubmit={handleDeleteContact} autoComplete="off">
           <DialogContent>
@@ -107,7 +86,6 @@ const DeleteContactModal = ({
               color="primary"
               aria-label="Delete Contact Button"
               endIcon={<CheckIcon />}
-              disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
             >
               DELETE CLIENT

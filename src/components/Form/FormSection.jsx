@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 // Component Imports
-import { StatusNotification } from '../Notification';
 
 /**
  * @typedef {import('../../typedefs').formSectionProps} formSectionProps
@@ -23,11 +22,7 @@ import { StatusNotification } from '../Notification';
 
 const FormSection = ({
   title,
-  state,
   showSpinner,
-  statusType,
-  defaultMessage,
-  file = null,
   children
 }) => (
   <Box
@@ -48,12 +43,6 @@ const FormSection = ({
     </Typography>
     {children}
     {showSpinner && <CircularProgress />}
-    <StatusNotification
-      state={state}
-      statusType={statusType}
-      defaultMessage={defaultMessage}
-      file={file}
-    />
   </Box>
 );
 
