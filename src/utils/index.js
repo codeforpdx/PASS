@@ -6,11 +6,10 @@
  * @module utils
  * @namespace utils
  */
-import runNotification from './frontend/notification-helper';
 import getDriversLicenseData from './barcode/barcode-scan';
 import formattedDate from './barcode/barcode-date-parser';
 
-export { runNotification, getDriversLicenseData, formattedDate };
+export { getDriversLicenseData, formattedDate };
 
 export * from './cryptography/credentials-helper';
 export * from './network/session-core';
