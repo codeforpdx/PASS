@@ -35,10 +35,12 @@ const SetAclPermsDocContainerForm = () => {
     podUrlToSetPermissionsTo: '',
     permissionType: ''
   });
+  const [processing, setProcessing] = useState(false);
 
   // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
+    setProcessing(true);
     const permissions = event.target.setAclPerms.value
       ? {
           read: event.target.setAclPerms.value === 'Give',
@@ -59,7 +61,9 @@ const SetAclPermsDocContainerForm = () => {
     } catch (error) {
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {}, 3000);
+      setTimeout(() => {
+        setProcessing(false);
+      }, 3000);
     }
   };
 
@@ -105,7 +109,7 @@ const SetAclPermsDocContainerForm = () => {
           </FormControl>
           <br />
           <FormControl fullWidth>
-            <Button variant="contained" type="submit" color="primary">
+            <Button variant="contained" disabled={processing} type="submit" color="primary">
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Set Permission'}

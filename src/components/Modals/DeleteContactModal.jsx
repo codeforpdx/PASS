@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -36,10 +36,12 @@ const DeleteContactModal = ({
   deleteContact
 }) => {
   const { addNotification } = useNotification();
+  const [processing, setProcessing] = useState(false);
 
   // Event handler for deleting from contact list
   const handleDeleteContact = async (event) => {
     event.preventDefault();
+    setProcessing(true);
     try {
       await deleteContact(selectedContactToDelete);
       addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
@@ -48,6 +50,7 @@ const DeleteContactModal = ({
     } finally {
       setTimeout(() => {
         setShowDeleteContactModal(false);
+        setProcessing(false);
       }, 2000);
     }
   };
@@ -80,6 +83,7 @@ const DeleteContactModal = ({
 
             <Button
               type="submit"
+              disabled={processing}
               variant="contained"
               color="primary"
               aria-label="Delete Contact Button"

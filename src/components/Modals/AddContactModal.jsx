@@ -43,6 +43,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [processing, setProcessing] = useState(false);
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -52,6 +53,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
 
   const handleAddContact = async (event) => {
     event.preventDefault();
+    setProcessing(true);
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
@@ -71,6 +73,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
         setUsername('');
         setWebId('');
         setShowAddContactModal(false);
+        setProcessing(false);
       }, 2000);
     }
   };
@@ -153,6 +156,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             </Button>
             <Button
               variant="contained"
+              disabled={processing}
               color="primary"
               endIcon={<CheckIcon />}
               type="submit"
