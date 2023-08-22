@@ -9,11 +9,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+// PASS Custom Components
 import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '@components/Form';
 import { UploadDocumentModal } from '@components/Modals';
 import { DocumentTable } from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
+// Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
 
 /**
