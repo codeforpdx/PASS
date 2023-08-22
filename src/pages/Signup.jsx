@@ -16,12 +16,20 @@ import {
 } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
 // Material UI imports
-import { TextField, Button, CardHeader } from '@mui/material';
+import TextField from  '@mui/material/TextField'; 
+import Button from  '@mui/material/Button';
+import CardHeader from  '@mui/material/CardHeader';
+import FilledInput from  '@mui/material/FilledInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { FormControl } from '@mui/base';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 // Hooks
 import useContactsList from '@hooks/useContactsList';
 import useSession from '@hooks/useSession';
@@ -129,6 +137,8 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [searchParams] = useSearchParams();
   const handleSubmit = async (event) => {
@@ -169,25 +179,49 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
             required
           />
           <br />
-          <TextField
+          <InputLabel htmlFor="password-form">Password</InputLabel>
+          <FilledInput
             style={textFieldStyle}
             id="password-form"
             aria-label="Password"
-            label="Password"
-            variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge='end'
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            minLength="8"
             required
           />
           <br />
-          <TextField
+          <InputLabel htmlFor="confirm-password-form">Confirm Password</InputLabel>
+          <FilledInput
             style={textFieldStyle}
             id="confirm-password-form"
             aria-label="Confirm Password"
-            label="Confirm Password"
-            variant="outlined"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            type={showConfirmPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle confirm password visibility'
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  edge='end'
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            minLength="8"
             required
           />
           <br />
