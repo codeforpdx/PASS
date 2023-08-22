@@ -3,27 +3,32 @@ version: '3.7'
 services:
   react-app:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile.react
     ports:
-      - "8080:80"  # Change the mapping to use port 8080 on the host
+      - "8080:80"
 
   solid-server:
-    image: solidproject/community-server:latest
+    image: solidproject/community-server:6.0.0
+    restart: always
+    user: root
     ports:
       - "3000:3000"
-    command: ["--baseUrl", "https://localhost:3000"]  # Set the correct base URL 
-    environment:
-      CSS_LOGGING_LEVEL: debug  # Adjust the log level as needed
+    #volumes:
+      #- /<path to volume>/solid-css/data:/data # Mount data directory
+      #- /<path to config>/solid-css/config:/config # Mount config directory
+      #- /<path to key>/ssl/server-key.pem:/home/user/ssl/private/key.pem # Mount SSL private key
+      #- /<path to cert>/ssl/server-cert.pem:/home/user/ssl/certs/cert.pem # Mount SSL certificates
+    #command: -c /config/pass-config.json -f /data -b https://opencommons.net  # Run with custom config
+    #command: -f /data -b https://opencommons.net # Run with default config
+  #nginx:
+   # image: nginx:alpine
+   # ports:
+   #   - "8081:80"
+   #volumes:
+   # - ./config/nginx.conf:/etc/nginx/nginx.conf
+   # - ./config/ssl:/etc/nginx/ssl
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "8081:80"  # Change the mapping to use port 8081 on the host
-      - "443:443"
-    volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/ssl:/etc/nginx/ssl
-    depends_on:
-      - react-app
-      - solid-server
+    #depends_on:
+    #  - react-app
+    #  - solid-server
