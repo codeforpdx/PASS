@@ -16,10 +16,10 @@ import {
 } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
 // Material UI imports
-import TextField from  '@mui/material/TextField'; 
-import Button from  '@mui/material/Button';
-import CardHeader from  '@mui/material/CardHeader';
-import FilledInput from  '@mui/material/FilledInput';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import CardHeader from '@mui/material/CardHeader';
+import FilledInput from '@mui/material/FilledInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
@@ -28,7 +28,6 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { FormControl } from '@mui/base';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 // Hooks
 import useContactsList from '@hooks/useContactsList';
@@ -183,16 +182,18 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
           <FilledInput
             style={textFieldStyle}
             id="password-form"
-            aria-label="Password"
+            inputProps={{
+              'aria-label': 'Password'
+            }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={showPassword ? 'text' : 'password'}
             endAdornment={
-              <InputAdornment position='end'>
+              <InputAdornment position="end">
                 <IconButton
-                  aria-label='toggle password visibility'
+                  aria-label="toggle password visibility"
                   onClick={() => setShowPassword(!showPassword)}
-                  edge='end'
+                  edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -206,16 +207,18 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
           <FilledInput
             style={textFieldStyle}
             id="confirm-password-form"
-            aria-label="Confirm Password"
+            inputProps={{
+              'aria-label': 'Confirm Password'
+            }}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             type={showConfirmPassword ? 'text' : 'password'}
             endAdornment={
-              <InputAdornment position='end'>
+              <InputAdornment position="end">
                 <IconButton
-                  aria-label='toggle confirm password visibility'
+                  aria-label="toggle confirm password visibility"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  edge='end'
+                  edge="end"
                 >
                   {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>

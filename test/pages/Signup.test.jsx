@@ -59,18 +59,20 @@ describe('Signup Page', () => {
       }
     };
     const user = userEvent.setup();
-    const { getByRole } = render(<MockSignupContexts session={session} />);
+    const { getByRole, getAllByRole, getByLabelText } = render(
+      <MockSignupContexts session={session} />
+    );
     global.fetch = vi.fn(() => Promise.resolve({ json: vi.fn() }));
     const email = 'tim@example.com';
     const password = 'password';
     const confirmPassword = 'password';
     const emailField = getByRole('textbox', { name: 'Email' });
-    const passwordField = getByRole('textbox', { name: 'Password' });
-    const confirmPasswordField = getByRole('textbox', { name: 'Confirm Password' });
+    const passwordField = getByLabelText('Password');
+    const confirmPasswordField = getByLabelText('Confirm Password');
     await user.type(emailField, email);
     await user.type(passwordField, password);
     await user.type(confirmPasswordField, confirmPassword);
-    await user.click(getByRole('button'));
+    await user.click(getAllByRole('button')[2]);
 
     const mockBody = {
       email,
