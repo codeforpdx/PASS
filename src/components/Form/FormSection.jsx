@@ -3,7 +3,6 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 // Component Imports
 
 /**
@@ -20,7 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
  * {@link formSectionProps})
  */
 
-const FormSection = ({ title, showSpinner, children }) => (
+const FormSection = ({ title, children }) => (
   <Box
     sx={{
       marginTop: 1,
@@ -38,7 +37,6 @@ const FormSection = ({ title, showSpinner, children }) => (
       {title}
     </Typography>
     {children}
-    {showSpinner && <CircularProgress />}
   </Box>
 );
 

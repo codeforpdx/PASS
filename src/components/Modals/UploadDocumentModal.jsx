@@ -63,12 +63,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const handleDocUpload = async (e) => {
     e.preventDefault();
 
-    if (!docType) {
-      addNotification('error', 'Upload failed. Reason: No document type selected.');
-      setTimeout(() => {}, 3000);
-      return;
-    }
-
     const fileDesc = {
       name: file.name,
       type: docType,

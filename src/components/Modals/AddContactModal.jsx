@@ -67,14 +67,13 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
         'success',
         `"${userObject.givenName} ${userObject.familyName}" added to client list`
       );
-      setTimeout(() => {
-        setUserGivenName('');
-        setUserFamilyName('');
-        setUsername('');
-        setWebId('');
-        setShowAddContactModal(false);
-        setProcessing(false);
-      }, 2000);
+
+      setUserGivenName('');
+      setUserFamilyName('');
+      setUsername('');
+      setWebId('');
+      setShowAddContactModal(false);
+      setProcessing(false);
     }
   };
 

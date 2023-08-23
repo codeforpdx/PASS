@@ -64,9 +64,7 @@ const SetAclPermissionForm = () => {
     } catch (error) {
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {
-        setProcessing(false);
-      }, 3000);
+      setProcessing(false);
     }
   };
 

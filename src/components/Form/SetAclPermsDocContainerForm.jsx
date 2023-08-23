@@ -54,16 +54,14 @@ const SetAclPermsDocContainerForm = () => {
 
       addNotification(
         'success',
-        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
+        `${permissions.read ? 'Gave permission to' : 'Revoked permission from'} ${
           permissionState.podUrlToSetPermissionsTo
         } for Documents Container.`
       );
     } catch (error) {
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {
-        setProcessing(false);
-      }, 3000);
+      setProcessing(false);
     }
   };
 
