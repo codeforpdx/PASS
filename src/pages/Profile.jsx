@@ -36,23 +36,27 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
 
   // Profile related states
-  const client = location.state?.client;
-  const [clientProfile, setClientProfile] = useState(null);
-  const webIdUrl = client?.webId ?? session.info.webId;
+  const contact = location.state?.contact;
+  const [contactProfile, setContactProfile] = useState(null);
+  const webIdUrl = contact?.webId ?? session.info.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
     const fetchClientProfile = async () => {
-      const profileData = await fetchProfileInfo(webIdUrl);
-      setClientProfile({ ...client, ...profileData.profileInfo });
+      const profileData = await fetchProfileInfo(session, webIdUrl);
+      setContactProfile({
+        ...contact,
+        ...profileData.profileInfo,
+        ...profileData.privateProfileInfo
+      });
     };
 
-    if (client) {
+    if (contact) {
       fetchClientProfile();
     } else {
-      setClientProfile(null);
+      setContactProfile(null);
     }
-  }, [client]);
+  }, [contact]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -87,7 +91,7 @@ const Profile = () => {
           </Link>
         </Typography>
 
-        <ProfileComponent clientProfile={clientProfile} />
+        <ProfileComponent contactProfile={contactProfile} />
 
         <Button
           variant="contained"
@@ -101,7 +105,7 @@ const Profile = () => {
         </Button>
         <UploadDocumentModal showModal={showModal} setShowModal={setShowModal} />
         <DocumentTable />
-        {!client && (
+        {!contact && (
           <>
             <SetAclPermsDocContainerForm />
             <SetAclPermissionForm />

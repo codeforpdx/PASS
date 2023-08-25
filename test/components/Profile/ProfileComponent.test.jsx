@@ -34,7 +34,7 @@ describe('ProfileComponent', () => {
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent clientProfile={null} />
+        <ProfileComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
     let editButton = queryByRole('button', { name: 'Edit' });
@@ -56,7 +56,7 @@ describe('ProfileComponent', () => {
   it('renders edit buttons after clicking on cancel button', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent clientProfile={null} />
+        <ProfileComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
     let editButton = queryByRole('button', { name: 'Edit' });
@@ -80,10 +80,10 @@ describe('ProfileComponent', () => {
     expect(cancelButton).toBeNull();
   });
 
-  it('renders no edit button for ProfileInputFields if clientProfile is not null', () => {
+  it('renders no edit button for ProfileInputFields if contactProfile is not null', () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent clientProfile={{}} />
+        <ProfileComponent contactProfile={{}} />
       </SignedInUserContext.Provider>
     );
     const editButton = queryByRole('button', { name: 'Edit' });
