@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useMemo, useEffect } from '
 import { getPodUrlAll } from '@inrupt/solid-client';
 import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createDocumentsContainer, createPrivateProfile, createPublicContainer } from '../utils';
+import { createPASSContainer } from '../utils';
 // Model Imports
 import {
   fetchProfileInfo,
@@ -64,10 +64,9 @@ export const SignedInUserContextProvider = ({ children }) => {
         }
         setProfileData(fetchedProfileData);
         await Promise.all([
-          createPublicContainer(session, fetchedPodUrl),
-          createPrivateProfile(session, fetchedPodUrl),
-          generatePrivateProfileTTL(session, fetchedPodUrl),
-          createDocumentsContainer(session, fetchedPodUrl)
+          createPASSContainer(session, fetchedPodUrl, 'Documents'),
+          createPASSContainer(session, fetchedPodUrl, 'Profile'),
+          generatePrivateProfileTTL(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);
