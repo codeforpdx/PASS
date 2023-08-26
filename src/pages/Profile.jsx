@@ -9,14 +9,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-// Model Imports
+// PASS Custom Components
+import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '@components/Form';
+import { UploadDocumentModal } from '@components/Modals';
+import { DocumentTable } from '@components/Documents';
+import { ProfileComponent } from '@components/Profile';
+import { LoadingAnimation } from '@components/Notification';
+// Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
-// Component Inputs
-import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '../components/Form';
-import { UploadDocumentModal } from '../components/Modals';
-import { DocumentTable } from '../components/Documents';
-import { ProfileComponent } from '../components/Profile';
-import { LoadingAnimation } from '../components/Notification';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -72,6 +72,10 @@ const Profile = () => {
     );
   }
 
+  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
+    session.info.webId
+  )}`;
+
   return (
     <Box
       sx={{
@@ -84,6 +88,13 @@ const Profile = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
+        <Typography>
+          {client ?? (
+            <a href={signupLink} rel="noopener noreferrer" target="_blank">
+              Your Signup Link
+            </a>
+          )}
+        </Typography>
         <Typography>
           User WebId:{' '}
           <Link to={webIdUrl} target="_blank" rel="noreferrer">
