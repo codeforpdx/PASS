@@ -131,7 +131,12 @@ const SetAclPermissionForm = () => {
           />
 
           <FormControl fullWidth sx={{ marginTop: '2rem' }}>
-            <Button variant="contained" disabled={processing} type="submit" color="primary">
+            <Button
+              variant="contained"
+              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
+              type="submit"
+              color="primary"
+            >
               {permissionState.permissionType
                 ? `${permissionState.permissionType} Permission`
                 : 'Set Permission'}

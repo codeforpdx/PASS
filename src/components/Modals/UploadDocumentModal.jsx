@@ -43,6 +43,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
   const { addDocument, replaceDocument } = useContext(DocumentListContext);
+  const [processing, setProcessing] = useState(false);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -62,6 +63,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   // Event handler for form/document submission to Pod
   const handleDocUpload = async (e) => {
     e.preventDefault();
+    setProcessing(true);
 
     const fileDesc = {
       name: file.name,
@@ -88,6 +90,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
           addNotification('error', `File failed to upload. Reason: ${error.message}`);
       }
     } finally {
+      setProcessing(false);
       clearInputFields();
     }
   };
@@ -159,6 +162,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               </Button>
               <Button
                 variant="contained"
+                disabled={processing || !file}
                 type="submit"
                 color="primary"
                 startIcon={<FileUploadIcon />}
