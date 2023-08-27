@@ -12,18 +12,12 @@ import Container from '@mui/material/Container';
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
 // PASS Custom Components
-import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '@components/Form';
-import { UploadDocumentModal } from '@components/Modals';
+import { UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
 import { DocumentTable } from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
-// Component Inputs
-import { UploadDocumentModal, SetAclPermissionsModal } from '../components/Modals';
-import { DocumentTable } from '../components/Documents';
-import { ProfileComponent } from '../components/Profile';
-import { LoadingAnimation } from '../components/Notification';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -116,7 +110,7 @@ const Profile = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
         <Typography>
-          {client ?? (
+          {contact ?? (
             <a href={signupLink} rel="noopener noreferrer" target="_blank">
               Your Signup Link
             </a>
@@ -132,7 +126,7 @@ const Profile = () => {
         <ProfileComponent contactProfile={contactProfile} />
 
         <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-          {!client && (
+          {!contact && (
             <Button
               variant="contained"
               color="primary"

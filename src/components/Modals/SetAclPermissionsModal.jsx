@@ -19,6 +19,7 @@ import { runNotification, setDocAclPermission, setDocContainerAclPermission } fr
 import { SignedInUserContext } from '@contexts';
 // Component Imports
 import { FormSection } from '../Form';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @typedef {import("../../typedefs.js").setAclPermissionsModalProps} setAclPermissionsModalProps
@@ -37,6 +38,7 @@ import { FormSection } from '../Form';
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
   const { state, dispatch } = useStatusNotification();
+  const { addNotification } = useNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [permissionState, setPermissionState] = useState({
     podUrlToSetPermissionsTo: '',
@@ -85,13 +87,20 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
       runNotification(
         `${permissions.read ? 'Give' : 'Revoke'} permission to ${
           permissionState.podUrlToSetPermissionsTo
-        } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docType}.`,
+        } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`,
         5,
         state,
         dispatch
       );
+      addNotification(
+        'success',
+        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
+          permissionState.podUrlToSetPermissionsTo
+        } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`
+      );
     } catch (error) {
       runNotification(`Failed to set permissions. Reason: ${error.message}`, 5, state, dispatch);
+      addNotification('error', `Failed to set permissions. Reason: ${error.message}`);
     } finally {
       setTimeout(() => {
         clearInputFields();
