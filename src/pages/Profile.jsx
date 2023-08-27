@@ -88,13 +88,13 @@ const Profile = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-        <Typography>
-          {contact ?? (
+        {!contact ? (
+          <Typography>
             <a href={signupLink} rel="noopener noreferrer" target="_blank">
               Your Signup Link
             </a>
-          )}
-        </Typography>
+          </Typography>
+        ) : null}
         <Typography>
           User WebId:{' '}
           <Link to={webIdUrl} target="_blank" rel="noreferrer">
