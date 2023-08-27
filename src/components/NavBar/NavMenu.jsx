@@ -34,7 +34,7 @@ const NavMenu = ({
   profileImg
 }) => {
   const theme = useTheme();
-  const { setClient } = useContext(DocumentListContext);
+  const { setContact } = useContext(DocumentListContext);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -82,9 +82,9 @@ const NavMenu = ({
         {/* profile */}
         <Link
           to="/profile"
-          state={{ client: null }}
+          state={{ contact: null }}
           style={{ textDecoration: 'none', color: theme.palette.primary.main }}
-          onClick={() => setClient(null)}
+          onClick={() => setContact(null)}
         >
           <MenuItem
             component={Button}
