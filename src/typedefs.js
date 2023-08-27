@@ -291,8 +291,8 @@ const React = require('react');
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for setting showModal state
  * @property {object} dataset
- * - State object containing information for which version of modal to display, and
- * a relevant file name, if any.
+ * - State object containing information for which version of modal to display,
+ * a relevant file name (if any), and a relevant document type (if any).
  * @memberof typedefs
  */
 

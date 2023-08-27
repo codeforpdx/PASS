@@ -6,7 +6,7 @@ import { useSession } from '@hooks';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ShareIcon from '@mui/icons-material/Share';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Context Imports
@@ -66,8 +66,8 @@ const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name)}>
-          <SettingsIcon />
+        <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name, type)}>
+          <ShareIcon />
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">

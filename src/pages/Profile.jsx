@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
 // Model Imports
 import { fetchProfileInfo } from '../model-helpers';
@@ -38,7 +38,8 @@ const Profile = () => {
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
   const [dataset, setDataset] = useState({
     modalType: '',
-    documentName: ''
+    documentName: '',
+    documentType: ''
   });
 
   // Profile related states
@@ -52,10 +53,11 @@ const Profile = () => {
   // and the file name for the relevant document, (if any)
   // before opening the modal.
 
-  const handleAclPermissionsModal = (type, fileName = '') => {
+  const handleAclPermissionsModal = (modalType, docName = '', docType = '') => {
     setDataset({
-      documentName: fileName,
-      modalType: type
+      modalType,
+      docName,
+      docType
     });
     setShowAclPermissionModal(true);
   };
@@ -114,11 +116,11 @@ const Profile = () => {
               variant="contained"
               color="primary"
               size="small"
-              aria-label="Set Container Permissions Button"
-              startIcon={<SettingsIcon />}
+              aria-label="Share Documents Folder Button"
+              startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
             >
-              Set Permission to All Documents
+              Share Documents Folder
             </Button>
           )}
           <Button
