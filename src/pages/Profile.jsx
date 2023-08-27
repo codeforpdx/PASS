@@ -11,7 +11,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
-// Model Imports
+// PASS Custom Components
+import { SetAclPermissionForm, SetAclPermsDocContainerForm } from '@components/Form';
+import { UploadDocumentModal } from '@components/Modals';
+import { DocumentTable } from '@components/Documents';
+import { ProfileComponent } from '@components/Profile';
+import { LoadingAnimation } from '@components/Notification';
+// Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
 // Component Inputs
 import { UploadDocumentModal, SetAclPermissionsModal } from '../components/Modals';
@@ -43,9 +49,9 @@ const Profile = () => {
   });
 
   // Profile related states
-  const client = location.state?.client;
-  const [clientProfile, setClientProfile] = useState(null);
-  const webIdUrl = client?.webId ?? session.info.webId;
+  const contact = location.state?.contact;
+  const [contactProfile, setContactProfile] = useState(null);
+  const webIdUrl = contact?.webId ?? session.info.webId;
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   // Handler for the SetAclPermissions Modal that
@@ -64,16 +70,20 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchClientProfile = async () => {
-      const profileData = await fetchProfileInfo(webIdUrl);
-      setClientProfile({ ...client, ...profileData.profileInfo });
+      const profileData = await fetchProfileInfo(session, webIdUrl);
+      setContactProfile({
+        ...contact,
+        ...profileData.profileInfo,
+        ...profileData.privateProfileInfo
+      });
     };
 
-    if (client) {
+    if (contact) {
       fetchClientProfile();
     } else {
-      setClientProfile(null);
+      setContactProfile(null);
     }
-  }, [client]);
+  }, [contact]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -89,6 +99,10 @@ const Profile = () => {
     );
   }
 
+  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
+    session.info.webId
+  )}`;
+
   return (
     <Box
       sx={{
@@ -102,13 +116,20 @@ const Profile = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
         <Typography>
+          {client ?? (
+            <a href={signupLink} rel="noopener noreferrer" target="_blank">
+              Your Signup Link
+            </a>
+          )}
+        </Typography>
+        <Typography>
           User WebId:{' '}
           <Link to={webIdUrl} target="_blank" rel="noreferrer">
             {webIdUrl}
           </Link>
         </Typography>
 
-        <ProfileComponent clientProfile={clientProfile} />
+        <ProfileComponent contactProfile={contactProfile} />
 
         <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
           {!client && (

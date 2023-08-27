@@ -225,7 +225,7 @@ const React = require('react');
  *
  * @exports profileComponentProps
  * @typedef {object} profileComponentProps
- * @property {object} [clientProfile] - Contact object with data from profile
+ * @property {object} [contactProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -238,7 +238,7 @@ const React = require('react');
  * @typedef {object} profileImageFieldProps
  * @property {() => void} loadProfileData - Handler function for setting local
  * state for profile card in PASS
- * @property {object} [clientProfile] - Contact object with data from profile
+ * @property {object} [contactProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */

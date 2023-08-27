@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
 import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createOutbox, createInbox, getMessageTTL } from '../utils';
+import { createPASSContainer, getMessageTTL } from '../utils';
 // Context Imports
 import { SignedInUserContext } from './SignedInUserContext';
 
@@ -55,7 +55,10 @@ export const MessageContextProvider = ({ children }) => {
    */
   const fetchData = async () => {
     setLoadMessages(true);
-    await Promise.all([createOutbox(session, podUrl), createInbox(session, podUrl)]);
+    await Promise.all([
+      createPASSContainer(session, podUrl, 'Outbox'),
+      createPASSContainer(session, podUrl, 'Inbox', { append: true })
+    ]);
 
     try {
       const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);

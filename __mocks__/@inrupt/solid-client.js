@@ -23,3 +23,4 @@ export const getSolidDatasetWithAcl = vi.fn(mockDatasetFactory);
 export const saveSolidDatasetInContainer = vi.fn(() => Promise.resolve());
 export const getFile = vi.fn(() => Promise.resolve());
 export const saveFileInContainer = vi.fn(() => Promise.resolve());
+export const getWebIdDataset = vi.fn((url) => Promise.resolve(mockSolidDatasetFrom(url)))
