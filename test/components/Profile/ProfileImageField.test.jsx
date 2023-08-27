@@ -4,17 +4,17 @@ import { describe, expect, it } from 'vitest';
 import { ProfileImageField } from '../../../src/components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 
-const MockProfileComponent = ({ noUserImage, mockClientProfile }) => {
+const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
   if (!noUserImage) {
     localStorage.setItem('profileImage', 'https://example.com/user.png');
   }
-  return <ProfileImageField clientProfile={mockClientProfile} />;
+  return <ProfileImageField contactProfile={mockContactProfile} />;
 };
 
 describe('ProfileImageField', () => {
-  it('renders Choose Img button and PersonIcon if clientProfile is null and user has no profile img', () => {
+  it('renders Choose Img button and PersonIcon if contactProfile is null and user has no profile img', () => {
     const { queryByRole, queryByTestId } = render(
-      <MockProfileComponent noUserImage mockClientProfile={null} />
+      <MockProfileComponent noUserImage mockContactProfile={null} />
     );
     const buttonElement = queryByRole('button');
     expect(buttonElement.textContent).toBe('Choose Img');
@@ -23,9 +23,9 @@ describe('ProfileImageField', () => {
     expect(svgElement).not.toBeNull();
   });
 
-  it('renders Remove Img button and image if clientProfile is null, but user has profile image', () => {
+  it('renders Remove Img button and image if contactProfile is null, but user has profile image', () => {
     const { queryByRole, queryByTestId } = render(
-      <MockProfileComponent mockClientProfile={null} />
+      <MockProfileComponent mockContactProfile={null} />
     );
     const buttonElement = queryByRole('button');
     expect(buttonElement.textContent).toBe('Remove Img');
@@ -37,8 +37,8 @@ describe('ProfileImageField', () => {
     expect(svgElement).toBeNull();
   });
 
-  it('renders no button with PersonIcon if clientProfile is not null and has no profile image', () => {
-    const { queryByRole, queryByTestId } = render(<MockProfileComponent mockClientProfile={{}} />);
+  it('renders no button with PersonIcon if contactProfile is not null and has no profile image', () => {
+    const { queryByRole, queryByTestId } = render(<MockProfileComponent mockContactProfile={{}} />);
     const buttonElement = queryByRole('button');
     expect(buttonElement).toBeNull();
 
@@ -46,10 +46,10 @@ describe('ProfileImageField', () => {
     expect(svgElement).not.toBeNull();
   });
 
-  it('renders no button with image if clientProfile is not null and has profile image', () => {
-    const mockClientProfile = { profileImg: 'https://example.com/client.png' };
+  it('renders no button with image if contactProfile is not null and has profile image', () => {
+    const mockContactProfile = { profileImg: 'https://example.com/client.png' };
     const { queryByRole, queryByTestId } = render(
-      <MockProfileComponent mockClientProfile={mockClientProfile} />
+      <MockProfileComponent mockContactProfile={mockContactProfile} />
     );
     const buttonElement = queryByRole('button');
     expect(buttonElement).toBeNull();
