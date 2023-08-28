@@ -108,7 +108,7 @@ const Profile = () => {
           variant="contained"
           color="secondary"
           size="small"
-          aria-label="Add Contact Button"
+          aria-label="Add Document Button"
           startIcon={<AddIcon />}
           onClick={() => setShowModal(true)}
         >
