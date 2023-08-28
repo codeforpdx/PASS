@@ -12,7 +12,9 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+// Utility Imports
 import { runNotification } from '@utils';
+// Component Imports
 import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
 

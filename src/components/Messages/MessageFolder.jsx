@@ -61,11 +61,8 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
       component="section"
       id={folderType}
       style={{
-        // display: 'flex',
-        // flexDirection: 'column',
         justifyContent: 'space-between',
         height: '100%',
-        // gap: '20px',
         padding: '30px'
       }}
     >
@@ -73,7 +70,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px'
+          gap: '10px'
         }}
       >
         <Button

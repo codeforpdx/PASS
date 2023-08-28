@@ -145,7 +145,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             onChange={(e) => handleChange(e)}
             required
             label="Subject"
-            inputProps={{ maxLength: '24' }}
+            inputProps={{ maxLength: '48' }}
             fullWidth
           />
           <TextField
@@ -180,6 +180,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             rows={5}
             label="Enter Message"
             required
+            // TODO: Determine how long a maximum length, if any, is suitable
+            inputProps={{ maxLength: '500' }}
             fullWidth
           />
           <DialogActions>

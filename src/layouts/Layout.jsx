@@ -4,7 +4,7 @@ import React from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-// Custom hook imports
+// Custom Hook Imports
 import useNotification from '../hooks/useNotification';
 // Component Imports
 import { NavBar } from '../components/NavBar';

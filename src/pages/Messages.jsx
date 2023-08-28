@@ -81,7 +81,7 @@ const Messages = () => {
         >
           New Message
         </Button>
-        <Tabs value={boxType} sx={{ padding: '0 30px' }}>
+        <Tabs value={boxType} sx={{ padding: '0 15px' }}>
           {routesArray.map((item) => (
             <Tab
               key={`${item.label}Tab`}

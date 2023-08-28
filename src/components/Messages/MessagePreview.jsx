@@ -1,4 +1,4 @@
-// React imports
+// React Imports
 import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -49,63 +49,44 @@ const MessagePreview = ({ message, folderType }) => {
             <Grid
               container
               rowSpacing={1}
-              // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ padding: '10px' }}
             >
-              <Grid
-                item
-                xs={5}
-                // md={5}
-              >
+              <Grid item xs={5}>
                 <Typography>
                   <b>Sender:</b> {message.sender}
                 </Typography>
               </Grid>
-              <Grid
-                item
-                xs={5}
-                // md={5}
-              >
+              <Grid item xs={5}>
                 <Typography>
                   <b>Subject:</b> {message.title}
                 </Typography>
               </Grid>
-              <Grid
-                item
-                xs={2}
-                // md={2}
-              >
+              <Grid item xs={2}>
                 <Typography>
                   <b>Date:</b> {message.uploadDate.toLocaleDateString()}
                 </Typography>
               </Grid>
 
               {showContents && (
-                <>
-                  <Grid item xs={12}>
-                    <Divider />
-                    {message.message.split('\n').map((line, index) => (
-                      <Typography
-                        sx={
-                          {
-                            // maxWidth: '80vw',
-                            // paddingTop: '10px'
-                          }
-                        }
-                        key={line + String(index)}
-                      >
-                        {line}
-                      </Typography>
-                    ))}
-                  </Grid>
-                  <Grid item xs={12}>
-                    {showContents && folderType === 'Inbox' && (
-                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                        Reply
-                      </Button>
-                    )}
-                  </Grid>
-                </>
+                <Grid item xs={12}>
+                  <Divider />
+                  {message.message.split('\n').map((line, index) => (
+                    <Typography
+                      sx={{
+                        padding: '10px 5px 10px 5px'
+                      }}
+                      key={line + String(index)}
+                    >
+                      {line}
+                    </Typography>
+                  ))}
+                  {showContents && folderType === 'Inbox' && (
+                    <Button variant="contained" type="button" onClick={handleReplyMessage}>
+                      Reply
+                    </Button>
+                  )}
+                </Grid>
               )}
             </Grid>
 

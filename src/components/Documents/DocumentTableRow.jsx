@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext } from 'react';
-// Custon Hook Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';

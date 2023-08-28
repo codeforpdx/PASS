@@ -15,24 +15,24 @@ import {
   getStringNoLocale
 } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
-// Material UI imports
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import CardHeader from '@mui/material/CardHeader';
-import FilledInput from '@mui/material/FilledInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
+// Material UI Imports
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import Container from '@mui/material/Container';
+import FilledInput from '@mui/material/FilledInput';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// Hooks
+// Custom Hook Imports
 import useContactsList from '@hooks/useContactsList';
 import useSession from '@hooks/useSession';
-
+// Constant Imports
 import { ENV } from '@constants';
 
 const formRowStyle = {
