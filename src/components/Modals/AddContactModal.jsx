@@ -62,12 +62,13 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
 
     try {
       await addContact(userObject);
-    } finally {
       addNotification(
         'success',
         `"${userObject.givenName} ${userObject.familyName}" added to client list`
       );
-
+    } catch (e) {
+      addNotification('error', `Add contact failed. Reason: ${e.message}`);
+    } finally {
       setUserGivenName('');
       setUserFamilyName('');
       setUsername('');
