@@ -52,20 +52,14 @@ const MessagePreview = ({ message, folderType }) => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ padding: '10px' }}
             >
-              <Grid item xs={5}>
-                <Typography>
-                  <b>Sender:</b> {message.sender}
-                </Typography>
+              <Grid item xs={2}>
+                <Typography>{message.sender}</Typography>
               </Grid>
-              <Grid item xs={5}>
-                <Typography>
-                  <b>Subject:</b> {message.title}
-                </Typography>
+              <Grid item xs={8}>
+                <Typography>{message.title}</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>
-                  <b>Date:</b> {message.uploadDate.toLocaleDateString()}
-                </Typography>
+                <Typography>{message.uploadDate.toLocaleDateString()}</Typography>
               </Grid>
 
               {showContents && (

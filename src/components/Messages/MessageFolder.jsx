@@ -6,7 +6,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
+import Typography from '@mui/material/Typography';
 // Component Imports
 import MessagePreview from './MessagePreview';
 import { PaginationContainer } from './MessageStyles';
@@ -60,7 +63,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
     <Box
       component="section"
       id={folderType}
-      style={{
+      sx={{
         justifyContent: 'space-between',
         height: '100%',
         padding: '30px'
@@ -84,6 +87,30 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
         >
           Refresh
         </Button>
+        <Container>
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            sx={{ padding: '10px' }}
+          >
+            <Grid item xs={2}>
+              <Typography>
+                <b>Sender:</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography>
+                <b>Subject:</b>
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <b>Date:</b>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
         {loadMessages ? <LoadingAnimation loadingItem="messages" /> : handleMessages()}
       </Box>
       <Box sx={{ paddingTop: '10px' }}>
