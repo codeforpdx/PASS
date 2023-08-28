@@ -42,7 +42,7 @@ const Profile = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
-    const fetchClientProfile = async () => {
+    const fetchContactProfile = async () => {
       const profileData = await fetchProfileInfo(session, webIdUrl);
       setContactProfile({
         ...contact,
@@ -52,7 +52,7 @@ const Profile = () => {
     };
 
     if (contact) {
-      fetchClientProfile();
+      fetchContactProfile();
     } else {
       setContactProfile(null);
     }
@@ -108,7 +108,7 @@ const Profile = () => {
           variant="contained"
           color="secondary"
           size="small"
-          aria-label="Add Client Button"
+          aria-label="Add Contact Button"
           startIcon={<AddIcon />}
           onClick={() => setShowModal(true)}
         >
