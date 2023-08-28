@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined';
 // Component Imports
 import MessagePreview from './MessagePreview';
 import { PaginationContainer } from './MessageStyles';
@@ -60,26 +61,35 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList })
       component="section"
       id={folderType}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        // display: 'flex',
+        // flexDirection: 'column',
         justifyContent: 'space-between',
         height: '100%',
-        gap: '20px',
+        // gap: '20px',
         padding: '30px'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
+        }}
+      >
         <Button
           variant="contained"
           onClick={() => handleRefresh(folderType)}
           type="button"
-          sx={{ width: '100px' }}
+          sx={{
+            width: '120px'
+          }}
+          startIcon={<RotateLeftOutlinedIcon />}
         >
           Refresh
         </Button>
         {loadMessages ? <LoadingAnimation loadingItem="messages" /> : handleMessages()}
       </Box>
-      <Box>
+      <Box sx={{ paddingTop: '10px' }}>
         <PaginationContainer>
           <ReactPaginate
             breakLabel="..."

@@ -40,17 +40,44 @@ const MessagePreview = ({ message, folderType }) => {
   return (
     <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box
+          sx={{
+            flexGrow: 1
+          }}
+        >
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-              <Grid item xs={4} md={5}>
-                <Typography>{message.sender}</Typography>
+            <Grid
+              container
+              rowSpacing={1}
+              // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              sx={{ padding: '10px' }}
+            >
+              <Grid
+                item
+                xs={5}
+                // md={5}
+              >
+                <Typography>
+                  <b>Sender:</b> {message.sender}
+                </Typography>
               </Grid>
-              <Grid item xs={4} md={5}>
-                <Typography>{message.title}</Typography>
+              <Grid
+                item
+                xs={5}
+                // md={5}
+              >
+                <Typography>
+                  <b>Subject:</b> {message.title}
+                </Typography>
               </Grid>
-              <Grid item xs={4} md={2}>
-                <Typography>{message.uploadDate.toLocaleDateString()}</Typography>
+              <Grid
+                item
+                xs={2}
+                // md={2}
+              >
+                <Typography>
+                  <b>Date:</b> {message.uploadDate.toLocaleDateString()}
+                </Typography>
               </Grid>
 
               {showContents && (
@@ -59,9 +86,12 @@ const MessagePreview = ({ message, folderType }) => {
                     <Divider />
                     {message.message.split('\n').map((line, index) => (
                       <Typography
-                        sx={{
-                          maxWidth: '80vw'
-                        }}
+                        sx={
+                          {
+                            // maxWidth: '80vw',
+                            // paddingTop: '10px'
+                          }
+                        }
                         key={line + String(index)}
                       >
                         {line}
