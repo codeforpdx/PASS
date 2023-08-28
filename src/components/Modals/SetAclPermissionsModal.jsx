@@ -32,8 +32,8 @@ import useNotification from '../../hooks/useNotification';
  *
  * @memberof Modals
  * @name SetAclPermissionsModal
- * @param {setAclPermissionsModalProps} Props - Props for SetAclPermsDocContainerModal component
- * @returns {React.JSX.Element} The SetAclPermsDocContainerModal Component
+ * @param {setAclPermissionsModalProps} Props - Props for SetAclPermissionsModal component
+ * @returns {React.JSX.Element} The SetAclPermissionsModal Component
  */
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();

@@ -38,8 +38,8 @@ const Profile = () => {
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
   const [dataset, setDataset] = useState({
     modalType: '',
-    documentName: '',
-    documentType: ''
+    docName: '',
+    docType: ''
   });
 
   // Profile related states
@@ -142,7 +142,7 @@ const Profile = () => {
             variant="contained"
             color="secondary"
             size="small"
-            aria-label="Add Client Button"
+            aria-label="Add Document Button"
             startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
           >
