@@ -92,12 +92,6 @@ const React = require('react');
  * @exports formSectionProps
  * @typedef {object} formSectionProps
  * @property {string} title - Title of form section
- * @property {statusNotificationObject} state - The state for status notification
- * (see {@link statusNotificationObject})
- * @property {string} statusType - Type of action for PASS
- * @property {string} defaultMessage - Default notification message when inactive
- * @property {File|null} [file] - File object, if chosen for upload, else return
- * null
  * @property {React.ReactElement} children - JSX Element of the wrapped form
  * @memberof typedefs
  */
