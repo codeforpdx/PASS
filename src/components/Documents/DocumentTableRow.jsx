@@ -1,7 +1,8 @@
 // React Imports
 import React, { useContext } from 'react';
-// Custon Hook Imports
+// Custom Hook Imports
 import { useSession } from '@hooks';
+import useNotification from '@hooks/useNotification';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
@@ -30,6 +31,7 @@ import DOC_TYPES from '../../constants/doc_types';
 const DocumentTableRow = ({ document }) => {
   const { session } = useSession();
   const { removeDocument } = useContext(DocumentListContext);
+  const { addNotification } = useNotification();
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
 
@@ -48,6 +50,7 @@ const DocumentTableRow = ({ document }) => {
       return;
     }
     await removeDocument(document.name);
+    addNotification('success', `${document.name} deleted from the pod.`);
   };
 
   return (
