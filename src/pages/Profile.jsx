@@ -42,7 +42,7 @@ const Profile = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
-    const fetchClientProfile = async () => {
+    const fetchContactProfile = async () => {
       const profileData = await fetchProfileInfo(session, webIdUrl);
       setContactProfile({
         ...contact,
@@ -52,7 +52,7 @@ const Profile = () => {
     };
 
     if (contact) {
-      fetchClientProfile();
+      fetchContactProfile();
     } else {
       setContactProfile(null);
     }
@@ -88,13 +88,13 @@ const Profile = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-        <Typography>
-          {client ?? (
+        {!contact ? (
+          <Typography>
             <a href={signupLink} rel="noopener noreferrer" target="_blank">
               Your Signup Link
             </a>
-          )}
-        </Typography>
+          </Typography>
+        ) : null}
         <Typography>
           User WebId:{' '}
           <Link to={webIdUrl} target="_blank" rel="noreferrer">
@@ -108,7 +108,7 @@ const Profile = () => {
           variant="contained"
           color="secondary"
           size="small"
-          aria-label="Add Client Button"
+          aria-label="Add Document Button"
           startIcon={<AddIcon />}
           onClick={() => setShowModal(true)}
         >
