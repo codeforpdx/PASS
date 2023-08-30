@@ -111,7 +111,17 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   return (
     <Dialog open={showModal} onClose={clearInputFields}>
       <FormSection state={state} statusType="Status" defaultMessage="No action yet...">
-        <Typography variant="h5" align="center" mb={4}>
+        <Typography 
+        variant="h5" 
+        align="center" 
+        mb={4}
+        sx={{
+          maxWidth: '500px',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}
+        >
           {dataset.modalType === 'container'
             ? 'Permission for all Documents'
             : `Permission for ${dataset.docName}`}
