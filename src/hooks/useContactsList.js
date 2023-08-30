@@ -31,6 +31,7 @@ const parseContacts = (data) => {
     const contact = {};
 
     contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
+    if (!contact.webId) return;
     contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
     contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
     contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
