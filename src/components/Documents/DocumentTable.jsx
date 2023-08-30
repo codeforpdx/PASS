@@ -37,7 +37,7 @@ const DocumentTable = ({ handleAclPermissionsModal }) => {
     'Upload Date',
     'Expiration Date',
     'Preview File',
-    'Permissions',
+    'Sharing',
     'Delete'
   ];
 

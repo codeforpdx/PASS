@@ -60,8 +60,8 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
     dispatch({ type: 'SET_PROCESSING' });
     const permissions = event.target.setAclPerms.value
       ? {
-          read: event.target.setAclPerms.value === 'Give',
-          append: event.target.setAclPerms.value === 'Give' && dataset.modalType === 'container'
+          read: event.target.setAclPerms.value === 'Share',
+          append: event.target.setAclPerms.value === 'Share' && dataset.modalType === 'container'
         }
       : undefined;
     const webIdToSetPermsTo = `${permissionState.podUrlToSetPermissionsTo}profile/card#me`;
@@ -85,7 +85,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
       }
 
       runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
+        `${permissions.read ? 'Share' : 'Unshare'} with ${
           permissionState.podUrlToSetPermissionsTo
         } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`,
         5,
@@ -94,13 +94,13 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
       );
       addNotification(
         'success',
-        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
+        `${permissions.read ? 'Shared' : 'Unshared'} with ${
           permissionState.podUrlToSetPermissionsTo
         } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`
       );
     } catch (error) {
-      runNotification(`Failed to set permissions. Reason: ${error.message}`, 5, state, dispatch);
-      addNotification('error', `Failed to set permissions. Reason: ${error.message}`);
+      runNotification(`Failed to share. Reason: ${error.message}`, 5, state, dispatch);
+      addNotification('error', `Failed to share. Reason: ${error.message}`);
     } finally {
       setTimeout(() => {
         clearInputFields();
@@ -111,20 +111,18 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   return (
     <Dialog open={showModal} onClose={clearInputFields}>
       <FormSection state={state} statusType="Status" defaultMessage="No action yet...">
-        <Typography 
-        variant="h5" 
-        align="center" 
-        mb={4}
-        sx={{
-          maxWidth: '500px',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
-        }}
+        <Typography
+          variant="h5"
+          align="center"
+          mb={4}
+          sx={{
+            maxWidth: '500px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
         >
-          {dataset.modalType === 'container'
-            ? 'Permission for all Documents'
-            : `Permission for ${dataset.docName}`}
+          {dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`}
         </Typography>
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
@@ -139,8 +137,8 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               }
               name="setAclPerms"
             >
-              <MenuItem value="Give">Give Permission</MenuItem>
-              <MenuItem value="Revoke">Revoke Permission</MenuItem>
+              <MenuItem value="Share">Share</MenuItem>
+              <MenuItem value="Unshare">Unshare</MenuItem>
             </Select>
           </FormControl>
           <br />
@@ -161,7 +159,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               error={permissionState.podUrlToSetPermissionsTo === podUrl}
               helperText={
                 permissionState.podUrlToSetPermissionsTo === podUrl
-                  ? 'Cannot modify your permissions to your own pod.'.toUpperCase()
+                  ? 'Cannot share to your own pod.'.toUpperCase()
                   : ''
               }
             />
@@ -177,9 +175,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               fullWidth
               sx={{ borderRadius: '20px' }}
             >
-              {permissionState.permissionType
-                ? `${permissionState.permissionType} Permission`
-                : 'Set Permission'}
+              {permissionState.permissionType ? `${permissionState.permissionType}` : 'Share'}
             </Button>
             <Button
               variant="outlined"
