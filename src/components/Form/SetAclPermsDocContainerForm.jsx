@@ -59,7 +59,7 @@ const SetAclPermsDocContainerForm = () => {
         } for Documents Container.`
       );
     } catch (error) {
-      addNotification('error', 'Failed to set permissions. Reason: File not found.');
+      addNotification('error', `Failed to set permissions. Reason: ${error.message}`);
     } finally {
       setProcessing(false);
     }
