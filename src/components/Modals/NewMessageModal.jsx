@@ -145,7 +145,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             onChange={(e) => handleChange(e)}
             required
             label="Subject"
-            inputProps={{ maxLength: '24' }}
+            inputProps={{ maxLength: '48' }}
             fullWidth
           />
           <TextField
@@ -156,6 +156,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             id="previousMessage"
             label="Previous Message"
             variant="filled"
+            // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
+            // Is this something that needs to be addressed?
             sx={{ display: oldMessage ? 'block' : 'none' }}
             multiline
             rows={3}
@@ -175,9 +177,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             id="message"
             onChange={(e) => handleChange(e)}
             multiline
-            rows={6}
+            rows={5}
             label="Enter Message"
             required
+            // TODO: Determine how long a maximum length, if any, is suitable
+            inputProps={{ maxLength: '500' }}
             fullWidth
           />
           <DialogActions>

@@ -4,13 +4,12 @@ import React from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-// Custom hook imports
-import useNotification from '../hooks/useNotification';
 // Component Imports
 import { NavBar } from '../components/NavBar';
 import { InactivityMessage } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
 import NotificationContainer from '../components/Notification/NotificationContainer';
+import useNotification from '../hooks/useNotification';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
