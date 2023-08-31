@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Custom Hook Imports
-import { useSession, useStatusNotification } from '@hooks';
+import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { runNotification, setDocAclPermission } from '@utils';
+import { setDocAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -30,7 +30,6 @@ import useNotification from '../../hooks/useNotification';
  */
 const SetAclPermissionForm = () => {
   const { session } = useSession();
-  const { state, dispatch } = useStatusNotification();
   const { addNotification } = useNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [docType, setDocType] = useState('');
@@ -38,19 +37,16 @@ const SetAclPermissionForm = () => {
     podUrlToSetPermissionsTo: '',
     permissionType: ''
   });
+  const [processing, setProcessing] = useState(false);
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
   };
 
-  const clearInputFields = () => {
-    dispatch({ type: 'CLEAR_PROCESSING' });
-  };
-
   // Event handler for setting ACL permissions to file container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
+    setProcessing(true);
     const permissions = event.target.setAclPerms.value
       ? { read: event.target.setAclPerms.value === 'Give' }
       : undefined;
@@ -59,37 +55,21 @@ const SetAclPermissionForm = () => {
     try {
       await setDocAclPermission(session, docType, permissions, podUrl, webIdToSetPermsTo);
 
-      runNotification(
-        `${permissions.read ? 'Give' : 'Revoke'} permission to ${
-          permissionState.podUrlToSetPermissionsTo
-        } for ${docType}.`,
-        5,
-        state,
-        dispatch
-      );
       addNotification(
         'success',
-        `${permissions.read ? 'Gave' : 'Revoked'} permission to ${
+        `${permissions.read ? 'Gave permission to' : 'Revoked permission from'} ${
           permissionState.podUrlToSetPermissionsTo
         } for ${docType}.`
       );
     } catch (error) {
-      runNotification('Failed to set permissions. Reason: File not found.', 5, state, dispatch);
       addNotification('error', 'Failed to set permissions. Reason: File not found.');
     } finally {
-      setTimeout(() => {
-        clearInputFields();
-      }, 3000);
+      setProcessing(false);
     }
   };
 
   return (
-    <FormSection
-      title="Permission for Document"
-      state={state}
-      statusType="Status"
-      defaultMessage="No action yet..."
-    >
+    <FormSection title="Permission for Document">
       <Box display="flex" justifyContent="center">
         <form onSubmit={handleAclPermission} autoComplete="off">
           <Typography
@@ -153,7 +133,7 @@ const SetAclPermissionForm = () => {
           <FormControl fullWidth sx={{ marginTop: '2rem' }}>
             <Button
               variant="contained"
-              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || state.processing}
+              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
               type="submit"
               color="primary"
             >
