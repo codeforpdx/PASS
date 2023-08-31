@@ -3,9 +3,7 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 // Component Imports
-import { StatusNotification } from '../Notification';
 
 /**
  * @typedef {import('../../typedefs').formSectionProps} formSectionProps
@@ -21,15 +19,7 @@ import { StatusNotification } from '../Notification';
  * {@link formSectionProps})
  */
 
-const FormSection = ({
-  title,
-  state,
-  showSpinner,
-  statusType,
-  defaultMessage,
-  file = null,
-  children
-}) => (
+const FormSection = ({ title, children }) => (
   <Box
     sx={{
       marginTop: 1,
@@ -47,13 +37,6 @@ const FormSection = ({
       {title}
     </Typography>
     {children}
-    {showSpinner && <CircularProgress />}
-    <StatusNotification
-      state={state}
-      statusType={statusType}
-      defaultMessage={defaultMessage}
-      file={file}
-    />
   </Box>
 );
 

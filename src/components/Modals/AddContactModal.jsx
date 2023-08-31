@@ -1,6 +1,5 @@
 // React Imports
 import React, { useState } from 'react';
-import { useStatusNotification } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,7 +11,6 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { runNotification } from '@utils';
 import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
 
@@ -40,12 +38,12 @@ const renderWebId = (username) => {
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
-  const { state, dispatch } = useStatusNotification();
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [processing, setProcessing] = useState(false);
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -53,78 +51,30 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setWebId(renderedWebId);
   };
 
-  const notifyStartSubmission = (userObject) => {
-    if (!userObject.username && !userObject.webId) {
-      runNotification(`Operation failed. Reason: No WebId provided`, 5, state, dispatch);
-      return;
-    }
-
-    if (!userObject.givenName) {
-      runNotification(
-        `Operation failed. Reason: User's first/given name is not provided`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 2000);
-      return;
-    }
-
-    if (!userObject.familyName) {
-      runNotification(
-        `Operation failed. Reason: User's last/family name is not provided`,
-        5,
-        state,
-        dispatch
-      );
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_PROCESSING' });
-      }, 2000);
-      return;
-    }
-
-    dispatch({ type: 'SET_PROCESSING' });
-
-    runNotification(
-      `Adding "${userObject.givenName} ${userObject.familyName}" to client list...`,
-      5,
-      state,
-      dispatch
-    );
-  };
-
   const handleAddContact = async (event) => {
     event.preventDefault();
+    setProcessing(true);
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
       webId: event.target.addWebId.value
     };
 
-    notifyStartSubmission(userObject, state, dispatch);
     try {
       await addContact(userObject);
-    } finally {
-      runNotification(
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`,
-        5,
-        state,
-        dispatch
-      );
       addNotification(
         'success',
         `"${userObject.givenName} ${userObject.familyName}" added to client list`
       );
-      setTimeout(() => {
-        setUserGivenName('');
-        setUserFamilyName('');
-        setUsername('');
-        setWebId('');
-        dispatch({ type: 'CLEAR_PROCESSING' });
-        setShowAddContactModal(false);
-      }, 2000);
+    } catch (e) {
+      addNotification('error', `Add contact failed. Reason: ${e.message}`);
+    } finally {
+      setUserGivenName('');
+      setUserFamilyName('');
+      setUsername('');
+      setWebId('');
+      setShowAddContactModal(false);
+      setProcessing(false);
     }
   };
 
@@ -134,12 +84,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <FormSection
-        title="Add Contact"
-        state={state}
-        statusType="Status"
-        defaultMessage="To be added..."
-      >
+      <FormSection title="Add Contact">
         <form onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
@@ -211,10 +156,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             </Button>
             <Button
               variant="contained"
+              disabled={processing}
               color="primary"
               endIcon={<CheckIcon />}
               type="submit"
-              disabled={state.processing}
               fullWidth
             >
               ADD CLIENT
