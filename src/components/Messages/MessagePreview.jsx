@@ -53,13 +53,13 @@ const MessagePreview = ({ message, folderType }) => {
               sx={{ padding: '10px' }}
             >
               <Grid item xs={2}>
-                <Typography>{message.sender}</Typography>
+                <Typography fontWeight="bold">{message.sender}</Typography>
               </Grid>
               <Grid item xs={8}>
-                <Typography>{message.title}</Typography>
+                <Typography fontWeight="bold">{message.title}</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>{message.uploadDate.toLocaleDateString()}</Typography>
+                <Typography fontWeight="bold">{message.uploadDate.toLocaleDateString()}</Typography>
               </Grid>
 
               {showContents && (

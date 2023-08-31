@@ -11,7 +11,6 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-// Utility Imports
 // Component Imports
 import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
