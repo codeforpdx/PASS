@@ -54,20 +54,20 @@ const MessagePreview = ({ message, folderType }) => {
             >
               <Grid item xs={3}>
                 <Typography>
-                  <strong>Sender: </strong>
-                  {message.sender}
+                  Sender:
+                  <strong> {message.sender} </strong>
                 </Typography>
               </Grid>
               <Grid item xs={7}>
                 <Typography>
-                  <strong>Subject: </strong>
-                  {message.title}
+                  Subject:
+                  <strong> {message.title} </strong>
                 </Typography>
               </Grid>
               <Grid item xs={2}>
                 <Typography>
-                  <strong>Date: </strong>
-                  {message.uploadDate.toLocaleDateString()}
+                  Date:
+                  <strong> {message.uploadDate.toLocaleDateString()}</strong>
                 </Typography>
               </Grid>
 
