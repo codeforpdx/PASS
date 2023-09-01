@@ -125,8 +125,8 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
     const ttlFileThing = getThingAll(solidDataset);
     const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
 
-    // Early return if length of inbox in both PASS and Solid is the same
-    if (allMessageThing.length === listMessages.length) {
+    // early return if there's not message TTL files on Solid
+    if (allMessageThing.length === 0) {
       return listMessages;
     }
 

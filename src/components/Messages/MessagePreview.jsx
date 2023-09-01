@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,7 +12,9 @@ import Typography from '@mui/material/Typography';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Utility Imports
-import { updateMessageReadStatus } from '@utils';
+import { updateMessageReadStatus, getMessageTTL } from '@utils';
+// Context Imports
+import { MessageContext, SignedInUserContext } from '@contexts';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -33,13 +35,20 @@ const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { session } = useSession();
+  const { podUrl } = useContext(SignedInUserContext);
+  const { inboxList, setInboxList } = useContext(MessageContext);
 
   const handleClick = async () => {
     setShowContents(!showContents);
-    try {
-      await updateMessageReadStatus(session, message);
-    } catch {
-      throw new Error('Failed to update read status');
+    if (folderType === 'Inbox') {
+      try {
+        await updateMessageReadStatus(session, message);
+        const messagesInSolid = await getMessageTTL(session, folderType, inboxList, podUrl);
+        messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
+        setInboxList(messagesInSolid);
+      } catch {
+        throw new Error('Failed to update read status');
+      }
     }
   };
 
@@ -48,7 +57,7 @@ const MessagePreview = ({ message, folderType }) => {
   };
 
   return (
-    <Container sx={{ wordWrap: 'break-word', opacity: message.readStatus ? '0.5' : '1' }}>
+    <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
         <Box
           sx={{
@@ -62,19 +71,19 @@ const MessagePreview = ({ message, folderType }) => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ padding: '10px' }}
             >
-              <Grid item xs={3}>
+              <Grid item xs={3} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
                 <Typography>
                   Sender:
                   <strong> {message.sender} </strong>
                 </Typography>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={7} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
                 <Typography>
                   Subject:
                   <strong> {message.title} </strong>
                 </Typography>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={2} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
                 <Typography>
                   Date:
                   <strong> {message.uploadDate.toLocaleDateString()}</strong>
