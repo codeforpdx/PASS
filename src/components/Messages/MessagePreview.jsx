@@ -9,6 +9,10 @@ import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+// Custom Hook Imports
+import { useSession } from '@hooks';
+// Utility Imports
+import { updateMessageReadStatus } from '@utils';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -28,9 +32,15 @@ import { NewMessageModal } from '../Modals';
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { session } = useSession();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setShowContents(!showContents);
+    try {
+      await updateMessageReadStatus(session, message);
+    } catch {
+      throw new Error('Failed to update read status');
+    }
   };
 
   const handleReplyMessage = () => {
@@ -38,7 +48,7 @@ const MessagePreview = ({ message, folderType }) => {
   };
 
   return (
-    <Container sx={{ wordWrap: 'break-word' }}>
+    <Container sx={{ wordWrap: 'break-word', opacity: message.readStatus ? '0.5' : '1' }}>
       <Paper>
         <Box
           sx={{

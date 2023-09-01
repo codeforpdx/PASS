@@ -121,6 +121,8 @@ const React = require('react');
  * @property {string} sender - Name of sender
  * @property {URL} senderWebId - WebId of the sender
  * @property {string} recipient - Name of recipient
+ * @property {boolean} readStatus - Boolean of read status with true meaning have been
+ * read before
  * @memberof typedefs
  */
 

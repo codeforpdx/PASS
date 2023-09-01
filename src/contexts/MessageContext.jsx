@@ -7,7 +7,7 @@ import { createPASSContainer, getMessageTTL } from '../utils';
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
- * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ * @typedef {import("../typedefs").messageListObject} messageListObject
  */
 
 /**
