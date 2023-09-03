@@ -6,7 +6,7 @@ import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 // Page Imports
-import { CivicProfile, Home, Contacts, Messages, Profile, Signup } from './pages';
+import { CivicProfile, Home, Contacts, Messages, Profile, Signup, PdfDesigner } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -57,6 +57,7 @@ const AppRoutes = () => {
             />
           ))}
         </Route>
+        <Route path="/designer" element={<PdfDesigner />}/>
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>

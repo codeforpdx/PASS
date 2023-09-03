@@ -24,9 +24,10 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Contacts', path: '/contacts' },
-    { label: 'Civic Profile', path: '/civic_profile/basic_info' }
+    { label: 'Civic Profile', path: '/civic_profile/basic_info' },
+    { label: 'PdfDesigner', path: '/designer' }
   ];
-
+  
   return (
     <Tabs
       value={

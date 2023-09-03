@@ -4,10 +4,11 @@ import Messages from './Messages';
 import Profile from './Profile';
 import Signup from './Signup';
 import CivicProfile from './CivicProfile';
+import PdfDesigner from './PdfDesigner';
 /**
  * The main pages in PASS
  *
  * @namespace Pages
  */
 
-export { Contacts, CivicProfile, Home, Messages, Profile, Signup };
+export { Contacts, CivicProfile, Home, Messages, Profile, Signup, PdfDesigner };
