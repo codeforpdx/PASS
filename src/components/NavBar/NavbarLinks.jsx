@@ -22,7 +22,11 @@ const NavbarLinks = () => {
   }
 
   // array of current nav links for menus
-  const routesArray = [{ label: 'Contacts', path: '/contacts' }];
+  const routesArray = [
+    { label: 'Contacts', path: '/contacts' },
+    { label: 'PdfDesigner', path: '/designer' }
+  ];
+  
 
   return (
     <Tabs

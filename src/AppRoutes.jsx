@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
 // Page Imports
-import { Home, Contacts, Messages, Profile, Signup } from './pages';
+import { Home, Contacts, Messages, Profile, Signup, PdfDesigner } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -44,6 +44,7 @@ const AppRoutes = () => {
           <Route index element={<Profile />} />
           <Route path=":webId" element={<Profile />} />
         </Route>
+        <Route path="/designer" element={<PdfDesigner />}/>
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>
