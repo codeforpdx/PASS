@@ -26,7 +26,6 @@ const NavbarLinks = () => {
     { label: 'Contacts', path: '/contacts' },
     { label: 'PdfDesigner', path: '/designer' }
   ];
-  
 
   return (
     <Tabs

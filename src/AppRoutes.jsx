@@ -44,7 +44,7 @@ const AppRoutes = () => {
           <Route index element={<Profile />} />
           <Route path=":webId" element={<Profile />} />
         </Route>
-        <Route path="/designer" element={<PdfDesigner />}/>
+        <Route path="/designer" element={<PdfDesigner />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>
