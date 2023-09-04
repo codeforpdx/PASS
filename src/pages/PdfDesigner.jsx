@@ -1,7 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Designer, BLANK_PDF } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
 import { useSession } from '@hooks';
-import React, { useEffect, useRef } from 'react';
 import {
   readFile,
   getTemplateFromJsonFile,
@@ -16,7 +16,7 @@ const PdfDesigner= () => {
   const designerRef = useRef(null);
   const designer = useRef(null);
   const { session } = useSession();
-
+  const [ queryResult, setQueryResult ] = useState([]);
   useEffect(() => {
     const template = {
       basePdf: BLANK_PDF,
@@ -78,8 +78,13 @@ const PdfDesigner= () => {
   const onGeneratePDF = async () => {
     if (designer.current) {
       const template = designer.current.getTemplate();
-      const inputs = template.sampledata ?? [];
-      const pdf = await generate({ template, inputs });
+      const inputs = {};
+      queryResult.forEach((binding) => {
+        inputs[binding.get('p').value] = binding.get('o').value
+      });
+      const arry = [inputs];
+      console.log(arry);
+      const pdf = await generate({ template, inputs: arry });
       const blob = new Blob([pdf.buffer], { type: "application/pdf" });
       window.open(URL.createObjectURL(blob));
     }
@@ -91,9 +96,10 @@ const PdfDesigner= () => {
   }}>
     <div style={{flexGrow: 1, flexShrink: 1}}>
       <QueryUI
-        initialQuery='
-  SELECT * WHERE { ?s ?p ?o } LIMIT 100'
+        initialQuery='SELECT * WHERE { ?s ?p ?o } LIMIT 100'
         initialQueryUrl={session.info.webId}
+        queryResult={queryResult}
+        setQueryResult={setQueryResult}
       />
     </div>
     <div style={{flexGrow: 3}}>
@@ -104,17 +110,19 @@ const PdfDesigner= () => {
           justifyContent: "space-between",
         }}
       >
-        <label style={{ width: 90 }}>
+        <label htmlFor="basePDF" style={{ width: 90 }}>
           Change Base
           <input
+            id="basePDF"
             type="file"
             accept="application/pdf"
             onChange={onChangeBasePDF}
           />
         </label>
-        <label style={{ width: 90}}>
+        <label htmlFor="loadPDF" style={{ width: 90}}>
           Load 
           <input
+            htmlFor="loadPDF"
             type="file"
             accept="application/json"
             onChange={onLoadTemplate}
