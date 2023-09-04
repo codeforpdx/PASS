@@ -230,7 +230,7 @@ export const updateMessageReadStatus = async (session, messageObject) => {
   } else {
     messageStatusThing = buildThing(createThing({ name: 'messagestatus' }))
       .addStringNoLocale(RDF_PREDICATES.propertyValue, 'Read Status')
-      .addBoolean(RDF_PREDICATES.value, false)
+      .addBoolean(RDF_PREDICATES.value, true)
       .build();
   }
 
