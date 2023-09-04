@@ -57,7 +57,7 @@ const AppRoutes = () => {
             />
           ))}
         </Route>
-        <Route path="/designer" element={<PdfDesigner />}/>
+        <Route path="/designer" element={<PdfDesigner />} />
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
     </Routes>

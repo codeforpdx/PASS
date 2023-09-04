@@ -27,7 +27,6 @@ const NavbarLinks = () => {
     { label: 'Civic Profile', path: '/civic_profile/basic_info' },
     { label: 'PdfDesigner', path: '/designer' }
   ];
-  
   return (
     <Tabs
       value={
