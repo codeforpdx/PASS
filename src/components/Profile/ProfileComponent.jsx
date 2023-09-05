@@ -1,3 +1,4 @@
+// @ts-check
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Other Library Imports
@@ -145,6 +146,7 @@ const ProfileComponent = ({ contactProfile }) => {
                     format="MM/DD/YYYY"
                     value={dayjs(dateOfBirth)}
                     onChange={(newDateOfBirth) => setDateOfBirth(newDateOfBirth)}
+                    disableFuture
                   />
                 </LocalizationProvider>
               </FormControl>
