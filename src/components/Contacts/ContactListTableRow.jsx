@@ -59,7 +59,7 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
       setContact(contact);
     } catch {
       setContact(null);
-      navigate('/profile');
+      navigate('/contacts');
       addNotification('error', 'WebId does not exist');
     }
   };
