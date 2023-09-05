@@ -1,4 +1,3 @@
-// @ts-check
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Other Library Imports
