@@ -173,7 +173,7 @@ const React = require('react');
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
- * @property {React.JSX.Element} children - If used as a provider, wrapped component
+ * @property {React.JSX.Element} [children] - If used as a provider, wrapped component
  * will be used as the animation
  * @memberof typedefs
  */
