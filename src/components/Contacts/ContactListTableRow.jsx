@@ -1,6 +1,8 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+// Inrupt Imports
+import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -10,6 +12,8 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 // Context Imports
 import { DocumentListContext } from '@contexts';
+// Custom Hook Imports
+import useNotification from '../../hooks/useNotification';
 // Component Imports
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
@@ -36,6 +40,8 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);
+  const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -46,6 +52,18 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
     setPinned(!pinned);
   };
 
+  // Event handler for profile page routing
+  const handleSelectProfile = async (contactInfo) => {
+    try {
+      await getWebIdDataset(contactInfo.webId);
+      setContact(contact);
+    } catch {
+      setContact(null);
+      navigate('/profile');
+      addNotification('error', 'WebId does not exist');
+    }
+  };
+
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
@@ -54,7 +72,7 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
           state={{ contact }}
           style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => setContact(contact)}>
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => handleSelectProfile(contact)}>
             {contact.person}
           </Button>
         </Link>
