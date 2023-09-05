@@ -147,7 +147,7 @@ const React = require('react');
  *
  * @exports messagePreviewProps
  * @typedef {object} messagePreviewProps
- * @property {string} message - The content of the message sent
+ * @property {messageListObject} message - The message object
  * @property {string} folderType - Type of message box
  * @memberof typedefs
  */
@@ -161,8 +161,8 @@ const React = require('react');
  * @property {boolean} showModal - Boolean for showing message modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for showModal
- * @property {object|string} oldMessage - The previous message when using the modal to reply,
- * uses a string if empty
+ * @property {messageListObject|string} oldMessage - The previous message object
+ * when using the modal to reply, else uses a string if empty
  * @memberof typedefs
  */
 

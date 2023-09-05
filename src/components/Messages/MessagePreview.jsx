@@ -56,14 +56,16 @@ const MessagePreview = ({ message, folderType }) => {
     setShowModal(!showModal);
   };
 
+  const messageInfo = [
+    { title: 'Sender: ', text: message.sender, xs_value: 3 },
+    { title: 'Subject: ', text: message.title, xs_value: 7 },
+    { title: 'Date: ', text: message.uploadDate.toLocaleDateString(), xs_value: 2 }
+  ];
+
   return (
     <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
-        <Box
-          sx={{
-            flexGrow: 1
-          }}
-        >
+        <Box sx={{ flexGrow: 1 }}>
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
             <Grid
               container
@@ -71,24 +73,13 @@ const MessagePreview = ({ message, folderType }) => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ padding: '10px' }}
             >
-              <Grid item xs={3} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
-                <Typography>
-                  Sender:
-                  <strong> {message.sender} </strong>
-                </Typography>
-              </Grid>
-              <Grid item xs={7} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
-                <Typography>
-                  Subject:
-                  <strong> {message.title} </strong>
-                </Typography>
-              </Grid>
-              <Grid item xs={2} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
-                <Typography>
-                  Date:
-                  <strong> {message.uploadDate.toLocaleDateString()}</strong>
-                </Typography>
-              </Grid>
+              {messageInfo.map((info) => (
+                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
+                  <Typography>
+                    {info.title} <strong>{info.text}</strong>
+                  </Typography>
+                </Grid>
+              ))}
 
               {showContents && (
                 <Grid item xs={12}>
