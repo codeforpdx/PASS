@@ -10,9 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import ShareIcon from '@mui/icons-material/Share';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
@@ -106,19 +105,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
         }
       >
-        <Typography
-          variant="h5"
-          align="center"
-          mb={4}
-          sx={{
-            maxWidth: '500px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}
-        >
-          {dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`}
-        </Typography>
         <form onSubmit={handleAclPermission} autoComplete="off">
           <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
@@ -166,7 +152,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
               type="submit"
               color="primary"
-              startIcon={<ShareIcon />}
+              startIcon={<ShareOutlinedIcon />}
               fullWidth
               sx={{ borderRadius: '20px' }}
             >
