@@ -32,7 +32,17 @@ const FormSection = ({ title, children }) => (
       minWidth: '50%'
     }}
   >
-    <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
+    <Typography
+      align="center"
+      mb={2}
+      variant="h5"
+      sx={{
+        maxWidth: '500px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }}
+    >
       {title}
     </Typography>
     {children}
