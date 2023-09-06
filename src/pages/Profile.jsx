@@ -117,7 +117,7 @@ const Profile = () => {
           </Typography>
         ) : null}
         <Typography>
-          User WebId:{' '}
+          User WebId:
           <Link to={webIdUrl} target="_blank" rel="noreferrer">
             {webIdUrl}
           </Link>

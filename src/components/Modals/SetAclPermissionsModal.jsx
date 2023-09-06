@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Custom Hook Imports
-import { useSession, useStatusNotification } from '@hooks';
+import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -14,7 +14,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { runNotification, setDocAclPermission, setDocContainerAclPermission } from '@utils';
+import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -37,27 +37,27 @@ import useNotification from '../../hooks/useNotification';
  */
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
-  const { state, dispatch } = useStatusNotification();
   const { addNotification } = useNotification();
   const { podUrl } = useContext(SignedInUserContext);
   const [permissionState, setPermissionState] = useState({
     podUrlToSetPermissionsTo: '',
     permissionType: ''
   });
+  const [processing, setProcessing] = useState(false);
 
   const clearInputFields = () => {
-    dispatch({ type: 'CLEAR_PROCESSING' });
     setPermissionState({
       podUrlToSetPermissionsTo: '',
       permissionType: ''
     });
+    setProcessing(false);
     setShowModal(false);
   };
 
   // Event handler for setting ACL permissions to file or container on Solid
   const handleAclPermission = async (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PROCESSING' });
+    setProcessing(true);
     const permissions = event.target.setAclPerms.value
       ? {
           read: event.target.setAclPerms.value === 'Share',
@@ -84,14 +84,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           break;
       }
 
-      runNotification(
-        `${permissions.read ? 'Share' : 'Unshare'} with ${
-          permissionState.podUrlToSetPermissionsTo
-        } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`,
-        5,
-        state,
-        dispatch
-      );
       addNotification(
         'success',
         `${permissions.read ? 'Shared' : 'Unshared'} with ${
@@ -99,7 +91,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
         } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`
       );
     } catch (error) {
-      runNotification(`Failed to share. Reason: ${error.message}`, 5, state, dispatch);
       addNotification('error', `Failed to share. Reason: ${error.message}`);
     } finally {
       setTimeout(() => {
@@ -110,7 +101,11 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
 
   return (
     <Dialog open={showModal} onClose={clearInputFields}>
-      <FormSection state={state} statusType="Status" defaultMessage="No action yet...">
+      <FormSection
+        title={
+          dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
+        }
+      >
         <Typography
           variant="h5"
           align="center"
@@ -168,7 +163,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
             <Button
               variant="contained"
-              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || state.processing}
+              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
               type="submit"
               color="primary"
               startIcon={<ShareIcon />}
