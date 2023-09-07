@@ -33,13 +33,17 @@ import { FormSection } from '../Form';
 // aria-label for YES button - label needed for testing and screen-reader : label
 // delete/yes function - function to run on button click : function
 
+// DONT FORGET:
+// jsDoc stuff
+
 const ConfirmationModal = ({
   showConfirmationModal,
   setShowConfirmationModal,
   title,
   text,
-  label,
-  yesFunction
+  confirmButtonAriaLabel,
+  confirmButtonFunction,
+  confirmButtonText
 }) => {
   const { state, dispatch } = useStatusNotification();
 
@@ -56,7 +60,7 @@ const ConfirmationModal = ({
         statusType="Status"
         defaultMessage="To be deleted..."
       >
-        <form onSubmit={yesFunction} autoComplete="off">
+        <form onSubmit={confirmButtonFunction} autoComplete="off">
           <DialogTitle id="dialog-title">{title}</DialogTitle>
 
           <DialogContent>
@@ -71,7 +75,7 @@ const ConfirmationModal = ({
               endIcon={<ClearIcon />}
               onClick={() => setShowConfirmationModal(false)}
             >
-              NO
+              CANCEL
             </Button>
 
             <Button
@@ -80,13 +84,13 @@ const ConfirmationModal = ({
               color="primary"
               // can I make this aria-label just "yes-button", so no need to pass argument?
               // would need to change the test
-              aria-label={label}
+              aria-label={confirmButtonAriaLabel}
               endIcon={<CheckIcon />}
               // change disabled if not using old notification system
               disabled={state.processing}
               sx={{ marginLeft: '1rem' }}
             >
-              YES
+              {confirmButtonText}
             </Button>
           </DialogActions>
         </form>
