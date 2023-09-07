@@ -7,7 +7,7 @@ import useNotification from '@hooks/useNotification';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import ShareIcon from '@mui/icons-material/Share';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Context Imports
@@ -70,7 +70,7 @@ const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
       </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name, type)}>
-          <ShareOutlinedIcon />
+          <ShareIcon />
         </IconButton>
       </StyledTableCell>
       <StyledTableCell align="center">

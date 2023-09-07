@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
@@ -152,7 +152,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
               type="submit"
               color="primary"
-              startIcon={<ShareOutlinedIcon />}
+              startIcon={<ShareIcon />}
               fullWidth
               sx={{ borderRadius: '20px' }}
             >

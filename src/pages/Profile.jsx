@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
 // PASS Custom Components
 import { UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
@@ -132,7 +132,7 @@ const Profile = () => {
               color="primary"
               size="small"
               aria-label="Share Documents Folder Button"
-              startIcon={<ShareOutlinedIcon />}
+              startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
             >
               Share Documents Folder
