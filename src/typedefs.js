@@ -175,7 +175,7 @@ const React = require('react');
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
- * @property {React.JSX.Element} children - If used as a provider, wrapped component
+ * @property {React.JSX.Element} [children] - If used as a provider, wrapped component
  * will be used as the animation
  * @memberof typedefs
  */
@@ -247,7 +247,7 @@ const React = require('react');
  * @typedef {object} profileInputFieldProps
  * @property {string} inputName - Name of input field
  * @property {string} inputValue - Value of input field used for updating profile
- * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
+ * @property {(value: React.SetStateAction<string|null>) => void} setInputValue - Set
  * function for inputValue
  * @property {boolean} edit - Boolean used to toggle edit inputs
  * @memberof typedefs
@@ -259,7 +259,7 @@ const React = require('react');
  *
  * @exports profileEditButtonGroupProps
  * @typedef {object} profileEditButtonGroupProps
- * @property {string} edit - Boolean state for editing values in the
+ * @property {boolean} edit - Boolean state for editing values in the
  * ProfileInputField component
  * @property {() => void} handleCancelEdit - Handler function for canceling edit for
  * ProfileInputField component

@@ -85,8 +85,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
             variant="outlined"
             component="label"
             color="primary"
-            id="input-profile-pic"
-            name="inputProfilePic"
             onChange={handleProfileImage}
             endIcon={<ImageIcon />}
             sx={{ width: '150px' }}
