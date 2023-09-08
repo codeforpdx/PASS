@@ -28,7 +28,9 @@ const RDF_PREDICATES = {
   profileName: FOAF.name,
   profileImg: FOAF.img,
   nickname: FOAF.nick,
-  dateCreated: 'https://schema.org/dateCreated'
+  dateCreated: 'https://schema.org/dateCreated',
+  propertyValue: 'https://schema.org/PropertyValue',
+  value: 'https://schema.org/value'
 };
 
 export default RDF_PREDICATES;

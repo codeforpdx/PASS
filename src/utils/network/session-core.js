@@ -1,4 +1,14 @@
-import { getSolidDataset, getThingAll, getFile } from '@inrupt/solid-client';
+import {
+  getSolidDataset,
+  getThingAll,
+  getFile,
+  getThing,
+  getBoolean,
+  buildThing,
+  setThing,
+  saveSolidDatasetAt,
+  createThing
+} from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -8,6 +18,7 @@ import {
   parseMessageTTL,
   buildMessageTTL
 } from './session-helper';
+import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client-authn-browser').Session} Session
@@ -114,8 +125,8 @@ export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
     const ttlFileThing = getThingAll(solidDataset);
     const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
 
-    // Early return if length of inbox in both PASS and Solid is the same
-    if (allMessageThing.length === listMessages.length) {
+    // early return if there's not message TTL files on Solid
+    if (allMessageThing.length === 0) {
       return listMessages;
     }
 
@@ -189,6 +200,46 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     throw new Error(
       'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
     );
+  }
+};
+
+/**
+ * Function that updates the read status of the message in the inbox
+ *
+ * @memberof utils
+ * @function updateMessageReadStatus
+ * @param {Session} session - Solid's Session Object {@link Session}
+ * @param {object} messageObject - An object containing inputs for the the message
+ * @returns {Promise} Promise - Perform action that updates read status of message
+ * on messageObject
+ */
+export const updateMessageReadStatus = async (session, messageObject) => {
+  let messageDataset = await getSolidDataset(messageObject.messageUrl, {
+    fetch: session.fetch
+  });
+  let messageStatusThing = getThing(messageDataset, `${messageObject.messageUrl}#messagestatus`);
+
+  if (messageStatusThing) {
+    const readStatus = getBoolean(messageStatusThing, RDF_PREDICATES.value);
+
+    if (!readStatus) {
+      messageStatusThing = buildThing(messageStatusThing)
+        .setBoolean(RDF_PREDICATES.value, true)
+        .build();
+    }
+  } else {
+    messageStatusThing = buildThing(createThing({ name: 'messagestatus' }))
+      .addStringNoLocale(RDF_PREDICATES.propertyValue, 'Read Status')
+      .addBoolean(RDF_PREDICATES.value, true)
+      .build();
+  }
+
+  messageDataset = setThing(messageDataset, messageStatusThing);
+
+  try {
+    await saveSolidDatasetAt(messageObject.messageUrl, messageDataset, { fetch: session.fetch });
+  } catch (error) {
+    throw new Error('Failed to update ttl file.');
   }
 };
 
