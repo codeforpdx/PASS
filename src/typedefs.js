@@ -191,12 +191,25 @@ const React = require('react');
  */
 
 /**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component.
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {(modalType: string, docName: string, docType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
+ * @memberof typedefs
+ */
+
+/**
  * documentTableRowProps is an object that stores the props for the DocumentTableRow
  * component
  *
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
+ * @property {(documentName: string, modalType: string, docType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -260,6 +273,20 @@ const React = require('react');
  * @typedef {object} footerProps
  * @property {boolean} isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
+ * @memberof typedefs
+ */
+
+/**
+ * setAclPermissionsModalProps is an object that stores the props for the setAclPermissionsModal component.
+ *
+ * @exports setAclPermissionsModalProps
+ * @typedef {object} setAclPermissionsModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionsModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @property {object} dataset
+ * - State object containing information for which version of modal to display,
+ * a relevant file name (if any), and a relevant document type (if any).
  * @memberof typedefs
  */
 
