@@ -29,11 +29,20 @@ const FormSection = ({ title, children }) => (
       alignItems: 'center',
       mx: '3px',
       padding: '20px',
-      minWidth: '50%',
-      boxShadow: 2
+      minWidth: '50%'
     }}
   >
-    <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
+    <Typography
+      align="center"
+      mb={2}
+      variant="h5"
+      sx={{
+        maxWidth: '500px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }}
+    >
       {title}
     </Typography>
     {children}
