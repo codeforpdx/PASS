@@ -129,14 +129,12 @@ const ProfileComponent = ({ contactProfile }) => {
             }
             setInputValue={setProfileName}
             edit={edit}
-            disabled={contactProfile}
           />
           <ProfileInputField
             inputName="Nickname"
             inputValue={contactProfile ? contactProfile?.nickname : nickname}
             setInputValue={setNickname}
             edit={edit}
-            disabled={contactProfile}
           />
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <Typography>Date of Birth: </Typography>
@@ -144,11 +142,10 @@ const ProfileComponent = ({ contactProfile }) => {
               <FormControl>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    name="date"
                     format="MM/DD/YYYY"
                     value={dayjs(dateOfBirth)}
                     onChange={(newDateOfBirth) => setDateOfBirth(newDateOfBirth)}
-                    type="date"
+                    disableFuture
                   />
                 </LocalizationProvider>
               </FormControl>
