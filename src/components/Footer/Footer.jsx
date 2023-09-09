@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles';
 import RenderCallToActionSection from './RenderCallToActionSection';
 import RenderCompanyInfoSection from './RenderCompanyInfoSection';
 import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
+import { padding } from '@mui/system';
 
 /**
  * Footer Component - Generates the responsive footer used in PASS
@@ -51,6 +52,7 @@ const Footer = () => {
               sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
             />
           }
+          
         >
           <RenderCallToActionSection isReallySmallScreen={isReallySmallScreen} />
           <RenderCompanyInfoSection isReallySmallScreen={isReallySmallScreen} />
