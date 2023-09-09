@@ -29,17 +29,18 @@ services:
       - "3000" # Expose port for other services
     volumes:
       - ./solid-server/solid-config.json:/home/node/.config/solid-server
-      - ./config/ssl/pipline803.online.crt:/usr/local/share/ca-certificates/pipline803.online.crt
-      - ./config/ssl/pipline803.online.key:/usr/local/share/ca-certificates/pipline803.online.key
+      #certificates and keys for https for domain opencommons.net
+      - ./config/ssl/opencommons.net.crt:/usr/local/share/ca-certificates/opencommons.net.crt
+      - ./config/ssl/opencommons.net.key:/usr/local/share/ca-certificates/opencommons.net.key
   
   certbot:
     image: certbot/certbot
     volumes:
       - ./config/ssl:/etc/letsencrypt
-    command: certonly --standalone -d pipline803.online
+    command: certonly --standalone -d opencommons.net
     depends_on:
       - nginx
 networks:
   default:
     external: true
-    name: nginx-proxy-manager_default
+    name: nginx-proxy
