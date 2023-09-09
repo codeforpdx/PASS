@@ -1,29 +1,45 @@
-version: '3.7'
+version: '3.8'
 
 services:
-  react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile.react
-    ports:
-      - "8080:80"  # Change the mapping to use port 8080 on the host
-
-  solid-server:
-    image: solidproject/community-server:latest
-    ports:
-      - "3000:3000"
-    command: ["--baseUrl", "https://localhost:3000"]  # Set the correct base URL 
-    environment:
-      CSS_LOGGING_LEVEL: debug  # Adjust the log level as needed
-
   nginx:
     image: nginx:alpine
+    restart: unless-stopped
     ports:
-      - "8081:80"  # Change the mapping to use port 8081 on the host
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
       - ./config/ssl:/etc/nginx/ssl
     depends_on:
       - react-app
       - solid-server
+
+  react-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.react
+    expose:
+      - "80" # Expose port for other services
+
+  solid-server:
+    image: solidproject/community-server:6.0.0
+    restart: always
+    user: root
+    expose:
+      - "3000" # Expose port for other services
+    volumes:
+      - ./solid-server/solid-config.json:/home/node/.config/solid-server
+      - ./config/ssl/pipline803.online.crt:/usr/local/share/ca-certificates/pipline803.online.crt
+      - ./config/ssl/pipline803.online.key:/usr/local/share/ca-certificates/pipline803.online.key
+  
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./config/ssl:/etc/letsencrypt
+    command: certonly --standalone -d pipline803.online
+    depends_on:
+      - nginx
+networks:
+  default:
+    external: true
+    name: nginx-proxy-manager_default

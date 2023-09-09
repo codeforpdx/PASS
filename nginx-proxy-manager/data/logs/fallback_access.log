@@ -1,0 +1,4 @@
+[31/Aug/2023:02:01:12 +0000] 200 - GET http 0.0.0.0 "/" [Client 172.18.0.1] [Length 568] [Gzip 1.86] "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" "-"
+[31/Aug/2023:02:01:22 +0000] 304 - GET http 0.0.0.0 "/" [Client 172.18.0.1] [Length 0] [Gzip -] "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" "-"
+[31/Aug/2023:02:01:23 +0000] 304 - GET http 0.0.0.0 "/" [Client 172.18.0.1] [Length 0] [Gzip -] "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" "-"
+[31/Aug/2023:02:01:36 +0000] 304 - GET http 0.0.0.0 "/" [Client 172.18.0.1] [Length 0] [Gzip -] "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36" "-"
