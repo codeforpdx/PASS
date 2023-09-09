@@ -10,11 +10,13 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import SvgIcon from '@mui/material/SvgIcon';
 
-
-//new Twitter Icon
+// new Twitter Icon
 const TwitterIcon = (props) => (
   <SvgIcon {...props} viewBox="0 0 512 512" style={{ width: '1.25em', height: '1.25em' }}>
-    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" fill="#fff" />
+    <path
+      d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+      fill="#fff"
+    />
   </SvgIcon>
 );
 
@@ -22,15 +24,15 @@ const TwitterIcon = (props) => (
 const socialLinks = [
   {
     href: 'https://twitter.com/',
-    icon: <TwitterIcon/>
+    icon: <TwitterIcon />
   },
   {
     href: 'https://www.facebook.com/',
-    icon: <FacebookIcon  fontSize='large'/>
+    icon: <FacebookIcon fontSize="large" />
   },
   {
     href: 'https://www.instagram.com/',
-    icon: <InstagramIcon fontSize='large'/>
+    icon: <InstagramIcon fontSize="large" />
   }
 ];
 
@@ -46,14 +48,12 @@ const socialLinks = [
  * @returns {React.JSX.Element} The RenderCompanyInfoSection component
  */
 const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
-  <Stack
-    width={isReallySmallScreen ? 1 : 1 / 5}
-    justifyContent="space-between"
-    alignItems="center"
-  >
+  <Stack width={isReallySmallScreen ? 1 : 1 / 5} justifyContent="space-between" alignItems="center">
     <Box>
-      <Typography color="tertiary.main" variant='h5' mb={1}>Follow Us</Typography>
-      <Stack direction="row" spacing={3} alignItems='center'>
+      <Typography color="tertiary.main" variant="h5" mb={1}>
+        Follow Us
+      </Typography>
+      <Stack direction="row" spacing={3} alignItems="center">
         {socialLinks.map(({ href, icon }) => (
           <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
             {icon}
