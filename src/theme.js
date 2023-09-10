@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { deepPurple } from '@mui/material/colors';
 
 const theme = createTheme({
   typography: { fontFamily: 'Roboto, sans-serif' },
@@ -27,6 +28,13 @@ const theme = createTheme({
     },
     neutral: {
       main: '#64748B',
+      contrastText: '#fff'
+    },
+    temporaryPurple: {
+      light: deepPurple[100],
+      main: deepPurple[400],
+      dark: deepPurple[600],
+      text: deepPurple[300],
       contrastText: '#fff'
     }
   },
