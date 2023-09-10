@@ -30,7 +30,7 @@ const theme = createTheme({
       main: '#64748B',
       contrastText: '#fff'
     },
-    temporaryPurple: {
+    Purple: {
       light: deepPurple[100],
       main: deepPurple[400],
       dark: deepPurple[600],

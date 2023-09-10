@@ -1,38 +1,37 @@
 // React Imports
-import React from 'react';
+import React from "react";
 // Material UI Imports
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Typography, Stack } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import SecurityIcon from '@mui/icons-material/Security';
-import Diversity1Icon from '@mui/icons-material/Diversity1';
-import SupportIcon from '@mui/icons-material/Support';
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Typography, Stack } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import SecurityIcon from "@mui/icons-material/Security";
+import Diversity1Icon from "@mui/icons-material/Diversity1";
+import SupportIcon from "@mui/icons-material/Support";
 /**
  * Home - First Page you encounter in PASS before login.
  * Should not display if you are already logged in
  *
- * @memberof Pages
+ * @memarginBottomerof Pages
  * @name Home
  * @returns {React.ReactElement} The home page
  */
 const Home = () => {
   const theme = useTheme();
-  const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isReallySmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Container component="main" maxWidth="s">
+    <Container component="main">
       <Box
         sx={{
-          marginTop: 18,
-          marginBottom: 18,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          padding: '20px'
+          margin: "18px 0",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          padding: "20px"
         }}
       >
         <section id="home">
@@ -47,27 +46,27 @@ const Home = () => {
                 src="./src/assets/web_security.png"
                 alt="web-security-image"
                 sx={{
-                  width: '90%', // Default to 90%
-                  '@media (min-width:600px) and (max-width:959px)': {
-                    width: '50%'
+                  width: "90%", // Default to 90%
+                  "@media (min-width:600px) and (max-width:959px)": {
+                    width: "50%"
                   },
-                  '@media (min-width:960px) and (max-width:1023px)': {
-                    width: '25%'
+                  "@media (min-width:960px) and (max-width:1023px)": {
+                    width: "25%"
                   },
-                  '@media (min-width:1024px) and (max-width:1439px)': {
-                    width: '45%'
+                  "@media (min-width:1024px) and (max-width:1439px)": {
+                    width: "45%"
                   },
-                  '@media (min-width:1440px)': {
-                    width: '45%'
+                  "@media (min-width:1440px)": {
+                    width: "45%"
                   }
                 }}
               />
               <Typography
                 sx={{
-                  color: 'temporaryPurple.dark',
-                  fontSize: { xs: '2rem', sm: '2rem', md: '3rem' },
-                  textAlign: 'center',
-                  mb: '24px'
+                  color: "temporaryPurple.dark",
+                  fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
+                  textAlign: "center",
+                  marginBottom: "24px"
                 }}
               >
                 <strong>Keep your documents safe and secure using decentralized technology.</strong>
@@ -75,10 +74,10 @@ const Home = () => {
             </Grid>
             <Typography
               sx={{
-                color: 'temporaryPurple.text',
-                fontSize: { xs: '1rem', sm: '1rem', md: '1.5rem' },
-                width: { md: '75%' },
-                mb: '24px'
+                color: "temporaryPurple.text",
+                fontSize: { xs: "1rem", sm: "1rem", md: "1.5rem" },
+                width: { md: "75%" },
+                marginBottom: "24px"
               }}
             >
               Our innovative solution empowers individuals to manage their critical documents and
@@ -90,12 +89,12 @@ const Home = () => {
               href="mailto:hugh@codeforpdx.org"
               aria-label="Demo Request Email"
               sx={{
-                my: '1rem',
+                my: "1rem",
                 width: { xs: 1, sm: 1 / 3, md: 1 / 6 },
-                color: 'temporaryPurple.main',
-                backgroundColor: 'temporaryPurple.light',
-                borderRadius: '25px',
-                mb: 12
+                color: "temporaryPurple.main",
+                backgroundColor: "temporaryPurple.light",
+                borderRadius: "25px",
+                marginBottom: 12
               }}
             >
               Request a demo
@@ -105,38 +104,38 @@ const Home = () => {
               src="./src/assets/app.png"
               alt="web-security-image"
               sx={{
-                width: '90%', // Default to 90%
-                '@media (min-width:600px) and (max-width:959px)': {
-                  width: '50%'
+                width: "90%", // Default to 90%
+                "@media (min-width:600px) and (max-width:959px)": {
+                  width: "50%"
                 },
-                '@media (min-width:960px) and (max-width:1023px)': {
-                  width: '25%'
+                "@media (min-width:960px) and (max-width:1023px)": {
+                  width: "25%"
                 },
-                '@media (min-width:1024px) and (max-width:1439px)': {
-                  width: '45%'
+                "@media (min-width:1024px) and (max-width:1439px)": {
+                  width: "45%"
                 },
-                '@media (min-width:1440px)': {
-                  width: '45%'
+                "@media (min-width:1440px)": {
+                  width: "45%"
                 }
               }}
             />
 
             <Typography
               sx={{
-                color: 'temporaryPurple.dark',
-                fontSize: { xs: '2rem', sm: '2rem', md: '3rem' },
-                textAlign: { xs: 'center' },
-                mb: '24px'
+                color: "temporaryPurple.dark",
+                fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
+                textAlign: { xs: "center" },
+                marginBottom: "24px"
               }}
             >
               <strong>An App Built for Case Workers</strong>
             </Typography>
             <Typography
               sx={{
-                color: 'temporaryPurple.text',
-                fontSize: { xs: '1rem', sm: '1rem', md: '1.5rem' },
-                width: { md: '75%' },
-                mb: '10%'
+                color: "temporaryPurple.text",
+                fontSize: { xs: "1rem", sm: "1rem", md: "1.5rem" },
+                width: { md: "75%" },
+                marginBottom: "10%"
               }}
             >
               PASS allows users to quickly and securely share documents of their clients within the
@@ -150,10 +149,10 @@ const Home = () => {
             />
             <Typography
               sx={{
-                color: 'temporaryPurple.dark',
-                fontSize: { xs: '2rem', sm: '2rem', md: '3rem' },
-                textAlign: { xs: 'center' },
-                mb: '50px'
+                color: "temporaryPurple.dark",
+                fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
+                textAlign: { xs: "center" },
+                marginBottom: "50px"
               }}
             >
               <strong>Key Features</strong>
@@ -161,18 +160,18 @@ const Home = () => {
 
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '14px'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "14px"
               }}
             >
-              <SecurityIcon sx={{ color: 'temporaryPurple.main' }} />
+              <SecurityIcon sx={{ color: "temporaryPurple.main" }} />
               <Typography
                 sx={{
-                  marginLeft: '8px', // Optional, to add some space between the icon and text
-                  color: 'temporaryPurple.main',
-                  fontSize: { xs: '1rem', sm: '1.25rem', md: '1.25rem' }
+                  marginLeft: "8px", // Optional, to add some space between the icon and text
+                  color: "temporaryPurple.main",
+                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
                 }}
               >
                 <strong>Secure Storage</strong>
@@ -180,11 +179,11 @@ const Home = () => {
             </Box>
             <Typography
               sx={{
-                width: { xs: '90%', md: '65%' },
-                textAlign: 'center',
-                fontSize: { xs: '.85rem', sm: '1rem', md: '1.25rem' },
-                color: 'temporaryPurple.text',
-                mb: '50px'
+                width: { xs: "90%", md: "65%" },
+                textAlign: "center",
+                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
+                color: "temporaryPurple.text",
+                marginBottom: "50px"
               }}
             >
               Store vital documents like IDs, social security information, birth certificates,
@@ -193,18 +192,18 @@ const Home = () => {
             </Typography>
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '6px'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "6px"
               }}
             >
-              <Diversity1Icon sx={{ color: 'temporaryPurple.main' }} />
+              <Diversity1Icon sx={{ color: "temporaryPurple.main" }} />
               <Typography
                 sx={{
-                  marginLeft: '8px', // Optional, to add some space between the icon and text
-                  color: 'temporaryPurple.main',
-                  fontSize: { xs: '1rem', sm: '1.25rem', md: '1.25rem' }
+                  marginLeft: "8px", // Optional, to add some space between the icon and text
+                  color: "temporaryPurple.main",
+                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
                 }}
               >
                 <strong>Non-Profit & Caseworker Integration</strong>
@@ -212,11 +211,11 @@ const Home = () => {
             </Box>
             <Typography
               sx={{
-                width: { xs: '90%', md: '65%' },
-                textAlign: 'center',
-                fontSize: { xs: '.85rem', sm: '1rem', md: '1.25rem' },
-                color: 'temporaryPurple.text',
-                mb: '50px'
+                width: { xs: "90%", md: "65%" },
+                textAlign: "center",
+                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
+                color: "temporaryPurple.text",
+                marginBottom: "50px"
               }}
             >
               The platform facilitates smooth communication between non-profit organizations,
@@ -226,18 +225,18 @@ const Home = () => {
             </Typography>
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '6px'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "6px"
               }}
             >
-              <SupportIcon sx={{ color: 'temporaryPurple.main' }} />
+              <SupportIcon sx={{ color: "temporaryPurple.main" }} />
               <Typography
                 sx={{
-                  marginLeft: '8px', // Optional, to add some space between the icon and text
-                  color: 'temporaryPurple.main',
-                  fontSize: { xs: '1rem', sm: '1.25rem', md: '1.25rem' }
+                  marginLeft: "8px", // Optional, to add some space between the icon and text
+                  color: "temporaryPurple.main",
+                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
                 }}
               >
                 <strong>Support Services</strong>
@@ -245,10 +244,10 @@ const Home = () => {
             </Box>
             <Typography
               sx={{
-                width: { xs: '90%', md: '65%' },
-                textAlign: 'center',
-                fontSize: { xs: '.85rem', sm: '1rem', md: '1.25rem' },
-                color: 'temporaryPurple.text'
+                width: { xs: "90%", md: "65%" },
+                textAlign: "center",
+                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
+                color: "temporaryPurple.text"
               }}
             >
               Verified documents can be used to facilitate access to service such as housing support
