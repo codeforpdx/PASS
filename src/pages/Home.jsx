@@ -165,7 +165,8 @@ const Home = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginBottom: '14px'
-              }}>
+              }}
+            >
               <SecurityIcon sx={{ color: 'temporaryPurple.main' }} />
               <Typography
                 sx={{
@@ -220,8 +221,8 @@ const Home = () => {
             >
               The platform facilitates smooth communication between non-profit organizations,
               caseworkers, and the individuals they serve. It allows non-profit organizations to
-              maintain a contact list, and caseworkers are assigned contacts whose &apos;pods&apos; they can
-              access securely.
+              maintain a contact list, and caseworkers are assigned contacts whose &apos;pods&apos;
+              they can access securely.
             </Typography>
             <Box
               sx={{
