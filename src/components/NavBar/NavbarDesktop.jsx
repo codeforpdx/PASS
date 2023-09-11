@@ -64,7 +64,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
         <Toolbar sx={{ minHeight: '64px' }}>
           <Link href="/">
             <img
-              src="src/assets/pass-logo.png"
+              src="/pass-logo.png"
               alt="logo"
               style={{ marginRight: '2rem' }}
               aria-label="logo"
