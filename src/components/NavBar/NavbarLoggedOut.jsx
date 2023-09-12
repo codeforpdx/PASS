@@ -21,12 +21,7 @@ const NavbarLoggedOut = () => (
     <AppBar position="static" color="primary">
       <Toolbar sx={{ minHeight: '64px' }}>
         <Link to="/">
-          <img
-            src="src/assets/pass-logo.png"
-            alt="logo"
-            style={{ marginRight: '2rem' }}
-            aria-label="logo"
-          />
+          <img src="/pass-logo.png" alt="logo" style={{ marginRight: '2rem' }} aria-label="logo" />
         </Link>
         <OidcLoginComponent />
       </Toolbar>
