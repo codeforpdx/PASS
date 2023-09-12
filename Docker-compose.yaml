@@ -28,7 +28,7 @@ services:
     expose:
       - "3000" # Expose port for other services
     volumes:
-      - ./solid-server/solid-config.json:/home/node/.config/solid-server
+      - ./config/solid-server/solid-config.json:/home/node/.config/solid-server
       #certificates and keys for https for domain opencommons.net
       - ./config/ssl/opencommons.net.crt:/usr/local/share/ca-certificates/opencommons.net.crt
       - ./config/ssl/opencommons.net.key:/usr/local/share/ca-certificates/opencommons.net.key
@@ -42,5 +42,6 @@ services:
       - nginx
 networks:
   default:
-    external: true
-    name: nginx-proxy
+    driver: bridge
+  
+    
