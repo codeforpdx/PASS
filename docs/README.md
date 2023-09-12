@@ -124,13 +124,11 @@ npm run podserver -- -p 1234
 ```
 ---
 
-By default, community solid server stores all data in memory (i.e. it does not save data when it's shut down). To have it store data to your filesystem, you can use the command
+Note: The `npm run podserver` command will launch a server that stores documents on your local file system. If you don't want to store documents, and want all server data to be deleted on shutdown, you can run
 
-```shell
-npm run podserver:stored
-```
-
-This will store all server files in the folder `PASS/local_temp_server_files`. This is a local testing directory, and the files within it should not be added to source control.
+ ```shell
+ npm run podserver:temp
+ ```
 
 You can find more information on its configuration on the project's [github](https://github.com/CommunitySolidServer/CommunitySolidServer#configuring-the-server).
 
