@@ -85,12 +85,7 @@ const MessagePreview = ({ message, folderType }) => {
                 <Grid item xs={12}>
                   <Divider />
                   {message.message.split('\n').map((line, index) => (
-                    <Typography
-                      sx={{
-                        padding: '10px 5px 10px 5px'
-                      }}
-                      key={line + String(index)}
-                    >
+                    <Typography sx={{ padding: '10px 5px' }} key={line + String(index)}>
                       {line}
                     </Typography>
                   ))}
