@@ -1,10 +1,10 @@
 // React Imports
 import React from 'react';
+import { Link } from 'react-router-dom';
 // Material UI Imports
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Link from '@mui/material/Link';
 // Component Imports
 import OidcLoginComponent from './OidcLoginComponent';
 
@@ -20,8 +20,13 @@ const NavbarLoggedOut = () => (
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static" color="primary">
       <Toolbar sx={{ minHeight: '64px' }}>
-        <Link href="/">
-          <img src="/pass-logo.png" alt="logo" style={{ marginRight: '2rem' }} aria-label="logo" />
+        <Link to="/">
+          <img
+            src="/pass-logo.png"
+            alt="logo"
+            style={{ marginRight: '2rem' }}
+            aria-label="logo"
+          />
         </Link>
         <OidcLoginComponent />
       </Toolbar>
