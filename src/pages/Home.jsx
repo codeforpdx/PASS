@@ -1,37 +1,38 @@
 // React Imports
-import React from "react";
+import React from 'react';
 // Material UI Imports
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { Typography, Stack } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import SecurityIcon from "@mui/icons-material/Security";
-import Diversity1Icon from "@mui/icons-material/Diversity1";
-import SupportIcon from "@mui/icons-material/Support";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import SecurityIcon from '@mui/icons-material/Security';
+import Diversity1Icon from '@mui/icons-material/Diversity1';
+import SupportIcon from '@mui/icons-material/Support';
+import Stack from '@mui/material/Stack';
+// Components Import
+import ReusableHomeSection from '../components/Home/ReusableHomeSection';
+import ReusableKeyFeatures from '../components/Home/ReusableKeyFeatures';
 /**
  * Home - First Page you encounter in PASS before login.
  * Should not display if you are already logged in
  *
- * @memarginBottomerof Pages
+ * @memberof Pages
  * @name Home
  * @returns {React.ReactElement} The home page
  */
 const Home = () => {
   const theme = useTheme();
-  const isReallySmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <Container component="main">
       <Box
         sx={{
-          margin: "18px 0",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          padding: "20px"
+          margin: '18px 0',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          padding: '20px'
         }}
       >
         <section id="home">
@@ -40,220 +41,59 @@ const Home = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Grid item xs={12}>
-              <Box
-                component="img"
-                src="./src/assets/web_security.png"
-                alt="web-security-image"
-                sx={{
-                  width: "90%", // Default to 90%
-                  "@media (min-width:600px) and (max-width:959px)": {
-                    width: "50%"
-                  },
-                  "@media (min-width:960px) and (max-width:1023px)": {
-                    width: "25%"
-                  },
-                  "@media (min-width:1024px) and (max-width:1439px)": {
-                    width: "45%"
-                  },
-                  "@media (min-width:1440px)": {
-                    width: "45%"
-                  }
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "temporaryPurple.dark",
-                  fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
-                  textAlign: "center",
-                  marginBottom: "24px"
-                }}
-              >
-                <strong>Keep your documents safe and secure using decentralized technology.</strong>
-              </Typography>
-            </Grid>
-            <Typography
-              sx={{
-                color: "temporaryPurple.text",
-                fontSize: { xs: "1rem", sm: "1rem", md: "1.5rem" },
-                width: { md: "75%" },
-                marginBottom: "24px"
-              }}
-            >
-              Our innovative solution empowers individuals to manage their critical documents and
-              control access for trusted organizations. PASS simplifies service access, enabling
-              seamless document requests and secure data sharing for a smoother support process.
-            </Typography>
-            <Button
-              variant="contained"
+            <ReusableHomeSection
+              src="./src/assets/web-security.png"
+              alt="Web security"
+              title="Keep Your Documents Safe and Secure Using Decentralized Technology"
+              description="Our innovatice solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process. "
+              button="Request a Demo"
               href="mailto:hugh@codeforpdx.org"
-              aria-label="Demo Request Email"
-              sx={{
-                my: "1rem",
-                width: { xs: 1, sm: 1 / 3, md: 1 / 6 },
-                color: "temporaryPurple.main",
-                backgroundColor: "temporaryPurple.light",
-                borderRadius: "25px",
-                marginBottom: 12
-              }}
-            >
-              Request a demo
-            </Button>
-            <Box
-              component="img"
+              label="Demo request button"
+            />
+            <ReusableHomeSection
               src="./src/assets/app.png"
-              alt="web-security-image"
-              sx={{
-                width: "90%", // Default to 90%
-                "@media (min-width:600px) and (max-width:959px)": {
-                  width: "50%"
-                },
-                "@media (min-width:960px) and (max-width:1023px)": {
-                  width: "25%"
-                },
-                "@media (min-width:1024px) and (max-width:1439px)": {
-                  width: "45%"
-                },
-                "@media (min-width:1440px)": {
-                  width: "45%"
-                }
-              }}
+              alt="Web App"
+              title="An App Built for Case Workers"
+              description="Pass allows users to quickly and securely share documents of their clients within the app. The app helps case workes verify and share documents such as ID and proof of income while having total control of the documents."
             />
-
-            <Typography
-              sx={{
-                color: "temporaryPurple.dark",
-                fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
-                textAlign: { xs: "center" },
-                marginBottom: "24px"
-              }}
-            >
-              <strong>An App Built for Case Workers</strong>
-            </Typography>
-            <Typography
-              sx={{
-                color: "temporaryPurple.text",
-                fontSize: { xs: "1rem", sm: "1rem", md: "1.5rem" },
-                width: { md: "75%" },
-                marginBottom: "10%"
-              }}
-            >
-              PASS allows users to quickly and securely share documents of their clients within the
-              app. The app helps case workers verify and share documents such as ID and proof of
-              income while having total control of the documents.
-            </Typography>
-            <img
-              src="./src/assets/key-features-image.png"
-              alt="logo"
-              className="key-features-image"
+            <ReusableHomeSection
+              src="./src/assets/key-features.png"
+              alt="Key Features"
+              title="Key Features"
             />
-            <Typography
-              sx={{
-                color: "temporaryPurple.dark",
-                fontSize: { xs: "2rem", sm: "2rem", md: "3rem" },
-                textAlign: { xs: "center" },
-                marginBottom: "50px"
-              }}
-            >
-              <strong>Key Features</strong>
-            </Typography>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "14px"
-              }}
-            >
-              <SecurityIcon sx={{ color: "temporaryPurple.main" }} />
-              <Typography
-                sx={{
-                  marginLeft: "8px", // Optional, to add some space between the icon and text
-                  color: "temporaryPurple.main",
-                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
-                }}
-              >
-                <strong>Secure Storage</strong>
-              </Typography>
-            </Box>
-            <Typography
-              sx={{
-                width: { xs: "90%", md: "65%" },
-                textAlign: "center",
-                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
-                color: "temporaryPurple.text",
-                marginBottom: "50px"
-              }}
-            >
-              Store vital documents like IDs, social security information, birth certificates,
-              medical records, and bank statements in a digital, valid format. Stored documents will
-              be verified and approved by government agencies.
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "6px"
-              }}
-            >
-              <Diversity1Icon sx={{ color: "temporaryPurple.main" }} />
-              <Typography
-                sx={{
-                  marginLeft: "8px", // Optional, to add some space between the icon and text
-                  color: "temporaryPurple.main",
-                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
-                }}
-              >
-                <strong>Non-Profit & Caseworker Integration</strong>
-              </Typography>
-            </Box>
-            <Typography
-              sx={{
-                width: { xs: "90%", md: "65%" },
-                textAlign: "center",
-                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
-                color: "temporaryPurple.text",
-                marginBottom: "50px"
-              }}
-            >
-              The platform facilitates smooth communication between non-profit organizations,
-              caseworkers, and the individuals they serve. It allows non-profit organizations to
-              maintain a contact list, and caseworkers are assigned contacts whose &apos;pods&apos;
-              they can access securely.
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "6px"
-              }}
-            >
-              <SupportIcon sx={{ color: "temporaryPurple.main" }} />
-              <Typography
-                sx={{
-                  marginLeft: "8px", // Optional, to add some space between the icon and text
-                  color: "temporaryPurple.main",
-                  fontSize: { xs: "1rem", sm: "1.25rem", md: "1.25rem" }
-                }}
-              >
-                <strong>Support Services</strong>
-              </Typography>
-            </Box>
-            <Typography
-              sx={{
-                width: { xs: "90%", md: "65%" },
-                textAlign: "center",
-                fontSize: { xs: ".85rem", sm: "1rem", md: "1.25rem" },
-                color: "temporaryPurple.text"
-              }}
-            >
-              Verified documents can be used to facilitate access to service such as housing support
-              and shelter accommodation. The platform simplifies the process of submitting necessary
-              documents for such services.
-            </Typography>
+            <ReusableKeyFeatures
+              icon={
+                <SecurityIcon
+                  sx={{
+                    color: 'Purple.main'
+                  }}
+                />
+              }
+              title="Secure Storage"
+              description="Store vital documents like IDs, social security information, birth certificates, medical records, and bank statements in a digital, valid format."
+            />
+            <ReusableKeyFeatures
+              icon={
+                <Diversity1Icon
+                  sx={{
+                    color: 'Purple.main'
+                  }}
+                />
+              }
+              title="Non-Profit & Caseworker Intergration"
+              description="The platform facilitates smooth communication between non-profit organizations, caseworkers, and the individuals they sesrve. It allows non-profit organizations to maintain a contact list, and casewrokes are assigned contacts whose pods they can access securely."
+            />
+            <ReusableKeyFeatures
+              icon={
+                <SupportIcon
+                  sx={{
+                    color: 'Purple.main'
+                  }}
+                />
+              }
+              title="Support Service"
+              description="Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplidies the process of submitting necessary documents for such services."
+            />
           </Stack>
         </section>
       </Box>
