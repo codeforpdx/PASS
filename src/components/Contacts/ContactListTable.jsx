@@ -12,7 +12,7 @@ import ContactListTableRow from './ContactListTableRow';
 import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
+const columnTitlesArray = ['Contact', 'Pin', 'Message', 'Delete'];
 
 /**
  * contactListTableProps is an object that stores the props for the

@@ -10,11 +10,13 @@ import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import SendIcon from '@mui/icons-material/Send';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Custom Hook Imports
 import useNotification from '../../hooks/useNotification';
 // Component Imports
+import { NewMessageModal } from '../Modals';
 import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
@@ -42,6 +44,7 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
   const { setContact } = useContext(DocumentListContext);
   const navigate = useNavigate();
   const { addNotification } = useNotification();
+  const [showModal, setShowModal] = useState(false);
 
   // determine what icon gets rendered in the pinned column
   const pinnedIcon = pinned ? <PushPinIcon color="secondary" /> : <PushPinOutlinedIcon />;
@@ -85,11 +88,28 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
           {pinnedIcon}
         </IconButton>
       </StyledTableCell>
+      <StyledTableCell>
+        <IconButton
+          size="large"
+          variant="contained"
+          onClick={() => setShowModal(!showModal)}
+          // startIcon={<CreateIcon />}
+        >
+          <SendIcon />
+        </IconButton>
+      </StyledTableCell>
       <StyledTableCell align="center">
         <IconButton size="large" onClick={() => deleteContact(contact)}>
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </StyledTableCell>
+      {showModal && (
+        <NewMessageModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          // oldMessage={message}
+        />
+      )}
     </StyledTableRow>
   );
 };
