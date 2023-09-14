@@ -16,8 +16,8 @@ import NavbarMobile from './NavbarMobile';
  *
  * @memberof GlobalComponents
  * @name NavBar
+ * @returns {React.JSX.Element} - The Navbar component
  */
-
 const NavBar = () => {
   const { session } = useSession();
   const theme = useTheme();
@@ -29,6 +29,7 @@ const NavBar = () => {
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
+  // function for ConfirmationModal
   const handleLogout = async () => {
     setProcessing(true);
 
@@ -53,7 +54,7 @@ const NavBar = () => {
         title="Log out?"
         text="This will log you out of your pod. Are you sure?"
         confirmButtonFunction={handleLogout}
-        confirmButtonText="YES"
+        confirmButtonText="LOG OUT"
         processing={processing}
         isLogout
       />
