@@ -282,6 +282,7 @@ const React = require('react');
  * @property {Function} confirmButtonFunction - method that runs onClick of button
  * @property {string} confirmButtonText - text rendered on confirm button
  * @property {boolean} processing - state used to disable button
+ * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
  * @memberof typedefs
  */
 

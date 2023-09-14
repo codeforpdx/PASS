@@ -10,6 +10,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import LogoutButton from './LogoutButton';
+
 // ULTIMATE GOAL:
 // Replace LogoutModal, DeleteContactModal, DeleteDocumentModal
 // Could replace all test files for the above, to just one file for ConfirmationModal
@@ -37,31 +39,25 @@ const ConfirmationModal = ({
   text,
   confirmButtonFunction,
   confirmButtonText,
-  processing
-}) => (
-  <Dialog
-    open={showConfirmationModal}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-description"
-    onClose={() => setShowConfirmationModal(false)}
-  >
-    <DialogTitle id="dialog-title">{title}</DialogTitle>
-
-    <DialogContent>
-      <DialogContentText id="dialog-description">{text}</DialogContentText>
-    </DialogContent>
-
-    <DialogActions>
-      <Button
-        variant="outlined"
-        color="error"
-        aria-label="Cancel Button"
-        endIcon={<ClearIcon />}
-        onClick={() => setShowConfirmationModal(false)}
-      >
-        CANCEL
-      </Button>
-
+  processing,
+  isLogout = false
+}) => {
+  const confirmButton = () =>
+    isLogout ? (
+      <LogoutButton>
+        <Button
+          variant="contained"
+          color="primary"
+          aria-label="Confirm Button"
+          endIcon={<CheckIcon />}
+          onClick={confirmButtonFunction}
+          disabled={processing}
+          sx={{ marginLeft: '1rem' }}
+        >
+          {confirmButtonText}
+        </Button>
+      </LogoutButton>
+    ) : (
       <Button
         variant="contained"
         color="primary"
@@ -75,8 +71,36 @@ const ConfirmationModal = ({
       >
         {confirmButtonText}
       </Button>
-    </DialogActions>
-  </Dialog>
-);
+    );
+
+  return (
+    <Dialog
+      open={showConfirmationModal}
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-description"
+      onClose={() => setShowConfirmationModal(false)}
+    >
+      <DialogTitle id="dialog-title">{title}</DialogTitle>
+
+      <DialogContent>
+        <DialogContentText id="dialog-description">{text}</DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          variant="outlined"
+          color="error"
+          aria-label="Cancel Button"
+          endIcon={<ClearIcon />}
+          onClick={() => setShowConfirmationModal(false)}
+        >
+          CANCEL
+        </Button>
+
+        {confirmButton()}
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default ConfirmationModal;
