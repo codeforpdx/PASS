@@ -1,12 +1,12 @@
 // React Imports
 import React, { useState } from 'react';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Import
-import { LogoutModal } from '../Modals';
+import { ConfirmationModal, LogoutModal } from '../Modals';
 import NavbarDesktop from './NavbarDesktop';
 import NavbarLoggedOut from './NavbarLoggedOut';
 import NavbarMobile from './NavbarMobile';
@@ -23,6 +23,7 @@ const NavBar = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const { addNotification } = useNotification();
 
   // state for LogoutModal component
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -33,15 +34,42 @@ const NavBar = () => {
     setShowConfirmation(false);
   };
 
+  // states for ConfirmationModal
+  const [processing, setProcessing] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const handleLogout2 = async () => {
+    setProcessing(true);
+
+    try {
+      localStorage.clear();
+      addNotification('success', 'You have been logged out');
+    } catch (e) {
+      addNotification('error', `Log out failed. Reason: ${e.message}`);
+    } finally {
+      setShowConfirmationModal(false);
+      setProcessing(false);
+    }
+  };
+
   return session.info.isLoggedIn ? (
     <>
       {isSmallScreen && <NavbarMobile setShowConfirmation={setShowConfirmation} />}
       {isLargeScreen && <NavbarDesktop setShowConfirmation={setShowConfirmation} />}
-      <LogoutModal
+      <ConfirmationModal
+        showConfirmationModal={showConfirmationModal}
+        setShowConfirmationModal={setShowConfirmationModal}
+        title="Log out?"
+        text="This will log you out of your pod. Are you sure?"
+        confirmButtonFunction={handleLogout2}
+        confirmButtonText="YES"
+        processing={processing}
+      />
+      {/* <LogoutModal
         showConfirmation={showConfirmation}
         setShowConfirmation={setShowConfirmation}
         handleLogout={handleLogout}
-      />
+      /> */}
     </>
   ) : (
     <NavbarLoggedOut />
