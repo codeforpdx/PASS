@@ -35,7 +35,6 @@ const ConfirmationModal = ({
   setShowConfirmationModal,
   title,
   text,
-  confirmButtonAriaLabel,
   confirmButtonFunction,
   confirmButtonText,
   processing
@@ -66,9 +65,9 @@ const ConfirmationModal = ({
       <Button
         variant="contained"
         color="primary"
-        // can I make this aria-label just "yes-button", so no need to pass argument?
+        // can I make this aria-label just "Confirm Button", so no need to pass argument?
         // would need to change the test
-        aria-label={confirmButtonAriaLabel}
+        aria-label="Confirm Button"
         endIcon={<CheckIcon />}
         onClick={confirmButtonFunction}
         disabled={processing}
