@@ -59,12 +59,7 @@ const ConfirmationModal = ({
     aria-describedby="dialog-description"
     onClose={() => setShowConfirmationModal(false)}
   >
-    <FormSection
-      title="Delete Document"
-      state={state}
-      statusType="Status"
-      defaultMessage="To be deleted..."
-    >
+    <FormSection title="Delete Document">
       <form onSubmit={confirmButtonFunction} autoComplete="off">
         <DialogTitle id="dialog-title">{title}</DialogTitle>
 
@@ -92,7 +87,7 @@ const ConfirmationModal = ({
             aria-label={confirmButtonAriaLabel}
             endIcon={<CheckIcon />}
             // change disabled if not using old notification system
-            disabled={state.processing}
+            // disabled={state.processing}
             sx={{ marginLeft: '1rem' }}
           >
             {confirmButtonText}
