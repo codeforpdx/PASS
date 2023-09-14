@@ -9,8 +9,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// Component Imports
-import { FormSection } from '../Form';
 
 // ULTIMATE GOAL:
 // Replace LogoutModal, DeleteContactModal, DeleteDocumentModal
@@ -18,18 +16,6 @@ import { FormSection } from '../Form';
 
 // TODO:
 // need to have parent component house state of showConfirmationModal and setShowConfirmationModal
-
-// ISSUES TO CHANGE:
-// <FormSection> is only needed for old notification system. Only keep if necessary to have "doing this..." notifications when running function & haven't done that in another way.
-// useStatusNotification & state,dispatch only needed for old notification system.
-// <form> is only needed if using <FormSection>. If not using, move submit function to YES button onClick.
-
-// ARGUMENTS TO PASS:
-// showConfirmationModal and setter states
-// dialog title - <DialogTitle> : title
-// confirmation text - <DialogContentText> : text
-// aria-label for YES button - label needed for testing and screen-reader : label
-// delete/yes function - function to run on button click : function
 
 /**
  * @typedef {import("../../typedefs.js").confirmationModalProps} confirmationModalProps
@@ -51,7 +37,8 @@ const ConfirmationModal = ({
   text,
   confirmButtonAriaLabel,
   confirmButtonFunction,
-  confirmButtonText
+  confirmButtonText,
+  processing
 }) => (
   <Dialog
     open={showConfirmationModal}
@@ -59,42 +46,37 @@ const ConfirmationModal = ({
     aria-describedby="dialog-description"
     onClose={() => setShowConfirmationModal(false)}
   >
-    <FormSection title="Delete Document">
-      <form onSubmit={confirmButtonFunction} autoComplete="off">
-        <DialogTitle id="dialog-title">{title}</DialogTitle>
+    <DialogTitle id="dialog-title">{title}</DialogTitle>
 
-        <DialogContent>
-          <DialogContentText id="dialog-description">{text}</DialogContentText>
-        </DialogContent>
+    <DialogContent>
+      <DialogContentText id="dialog-description">{text}</DialogContentText>
+    </DialogContent>
 
-        <DialogActions>
-          <Button
-            variant="outlined"
-            color="error"
-            aria-label="Cancel Button"
-            endIcon={<ClearIcon />}
-            onClick={() => setShowConfirmationModal(false)}
-          >
-            CANCEL
-          </Button>
+    <DialogActions>
+      <Button
+        variant="outlined"
+        color="error"
+        aria-label="Cancel Button"
+        endIcon={<ClearIcon />}
+        onClick={() => setShowConfirmationModal(false)}
+      >
+        CANCEL
+      </Button>
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            // can I make this aria-label just "yes-button", so no need to pass argument?
-            // would need to change the test
-            aria-label={confirmButtonAriaLabel}
-            endIcon={<CheckIcon />}
-            // change disabled if not using old notification system
-            // disabled={state.processing}
-            sx={{ marginLeft: '1rem' }}
-          >
-            {confirmButtonText}
-          </Button>
-        </DialogActions>
-      </form>
-    </FormSection>
+      <Button
+        variant="contained"
+        color="primary"
+        // can I make this aria-label just "yes-button", so no need to pass argument?
+        // would need to change the test
+        aria-label={confirmButtonAriaLabel}
+        endIcon={<CheckIcon />}
+        onClick={confirmButtonFunction}
+        disabled={processing}
+        sx={{ marginLeft: '1rem' }}
+      >
+        {confirmButtonText}
+      </Button>
+    </DialogActions>
   </Dialog>
 );
 

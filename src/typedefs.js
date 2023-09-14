@@ -281,6 +281,7 @@ const React = require('react');
  * @property {string} confirmButtonAriaLabel - text used as aria label for confirm button
  * @property {Function} confirmButtonFunction - method that runs onClick of button
  * @property {string} confirmButtonText - text rendered on confirm button
+ * @property {boolean} processing - state used to disable button
  * @memberof typedefs
  */
 
