@@ -1,4 +1,5 @@
 import AddContactModal from './AddContactModal';
+import ConfirmationModal from './ConfirmationModal';
 import DeleteContactModal from './DeleteContactModal';
 import LogoutModal from './LogoutModal';
 import NewMessageModal from './NewMessageModal';
@@ -13,6 +14,7 @@ import UploadDocumentModal from './UploadDocumentModal';
 
 export {
   AddContactModal,
+  ConfirmationModal,
   DeleteContactModal,
   LogoutModal,
   NewMessageModal,
