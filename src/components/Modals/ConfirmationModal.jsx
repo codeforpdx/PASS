@@ -9,8 +9,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// Custom Hook Imports
-import { useStatusNotification } from '@hooks';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -33,9 +31,19 @@ import { FormSection } from '../Form';
 // aria-label for YES button - label needed for testing and screen-reader : label
 // delete/yes function - function to run on button click : function
 
-// DONT FORGET:
-// jsDoc stuff
+/**
+ * @typedef {import("../../typedefs.js").confirmationModalProps} confirmationModalProps
+ */
 
+/**
+ * ConfirmationModal Component - Component that allows users to cancel or
+ * confirm their previously chosen action
+ *
+ * @memberof Modals
+ * @name ConfirmationModal
+ * @param {confirmationModalProps} props - Props used for ConfirmationModal
+ * @returns {React.JSX.Element} - The confirmation modal
+ */
 const ConfirmationModal = ({
   showConfirmationModal,
   setShowConfirmationModal,
@@ -44,59 +52,55 @@ const ConfirmationModal = ({
   confirmButtonAriaLabel,
   confirmButtonFunction,
   confirmButtonText
-}) => {
-  const { state, dispatch } = useStatusNotification();
-
-  return (
-    <Dialog
-      open={showConfirmationModal}
-      aria-labelledby="dialog-title"
-      aria-describedby="dialog-description"
-      onClose={() => setShowConfirmationModal(false)}
+}) => (
+  <Dialog
+    open={showConfirmationModal}
+    aria-labelledby="dialog-title"
+    aria-describedby="dialog-description"
+    onClose={() => setShowConfirmationModal(false)}
+  >
+    <FormSection
+      title="Delete Document"
+      state={state}
+      statusType="Status"
+      defaultMessage="To be deleted..."
     >
-      <FormSection
-        title="Delete Document"
-        state={state}
-        statusType="Status"
-        defaultMessage="To be deleted..."
-      >
-        <form onSubmit={confirmButtonFunction} autoComplete="off">
-          <DialogTitle id="dialog-title">{title}</DialogTitle>
+      <form onSubmit={confirmButtonFunction} autoComplete="off">
+        <DialogTitle id="dialog-title">{title}</DialogTitle>
 
-          <DialogContent>
-            <DialogContentText id="dialog-description">{text}</DialogContentText>
-          </DialogContent>
+        <DialogContent>
+          <DialogContentText id="dialog-description">{text}</DialogContentText>
+        </DialogContent>
 
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              aria-label="Cancel Button"
-              endIcon={<ClearIcon />}
-              onClick={() => setShowConfirmationModal(false)}
-            >
-              CANCEL
-            </Button>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            color="error"
+            aria-label="Cancel Button"
+            endIcon={<ClearIcon />}
+            onClick={() => setShowConfirmationModal(false)}
+          >
+            CANCEL
+          </Button>
 
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              // can I make this aria-label just "yes-button", so no need to pass argument?
-              // would need to change the test
-              aria-label={confirmButtonAriaLabel}
-              endIcon={<CheckIcon />}
-              // change disabled if not using old notification system
-              disabled={state.processing}
-              sx={{ marginLeft: '1rem' }}
-            >
-              {confirmButtonText}
-            </Button>
-          </DialogActions>
-        </form>
-      </FormSection>
-    </Dialog>
-  );
-};
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            // can I make this aria-label just "yes-button", so no need to pass argument?
+            // would need to change the test
+            aria-label={confirmButtonAriaLabel}
+            endIcon={<CheckIcon />}
+            // change disabled if not using old notification system
+            disabled={state.processing}
+            sx={{ marginLeft: '1rem' }}
+          >
+            {confirmButtonText}
+          </Button>
+        </DialogActions>
+      </form>
+    </FormSection>
+  </Dialog>
+);
 
 export default ConfirmationModal;
