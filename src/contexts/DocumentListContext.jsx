@@ -30,14 +30,14 @@ export const DocumentListContextProvider = ({ children }) => {
   const [documentListObject, setDocumentListObject] = useState({});
   const [loadingDocuments, setLoadingDocuments] = useState(true);
   const { podUrl } = useContext(SignedInUserContext);
-  const [client, setClient] = useState(null);
+  const [contact, setContact] = useState(null);
   const { session } = useContext(SessionContext);
 
   const documentListMemo = useMemo(
     () => ({
       documentListObject,
-      client,
-      setClient,
+      contact,
+      setContact,
       addDocument: async (docDesc, file) =>
         setDocumentListObject(await addDocument(docDesc, file, documentListObject, session)),
       replaceDocument: async (docDesc, file) =>
@@ -54,17 +54,17 @@ export const DocumentListContextProvider = ({ children }) => {
       setDocumentListObject({
         docList: [],
         dataset: createSolidDataset(),
-        containerUrl: client ? `${client.podUrl}PASS/Documents/` : `${podUrl}PASS/Documents/`
+        containerUrl: contact ? `${contact.podUrl}PASS/Documents/` : `${podUrl}PASS/Documents/`
       });
       try {
-        setDocumentListObject(await loadDocumentList(session, client ? client.podUrl : podUrl));
+        setDocumentListObject(await loadDocumentList(session, contact ? contact.podUrl : podUrl));
       } finally {
         setLoadingDocuments(false);
       }
     };
 
     if (podUrl) loadDocuments();
-  }, [podUrl, client?.podUrl]);
+  }, [podUrl, contact?.podUrl]);
 
   return (
     <DocumentListContext.Provider value={documentListMemo}>{children}</DocumentListContext.Provider>

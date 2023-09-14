@@ -4,13 +4,14 @@ import React, { createContext, useContext, useState, useMemo, useEffect } from '
 import { getPodUrlAll } from '@inrupt/solid-client';
 import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createDocumentsContainer, createPublicContainer } from '../utils';
+import { createPASSContainer } from '../utils';
 // Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
   uploadProfileImage,
-  removeProfileImage
+  removeProfileImage,
+  generatePrivateProfileTTL
 } from '../model-helpers';
 
 /**
@@ -57,14 +58,15 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(webId);
+        const fetchedProfileData = await fetchProfileInfo(session, webId);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
         setProfileData(fetchedProfileData);
         await Promise.all([
-          createPublicContainer(session, fetchedPodUrl),
-          createDocumentsContainer(session, fetchedPodUrl)
+          createPASSContainer(session, fetchedPodUrl, 'Documents'),
+          createPASSContainer(session, fetchedPodUrl, 'Profile'),
+          generatePrivateProfileTTL(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

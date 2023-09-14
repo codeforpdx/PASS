@@ -31,6 +31,7 @@ const parseContacts = (data) => {
     const contact = {};
 
     contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
+    if (!contact.webId) return;
     contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
     contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
     contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
@@ -61,7 +62,7 @@ const useContactsList = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
-  const url = new URL('PASS/Users/userlist.ttl', podUrl).toString();
+  const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
 
   const saveData = async (dataset) => {
     const savedDataset = await saveSolidDatasetAt(url, dataset, {
@@ -91,6 +92,7 @@ const useContactsList = () => {
 
   const addContactMutation = useMutation({
     mutationFn: async (newContact) => {
+      if (!data) await fetchContactsList();
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
       const savedDataset = await saveData(newDataset);
