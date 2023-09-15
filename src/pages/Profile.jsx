@@ -58,7 +58,7 @@ const Profile = () => {
   const handleDeleteDoc = async () => {
     setProcessing(true);
     try {
-      await removeDocument(selectedDocToDelete);
+      await removeDocument(selectedDocToDelete.name);
       addNotification('success', `${selectedDocToDelete?.name} deleted from the pod.`);
     } catch (e) {
       addNotification('error', `Document deletion failed. Reason: ${e.message}`);
