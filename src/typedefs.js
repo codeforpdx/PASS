@@ -269,24 +269,6 @@ const React = require('react');
  */
 
 /**
- * confirmationModalProps is an object that stores the props for the ConfirmationModal
- * component
- *
- * @exports confirmationModalProps
- * @typedef {object} confirmationModalProps
- * @property {boolean} showConfirmationModal - toggle showing modal
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowConfirmationModal - used to close the modal
- * @property {string} title - text rendered in dialog title
- * @property {string} text - text rendered in dialog content text
- * @property {string} confirmButtonAriaLabel - text used as aria label for confirm button
- * @property {Function} confirmButtonFunction - method that runs onClick of button
- * @property {string} confirmButtonText - text rendered on confirm button
- * @property {boolean} processing - state used to disable button
- * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
- * @memberof typedefs
- */
-
-/**
  * footerProps is an object that stores the props for the Footer subcomponents
  *
  * @exports footerProps

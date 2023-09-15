@@ -9,18 +9,24 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+// Component Imports
 import LogoutButton from './LogoutButton';
 
-// ULTIMATE GOAL:
-// Replace LogoutModal, DeleteContactModal, DeleteDocumentModal
-// Could replace all test files for the above, to just one file for ConfirmationModal
-
-// TODO:
-// need to have parent component house state of showConfirmationModal and setShowConfirmationModal
-
 /**
- * @typedef {import("../../typedefs.js").confirmationModalProps} confirmationModalProps
+ * confirmationModalProps is an object that stores the props for the
+ * ConfirmationModal component
+ *
+ * @typedef {object} confirmationModalProps
+ * @property {boolean} showConfirmationModal - toggle showing modal
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowConfirmationModal - used to close the modal
+ * @property {string} title - text rendered in dialog title
+ * @property {string} text - text rendered in dialog content text
+ * @property {string} confirmButtonAriaLabel - text used as aria label for confirm button
+ * @property {Function} confirmButtonFunction - method that runs onClick of button
+ * @property {string} confirmButtonText - text rendered on confirm button
+ * @property {boolean} processing - state used to disable button
+ * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
+ * @memberof typedefs
  */
 
 /**
@@ -61,8 +67,6 @@ const ConfirmationModal = ({
       <Button
         variant="contained"
         color="primary"
-        // can I make this aria-label just "Confirm Button", so no need to pass argument?
-        // would need to change the test
         aria-label="Confirm Button"
         endIcon={<CheckIcon />}
         onClick={confirmButtonFunction}
