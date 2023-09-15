@@ -87,10 +87,9 @@ const Contacts = () => {
       <ConfirmationModal
         showConfirmationModal={showConfirmationModal}
         setShowConfirmationModal={setShowConfirmationModal}
-        title="Delete Contact?"
+        title="Delete Contact"
         text={`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
-        confirmButtonFunction={handleDeleteContact}
-        confirmButtonText="DELETE CONTACT"
+        confirmFunction={handleDeleteContact}
         processing={processing}
       />
     </Container>

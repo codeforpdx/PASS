@@ -20,10 +20,8 @@ import LogoutButton from './LogoutButton';
  * @property {boolean} showConfirmationModal - toggle showing modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowConfirmationModal - used to close the modal
  * @property {string} title - text rendered in dialog title
- * @property {string} text - text rendered in dialog content text
- * @property {string} confirmButtonAriaLabel - text used as aria label for confirm button
- * @property {Function} confirmButtonFunction - method that runs onClick of button
- * @property {string} confirmButtonText - text rendered on confirm button
+ * @property {string} text - text rendered in dialog content text & confirm button
+ * @property {Function} confirmFunction - method that runs onClick of button
  * @property {boolean} processing - state used to disable button
  * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
  * @memberof typedefs
@@ -43,8 +41,7 @@ const ConfirmationModal = ({
   setShowConfirmationModal,
   title,
   text,
-  confirmButtonFunction,
-  confirmButtonText,
+  confirmFunction,
   processing,
   isLogout = false
 }) => {
@@ -56,11 +53,11 @@ const ConfirmationModal = ({
           color="primary"
           aria-label="Confirm Button"
           endIcon={<CheckIcon />}
-          onClick={confirmButtonFunction}
+          onClick={confirmFunction}
           disabled={processing}
           sx={{ marginLeft: '1rem' }}
         >
-          {confirmButtonText.toUpperCase()}
+          {title.toUpperCase()}
         </Button>
       </LogoutButton>
     ) : (
@@ -69,11 +66,11 @@ const ConfirmationModal = ({
         color="primary"
         aria-label="Confirm Button"
         endIcon={<CheckIcon />}
-        onClick={confirmButtonFunction}
+        onClick={confirmFunction}
         disabled={processing}
         sx={{ marginLeft: '1rem' }}
       >
-        {confirmButtonText.toUpperCase()}
+        {title.toUpperCase()}
       </Button>
     );
 
@@ -84,7 +81,7 @@ const ConfirmationModal = ({
       aria-describedby="dialog-description"
       onClose={() => setShowConfirmationModal(false)}
     >
-      <DialogTitle id="dialog-title">{title}</DialogTitle>
+      <DialogTitle id="dialog-title">{title.toUpperCase()}</DialogTitle>
 
       <DialogContent>
         <DialogContentText id="dialog-description">{text}</DialogContentText>

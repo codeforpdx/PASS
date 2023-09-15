@@ -50,10 +50,9 @@ const NavBar = () => {
       <ConfirmationModal
         showConfirmationModal={showConfirmationModal}
         setShowConfirmationModal={setShowConfirmationModal}
-        title="Log out?"
+        title="Log Out"
         text="This will log you out of your pod. Are you sure?"
-        confirmButtonFunction={handleLogout}
-        confirmButtonText="LOG OUT"
+        confirmFunction={handleLogout}
         processing={processing}
         isLogout
       />
