@@ -54,7 +54,7 @@ const ConfirmationModal = ({
           disabled={processing}
           sx={{ marginLeft: '1rem' }}
         >
-          {confirmButtonText}
+          {confirmButtonText.toUpperCase()}
         </Button>
       </LogoutButton>
     ) : (
@@ -69,7 +69,7 @@ const ConfirmationModal = ({
         disabled={processing}
         sx={{ marginLeft: '1rem' }}
       >
-        {confirmButtonText}
+        {confirmButtonText.toUpperCase()}
       </Button>
     );
 

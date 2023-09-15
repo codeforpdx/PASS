@@ -32,7 +32,6 @@ const NavBar = () => {
   // function for ConfirmationModal
   const handleLogout = async () => {
     setProcessing(true);
-
     try {
       localStorage.clear();
       addNotification('success', 'You have been logged out');
