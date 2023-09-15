@@ -3,8 +3,9 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
+import { SessionProvider } from '@contexts';
 // Page Imports
-import { Home, Clients, Messages, Profile } from './pages';
+import { Home, Contacts, Messages, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -19,7 +20,7 @@ const AppRoutes = () => {
   const { session } = useSession();
   const restorePath = localStorage.getItem('restorePath');
   const loggedIn = session.info.isLoggedIn;
-  const path = loggedIn ? restorePath || '/clients' : '/';
+  const path = loggedIn ? restorePath || '/contacts' : '/';
 
   return (
     <Routes>
@@ -28,8 +29,16 @@ const AppRoutes = () => {
         path="/"
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
+      <Route
+        path="/signup"
+        element={
+          <SessionProvider>
+            <Signup />
+          </SessionProvider>
+        }
+      />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/clients" element={<Clients />} />
+        <Route path="/contacts" element={<Contacts />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile">
           <Route index element={<Profile />} />

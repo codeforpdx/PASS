@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 // Material UI Imports
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,7 +9,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
 import NavbarLinks from './NavbarLinks';
@@ -57,9 +57,14 @@ const NavbarMobile = ({ setShowConfirmation }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
-          <Typography variant="h4" noWrap component="div" mr="10px" aria-label="logo">
-            PASS
-          </Typography>
+          <Link to="/">
+            <img
+              src="/pass-logo.png"
+              alt="logo"
+              style={{ marginRight: '2rem' }}
+              aria-label="logo"
+            />
+          </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
           <IconButton

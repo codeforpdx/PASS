@@ -1,14 +1,13 @@
 // React Imports
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
-// Custom Hook Imports
-import { useSession } from '@hooks';
+import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createOutbox, createInbox, getMessageTTL } from '../utils';
+import { createPASSContainer, getMessageTTL } from '../utils';
 // Context Imports
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
- * @typedef {import("../typedefs").inboxListObject} inboxListObject
+ * @typedef {import("../typedefs").messageListObject} messageListObject
  */
 
 /**
@@ -32,7 +31,7 @@ export const MessageContext = createContext([]);
 export const MessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
   const [loadMessages, setLoadMessages] = useState(true);
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
   const [inboxList, setInboxList] = useState([]);
 
   const [outboxList, setOutboxList] = useState([]);
@@ -56,7 +55,10 @@ export const MessageContextProvider = ({ children }) => {
    */
   const fetchData = async () => {
     setLoadMessages(true);
-    await Promise.all([createOutbox(session, podUrl), createInbox(session, podUrl)]);
+    await Promise.all([
+      createPASSContainer(session, podUrl, 'Outbox'),
+      createPASSContainer(session, podUrl, 'Inbox', { append: true })
+    ]);
 
     try {
       const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);

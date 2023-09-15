@@ -19,7 +19,8 @@ import {
   getDatetime,
   createSolidDataset,
   getUrl,
-  getWebIdDataset
+  getWebIdDataset,
+  getBoolean
 } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import sha256 from 'crypto-js/sha256';
@@ -36,7 +37,7 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * @typedef {import('@inrupt/solid-ui-react').SessionContext} Session
+ * @typedef {import('@inrupt/solid-client-authn-browser').Session} Session
  */
 
 /**
@@ -365,7 +366,7 @@ export const getUserProfileName = async (webId) => {
 
 export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) => {
   await saveSolidDatasetInContainer(containerUrl, solidDatset, {
-    slugSuggestion: `${encodeURIComponent(slug)}.ttl`,
+    slugSuggestion: `${slug}.ttl`,
     contentType: 'text/turtle',
     fetch: session.fetch
   });
@@ -389,6 +390,15 @@ export const parseMessageTTL = (messageTTLThing) => {
   const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
   const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
 
+  // Get data related to message status
+  const messageStatusThing = messageTTLThing.find((thing) => thing.url.includes('#messagestatus'));
+  let readStatus;
+  if (!messageStatusThing) {
+    readStatus = false;
+  } else {
+    readStatus = getBoolean(messageStatusThing, RDF_PREDICATES.value);
+  }
+
   // Get data related to messageid
   const messageIdThing = messageTTLThing.find((thing) => thing.url.includes('#messageid'));
   const messageId = getStringNoLocale(messageIdThing, RDF_PREDICATES.identifier);
@@ -403,7 +413,17 @@ export const parseMessageTTL = (messageTTLThing) => {
   const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
   const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
 
-  return { message, messageId, messageUrl, title, uploadDate, sender, senderWebId, recipient };
+  return {
+    message,
+    messageId,
+    messageUrl,
+    title,
+    uploadDate,
+    readStatus,
+    sender,
+    senderWebId,
+    recipient
+  };
 };
 
 /**
@@ -427,6 +447,11 @@ export const buildMessageTTL = (session, date, messageObject, messageMetadata, b
     .addStringNoLocale(RDF_PREDICATES.message, messageObject.message)
     .build();
 
+  const newMessageStatus = buildThing(createThing({ name: 'messagestatus' }))
+    .addStringNoLocale(RDF_PREDICATES.propertyValue, 'Read Status')
+    .addBoolean(RDF_PREDICATES.value, false)
+    .build();
+
   const newMessageID = buildThing(createThing({ name: 'messageid' }))
     .addStringNoLocale(RDF_PREDICATES.identifier, messageMetadata.messageId)
     .addUrl(
@@ -448,7 +473,7 @@ export const buildMessageTTL = (session, date, messageObject, messageMetadata, b
     .build();
 
   let newSolidDataset = createSolidDataset();
-  [newMessageTTL, newMessageID, senderInfo, recipientInfo].forEach((thing) => {
+  [newMessageTTL, newMessageStatus, newMessageID, senderInfo, recipientInfo].forEach((thing) => {
     newSolidDataset = setThing(newSolidDataset, thing);
   });
 

@@ -6,13 +6,12 @@
  * @module utils
  * @namespace utils
  */
-import runNotification from './frontend/notification-helper';
 import getDriversLicenseData from './barcode/barcode-scan';
 import formattedDate from './barcode/barcode-date-parser';
+import createPASSContainer from './pod-management/pod-helper';
 
-export { runNotification, getDriversLicenseData, formattedDate };
+export { getDriversLicenseData, formattedDate, createPASSContainer };
 
 export * from './cryptography/credentials-helper';
 export * from './network/session-core';
 export * from './network/session-helper';
-export * from './pod-management/pod-helper';

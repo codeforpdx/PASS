@@ -21,7 +21,7 @@ import InputLabel from '@mui/material/InputLabel';
 const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
     <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
-      {inputName}:{' '}
+      {inputName}:
     </InputLabel>
     <Input
       id={`input-${inputName}`}

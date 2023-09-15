@@ -92,12 +92,6 @@ const React = require('react');
  * @exports formSectionProps
  * @typedef {object} formSectionProps
  * @property {string} title - Title of form section
- * @property {statusNotificationObject} state - The state for status notification
- * (see {@link statusNotificationObject})
- * @property {string} statusType - Type of action for PASS
- * @property {string} defaultMessage - Default notification message when inactive
- * @property {File|null} [file] - File object, if chosen for upload, else return
- * null
  * @property {React.ReactElement} children - JSX Element of the wrapped form
  * @memberof typedefs
  */
@@ -127,6 +121,8 @@ const React = require('react');
  * @property {string} sender - Name of sender
  * @property {URL} senderWebId - WebId of the sender
  * @property {string} recipient - Name of recipient
+ * @property {boolean} readStatus - Boolean of read status with true meaning have been
+ * read before
  * @memberof typedefs
  */
 
@@ -151,7 +147,7 @@ const React = require('react');
  *
  * @exports messagePreviewProps
  * @typedef {object} messagePreviewProps
- * @property {string} message - The content of the message sent
+ * @property {messageListObject} message - The message object
  * @property {string} folderType - Type of message box
  * @memberof typedefs
  */
@@ -165,8 +161,8 @@ const React = require('react');
  * @property {boolean} showModal - Boolean for showing message modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
  * - React set function for showModal
- * @property {object|string} oldMessage - The previous message when using the modal to reply,
- * uses a string if empty
+ * @property {messageListObject|string} oldMessage - The previous message object
+ * when using the modal to reply, else uses a string if empty
  * @memberof typedefs
  */
 
@@ -179,35 +175,8 @@ const React = require('react');
  * @exports loadingAnimationProps
  * @typedef {object} loadingAnimationProps
  * @property {string} loadingItem - The name of what you plan on loading
- * @property {React.JSX.Element} children - If used as a provider, wrapped component
+ * @property {React.JSX.Element} [children] - If used as a provider, wrapped component
  * will be used as the animation
- * @memberof typedefs
- */
-
-/**
- * clientListTableProps is an object that stores the props for the
- * ClientListTable component
- *
- * @exports clientListTableProps
- * @typedef {object} clientListTableProps
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
- * - React set function for DeleteClientModal
- * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
- * - React set function for setting client to be deleted
- * @memberof typedefs
- */
-
-/**
- * clientListTableRowProps is an object that stores the props for the
- * ClientListTableRow component
- *
- * @exports clientListTableRowProps
- * @typedef {object} clientListTableRowProps
- * @property {object} client - Object containing client information
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowDeleteClientModal
- * - React set function for DeleteClientModal
- * @property {React.Dispatch<React.SetStateAction<null>>} setSelectedClientToDelete
- * - React set function for setting client to be deleted
  * @memberof typedefs
  */
 
@@ -224,12 +193,25 @@ const React = require('react');
  */
 
 /**
+ * documentTableProps is an object that stores the props for the DocumentTable
+ * component.
+ *
+ * @exports documentTableProps
+ * @typedef {object} documentTableProps
+ * @property {(modalType: string, docName: string, docType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
+ * @memberof typedefs
+ */
+
+/**
  * documentTableRowProps is an object that stores the props for the DocumentTableRow
  * component
  *
  * @exports documentTableRowProps
  * @typedef {object} documentTableRowProps
  * @property {File} document - File object containing the document
+ * @property {(documentName: string, modalType: string, docType: string) => void} handleAclPermissionsModal
+ * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
  * @memberof typedefs
  */
 
@@ -239,7 +221,7 @@ const React = require('react');
  *
  * @exports profileComponentProps
  * @typedef {object} profileComponentProps
- * @property {object} [clientProfile] - Client object with data from profile
+ * @property {object} [contactProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -252,7 +234,7 @@ const React = require('react');
  * @typedef {object} profileImageFieldProps
  * @property {() => void} loadProfileData - Handler function for setting local
  * state for profile card in PASS
- * @property {object} [clientProfile] - Client object with data from profile
+ * @property {object} [contactProfile] - Contact object with data from profile
  * or null if user profile is selected
  * @memberof typedefs
  */
@@ -265,7 +247,7 @@ const React = require('react');
  * @typedef {object} profileInputFieldProps
  * @property {string} inputName - Name of input field
  * @property {string} inputValue - Value of input field used for updating profile
- * @property {(value: React.SetStateAction<null>) => void} setInputValue - Set
+ * @property {(value: React.SetStateAction<string|null>) => void} setInputValue - Set
  * function for inputValue
  * @property {boolean} edit - Boolean used to toggle edit inputs
  * @memberof typedefs
@@ -277,7 +259,7 @@ const React = require('react');
  *
  * @exports profileEditButtonGroupProps
  * @typedef {object} profileEditButtonGroupProps
- * @property {string} edit - Boolean state for editing values in the
+ * @property {boolean} edit - Boolean state for editing values in the
  * ProfileInputField component
  * @property {() => void} handleCancelEdit - Handler function for canceling edit for
  * ProfileInputField component
@@ -293,6 +275,20 @@ const React = require('react');
  * @typedef {object} footerProps
  * @property {boolean} isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
+ * @memberof typedefs
+ */
+
+/**
+ * setAclPermissionsModalProps is an object that stores the props for the setAclPermissionsModal component.
+ *
+ * @exports setAclPermissionsModalProps
+ * @typedef {object} setAclPermissionsModalProps
+ * @property {boolean} showModal - Boolean for showing setAclPermissionsModal.
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowModal
+ * - React set function for setting showModal state
+ * @property {object} dataset
+ * - State object containing information for which version of modal to display,
+ * a relevant file name (if any), and a relevant document type (if any).
  * @memberof typedefs
  */
 

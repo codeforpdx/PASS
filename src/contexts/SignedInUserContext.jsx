@@ -1,18 +1,17 @@
 // React Imports
-import React, { createContext, useState, useMemo, useEffect } from 'react';
-// Inrupt Imports
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+// Inrupt Library Imports
 import { getPodUrlAll } from '@inrupt/solid-client';
-// Custom Hook Imports
-import { useSession } from '@hooks';
+import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createDocumentsContainer, createPublicContainer } from '../utils';
+import { createPASSContainer } from '../utils';
 // Model Imports
 import {
   fetchProfileInfo,
   updateProfileInfo,
   uploadProfileImage,
   removeProfileImage,
-  updateUserActivity
+  generatePrivateProfileTTL
 } from '../model-helpers';
 
 /**
@@ -34,7 +33,7 @@ export const SignedInUserContext = createContext({});
  */
 
 export const SignedInUserContextProvider = ({ children }) => {
-  const { session } = useSession();
+  const { session } = useContext(SessionContext);
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [podUrl, setPodUrl] = useState('');
   const [profileData, setProfileData] = useState(null);
@@ -59,15 +58,15 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(webId);
+        const fetchedProfileData = await fetchProfileInfo(session, webId);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
         setProfileData(fetchedProfileData);
         await Promise.all([
-          createPublicContainer(session, fetchedPodUrl),
-          createDocumentsContainer(session, fetchedPodUrl),
-          updateUserActivity(session, fetchedPodUrl)
+          createPASSContainer(session, fetchedPodUrl, 'Documents'),
+          createPASSContainer(session, fetchedPodUrl, 'Profile'),
+          generatePrivateProfileTTL(session, fetchedPodUrl)
         ]);
       } finally {
         setLoadingUserInfo(false);

@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // React Router Imports
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // Material UI Imports
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -13,7 +13,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
 import NavbarLinks from './NavbarLinks';
@@ -61,9 +60,14 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
-          <Typography variant="h4" noWrap component="div" mr="10px" aria-label="logo">
-            PASS
-          </Typography>
+          <Link to="/">
+            <img
+              src="/pass-logo.png"
+              alt="logo"
+              style={{ marginRight: '2rem' }}
+              aria-label="logo"
+            />
+          </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
           <Box aria-label="menu" sx={{ display: { xs: 'none', md: 'flex' } }}>

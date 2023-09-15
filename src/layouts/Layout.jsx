@@ -8,9 +8,13 @@ import Box from '@mui/material/Box';
 import { NavBar } from '../components/NavBar';
 import { InactivityMessage } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
+import NotificationContainer from '../components/Notification/NotificationContainer';
+import useNotification from '../hooks/useNotification';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
+  const { state } = useNotification();
+
   return (
     <Box
       aria-label={ariaLabel}
@@ -24,6 +28,7 @@ const Layout = ({ ariaLabel, children }) => {
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
+      <NotificationContainer notifications={state.notifications} />
     </Box>
   );
 };
