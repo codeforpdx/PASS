@@ -200,7 +200,7 @@ const React = require('react');
  * @typedef {object} documentTableProps
  * @property {(modalType: string, docName: string, docType: string) => void} handleAclPermissionsModal
  * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
- * @property {Function} handleSelectDeleteDoc - method to delete document
+ * @property {(document: object) => void} handleSelectDeleteDoc - method to delete document
  * @memberof typedefs
  */
 
@@ -213,7 +213,7 @@ const React = require('react');
  * @property {File} document - File object containing the document
  * @property {(documentName: string, modalType: string, docType: string) => void} handleAclPermissionsModal
  * - Function for setting up the correct version of the SetAclPermissions Modal, and opening it.
- * @property {Function} handleSelectDeleteDoc - method to delete document
+ * @property {(document: object) => void} handleSelectDeleteDoc - method to delete document
  * @memberof typedefs
  */
 
