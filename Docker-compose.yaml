@@ -1,47 +1,31 @@
 version: '3.8'
 
 services:
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/ssl:/etc/nginx/ssl
-    depends_on:
-      - react-app
-      - solid-server
-
   react-app:
     build:
       context: ./
       dockerfile: Dockerfile.react
     expose:
-      - "80" # Expose port for other services
+      - "8080" # Expose port for other services
+    ports:
+      - "8080:80"
+    networks:
+      - nginx_default
 
   solid-server:
     image: solidproject/community-server:6.0.0
     restart: always
     user: root
     expose:
-      - "3000" # Expose port for other services
+      - "3000"
+    ports:
+      - "3000:3000"
     volumes:
       - ./config/solid-server/solid-config.json:/home/node/.config/solid-server
-      #certificates and keys for https for domain opencommons.net
-      - ./config/ssl/opencommons.net.crt:/usr/local/share/ca-certificates/opencommons.net.crt
-      - ./config/ssl/opencommons.net.key:/usr/local/share/ca-certificates/opencommons.net.key
-  
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./config/ssl:/etc/letsencrypt
-    command: certonly --standalone -d opencommons.net
-    depends_on:
-      - nginx
+      - ./data/solid-server:/home/node/.local/share/solid-server
+    networks:
+      - nginx_default
+
 networks:
-  default:
-    driver: bridge
-  
-    
+  nginx_default:
+    external: true
