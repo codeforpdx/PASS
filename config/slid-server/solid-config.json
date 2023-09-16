@@ -33,5 +33,19 @@
       "css:config/util/resource-locker/file.json",
       "css:config/util/variables/default.json"
     ],
-    "@graph": []
+    "@graph": [],
+    "servers": [
+      {
+        "serverUri": "https://css.opencommons.net/",
+        "locations": [
+          {
+            "url": "https://css.opencommons.net/",
+            "availableMediaTypes": ["text/turtle"],
+            "basePath": "/",
+            "description": "Basic conf for solid"
+          }
+        ]
+      }
+    ]
   }
+  
