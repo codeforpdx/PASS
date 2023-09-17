@@ -1,4 +1,5 @@
 import AddContactModal from './AddContactModal';
+import ConfirmationButton from './ConfirmationButton';
 import ConfirmationModal from './ConfirmationModal';
 import NewMessageModal from './NewMessageModal';
 import SetAclPermissionsModal from './SetAclPermissionsModal';
@@ -12,6 +13,7 @@ import UploadDocumentModal from './UploadDocumentModal';
 
 export {
   AddContactModal,
+  ConfirmationButton,
   ConfirmationModal,
   NewMessageModal,
   SetAclPermissionsModal,

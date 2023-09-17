@@ -3,13 +3,13 @@ import React from 'react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 // Component Imports
+import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
 /**
@@ -19,8 +19,8 @@ import LogoutButton from './LogoutButton';
  * @typedef {object} confirmationModalProps
  * @property {boolean} showConfirmationModal - toggle showing modal
  * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowConfirmationModal - used to close the modal
- * @property {string} title - text rendered in dialog title
- * @property {string} text - text rendered in dialog content text & confirm button
+ * @property {string} title - text rendered in dialog title & confirmationButton
+ * @property {string} text - text rendered in dialog content text
  * @property {Function} confirmFunction - method that runs onClick of button
  * @property {boolean} processing - state used to disable button
  * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
@@ -48,30 +48,14 @@ const ConfirmationModal = ({
   const confirmButton = () =>
     isLogout ? (
       <LogoutButton>
-        <Button
-          variant="contained"
-          color="primary"
-          aria-label="Confirm Button"
-          endIcon={<CheckIcon />}
-          onClick={confirmFunction}
-          disabled={processing}
-          sx={{ marginLeft: '1rem' }}
-        >
-          {title.toUpperCase()}
-        </Button>
+        <ConfirmationButton
+          title={title}
+          confirmFunction={confirmFunction}
+          processing={processing}
+        />
       </LogoutButton>
     ) : (
-      <Button
-        variant="contained"
-        color="primary"
-        aria-label="Confirm Button"
-        endIcon={<CheckIcon />}
-        onClick={confirmFunction}
-        disabled={processing}
-        sx={{ marginLeft: '1rem' }}
-      >
-        {title.toUpperCase()}
-      </Button>
+      <ConfirmationButton title={title} confirmFunction={confirmFunction} processing={processing} />
     );
 
   return (
