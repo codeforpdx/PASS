@@ -12,7 +12,7 @@ import { SignedInUserContext } from './SignedInUserContext';
 /**
  * React Context for showing all documents in a user's pod
  *
- * @name UserListContext
+ * @name DocumentListContext
  * @memberof contexts
  */
 export const DocumentListContext = createContext([]);

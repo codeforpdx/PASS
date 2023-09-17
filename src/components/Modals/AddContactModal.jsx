@@ -65,7 +65,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       await addContact(userObject);
       addNotification(
         'success',
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`
+        `"${userObject.givenName} ${userObject.familyName}" added to contact list`
       );
     } catch (e) {
       addNotification('error', `Add contact failed. Reason: ${e.message}`);
@@ -163,7 +163,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               type="submit"
               fullWidth
             >
-              ADD CLIENT
+              ADD CONTACT
             </Button>
           </DialogActions>
         </form>
