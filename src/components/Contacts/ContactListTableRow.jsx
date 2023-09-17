@@ -68,22 +68,26 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
   };
 
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">
-        <Link
-          to={`/profile/${encodeURIComponent(contact.webId)}`}
-          state={{ contact }}
-          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
-        >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => handleSelectProfile(contact)}>
-            {contact.person}
-          </Button>
-        </Link>
-      </StyledTableCell>
-      <StyledTableCell
-        align="center"
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        border: 1
+      }}
+    >
+      <Card
+        sx={{
+          // border: 3,
+          // margin: 3
+          width: '100%'
+        }}
       >
+        {/* <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ margin: 1, padding: 1 }}
         <IconButton size="large" onClick={handlePinClick}>
           {pinnedIcon}
         </IconButton>
@@ -93,24 +97,51 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
           size="large"
           variant="contained"
           onClick={() => setShowModal(!showModal)}
-          // startIcon={<CreateIcon />}
         >
-          <SendIcon />
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" onClick={() => deleteContact(contact)}>
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </StyledTableCell>
-      {showModal && (
-        <NewMessageModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          // oldMessage={message}
-        />
-      )}
-    </StyledTableRow>
+          <div
+          // align="center"
+          > */}
+            <Link
+              to={`/profile/${encodeURIComponent(contact.webId)}`}
+              state={{ contact }}
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.primary.dark
+              }}
+            >
+              <Button
+                sx={{ textTransform: 'capitalize' }}
+                onClick={() => handleSelectProfile(contact)}
+              >
+                {contact.person}
+              </Button>
+            </Link>
+          </div>
+          <Typography>(date added)</Typography>
+          <div
+            // align="center"
+            style={
+              {
+                // display: 'flex',
+                // justifyContent: 'center',
+                // alignItems: 'center'
+              }
+            }
+          >
+            <IconButton size="large" onClick={handlePinClick}>
+              {pinnedIcon}
+            </IconButton>
+          </div>
+          <div
+          // align="center"
+          >
+            <IconButton size="large" onClick={() => deleteContact(contact)}>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </div>
+        </Stack>
+      </Card>
+    </Box>
   );
 };
 
