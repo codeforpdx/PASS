@@ -31,20 +31,6 @@ const React = require('react');
  */
 
 /**
- * An object containing the type, value, onChange function, and clearValue
- * function for the custom useField hook
- *
- * @exports useFieldObject
- * @typedef {object} useFieldObject
- * @property {string} type - Type attribute of HTML input element
- * @property {string} value - The value of input element
- * @property {Function} onChange - Event handler for changes in input element
- * @property {Function} clearValue - Event handler that clears value set for
- * input element
- * @memberof typedefs
- */
-
-/**
  * An object containing the status notification state used for both the
  * StatusNotification and StatusMessage components
  *
