@@ -5,61 +5,6 @@ const React = require('react');
  */
 
 /**
- * A React props object for the StatusMessage component
- *
- * @exports statusMessageProps
- * @typedef {object} statusMessageProps
- * @property {string} notification - File status message
- * @property {URL} [locationUrl] - URL location of file, if exist
- * @property {string|null} [filename] - Name of the file being processed
- * @memberof typedefs
- */
-
-/**
- * A React props object for the StatusNotification component
- *
- * @exports statusNotificationProps
- * @typedef {object} statusNotificationProps
- * @property {statusNotificationObject} state - The state used for statusNotification
- * @property {string} statusType - Type of file status (i.e. file upload, file
- * fetch, file delete)
- * @property {string} defaultMessage - Default message when status is not
- * triggered
- * @property {File|null} [file] - File object to be uploaded, if chosen, else
- * returns null
- * @memberof typedefs
- */
-
-/**
- * An object containing the status notification state used for both the
- * StatusNotification and StatusMessage components
- *
- * @exports statusNotificationObject
- * @typedef {object} statusNotificationObject
- * @property {URL|null} documentUrl - Url link to document container
- * @property {string} message - Status message for file upload, query, or deletion
- * @property {string|null} timeoutID - Timeout ID for status message
- * @property {boolean} processing - Boolean on whether application is uploading,
- * fetching, querying data from Solid
- * @property {boolean} verifyFile - Boolean on whether to verify file upon file
- * upload
- * @memberof typedefs
- */
-
-/**
- * An object containing the status notification state and useReducer dispatch
- * function from the custom useStatusNotification hook
- *
- * @exports useStatusNotificationObject
- * @typedef {object} useStatusNotificationObject
- * @property {statusNotificationObject} statusNotificationObject - An object
- * consisting of the state for status notifications (see {@link statusNotificationObject})
- * @property {React.DispatchWithoutAction} dispatch - React's useReducer dispatch
- * function
- * @memberof typedefs
- */
-
-/**
  * An input object for functions related to file uploads to Solid's Pod
  *
  * @exports fileObjectType
