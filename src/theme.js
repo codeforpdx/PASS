@@ -40,7 +40,7 @@ const theme = createTheme({
           color: 'white'
         },
         filledError: {
-          backgroundColor: '#red',
+          backgroundColor: 'red',
           color: 'white'
         },
         filledWarning: {
