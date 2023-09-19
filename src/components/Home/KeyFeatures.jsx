@@ -10,7 +10,7 @@ import  Typography  from '@mui/material/Typography';
  * @returns {React.JSX.Element}
  */
 
-const ReusableKeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => {
+const KeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => {
   return (
     <>
       <Box
@@ -49,4 +49,4 @@ const ReusableKeyFeatures = ( {icon, title, description, isReallySmallScreen} ) 
   );
 };
 
-export default ReusableKeyFeatures;
+export default KeyFeatures;
