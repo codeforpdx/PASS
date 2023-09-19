@@ -1,23 +1,31 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import { Box, Typography, Button } from '@mui/material';
+import  Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
-const ReusableHomeSection = ({ src, alt, title, description, button, href, label }) => {
-    (
+/**
+ * 
+ * @param {homeProps} Props -- the props for Home sub-component
+ * @returns {React.JSX.Element}
+ */
+
+const HomeSection = ( {src, alt, title, description, button, href, label, isReallySmallScreen} ) => {
+    return (
         <>
             <Box
                 component="img"
                 src={src}
                 alt={alt}
                 sx={{
-                    width: { xs: '100%', sm: '75%', md: '65%' }
+                    width: isReallySmallScreen ? 1 : 2 / 4
                 }}
             />
             <Typography
+                variant={isReallySmallScreen ? 'h3' : 'h2'}
                 sx={{
-                    color: 'Purple.dark',
-                    fontSize: { xs: '2rem', sm: '3.5rem', md: '3rem' },
+                    color: 'primary.main',
                     textAlign: 'center',
                     marginBottom: '24px'
                 }}
@@ -25,11 +33,12 @@ const ReusableHomeSection = ({ src, alt, title, description, button, href, label
                 <strong>{title}</strong>
             </Typography>
             <Typography
+                variant={isReallySmallScreen ? 'h6' : 'h5'}
                 sx={{
-                    color: 'Purple.main',
-                    fontSize: { sm: '1.5rem', md: '1.5rem' },
-                    width: { md: '75%' },
-                    marginBottom: '24px'
+                    color: 'primary.dark',
+                    width: isReallySmallScreen ? '100%' : '85%',
+                    marginBottom: '24px',
+                    textAlign: 'center',
                 }}
             >
                 {description}
@@ -41,9 +50,8 @@ const ReusableHomeSection = ({ src, alt, title, description, button, href, label
                     aria-label={label}
                     sx={{
                         my: '1rem',
-                        color: 'Purple.main',
-                        backgroundColor: 'Purple.light',
-                        width: { xs: 1, sm: 1 / 3, md: 1 / 5 },
+                        backgroundColor: 'primary.light',
+                        width: isReallySmallScreen ? 1 : 1 / 4,
                         borderRadius: '25px'
                     }}
                 >
@@ -54,4 +62,4 @@ const ReusableHomeSection = ({ src, alt, title, description, button, href, label
     );
 };
 
-export default ReusableHomeSection;
+export default HomeSection;

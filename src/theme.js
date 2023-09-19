@@ -29,13 +29,6 @@ const theme = createTheme({
     neutral: {
       main: '#64748B',
       contrastText: '#fff'
-    },
-    Purple: {
-      light: deepPurple[100],
-      main: deepPurple[400],
-      dark: deepPurple[600],
-      text: deepPurple[300],
-      contrastText: '#fff'
     }
   },
   // color properties TBD for status snackbar severieties
