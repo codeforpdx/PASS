@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 
 /**
  * Represents key features section component
- * 
+ *
  * @memberof Home
  * @name KeyFeatures
  * @param {KeyFeaturesParams} props - the props

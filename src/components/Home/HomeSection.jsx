@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
  */
 /**
  * Represents a home section component
- * 
+ *
  *  @memberof Home
  * @name HomeSecton
  * @param {HomeSectionParams} props - the component props
