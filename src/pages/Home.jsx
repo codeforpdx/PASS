@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {useTheme} from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import SecurityIcon from '@mui/icons-material/Security';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import SupportIcon from '@mui/icons-material/Support';
@@ -23,7 +23,7 @@ import KeyFeatures from '../components/Home/KeyFeatures';
 const Home = () => {
   const theme = useTheme();
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  
+
   return (
     <Container component="main">
       <Box
