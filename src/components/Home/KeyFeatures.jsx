@@ -13,10 +13,12 @@ import Typography from '@mui/material/Typography';
  */
 
 /**
+ * Represents key features section component
+ * 
  * @memberof Home
  * @name KeyFeatures
  * @param {KeyFeaturesParams} props - the props
- * @returns {JSX.Element} the KeyFeatures section component
+ * @returns {React.JSX.Element} the KeyFeatures section component
  */
 
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
