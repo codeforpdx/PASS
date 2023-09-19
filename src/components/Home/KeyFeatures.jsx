@@ -4,6 +4,21 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+/**
+ * @typedef {object} KeyFeaturesParams
+ * @property {string} icon - icon
+ * @property {string} title - key feature title
+ * @property {string} description - key feature description
+ * @property {boolean} isReallySmallScreen - screen size
+ */
+
+/**
+ * @memberof Home
+ * @name KeyFeatures
+ * @param {KeyFeaturesParams} props - the props
+ * @returns {JSX.Element} the KeyFeatures section component
+ */
+
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
   <>
     <Box

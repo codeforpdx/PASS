@@ -5,6 +5,25 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+/**
+ * @typedef {object} HomeSectionParams
+ * @property {String} src - image src
+ * @property {String} alt - image alt
+ * @property {String} title - section title
+ * @property {String} description - section description
+ * @property {String} button - section button
+ * @property {String} href - section button href
+ * @property {String} label - section button aria-label
+ * @property {Boolean} isReallySmallScreen - screen size
+ */
+/**
+ * Represents a home section component
+ *  @memberof Home
+ * @name HomeSecton
+ * @param {HomeSectionParams} props - the component props
+ * @returns {JSX.Element} - the home section component
+ */
+
 const HomeSection = (src, alt, title, description, button, href, label, isReallySmallScreen) => (
   <>
     <Box
