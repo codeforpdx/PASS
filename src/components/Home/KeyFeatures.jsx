@@ -4,11 +4,6 @@ import React from 'react';
 import  Box  from '@mui/material/Box';
 import  Typography  from '@mui/material/Typography';
 
-/**
- * 
- * @param {homeProps} Props -- the props for Home sub-component
- * @returns {React.JSX.Element}
- */
 
 const KeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => {
   return (

@@ -5,11 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-/**
- *
- * @param {homeProps} Props -- the props for Home sub-component
- * @returns {React.JSX.Element}
- */
+
 
 const HomeSection = ({
     src,
