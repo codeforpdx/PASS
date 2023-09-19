@@ -24,15 +24,21 @@ const TwitterIcon = () => (
 const socialLinks = [
   {
     href: 'https://twitter.com/',
-    icon: <TwitterIcon />
+    icon: <TwitterIcon />,
+    target: '_blank',
+    rel: 'noopenner'
   },
   {
     href: 'https://www.facebook.com/',
-    icon: <FacebookIcon fontSize="large" />
+    icon: <FacebookIcon fontSize="large" />,
+    target: '_blank',
+    rel: 'noopenner'
   },
   {
     href: 'https://www.instagram.com/',
-    icon: <InstagramIcon fontSize="large" />
+    icon: <InstagramIcon fontSize="large" />,
+    target: '_blank',
+    rel: 'noopenner'
   }
 ];
 
@@ -53,7 +59,7 @@ const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
       <Typography color="tertiary.main" variant="h5" mb={1}>
         Follow Us
       </Typography>
-      <Stack direction="row" spacing={3} alignItems="center">
+      <Stack direction="row" spacing={isReallySmallScreen ? 3 : 2} alignItems="center">
         {socialLinks.map(({ href, icon }) => (
           <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
             {icon}
