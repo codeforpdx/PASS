@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-const HomeSection = ({
+const HomeSection = (
   src,
   alt,
   title,
@@ -14,7 +14,7 @@ const HomeSection = ({
   href,
   label,
   isReallySmallScreen
-}) => (
+) => (
   <>
     <Box
       component="img"

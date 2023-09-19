@@ -16,60 +16,39 @@ exports[`Home Page > renders 1`] = `
         >
           <img
             class="MuiBox-root css-11ze7cv"
-            lt="Web security"
-            src="public/assets/web-security-green.png"
+            lt="[object Object]"
+            src="[object Object]"
           />
           <h2
             class="MuiTypography-root MuiTypography-h2 css-14fx4qb-MuiTypography-root"
           >
-            <strong>
-              Keep Your Documents Safe and Secure Using Decentralized Technology
-            </strong>
+            <strong />
           </h2>
           <h5
             class="MuiTypography-root MuiTypography-h5 css-1cp2pzo-MuiTypography-root"
-          >
-            Our innovatice solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process. 
-          </h5>
-          <a
-            aria-label="Demo request button"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1fdjaxb-MuiButtonBase-root-MuiButton-root"
-            href="mailto:hugh@codeforpdx.org"
-            tabindex="0"
-          >
-            Request a Demo
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </a>
+          />
           <img
             class="MuiBox-root css-11ze7cv"
-            lt="Web App"
-            src="public/assets/app-green.png"
+            lt="[object Object]"
+            src="[object Object]"
           />
           <h2
             class="MuiTypography-root MuiTypography-h2 css-14fx4qb-MuiTypography-root"
           >
-            <strong>
-              An App Built for Case Workers
-            </strong>
+            <strong />
           </h2>
           <h5
             class="MuiTypography-root MuiTypography-h5 css-1cp2pzo-MuiTypography-root"
-          >
-            Pass allows users to quickly and securely share documents of their clients within the app. The app helps case workes verify and share documents such as ID and proof of income while having total control of the documents.
-          </h5>
+          />
           <img
             class="MuiBox-root css-11ze7cv"
-            lt="Key Features"
-            src="public/assets/key-features-green.png"
+            lt="[object Object]"
+            src="[object Object]"
           />
           <h2
             class="MuiTypography-root MuiTypography-h2 css-14fx4qb-MuiTypography-root"
           >
-            <strong>
-              Key Features
-            </strong>
+            <strong />
           </h2>
           <h5
             class="MuiTypography-root MuiTypography-h5 css-1cp2pzo-MuiTypography-root"
