@@ -5,8 +5,7 @@ import  Box  from '@mui/material/Box';
 import  Typography  from '@mui/material/Typography';
 
 
-const KeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => {
-  return (
+const KeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => (
     <>
       <Box
         sx={{
@@ -42,6 +41,5 @@ const KeyFeatures = ( {icon, title, description, isReallySmallScreen} ) => {
       </Typography>
     </>
   );
-};
 
 export default KeyFeatures;

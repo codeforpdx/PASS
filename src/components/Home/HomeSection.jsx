@@ -16,8 +16,7 @@ const HomeSection = ({
     href,
     label,
     isReallySmallScreen
-}) => {
-    return (
+}) => (
         <>
             <Box
                 component="img"
@@ -65,6 +64,5 @@ const HomeSection = ({
             )}
         </>
     );
-};
 
 export default HomeSection;
