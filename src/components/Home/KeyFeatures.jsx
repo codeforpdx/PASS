@@ -3,7 +3,6 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 /**
  * @typedef {object} KeyFeaturesParams
  * @property {string} icon - icon

@@ -40,7 +40,7 @@ const Home = () => {
           <Stack alignItems="center" justifyContent="center">
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="public/assets/web-security-green.png"
+              src="/assets/web-security-green.png"
               alt="Web security"
               title="Keep Your Documents Safe and Secure Using Decentralized Technology"
               description="Our innovatice solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process. "
@@ -50,14 +50,14 @@ const Home = () => {
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="public/assets/app-green.png"
+              src="/assets/app-green.png"
               alt="Web App"
               title="An App Built for Case Workers"
               description="Pass allows users to quickly and securely share documents of their clients within the app. The app helps case workes verify and share documents such as ID and proof of income while having total control of the documents."
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="public/assets/key-features-green.png"
+              src="/assets/key-features-green.png"
               alt="Key Features"
               title="Key Features"
             />

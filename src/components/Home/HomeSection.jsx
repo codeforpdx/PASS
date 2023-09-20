@@ -4,7 +4,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
 /**
  * @typedef {object} HomeSectionParams
  * @property {string} src - image src
@@ -25,7 +24,16 @@ import Button from '@mui/material/Button';
  * @returns {React.JSX.Element} - the home section component
  */
 
-const HomeSection = (src, alt, title, description, button, href, label, isReallySmallScreen) => (
+const HomeSection = ({
+  src,
+  alt,
+  title,
+  description,
+  button,
+  href,
+  label,
+  isReallySmallScreen
+}) => (
   <>
     <Box
       component="img"
