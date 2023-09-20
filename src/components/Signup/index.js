@@ -1,9 +1,10 @@
-// pod helpers
-import PodRegistrationForm from './pod/Signup';
-
 /* Components */
-import { initializePod, registerPod } from './Components/PodRegistrationForm';
-import ShowNewPod from './Components/ShowNewPod';
+import PodRegistrationForm from './PodRegistrationForm';
+import ShowNewPod from './ShowNewPod';
+
+/* Pod Helpers */
+import  initializePod from './podSignupHelpers/initializePod';
+import  registerPod from './podSignupHelpers/registerPod';
 
 /**
  * Components and functions related to Signup functionality within project PASS
