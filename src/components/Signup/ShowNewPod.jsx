@@ -22,17 +22,16 @@ const ShowNewPod = ({ oidcIssuer }) => {
 
   return (
     <>
-    <h1>You have successfully registered for a pod.</h1>
-    <Typography>
-      
-      You can find your pod here: {oidcIssuer}
-      <br />
-      Your webId is: {session.info.webId}
-      <br />
-      {isSuccess && data.length > 0
-        ? `You have registered with ${data[0].person}`
-        : 'You have not registered with a case manager'}
-    </Typography>
+      <h1>You have successfully registered for a pod.</h1>
+      <Typography>
+        You can find your pod here: {oidcIssuer}
+        <br />
+        Your webId is: {session.info.webId}
+        <br />
+        {isSuccess && data.length > 0
+          ? `You have registered with ${data[0].person}`
+          : 'You have not registered with a case manager'}
+      </Typography>
     </>
   );
 };

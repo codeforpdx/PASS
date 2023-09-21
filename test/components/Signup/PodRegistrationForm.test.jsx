@@ -1,6 +1,6 @@
 // React imports
 import React from 'react';
-import { render, screen, act  } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // Testing imports
@@ -11,11 +11,11 @@ import PodRegistrationForm from '../../../src/components/Signup/PodRegistrationF
 
 describe('PodRegistrationForm', () => {
   it('renders', () => {
-      render (
-        <Router>
-          <PodRegistrationForm />
-        </Router>
-        );
+    render(
+      <Router>
+        <PodRegistrationForm />
+      </Router>
+    );
 
     const textField = screen.getByLabelText('Email');
     const inputElementPassword = screen.getByLabelText('Password');
