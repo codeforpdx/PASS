@@ -95,17 +95,17 @@ describe('Signup Page', () => {
 
     expect(global.fetch).toBeCalledWith(expect.anything(), mockRequest);
   });
-  // it('shows pod creation message when logged in', () => {
-  //   const session = {
-  //     podUrl: 'https://example.com',
-  //     session: {
-  //       info: {
-  //         webId: 'https://example.com/profile/',
-  //         isLoggedIn: true
-  //       }
-  //     }
-  //   };
-  //   const { getByRole } = render(<MockSignupContexts session={session} />);
-  //   expect(getByRole('heading')).not.toBeNull();
-  // });
+  it('shows pod creation message when logged in', () => {
+    const session = {
+      podUrl: 'https://example.com',
+      session: {
+        info: {
+          webId: 'https://example.com/profile/',
+          isLoggedIn: true
+        }
+      }
+    };
+    const { getByRole } = render(<MockSignupContexts session={session} />);
+    expect(getByRole('heading')).not.toBeNull();
+  });
 });
