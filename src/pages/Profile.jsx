@@ -1,8 +1,8 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -11,8 +11,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
-// PASS Custom Components
-import { UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
+// Context Imports
+import { DocumentListContext } from '@contexts';
+// Component Imports
+import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
 import { DocumentTable } from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
@@ -34,6 +36,11 @@ const Profile = () => {
 
   // Documents related states
   const { session } = useSession();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const { addNotification } = useNotification();
+  const { removeDocument } = useContext(DocumentListContext);
+  const [selectedDocToDelete, setSelectedDocToDelete] = useState(null);
   const [showAddDocModal, setShowAddDocModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
   const [dataset, setDataset] = useState({
@@ -41,6 +48,25 @@ const Profile = () => {
     docName: '',
     docType: ''
   });
+
+  const handleSelectDeleteDoc = (document) => {
+    setSelectedDocToDelete(document);
+    setShowConfirmationModal(true);
+  };
+
+  // Function for deleting documents
+  const handleDeleteDoc = async () => {
+    setProcessing(true);
+    try {
+      await removeDocument(selectedDocToDelete.name);
+      addNotification('success', `${selectedDocToDelete?.name} deleted from the pod.`);
+    } catch (e) {
+      addNotification('error', `Document deletion failed. Reason: ${e.message}`);
+    } finally {
+      setShowConfirmationModal(false);
+      setProcessing(false);
+    }
+  };
 
   // Profile related states
   const contact = location.state?.contact;
@@ -52,7 +78,6 @@ const Profile = () => {
   // sets the appropriate version of the modal to load,
   // and the file name for the relevant document, (if any)
   // before opening the modal.
-
   const handleAclPermissionsModal = (modalType, docName = '', docType = '') => {
     setDataset({
       modalType,
@@ -155,7 +180,18 @@ const Profile = () => {
           setShowModal={setShowAclPermissionModal}
           dataset={dataset}
         />
-        <DocumentTable handleAclPermissionsModal={handleAclPermissionsModal} />
+        <DocumentTable
+          handleAclPermissionsModal={handleAclPermissionsModal}
+          handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}
+        />
+        <ConfirmationModal
+          showConfirmationModal={showConfirmationModal}
+          setShowConfirmationModal={setShowConfirmationModal}
+          title="Delete Document"
+          text={`You're about to delete "${selectedDocToDelete?.name}" from the pod, do you wish to continue?`}
+          confirmFunction={handleDeleteDoc}
+          processing={processing}
+        />
       </Box>
     </Box>
   );
