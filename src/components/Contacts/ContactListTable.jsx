@@ -29,8 +29,8 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  *
  * @memberof Contacts
  * @name ContactListTable
- * @param {contactListTableProps} Props - Props for ContactListTableRow
- * @returns {React.JSX.Element} The ContactListTableRow Component
+ * @param {contactListTableProps} Props - Props for ContactListTable
+ * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
   const comparePerson = (a, b) => {

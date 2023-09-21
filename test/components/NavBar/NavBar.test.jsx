@@ -21,7 +21,9 @@ describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {
     const { getByLabelText } = render(
       <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
-        <NavBar />
+        <BrowserRouter>
+          <NavBar />
+        </BrowserRouter>
       </SessionContext.Provider>
     );
     const loginButton = getByLabelText('Login Button');
@@ -35,11 +37,11 @@ describe('resize tests', () => {
     window.matchMedia = createMatchMedia(1200);
 
     const { getByLabelText } = render(
-      <BrowserRouter>
-        <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+      <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+        <BrowserRouter>
           <NavBar />
-        </SessionContext.Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </SessionContext.Provider>
     );
 
     const iconMenu = getByLabelText('menu');
@@ -51,11 +53,11 @@ describe('resize tests', () => {
     window.matchMedia = createMatchMedia(500);
 
     const { getByLabelText } = render(
-      <BrowserRouter>
-        <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+      <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+        <BrowserRouter>
           <NavBar />
-        </SessionContext.Provider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </SessionContext.Provider>
     );
 
     const hamburgerMenu = getByLabelText('mobile menu');
