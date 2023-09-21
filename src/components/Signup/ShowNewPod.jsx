@@ -21,8 +21,10 @@ const ShowNewPod = ({ oidcIssuer }) => {
   const { data, isSuccess } = useContactsList();
 
   return (
+    <>
+    <h1>You have successfully registered for a pod.</h1>
     <Typography>
-      <h1>You have successfully registered for a pod.</h1>
+      
       You can find your pod here: {oidcIssuer}
       <br />
       Your webId is: {session.info.webId}
@@ -31,6 +33,7 @@ const ShowNewPod = ({ oidcIssuer }) => {
         ? `You have registered with ${data[0].person}`
         : 'You have not registered with a case manager'}
     </Typography>
+    </>
   );
 };
 

@@ -70,7 +70,7 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
       )}
 
       <Card variant="outlined" sx={cardStyle}>
-        <CardHeader title="Set Up a New Pod" />
+        <CardHeader title="Set Up a New Pod" variant="strong" />
 
         <form onSubmit={handleSubmit} style={formRowStyle} autoComplete="off">
           <TextField
