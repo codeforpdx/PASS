@@ -25,8 +25,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  *
  * @typedef {object} contactListTableRowProps
  * @property {object} contact - Object containing contact information
- * @property {Function} deleteContact
- * - function to delete a chosen contact
+ * @property {Function} deleteContact - Function to delete a chosen contact
  */
 
 /**
@@ -38,7 +37,7 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  * @param {contactListTableRowProps} Props - Props for ContactListTableRow
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
-const ContactListTableRow = ({ contact, deleteContact }) => {
+const ContactListTableRow = ({ contact, deleteContact, message }) => {
   const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);
@@ -68,80 +67,40 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        border: 1
-      }}
-    >
-      <Card
-        sx={{
-          // border: 3,
-          // margin: 3
-          width: '100%'
-        }}
+    <StyledTableRow>
+      <StyledTableCell align="center">
+        <Link
+          to={`/profile/${encodeURIComponent(contact.webId)}`}
+          state={{ contact }}
+          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+        >
+          <Button sx={{ textTransform: 'capitalize' }} onClick={() => handleSelectProfile(contact)}>
+            {contact.person}
+          </Button>
+        </Link>
+      </StyledTableCell>
+      <StyledTableCell
+        align="center"
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {/* <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={2}
-          sx={{ margin: 1, padding: 1 }}
         <IconButton size="large" onClick={handlePinClick}>
           {pinnedIcon}
         </IconButton>
       </StyledTableCell>
       <StyledTableCell>
-        <IconButton
-          size="large"
-          variant="contained"
-          onClick={() => setShowModal(!showModal)}
-        >
-          <div
-          // align="center"
-          > */}
-            <Link
-              to={`/profile/${encodeURIComponent(contact.webId)}`}
-              state={{ contact }}
-              style={{
-                textDecoration: 'none',
-                color: theme.palette.primary.dark
-              }}
-            >
-              <Button
-                sx={{ textTransform: 'capitalize' }}
-                onClick={() => handleSelectProfile(contact)}
-              >
-                {contact.person}
-              </Button>
-            </Link>
-          </div>
-          <Typography>(date added)</Typography>
-          <div
-            // align="center"
-            style={
-              {
-                // display: 'flex',
-                // justifyContent: 'center',
-                // alignItems: 'center'
-              }
-            }
-          >
-            <IconButton size="large" onClick={handlePinClick}>
-              {pinnedIcon}
-            </IconButton>
-          </div>
-          <div
-          // align="center"
-          >
-            <IconButton size="large" onClick={() => deleteContact(contact)}>
-              <DeleteOutlineOutlinedIcon />
-            </IconButton>
-          </div>
-        </Stack>
-      </Card>
-    </Box>
+        <IconButton size="large" variant="contained" onClick={() => setShowModal(!showModal)}>
+          <SendIcon />
+        </IconButton>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <IconButton size="large" onClick={() => deleteContact(contact)}>
+          <DeleteOutlineOutlinedIcon />
+        </IconButton>
+      </StyledTableCell>
+      {showModal && (
+        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
+      )}
+    </StyledTableRow>
   );
 };
 
