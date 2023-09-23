@@ -17,7 +17,7 @@ exports[`Home Page > renders 1`] = `
           <img
             class="MuiBox-root css-11ze7cv"
             lt="Web security"
-            src="assets/web-security-green.png"
+            src="/assets/web-security-green.png"
           />
           <h2
             class="MuiTypography-root MuiTypography-h2 css-14fx4qb-MuiTypography-root"

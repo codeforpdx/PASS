@@ -40,7 +40,7 @@ const Home = () => {
           <Stack alignItems="center" justifyContent="center">
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="assets/web-security-green.png"
+              src="/assets/web-security-green.png"
               alt="Web security"
               title="Keep Your Documents Safe and Secure Using Decentralized Technology"
               description="Our innovatice solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process. "
