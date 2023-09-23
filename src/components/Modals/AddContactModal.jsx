@@ -16,8 +16,7 @@ import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
 
 /**
- * @memberof Contcts
- * @name renderWebId
+ * @memberof Contacts
  * @param {string} username - username to convert into a webId
  * @returns {URL} A url of the predicted webID
  */
@@ -31,7 +30,6 @@ const renderWebId = (username) => {
  * Pod URLs from a user's list stored on their own Pod
  *
  * @memberof Contacts
- * @name AddContactModal
  * @param {object} props - react props
  * @param {Function} props.addContact  - function to add a contact
  * @param {boolean} props.showAddContactModal - whether to display modal or not
