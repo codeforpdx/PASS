@@ -23,7 +23,7 @@ const legalLinks = [
     rel: 'noopenner',
     ml: 0.5,
     text: `©${dayjs().year()}`,
-    title: 'Code for PDX'
+    title: 'CODE PDX'
   }
 ];
 
