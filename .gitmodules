@@ -1,0 +1,3 @@
+[submodule "CommunitySolidServer"]
+	path = CommunitySolidServer
+	url = https://github.com/CommunitySolidServer/CommunitySolidServer.git
