@@ -66,4 +66,4 @@ services:
 
 networks:
   nginx_default:
-    external: true
+
