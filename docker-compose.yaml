@@ -15,7 +15,7 @@ services:
   solid-server:
     image: solidproject/community-server:latest # Use updated image or create using Dockerfile
     environment:
-      - BASE_URL=https://css.opencommons.net
+      - CSS_BASE_URL=https://css.opencommons.net
     restart: always
     user: root
     expose:
