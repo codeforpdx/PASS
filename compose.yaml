@@ -14,8 +14,6 @@ services:
     image: solidproject/community-server:latest
     environment:
       - CSS_BASE_URL=http://css.timstand.xyz
-    restart: always
-    user: root
     expose:
       - "3000"
     ports:
@@ -26,7 +24,6 @@ services:
 
   nginx-proxy:
     image: nginx
-    restart: unless-stopped
     expose:
       - "80"
       - "443"
