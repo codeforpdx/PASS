@@ -17,7 +17,7 @@ import { useTheme } from '@mui/material/styles';
 // Component Imports
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import { SignedInUserContext } from '../../contexts';
+import { MessageContext, SignedInUserContext } from '../../contexts';
 
 /**
  * NavbarDesktop Component - Component that generates Navbar section for PASS
@@ -29,6 +29,7 @@ import { SignedInUserContext } from '../../contexts';
 
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
+  const { numUnreadMessages } = useContext(MessageContext);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
@@ -81,7 +82,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               to="/messages"
               sx={{ marginRight: '10px' }}
             >
-              <Badge color="error">
+              <Badge badgeContent={numUnreadMessages} color="error">
                 <EmailIcon />
               </Badge>
             </IconButton>
