@@ -10,13 +10,13 @@ import Typography from '@mui/material/Typography';
  */
 
 /**
- * FormSection Component - Component that wraps Form with StatusNotification
+ * FormSection Component - Component that wraps section with title and MUI Box
+ * component
  *
  * @memberof Forms
  * @name FormSection
  * @param {formSectionProps} formSectionProps - A React prop that consists of
- * that consist of title, state, statusType, defaultMessage, and children (see
- * {@link formSectionProps})
+ * that consist of title and children (see {@link formSectionProps})
  */
 
 const FormSection = ({ title, children }) => (
@@ -29,11 +29,20 @@ const FormSection = ({ title, children }) => (
       alignItems: 'center',
       mx: '3px',
       padding: '20px',
-      minWidth: '50%',
-      boxShadow: 2
+      minWidth: '50%'
     }}
   >
-    <Typography display="flex" justifyContent="center" alignItems="center" mb={2} variant="h5">
+    <Typography
+      align="center"
+      mb={2}
+      variant="h5"
+      sx={{
+        maxWidth: '500px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+      }}
+    >
       {title}
     </Typography>
     {children}

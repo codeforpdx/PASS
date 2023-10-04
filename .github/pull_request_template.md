@@ -1,16 +1,9 @@
----
-name: Pull Request
-about: Create a pull request to merge your code into the PASS codebase
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## CONCISE description of PR (PR Title)
 
 ---
 ## This PR:
+Resolves #(put issue number here to link this PR to it) 
+ 
 **1.**    
 **2.** If needed, delete if not    
 **3.** If needed, delete if not

@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
 /**
- * @typedef {import("../../typedefs.js").profileEditButtonGroupProps}  profileEditButtonGroupProps
+ * @typedef {import("../../typedefs.js").profileEditButtonGroupProps} profileEditButtonGroupProps
  */
 
 /**
