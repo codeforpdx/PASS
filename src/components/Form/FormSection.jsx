@@ -10,13 +10,13 @@ import Typography from '@mui/material/Typography';
  */
 
 /**
- * FormSection Component - Component that wraps Form with StatusNotification
+ * FormSection Component - Component that wraps section with title and MUI Box
+ * component
  *
  * @memberof Forms
  * @name FormSection
  * @param {formSectionProps} formSectionProps - A React prop that consists of
- * that consist of title, state, statusType, defaultMessage, and children (see
- * {@link formSectionProps})
+ * that consist of title and children (see {@link formSectionProps})
  */
 
 const FormSection = ({ title, children }) => (

@@ -1,19 +1,22 @@
 // React Imports
-import React, { useContext } from 'react';
+import React from 'react';
 // Custom Hook Imports
 import { useSession } from '@hooks';
-import useNotification from '@hooks/useNotification';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-// Context Imports
-import { DocumentListContext } from '@contexts';
-// Component Imports
-import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+
+// MUI Theme
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
+
 // Constants Imports
 import DOC_TYPES from '../../constants/doc_types';
 
@@ -29,10 +32,8 @@ import DOC_TYPES from '../../constants/doc_types';
  * @param {documentTableRowProps} Props - Props for DocumentTableRow
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
-const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
+const DocumentTableRow = ({ document, handleAclPermissionsModal, handleSelectDeleteDoc }) => {
   const { session } = useSession();
-  const { removeDocument } = useContext(DocumentListContext);
-  const { addNotification } = useNotification();
 
   const { name, type, description, fileUrl, uploadDate, endDate } = document;
 
@@ -41,44 +42,34 @@ const DocumentTableRow = ({ document, handleAclPermissionsModal }) => {
     window.open(urlFileBlob);
   };
 
-  // Event handler for deleting client from client list
-  const handleDeleteDocument = async () => {
-    if (
-      !window.confirm(
-        `You're about to delete ${document.name} from the pod, do you wish to continue?`
-      )
-    ) {
-      return;
-    }
-    await removeDocument(document.name);
-    addNotification('success', `${document.name} deleted from the pod.`);
-  };
-
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">{name}</StyledTableCell>
-      <StyledTableCell align="center">{DOC_TYPES[type]}</StyledTableCell>
-      <StyledTableCell align="center">{description}</StyledTableCell>
-      <StyledTableCell align="center">
-        {uploadDate ? uploadDate.toDateString() : ''}
-      </StyledTableCell>
-      <StyledTableCell align="center">{endDate ? endDate.toDateString() : 'N/A'}</StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
-          <FileOpenIcon />
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name, type)}>
-          <ShareIcon />
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleDeleteDocument()}>
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </StyledTableCell>
-    </StyledTableRow>
+    <ThemeProvider theme={theme}>
+      <TableRow>
+        <TableCell align="center">{name}</TableCell>
+        <TableCell align="center">{DOC_TYPES[type]}</TableCell>
+        <TableCell align="center">{description}</TableCell>
+        <TableCell align="center">{uploadDate ? uploadDate.toDateString() : ''}</TableCell>
+        <TableCell align="center">{endDate ? endDate.toDateString() : 'N/A'}</TableCell>
+        <TableCell align="center">
+          <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
+            <FileOpenIcon />
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          <IconButton
+            type="button"
+            onClick={() => handleAclPermissionsModal('document', name, type)}
+          >
+            <ShareIcon />
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          <IconButton size="large" edge="end" onClick={() => handleSelectDeleteDoc(document)}>
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    </ThemeProvider>
   );
 };
 
