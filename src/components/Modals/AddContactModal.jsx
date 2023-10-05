@@ -138,7 +138,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton aria-label="copy-webid" edge="end">
+                  <IconButton aria-label="Copy WebId" edge="end">
                     <ContentCopyIcon />
                   </IconButton>
                 </InputAdornment>
