@@ -47,7 +47,6 @@ const OidcLoginComponent = () => {
         type="submit"
         color="secondary"
         size="large"
-        aria-label="Login Button"
         onClick={() => {
           loginHandler();
           localStorage.setItem('oidcIssuer', oidcIssuer);

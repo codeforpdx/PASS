@@ -75,7 +75,6 @@ const ConfirmationModal = ({
         <Button
           variant="outlined"
           color="error"
-          aria-label="Cancel Button"
           endIcon={<ClearIcon />}
           onClick={() => setShowConfirmationModal(false)}
         >

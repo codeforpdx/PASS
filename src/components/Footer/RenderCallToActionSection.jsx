@@ -27,7 +27,6 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
     </Typography>
     <Button
       variant="contained"
-      aria-label="proposal-request"
       color="secondary"
       href="mailto:hugh@codeforpdx.org"
       target="_blank"
