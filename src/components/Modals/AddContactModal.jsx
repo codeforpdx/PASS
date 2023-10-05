@@ -153,7 +153,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               onClick={() => setShowAddContactModal(false)}
               fullWidth
             >
-              CANCEL
+              Cancel
             </Button>
             <Button
               variant="contained"
@@ -163,7 +163,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               type="submit"
               fullWidth
             >
-              ADD CONTACT
+              Add Contact
             </Button>
           </DialogActions>
         </form>

@@ -79,7 +79,7 @@ const ConfirmationModal = ({
           endIcon={<ClearIcon />}
           onClick={() => setShowConfirmationModal(false)}
         >
-          CANCEL
+          Cancel
         </Button>
 
         {confirmButton()}

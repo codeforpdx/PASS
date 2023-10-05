@@ -166,7 +166,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               fullWidth
               sx={{ borderRadius: '20px' }}
             >
-              CANCEL
+              Cancel
             </Button>
           </FormControl>
         </form>
