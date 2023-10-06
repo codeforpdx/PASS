@@ -67,11 +67,15 @@ PASS is currently in Development heading towards [Minimum Viable Product](./docs
    ```
    npm install
    ```
-3. Run the project:
+3. Install the pre-commmit prettier, linter, and test hooks. 
+   ```
+   npm run prepare
+   ```
+4. Run the project: 
    ```
    npm run dev
    ```
-4. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
+5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a pod hosted at the OIDC provider of your choice.
 
 - ### Setting up a Development Pod Server
   PASS is able to connect to any solid-spec compliant pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
