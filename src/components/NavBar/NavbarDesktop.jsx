@@ -17,7 +17,7 @@ import { useTheme } from '@mui/material/styles';
 // Component Imports
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import { MessageContext, SignedInUserContext } from '../../contexts';
+import { MessageContext, SignedInUserContext } from '@contexts';
 
 /**
  * NavbarDesktop Component - Component that generates Navbar section for PASS
