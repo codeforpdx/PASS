@@ -15,9 +15,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
+import { MessageContext, SignedInUserContext } from '@contexts';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import { MessageContext, SignedInUserContext } from '@contexts';
 
 /**
  * NavbarDesktop Component - Component that generates Navbar section for PASS
