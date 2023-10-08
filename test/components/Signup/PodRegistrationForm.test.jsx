@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
 
 // Component being tested
-import PodRegistrationForm from '../../../src/components/Signup/PodRegistrationForm';
+import { PodRegistrationForm } from '@components/Signup';
 
 describe('PodRegistrationForm', () => {
   it('renders', () => {
