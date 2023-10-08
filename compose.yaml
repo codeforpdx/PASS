@@ -4,32 +4,17 @@ services:
   react-app:
     build:
       context: ./
-      dockerfile: Dockerfile.react
-    expose:
-      - "80" 
+      dockerfile: Dockerfile.react # Creates new image for react app
     ports:
-      - "8080:80"
+      - "5173:80"
 
   solid-server:
-    image: solidproject/community-server:latest
-    environment:
-      - CSS_BASE_URL=http://css.timstand.xyz
-    expose:
-      - "3000"
+    image: solidproject/community-server:latest # Use updated image or create using Dockerfile
+    restart: always
+    user: root
     ports:
       - "3000:3000"
     volumes:
       - ./data/solid-data:/data
       - ./config/solid-server/solid-config.json:/community-server/config/my-config.json
 
-  nginx-proxy:
-    image: nginx
-    expose:
-      - "80"
-      - "443"
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./letsencrypt:/etc/letsencrypt
