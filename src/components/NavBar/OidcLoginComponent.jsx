@@ -33,8 +33,7 @@ const OidcLoginComponent = () => {
           }
         }}
         InputProps={{
-          disableUnderline: true,
-          'aria-label': 'OIDC Input Field'
+          disableUnderline: true
         }}
         sx={{
           backgroundColor: 'white',
