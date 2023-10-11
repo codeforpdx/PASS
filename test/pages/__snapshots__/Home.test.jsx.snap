@@ -29,7 +29,7 @@ exports[`Home Page > renders 1`] = `
           <h5
             class="MuiTypography-root MuiTypography-h5 css-1cp2pzo-MuiTypography-root"
           >
-            Our innovatice solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process. 
+            Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process.
           </h5>
           <a
             aria-label="Demo request button"
@@ -51,13 +51,13 @@ exports[`Home Page > renders 1`] = `
             class="MuiTypography-root MuiTypography-h2 css-14fx4qb-MuiTypography-root"
           >
             <strong>
-              An App Built for Case Workers
+              An App Built for Caseworkers
             </strong>
           </h2>
           <h5
             class="MuiTypography-root MuiTypography-h5 css-1cp2pzo-MuiTypography-root"
           >
-            Pass allows users to quickly and securely share documents of their clients within the app. The app helps case workes verify and share documents such as ID and proof of income while having total control of the documents.
+            PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them.
           </h5>
           <img
             class="MuiBox-root css-11ze7cv"
@@ -99,7 +99,7 @@ exports[`Home Page > renders 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 css-l0hii1-MuiTypography-root"
           >
-            Store vital documents like IDs, social security information, birth certificates, medical records, and bank statements in a digital, valid format.
+            Store vital documents like IDs, Social Security information, birth certificates, medical records, and bank statements in a valid digital format.
           </p>
           <div
             class="MuiBox-root css-1773his"
@@ -135,14 +135,14 @@ exports[`Home Page > renders 1`] = `
               class="MuiTypography-root MuiTypography-h4 css-gkvjn6-MuiTypography-root"
             >
               <strong>
-                Non-Profit & Caseworker Intergration
+                Nonprofit & Caseworker Integration
               </strong>
             </h4>
           </div>
           <p
             class="MuiTypography-root MuiTypography-body1 css-l0hii1-MuiTypography-root"
           >
-            The platform facilitates smooth communication between non-profit organizations, caseworkers, and the individuals they sesrve. It allows non-profit organizations to maintain a contact list, and casewrokes are assigned contacts whose pods they can access securely.
+            The platform facilitates smooth communication between nonprofit organizations, caseworkers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely.
           </p>
           <div
             class="MuiBox-root css-1773his"
@@ -169,7 +169,7 @@ exports[`Home Page > renders 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body1 css-l0hii1-MuiTypography-root"
           >
-            Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplidies the process of submitting necessary documents for such services.
+            Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplifies the process of submitting necessary documents for such services.
           </p>
         </div>
       </section>
