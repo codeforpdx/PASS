@@ -38,7 +38,7 @@ const HomeSection = ({
     <Box
       component="img"
       src={src}
-      lt={alt}
+      alt={alt}
       sx={{
         width: isReallySmallScreen ? 1 : 2 / 4
       }}
