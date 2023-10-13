@@ -70,7 +70,7 @@ const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
             target="_blank"
             rel="noopener"
             color="#fff"
-            title={`Follow us on ${name}`}
+            aria-label={`Follow us on ${name}`}
           >
             {icon}
           </Link>
