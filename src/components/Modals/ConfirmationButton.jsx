@@ -33,7 +33,7 @@ const ConfirmationButton = ({ title, confirmFunction, processing }) => (
     disabled={processing}
     sx={{ marginLeft: '1rem' }}
   >
-    {title.toUpperCase()}
+    {title}
   </Button>
 );
 
