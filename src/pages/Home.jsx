@@ -47,7 +47,6 @@ const Home = () => {
               description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
               button="Request a Demo"
               href="mailto:hugh@codeforpdx.org"
-              label="Demo request button"
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
