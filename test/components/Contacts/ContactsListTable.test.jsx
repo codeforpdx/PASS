@@ -25,11 +25,11 @@ it('renders all clients from client context', () => {
   // Expect 3 rows: the header, Abby's row, Builder's Row
   expect(allRows.length).toBe(3);
 
-  const row1 = allRows[1];
-  const row2 = allRows[2];
+  const row1 = allRows[1].querySelector("[title='Aaron Abby']");
+  const row2 = allRows[2].querySelector("[title='Bob Builder']");
 
-  expect(row1.cells.item(0).innerHTML).toContain('Aaron Abby');
-  expect(row2.cells.item(0).innerHTML).toContain('Bob Builder');
+  expect(row1.innerHTML).toBe('Aaron Abby');
+  expect(row2.innerHTML).toBe('Bob Builder');
 });
 
 it('sorts clients by familyName', () => {
