@@ -84,7 +84,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   ];
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ margin: '20px 0' }}>
       <DataGrid
         columns={columnTitlesArray}
         rows={sortedContacts?.map((contact) => ({
@@ -98,7 +98,11 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         }}
         sx={{
           '.MuiDataGrid-columnHeader': {
-            background: theme.palette.primary.light
+            background: theme.palette.primary.light,
+            color: 'white'
+          },
+          '.MuiDataGrid-columnSeparator': {
+            display: 'none'
           }
         }}
         pageSizeOptions={[10]}
