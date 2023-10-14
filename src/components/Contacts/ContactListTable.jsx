@@ -10,6 +10,8 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
+// MUI Theme
+import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
 
@@ -52,16 +54,26 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   const sortedContacts = contactsCopy.sort(comparePerson);
 
   const columnTitlesArray = [
-    { field: 'Contact', width: 120 },
+    {
+      field: 'Contact',
+      width: 160,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false
+    },
     {
       field: 'Profile',
       renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
       sortable: false,
-      filterable: false
+      filterable: false,
+      width: 70,
+      headerAlign: 'center',
+      align: 'center'
     },
     {
       field: 'actions',
       type: 'actions',
+      width: 70,
       getActions: (contactData) => [
         <GridActionsCellItem
           icon={<DeleteOutlineOutlinedIcon />}
@@ -84,7 +96,19 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         slots={{
           toolbar: CustomToolbar
         }}
-        slotProps={{ columnMenu: { background: 'red' } }}
+        sx={{
+          '.MuiDataGrid-columnHeader': {
+            background: theme.palette.primary.light
+          }
+        }}
+        pageSizeOptions={[10]}
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 10, page: 0 }
+          }
+        }}
+        disableColumnMenu
+        disableRowSelectionOnClick
       />
     </Box>
   );
