@@ -18,9 +18,6 @@ Please provide a DETAILED description of the bug.
 ### Expected Behavior:
 What should have happened if the bug didn't occur.
 
-### Actual Behavior:
-What actually happened, and how it differed from the expected behavior.
-
 ### Screenshots (If applicable):
 If possible, add screenshots to help explain the problem.
 
