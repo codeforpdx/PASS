@@ -65,7 +65,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src={contactProfile ? contactProfile.profileImg : profileImg}
+        src={contactProfile ? contactProfile.profileImage : profileImg}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />

@@ -1,23 +1,24 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
-// MUI Theme
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../theme';
-
+import Box from '@mui/material/Box';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector
+} from '@mui/x-data-grid';
 // Component Imports
-import ContactListTableRow from './ContactListTableRow';
+import ContactProfileIcon from './ContactProfileIcon';
 
-// ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
+const CustomToolbar = () => (
+  <GridToolbarContainer>
+    <GridToolbarFilterButton />
+    <GridToolbarDensitySelector />
+  </GridToolbarContainer>
+);
 
 /**
  * contactListTableProps is an object that stores the props for the
@@ -50,31 +51,42 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   const contactsCopy = [...contacts];
   const sortedContacts = contactsCopy.sort(comparePerson);
 
+  const columnTitlesArray = [
+    { field: 'Contact', width: 120 },
+    {
+      field: 'Profile',
+      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
+      sortable: false,
+      filterable: false
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      getActions: (contactData) => [
+        <GridActionsCellItem
+          icon={<DeleteOutlineOutlinedIcon />}
+          onClick={() => deleteContact(contactData.row.Delete)}
+        />
+      ]
+    }
+  ];
+
   return (
-    <ThemeProvider theme={theme}>
-      <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-        <Table aria-label="contact list table">
-          <TableHead>
-            <TableRow>
-              {columnTitlesArray.map((columnTitle) => (
-                <TableCell key={columnTitle} align="center">
-                  {columnTitle}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedContacts?.map((contact) => (
-              <ContactListTableRow
-                key={contact.webId}
-                contact={contact}
-                deleteContact={deleteContact}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </ThemeProvider>
+    <Box sx={{ mt: 2 }}>
+      <DataGrid
+        columns={columnTitlesArray}
+        rows={sortedContacts?.map((contact) => ({
+          id: contact.webId,
+          Contact: contact.person,
+          Profile: contact,
+          Delete: contact
+        }))}
+        slots={{
+          toolbar: CustomToolbar
+        }}
+        slotProps={{ columnMenu: { background: 'red' } }}
+      />
+    </Box>
   );
 };
 
