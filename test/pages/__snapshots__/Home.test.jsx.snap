@@ -32,7 +32,6 @@ exports[`Home Page > renders 1`] = `
             Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process.
           </h5>
           <a
-            aria-label="Demo request button"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1fdjaxb-MuiButtonBase-root-MuiButton-root"
             href="mailto:hugh@codeforpdx.org"
             tabindex="0"

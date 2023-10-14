@@ -27,14 +27,13 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
     </Typography>
     <Button
       variant="contained"
-      aria-label="proposal-request"
       color="secondary"
       href="mailto:hugh@codeforpdx.org"
       target="_blank"
       rel="noopener"
       sx={{ my: '1rem', width: 1 / 2 }}
     >
-      Proposal
+      Make a Proposal
     </Button>
   </Stack>
 );
