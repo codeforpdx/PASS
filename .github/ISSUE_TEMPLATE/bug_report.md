@@ -4,9 +4,6 @@ title: ''
 labels: ''
 assignees: ''
 
-### Bug Title:
-Please provide a CONCISE description of the bug.
-
 ### Bug Description:
 Please provide a DETAILED description of the bug.
 

@@ -4,11 +4,6 @@ title: ''
 labels: ''
 assignees: ''
 
-
-
-### Feature Title:
-Please provide a CONCISE description of the proposed feature.
-
 ### Feature Description:
 Please provide a DETAILED description of the proposed feature.
 
