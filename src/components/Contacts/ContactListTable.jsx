@@ -27,13 +27,14 @@ const CustomToolbar = () => (
  * ContactListTable component
  *
  * @typedef {object} contactListTableProps
- * @property {Array} contacts - this list of contacts to display
- * @property {Function} deleteContact - method to delete contact
+ * @property {Array} contacts - the list of contacts to be displayed
+ * @property {Function} deleteContact - method to delete contact from list
  * @memberof typedefs
  */
 
 /**
- * ContactListTable Component - Component that generates table of contacts from data within ContactList
+ * ContactListTable Component - Component that generates the list of contacts
+ * from data within ContactList
  *
  * @memberof Contacts
  * @name ContactListTable
