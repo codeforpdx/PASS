@@ -23,18 +23,21 @@ const TwitterIcon = () => (
 // Links for component
 const socialLinks = [
   {
+    name: 'Twitter',
     href: 'https://twitter.com/',
     icon: <TwitterIcon />,
     target: '_blank',
     rel: 'noopenner'
   },
   {
+    name: 'Facebook',
     href: 'https://www.facebook.com/',
     icon: <FacebookIcon fontSize="large" />,
     target: '_blank',
     rel: 'noopenner'
   },
   {
+    name: 'Instagram',
     href: 'https://www.instagram.com/',
     icon: <InstagramIcon fontSize="large" />,
     target: '_blank',
@@ -60,8 +63,15 @@ const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
         Follow Us
       </Typography>
       <Stack direction="row" spacing={isReallySmallScreen ? 3 : 2} alignItems="center">
-        {socialLinks.map(({ href, icon }) => (
-          <Link key={href} href={href} target="_blank" rel="noopener" color="#fff">
+        {socialLinks.map(({ href, icon, name }) => (
+          <Link
+            key={href}
+            href={href}
+            target="_blank"
+            rel="noopener"
+            color="#fff"
+            aria-label={`Follow us on ${name}`}
+          >
             {icon}
           </Link>
         ))}

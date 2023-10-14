@@ -33,7 +33,7 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
       rel="noopener"
       sx={{ my: '1rem', width: 1 / 2 }}
     >
-      Proposal
+      Make a Proposal
     </Button>
   </Stack>
 );
