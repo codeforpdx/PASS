@@ -57,7 +57,7 @@ const NavbarMobile = ({ setShowConfirmation }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
-          <Link to="/">
+          <Link to="/" aria-label="Home">
             <img
               src="/pass-logo.png"
               alt="logo"
