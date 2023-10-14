@@ -54,11 +54,10 @@ const Contacts = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        minWidth: '300px'
+        alignItems: 'center'
       }}
     >
-      <Box sx={{ minWidth: '300px' }}>
+      <Box>
         <Button
           variant="contained"
           color="secondary"
