@@ -20,7 +20,7 @@ const NavbarLoggedOut = () => (
   <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static" color="primary">
       <Toolbar sx={{ minHeight: '64px' }}>
-        <Link to="/">
+        <Link to="/" aria-label="Home">
           <img src="/pass-logo.png" alt="logo" style={{ marginRight: '2rem' }} aria-label="logo" />
         </Link>
         <OidcLoginComponent />
