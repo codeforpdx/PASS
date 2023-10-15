@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-import IconButton from '@mui/material/IconButton';
 // Custom Hook Imports
 import { useNotification } from '@hooks';
 // Context Imports
@@ -53,10 +52,9 @@ const ContactProfileIcon = ({ contact }) => {
       to={`/profile/${encodeURIComponent(contact.id)}`}
       state={{ contact: contact.value }}
       style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+      onClick={() => handleSelectProfile(contact.value)}
     >
-      <IconButton onClick={() => handleSelectProfile(contact.value)}>
-        <ContactPageIcon />
-      </IconButton>
+      <ContactPageIcon />
     </Link>
   );
 };
