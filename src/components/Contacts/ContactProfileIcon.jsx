@@ -51,7 +51,7 @@ const ContactProfileIcon = ({ contact }) => {
       state={{ contact: contact.value }}
       onClick={() => handleSelectProfile(contact.value)}
     >
-      <ContactPageIcon sx={{ color: 'gray' }} />
+      <ContactPageIcon sx={{ color: 'gray' }} titleAccess="contact profile link" />
     </Link>
   );
 };
