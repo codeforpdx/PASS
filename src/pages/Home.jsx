@@ -42,7 +42,7 @@ const Home = () => {
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
               src="/assets/web-security-green.png"
-              alt="Web security"
+              alt=""
               title="Keep Your Documents Safe and Secure Using Decentralized Technology"
               description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
               button="Request a Demo"
@@ -51,14 +51,14 @@ const Home = () => {
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
               src="/assets/app-green.png"
-              alt="Web App"
+              alt=""
               title="An App Built for Caseworkers"
               description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
               src="/assets/key-features-green.png"
-              alt="Key Features"
+              alt=""
               title="Key Features"
             />
             <KeyFeatures
