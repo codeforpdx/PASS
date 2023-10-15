@@ -18,18 +18,18 @@ it('renders all clients from client context', () => {
     { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
   ];
 
-  const { getAllByRole } = render(<MockTableComponent contacts={contacts} />);
+  const { getAllByRole, queryByRole } = render(<MockTableComponent contacts={contacts} />);
 
   const allRows = getAllByRole('row');
 
   // Expect 3 rows: the header, Abby's row, Builder's Row
   expect(allRows.length).toBe(3);
 
-  const row1 = allRows[1].querySelector("[title='Aaron Abby']");
-  const row2 = allRows[2].querySelector("[title='Bob Builder']");
+  const row1 = queryByRole('cell', { name: 'Aaron Abby' });
+  const row2 = queryByRole('cell', { name: 'Bob Builder' });
 
-  expect(row1.innerHTML).toBe('Aaron Abby');
-  expect(row2.innerHTML).toBe('Bob Builder');
+  expect(row1).not.toBeNull();
+  expect(row2).not.toBeNull();
 });
 
 it('sorts clients by familyName', () => {
