@@ -9,8 +9,6 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { useNotification } from '@hooks';
 // Context Imports
 import { DocumentListContext } from '@contexts';
-// MUI Theme
-import theme from '../../theme';
 
 /**
  * contactProfileIconProps is an object that stores the props for the
@@ -51,10 +49,9 @@ const ContactProfileIcon = ({ contact }) => {
     <Link
       to={`/profile/${encodeURIComponent(contact.id)}`}
       state={{ contact: contact.value }}
-      style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
       onClick={() => handleSelectProfile(contact.value)}
     >
-      <ContactPageIcon />
+      <ContactPageIcon sx={{ color: 'gray' }} />
     </Link>
   );
 };
