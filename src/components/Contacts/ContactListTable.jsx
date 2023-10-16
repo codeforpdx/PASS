@@ -56,11 +56,16 @@ const ContactListTable = ({ contacts, deleteContact }) => {
 
   const columnTitlesArray = [
     {
-      field: 'Contact',
-      width: 160,
+      field: 'First Name',
+      width: 120,
       headerAlign: 'center',
-      align: 'center',
-      sortable: false
+      align: 'center'
+    },
+    {
+      field: 'Last Name',
+      width: 120,
+      headerAlign: 'center',
+      align: 'center'
     },
     {
       field: 'Profile',
@@ -90,7 +95,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         columns={columnTitlesArray}
         rows={sortedContacts?.map((contact) => ({
           id: contact.webId,
-          Contact: contact.person,
+          'First Name': contact.givenName,
+          'Last Name': contact.familyName,
           Profile: contact,
           Delete: contact
         }))}
