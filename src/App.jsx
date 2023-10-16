@@ -22,8 +22,14 @@ import Layout from './layouts/Layout';
 /**
  * @typedef {import("./typedefs").messageListObject} messageListObject
  */
-
-const queryClient = new QueryClient();
+const queryClientConfig = {
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 // one minute
+    }
+  }
+};
+const queryClient = new QueryClient(queryClientConfig);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
