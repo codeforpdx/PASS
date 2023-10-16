@@ -14,8 +14,18 @@ const MockTableComponent = ({ contacts }) => (
 
 it('renders all clients from client context', () => {
   const contacts = [
-    { familyName: 'Abby', person: 'Aaron Abby', webId: 'https://example.com/Abby' },
-    { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
+    {
+      familyName: 'Abby',
+      givenName: 'Aaron',
+      person: 'Aaron Abby',
+      webId: 'https://example.com/Abby'
+    },
+    {
+      familyName: 'Builder',
+      givenName: 'Bob',
+      person: 'Bob Builder',
+      webId: 'https://example.com/Builder'
+    }
   ];
 
   const { getAllByRole, queryByRole } = render(<MockTableComponent contacts={contacts} />);
@@ -25,23 +35,38 @@ it('renders all clients from client context', () => {
   // Expect 3 rows: the header, Abby's row, Builder's Row
   expect(allRows.length).toBe(3);
 
-  const row1 = queryByRole('cell', { name: 'Aaron Abby' });
-  const row2 = queryByRole('cell', { name: 'Bob Builder' });
+  const row1GivenName = queryByRole('cell', { name: 'Aaron' });
+  const row1FamilyName = queryByRole('cell', { name: 'Abby' });
 
-  expect(row1).not.toBeNull();
-  expect(row2).not.toBeNull();
+  const row2GivenName = queryByRole('cell', { name: 'Bob' });
+  const row2FamilyName = queryByRole('cell', { name: 'Builder' });
+
+  expect(row1GivenName).not.toBeNull();
+  expect(row1FamilyName).not.toBeNull();
+  expect(row2GivenName).not.toBeNull();
+  expect(row2FamilyName).not.toBeNull();
 });
 
 it('sorts clients by familyName', () => {
   const originalArray = [
-    { familyName: 'Zeigler', person: 'Aaron Zeigler', webId: 'https://example.com/Zeigler' },
-    { familyName: 'Builder', person: 'Bob Builder', webId: 'https://example.com/Builder' }
+    {
+      familyName: 'Zeigler',
+      givenName: 'Aaron',
+      person: 'Aaron Zeigler',
+      webId: 'https://example.com/Zeigler'
+    },
+    {
+      familyName: 'Builder',
+      givenName: 'Bob',
+      person: 'Bob Builder',
+      webId: 'https://example.com/Builder'
+    }
   ];
 
   const { getByText } = render(<MockTableComponent contacts={[...originalArray]} />);
 
-  const client1 = getByText('Aaron Zeigler');
-  const client2 = getByText('Bob Builder');
+  const client1 = getByText('Zeigler');
+  const client2 = getByText('Builder');
 
   expect(client1.compareDocumentPosition(client2)).toBe(2);
 });
