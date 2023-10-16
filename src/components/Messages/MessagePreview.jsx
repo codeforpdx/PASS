@@ -36,13 +36,17 @@ const MessagePreview = ({ message, folderType }) => {
   const [showModal, setShowModal] = useState(false);
   const { session } = useSession();
   const { podUrl } = useContext(SignedInUserContext);
-  const { inboxList, setInboxList } = useContext(MessageContext);
+  const { inboxList, setInboxList, updateMessageCountState } = useContext(MessageContext);
 
   const handleClick = async () => {
     setShowContents(!showContents);
     if (folderType === 'Inbox') {
       try {
         await updateMessageReadStatus(session, message);
+        if (!message.readStatus) {
+          // update message read state
+          updateMessageCountState();
+        }
         const messagesInSolid = await getMessageTTL(session, folderType, inboxList, podUrl);
         messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
         setInboxList(messagesInSolid);
@@ -74,7 +78,12 @@ const MessagePreview = ({ message, folderType }) => {
               sx={{ padding: '10px' }}
             >
               {messageInfo.map((info) => (
-                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
+                <Grid
+                  item
+                  xs={info.xs_value}
+                  sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                  key={info.title}
+                >
                   <Typography>
                     {info.title} <strong>{info.text}</strong>
                   </Typography>
