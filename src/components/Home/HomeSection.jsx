@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 /**
  * @typedef {object} HomeSectionParams
- * @property {string} src - image src
- * @property {string} alt - image alt
+ * @property {string} componentImageSrc - image src
+ * @property {string} componentImageAlt - image alt
  * @property {string} title - section title
  * @property {string} description - section description
  * @property {string} button - section button
@@ -25,8 +25,8 @@ import Button from '@mui/material/Button';
  */
 
 const HomeSection = ({
-  src,
-  alt,
+  componentImageSrc,
+  componentImageAlt,
   title,
   description,
   button,
@@ -37,8 +37,8 @@ const HomeSection = ({
   <>
     <Box
       component="img"
-      src={src}
-      alt={alt}
+      src={componentImageSrc}
+      alt={componentImageAlt}
       sx={{
         width: isReallySmallScreen ? 1 : 2 / 4
       }}
