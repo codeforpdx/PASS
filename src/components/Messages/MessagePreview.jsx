@@ -73,8 +73,13 @@ const MessagePreview = ({ message, folderType }) => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               sx={{ padding: '10px' }}
             >
-              {messageInfo.map((info) => (
-                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
+              {messageInfo.map((info, index) => (
+                <Grid
+                  item
+                  xs={info.xs_value}
+                  sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                  key={info + String(index)}
+                >
                   <Typography>
                     {info.title} <strong>{info.text}</strong>
                   </Typography>
