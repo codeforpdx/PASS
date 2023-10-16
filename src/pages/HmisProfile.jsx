@@ -6,6 +6,7 @@ import { HMIS_FORM_LIST } from '@constants';
 const HmisProfile = () => {
   const location = useLocation();
 
+  localStorage.setItem('restorePath', location.pathname);
   const currentForm = location.pathname.split('/').pop();
 
   return (

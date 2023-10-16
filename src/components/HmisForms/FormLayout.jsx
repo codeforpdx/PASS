@@ -8,6 +8,7 @@ const FormLayout = ({ children }) => {
   const location = useLocation();
   const path = location.pathname.split('/').pop();
 
+  localStorage.setItem('restorePath', location.pathname);
   const pageIdx =
     path === 'hmis_profile' ? 0 : HMIS_FORM_LIST.findIndex((form) => form.path === path);
   return (
