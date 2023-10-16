@@ -22,7 +22,10 @@ const NavbarLinks = () => {
   }
 
   // array of current nav links for menus
-  const routesArray = [{ label: 'Contacts', path: '/contacts' }];
+  const routesArray = [
+    { label: 'Contacts', path: '/contacts' },
+    { label: 'HMIS Profile', path: '/hmis_profile' }
+  ];
 
   return (
     <Tabs
