@@ -1,10 +1,11 @@
-import { Card, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
+import FormLayout from './FormLayout';
 
 const BasicInfo = () => (
-  <Card>
+  <FormLayout>
     <Typography>Basic Info</Typography>
-  </Card>
+  </FormLayout>
 );
 
 export default BasicInfo;
