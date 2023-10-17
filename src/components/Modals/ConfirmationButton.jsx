@@ -28,13 +28,12 @@ const ConfirmationButton = ({ title, confirmFunction, processing }) => (
   <Button
     variant="contained"
     color="primary"
-    aria-label="Confirm Button"
     endIcon={<CheckIcon />}
     onClick={confirmFunction}
     disabled={processing}
     sx={{ marginLeft: '1rem' }}
   >
-    {title.toUpperCase()}
+    {title}
   </Button>
 );
 

@@ -158,7 +158,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >
-                CANCEL
+                Cancel
               </Button>
               <Button
                 variant="contained"
