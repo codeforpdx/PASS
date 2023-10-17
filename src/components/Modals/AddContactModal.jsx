@@ -138,7 +138,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton aria-label="copy-webid" edge="end">
+                  <IconButton aria-label="Copy WebId" edge="end">
                     <ContentCopyIcon />
                   </IconButton>
                 </InputAdornment>
@@ -153,7 +153,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               onClick={() => setShowAddContactModal(false)}
               fullWidth
             >
-              CANCEL
+              Cancel
             </Button>
             <Button
               variant="contained"
@@ -163,7 +163,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               type="submit"
               fullWidth
             >
-              ADD CONTACT
+              Add Contact
             </Button>
           </DialogActions>
         </form>
