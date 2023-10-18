@@ -15,7 +15,7 @@ exports[`Home Page > renders 1`] = `
           class="MuiStack-root css-1z0rh7t-MuiStack-root"
         >
           <img
-            alt="Web security"
+            alt=""
             class="MuiBox-root css-11ze7cv"
             src="/assets/web-security-green.png"
           />
@@ -42,7 +42,7 @@ exports[`Home Page > renders 1`] = `
             />
           </a>
           <img
-            alt="Web App"
+            alt=""
             class="MuiBox-root css-11ze7cv"
             src="/assets/app-green.png"
           />
@@ -59,7 +59,7 @@ exports[`Home Page > renders 1`] = `
             PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them.
           </h5>
           <img
-            alt="Key Features"
+            alt=""
             class="MuiBox-root css-11ze7cv"
             src="/assets/key-features-green.png"
           />
