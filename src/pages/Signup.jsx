@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// Inrupt Imports
+// Inrupt Imports .
 import {
   createAcl,
   createContainerAt,
