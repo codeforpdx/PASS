@@ -5,13 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import NavbarLoggedOut from '../../../src/components/NavBar/NavbarLoggedOut';
 
 it('renders login button when user is logged out', () => {
-  const { queryByLabelText, queryByRole } = render(
+  const { queryByRole } = render(
     <BrowserRouter>
       <NavbarLoggedOut />
     </BrowserRouter>
   );
 
-  const logo = queryByLabelText('logo');
+  const logo = queryByRole('img', { name: /logo$/ });
   const loginButton = queryByRole('button');
 
   expect(logo).not.toBeNull();

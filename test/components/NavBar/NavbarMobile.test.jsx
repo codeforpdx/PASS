@@ -5,13 +5,13 @@ import { expect, it } from 'vitest';
 import NavbarMobile from '../../../src/components/NavBar/NavbarMobile';
 
 it('renders hamburger menu when on mobile', () => {
-  const { queryByLabelText } = render(
+  const { queryByLabelText, queryByRole } = render(
     <BrowserRouter>
       <NavbarMobile />
     </BrowserRouter>
   );
 
-  const logo = queryByLabelText('logo');
+  const logo = queryByRole('img', { name: /logo$/ });
   const navLinks = queryByLabelText('navigation tabs');
   const hamburgerMenu = queryByLabelText('mobile menu');
 
