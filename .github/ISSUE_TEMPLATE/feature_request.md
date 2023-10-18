@@ -1,8 +1,10 @@
+---
 name: Feature request
 about: Suggest an idea for this project
 title: ''
 labels: ''
 assignees: ''
+---
 
 ### Feature Description:
 Please provide a DETAILED description of the proposed feature.
