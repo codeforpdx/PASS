@@ -16,7 +16,8 @@ Welcome! 👋👋🏿👋🏽👋🏻👋🏾👋🏼
 
 PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process.
 
-PASS is currently in Development heading towards [Minimum Viable Product](./docs/ROADMAP.md)
+See our [wiki](https://github.com/codeforpdx/PASS/wiki
+) for detailed documentation about PASS.
 
 ## Contents
 
@@ -106,33 +107,6 @@ Further information can be found in [CONTRIBUTING.md](./docs/CONTRIBUTING.md) & 
 
 In Portland, housing insecure individuals struggle to maintain documents often required to receive government and/or non-profit services. With PASS, we are building out an application to enable housing insecure individuals to store their personal documents in decentralized data stores, called Pods. PASS will also provide a platform for Organizations to assist with providing and processing documents required for housing assistance. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their data. Verified organizations will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod to help process housing assistance applications.
 
-### Terminology
-
-- Individual/Client - housing insecure person using services to interact with organizations.
-- Organization - housing agencies, landlords, government agencies that will be requesting information from individuals.
-- Pod/Wallet - decentralized data/document storage built with Solid API. Individuals and organizations will have certain functionality within their pods.
-- Folder/Container - referring to the URI location of document data in ttl files using Solid API with Inrupt's library.
-- ACL - Access Control List is used to manage Solid Pods by allowing users to control who can access and modify their data.
-
-### Features and Usage
-
-1. Individual/Client
-   - Upload and Maintain Documents
-   - Able to share documents
-   - Can copy verified documents into pod from organization(s)
-   - Messaging to organizations
-2. Organization
-   - Can request and review documents
-   - Can create verified documents
-   - Can place files into clients pod with permission
-   - Able to share verified documents with clients
-   - Will have several users per organization
-
-- User registers for a WebID (similar to an email address)
-- User authorizes applications and other users to read/write/control data in pod
-- User data remains in their pod (which is associated to WebID)
-- Full product road map [here](docs/ROADMAP.md)
-
 **[⬆️ Back to Top](#pass---personal-access-system-for-services)**
 
 ---
@@ -146,30 +120,6 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 **[⬆️ Back to Top](#pass---personal-access-system-for-services)**
 
 ---
-
-## 4. Contributors
-
-| Development Team | UI Team     | UX Team     | Project Management Team |
-| ---------------- | ----------- | ----------- | ----------------------- |
-| Jared K. \*      | Andy W. \*  | Gabby P. \* | Florian S. \*           |
-| Kevin M.         | Scott B. \* | Kyle B. \*  | Danica B. \*            |
-| Ka Hung L. \*    | Zack        | Laura U. \* | Wilfred P. \*           |
-| Greg W.          | Nicholas G. | Shelby P.   | Katharine               |
-| Emily S.         |             |             |                         |
-| Ben C. \*        |             |             |                         |
-| Tim S. \*        |             |             |                         |
-| Brian H. \*      |             |             |                         |
-| Georgia          |             |             |                         |
-| Natalie M.       |             |             |                         |
-| Grac F.          |             |             |                         |
-
-\* Active Contributors
-
----
-
-## 5. Tech Stack
-
-- Details on tech used and additional resources in [resources.md](./docs/RESOURCES.md)
 
 ## 6. Code of Conduct
 
