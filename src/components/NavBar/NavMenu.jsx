@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Badge from '@mui/material/Badge';
 import Divider from '@mui/material/Divider';
 import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -14,7 +15,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
-import { DocumentListContext } from '@contexts';
+import { DocumentListContext, MessageContext } from '@contexts';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -35,6 +36,7 @@ const NavMenu = ({
 }) => {
   const theme = useTheme();
   const { setContact } = useContext(DocumentListContext);
+  const { numUnreadMessages } = useContext(MessageContext);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -64,7 +66,11 @@ const NavMenu = ({
         <Link to="/messages" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
           <MenuItem
             component={Button}
-            startIcon={<EmailIcon />}
+            startIcon={
+              <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
+                <EmailIcon />
+              </Badge>
+            }
             sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
           >
             Messages

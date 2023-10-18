@@ -1,7 +1,6 @@
 import EmptyListNotification from './EmptyListNotification';
 import InactivityMessage from './InactivityMessage';
 import LoadingAnimation from './LoadingAnimation';
-import StatusMessage from './StatusMessage';
 import NotificationContainer from './NotificationContainer';
 
 /**
@@ -11,10 +10,4 @@ import NotificationContainer from './NotificationContainer';
  * @namespace Notifications
  */
 
-export {
-  EmptyListNotification,
-  InactivityMessage,
-  LoadingAnimation,
-  StatusMessage,
-  NotificationContainer
-};
+export { EmptyListNotification, InactivityMessage, LoadingAnimation, NotificationContainer };

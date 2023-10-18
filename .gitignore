@@ -18,3 +18,4 @@ bundleStats.html
 
 # environment variables
 .env
+data/

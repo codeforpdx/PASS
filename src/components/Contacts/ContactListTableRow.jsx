@@ -4,18 +4,23 @@ import { Link, useNavigate } from 'react-router-dom';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
-import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+
 // Context Imports
 import { DocumentListContext } from '@contexts';
+
+// MUI Theme
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
+
 // Custom Hook Imports
 import useNotification from '../../hooks/useNotification';
-// Component Imports
-import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
 
 /**
  * contactListTableRowProps is an object that stores the props for the
@@ -37,7 +42,6 @@ import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
 const ContactListTableRow = ({ contact, deleteContact }) => {
-  const theme = useTheme();
   const [pinned, setPinned] = useState(false);
   const { setContact } = useContext(DocumentListContext);
   const navigate = useNavigate();
@@ -65,32 +69,37 @@ const ContactListTableRow = ({ contact, deleteContact }) => {
   };
 
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">
-        <Link
-          to={`/profile/${encodeURIComponent(contact.webId)}`}
-          state={{ contact }}
-          style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+    <ThemeProvider theme={theme}>
+      <TableRow>
+        <TableCell align="center">
+          <Link
+            to={`/profile/${encodeURIComponent(contact.webId)}`}
+            state={{ contact }}
+            style={{ textDecoration: 'none', color: theme.palette.primary.dark }}
+          >
+            <Button
+              sx={{ textTransform: 'capitalize' }}
+              onClick={() => handleSelectProfile(contact)}
+            >
+              {contact.person}
+            </Button>
+          </Link>
+        </TableCell>
+        <TableCell
+          align="center"
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-          <Button sx={{ textTransform: 'capitalize' }} onClick={() => handleSelectProfile(contact)}>
-            {contact.person}
-          </Button>
-        </Link>
-      </StyledTableCell>
-      <StyledTableCell
-        align="center"
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <IconButton size="large" onClick={handlePinClick}>
-          {pinnedIcon}
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" onClick={() => deleteContact(contact)}>
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </StyledTableCell>
-    </StyledTableRow>
+          <IconButton size="large" onClick={handlePinClick}>
+            {pinnedIcon}
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          <IconButton size="large" onClick={() => deleteContact(contact)}>
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    </ThemeProvider>
   );
 };
 

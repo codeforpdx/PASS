@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.react # Creates new image for react app
+    ports:
+      - "5173:80"
+
+  solid-server:
+    image: solidproject/community-server:latest # Use updated image or create using Dockerfile
+    restart: always
+    user: root
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/solid-data:/data
+      - ./config/solid-server/solid-config.json:/community-server/config/my-config.json
+

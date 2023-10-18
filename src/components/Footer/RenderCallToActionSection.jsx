@@ -25,8 +25,15 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
       If your organization is interested in partnering with PASS and would like to discuss further,
       contact us below.
     </Typography>
-    <Button variant="contained" color="secondary" sx={{ my: '1rem', width: 1 / 2 }}>
-      Proposal
+    <Button
+      variant="contained"
+      color="secondary"
+      href="mailto:hugh@codeforpdx.org"
+      target="_blank"
+      rel="noopener"
+      sx={{ my: '1rem', width: 1 / 2 }}
+    >
+      Make a Proposal
     </Button>
   </Stack>
 );
