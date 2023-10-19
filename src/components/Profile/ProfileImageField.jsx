@@ -11,6 +11,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Typography from '@mui/material/Typography';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
+import useNotification from '../../hooks/useNotification';
 
 /**
  * @typedef {import("../../typedefs").profileImageFieldProps} profileImageFieldProps
@@ -26,19 +27,24 @@ import { SignedInUserContext } from '@contexts';
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const ProfileImageField = ({ loadProfileData, contactProfile }) => {
+  const { addNotification } = useNotification();
   const { session } = useSession();
   const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
     useContext(SignedInUserContext);
   const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
 
   const handleProfileImage = async (event) => {
-    await uploadProfileImage(session, profileData, event.target.files[0]);
+    if (event.target.files[0].size > 1 * 1000 * 1024) {
+      addNotification('error', 'Profile images have a maximum size of 1MB.');
+    } else {
+      await uploadProfileImage(session, profileData, event.target.files[0]);
 
-    const updatedProfileData = await fetchProfileInfo(session, session.info.webId);
-    localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
-    setProfileImg(updatedProfileData.profileInfo.profileImage);
+      const updatedProfileData = await fetchProfileInfo(session, session.info.webId);
+      localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
+      setProfileImg(updatedProfileData.profileInfo.profileImage);
 
-    loadProfileData();
+      loadProfileData();
+    }
   };
 
   const handleRemoveProfileImg = async () => {
