@@ -63,10 +63,10 @@ it('sorts clients by familyName', () => {
     }
   ];
 
-  const { getByText } = render(<MockTableComponent contacts={[...originalArray]} />);
+  const { getByRole } = render(<MockTableComponent contacts={[...originalArray]} />);
 
-  const client1 = getByText('Zeigler');
-  const client2 = getByText('Builder');
+  const client1 = getByRole('cell', { name: 'Zeigler' });
+  const client2 = getByRole('cell', { name: 'Builder' });
 
   expect(client1.compareDocumentPosition(client2)).toBe(2);
 });
