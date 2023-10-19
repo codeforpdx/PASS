@@ -11,6 +11,10 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuList';
+import { RELATIONSHIPS, RELATIONSHIP_STATUS } from '@constants';
 // Component Imports
 import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
@@ -44,7 +48,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [pod, setPod] = useState('');
+  const [relationship, setRelationship] = useState('');
+  const [relationshipStatus, setRelationshipStatus] = useState('');
   const [processing, setProcessing] = useState(false);
+
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -58,7 +66,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      webId: event.target.addWebId.value
+      webId: event.target.addWebId.value,
+      pod: event.target.pod,
+      relationship: event.target.relationship,
+      relationshipStatus: event.target.relationshipStatus
     };
 
     try {
@@ -88,6 +99,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       <FormSection title="Add Contact">
         <form onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
+
             <TextField
               margin="normal"
               id="add-user-given-name"
@@ -145,6 +157,42 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               )
             }}
           />
+          <TextField
+            margin="normal"
+            id="pod"
+            name="addPod"
+            label="pod"
+            autoComplete="pod"
+            value={pod}
+            onChange={(e) => setPod(e.target.value)}
+            fullWidth
+          />
+          <InputLabel id="relationship-label">Relationship</InputLabel>
+          <Select
+            labelId="relationship-label"
+            id="relatioship"
+            value={relationship}
+            label="Relationship"
+            onChange={(e) => setRelationship(e.target.value)}
+            fullWidth
+          >
+            <MenuItem value={RELATIONSHIPS.Client}>Client</MenuItem>
+            <MenuItem value={RELATIONSHIPS.CaseManagement}>Case Management</MenuItem>
+            <MenuItem value={RELATIONSHIPS.AssociatedOrg}>Associated Organization</MenuItem>
+          </Select>
+          <InputLabel id="relationship-status-label">Relationship Status</InputLabel>
+          <Select
+            labelId="relationship-status-label"
+            id="relatioship-status"
+            value={relationshipStatus}
+            label="RelationshipStatus"
+            onChange={(e) => setRelationshipStatus(e.target.value)}
+            fullWidth
+          >
+            <MenuItem value={RELATIONSHIP_STATUS.ACTIVE}>Active</MenuItem>
+            <MenuItem value={RELATIONSHIP_STATUS.ARCHIVED}>Archived</MenuItem>
+            <MenuItem value={RELATIONSHIP_STATUS.ETC}>etc</MenuItem>
+          </Select>
           <DialogActions>
             <Button
               variant="outlined"

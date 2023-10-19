@@ -22,6 +22,9 @@ const makeContactIntoThing = ({ givenName, familyName, webId }) =>
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
     .addUrl(RDF_PREDICATES.identifier, webId)
     .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
+    .addUrl(pod, pod)
+    .addStringNoLocale(relationship, relationship)
+    .addStringNoLocale(relationshipStatus, relationshipStatus)
     .build();
 
 const parseContacts = (data) => {
@@ -96,6 +99,9 @@ const useContactsList = () => {
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
       const savedDataset = await saveData(newDataset);
+      console.table(newContact);
+      console.table(data);
+      console.table(thing);
       return savedDataset;
     },
     onSuccess: (resData) => {
