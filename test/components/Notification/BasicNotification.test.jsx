@@ -6,16 +6,12 @@ import BasicNotification from '../../../src/components/Notification/BasicNotific
 import { NotificationContext } from '../../../src/contexts/NotificationContext';
 
 it('renders correctly', () => {
+  const message = 'my test message';
   render(
-    <BasicNotification
-      severity="success"
-      message="my test message"
-      id={123456}
-      dataTestId="test-id"
-    />
+    <BasicNotification severity="success" message={message} id={123456} dataTestId="test-id" />
   );
 
-  expect(screen.getByText('my test message')).not.toBeNull();
+  expect(screen.getByRole('alert').textContent).toBe(message);
 });
 
 beforeEach(() => {
