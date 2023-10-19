@@ -30,7 +30,7 @@ describe('resize tests', () => {
   it('renders NavbarDesktop when user is logged in on larger screen device', () => {
     window.matchMedia = createMatchMedia(1200);
 
-    const { getByLabelText } = render(
+    const { getByTestId } = render(
       <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
         <BrowserRouter>
           <NavBar />
@@ -38,7 +38,7 @@ describe('resize tests', () => {
       </SessionContext.Provider>
     );
 
-    const iconMenu = getByLabelText('menu');
+    const iconMenu = getByTestId('navbar-menu');
 
     expect(iconMenu).not.toBeNull();
   });
@@ -46,7 +46,7 @@ describe('resize tests', () => {
   it('renders NavbarMobile when user is logged in on smaller screen device', () => {
     window.matchMedia = createMatchMedia(500);
 
-    const { getByLabelText } = render(
+    const { getByRole } = render(
       <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
         <BrowserRouter>
           <NavBar />
@@ -54,7 +54,7 @@ describe('resize tests', () => {
       </SessionContext.Provider>
     );
 
-    const hamburgerMenu = getByLabelText('mobile menu');
+    const hamburgerMenu = getByRole('button', { name: /mobile/ });
 
     expect(hamburgerMenu).not.toBeNull();
   });
