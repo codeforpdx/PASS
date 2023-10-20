@@ -29,9 +29,13 @@ const OidcLoginComponent = () => {
       <Box sx={{ flexGrow: 1 }} />
       <Autocomplete
         id="pod-server-url"
+        sx={{
+          minWidth: '130px',
+          maxWidth: '400px'
+        }}
+        fullWidth
         options={SUGGESTED_OIDC_OPTIONS}
         size="small"
-        sx={{ width: '200px' }}
         freeSolo
         includeInputInList
         disablePortal
@@ -73,6 +77,7 @@ const OidcLoginComponent = () => {
         type="submit"
         color="secondary"
         size="large"
+        sx={{ flexShrink: 0 }}
         onClick={() => {
           loginHandler();
           localStorage.setItem('oidcIssuer', oidcIssuer);
