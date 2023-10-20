@@ -13,8 +13,8 @@ afterEach(() => {
   cleanup();
 });
 
-vi.mock('../../../src/constants/', () => {
-  const actual = vi.importActual('../../../src/constants/');
+vi.mock('../../../src/constants/', async () => {
+  const actual = await vi.importActual('../../../src/constants/');
   return {
     ...actual,
     ENV: {
@@ -26,7 +26,7 @@ vi.mock('../../../src/constants/', () => {
 it('sets OIDC provider on login', async () => {
   const user = userEvent.setup();
   const { getByRole } = render(<OidcLoginComponent />);
-  const input = getByRole('textbox');
+  const input = getByRole('combobox');
   const loginButton = getByRole('button');
   await user.clear(input);
   await user.type(input, 'http://oidc.provider.url/');
