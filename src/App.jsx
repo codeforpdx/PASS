@@ -15,13 +15,6 @@ import theme from './theme';
 import AppRoutes from './AppRoutes';
 import Layout from './layouts/Layout';
 
-/**
- * @typedef {import("./typedefs").userListObject} userListObject
- */
-
-/**
- * @typedef {import("./typedefs").messageListObject} messageListObject
- */
 const queryClientConfig = {
   defaultOptions: {
     queries: {
