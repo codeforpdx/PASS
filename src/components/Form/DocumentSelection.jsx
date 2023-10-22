@@ -15,8 +15,13 @@ import DOC_TYPES from '../../constants/doc_types';
  *
  * @memberof Forms
  * @name DocumentSelection
+ * @param {object} Props - Props for DocumentSelection Component
+ * @param {string} Props.htmlForAndIdProp - String for HTML for and id
+ * @param {(event) => void} Props.handleDocType - Handler function for selecting
+ * doc type
+ * @param {string} Props.docType - The specific doc type selected
+ * @returns {React.JSX.Element} - The Document Selection Component
  */
-
 const DocumentSelection = ({ htmlForAndIdProp, handleDocType, docType }) => (
   <Box>
     <FormControl required fullWidth>

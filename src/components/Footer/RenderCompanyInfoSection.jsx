@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -50,14 +49,12 @@ const socialLinks = [
 ];
 
 /**
- * @typedef {import("../../typedefs.js").footerProps} footerProps
- */
-
-/**
  * The RenderCompanyInfoSection component renders information about policy,
  * terms and conditions, and the site to Code for PDX
  *
- * @param {footerProps} Props - The props for footer sub-component
+ * @param {object} Props - The props for footer sub-component
+ * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
+ * breakdown of 'sm' for MUI
  * @returns {React.JSX.Element} The RenderCompanyInfoSection component
  */
 const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (

@@ -11,25 +11,16 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-
 // Context Imports
 import { DocumentListContext } from '@contexts';
-
+// Custom Hook Imports
+import useNotification from '@hooks/useNotification';
 // MUI Theme
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
 
-// Custom Hook Imports
-import useNotification from '../../hooks/useNotification';
-
 /**
- * contactListTableRowProps is an object that stores the props for the
- * ContactListTableRow component
- *
- * @typedef {object} contactListTableRowProps
- * @property {object} contact - Object containing contact information
- * @property {Function} deleteContact
- * - function to delete a chosen contact
+ * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
@@ -38,7 +29,10 @@ import useNotification from '../../hooks/useNotification';
  *
  * @memberof Contacts
  * @name ContactListTableRow
- * @param {contactListTableRowProps} Props - Props for ContactListTableRow
+ * @param {object} Props - Props for ContactListTableRow
+ * @param {userListObject} Props.contact - contact object that store's contact
+ * information
+ * @param {Function} Props.deleteContact - method to delete contact
  * @returns {React.JSX.Element} The ContactListTableRow Component
  */
 const ContactListTableRow = ({ contact, deleteContact }) => {

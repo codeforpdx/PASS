@@ -29,14 +29,6 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * @typedef {import('../../typedefs').fileObjectType} fileObjectType
- */
-
-/**
- * @typedef {import("../../typedefs").userListObject} userListObject
- */
-
-/**
  * @typedef {import("../../typedefs").messageListObject} messageListObject
  */
 

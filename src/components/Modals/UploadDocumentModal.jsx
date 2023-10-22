@@ -22,16 +22,15 @@ import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 
 /**
- * @typedef {import("../../typedefs.js").uploadDocumentModalProps} uploadDocumentModalProps
- */
-
-/**
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
  * @memberof Modals
  * @name UploadDocumentModal
- * @param {uploadDocumentModalProps} Props - Props for UploadDocumentModal component
+ * @param {object} Props - Props for UploadDocumentModal component
+ * @param {boolean} Props.showModal - Boolean for showing upload documents modal
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
+ * - React set function for setting showModal state
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
