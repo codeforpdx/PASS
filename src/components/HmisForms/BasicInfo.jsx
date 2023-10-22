@@ -1,11 +1,6 @@
 import { Typography } from '@mui/material';
 import React from 'react';
-import FormLayout from './FormLayout';
 
-const BasicInfo = () => (
-  <FormLayout>
-    <Typography>Basic Info</Typography>
-  </FormLayout>
-);
+const BasicInfo = () => <Typography>Basic Info</Typography>;
 
 export default BasicInfo;
