@@ -1,7 +1,7 @@
 import { Container, MenuList, MenuItem } from '@mui/material';
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { HMIS_FORM_LIST } from '@constants';
+import { HMIS_FORM_LIST } from '@components/HmisForms';
 
 const HmisProfile = () => {
   const location = useLocation();
@@ -15,14 +15,8 @@ const HmisProfile = () => {
         <nav>
           <MenuList>
             {HMIS_FORM_LIST.map((form) => (
-              <Link to={form.path} style={{ textDecoration: 'none' }}>
-                <MenuItem
-                  divider
-                  selected={
-                    currentForm === form.path ||
-                    (currentForm === 'hmis_profile' && form.path === '')
-                  }
-                >
+              <Link to={form.path} style={{ textDecoration: 'none' }} key={form.path}>
+                <MenuItem divider selected={currentForm === form.path}>
                   {form.label}
                 </MenuItem>
               </Link>

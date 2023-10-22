@@ -1,11 +1,6 @@
 import { Typography } from '@mui/material';
 import React from 'react';
-import FormLayout from './FormLayout';
 
-const HousingInfo = () => (
-  <FormLayout>
-    <Typography>Housing Info</Typography>
-  </FormLayout>
-);
+const HousingInfo = () => <Typography>Housing Info</Typography>;
 
 export default HousingInfo;

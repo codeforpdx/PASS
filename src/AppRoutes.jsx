@@ -4,7 +4,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
-import { BasicInfo, HousingInfo, FinancialInfo } from '@components/HmisForms';
+import { HMIS_FORM_LIST, FormLayout } from '@components/HmisForms';
 // Page Imports
 import { HmisProfile, Home, Contacts, Messages, Profile, Signup } from './pages';
 
@@ -46,9 +46,16 @@ const AppRoutes = () => {
           <Route path=":webId" element={<Profile />} />
         </Route>
         <Route path="hmis_profile" element={<HmisProfile />}>
-          <Route index element={<BasicInfo />} />
-          <Route path="housing_info" element={<HousingInfo />} />
-          <Route path="financial_info" element={<FinancialInfo />} />
+          {HMIS_FORM_LIST.map((formProps) => (
+            <Route
+              {...formProps}
+              element={
+                <FormLayout>
+                  <formProps.element />
+                </FormLayout>
+              }
+            />
+          ))}
         </Route>
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
