@@ -20,10 +20,22 @@ import { DocumentListContext, MessageContext } from '@contexts';
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavMenu
+ * @param {object} Props - The props for NavMenu Component
+ * @param {string} Props.menuId - The menu id
+ * @param {boolean} Props.openMenu - The state for opening menu
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setOpenMenu
+ * - The set function for openMenu
+ * @param {any} Props.anchorEl - The state for anchorEl
+ * @param {React.Dispatch<any>} Props.setAnchorEl - The set function for anchorEl
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @param {(event) => void} Props.handleNotificationsMenu - Handler function for
+ * Notification Menu
+ * @param {string} Props.profileImg - String for profile image
+ * @returns {React.JSX.Element} - The NavMenu Component
  */
-
 const NavMenu = ({
   menuId,
   openMenu,

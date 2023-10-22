@@ -11,7 +11,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // Context Imports
 import { DocumentListContext } from '@contexts';
-
 // Component Imports
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
@@ -19,16 +18,17 @@ import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
- * @typedef {import("../../typedefs.js").documentTableProps} documentTableProps
- */
-
-/**
  * DocumentTable Component - The Document Table that shows the list of documents
  * stored on Solid
  *
  * @memberof Documents
  * @name DocumentTable
- * @param {documentTableProps} Props - Props for DocumentTable component
+ * @param {object} Props - Props for DocumentTable component
+ * @param {(modalType: string, docName: string, docType: string)
+ * => void} Props.handleAclPermissionsModal - Function for setting up the
+ * correct version of the SetAclPermissions Modal, and opening it.
+ * @param {(document: object) => void} Props.handleSelectDeleteDoc - method
+ * to delete document
  * @returns {React.JSX.Element} The DocumentTable component
  */
 const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => {

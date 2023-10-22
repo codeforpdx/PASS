@@ -14,16 +14,16 @@ import { SignedInUserContext } from '@contexts';
 import useNotification from '../../hooks/useNotification';
 
 /**
- * @typedef {import("../../typedefs").profileImageFieldProps} profileImageFieldProps
- */
-
-/**
  * ProfileImageField Component - Component that creates the editable inputs fields
  * for the Profile page
  *
  * @memberof Profile
  * @name ProfileImageField
- * @param {profileImageFieldProps} Props - Props used for NewMessage
+ * @param {object} Props - Props used for NewMessage
+ * @param {() => void} Props.loadProfileData - Handler function for setting local
+ * state for profile card in PASS
+ * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * or null if user profile is selected
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const ProfileImageField = ({ loadProfileData, contactProfile }) => {

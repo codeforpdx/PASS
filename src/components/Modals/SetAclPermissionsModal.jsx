@@ -21,17 +21,19 @@ import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
 
 /**
- * @typedef {import("../../typedefs.js").setAclPermissionsModalProps} setAclPermissionsModalProps
- */
-
-/**
  * SetPermissionsModal Component - Modal component that generates the form for
  * setting ACL permissions to another user's documents, or document container
  * in their Solid Pod via Solid Session.
  *
  * @memberof Modals
  * @name SetAclPermissionsModal
- * @param {setAclPermissionsModalProps} Props - Props for SetAclPermissionsModal component
+ * @param {object} Props - Props for SetAclPermissionsModal component
+ * @param {boolean} Props.showModal - Boolean for showing setAclPermissionsModal.
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
+ * - React set function for setting showModal state
+ * @param {object} Props.dataset - State object containing information for which
+ * version of modal to display, a relevant file name (if any), and a relevant
+ * document type (if any).
  * @returns {React.JSX.Element} The SetAclPermissionsModal Component
  */
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {

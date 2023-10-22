@@ -14,7 +14,7 @@ import NavbarMobile from './NavbarMobile';
 /**
  * NavBar Component - Component that generates proper NavBar section for PASS
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavBar
  * @returns {React.JSX.Element} - The Navbar component
  */

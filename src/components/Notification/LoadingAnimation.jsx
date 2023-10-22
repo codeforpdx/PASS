@@ -7,17 +7,19 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 /**
- * @typedef {import("../../typedefs.js").loadingAnimationProps} loadingAnimationProps
- */
-
-/**
  * LoadingAnimation Component - Displays a div containing title of what is being
  * loaded and an animated loading progress bar. Must pass loadingItem attribute
- * as a string of the "title" of what is being loaded.
+ * as a string of the "title" of what is being loaded. By default LinearProgress
+ * will be used as the default animation, if used as a provider (i.e. wrapping
+ * children animation components), the wrapped component will be used instead for
+ * animation
  *
  * @memberof Notification
  * @name LoadingAnimation
- * @param {loadingAnimationProps} Props - Component props for LoadingAnimation
+ * @param {object} Props - Component props for LoadingAnimation
+ * @param {string} Props.loadingItem - The name of what you plan on loading
+ * @param {React.JSX.Element} [Props.children] - If used as a provider, wrapped
+ * component will be used as the animation
  * @returns {React.ReactElement} a div of what is currently loading
  */
 const LoadingAnimation = ({ loadingItem, children }) => (

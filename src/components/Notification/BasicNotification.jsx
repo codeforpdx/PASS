@@ -9,7 +9,15 @@ import useNotification from '@hooks/useNotification';
 
 const TransitionUp = (props) => <Slide {...props} direction="up" />;
 
-const BasicNotification = ({ severity, message, id, 'data-testid': dataTestId }) => {
+/**
+ *
+ * @param {object} Props - The props for BasicNotification Component
+ * @param {string} Props.severity - The severity level of the notification
+ * @param {string} Props.message - The notification message
+ * @param {number} Props.id - The unique setTimeout ID
+ * @returns {React.JSX.Element} - The BasicNotification Component
+ */
+const BasicNotification = ({ severity, message, id }) => {
   const [open, setOpen] = useState(false);
   const { remove } = useNotification();
 
@@ -43,7 +51,6 @@ const BasicNotification = ({ severity, message, id, 'data-testid': dataTestId })
       open={open}
       onClose={handleClose}
       id={id}
-      data-testid={dataTestId}
       TransitionComponent={TransitionUp}
       autoHideDuration={6000}
     >

@@ -9,6 +9,14 @@ import TextField from '@mui/material/TextField';
 // Constants Imports
 import { ENV } from '../../constants';
 
+/**
+ * The OidcLoginComponent is a component that renders the login button for PASS
+ * and linked to the login of a specific Solid IDP
+ *
+ * @memberof NavBar
+ * @name OidcLoginComponent
+ * @returns {React.JSX.Element} - The OidcLoginComponent Component
+ */
 const OidcLoginComponent = () => {
   const { login } = useSession();
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
