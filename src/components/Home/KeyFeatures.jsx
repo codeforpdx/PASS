@@ -3,23 +3,19 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-/**
- * @typedef {object} KeyFeaturesParams
- * @property {string} icon - icon
- * @property {string} title - key feature title
- * @property {string} description - key feature description
- * @property {boolean} isReallySmallScreen - screen size
- */
 
 /**
  * Represents key features section component
  *
  * @memberof Home
  * @name KeyFeatures
- * @param {KeyFeaturesParams} props - the props
+ * @param {object} Props - the props
+ * @param {string} Props.icon - icon
+ * @param {string} Props.title - key feature title
+ * @param {string} Props.description - key feature description
+ * @param {boolean} Props.isReallySmallScreen - screen size
  * @returns {React.JSX.Element} the KeyFeatures section component
  */
-
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
   <>
     <Box

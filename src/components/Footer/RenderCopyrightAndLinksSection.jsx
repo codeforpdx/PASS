@@ -28,14 +28,12 @@ const legalLinks = [
 ];
 
 /**
- * @typedef {import("../../typedefs.js").footerProps} footerProps
- */
-
-/**
  * The RenderCopyrightAndLinksSection component renders information about policy,
  * terms and conditions, and the site to Code for PDX
  *
- * @param {footerProps} Props - The props for footer sub-component
+ * @param {object} Props - The props for footer sub-component
+ * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
+ * breakdown of 'sm' for MUI
  * @returns {React.JSX.Element} The RenderCopyrightAndLinksSection component
  */
 const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (

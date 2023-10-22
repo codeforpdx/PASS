@@ -23,13 +23,7 @@ const CustomToolbar = () => (
 );
 
 /**
- * contactListTableProps is an object that stores the props for the
- * ContactListTable component
- *
- * @typedef {object} contactListTableProps
- * @property {Array} contacts - the list of contacts to be displayed
- * @property {Function} deleteContact - method to delete contact from list
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
@@ -38,7 +32,9 @@ const CustomToolbar = () => (
  *
  * @memberof Contacts
  * @name ContactListTable
- * @param {contactListTableProps} Props - Props for ContactListTable
+ * @param {object} Props - Props for ContactListTable
+ * @param {userListObject[]} Props.contacts - this list of contacts to display
+ * @param {Function} Props.deleteContact - method to delete contact
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {

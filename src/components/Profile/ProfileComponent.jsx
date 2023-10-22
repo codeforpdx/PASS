@@ -19,16 +19,14 @@ import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 
 /**
- * @typedef {import("../../typedefs.js").profileComponentProps} profileComponentProps
- */
-
-/**
  * The UserProfile Component is a component that renders the user's profile on
  * PASS
  *
  * @memberof Profile
  * @name ProfileComponent
- * @param {profileComponentProps} Props - Props for ClientProfile component
+ * @param {object} Props - Props for ClientProfile component
+ * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * or null if user profile is selected
  * @returns {React.JSX.Element} The UserProfile Component
  */
 const ProfileComponent = ({ contactProfile }) => {
