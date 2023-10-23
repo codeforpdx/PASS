@@ -6,6 +6,8 @@ import { useSession } from '@hooks';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 // Constants Imports
 import { ENV } from '../../constants';
 
@@ -15,9 +17,12 @@ import { ENV } from '../../constants';
  *
  * @memberof NavBar
  * @name OidcLoginComponent
+ * @param {object} Props - The props for OidcLoginComponent
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowSignInModal
+ * - The set function for closing sign in modal
  * @returns {React.JSX.Element} - The OidcLoginComponent Component
  */
-const OidcLoginComponent = () => {
+const OidcLoginComponent = ({ setShowSignInModal }) => {
   const { login } = useSession();
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
@@ -25,8 +30,19 @@ const OidcLoginComponent = () => {
     const redirectUrl = window.location.href;
     await login({ oidcIssuer, redirectUrl });
   };
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        alignItems: 'center',
+        gap: '10px'
+      }}
+    >
       <TextField
         type="text"
         label="Pod Server URL"
@@ -44,22 +60,31 @@ const OidcLoginComponent = () => {
         }}
         sx={{
           backgroundColor: 'white',
-          borderRadius: '8px'
+          borderRadius: '8px',
+          border: isSmallScreen ? '1px solid grey' : '',
+          width: '100%'
         }}
       />
-      <Button
-        variant="contained"
-        type="submit"
-        color="secondary"
-        size="large"
-        onClick={() => {
-          loginHandler();
-          localStorage.setItem('oidcIssuer', oidcIssuer);
-        }}
-        sx={{ height: '40px', marginLeft: '32px' }}
-      >
-        Login
-      </Button>
+      <Box sx={{ display: 'flex', gap: '10px' }}>
+        {isSmallScreen ? (
+          <Button variant="outlined" color="error" onClick={() => setShowSignInModal(false)}>
+            Cancel
+          </Button>
+        ) : null}
+        <Button
+          variant="contained"
+          type="submit"
+          color="secondary"
+          size={isSmallScreen ? '' : 'large'}
+          onClick={() => {
+            loginHandler();
+            localStorage.setItem('oidcIssuer', oidcIssuer);
+          }}
+          sx={{ marginLeft: isSmallScreen ? '0' : '32px' }}
+        >
+          Login
+        </Button>
+      </Box>
     </Box>
   );
 };
