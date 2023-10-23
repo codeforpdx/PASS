@@ -59,12 +59,7 @@ const Contacts = () => {
         width: '100%'
       }}
     >
-      <Box
-        sx={{
-          minWidth: '300px',
-          width: '90%'
-        }}
-      >
+      <Box>
         <Button
           variant="contained"
           color="secondary"

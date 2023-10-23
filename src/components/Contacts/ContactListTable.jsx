@@ -41,14 +41,14 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   const columnTitlesArray = [
     {
       field: 'First Name',
-      width: 120,
+      minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'Last Name',
-      width: 120,
+      minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
@@ -78,7 +78,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   ];
 
   return (
-    <Box sx={{ margin: '20px 0' }}>
+    <Box sx={{ margin: '20px 0', width: '90vw' }}>
       <DataGrid
         columns={columnTitlesArray}
         rows={contacts?.map((contact) => ({
