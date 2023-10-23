@@ -54,12 +54,14 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     {
       field: 'First Name',
       width: 120,
+      flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'Last Name',
       width: 120,
+      flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
@@ -75,11 +77,13 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     {
       field: 'actions',
       type: 'actions',
+      headerName: 'Delete',
       width: 70,
       getActions: (contactData) => [
         <GridActionsCellItem
           icon={<DeleteOutlineOutlinedIcon />}
           onClick={() => deleteContact(contactData.row.Delete)}
+          label="Delete"
         />
       ]
     }
