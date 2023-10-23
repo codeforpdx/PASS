@@ -11,6 +11,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
@@ -33,6 +35,8 @@ const Profile = () => {
   // Route related states
   const location = useLocation();
   localStorage.setItem('restorePath', '/profile');
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Documents related states
   const { session } = useSession();
@@ -129,7 +133,7 @@ const Profile = () => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '20px',
-        padding: '30px'
+        padding: isSmallScreen ? '30px 0' : '30px'
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
@@ -141,16 +145,42 @@ const Profile = () => {
             </a>
           </Typography>
         ) : null}
-        <Typography>
-          User WebId:
-          <Link to={webIdUrl} target="_blank" rel="noreferrer">
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '5px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: isSmallScreen ? 'column' : 'row'
+          }}
+        >
+          <Typography>User WebId: </Typography>
+          <Link
+            to={webIdUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              maxWidth: isSmallScreen ? '240px' : 'none',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+          >
             {webIdUrl}
           </Link>
-        </Typography>
+        </Box>
 
         <ProfileComponent contactProfile={contactProfile} />
 
-        <Container sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+        <Container
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 2,
+            flexDirection: isSmallScreen ? 'column' : 'row'
+          }}
+        >
           {!contact && (
             <Button
               variant="contained"
@@ -158,6 +188,7 @@ const Profile = () => {
               size="small"
               startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
+              sx={{ width: isSmallScreen ? '250px' : 'default' }}
             >
               Share Documents Folder
             </Button>
@@ -168,6 +199,7 @@ const Profile = () => {
             size="small"
             startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
+            sx={{ width: isSmallScreen ? '200px' : 'default' }}
           >
             Add Document
           </Button>
