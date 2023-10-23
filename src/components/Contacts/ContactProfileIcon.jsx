@@ -50,6 +50,7 @@ const ContactProfileIcon = ({ contact }) => {
       to={`/profile/${encodeURIComponent(contact.id)}`}
       state={{ contact: contact.value }}
       onClick={() => handleSelectProfile(contact.value)}
+      style={{ display: 'flex', alignItems: 'center' }}
     >
       <ContactPageIcon sx={{ color: 'gray' }} titleAccess="contact profile link" />
     </Link>

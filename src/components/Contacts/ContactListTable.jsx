@@ -38,17 +38,17 @@ const CustomToolbar = () => (
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
-  const comparePerson = (a, b) => {
-    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
-      return -1;
-    }
-    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  };
-  const contactsCopy = [...contacts];
-  const sortedContacts = contactsCopy.sort(comparePerson);
+  // const comparePerson = (a, b) => {
+  //   if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
+  //     return -1;
+  //   }
+  //   if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // };
+  // const contactsCopy = [...contacts];
+  // const sortedContacts = contactsCopy.sort(comparePerson);
 
   const columnTitlesArray = [
     {
@@ -93,7 +93,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     <Box sx={{ margin: '20px 0' }}>
       <DataGrid
         columns={columnTitlesArray}
-        rows={sortedContacts?.map((contact) => ({
+        rows={contacts?.map((contact) => ({
           id: contact.webId,
           'First Name': contact.givenName,
           'Last Name': contact.familyName,
@@ -116,6 +116,9 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         initialState={{
           pagination: {
             paginationModel: { pageSize: 10, page: 0 }
+          },
+          sorting: {
+            sortModel: [{ field: 'Last Name', sort: 'asc' }]
           }
         }}
         disableColumnMenu
