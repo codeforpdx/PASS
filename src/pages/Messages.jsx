@@ -28,9 +28,7 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-
   const { podUrl } = useContext(SignedInUserContext);
-
   const { session } = useSession();
   const {
     inboxList,
@@ -59,12 +57,10 @@ const Messages = () => {
   // Re-sorts inbox messages upon updates
   useEffect(() => {
     setLoadMessages(true);
-
     let inboxCopy = inboxList;
     inboxCopy = inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
     updateMessageCountState(inboxList.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
     setInboxList(inboxCopy);
-
     setLoadMessages(false);
   }, [inboxList]);
 

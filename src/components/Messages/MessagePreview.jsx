@@ -78,7 +78,7 @@ const MessagePreview = ({ message, folderType }) => {
                   item
                   xs={info.xs_value}
                   sx={{ opacity: message.readStatus ? '0.5' : '1' }}
-                  key={info + String(index)}
+                  key={info.title + String(index)}
                 >
                   <Typography>
                     {info.title} <strong>{info.text}</strong>
