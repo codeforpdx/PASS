@@ -38,18 +38,6 @@ const CustomToolbar = () => (
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
-  // const comparePerson = (a, b) => {
-  //   if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
-  //     return -1;
-  //   }
-  //   if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // };
-  // const contactsCopy = [...contacts];
-  // const sortedContacts = contactsCopy.sort(comparePerson);
-
   const columnTitlesArray = [
     {
       field: 'First Name',
