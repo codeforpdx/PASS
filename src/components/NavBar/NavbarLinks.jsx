@@ -30,7 +30,7 @@ const NavbarLinks = () => {
   return (
     <Tabs
       value={
-        routesArray.map((route) => route.label.toLowerCase()).includes(location) ? location : false
+        routesArray.map((route) => route.path.split('/')[1]).includes(location) ? location : false
       }
       textColor="inherit"
       indicatorColor="secondary"
@@ -39,7 +39,7 @@ const NavbarLinks = () => {
       {routesArray.map((item) => (
         <Tab
           key={`${item.label}Tab`}
-          value={item.label.toLowerCase()}
+          value={item.path.split('/')[1]}
           label={item.label}
           component={NavLink}
           to={item.path}
