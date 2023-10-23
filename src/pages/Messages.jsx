@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import CreateIcon from '@mui/icons-material/Create';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import useMediaQuery from '@mui/material/useMediaQuery';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
@@ -70,14 +71,24 @@ const Messages = () => {
   const [boxType, setBoxType] = useState('inbox');
   const [showModal, setShowModal] = useState(false);
 
+  const isReallySmallScreen = useMediaQuery('(max-width: 480px)');
+
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
-      <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          padding: '20px 30px 10px',
+          flexDirection: isReallySmallScreen ? 'column' : 'row',
+          alignItems: isReallySmallScreen ? 'center' : ''
+        }}
+      >
         <Button
           variant="contained"
           onClick={() => setShowModal(!showModal)}
           startIcon={<CreateIcon />}
           color="secondary"
+          sx={{ width: isReallySmallScreen ? '200px' : 'default' }}
         >
           New Message
         </Button>
