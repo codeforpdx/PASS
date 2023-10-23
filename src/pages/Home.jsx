@@ -26,7 +26,7 @@ const Home = () => {
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container component="main">
+    <Container component="main" sx={{ width: '100vw' }}>
       <Box
         sx={{
           margin: '18px 0',
@@ -52,8 +52,8 @@ const Home = () => {
               isReallySmallScreen={isReallySmallScreen}
               componentImageSrc="/assets/app-green.png"
               componentImageAlt=""
-              title="An App Built for Caseworkers"
-              description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
+              title="An App Built for Case Workers"
+              description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps case workers verify and share documents such as ID and proof of income while retaining total control of them."
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
@@ -70,8 +70,8 @@ const Home = () => {
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
               icon={<Diversity1Icon fontSize={isReallySmallScreen ? 'medium' : 'large'} />}
-              title="Nonprofit & Caseworker Integration"
-              description="The platform facilitates smooth communication between nonprofit organizations, caseworkers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
+              title="Non-profit & Case Worker Integration"
+              description="The platform facilitates smooth communication between non-profit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and case workers are assigned contacts whose data they can access securely."
             />
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}

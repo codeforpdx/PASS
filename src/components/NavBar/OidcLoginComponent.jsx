@@ -26,8 +26,7 @@ const OidcLoginComponent = () => {
     await login({ oidcIssuer, redirectUrl });
   };
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }} />
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <TextField
         type="text"
         label="Pod Server URL"
@@ -48,7 +47,6 @@ const OidcLoginComponent = () => {
           borderRadius: '8px'
         }}
       />
-      <Box sx={{ marginRight: '32px' }} />
       <Button
         variant="contained"
         type="submit"
@@ -58,10 +56,11 @@ const OidcLoginComponent = () => {
           loginHandler();
           localStorage.setItem('oidcIssuer', oidcIssuer);
         }}
+        sx={{ height: '40px', marginLeft: '32px' }}
       >
         Login
       </Button>
-    </>
+    </Box>
   );
 };
 

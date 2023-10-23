@@ -22,28 +22,19 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
       sx={{
         display: 'flex',
         alignItems: 'center',
+        gap: '10px',
         marginBottom: '14px',
-        color: 'primary.main',
-        width: isReallySmallScreen ? 1 : 'full'
+        color: 'primary.main'
       }}
     >
       {icon}
-      <Typography
-        variant={isReallySmallScreen ? 'h5' : 'h4'}
-        sx={{
-          marginLeft: '8px',
-          textAlign: isReallySmallScreen ? 'start' : 'center',
-          width: '100%'
-        }}
-      >
-        <strong>{title}</strong>
-      </Typography>
+      <strong>{title}</strong>
     </Box>
     <Typography
       variant="body1"
       sx={{
         width: isReallySmallScreen ? 1 : 2 / 3,
-        textAlign: isReallySmallScreen ? 'start' : 'center',
+        textAlign: 'center',
         color: 'primary.dark',
         marginBottom: '50px'
       }}
