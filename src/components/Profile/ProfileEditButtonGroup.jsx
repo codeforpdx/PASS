@@ -8,16 +8,18 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
 /**
- * @typedef {import("../../typedefs.js").profileEditButtonGroupProps} profileEditButtonGroupProps
- */
-
-/**
  * The ProfileEditButtonGroup Component is a component that consist of the profile
  * page edit buttons for the ProfileInputField component
  *
  * @memberof Profile
  * @name ProfileEditButtonGroup
- * @param {profileEditButtonGroupProps} Props - Props for Profile Edit buttons
+ * @param {object} Props - Props for Profile Edit buttons
+ * @param {boolean} Props.edit - Boolean state for editing values in the
+ * ProfileInputField component
+ * @param {() => void} Props.handleCancelEdit - Handler function for canceling
+ * edit for ProfileInputField component
+ * @param {() => void} Props.handleEditInput - Handler function for editing the
+ * ProfileInputField component
  * @returns {React.JSX.Element} The ProfileEditButtonGroup
  */
 const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => (

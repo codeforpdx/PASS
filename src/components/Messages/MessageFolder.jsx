@@ -17,16 +17,19 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  */
 
 /**
- * @typedef {import("../../typedefs.js").messageFolderProps} messageFolderProps
- */
-
-/**
  * MessageFolder Component - The general component used for Message Folders Inbox
  * and Outbox
  *
  * @memberof Messages
  * @name MessageFolder
- * @param {messageFolderProps} Props - Component props for MessageFolder
+ * @param {object} Props - Component props for MessageFolder
+ * @param {string} Props.folderType - The name of the message box, i.e. "inbox"
+ * or "outbox"
+ * @param {() => Promise<void>} Props.handleRefresh - The handle function for
+ * message folder refresh
+ * @param {boolean} Props.loadMessages - Boolean for triggering loading message
+ * @param {messageListObject[]} Props.messageList - A list of messages from
+ * Solid Pod
  * @returns {React.JSX.Element} React component for MessageFolder
  */
 const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => {

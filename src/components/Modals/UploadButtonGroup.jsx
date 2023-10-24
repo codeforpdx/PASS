@@ -6,6 +6,17 @@ import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import SearchIcon from '@mui/icons-material/Search';
 
+/**
+ * The UploadButtonGroup Component is a component that renders the upload document
+ * buttons and renders a capture image button when screen width is below 768px
+ *
+ * @memberof Modals
+ * @name UploadButtonGroup
+ * @param {object} Props - The props for UploadButtonGroup Component
+ * @param {File} Props.file - The selected file
+ * @param {Function} Props.setFile - The set function for handling files
+ * @returns {React.JSX.Element} - The UploadButtonGroup Component
+ */
 const UploadButtonGroup = ({ file, setFile }) => (
   <Box sx={{ display: 'flex', padding: '8px 8px 0', boxSizing: 'border-box' }}>
     <Button

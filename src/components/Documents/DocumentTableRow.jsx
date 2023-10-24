@@ -9,27 +9,26 @@ import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-
 // MUI Theme
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
-
 // Constants Imports
 import DOC_TYPES from '../../constants/doc_types';
-
-/**
- * @typedef {import("../../typedefs.js").documentTableRowProps} documentTableRowProps
- */
 
 /**
  * DocumentTableRow Component - A row in the Document Table
  *
  * @memberof Documents
  * @name DocumentTableRow
- * @param {documentTableRowProps} Props - Props for DocumentTableRow
+ * @param {object} Props - Props for DocumentTableRow
+ * @param {File} Props.document - File object containing the document
+ * @param {(modalType: string, docName: string, docType: string)
+ * => void} Props.handleAclPermissionsModal - Function for setting up the
+ * correct version of the SetAclPermissions Modal, and opening it.
+ * @param {(document: object) => void} Props.handleSelectDeleteDoc - method
+ * to delete document
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
 const DocumentTableRow = ({ document, handleAclPermissionsModal, handleSelectDeleteDoc }) => {
