@@ -2,16 +2,16 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
-import { PersonalProfile } from '@pages';
-import { PERSONAL_FORM_LIST } from '@components/PersonalProfileForms';
+import { CivicProfile } from '@pages';
+import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
-describe('Personal Profile', () => {
-  const numLinks = PERSONAL_FORM_LIST.length;
+describe('Civic Profile', () => {
+  const numLinks = CIVIC_FORM_LIST.length;
 
-  it('renders buttons for all forms in PERSONAL_FORM_LIST', () => {
+  it('renders buttons for all forms in CIVIC_FORM_LIST', () => {
     const { getByRole, getAllByRole } = render(
       <BrowserRouter>
-        <PersonalProfile />
+        <CivicProfile />
       </BrowserRouter>
     );
     expect(getByRole('navigation')).not.toBeNull();
