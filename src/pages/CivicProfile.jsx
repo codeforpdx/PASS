@@ -1,9 +1,9 @@
 import { Container, MenuList, MenuItem } from '@mui/material';
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { PERSONAL_FORM_LIST } from '@components/PersonalProfileForms';
+import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
-const PersonalProfile = () => {
+const CivicProfile = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -14,7 +14,7 @@ const PersonalProfile = () => {
       <Container sx={{ width: '25%' }}>
         <nav>
           <MenuList>
-            {PERSONAL_FORM_LIST.map((form) => (
+            {CIVIC_FORM_LIST.map((form) => (
               <Link to={form.path} style={{ textDecoration: 'none' }} key={form.path}>
                 <MenuItem divider selected={currentForm === form.path}>
                   {form.label}
@@ -31,4 +31,4 @@ const PersonalProfile = () => {
   );
 };
 
-export default PersonalProfile;
+export default CivicProfile;
