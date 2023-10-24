@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 // Constants Imports
-import { ENV, SUGGESTED_OIDC_OPTIONS } from '../../constants';
+import { ENV } from '../../constants';
 
 /**
  * The OidcLoginComponent is a component that renders the login button for PASS
@@ -20,13 +20,16 @@ import { ENV, SUGGESTED_OIDC_OPTIONS } from '../../constants';
  */
 const OidcLoginComponent = () => {
   const { login } = useSession();
+  const SUGGESTED_OIDC_OPTIONS = ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', ');
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || SUGGESTED_OIDC_OPTIONS[0];
   const [selectedOidcFromDropdown, setSelectedOidcFromDropdown] = useState(defaultOidc);
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
     await login({ oidcIssuer, redirectUrl });
   };
+
   const saveOidcIssuer = (value) => {
     if (value === null || value?.length < 0) return;
     localStorage.setItem('oidcIssuer', value);
