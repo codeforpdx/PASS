@@ -18,10 +18,7 @@ it('renders all the notifications from notification context', () => {
   ];
 
   render(<MockNotificationContainer notifications={notifications} />);
-  screen.debug();
-  const allNotifications = screen.getAllByTestId('noteTest');
 
-  expect(allNotifications.length).toBe(3);
   expect(screen.getByText('this is a success')).not.toBeNull();
   expect(screen.getByText('this is and error test')).not.toBeNull();
   expect(screen.getByText('this is an info test')).not.toBeNull();

@@ -1,13 +1,16 @@
 import { createTheme } from '@mui/material/styles';
 
+const themePalettePrimaryMain = '#017969';
+const themePalettePrimarySlight = '#8fc2bb';
+
 const theme = createTheme({
   typography: { fontFamily: 'Roboto, sans-serif' },
   palette: {
     primary: {
       light: '#039686',
-      main: '#017969',
+      main: themePalettePrimaryMain,
       dark: '#004d3e',
-      slight: '#8fc2bb',
+      slight: themePalettePrimarySlight,
       contrastText: '#fff'
     },
     secondary: {
@@ -49,6 +52,26 @@ const theme = createTheme({
         filledInfo: {
           backgroundColor: 'blue',
           color: 'white'
+        }
+      }
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: themePalettePrimaryMain,
+          coolor: '#fff'
+        }
+      }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&:last-child td, &:last-child th': {
+            border: 0
+          },
+          '&:nth-of-type(even)': {
+            backgroundColor: themePalettePrimarySlight
+          }
         }
       }
     }

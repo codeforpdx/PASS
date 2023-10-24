@@ -3,25 +3,22 @@ import React from 'react';
 // Material UI Imports
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+// MUI Theme
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
 // Component Imports
 import ContactListTableRow from './ContactListTableRow';
-import { StyledTableCell } from '../Table/TableStyles';
 
 // ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
 const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
 
 /**
- * contactListTableProps is an object that stores the props for the
- * ContactListTable component
- *
- * @typedef {object} contactListTableProps
- * @property {Array} contacts - this list of contacts to display
- * @property {Function} deleteContact - method to delete contact
- * @memberof typedefs
+ * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
@@ -29,7 +26,9 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  *
  * @memberof Contacts
  * @name ContactListTable
- * @param {contactListTableProps} Props - Props for ContactListTable
+ * @param {object} Props - Props for ContactListTable
+ * @param {userListObject[]} Props.contacts - this list of contacts to display
+ * @param {Function} Props.deleteContact - method to delete contact
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
@@ -43,32 +42,33 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     return 0;
   };
   const contactsCopy = [...contacts];
-
   const sortedContacts = contactsCopy.sort(comparePerson);
 
   return (
-    <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-      <Table aria-label="contact list table">
-        <TableHead>
-          <TableRow>
-            {columnTitlesArray.map((columnTitle) => (
-              <StyledTableCell key={columnTitle} align="center">
-                {columnTitle}
-              </StyledTableCell>
+    <ThemeProvider theme={theme}>
+      <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
+        <Table aria-label="contact list table">
+          <TableHead>
+            <TableRow>
+              {columnTitlesArray.map((columnTitle) => (
+                <TableCell key={columnTitle} align="center">
+                  {columnTitle}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedContacts?.map((contact) => (
+              <ContactListTableRow
+                key={contact.webId}
+                contact={contact}
+                deleteContact={deleteContact}
+              />
             ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedContacts?.map((contact) => (
-            <ContactListTableRow
-              key={contact.webId}
-              contact={contact}
-              deleteContact={deleteContact}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </ThemeProvider>
   );
 };
 

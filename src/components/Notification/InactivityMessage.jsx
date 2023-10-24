@@ -15,14 +15,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LogoutButton from '../Modals/LogoutButton';
 
 /**
- * Inactivity Notification Component - Component that displays a popup modal
+ * InactivityMessage Component is a component that displays a popup modal
  * after 25 minutes of inactivity, prompting the user to either logout or
  * continue their session.
  *
  * @memberof Notification
  * @name InactivityMessage
+ * @returns {React.JSX.Element} - The InactivityMessage Component
  */
-
 const InactivityMessage = () => {
   const { session, logout } = useSession();
   const [showPopup, setShowPopup] = useState(false);

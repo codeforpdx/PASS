@@ -3,22 +3,19 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-// Component Imports
 
 /**
- * @typedef {import('../../typedefs').formSectionProps} formSectionProps
- */
-
-/**
- * FormSection Component - Component that wraps Form with StatusNotification
+ * FormSection Component - Component that wraps section with title and MUI Box
+ * component
  *
  * @memberof Forms
  * @name FormSection
- * @param {formSectionProps} formSectionProps - A React prop that consists of
- * that consist of title, state, statusType, defaultMessage, and children (see
- * {@link formSectionProps})
+ * @param {object} Props - A React prop that consists of
+ * that consist of title and children (see {@link formSectionProps})
+ * @param {string} Props.title - Title of form section
+ * @param {React.ReactElement} Props.children - JSX Element of the wrapped form
+ * @returns {React.JSX.Element} - The FormSection Component
  */
-
 const FormSection = ({ title, children }) => (
   <Box
     sx={{

@@ -12,8 +12,8 @@ import Tabs from '@mui/material/Tabs';
  *
  * @memberof NavBar
  * @name NavbarLinks
+ * @returns {React.JSX.Element} - The Navbar Links for Routing
  */
-
 const NavbarLinks = () => {
   // Tabs workaround to match route on login
   let location = useLocation().pathname.split('/')[1];

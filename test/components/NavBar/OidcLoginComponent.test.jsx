@@ -25,9 +25,9 @@ vi.mock('../../../src/constants/', () => {
 
 it('sets OIDC provider on login', async () => {
   const user = userEvent.setup();
-  const { getByLabelText } = render(<OidcLoginComponent />);
-  const input = getByLabelText('OIDC Input Field').querySelector('input');
-  const loginButton = getByLabelText('Login Button');
+  const { getByRole } = render(<OidcLoginComponent />);
+  const input = getByRole('textbox');
+  const loginButton = getByRole('button');
   await user.clear(input);
   await user.type(input, 'http://oidc.provider.url/');
   expect(input.value).toBe('http://oidc.provider.url/');
