@@ -1,7 +1,9 @@
 import { SCHEMA_INRUPT, FOAF } from '@inrupt/vocab-common-rdf';
+import HMIS_ONTOLOGY_VALUES from './HMIS_ONTOLOGY_VALUES';
 
 const RDF_PREDICATES = {
   ...SCHEMA_INRUPT,
+  ...HMIS_ONTOLOGY_VALUES,
   about: 'https://schema.org/about',
   uploadDate: 'https://schema.org/uploadDate',
   dateOfBirth:
