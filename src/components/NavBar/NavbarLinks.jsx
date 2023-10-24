@@ -24,7 +24,7 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Contacts', path: '/contacts' },
-    { label: 'HMIS Profile', path: '/hmis_profile/basic_info' }
+    { label: 'Personal Profile', path: '/personal_profile/basic_info' }
   ];
 
   return (

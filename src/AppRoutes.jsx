@@ -4,9 +4,9 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
-import { HMIS_FORM_LIST, FormLayout } from '@components/HmisForms';
+import { PERSONAL_FORM_LIST, FormLayout } from '@components/PersonalProfileForms';
 // Page Imports
-import { HmisProfile, Home, Contacts, Messages, Profile, Signup } from './pages';
+import { PersonalProfile, Home, Contacts, Messages, PublicProfile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -42,11 +42,11 @@ const AppRoutes = () => {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/profile">
-          <Route index element={<Profile />} />
-          <Route path=":webId" element={<Profile />} />
+          <Route index element={<PublicProfile />} />
+          <Route path=":webId" element={<PublicProfile />} />
         </Route>
-        <Route path="hmis_profile" element={<HmisProfile />}>
-          {HMIS_FORM_LIST.map((formProps) => (
+        <Route path="personal_profile" element={<PersonalProfile />}>
+          {PERSONAL_FORM_LIST.map((formProps) => (
             <Route
               {...formProps}
               element={
