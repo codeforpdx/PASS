@@ -78,7 +78,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   ];
 
   return (
-    <Box sx={{ margin: '20px 0', width: '90vw' }}>
+    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
       <DataGrid
         columns={columnTitlesArray}
         rows={contacts?.map((contact) => ({
