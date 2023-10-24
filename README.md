@@ -1,6 +1,7 @@
 # PASS - Personal Access System for Services
 
-<picture> <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Jared-Krajewski/pass_images/blob/main/PASSLogodarkmode.png" width="50"> <source media="(prefers-color-scheme: light)" srcset="https://github.com/Jared-Krajewski/pass_images/blob/main/PASSLogolightmode.png" width="50"> <img alt="PASS logo"> </picture>
+<picture> <source media="(prefers-color-scheme: dark)" srcset="https://github.com/codeforpdx/PASS/wiki/assets/images/PASSLogodarkmode.png" width="50"> <source media="(prefers-color-scheme: light)" srcset="https://github.com/codeforpdx/PASS/wiki/assets/images/PASSLogolightmode.png
+" width="50"> <img alt="PASS logo"> </picture>
 
 [![License](https://img.shields.io/github/license/codeforpdx/PASS)](https://github.com/codeforpdx/PASS/blob/Master/LICENSE)
 [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
