@@ -1,13 +1,13 @@
 import Home from './Home';
 import Contacts from './Contacts';
 import Messages from './Messages';
-import Profile from './Profile';
+import PublicProfile from './PublicProfile';
 import Signup from './Signup';
-import HmisProfile from './HmisProfile';
+import PersonalProfile from './PersonalProfile';
 /**
  * The main pages in PASS
  *
  * @namespace Pages
  */
 
-export { Contacts, HmisProfile, Home, Messages, Profile, Signup };
+export { Contacts, PersonalProfile, Home, Messages, PublicProfile, Signup };

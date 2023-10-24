@@ -2,7 +2,7 @@ import BasicInfo from './BasicInfo';
 import FinancialInfo from './FinancialInfo';
 import HousingInfo from './HousingInfo';
 
-const HMIS_FORM_LIST = [
+const PERSONAL_FORM_LIST = [
   { path: 'basic_info', label: 'Basic Information', element: BasicInfo, key: 'basic_info' },
   { path: 'housing_info', label: 'Housing Information', element: HousingInfo, key: 'housing_info' },
   {
@@ -13,4 +13,4 @@ const HMIS_FORM_LIST = [
   }
 ];
 
-export default HMIS_FORM_LIST;
+export default PERSONAL_FORM_LIST;
