@@ -16,18 +16,17 @@ Welcome! 👋👋🏿👋🏽👋🏻👋🏾👋🏼
 
 PASS is an open source digital wallet for providing home insecure individuals a safe place to store documents within their control. PASS additionally aims to assist caseworkers with processing and providing documents needed to complete the housing assistance application process.
 
-The [PASS wiki](https://github.com/codeforpdx/PASS/wiki) contains detailed information of all things PASS.
+The [PASS wiki](https://github.com/codeforpdx/PASS/wiki) contains detailed information of all things PASS including contribution guidelines, tech stack, information on SOLID, ect...
 
 PASS is currently in development working towards MVP release by generous efforts from [our contributors](https://github.com/codeforpdx/PASS/graphs/contributors
 ).
-
 
 ## Contents
 
 1.  [Setup Instructions](#1-setup-instructions)
 2.  [Project Overview](#2-project-overview)
 3.  [Contribution Guidelines](#3-contribution-guidelines)
-4.  [Code of Conduct](#6-code-of-conduct)
+4.  [Code of Conduct](#4-code-of-conduct)
 
 ## 1. Setup Instructions
 
@@ -94,15 +93,11 @@ Note: The `npm run podserver` command will launch a server that stores documents
 
 In Portland, housing insecure individuals struggle to maintain documents often required to receive government and/or non-profit services. With PASS, we are building out an application to enable housing insecure individuals to store their personal documents in decentralized data stores, called Pods. PASS will also provide a platform for Organizations to assist with providing and processing documents required for housing assistance. Using [Solid Data Pods](https://solidproject.org/) individuals will have control over which organizations and applications can access their data. Verified organizations will be able to use PASS to request data from an individual and/or add documents (such as references or invoices) to an individuals pod to help process housing assistance applications.
 
----
+## 3. Contribution Guidelines
 
 - Start by checking out the detailed on-boarding [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 - Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
 - Request git-hub access on Discord in the [github-access-request](https://discord.com/channels/1068260532806766733/1078124139983945858) channel of the General category.
-
-## 3. Tech Stack
-
-- Details on tech used and additional resources in [resources.md](./docs/RESOURCES.md)
 
 ## 4. Code of Conduct
 
