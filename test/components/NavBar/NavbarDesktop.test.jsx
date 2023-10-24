@@ -5,13 +5,13 @@ import { expect, it } from 'vitest';
 import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
 
 it('renders icon menu when on screen larger than mobile', () => {
-  const { queryByLabelText } = render(
+  const { queryByLabelText, queryByRole } = render(
     <BrowserRouter>
       <NavbarDesktop />
     </BrowserRouter>
   );
 
-  const logo = queryByLabelText('logo');
+  const logo = queryByRole('img', { name: /logo$/ });
   const navLinks = queryByLabelText('navigation tabs');
   const iconMenu = queryByLabelText('menu');
 

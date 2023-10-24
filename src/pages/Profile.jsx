@@ -156,7 +156,6 @@ const Profile = () => {
               variant="contained"
               color="primary"
               size="small"
-              aria-label="Share Documents Folder Button"
               startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
             >
@@ -167,7 +166,6 @@ const Profile = () => {
             variant="contained"
             color="secondary"
             size="small"
-            aria-label="Add Document Button"
             startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
           >

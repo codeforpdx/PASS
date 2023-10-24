@@ -4,29 +4,26 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-/**
- * @typedef {object} HomeSectionParams
- * @property {string} src - image src
- * @property {string} alt - image alt
- * @property {string} title - section title
- * @property {string} description - section description
- * @property {string} button - section button
- * @property {string} href - section button href
- * @property {string} label - section button aria-label
- * @property {boolean} isReallySmallScreen - screen size
- */
+
 /**
  * Represents a home section component
  *
- *  @memberof Home
+ * @memberof Home
  * @name HomeSecton
- * @param {HomeSectionParams} props - the component props
+ * @param {object} Props - the component props
+ * @param {string} Props.componentImageSrc - image src
+ * @param {string} Props.componentImageAlt - image alt
+ * @param {string} Props.title - section title
+ * @param {string} Props.description - section description
+ * @param {string} Props.button - section button
+ * @param {string} Props.href - section button href
+ * @param {string} Props.label - section button aria-label
+ * @param {boolean} Props.isReallySmallScreen - screen size
  * @returns {React.JSX.Element} - the home section component
  */
-
 const HomeSection = ({
-  src,
-  alt,
+  componentImageSrc,
+  componentImageAlt,
   title,
   description,
   button,
@@ -37,8 +34,8 @@ const HomeSection = ({
   <>
     <Box
       component="img"
-      src={src}
-      alt={alt}
+      src={componentImageSrc}
+      alt={componentImageAlt}
       sx={{
         width: isReallySmallScreen ? 1 : 2 / 4
       }}

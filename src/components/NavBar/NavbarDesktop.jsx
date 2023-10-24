@@ -23,10 +23,13 @@ import NavMenu from './NavMenu';
  * NavbarDesktop Component - Component that generates Navbar section for PASS
  * when a user is logged in on larger than mobile screen device
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavbarDesktop
+ * @param {object} Props - The props for NavbarDesktop Component
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @returns {React.JSX.Element} - The Desktop version of Navbar Component
  */
-
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
   const { numUnreadMessages } = useContext(MessageContext);
@@ -62,12 +65,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
           <Link to="/" aria-label="Home">
-            <img
-              src="/pass-logo.png"
-              alt="logo"
-              style={{ marginRight: '2rem' }}
-              aria-label="logo"
-            />
+            <img src="/pass-logo.png" alt="PASS logo" style={{ marginRight: '2rem' }} />
           </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
