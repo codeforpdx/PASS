@@ -71,7 +71,7 @@ const Home = () => {
               isReallySmallScreen={isReallySmallScreen}
               icon={<Diversity1Icon fontSize={isReallySmallScreen ? 'medium' : 'large'} />}
               title="Nonprofit-Caseworker Integration"
-              description="The platform facilitates smooth communication between non-profit organizations, case workers, and the individuals they serve. It allows non-profit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
+              description="The platform facilitates smooth communication between nonprofit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
             />
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
