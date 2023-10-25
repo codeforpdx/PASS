@@ -69,7 +69,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
           </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }} data-testid="navbar-menu">
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} role="group">
             {/* messages icon */}
             <IconButton
               component={NavLink}

@@ -30,7 +30,7 @@ describe('resize tests', () => {
   it('renders NavbarDesktop when user is logged in on larger screen device', () => {
     window.matchMedia = createMatchMedia(1200);
 
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
         <BrowserRouter>
           <NavBar />
@@ -38,7 +38,7 @@ describe('resize tests', () => {
       </SessionContext.Provider>
     );
 
-    const iconMenu = getByTestId('navbar-menu');
+    const iconMenu = getByRole('group');
 
     expect(iconMenu).not.toBeNull();
   });
