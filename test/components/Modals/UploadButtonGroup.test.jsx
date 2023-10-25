@@ -2,7 +2,7 @@ import React from 'react';
 import { expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import UploadButtonGroup from '../../../src/components/Modals/UploadButtonGroup';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockUploadButtonGroup = () => <UploadButtonGroup />;
 

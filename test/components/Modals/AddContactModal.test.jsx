@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { AddContactModal } from '@components/Modals';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockAddContactModal = () => <AddContactModal showAddContactModal />;
 

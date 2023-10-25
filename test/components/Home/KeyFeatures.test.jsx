@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { KeyFeatures } from '@components/Home';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockKeyFeaturesDefault = () => <KeyFeatures description="Example Text" />;
 const MockKeyFeaturesMobile = () => <KeyFeatures isReallySmallScreen description="Example Text" />;

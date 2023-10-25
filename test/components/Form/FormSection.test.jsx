@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { FormSection } from '@components/Form';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockChildrenComponent = () => <div />;
 

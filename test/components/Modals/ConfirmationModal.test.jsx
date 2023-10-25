@@ -2,7 +2,7 @@ import React from 'react';
 import { ConfirmationModal } from '@components/Modals';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockConfirmationModal = () => <ConfirmationModal showConfirmationModal title="Action" />;
 const MockConfirmationModalLogout = () => (

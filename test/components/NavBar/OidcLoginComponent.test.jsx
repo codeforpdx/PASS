@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 vi.mock('@inrupt/solid-client-authn-browser');
 

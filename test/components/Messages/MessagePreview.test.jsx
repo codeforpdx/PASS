@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { MessagePreview } from '@components/Messages';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const mockMessageInfo = { sender: 'test', title: 'test title', uploadDate: new Date('1-1-2000') };
 const MockMessagePreview = () => <MessagePreview message={mockMessageInfo} />;

@@ -6,7 +6,7 @@ import { ProfileComponent } from '@components/Profile';
 import { SignedInUserContext } from '@contexts';
 import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const profileInfo = {
   profileName: null,

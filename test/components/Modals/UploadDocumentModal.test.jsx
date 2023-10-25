@@ -2,7 +2,7 @@ import React from 'react';
 import { expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import { UploadDocumentModal } from '@components/Modals';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockUploadDocumentModal = () => <UploadDocumentModal showModal />;
 

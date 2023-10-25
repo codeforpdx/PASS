@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { MessageFolder } from '@components/Messages';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockMessageFolder = () => <MessageFolder messageList={[]} />;
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import { HomeSection } from '@components/Home';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockFormSectionDefault = () => <HomeSection description="Example Text" />;
 const MockFormSectionMobile = () => <HomeSection isReallySmallScreen description="Example Text" />;

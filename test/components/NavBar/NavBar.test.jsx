@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { expect, it, afterEach, describe } from 'vitest';
 import { SessionContext } from '@contexts';
-import createMatchMedia from '../../test-helper/createMatchMedia';
+import createMatchMedia from '../../helpers/createMatchMedia';
 import NavBar from '../../../src/components/NavBar/NavBar';
 
 // clear created dom after each test, to start fresh for next
