@@ -16,10 +16,6 @@ import {
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 
-// optional: the person's preferred pod url. 
-// If not present, we fetch the first pod url on the profile document. 
-// If that's not present, we derive it from the webid
-
 const fetchAlternatePodUrl = webId => {
   const urls = getPodUrlAll(webId);
   const firstURL = urls[0];
@@ -112,9 +108,6 @@ const useContactsList = () => {
       const thing = makeContactIntoThing(newContact);
       const newDataset = setThing(data, thing);
       const savedDataset = await saveData(newDataset);
-      console.table(newContact);
-      console.table(data);
-      console.table(thing);
       return savedDataset;
     },
     onSuccess: (resData) => {

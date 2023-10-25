@@ -69,7 +69,7 @@ const Contacts = () => {
           onClick={() => setShowAddContactModal(true)}
           sx={{ marginTop: '3rem' }}
         >
-          Add Contact {url} hello
+          Add Contact 
         </Button>
         {data.length > 0 ? (
           <ContactListTable
