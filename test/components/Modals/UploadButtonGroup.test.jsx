@@ -15,8 +15,8 @@ it('renders only one button above 768px', () => {
 
 it("renders button group flex-direction as row before 'sm', below 768px", () => {
   window.matchMedia = createMatchMedia(767);
-  const { getByText } = render(<MockUploadButtonGroup />);
-  const chooseFileButton = getByText('Choose file');
+  const { getByRole } = render(<MockUploadButtonGroup />);
+  const chooseFileButton = getByRole('button', { name: 'Choose file' });
   const buttonContainer = chooseFileButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 
@@ -25,8 +25,8 @@ it("renders button group flex-direction as row before 'sm', below 768px", () => 
 
 it('renders button group flex-direction as column mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  const { getByText } = render(<MockUploadButtonGroup />);
-  const chooseFileButton = getByText('Choose file');
+  const { getByRole } = render(<MockUploadButtonGroup />);
+  const chooseFileButton = getByRole('button', { name: 'Choose file' });
   const buttonContainer = chooseFileButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 

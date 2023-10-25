@@ -16,8 +16,8 @@ describe('Default screen', () => {
   });
 
   it('renders refresh button margin to 10px', () => {
-    const { getByText } = render(<MockMessageFolder />);
-    const button = getByText('Refresh');
+    const { getByRole } = render(<MockMessageFolder />);
+    const button = getByRole('button', { name: 'Refresh' });
     const cssProperty = getComputedStyle(button);
 
     expect(cssProperty.margin).toBe('10px');
@@ -36,8 +36,8 @@ describe('Mobile screen', () => {
 
   it("renders refresh button margin to '10px 20px'", () => {
     window.matchMedia = createMatchMedia(599);
-    const { getByText } = render(<MockMessageFolder />);
-    const button = getByText('Refresh');
+    const { getByRole } = render(<MockMessageFolder />);
+    const button = getByRole('button', { name: 'Refresh' });
     const cssProperty = getComputedStyle(button);
 
     expect(cssProperty.margin).toBe('10px 20px');

@@ -7,8 +7,8 @@ import createMatchMedia from '../../test-helper/createMatchMedia';
 const MockUploadDocumentModal = () => <UploadDocumentModal showModal />;
 
 it('renders cancel/upload group as row default', () => {
-  const { getByText } = render(<MockUploadDocumentModal />);
-  const cancelButton = getByText('Cancel');
+  const { getByRole } = render(<MockUploadDocumentModal />);
+  const cancelButton = getByRole('button', { name: 'Cancel' });
   const buttonContainer = cancelButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 
@@ -17,8 +17,8 @@ it('renders cancel/upload group as row default', () => {
 
 it('renders cancel/upload group as column mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  const { getByText } = render(<MockUploadDocumentModal />);
-  const cancelButton = getByText('Cancel');
+  const { getByRole } = render(<MockUploadDocumentModal />);
+  const cancelButton = getByRole('button', { name: 'Cancel' });
   const buttonContainer = cancelButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 

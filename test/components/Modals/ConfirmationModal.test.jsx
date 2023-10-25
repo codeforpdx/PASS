@@ -11,18 +11,18 @@ const MockConfirmationModalLogout = () => (
 
 describe('Default screen', () => {
   it('renders button container flex-direction as row default', () => {
-    const { getByText } = render(<MockConfirmationModal />);
-    const button = getByText('Cancel');
-    const buttonContainer = button.parentElement;
+    const { getByRole } = render(<MockConfirmationModal />);
+    const cancelButton = getByRole('button', { name: 'Cancel' });
+    const buttonContainer = cancelButton.parentElement;
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('row');
   });
 
   it('renders logout button container flex-direction as row default', () => {
-    const { getByText } = render(<MockConfirmationModalLogout />);
-    const button = getByText('Cancel');
-    const buttonContainer = button.parentElement;
+    const { getByRole } = render(<MockConfirmationModalLogout />);
+    const cancelButton = getByRole('button', { name: 'Cancel' });
+    const buttonContainer = cancelButton.parentElement;
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('row');
@@ -32,18 +32,18 @@ describe('Default screen', () => {
 describe('Mobile screen', () => {
   it('renders button container flex-direction as column mobile', () => {
     window.matchMedia = createMatchMedia(599);
-    const { getByText } = render(<MockConfirmationModal />);
-    const button = getByText('Cancel');
-    const buttonContainer = button.parentElement;
+    const { getByRole } = render(<MockConfirmationModal />);
+    const cancelButton = getByRole('button', { name: 'Cancel' });
+    const buttonContainer = cancelButton.parentElement;
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('column');
   });
 
   it('renders logout button container flex-direction as column mobile', () => {
-    const { getByText } = render(<MockConfirmationModalLogout />);
-    const button = getByText('Cancel');
-    const buttonContainer = button.parentElement;
+    const { getByRole } = render(<MockConfirmationModalLogout />);
+    const cancelButton = getByRole('button', { name: 'Cancel' });
+    const buttonContainer = cancelButton.parentElement;
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('column');

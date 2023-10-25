@@ -7,8 +7,8 @@ import createMatchMedia from '../../test-helper/createMatchMedia';
 const MockAddContactModal = () => <AddContactModal showAddContactModal />;
 
 it('renders button container flex-direction row default', () => {
-  const { getByText } = render(<MockAddContactModal />);
-  const cancelButton = getByText('Cancel');
+  const { getByRole } = render(<MockAddContactModal />);
+  const cancelButton = getByRole('button', { name: 'Cancel' });
   const buttonContainer = cancelButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 
@@ -17,8 +17,8 @@ it('renders button container flex-direction row default', () => {
 
 it('renders button container flex-direction column mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  const { getByText } = render(<MockAddContactModal />);
-  const cancelButton = getByText('Cancel');
+  const { getByRole } = render(<MockAddContactModal />);
+  const cancelButton = getByRole('button', { name: 'Cancel' });
   const buttonContainer = cancelButton.parentElement;
   const cssProperty = getComputedStyle(buttonContainer);
 

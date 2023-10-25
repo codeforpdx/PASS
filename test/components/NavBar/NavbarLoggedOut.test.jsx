@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import NavbarLoggedOut from '../../../src/components/NavBar/NavbarLoggedOut';
+import { NavbarLoggedOut } from '@components/NavBar';
 
 it('renders login button when user is logged out', () => {
   const { queryByRole } = render(
