@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
+import createMatchMedia from '../../test-helper/createMatchMedia';
 
 vi.mock('@inrupt/solid-client-authn-browser');
 
@@ -34,4 +35,29 @@ it('sets OIDC provider on login', async () => {
   await user.click(loginButton);
   expect(login).toBeCalled();
   expect(localStorage.getItem('oidcIssuer')).toBe('http://oidc.provider.url/');
+});
+
+it('renders container items as row default', () => {
+  const component = render(<OidcLoginComponent />);
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('row');
+});
+
+it('renders container items as column mobile', () => {
+  window.matchMedia = createMatchMedia(599);
+  const component = render(<OidcLoginComponent />);
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('column');
+});
+
+it('renders 2 buttons when mobile', () => {
+  window.matchMedia = createMatchMedia(599);
+  const { getAllByRole } = render(<OidcLoginComponent />);
+  const buttons = getAllByRole('button');
+
+  expect(buttons.length).toBe(2);
 });

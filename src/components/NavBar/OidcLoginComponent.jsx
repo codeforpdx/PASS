@@ -66,11 +66,16 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         }}
       />
       <Box sx={{ display: 'flex', gap: '10px' }}>
-        {isSmallScreen ? (
-          <Button variant="outlined" color="error" onClick={() => setShowSignInModal(false)}>
+        {isSmallScreen && (
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => setShowSignInModal(false)}
+            sx={{ borderRadius: '20px' }}
+          >
             Cancel
           </Button>
-        ) : null}
+        )}
         <Button
           variant="contained"
           type="submit"
@@ -80,7 +85,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
             loginHandler();
             localStorage.setItem('oidcIssuer', oidcIssuer);
           }}
-          sx={{ marginLeft: isSmallScreen ? '0' : '32px' }}
+          sx={{ borderRadius: '20px', marginLeft: isSmallScreen ? '0' : '32px' }}
         >
           Login
         </Button>
