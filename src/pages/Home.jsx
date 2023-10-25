@@ -10,8 +10,7 @@ import SupportIcon from '@mui/icons-material/Support';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Components Import
-import HomeSection from '../components/Home/HomeSection';
-import KeyFeatures from '../components/Home/KeyFeatures';
+import { HomeSection, KeyFeatures } from '@components/Home';
 
 /**
  * Home - First Page you encounter in PASS before login.

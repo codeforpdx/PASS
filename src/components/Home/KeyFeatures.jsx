@@ -33,7 +33,7 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
     <Typography
       variant="body1"
       sx={{
-        width: isReallySmallScreen ? 1 : 2 / 3,
+        width: isReallySmallScreen ? 1 : '67%',
         textAlign: 'center',
         color: 'primary.dark',
         marginBottom: '50px'
