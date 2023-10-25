@@ -6,16 +6,17 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 /**
- * @typedef {import("../../typedefs").profileInputFieldProps} profileInputFieldProps
- */
-
-/**
  * ProfileInputField Component - Component that creates the editable inputs fields
  * for the Profile page
  *
  * @memberof Profile
  * @name ProfileInputField
- * @param {profileInputFieldProps} Props - Props used for NewMessage
+ * @param {object} Props - Props used for NewMessage
+ * @param {string} Props.inputName - Name of input field
+ * @param {string} Props.inputValue - Value of input field used for updating profile
+ * @param {(value: React.SetStateAction<string|null>) => void} Props.setInputValue
+ * - Set function for inputValue
+ * @param {boolean} Props.edit - Boolean used to toggle edit inputs
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (

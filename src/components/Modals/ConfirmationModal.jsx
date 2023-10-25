@@ -13,27 +13,21 @@ import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
 /**
- * confirmationModalProps is an object that stores the props for the
- * ConfirmationModal component
- *
- * @typedef {object} confirmationModalProps
- * @property {boolean} showConfirmationModal - toggle showing modal
- * @property {React.Dispatch<React.SetStateAction<boolean>>} setShowConfirmationModal - used to close the modal
- * @property {string} title - text rendered in dialog title & confirmationButton
- * @property {string} text - text rendered in dialog content text
- * @property {Function} confirmFunction - method that runs onClick of button
- * @property {boolean} processing - state used to disable button
- * @property {boolean} [isLogout] - boolean to wrap button with inrupt logout functionality
- * @memberof typedefs
- */
-
-/**
  * ConfirmationModal Component - Component that allows users to cancel or
  * confirm their previously chosen action
  *
  * @memberof Modals
  * @name ConfirmationModal
- * @param {confirmationModalProps} props - Props used for ConfirmationModal
+ * @param {object} Props - Props used for ConfirmationModal
+ * @param {boolean} Props.showConfirmationModal - toggle showing modal
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmationModal
+ * - used to close the modal
+ * @param {string} Props.title - text rendered in dialog title & confirmationButton
+ * @param {string} Props.text - text rendered in dialog content text
+ * @param {Function} Props.confirmFunction - method that runs onClick of button
+ * @param {boolean} Props.processing - state used to disable button
+ * @param {boolean} [Props.isLogout] - boolean to wrap button with inrupt logout
+ * functionality
  * @returns {React.JSX.Element} - The confirmation modal
  */
 const ConfirmationModal = ({
@@ -75,11 +69,10 @@ const ConfirmationModal = ({
         <Button
           variant="outlined"
           color="error"
-          aria-label="Cancel Button"
           endIcon={<ClearIcon />}
           onClick={() => setShowConfirmationModal(false)}
         >
-          CANCEL
+          Cancel
         </Button>
 
         {confirmButton()}

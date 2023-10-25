@@ -29,14 +29,6 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * @typedef {import('../../typedefs').fileObjectType} fileObjectType
- */
-
-/**
- * @typedef {import("../../typedefs").userListObject} userListObject
- */
-
-/**
  * @typedef {import("../../typedefs").messageListObject} messageListObject
  */
 
@@ -175,7 +167,9 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const date = dayjs().$d;
   const dateYYYYMMDD = dayjs().format('YYYYMMDD');
   const dateISOTime = dayjs().toISOString().split('T')[1].split('.')[0].replace(/:/g, '');
-  const messageSlug = `${encodeURIComponent(messageObject.title)}-${dateYYYYMMDD}-${dateISOTime}`;
+  const messageSlug = `${encodeURIComponent(
+    messageObject.title.replace(':', '-')
+  )}-${dateYYYYMMDD}-${dateISOTime}`;
 
   const messageMetadata = {
     messageId: uuidv4(),

@@ -65,7 +65,6 @@ const Contacts = () => {
           variant="contained"
           color="secondary"
           size="small"
-          aria-label="Add Contact Button"
           startIcon={<AddIcon />}
           onClick={() => setShowAddContactModal(true)}
           sx={{ marginTop: '3rem' }}

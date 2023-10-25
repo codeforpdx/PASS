@@ -19,7 +19,7 @@ import { MessageContext, SignedInUserContext } from '@contexts';
 import { NewMessageModal } from '../Modals';
 
 /**
- * @typedef {import("../../typedefs.js").messagePreviewProps} messagePreviewProps
+ * @typedef {import("../../typedefs.js").messageListObject} messageListObject
  */
 
 /**
@@ -28,7 +28,9 @@ import { NewMessageModal } from '../Modals';
  *
  * @memberof Messages
  * @name MessagePreview
- * @param {messagePreviewProps} Props - Component props for MessagePreview
+ * @param {object} Props - Component props for MessagePreview
+ * @param {messageListObject} Props.message - The message object
+ * @param {string} Props.folderType - Type of message box
  * @returns {React.JSX.Element} React component for MessagePreview
  */
 const MessagePreview = ({ message, folderType }) => {

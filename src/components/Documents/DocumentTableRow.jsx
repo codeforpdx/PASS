@@ -7,23 +7,28 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-// Component Imports
-import { StyledTableCell, StyledTableRow } from '../Table/TableStyles';
+// MUI Theme
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../theme';
 // Constants Imports
 import DOC_TYPES from '../../constants/doc_types';
-
-/**
- * @typedef {import("../../typedefs.js").documentTableRowProps} documentTableRowProps
- */
 
 /**
  * DocumentTableRow Component - A row in the Document Table
  *
  * @memberof Documents
  * @name DocumentTableRow
- * @param {documentTableRowProps} Props - Props for DocumentTableRow
+ * @param {object} Props - Props for DocumentTableRow
+ * @param {File} Props.document - File object containing the document
+ * @param {(modalType: string, docName: string, docType: string)
+ * => void} Props.handleAclPermissionsModal - Function for setting up the
+ * correct version of the SetAclPermissions Modal, and opening it.
+ * @param {(document: object) => void} Props.handleSelectDeleteDoc - method
+ * to delete document
  * @returns {React.JSX.Element} The DocumentTableRow component
  */
 const DocumentTableRow = ({ document, handleAclPermissionsModal, handleSelectDeleteDoc }) => {
@@ -37,30 +42,33 @@ const DocumentTableRow = ({ document, handleAclPermissionsModal, handleSelectDel
   };
 
   return (
-    <StyledTableRow>
-      <StyledTableCell align="center">{name}</StyledTableCell>
-      <StyledTableCell align="center">{DOC_TYPES[type]}</StyledTableCell>
-      <StyledTableCell align="center">{description}</StyledTableCell>
-      <StyledTableCell align="center">
-        {uploadDate ? uploadDate.toDateString() : ''}
-      </StyledTableCell>
-      <StyledTableCell align="center">{endDate ? endDate.toDateString() : 'N/A'}</StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
-          <FileOpenIcon />
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton type="button" onClick={() => handleAclPermissionsModal('document', name, type)}>
-          <ShareIcon />
-        </IconButton>
-      </StyledTableCell>
-      <StyledTableCell align="center">
-        <IconButton size="large" edge="end" onClick={() => handleSelectDeleteDoc(document)}>
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-      </StyledTableCell>
-    </StyledTableRow>
+    <ThemeProvider theme={theme}>
+      <TableRow>
+        <TableCell align="center">{name}</TableCell>
+        <TableCell align="center">{DOC_TYPES[type]}</TableCell>
+        <TableCell align="center">{description}</TableCell>
+        <TableCell align="center">{uploadDate ? uploadDate.toDateString() : ''}</TableCell>
+        <TableCell align="center">{endDate ? endDate.toDateString() : 'N/A'}</TableCell>
+        <TableCell align="center">
+          <IconButton type="button" onClick={() => handleShowDocumentLocal(fileUrl)}>
+            <FileOpenIcon />
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          <IconButton
+            type="button"
+            onClick={() => handleAclPermissionsModal('document', name, type)}
+          >
+            <ShareIcon />
+          </IconButton>
+        </TableCell>
+        <TableCell align="center">
+          <IconButton size="large" edge="end" onClick={() => handleSelectDeleteDoc(document)}>
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    </ThemeProvider>
   );
 };
 
