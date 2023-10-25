@@ -16,7 +16,7 @@ it('renders 67% width default', () => {
 });
 
 it('renders 100% width mobile', () => {
-  window.width = createMatchMedia(599);
+  window.matchMedia = createMatchMedia(599);
   const { getByText } = render(<MockKeyFeaturesMobile />);
   const component = getByText('Example Text');
   const cssProperty = getComputedStyle(component);
