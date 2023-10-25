@@ -10,22 +10,35 @@ import {
   setThing,
   createSolidDataset,
   getSolidDataset,
-  saveSolidDatasetAt
+  saveSolidDatasetAt,
+  getPodUrlAll
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 
-const makeContactIntoThing = ({ givenName, familyName, webId }) =>
+// optional: the person's preferred pod url. 
+// If not present, we fetch the first pod url on the profile document. 
+// If that's not present, we derive it from the webid
+
+const fetchAlternatePodUrl = webId => {
+  const urls = getPodUrlAll(webId);
+  const firstURL = urls[0];
+  const result = urls ? firstURL : webId;
+  return result;
+};
+
+const makeContactIntoThing = ({ givenName, familyName, webId, pod, relationship, relationshipStatus }) =>
   buildThing(createThing({ name: encodeURIComponent(webId) }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
     .addUrl(RDF_PREDICATES.identifier, webId)
     .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
-    .addUrl(pod, pod)
-    .addStringNoLocale(relationship, relationship)
-    .addStringNoLocale(relationshipStatus, relationshipStatus)
+    .addUrl(RDF_PREDICATES.profileName, pod ? pod : fetchAlternatePodUrl(webId))
+    .addStringNoLocale(RDF_PREDICATES.role, relationship)
+    .addStringNoLocale(RDF_PREDICATES.status, relationshipStatus)
     .build();
+
 
 const parseContacts = (data) => {
   const contactThings = getThingAll(data);

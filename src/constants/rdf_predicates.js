@@ -30,7 +30,9 @@ const RDF_PREDICATES = {
   nickname: FOAF.nick,
   dateCreated: 'https://schema.org/dateCreated',
   propertyValue: 'https://schema.org/PropertyValue',
-  value: 'https://schema.org/value'
+  value: 'https://schema.org/value',
+  role: 'https://schema.org/Role',
+  status: 'https://schema.org/status'
 };
 
 export default RDF_PREDICATES;

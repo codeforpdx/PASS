@@ -67,9 +67,9 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
       webId: event.target.addWebId.value,
-      pod: event.target.pod,
-      relationship: event.target.relationship,
-      relationshipStatus: event.target.relationshipStatus
+      pod: event.target.pod.value,
+      relationship: event.target.relationship.value,
+      relationshipStatus: event.target.relationshipStatus.value
     };
 
     try {
@@ -161,7 +161,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             margin="normal"
             id="pod"
             name="addPod"
-            label="pod"
+            label="Pod URL"
             autoComplete="pod"
             value={pod}
             onChange={(e) => setPod(e.target.value)}
@@ -170,12 +170,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           <InputLabel id="relationship-label">Relationship</InputLabel>
           <Select
             labelId="relationship-label"
-            id="relatioship"
+            id="relationship"
+            name="relationship"
             value={relationship}
             label="Relationship"
             onChange={(e) => setRelationship(e.target.value)}
             fullWidth
           >
+            <MenuItem value={RELATIONSHIPS.Blank}></MenuItem>
             <MenuItem value={RELATIONSHIPS.Client}>Client</MenuItem>
             <MenuItem value={RELATIONSHIPS.CaseManagement}>Case Management</MenuItem>
             <MenuItem value={RELATIONSHIPS.AssociatedOrg}>Associated Organization</MenuItem>
@@ -183,7 +185,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           <InputLabel id="relationship-status-label">Relationship Status</InputLabel>
           <Select
             labelId="relationship-status-label"
-            id="relatioship-status"
+            id="relationshipStatus"
+            name="relationshipStatus"
             value={relationshipStatus}
             label="RelationshipStatus"
             onChange={(e) => setRelationshipStatus(e.target.value)}
