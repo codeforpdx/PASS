@@ -11,9 +11,10 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+// Custom Hook Imports
+import useNotification from '@hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
-import useNotification from '../../hooks/useNotification';
 
 /**
  * @memberof Contcts
@@ -65,7 +66,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       await addContact(userObject);
       addNotification(
         'success',
-        `"${userObject.givenName} ${userObject.familyName}" added to client list`
+        `"${userObject.givenName} ${userObject.familyName}" added to contact list`
       );
     } catch (e) {
       addNotification('error', `Add contact failed. Reason: ${e.message}`);
@@ -138,7 +139,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton aria-label="copy-webid" edge="end">
+                  <IconButton aria-label="Copy WebId" edge="end">
                     <ContentCopyIcon />
                   </IconButton>
                 </InputAdornment>
@@ -153,7 +154,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               onClick={() => setShowAddContactModal(false)}
               fullWidth
             >
-              CANCEL
+              Cancel
             </Button>
             <Button
               variant="contained"
@@ -163,7 +164,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               type="submit"
               fullWidth
             >
-              ADD CLIENT
+              Add Contact
             </Button>
           </DialogActions>
         </form>

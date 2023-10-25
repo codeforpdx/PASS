@@ -19,10 +19,6 @@ import { saveSourceUrlToThing } from '../utils';
  */
 
 /**
- * @typedef {import("../typedefs").userListObject} userListObject
- */
-
-/**
  * @typedef {import("@inrupt/solid-client").SolidDataset} SolidDataset
  */
 
