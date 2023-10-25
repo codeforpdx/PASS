@@ -55,8 +55,8 @@ describe('Default screen', () => {
 });
 
 describe('Mobile screen', () => {
+  window.matchMedia = createMatchMedia(599);
   it('renders 80% padding by default', () => {
-    window.matchMedia = createMatchMedia(599);
     const component = render(<MockFormSectionMobile />);
     const adjustableBox = getComputedStyle(component.container.firstChild);
 
@@ -64,7 +64,6 @@ describe('Mobile screen', () => {
   });
 
   it('renders 100% padding by default', () => {
-    window.matchMedia = createMatchMedia(599);
     const { getByText } = render(<MockFormSectionMobile />);
     const descriptionElement = getByText('Example Text');
     const cssProperties = getComputedStyle(descriptionElement);

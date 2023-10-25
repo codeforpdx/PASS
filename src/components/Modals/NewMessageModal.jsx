@@ -212,7 +212,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >
-                CANCEL
+                Cancel
               </Button>
               <Button
                 variant="contained"

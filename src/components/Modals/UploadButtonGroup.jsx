@@ -22,6 +22,7 @@ import { useTheme } from '@mui/material/styles';
 const UploadButtonGroup = ({ file, setFile }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isCustomMediumScreen = useMediaQuery('(max-width: 768px)');
 
   return (
     <Box
@@ -53,7 +54,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
           accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
         />
       </Button>
-      {window.matchMedia('(max-width: 768px').matches && (
+      {isCustomMediumScreen && (
         <Button
           variant={file ? 'outlined' : 'contained'}
           component="label"
