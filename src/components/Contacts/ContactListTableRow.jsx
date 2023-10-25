@@ -98,7 +98,12 @@ const ContactListTableRow = ({ contact, deleteContact, message }) => {
         </IconButton>
       </StyledTableCell>
       {showModal && (
-        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
+        <NewMessageModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          oldMessage={message}
+          toField={contact.webId}
+        />
       )}
     </StyledTableRow>
   );

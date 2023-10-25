@@ -29,7 +29,7 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  * @param {newMessageModalProps} Props - Props used for NewMessageModal
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
-const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
+const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
@@ -126,7 +126,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
           </Typography>
           <TextField
             margin="normal"
-            value={message.recipientPodUrl}
+            value={toField || message.recipientPodUrl}
             type="text"
             name="recipientPodUrl"
             id="recipientPodUrl"
