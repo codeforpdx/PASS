@@ -46,13 +46,14 @@ it('calls remove after 8 seconds', () => {
 
 it('calls remove with the correct id', () => {
   const remove = vi.fn();
+  const id = '123456';
 
   render(
     <NotificationContext.Provider value={{ remove }}>
       <BasicNotification
         severity="success"
         message="my test message"
-        id={123456}
+        id={id}
         dataTestId="test-id"
       />
     </NotificationContext.Provider>
@@ -62,5 +63,5 @@ it('calls remove with the correct id', () => {
     vi.advanceTimersByTime(8000);
   });
 
-  expect(remove).toHaveBeenCalledWith(123456);
+  expect(remove).toHaveBeenCalledWith(id);
 });
