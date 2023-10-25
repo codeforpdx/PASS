@@ -11,7 +11,8 @@ it('renders correctly', () => {
     <BasicNotification severity="success" message={message} id={123456} dataTestId="test-id" />
   );
 
-  expect(screen.getByRole('alert').textContent).toBe(message);
+  const notification = screen.getByRole('alert');
+  expect(notification.textContent).toBe(message);
 });
 
 beforeEach(() => {
