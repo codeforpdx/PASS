@@ -189,7 +189,7 @@ export const uploadProfileImage = async (session, profileData, inputImage) => {
   const newAcl = setupAcl(
     resourceAcl,
     session.info.webId,
-    { read: true, write: true, control: true }, // personal access
+    { read: true, write: true, control: true }, // civic access
     { read: true } // public access
   );
   await saveAclFor(imageResource, newAcl, { fetch: session.fetch });
