@@ -57,7 +57,8 @@ const Contacts = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%'
       }}
     >
       <Box>
