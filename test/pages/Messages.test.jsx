@@ -57,10 +57,6 @@ describe('Messages Page', () => {
     };
     const { getByText } = render(<MockSignupContexts session={sessionObj} />);
     expect(getByText('Inbox', { exact: true })).not.toBeNull();
+    expect(getByText('Outbox', { exact: true })).not.toBeNull();
   });
-
-  // TODO
-  // update state with react testing lib
-  // checkout user event import https://testing-library.com/docs/react-testing-library/example-intro/
-  // mock fetch check this: SignedInUserContext.test.jsx see lines 23 & 45 for import fetch mock and return mock with data
 });
