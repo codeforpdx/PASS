@@ -1,9 +1,10 @@
+---
 name: Enhancement request
 about: Suggest an enhancement for this project
 title: 'Enhancement: [Your Title Here]'
 labels: enhancement
 assignees: ''
-
+---
 
 ### Describe the Current Behavior/Feature:
 Provide a clear and concise description of the current behavior or feature.

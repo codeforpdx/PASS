@@ -7,10 +7,6 @@ import { createPASSContainer, getMessageTTL } from '../utils';
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
- * @typedef {import("../typedefs").messageListObject} messageListObject
- */
-
-/**
  * React Context for messages from Solid Pod
  *
  * @name MessageContext

@@ -19,14 +19,14 @@ afterEach(() => {
 
 describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {
-    const { getByLabelText } = render(
+    const { getByRole } = render(
       <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
         <BrowserRouter>
           <NavBar />
         </BrowserRouter>
       </SessionContext.Provider>
     );
-    const loginButton = getByLabelText('Login Button');
+    const loginButton = getByRole('button');
 
     expect(loginButton).not.toBeNull();
   });

@@ -47,7 +47,7 @@ describe('ProfileImageField', () => {
   });
 
   it('renders no button with image if contactProfile is not null and has profile image', () => {
-    const mockContactProfile = { profileImg: 'https://example.com/client.png' };
+    const mockContactProfile = { profileImage: 'https://example.com/client.png' };
     const { queryByRole, queryByTestId } = render(
       <MockProfileComponent mockContactProfile={mockContactProfile} />
     );

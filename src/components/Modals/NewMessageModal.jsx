@@ -12,12 +12,12 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // Utility Imports
-import { sendMessageTTL, getMessageTTL } from '../../utils';
+import { sendMessageTTL, getMessageTTL } from '@utils';
 // Context Imports
-import { MessageContext, SignedInUserContext } from '../../contexts';
+import { MessageContext, SignedInUserContext } from '@contexts';
 
 /**
- * @typedef {import("../../typedefs.js").newMessageModalProps} newMessageModalProps
+ * @typedef {import("../../typedefs.js").messageListObject} messageListObject
  */
 
 /**
@@ -26,7 +26,12 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  *
  * @memberof Modals
  * @name NewMessageModal
- * @param {newMessageModalProps} Props - Props used for NewMessageModal
+ * @param {object} Props - Props used for NewMessageModal
+ * @param {boolean} Props.showModal - Boolean for showing message modal
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
+ * - React set function for showModal
+ * @param {messageListObject|string} Props.oldMessage - The previous message
+ * object when using the modal to reply, else uses a string if empty
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
