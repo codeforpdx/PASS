@@ -3,7 +3,7 @@ import {
   getDate,
   getInteger,
   getStringNoLocale,
-  getThingAll,
+  getThing,
   buildThing,
   createThing,
   setThing,
@@ -22,17 +22,6 @@ const makeIntoThing = ({ firstName, lastName, dateOfBirth, gender }) =>
     .addInteger(RDF_PREDICATES.legalGender, gender)
     .build();
 
-const parse = (data) => {
-  const profileThing = getThingAll(data);
-  const profile = {};
-
-  profile.firstName = getStringNoLocale(profileThing, RDF_PREDICATES.legalFirstName);
-  profile.lastName = getStringNoLocale(profileThing, RDF_PREDICATES.legalLastName);
-  profile.dateOfBirth = getDate(profileThing, RDF_PREDICATES.legalDOB);
-  profile.gender = getInteger(profileThing, RDF_PREDICATES.gender);
-  return profile;
-};
-
 const useCivicProfile = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
@@ -45,6 +34,21 @@ const useCivicProfile = () => {
     return savedDataset;
   };
 
+  const parse = (data) => {
+    const url = new URL(fileUrl);
+    url.hash = 'Civic Profile';
+    const profileThing = getThing(data, url.toString());
+    if (profileThing === null) {
+      return {};
+    }
+    const profile = {};
+    profile.firstName = getStringNoLocale(profileThing, RDF_PREDICATES.legalFirstName);
+    profile.lastName = getStringNoLocale(profileThing, RDF_PREDICATES.legalLastName);
+    profile.dateOfBirth = getDate(profileThing, RDF_PREDICATES.legalDOB);
+    profile.gender = getInteger(profileThing, RDF_PREDICATES.legalGender);
+    return profile;
+  };
+
   const fetchCivicProfile = async () => {
     let myDataset;
     try {
@@ -53,10 +57,11 @@ const useCivicProfile = () => {
       if (e.response.status === 404) {
         myDataset = createSolidDataset();
         myDataset = await saveSolidDatasetAt(fileUrl, myDataset, { fetch });
+      } else {
+        throw e;
       }
-      throw e;
     }
-    return myDataset;
+    return parse(myDataset);
   };
 
   const { isLoading, isError, error, data, isSuccess } = useQuery({
@@ -82,8 +87,8 @@ const useCivicProfile = () => {
     isError,
     isSuccess,
     error,
-    data: !(isLoading || isError) ? parse(data) : {},
-    updateProfile: updateMutation.mutate
+    data,
+    updateProfile: updateMutation.mutateAsync
   };
 };
 
