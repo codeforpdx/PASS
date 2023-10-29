@@ -41,12 +41,12 @@ const makeIntoThing = ({ givenName, familyName, webId }) =>
  * @returns {ContactsList} - all the data provided by the useQuery call
  * @memberof hooks
  */
+let storedDataset;
 const useContactsList = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
   const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
-  let storedDataset;
   const parse = (data) => {
     const contactThings = getThingAll(data);
     const contacts = [];

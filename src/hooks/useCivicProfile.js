@@ -22,12 +22,12 @@ const makeIntoThing = ({ firstName, lastName, dateOfBirth, gender }) =>
     .addInteger(RDF_PREDICATES.legalGender, gender)
     .build();
 
+let storedDataset;
 const useCivicProfile = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
   const fileUrl = podUrl && new URL('PASS/AdditionalProfiles/civic_profile.ttl', podUrl).toString();
-  let storedDataset;
 
   const parse = (data) => {
     const url = new URL(fileUrl);
