@@ -79,10 +79,11 @@ const useContactsList = () => {
       if (e.response.status === 404) {
         myDataset = createSolidDataset();
         myDataset = await saveSolidDatasetAt(url, myDataset, { fetch });
+      } else {
+        throw e;
       }
-      throw e;
     }
-    return myDataset;
+    return parseContacts(myDataset);
   };
 
   const { isLoading, isError, error, data, isSuccess } = useQuery({
@@ -121,7 +122,7 @@ const useContactsList = () => {
     isError,
     isSuccess,
     error,
-    data: !(isLoading || isError) ? parseContacts(data) : [],
+    data,
     deleteContact: deleteContactMutation.mutate,
     addContact: addContactMutation.mutate
   };

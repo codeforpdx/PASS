@@ -46,6 +46,7 @@ describe('useCivicProfile', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toStrictEqual({});
   });
+
   it('Returns the Civic Profile if found', async () => {
     const profile = {
       firstName: 'Luffy',
@@ -68,4 +69,6 @@ describe('useCivicProfile', () => {
     await waitFor(() => expect(result.current.data).toStrictEqual(profile));
     expect(result.current.data).toStrictEqual(profile);
   });
+
+  it('Updates Civic Profile with proper data', async () => {});
 });
