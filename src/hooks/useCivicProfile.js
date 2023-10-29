@@ -27,12 +27,7 @@ const useCivicProfile = () => {
   const { session, podUrl } = useSession();
   const { fetch } = session;
   const fileUrl = podUrl && new URL('PASS/AdditionalProfiles/civic_profile.ttl', podUrl).toString();
-  const saveData = async (dataset) => {
-    const savedDataset = await saveSolidDatasetAt(fileUrl, dataset, {
-      fetch
-    });
-    return savedDataset;
-  };
+  let storedDataset;
 
   const parse = (data) => {
     const url = new URL(fileUrl);
@@ -49,6 +44,14 @@ const useCivicProfile = () => {
     return profile;
   };
 
+  const saveData = async (dataset) => {
+    const savedDataset = await saveSolidDatasetAt(fileUrl, dataset, {
+      fetch
+    });
+    storedDataset = savedDataset;
+    return parse(savedDataset);
+  };
+
   const fetchCivicProfile = async () => {
     let myDataset;
     try {
@@ -61,6 +64,7 @@ const useCivicProfile = () => {
         throw e;
       }
     }
+    storedDataset = myDataset;
     return parse(myDataset);
   };
 
@@ -73,7 +77,7 @@ const useCivicProfile = () => {
     mutationFn: async (profile) => {
       if (!data) await fetchCivicProfile();
       const thing = makeIntoThing(profile);
-      const newDataset = setThing(data, thing);
+      const newDataset = setThing(storedDataset, thing);
       const savedDataset = await saveData(newDataset);
       return savedDataset;
     },

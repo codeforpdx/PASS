@@ -4,6 +4,7 @@ import {
   createThing,
   getSolidDataset,
   mockSolidDatasetFrom,
+  saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
@@ -37,7 +38,21 @@ const wrapper = ({ children }) => (
   </SessionContext.Provider>
 );
 
+const makeIntoThing = ({ firstName, lastName, dateOfBirth, gender }) =>
+  buildThing(createThing({ name: 'Civic Profile' }))
+    .addStringNoLocale(RDF_PREDICATES.legalFirstName, firstName)
+    .addStringNoLocale(RDF_PREDICATES.legalLastName, lastName)
+    .addDate(RDF_PREDICATES.legalDOB, dateOfBirth)
+    .addInteger(RDF_PREDICATES.legalGender, gender)
+    .build();
+
 describe('useCivicProfile', () => {
+  const profile = {
+    firstName: 'Luffy',
+    lastName: 'Monkey',
+    dateOfBirth: new Date('July 21, 1983 12:00:00'),
+    gender: 99
+  };
   it('Returns empty object if no civic profile is found', async () => {
     getSolidDataset.mockResolvedValue(
       mockSolidDatasetFrom('https://example.com/PASS/AdditionalProfiles/civic_profile.ttl')
@@ -48,12 +63,6 @@ describe('useCivicProfile', () => {
   });
 
   it('Returns the Civic Profile if found', async () => {
-    const profile = {
-      firstName: 'Luffy',
-      lastName: 'Monkey',
-      dateOfBirth: new Date('July 21, 1983 12:00:00'),
-      gender: 99
-    };
     const thing = buildThing(createThing({ name: 'Civic Profile' }))
       .addStringNoLocale(RDF_PREDICATES.legalFirstName, profile.firstName)
       .addStringNoLocale(RDF_PREDICATES.legalLastName, profile.lastName)
@@ -70,5 +79,19 @@ describe('useCivicProfile', () => {
     expect(result.current.data).toStrictEqual(profile);
   });
 
-  it('Updates Civic Profile with proper data', async () => {});
+  it('Updates Civic Profile with proper data', async () => {
+    let dataset = mockSolidDatasetFrom(
+      'https://example.com/PASS/AdditionalProfiles/civic_profile.ttl'
+    );
+    getSolidDataset.mockResolvedValue(dataset);
+    saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
+    const thing = makeIntoThing(profile);
+    dataset = setThing(dataset, thing);
+    const { result } = renderHook(useCivicProfile, { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    const hook = result.current;
+    await hook.updateProfile(profile);
+    await waitFor(() => expect(result.current.data).toStrictEqual(profile));
+    expect(saveSolidDatasetAt).toBeCalled();
+  });
 });
