@@ -5,7 +5,8 @@ import {
   setThing,
   getSolidDataset,
   saveSolidDatasetAt,
-  mockSolidDatasetFrom
+  mockSolidDatasetFrom,
+  createSolidDataset
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import { expect, it, describe, vi } from 'vitest';
@@ -62,6 +63,13 @@ describe('useContactsList', () => {
     const { result } = renderHook(useContactsList, { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data.length).toBe(0);
+  });
+
+  it('Creates a new file if none exists', async () => {
+    getSolidDataset.mockRejectedValue({ response: { status: 404 } });
+    const { result } = renderHook(useContactsList, { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(createSolidDataset).toBeCalledTimes(1);
   });
 
   it('Adds contact to contacts list', async () => {

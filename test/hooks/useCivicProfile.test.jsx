@@ -4,6 +4,7 @@ import {
   createThing,
   getSolidDataset,
   mockSolidDatasetFrom,
+  createSolidDataset,
   saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
@@ -60,6 +61,13 @@ describe('useCivicProfile', () => {
     const { result } = renderHook(useCivicProfile, { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toStrictEqual({});
+  });
+
+  it('Creates a new file if none exists', async () => {
+    getSolidDataset.mockRejectedValue({ response: { status: 404 } });
+    const { result } = renderHook(useCivicProfile, { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(createSolidDataset).toBeCalledTimes(1);
   });
 
   it('Returns the Civic Profile if found', async () => {
