@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, describe, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
+import { getSolidDataset, saveSolidDatasetAt, mockSolidDatasetFrom } from '@inrupt/solid-client';
 import { Signup } from '@pages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionContext } from '@contexts';
@@ -18,7 +19,21 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-const queryClient = new QueryClient();
+vi.mock('@hooks', async () => ({
+  useContactsList: vi.fn(() => ({
+    data: {},
+    add: vi.fn(),
+    delete: vi.fn()
+  }))
+}));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+});
 
 const MockSignupContexts = ({ session }) => (
   <QueryClientProvider client={queryClient}>
@@ -31,6 +46,9 @@ const MockSignupContexts = ({ session }) => (
 );
 
 describe('Signup Page', () => {
+  const dataset = mockSolidDatasetFrom('https://example.com/PASS/Users/userlist.ttl');
+  saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
+  getSolidDataset.mockResolvedValue(dataset);
   it('renders', () => {
     const sessionObj = {
       login: vi.fn(),

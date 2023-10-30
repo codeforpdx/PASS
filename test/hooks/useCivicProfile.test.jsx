@@ -59,14 +59,14 @@ describe('useCivicProfile', () => {
       mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl')
     );
     const { result } = renderHook(useCivicProfile, { wrapper });
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     expect(result.current.data).toStrictEqual({});
   });
 
   it('Creates a new file if none exists', async () => {
     getSolidDataset.mockRejectedValue({ response: { status: 404 } });
     const { result } = renderHook(useCivicProfile, { wrapper });
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     expect(createSolidDataset).toBeCalledTimes(1);
   });
 
@@ -94,9 +94,9 @@ describe('useCivicProfile', () => {
     const thing = makeIntoThing(profile);
     dataset = setThing(dataset, thing);
     const { result } = renderHook(useCivicProfile, { wrapper });
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
-    await hook.updateProfile(profile);
+    await hook.add(profile);
     await waitFor(() => expect(result.current.data).toStrictEqual(profile));
     expect(saveSolidDatasetAt).toBeCalled();
   });
