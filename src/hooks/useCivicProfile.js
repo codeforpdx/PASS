@@ -27,7 +27,7 @@ const useCivicProfile = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
-  const fileUrl = podUrl && new URL('PASS/AdditionalProfiles/civic_profile.ttl', podUrl).toString();
+  const fileUrl = podUrl && new URL('PASS/Profile/civic_profile.ttl', podUrl).toString();
 
   const parse = (data) => {
     const url = new URL(fileUrl);

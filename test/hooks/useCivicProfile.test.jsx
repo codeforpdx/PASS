@@ -56,7 +56,7 @@ describe('useCivicProfile', () => {
   };
   it('Returns empty object if no civic profile is found', async () => {
     getSolidDataset.mockResolvedValue(
-      mockSolidDatasetFrom('https://example.com/PASS/AdditionalProfiles/civic_profile.ttl')
+      mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl')
     );
     const { result } = renderHook(useCivicProfile, { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -78,7 +78,7 @@ describe('useCivicProfile', () => {
       .addInteger(RDF_PREDICATES.legalGender, profile.gender)
       .build();
     const dataset = setThing(
-      mockSolidDatasetFrom('https://example.com/PASS/AdditionalProfiles/civic_profile.ttl'),
+      mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl'),
       thing
     );
     getSolidDataset.mockResolvedValue(dataset);
@@ -88,9 +88,7 @@ describe('useCivicProfile', () => {
   });
 
   it('Updates Civic Profile with proper data', async () => {
-    let dataset = mockSolidDatasetFrom(
-      'https://example.com/PASS/AdditionalProfiles/civic_profile.ttl'
-    );
+    let dataset = mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl');
     getSolidDataset.mockResolvedValue(dataset);
     saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
     const thing = makeIntoThing(profile);
