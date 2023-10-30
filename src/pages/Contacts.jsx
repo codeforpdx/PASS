@@ -65,7 +65,6 @@ const Contacts = () => {
         width: '100%'
       }}
     >
-      <Typography>Data is: {JSON.stringify(data)}</Typography>
       <Box>
         <Button
           variant="contained"
