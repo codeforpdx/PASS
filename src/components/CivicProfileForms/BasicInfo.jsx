@@ -1,40 +1,49 @@
 // React Imports
 import React, { useState } from 'react';
+// Inrupt Library Imports
+// import { useSession } from '@hooks';
 // Material UI Imports
+// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+// import Checkbox from '@mui/material/Checkbox';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FormControl from '@mui/material/FormControl';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
+// import IconButton from '@mui/material/IconButton';
+// import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+// import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+// import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// Utility Imports
+// import { sendMessageTTL, getMessageTTL } from '@utils';
+// Context Imports
+// import { MessageContext, SignedInUserContext } from '@contexts';
+// Custom Hook Imports
+// import useNotification from '@hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
 const BasicInfo = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [age, setAge] = useState('');
+  const [age, setAge] = useState(null);
   const [gender, setGender] = useState('');
 
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
-
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
+  const clearForm = () => {
+    setFirstName('');
+    setLastName('');
+    setAge(null);
+    setGender('');
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -50,7 +59,7 @@ const BasicInfo = () => {
             autoComplete="given-name"
             variant="standard"
             value={firstName}
-            onChange={handleFirstNameChange}
+            onChange={(newFirstName) => setFirstName(newFirstName.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -62,7 +71,7 @@ const BasicInfo = () => {
             autoComplete="family-name"
             variant="standard"
             value={lastName}
-            onChange={handleLastNameChange}
+            onChange={(newLastName) => setLastName(newLastName.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -74,7 +83,7 @@ const BasicInfo = () => {
                 label="Date of birth"
                 type="date"
                 value={age}
-                onChange={handleAgeChange}
+                onChange={(newAge) => setAge(newAge)}
               />
             </LocalizationProvider>
             <FormHelperText>YYYY-MM-DD</FormHelperText>
@@ -88,7 +97,7 @@ const BasicInfo = () => {
               id="hmis-basic-info-gender"
               value={gender}
               label="Gender"
-              onChange={handleGenderChange}
+              onChange={(newGender) => setGender(newGender.target.value)}
             >
               <MenuItem value={0}>Female</MenuItem>
               <MenuItem value={1}>Male</MenuItem>
@@ -105,10 +114,12 @@ const BasicInfo = () => {
             variant="contained"
             type="submit"
             color="secondary"
+            startIcon={<ClearIcon />}
             fullWidth
             sx={{ borderRadius: '20px' }}
+            onClick={clearForm}
           >
-            Clear Form
+            Cancel
           </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -116,6 +127,7 @@ const BasicInfo = () => {
             variant="contained"
             type="submit"
             color="primary"
+            startIcon={<CheckIcon />}
             fullWidth
             sx={{ borderRadius: '20px' }}
           >
