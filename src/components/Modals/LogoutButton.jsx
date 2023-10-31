@@ -41,7 +41,13 @@ const LogoutButton = ({ children, onLogout, onError }) => {
   };
 
   return children ? (
-    <div role="button" tabIndex={0} onClick={logoutHandler} onKeyDown={keyDownHandler}>
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={logoutHandler}
+      onKeyDown={keyDownHandler}
+      style={{ width: '100%' }}
+    >
       {children}
     </div>
   ) : (

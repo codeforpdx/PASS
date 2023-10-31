@@ -1,6 +1,7 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
@@ -14,6 +15,8 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
@@ -43,6 +46,8 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const [inputKey, setInputKey] = useState(false);
   const { addDocument, replaceDocument } = useContext(DocumentListContext);
   const [processing, setProcessing] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -97,7 +102,11 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   return (
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <FormSection title="Upload Document">
-        <form onSubmit={handleDocUpload} autoComplete="off">
+        <form
+          onSubmit={handleDocUpload}
+          autoComplete="off"
+          style={{ width: isSmallScreen ? '100%' : '100%' }}
+        >
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
@@ -148,28 +157,40 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             >
               File to upload: {file ? file.name : 'No file selected'}
             </FormHelperText>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<ClearIcon />}
-                onClick={clearInputFields}
-                fullWidth
-                sx={{ borderRadius: '20px' }}
+
+            <DialogActions sx={{ width: '100%' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: isSmallScreen ? 'column' : 'row',
+                  gap: isSmallScreen ? '10px' : '8px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%'
+                }}
               >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                disabled={processing || !file}
-                type="submit"
-                color="primary"
-                startIcon={<FileUploadIcon />}
-                fullWidth
-                sx={{ borderRadius: '20px' }}
-              >
-                Upload
-              </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<ClearIcon />}
+                  onClick={clearInputFields}
+                  fullWidth
+                  sx={{ borderRadius: '20px' }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  disabled={processing || !file}
+                  type="submit"
+                  color="primary"
+                  startIcon={<FileUploadIcon />}
+                  fullWidth
+                  sx={{ borderRadius: '20px' }}
+                >
+                  Upload
+                </Button>
+              </Box>
             </DialogActions>
           </FormControl>
         </form>
