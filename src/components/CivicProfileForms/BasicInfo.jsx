@@ -1,38 +1,30 @@
 // React Imports
 import React, { useState } from 'react';
-// Inrupt Library Imports
-// import { useSession } from '@hooks';
 // Material UI Imports
-// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import Checkbox from '@mui/material/Checkbox';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FormControl from '@mui/material/FormControl';
-// import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
-// import IconButton from '@mui/material/IconButton';
-// import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-// import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-// import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// Utility Imports
-// import { sendMessageTTL, getMessageTTL } from '@utils';
-// Context Imports
-// import { MessageContext, SignedInUserContext } from '@contexts';
-// Custom Hook Imports
-// import useNotification from '@hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
+/**
+ * BasicInfo Component - Component that generates the form for entering
+ * basic user information in accordance with HMIS principles
+ *
+ * @memberof CivicProfileForms
+ * @name BasicInfo
+ * @returns {React.JSX.Element} The BasicInfo Component
+ */
 const BasicInfo = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
