@@ -36,6 +36,7 @@ export const PaginationContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
     list-style-type: none;
     gap: 3px;
   }
@@ -44,7 +45,7 @@ export const PaginationContainer = styled.div`
   .page-red {
     color: #fff;
     font-weight: bold;
-    padding: 8px 16px;
+    padding: 8px 12px;
     border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
@@ -66,7 +67,7 @@ export const PaginationContainer = styled.div`
   }
 
   .chevron {
-    margin: 0 1.5rem;
+    margin: 0 1rem;
   }
 
   .active-page {

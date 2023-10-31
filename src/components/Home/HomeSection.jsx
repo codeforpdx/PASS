@@ -37,21 +37,21 @@ const HomeSection = ({
       src={componentImageSrc}
       alt={componentImageAlt}
       sx={{
-        width: isReallySmallScreen ? 1 : 2 / 4
+        width: isReallySmallScreen ? '80%' : '300px'
       }}
     />
     <Typography
-      variant={isReallySmallScreen ? 'h3' : 'h2'}
+      variant="h2"
       sx={{
         color: 'primary.main',
         textAlign: 'center',
-        marginBottom: '24px'
+        marginBottom: '24px',
+        fontSize: '28px'
       }}
     >
       <strong>{title}</strong>
     </Typography>
     <Typography
-      variant={isReallySmallScreen ? 'h6' : 'h5'}
       sx={{
         color: 'primary.dark',
         width: isReallySmallScreen ? '100%' : '85%',
