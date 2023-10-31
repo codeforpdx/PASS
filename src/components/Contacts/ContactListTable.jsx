@@ -1,8 +1,9 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import SendIcon from '@mui/icons-material/Send';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -14,6 +15,7 @@ import {
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
+import { NewMessageModal } from '../Modals';
 
 const CustomToolbar = () => (
   <GridToolbarContainer>
@@ -38,6 +40,14 @@ const CustomToolbar = () => (
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [messageToField, setMessageToField] = useState('');
+
+  const handleSendMessage = (contactId) => {
+    setShowMessageModal(!showMessageModal);
+    setMessageToField(contactId.id);
+  };
+
   const columnTitlesArray = [
     {
       field: 'First Name',
@@ -59,6 +69,15 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       sortable: false,
       filterable: false,
       width: 70,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      field: 'Message',
+      renderCell: (contactId) => <SendIcon onClick={() => handleSendMessage(contactId)} />,
+      sortable: false,
+      filterable: false,
+      width: 80,
       headerAlign: 'center',
       align: 'center'
     },
@@ -86,6 +105,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           'First Name': contact.givenName,
           'Last Name': contact.familyName,
           Profile: contact,
+          Message: contact,
           Delete: contact
         }))}
         slots={{
@@ -111,6 +131,11 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         }}
         disableColumnMenu
         disableRowSelectionOnClick
+      />
+      <NewMessageModal
+        showModal={showMessageModal}
+        setShowModal={setShowMessageModal}
+        toField={messageToField}
       />
     </Box>
   );

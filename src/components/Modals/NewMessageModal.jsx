@@ -37,7 +37,7 @@ import { MessageContext, SignedInUserContext } from '@contexts';
  * object when using the modal to reply, else uses a string if empty
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
-const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField }) => {
+const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
