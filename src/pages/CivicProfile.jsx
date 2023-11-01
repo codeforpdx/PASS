@@ -1,6 +1,13 @@
-import { Container, MenuList, MenuItem } from '@mui/material';
+// React Imports
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+// MUI Imports
+import Container from '@mui/material/Container';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/system';
+// Component Imports
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
 const CivicProfile = () => {
@@ -8,10 +15,12 @@ const CivicProfile = () => {
 
   localStorage.setItem('restorePath', location.pathname);
   const currentForm = location.pathname.split('/').pop();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container sx={{ display: 'flex' }}>
-      <Container sx={{ width: '25%' }}>
+    <Container sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
+      <Container sx={{ width: isSmallScreen ? '100%' : '25%', minWidth: '250px' }}>
         <nav>
           <MenuList>
             {CIVIC_FORM_LIST.map((form) => (
