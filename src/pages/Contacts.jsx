@@ -11,7 +11,6 @@ import { useContactsList, useNotification } from '@hooks';
 import { AddContactModal, ConfirmationModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
-import useSession from '../hooks/useSession';
 
 /**
  * Contacts Component - Component that generates Contacts Page for PASS
@@ -28,8 +27,6 @@ const Contacts = () => {
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
   const { data, isLoading, isError, error, addContact, deleteContact } = useContactsList();
   const { addNotification } = useNotification();
-  const { podUrl } = useSession();
-  const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
@@ -70,7 +67,7 @@ const Contacts = () => {
           onClick={() => setShowAddContactModal(true)}
           sx={{ marginTop: '3rem' }}
         >
-          Add Contact 
+          Add Contact
         </Button>
         {data.length > 0 ? (
           <ContactListTable

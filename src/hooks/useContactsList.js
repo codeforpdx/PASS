@@ -15,26 +15,32 @@ import {
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
+// currently works if pod is given
 
-const fetchAlternatePodUrl = webId => {
-  const urls = getPodUrlAll(webId);
-  const firstURL = urls[0];
-  const result = urls ? firstURL : webId;
+const fetchAlternatePodUrl = async (webId) => {
+  const urls = await getPodUrlAll(webId, { fetch });
+  const result = urls?.length > 0 ? urls[0] : webId;
   return result;
 };
 
-const makeContactIntoThing = ({ givenName, familyName, webId, pod, relationship, relationshipStatus }) =>
+const makeContactIntoThing = ({
+  givenName,
+  familyName,
+  webId,
+  pod,
+  relationship,
+  relationshipStatus
+}) =>
   buildThing(createThing({ name: encodeURIComponent(webId) }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
     .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
     .addUrl(RDF_PREDICATES.identifier, webId)
     .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
-    .addUrl(RDF_PREDICATES.profileName, pod ? pod : fetchAlternatePodUrl(webId))
+    .addUrl(RDF_PREDICATES.profileName, pod || fetchAlternatePodUrl(webId))
     .addStringNoLocale(RDF_PREDICATES.role, relationship)
     .addStringNoLocale(RDF_PREDICATES.status, relationshipStatus)
     .build();
-
 
 const parseContacts = (data) => {
   const contactThings = getThingAll(data);
