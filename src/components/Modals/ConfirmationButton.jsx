@@ -23,7 +23,8 @@ const ConfirmationButton = ({ title, confirmFunction, processing }) => (
     endIcon={<CheckIcon />}
     onClick={confirmFunction}
     disabled={processing}
-    sx={{ marginLeft: '1rem' }}
+    fullWidth
+    sx={{ borderRadius: '20px' }}
   >
     {title}
   </Button>

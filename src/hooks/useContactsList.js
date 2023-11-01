@@ -23,14 +23,7 @@ const fetchAlternatePodUrl = async (webId) => {
   return result;
 };
 
-const makeContactIntoThing = ({
-  givenName,
-  familyName,
-  webId,
-  pod,
-  relationship,
-  relationshipStatus
-}) =>
+const makeIntoThing = ({ givenName, familyName, webId, pod, relationship, relationshipStatus }) =>
   buildThing(createThing({ name: encodeURIComponent(webId) }))
     .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
     .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
@@ -41,23 +34,6 @@ const makeContactIntoThing = ({
     .addStringNoLocale(RDF_PREDICATES.role, relationship)
     .addStringNoLocale(RDF_PREDICATES.status, relationshipStatus)
     .build();
-
-const parseContacts = (data) => {
-  const contactThings = getThingAll(data);
-  const contacts = [];
-  contactThings.forEach((thing) => {
-    const contact = {};
-
-    contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
-    if (!contact.webId) return;
-    contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
-    contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
-    contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
-    contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
-    contacts.push(contact);
-  });
-  return contacts;
-};
 
 /**
  * @typedef {object} ContactsList
@@ -76,31 +52,47 @@ const parseContacts = (data) => {
  * @returns {ContactsList} - all the data provided by the useQuery call
  * @memberof hooks
  */
+let storedDataset;
 const useContactsList = () => {
   const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
   const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
+  const parse = (data) => {
+    const contactThings = getThingAll(data);
+    const contacts = [];
+    contactThings.forEach((thing) => {
+      const contact = {};
 
+      contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
+      if (!contact.webId) return;
+      contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
+      contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
+      contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
+      contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
+      contacts.push(contact);
+    });
+    return contacts;
+  };
   const saveData = async (dataset) => {
-    const savedDataset = await saveSolidDatasetAt(url, dataset, {
+    storedDataset = await saveSolidDatasetAt(url, dataset, {
       fetch
     });
-    return savedDataset;
+    return parse(storedDataset);
   };
 
   const fetchContactsList = async () => {
-    let myDataset;
     try {
-      myDataset = await getSolidDataset(url, { fetch });
+      storedDataset = await getSolidDataset(url, { fetch });
     } catch (e) {
       if (e.response.status === 404) {
-        myDataset = createSolidDataset();
-        myDataset = await saveSolidDatasetAt(url, myDataset, { fetch });
+        storedDataset = createSolidDataset();
+        storedDataset = await saveSolidDatasetAt(url, storedDataset, { fetch });
+      } else {
+        throw e;
       }
-      throw e;
     }
-    return myDataset;
+    return parse(storedDataset);
   };
 
   const { isLoading, isError, error, data, isSuccess } = useQuery({
@@ -111,10 +103,10 @@ const useContactsList = () => {
   const addContactMutation = useMutation({
     mutationFn: async (newContact) => {
       if (!data) await fetchContactsList();
-      const thing = makeContactIntoThing(newContact);
-      const newDataset = setThing(data, thing);
-      const savedDataset = await saveData(newDataset);
-      return savedDataset;
+      const thing = makeIntoThing(newContact);
+      const newDataset = setThing(storedDataset, thing);
+      const newContactsList = await saveData(newDataset);
+      return newContactsList;
     },
     onSuccess: (resData) => {
       queryClient.setQueryData([url], () => resData);
@@ -123,11 +115,12 @@ const useContactsList = () => {
 
   const deleteContactMutation = useMutation({
     mutationFn: async (contactToDelete) => {
+      if (!data) await fetchContactsList();
       const thingUrl = `${url}#${encodeURIComponent(contactToDelete.webId)}`;
-      const thingToRemove = getThing(data, thingUrl);
-      const newDataset = removeThing(data, thingToRemove);
-      const savedDataset = await saveData(newDataset);
-      return savedDataset;
+      const thingToRemove = getThing(storedDataset, thingUrl);
+      const newDataset = removeThing(storedDataset, thingToRemove);
+      const newContactsList = await saveData(newDataset);
+      return newContactsList;
     },
     onSuccess: (resData) => {
       queryClient.setQueryData([url], () => resData);
@@ -139,7 +132,7 @@ const useContactsList = () => {
     isError,
     isSuccess,
     error,
-    data: !(isLoading || isError) ? parseContacts(data) : [],
+    data,
     deleteContact: deleteContactMutation.mutate,
     addContact: addContactMutation.mutate
   };

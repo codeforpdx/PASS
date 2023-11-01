@@ -1,6 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -11,6 +12,8 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
 import InputLabel from '@mui/material/InputLabel';
@@ -53,7 +56,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [relationship, setRelationship] = useState('');
   const [relationshipStatus, setRelationshipStatus] = useState('');
   const [processing, setProcessing] = useState(false);
-
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const wrappedSetUsername = (value) => {
     setUsername(value);

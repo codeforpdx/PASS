@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
@@ -92,10 +94,14 @@ const ProfileComponent = ({ contactProfile }) => {
     return dateOfBirth ? dayjs(dateOfBirth).format('MM/DD/YYYY') : 'No value set';
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Box
-      style={{
+      sx={{
         display: 'flex',
+        flexDirection: isSmallScreen ? 'column' : 'row',
         gap: '15px',
         padding: '10px'
       }}

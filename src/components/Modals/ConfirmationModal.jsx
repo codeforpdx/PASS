@@ -1,6 +1,7 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Component Imports
 import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
@@ -39,6 +42,9 @@ const ConfirmationModal = ({
   processing,
   isLogout = false
 }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const confirmButton = () =>
     isLogout ? (
       <LogoutButton>
@@ -65,17 +71,29 @@ const ConfirmationModal = ({
         <DialogContentText id="dialog-description">{text}</DialogContentText>
       </DialogContent>
 
-      <DialogActions>
-        <Button
-          variant="outlined"
-          color="error"
-          endIcon={<ClearIcon />}
-          onClick={() => setShowConfirmationModal(false)}
+      <DialogActions sx={{ width: '100%' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: isSmallScreen ? 'column' : 'row',
+            gap: isSmallScreen ? '10px' : '8px',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%'
+          }}
         >
-          Cancel
-        </Button>
-
-        {confirmButton()}
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<ClearIcon />}
+            onClick={() => setShowConfirmationModal(false)}
+            fullWidth
+            sx={{ borderRadius: '20px' }}
+          >
+            Cancel
+          </Button>
+          {confirmButton()}
+        </Box>
       </DialogActions>
     </Dialog>
   );
