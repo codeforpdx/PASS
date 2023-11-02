@@ -32,7 +32,7 @@ import { MessageContext, SignedInUserContext } from '@contexts';
  * @param {boolean} Props.showModal - Boolean for showing message modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
  * - React set function for showModal
- * @param Props.toField
+ * @param {string} Props.toField - URL of the recipient
  * @param {messageListObject|string} Props.oldMessage - The previous message
  * object when using the modal to reply, else uses a string if empty
  * @returns {React.JSX.Element} React component for NewMessageModal
@@ -145,6 +145,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             autoFocus
             label="To"
             fullWidth
+            disabled={toField || false}
           />
           <TextField
             margin="normal"

@@ -75,7 +75,10 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     {
       field: 'Message',
       renderCell: (contactId) => (
-        <SendIcon sx={{ color: 'gray' }} onClick={() => handleSendMessage(contactId)} />
+        <SendIcon
+          sx={{ color: 'gray', cursor: 'pointer' }}
+          onClick={() => handleSendMessage(contactId)}
+        />
       ),
       sortable: false,
       filterable: false,
