@@ -45,7 +45,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
-    setMessageToField(contactId.id);
+    setMessageToField(contactId.value.podUrl);
   };
 
   const columnTitlesArray = [
@@ -74,7 +74,9 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     },
     {
       field: 'Message',
-      renderCell: (contactId) => <SendIcon onClick={() => handleSendMessage(contactId)} />,
+      renderCell: (contactId) => (
+        <SendIcon sx={{ color: 'gray' }} onClick={() => handleSendMessage(contactId)} />
+      ),
       sortable: false,
       filterable: false,
       width: 80,
