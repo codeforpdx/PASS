@@ -68,7 +68,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
       sortable: false,
       filterable: false,
-      width: 70,
+      width: 80,
       headerAlign: 'center',
       align: 'center'
     },
@@ -85,7 +85,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       field: 'actions',
       type: 'actions',
       headerName: 'Delete',
-      width: 70,
+      width: 80,
       getActions: (contactData) => [
         <GridActionsCellItem
           icon={<DeleteOutlineOutlinedIcon />}
