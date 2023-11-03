@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useSession } from '@hooks';
 // Material UI Imports
@@ -64,17 +64,28 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
     });
   };
 
+  useEffect(() => {
+    if (toField !== '') {
+      setMessage({
+        ...message,
+        recipientPodUrl: toField,
+        inReplyTo: '',
+        messageUrl: ''
+      });
+    }
+  }, [toField]);
+
   const handleReplyMessage = () => {
     setShowModal(!showModal);
   };
 
-  // Handles submit (awaiting functionality for this)
+  // Handles submitting a new message
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!message.title) {
       setError('Please enter a title');
-    } else if (!message.recipientPodUrl) {
+    } else if (!message.recipientPodUrl && !toField) {
       setError('Please enter a recipient Pod URL');
     } else if (!message.message) {
       setError('Please enter a message');
@@ -145,7 +156,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             autoFocus
             label="To"
             fullWidth
-            disabled={toField || false}
+            disabled={!!toField}
           />
           <TextField
             margin="normal"
