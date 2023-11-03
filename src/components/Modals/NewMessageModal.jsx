@@ -156,7 +156,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             autoFocus
             label="To"
             fullWidth
-            disabled={!!toField}
+            disabled={toField !== ''}
           />
           <TextField
             margin="normal"
