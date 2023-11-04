@@ -9,7 +9,7 @@ import {
   saveSolidDatasetAt
 } from '@inrupt/solid-client';
 
-const useRdfModel = (parse, serialize, fileUrl, fetchData) => {
+const useRdfCollection = (parse, serialize, fileUrl, fetchData) => {
   const [storedDataset, setStoredDataset] = useState(null);
   const queryClient = useQueryClient();
 
@@ -81,4 +81,4 @@ const useRdfModel = (parse, serialize, fileUrl, fetchData) => {
   };
 };
 
-export default useRdfModel;
+export default useRdfCollection;

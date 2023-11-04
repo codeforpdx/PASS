@@ -7,7 +7,7 @@ import {
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
-import useRdfModel from './useRdfModel';
+import useRdfCollection from './useRdfCollection';
 
 /**
  * @typedef {object} ContactsList
@@ -57,7 +57,7 @@ const useContactsList = () => {
       .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
       .build();
 
-  const hook = useRdfModel(parse, serialize, fileUrl, fetch);
+  const hook = useRdfCollection(parse, serialize, fileUrl, fetch);
   return {
     ...hook,
     delete: async (contact) => hook.delete(contact.thingId)

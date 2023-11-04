@@ -8,7 +8,7 @@ import {
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
-import useRdfModel from './useRdfModel';
+import useRdfCollection from './useRdfCollection';
 
 const useCivicProfile = () => {
   const { session, podUrl } = useSession();
@@ -38,7 +38,7 @@ const useCivicProfile = () => {
     return profile;
   };
 
-  return useRdfModel(parse, serialize, fileUrl, fetch);
+  return useRdfCollection(parse, serialize, fileUrl, fetch);
 };
 
 export default useCivicProfile;

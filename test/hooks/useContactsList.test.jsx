@@ -61,14 +61,14 @@ describe('useContactsList', () => {
     getSolidDataset.mockResolvedValue(
       mockSolidDatasetFrom('https://example.com/PASS/Users/userlist.ttl')
     );
-    const { result } = renderHook(useContactsList, { wrapper });
+    const { result } = renderHook(() => useContactsList(), { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data.length).toBe(0);
   });
 
   it('Creates a new file if none exists', async () => {
     getSolidDataset.mockRejectedValue({ response: { status: 404 } });
-    const { result } = renderHook(useContactsList, { wrapper });
+    const { result } = renderHook(() => useContactsList(), { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(createSolidDataset).toBeCalledTimes(1);
   });
@@ -79,7 +79,7 @@ describe('useContactsList', () => {
     saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
     const thing = makeIntoThing(contact);
     dataset = setThing(dataset, thing);
-    const { result } = renderHook(useContactsList, { wrapper });
+    const { result } = renderHook(() => useContactsList(), { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
     await hook.add(contact);
@@ -93,7 +93,7 @@ describe('useContactsList', () => {
     const thing = makeIntoThing(contact);
     dataset = setThing(dataset, thing);
     getSolidDataset.mockResolvedValue(dataset);
-    const { result } = renderHook(useContactsList, { wrapper });
+    const { result } = renderHook(() => useContactsList(), { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
     await hook.delete(contact);

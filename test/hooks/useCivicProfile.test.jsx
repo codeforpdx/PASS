@@ -96,7 +96,7 @@ describe('useCivicProfile', () => {
     const { result } = renderHook(useCivicProfile, { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
-    await hook.add(profile);
+    hook.add(profile);
     await waitFor(() => expect(result.current.data).toStrictEqual(profile));
     expect(saveSolidDatasetAt).toBeCalled();
   });
