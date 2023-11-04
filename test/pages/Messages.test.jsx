@@ -12,7 +12,7 @@ const MockMessageContextValue = {
       messageId: '3bf2a18d-0c6a-43e4-9650-992bf4fe7fe7',
       messageUrl:
         'http://localhost:3000/pod-test-name-here/PASS/Inbox/RE%3Ateste-20231023-195931.ttl',
-      title: 'RE:teste',
+      title: 'RE:test-inbox',
       uploadDate: new Date('2023-10-23T19:59:31.424Z'),
       readStatus: false,
       sender: 'PODMAN',
@@ -26,7 +26,7 @@ const MockMessageContextValue = {
       messageId: '3bf2a18d-0c6a-43e4-9650-992bf4fe7fe8',
       messageUrl:
         'http://localhost:3000/pod-test-name-here/PASS/Inbox/RE%3Ateste-20231023-195933.ttl',
-      title: 'RE:teste',
+      title: 'RE:test-outbox',
       uploadDate: new Date('2023-10-23T19:59:31.424Z'),
       readStatus: true,
       sender: 'PODMAN',
@@ -82,7 +82,8 @@ describe('Messages Page', () => {
       }
     };
 
-    const { getByText } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByText('RE:teste')).not.toBeNull();
+    const { getByText, queryByText } = render(<MockSignupContexts session={sessionObj} />);
+    expect(getByText('RE:test-inbox')).not.toBeNull();
+    expect(queryByText('RE:test-outbox')).toBeNull();
   });
 });
