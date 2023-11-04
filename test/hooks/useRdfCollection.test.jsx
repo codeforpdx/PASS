@@ -10,7 +10,7 @@ import {
   getStringNoLocale
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
-import { expect, it, describe, vi, afterEach, beforeEach } from 'vitest';
+import { expect, it, describe, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,7 +29,7 @@ const queryClient = new QueryClient({
 const sessionInfo = {
   session: {
     info: {
-      webId: 'https://example.com/profile'
+      webId: 'http://example.com/profile'
     }
   }
 };
@@ -39,33 +39,24 @@ const wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   </SessionContext.Provider>
 );
-const parse = (data) =>
-  getThingAll(data).map((thing) => {
-    const model = {};
-    model.name = getStringNoLocale(thing, RDF_PREDICATES.name);
-    return model;
-  });
-
-const serialize = ({ name }) =>
-  buildThing(createThing({ name })).addStringNoLocale(RDF_PREDICATES.name, name).build();
 
 describe('useRdfCollection', () => {
-  let thing;
-  let dataset;
+  const parse = (data) =>
+    getThingAll(data).map((newThing) => {
+      const model = {};
+      model.name = getStringNoLocale(newThing, RDF_PREDICATES.name);
+      return model;
+    });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  beforeEach(() => {
-    thing = serialize({ name: 'tim' });
-    dataset = setThing(mockSolidDatasetFrom('https://www.example.com'), thing);
-  });
+  const serialize = ({ name }) =>
+    buildThing(createThing({ name })).addStringNoLocale(RDF_PREDICATES.name, name).build();
 
   it('parses a dataset into the expected format', async () => {
+    const thing = serialize({ name: 'tim' });
+    const dataset = setThing(mockSolidDatasetFrom('http://www.example.com'), thing);
     getSolidDataset.mockResolvedValue(dataset);
     const { result } = renderHook(
-      () => useRdfCollection(parse, serialize, 'http://www.example.com/testfile.ttl', vi.fn()),
+      () => useRdfCollection(parse, serialize, new URL('http://www.example.com'), vi.fn()),
       { wrapper }
     );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -73,31 +64,41 @@ describe('useRdfCollection', () => {
   });
 
   it('allows you to add to a dataset', async () => {
+    const dataset = mockSolidDatasetFrom('http://www.example.com');
     getSolidDataset.mockResolvedValue(dataset);
     saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
     const { result } = renderHook(
-      () => useRdfCollection(parse, serialize, 'http://www.example.com/testfile.ttl', vi.fn()),
+      () => useRdfCollection(parse, serialize, new URL('http://www.example.com'), vi.fn()),
       { wrapper }
     );
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(0));
     const hook = result.current;
-    hook.add({ name: 'john' });
-    await waitFor(() => expect(result.current.data.length).toBe(2));
-    expect(result.current.data[1].name).toBe('john');
+    await hook.add({ name: 'john' });
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(1));
+    await hook.add({ name: 'tim' });
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(2));
+    expect(result.current.data[1].name).toBe('tim');
   });
 
   it('allows you to delete from a dataset', async () => {
+    const dataset = mockSolidDatasetFrom('http://www.example.com');
     getSolidDataset.mockResolvedValue(dataset);
     saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
     const { result } = renderHook(
-      () => useRdfCollection(parse, serialize, 'http://www.example.com/testfile.ttl', vi.fn()),
+      () => useRdfCollection(parse, serialize, new URL('http://www.example.com'), vi.fn()),
       { wrapper }
     );
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-    const hook = result.current;
-    hook.add({ name: 'john' });
-    await waitFor(() => expect(result.current.data.length).toBe(2));
-    hook.delete('john');
-    await waitFor(() => expect(result.current.data.length).toBe(1));
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(0));
+    await result.current.add({ name: 'john' });
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(1));
+    await result.current.add({ name: 'tim' });
+    await waitFor(() => expect(getThingAll(result.current.storedDataset).length).toBe(2));
+    await result.current.delete('john');
+    await waitFor(
+      () =>
+        expect(getThingAll(result.current.storedDataset).length).toBe(1) &&
+        expect(result.current.isSuccess).toBe(true)
+    );
+    expect(parse(result.current.storedDataset)[0].name).toBe('tim');
   });
 });
