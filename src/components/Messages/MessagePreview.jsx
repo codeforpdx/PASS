@@ -57,9 +57,9 @@ const MessagePreview = ({ message, folderType }) => {
   };
 
   const messageInfo = [
-    { title: 'Sender: ', text: message.sender, xs_value: 3 },
-    { title: 'Subject: ', text: message.title, xs_value: 7 },
-    { title: 'Date: ', text: message.uploadDate.toLocaleDateString(), xs_value: 2 }
+    { title: 'Sender: ', text: message?.sender, xs_value: 3 },
+    { title: 'Subject: ', text: message?.title, xs_value: 7 },
+    { title: 'Date: ', text: message?.uploadDate?.toLocaleDateString(), xs_value: 2 }
   ];
 
   return (
