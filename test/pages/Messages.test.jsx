@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { it, describe, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -86,10 +86,8 @@ describe('Messages Page', () => {
       }
     };
 
-    await act(() => {
-      render(<MockSignupContexts session={sessionObj} />);
-      const messages = screen.getByText('test 1');
-      expect(messages).not.toBe(null);
-    });
+    const { getByText } = render(<MockSignupContexts session={sessionObj} />);
+    await waitFor(() => expect(getByText('test 1')).not.toBeNull());
+    expect(screen.getByText('test 2')).not.toBeNull();
   });
 });
