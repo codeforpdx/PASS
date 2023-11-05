@@ -4,19 +4,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CreateIcon from '@mui/icons-material/Create';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 // Utility Imports
 import { getMessageTTL } from '../utils';
 // Context Imports
 import { MessageContext, SignedInUserContext } from '../contexts';
 // Component Imports
 import { NewMessageModal } from '../components/Modals';
-import { MessageFolder } from '../components/Messages';
-
-const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
+import { MessageButtonGroup, MessageFolder } from '../components/Messages';
 
 /**
  * Messages Page - Page that generates the components for the Message system
@@ -78,26 +72,12 @@ const Messages = () => {
 
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
-      <Box sx={{ display: 'flex', padding: '20px 30px 10px' }}>
-        <Button
-          variant="contained"
-          onClick={() => setShowModal(!showModal)}
-          startIcon={<CreateIcon />}
-          color="secondary"
-        >
-          New Message
-        </Button>
-        <Tabs value={boxType} sx={{ padding: '0 15px' }}>
-          {routesArray.map((item) => (
-            <Tab
-              key={`${item.label}Tab`}
-              value={item.label.toLowerCase()}
-              label={item.label}
-              onClick={() => setBoxType(item.label.toLowerCase())}
-            />
-          ))}
-        </Tabs>
-      </Box>
+      <MessageButtonGroup
+        showModal={showModal}
+        setShowModal={setShowModal}
+        boxType={boxType}
+        setBoxType={setBoxType}
+      />
 
       <MessageFolder
         folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}

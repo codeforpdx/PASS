@@ -11,13 +11,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Utility Imports
-import { sendMessageTTL, getMessageTTL } from '../../utils';
+import { sendMessageTTL, getMessageTTL } from '@utils';
 // Context Imports
-import { MessageContext, SignedInUserContext } from '../../contexts';
+import { MessageContext, SignedInUserContext } from '@contexts';
 
 /**
- * @typedef {import("../../typedefs.js").newMessageModalProps} newMessageModalProps
+ * @typedef {import("../../typedefs.js").messageListObject} messageListObject
  */
 
 /**
@@ -26,7 +28,12 @@ import { MessageContext, SignedInUserContext } from '../../contexts';
  *
  * @memberof Modals
  * @name NewMessageModal
- * @param {newMessageModalProps} Props - Props used for NewMessageModal
+ * @param {object} Props - Props used for NewMessageModal
+ * @param {boolean} Props.showModal - Boolean for showing message modal
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
+ * - React set function for showModal
+ * @param {messageListObject|string} Props.oldMessage - The previous message
+ * object when using the modal to reply, else uses a string if empty
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
@@ -45,6 +52,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Modifies message upon input
   const handleChange = (e) => {
@@ -184,25 +193,38 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             inputProps={{ maxLength: '500' }}
             fullWidth
           />
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<ClearIcon />}
-              onClick={() => setShowModal(false)}
-              fullWidth
+          <DialogActions sx={{ width: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                gap: isSmallScreen ? '10px' : '8px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}
             >
-              CANCEL
-            </Button>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              startIcon={<CheckIcon />}
-              fullWidth
-            >
-              Submit
-            </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<ClearIcon />}
+                onClick={() => setShowModal(false)}
+                fullWidth
+                sx={{ borderRadius: '20px' }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                startIcon={<CheckIcon />}
+                fullWidth
+                sx={{ borderRadius: '20px' }}
+              >
+                Submit
+              </Button>
+            </Box>
           </DialogActions>
           {error && <div>{error}</div>}
           {success && successTimeout && <div>{success}</div>}

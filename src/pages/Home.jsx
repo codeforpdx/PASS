@@ -10,8 +10,7 @@ import SupportIcon from '@mui/icons-material/Support';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Components Import
-import HomeSection from '../components/Home/HomeSection';
-import KeyFeatures from '../components/Home/KeyFeatures';
+import { HomeSection, KeyFeatures } from '@components/Home';
 
 /**
  * Home - First Page you encounter in PASS before login.
@@ -26,7 +25,7 @@ const Home = () => {
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container component="main">
+    <Container component="main" sx={{ width: '100vw' }}>
       <Box
         sx={{
           margin: '18px 0',
@@ -41,25 +40,24 @@ const Home = () => {
           <Stack alignItems="center" justifyContent="center">
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="/assets/web-security-green.png"
-              alt="Web security"
+              componentImageSrc="/assets/web-security-green.png"
+              componentImageAlt=""
               title="Keep Your Documents Safe and Secure Using Decentralized Technology"
               description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
               button="Request a Demo"
               href="mailto:hugh@codeforpdx.org"
-              label="Demo request button"
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="/assets/app-green.png"
-              alt="Web App"
-              title="An App Built for Caseworkers"
+              componentImageSrc="/assets/app-green.png"
+              componentImageAlt=""
+              title="An App for Caseworkers"
               description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
-              src="/assets/key-features-green.png"
-              alt="Key Features"
+              componentImageSrc="/assets/key-features-green.png"
+              componentImageAlt=""
               title="Key Features"
             />
             <KeyFeatures
@@ -71,8 +69,8 @@ const Home = () => {
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
               icon={<Diversity1Icon fontSize={isReallySmallScreen ? 'medium' : 'large'} />}
-              title="Nonprofit & Caseworker Integration"
-              description="The platform facilitates smooth communication between nonprofit organizations, caseworkers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
+              title="Nonprofit-Caseworker Integration"
+              description="The platform facilitates smooth communication between nonprofit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
             />
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
