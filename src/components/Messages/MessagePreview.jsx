@@ -77,17 +77,17 @@ const MessagePreview = ({ message, folderType }) => {
   const messageInfo = [
     {
       title: 'Sender: ',
-      text: message.sender,
+      text: message?.sender,
       xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
     },
     {
       title: 'Subject: ',
-      text: message.title,
+      text: message?.title,
       xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
     },
     {
       title: 'Date: ',
-      text: message.uploadDate.toLocaleDateString(),
+      text: message?.uploadDate?.toLocaleDateString(),
       xs_value: isSmallScreen ? 12 : renderMediumGridRight()
     }
   ];
@@ -98,8 +98,13 @@ const MessagePreview = ({ message, folderType }) => {
         <Box sx={{ flexGrow: 1 }}>
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
             <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
-              {messageInfo.map((info) => (
-                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
+              {messageInfo.map((info, index) => (
+                <Grid
+                  item
+                  xs={info.xs_value}
+                  sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                  key={info.title + String(index)}
+                >
                   <Typography>
                     {info.title} <strong>{info.text}</strong>
                   </Typography>

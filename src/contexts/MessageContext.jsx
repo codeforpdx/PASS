@@ -30,8 +30,13 @@ export const MessageContextProvider = ({ children }) => {
   const { session } = useContext(SessionContext);
   const [inboxList, setInboxList] = useState([]);
   const [numUnreadMessages, setNumUnreadMessages] = useState(0);
-
   const [outboxList, setOutboxList] = useState([]);
+
+  // update unread message notifications when clicking on a unread message
+  const updateMessageCountState = (unReadCount) => {
+    setNumUnreadMessages(unReadCount);
+  };
+
   const messageObject = useMemo(
     () => ({
       inboxList,
@@ -41,7 +46,8 @@ export const MessageContextProvider = ({ children }) => {
       loadMessages,
       setLoadMessages,
       numUnreadMessages,
-      setNumUnreadMessages
+      setNumUnreadMessages,
+      updateMessageCountState
     }),
     [outboxList, inboxList, loadMessages, numUnreadMessages]
   );
@@ -64,7 +70,6 @@ export const MessageContextProvider = ({ children }) => {
       messagesInboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
       setNumUnreadMessages(messagesInboxSolid.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
       setInboxList(messagesInboxSolid);
-
       const messagesOutboxSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
       messagesOutboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
       setOutboxList(messagesOutboxSolid);

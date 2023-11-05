@@ -22,12 +22,17 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-
   const { podUrl } = useContext(SignedInUserContext);
-
   const { session } = useSession();
-  const { inboxList, setInboxList, outboxList, setOutboxList, loadMessages, setLoadMessages } =
-    useContext(MessageContext);
+  const {
+    inboxList,
+    setInboxList,
+    outboxList,
+    setOutboxList,
+    loadMessages,
+    setLoadMessages,
+    updateMessageCountState
+  } = useContext(MessageContext);
 
   // Handler function for refreshing PASS messages
   const handleMessageRefresh = async (folderType) => {
@@ -48,6 +53,7 @@ const Messages = () => {
     setLoadMessages(true);
     let inboxCopy = inboxList;
     inboxCopy = inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
+    updateMessageCountState(inboxList.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
     setInboxList(inboxCopy);
     setLoadMessages(false);
   }, [inboxList]);
