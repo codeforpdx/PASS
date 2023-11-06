@@ -31,6 +31,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
   const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || SUGGESTED_OIDC_OPTIONS[0];
   const [selectedOidcFromDropdown, setSelectedOidcFromDropdown] = useState(defaultOidc);
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
@@ -52,7 +53,10 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
     >
       <Autocomplete
         id="pod-server-url"
-        sx={{ width: '300px' }}
+        sx={{
+          width: isSmallScreen ? '250px' : '300px',
+          marginBottom: isSmallScreen && dropdownIsOpen ? '150px' : '0'
+        }}
         fullWidth
         options={SUGGESTED_OIDC_OPTIONS}
         size="small"
@@ -63,6 +67,8 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         autoHighlight
         blurOnSelect
         openOnFocus
+        onOpen={() => setDropdownIsOpen(true)}
+        onClose={() => setDropdownIsOpen(false)}
         value={selectedOidcFromDropdown}
         inputValue={oidcIssuer}
         onChange={(_, newValue) => {
