@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 vi.mock('@inrupt/solid-client-authn-browser');
 
@@ -53,4 +54,29 @@ it('displays a list of suggested providers when focused', async () => {
 
   await user.click(exampleProvider);
   expect(input.value).toBe('http://testurl_2.com/');
+});
+
+it('renders container items as row default', () => {
+  const component = render(<OidcLoginComponent />);
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('row');
+});
+
+it('renders container items as column mobile', () => {
+  window.matchMedia = createMatchMedia(599);
+  const component = render(<OidcLoginComponent />);
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('column');
+});
+
+it('renders 2 buttons when mobile', () => {
+  window.matchMedia = createMatchMedia(599);
+  const { getAllByRole } = render(<OidcLoginComponent />);
+  const buttons = getAllByRole('button');
+
+  expect(buttons.length).toBe(2);
 });

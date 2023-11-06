@@ -6,6 +6,7 @@ import { ProfileComponent } from '@components/Profile';
 import { SignedInUserContext } from '@contexts';
 import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const profileInfo = {
   profileName: null,
@@ -90,4 +91,31 @@ describe('ProfileComponent', () => {
 
     expect(editButton).toBeNull();
   });
+});
+
+it('renders profile component as row default', () => {
+  const component = render(
+    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+      <ProfileComponent contactProfile={null} />
+    </SignedInUserContext.Provider>
+  );
+
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('row');
+});
+
+it('renders profile component as column mobile', () => {
+  window.matchMedia = createMatchMedia(599);
+  const component = render(
+    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+      <ProfileComponent contactProfile={null} />
+    </SignedInUserContext.Provider>
+  );
+
+  const container = component.container.firstChild;
+  const cssProperty = getComputedStyle(container);
+
+  expect(cssProperty.flexDirection).toBe('column');
 });

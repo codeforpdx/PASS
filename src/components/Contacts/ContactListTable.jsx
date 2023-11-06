@@ -1,28 +1,34 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector
+} from '@mui/x-data-grid';
 // MUI Theme
-import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
 // Component Imports
-import ContactListTableRow from './ContactListTableRow';
+import ContactProfileIcon from './ContactProfileIcon';
 
-// ===== MAKE CHANGES HERE FOR TABLE HEADER / COLUMN TITLES =====
-const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
+const CustomToolbar = () => (
+  <GridToolbarContainer>
+    <GridToolbarFilterButton />
+    <GridToolbarDensitySelector />
+  </GridToolbarContainer>
+);
 
 /**
  * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
- * ContactListTable Component - Component that generates table of contacts from data within ContactList
+ * ContactListTable Component - Component that generates the list of contacts
+ * from data within ContactList
  *
  * @memberof Contacts
  * @name ContactListTable
@@ -32,43 +38,81 @@ const columnTitlesArray = ['Contact', 'Pin', 'Delete'];
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {
-  const comparePerson = (a, b) => {
-    if (a.familyName[0].toLowerCase() < b.familyName[0].toLowerCase()) {
-      return -1;
+  const columnTitlesArray = [
+    {
+      field: 'First Name',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      field: 'Last Name',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      field: 'Profile',
+      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
+      sortable: false,
+      filterable: false,
+      width: 70,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Delete',
+      width: 70,
+      getActions: (contactData) => [
+        <GridActionsCellItem
+          icon={<DeleteOutlineOutlinedIcon />}
+          onClick={() => deleteContact(contactData.row.Delete)}
+          label="Delete"
+        />
+      ]
     }
-    if (a.familyName[0].toLowerCase() > b.familyName[0].toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  };
-  const contactsCopy = [...contacts];
-  const sortedContacts = contactsCopy.sort(comparePerson);
+  ];
 
   return (
-    <ThemeProvider theme={theme}>
-      <TableContainer component={Paper} sx={{ margin: '1rem 0', maxWidth: '500px' }}>
-        <Table aria-label="contact list table">
-          <TableHead>
-            <TableRow>
-              {columnTitlesArray.map((columnTitle) => (
-                <TableCell key={columnTitle} align="center">
-                  {columnTitle}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedContacts?.map((contact) => (
-              <ContactListTableRow
-                key={contact.webId}
-                contact={contact}
-                deleteContact={deleteContact}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </ThemeProvider>
+    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
+      <DataGrid
+        columns={columnTitlesArray}
+        rows={contacts?.map((contact) => ({
+          id: contact.webId,
+          'First Name': contact.givenName,
+          'Last Name': contact.familyName,
+          Profile: contact,
+          Delete: contact
+        }))}
+        slots={{
+          toolbar: CustomToolbar
+        }}
+        sx={{
+          '.MuiDataGrid-columnHeader': {
+            background: theme.palette.primary.light,
+            color: 'white'
+          },
+          '.MuiDataGrid-columnSeparator': {
+            display: 'none'
+          }
+        }}
+        pageSizeOptions={[10]}
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 10, page: 0 }
+          },
+          sorting: {
+            sortModel: [{ field: 'Last Name', sort: 'asc' }]
+          }
+        }}
+        disableColumnMenu
+        disableRowSelectionOnClick
+      />
+    </Box>
   );
 };
 

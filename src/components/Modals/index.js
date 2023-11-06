@@ -4,6 +4,7 @@ import ConfirmationModal from './ConfirmationModal';
 import NewMessageModal from './NewMessageModal';
 import SetAclPermissionsModal from './SetAclPermissionsModal';
 import UploadDocumentModal from './UploadDocumentModal';
+import SignInModal from './SignInModal';
 
 /**
  * Modals related to various functionality within project PASS
@@ -17,5 +18,6 @@ export {
   ConfirmationModal,
   NewMessageModal,
   SetAclPermissionsModal,
-  UploadDocumentModal
+  UploadDocumentModal,
+  SignInModal
 };

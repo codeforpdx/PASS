@@ -1,45 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getStringNoLocale,
-  getThing,
-  removeThing,
   getThingAll,
   getUrl,
   buildThing,
-  createThing,
-  setThing,
-  createSolidDataset,
-  getSolidDataset,
-  saveSolidDatasetAt
+  createThing
 } from '@inrupt/solid-client';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
-
-const makeContactIntoThing = ({ givenName, familyName, webId }) =>
-  buildThing(createThing({ name: encodeURIComponent(webId) }))
-    .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
-    .addUrl(RDF_PREDICATES.identifier, webId)
-    .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
-    .build();
-
-const parseContacts = (data) => {
-  const contactThings = getThingAll(data);
-  const contacts = [];
-  contactThings.forEach((thing) => {
-    const contact = {};
-
-    contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
-    if (!contact.webId) return;
-    contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
-    contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
-    contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
-    contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
-    contacts.push(contact);
-  });
-  return contacts;
-};
+import useRdfCollection from './useRdfCollection';
 
 /**
  * @typedef {object} ContactsList
@@ -59,71 +27,40 @@ const parseContacts = (data) => {
  * @memberof hooks
  */
 const useContactsList = () => {
-  const queryClient = useQueryClient();
   const { session, podUrl } = useSession();
   const { fetch } = session;
-  const url = podUrl && new URL('PASS/Users/userlist.ttl', podUrl).toString();
+  const fileUrl = podUrl && new URL('PASS/Users/userlist.ttl', podUrl);
 
-  const saveData = async (dataset) => {
-    const savedDataset = await saveSolidDatasetAt(url, dataset, {
-      fetch
+  const parse = (data) => {
+    const contactThings = getThingAll(data);
+    const contacts = [];
+    contactThings.forEach((thing) => {
+      const contact = {};
+      contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
+      if (!contact.webId) return;
+      contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
+      contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
+      contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
+      contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
+      contact.thingId = contact.webId;
+      contacts.push(contact);
     });
-    return savedDataset;
+    return contacts;
   };
 
-  const fetchContactsList = async () => {
-    let myDataset;
-    try {
-      myDataset = await getSolidDataset(url, { fetch });
-    } catch (e) {
-      if (e.response.status === 404) {
-        myDataset = createSolidDataset();
-        myDataset = await saveSolidDatasetAt(url, myDataset, { fetch });
-      }
-      throw e;
-    }
-    return myDataset;
-  };
+  const serialize = ({ givenName, familyName, webId }) =>
+    buildThing(createThing({ name: encodeURIComponent(webId) }))
+      .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
+      .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
+      .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
+      .addUrl(RDF_PREDICATES.identifier, webId)
+      .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
+      .build();
 
-  const { isLoading, isError, error, data, isSuccess } = useQuery({
-    queryKey: [url],
-    queryFn: fetchContactsList
-  });
-
-  const addContactMutation = useMutation({
-    mutationFn: async (newContact) => {
-      if (!data) await fetchContactsList();
-      const thing = makeContactIntoThing(newContact);
-      const newDataset = setThing(data, thing);
-      const savedDataset = await saveData(newDataset);
-      return savedDataset;
-    },
-    onSuccess: (resData) => {
-      queryClient.setQueryData([url], () => resData);
-    }
-  });
-
-  const deleteContactMutation = useMutation({
-    mutationFn: async (contactToDelete) => {
-      const thingUrl = `${url}#${encodeURIComponent(contactToDelete.webId)}`;
-      const thingToRemove = getThing(data, thingUrl);
-      const newDataset = removeThing(data, thingToRemove);
-      const savedDataset = await saveData(newDataset);
-      return savedDataset;
-    },
-    onSuccess: (resData) => {
-      queryClient.setQueryData([url], () => resData);
-    }
-  });
-
+  const hook = useRdfCollection(parse, serialize, fileUrl, fetch);
   return {
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-    data: !(isLoading || isError) ? parseContacts(data) : [],
-    deleteContact: deleteContactMutation.mutate,
-    addContact: addContactMutation.mutate
+    ...hook,
+    delete: async (contact) => hook.delete(contact.thingId)
   };
 };
 

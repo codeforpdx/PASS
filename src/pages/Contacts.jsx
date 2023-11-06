@@ -25,7 +25,14 @@ const Contacts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
-  const { data, isLoading, isError, error, addContact, deleteContact } = useContactsList();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    add: addContact,
+    delete: deleteContact
+  } = useContactsList();
   const { addNotification } = useNotification();
 
   const handleSelectDeleteContact = (contact) => {
@@ -54,7 +61,8 @@ const Contacts = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%'
       }}
     >
       <Box>

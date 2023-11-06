@@ -9,6 +9,8 @@ import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Utility Imports
@@ -58,10 +60,36 @@ const MessagePreview = ({ message, folderType }) => {
     setShowModal(!showModal);
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const renderMediumGridLeft = () => {
+    if (isMediumScreen) return 8;
+    return 5;
+  };
+
+  const renderMediumGridRight = () => {
+    if (isMediumScreen) return 4;
+    return 2;
+  };
+
   const messageInfo = [
-    { title: 'Sender: ', text: message.sender, xs_value: 3 },
-    { title: 'Subject: ', text: message.title, xs_value: 7 },
-    { title: 'Date: ', text: message.uploadDate.toLocaleDateString(), xs_value: 2 }
+    {
+      title: 'Sender: ',
+      text: message?.sender,
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
+    },
+    {
+      title: 'Subject: ',
+      text: message?.title,
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
+    },
+    {
+      title: 'Date: ',
+      text: message?.uploadDate?.toLocaleDateString(),
+      xs_value: isSmallScreen ? 12 : renderMediumGridRight()
+    }
   ];
 
   return (
@@ -69,14 +97,14 @@ const MessagePreview = ({ message, folderType }) => {
       <Paper>
         <Box sx={{ flexGrow: 1 }}>
           <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ padding: '10px' }}
-            >
-              {messageInfo.map((info) => (
-                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
+            <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
+              {messageInfo.map((info, index) => (
+                <Grid
+                  item
+                  xs={info.xs_value}
+                  sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                  key={info.title + String(index)}
+                >
                   <Typography>
                     {info.title} <strong>{info.text}</strong>
                   </Typography>
