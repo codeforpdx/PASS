@@ -4,7 +4,7 @@
   "version": "0.10.0",
   "description": "",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "test": "vitest",
     "test:ci": "vitest run",
