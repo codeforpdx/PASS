@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
@@ -61,7 +61,7 @@ const MockSignupContexts = ({ session }) => (
   <BrowserRouter>
     <SessionContext.Provider value={session}>
       <MessageContext.Provider value={MockMessageContextValue}>
-        <IconButton aria-label="show new messages" dataTestid="EmailIcon">
+        <IconButton aria-label="show new messages" datatestid="EmailIcon">
           <Badge badgeContent={MockMessageContextValue.setNumUnreadMessages} color="error" />
         </IconButton>
         <Messages />
@@ -126,7 +126,7 @@ describe('Messages Page', () => {
     expect(messageLabel).not.toBeNull();
   });
 
-  it('should update unread count after clicking on message', async () => {
+  it('should update state', async () => {
     const sessionObj = {
       login: vi.fn(),
       fetch: vi.fn(),
@@ -140,16 +140,10 @@ describe('Messages Page', () => {
     };
 
     const user = userEvent.setup();
-
     render(<MockSignupContexts session={sessionObj} />);
-    const messageBadge = screen.getAllByText('1', { exact: true })[0];
-    const messageLabel = screen.getByLabelText('show new messages');
-    expect(messageBadge).not.toBeNull();
-    expect(messageLabel).not.toBeNull();
-
     const unreadMessage = screen.queryByText('RE:test-inbox').parentElement;
     expect(unreadMessage).not.toBeNull();
     await user.click(unreadMessage);
-    console.log(screen.debug());
+    await waitFor(() => expect(MockMessageContextValue.updateMessageCountState).toHaveBeenCalled());
   });
 });
