@@ -34,7 +34,11 @@ import { fetchProfileInfo } from '../model-helpers';
 const Profile = () => {
   // Route related states
   const location = useLocation();
-  localStorage.setItem('restorePath', '/profile');
+  if (location.pathname.split('/')[1] === 'contacts') {
+    localStorage.setItem('restorePath', '/contacts');
+  } else {
+    localStorage.setItem('restorePath', '/profile');
+  }
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
