@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState, useContext } from 'react';
 // Inrupt Library Imports
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -40,6 +40,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
+  const { addNotification } = useNotification();
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
@@ -49,9 +50,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
     inReplyTo: oldMessage ? oldMessage.messageId : '',
     messageUrl: oldMessage ? oldMessage.messageUrl : ''
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [successTimeout, setSuccessTimeout] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -72,11 +70,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
     e.preventDefault();
 
     if (!message.title) {
-      setError('Please enter a title');
+      addNotification('error', 'Please enter a title');
     } else if (!message.recipientPodUrl) {
-      setError('Please enter a recipient Pod URL');
+      addNotification('error', 'Please enter a recipient Pod URL');
     } else if (!message.message) {
-      setError('Please enter a message');
+      addNotification('error', 'Please enter a message');
     } else {
       try {
         await sendMessageTTL(session, message, podUrl);
@@ -86,15 +84,10 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
           title: '',
           message: ''
         });
-        setError('');
-        setSuccess(`Message successfully sent to ${message.recipientPodUrl}`);
-        setSuccessTimeout(true);
-        setTimeout(() => {
-          setSuccessTimeout(false);
-        }, 10000);
+        addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
-        setError(err.message);
+        addNotification('error', `Invalid username: ${message.recipientPodUrl}`);
       } finally {
         setOriginalMessage('');
         setTimeout(() => {
@@ -226,8 +219,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
               </Button>
             </Box>
           </DialogActions>
-          {error && <div>{error}</div>}
-          {success && successTimeout && <div>{success}</div>}
         </form>
       </Box>
     </Dialog>
