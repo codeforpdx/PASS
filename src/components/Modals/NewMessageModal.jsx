@@ -87,7 +87,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
         addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
       } catch (err) {
         // TODO: Make sure invalid username is the only possible error
-        addNotification('error', `Invalid username: ${message.recipientPodUrl}`);
+        addNotification('error', `Invalid recipient: ${message.recipientPodUrl}`);
       } finally {
         setOriginalMessage('');
         setTimeout(() => {
