@@ -1,39 +1,18 @@
 // React Imports
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 // Inrupt Library Imports
-import { useSession } from '@hooks';
+import { useSession, useNotification } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Typography from '@mui/material/Typography';
 // Component Imports
 import { NavBar } from '../components/NavBar';
-import { InactivityMessage } from '../components/Notification';
+import { InactivityMessage, NotificationContainer } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
-import NotificationContainer from '../components/Notification/NotificationContainer';
-import useNotification from '../hooks/useNotification';
+import Breadcrumbs from './Breadcrumbs';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
   const { state } = useNotification();
-  const location = useLocation();
-
-  const crumbs = location?.pathname
-    .split('/')
-    .slice(1)
-    .map((crumb) => {
-      let string = crumb;
-      string = decodeURIComponent(crumb.replace('-', ' '));
-      if (!string.includes('http')) {
-        string = string
-          .split(' ')
-          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-          .join(' ');
-      }
-      return string;
-    });
 
   return (
     <Box
@@ -48,30 +27,7 @@ const Layout = ({ ariaLabel, children }) => {
       }}
     >
       <NavBar />
-      {session.info.isLoggedIn && (
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ margin: '20px 80px', width: '100%' }}
-        >
-          {crumbs.map((crumb, index) =>
-            index !== crumbs.length - 1 ? (
-              <Link
-                to={`/${crumbs
-                  .slice(0, index + 1)
-                  .join('/')
-                  .replaceAll(' ', '-')
-                  .toLowerCase()}`}
-                key={crumb}
-              >
-                {crumb}
-              </Link>
-            ) : (
-              <Typography key={crumb}>{crumb}</Typography>
-            )
-          )}
-        </Breadcrumbs>
-      )}
+      {session.info.isLoggedIn && <Breadcrumbs />}
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
