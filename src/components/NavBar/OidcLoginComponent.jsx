@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Autocomplete from '@mui/material/Autocomplete';
 // Constants Imports
 import { ENV } from '../../constants';
 
@@ -24,10 +25,17 @@ import { ENV } from '../../constants';
  */
 const OidcLoginComponent = ({ setShowSignInModal }) => {
   const { login } = useSession();
-  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || '';
+  const SUGGESTED_OIDC_OPTIONS = ENV.VITE_SUGGESTED_OIDC_OPTIONS?.split(', ') || [
+    'http://localhost:3000/'
+  ];
+  const defaultOidc = ENV.VITE_SOLID_IDENTITY_PROVIDER || SUGGESTED_OIDC_OPTIONS[0];
+  const [selectedOidcFromDropdown, setSelectedOidcFromDropdown] = useState(defaultOidc);
   const [oidcIssuer, setOidcIssuer] = useState(defaultOidc);
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+
   const loginHandler = async () => {
     const redirectUrl = window.location.href;
+    localStorage.setItem('oidcIssuer', oidcIssuer);
     await login({ oidcIssuer, redirectUrl });
   };
 
@@ -40,30 +48,54 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         display: 'flex',
         flexDirection: isSmallScreen ? 'column' : 'row',
         alignItems: 'center',
-        gap: '10px'
+        gap: '20px'
       }}
     >
-      <TextField
-        type="text"
-        label="Pod Server URL"
-        variant="filled"
-        value={oidcIssuer}
-        onChange={(e) => setOidcIssuer(e.target.value)}
-        onKeyUp={(event) => {
-          if (event.key === 'Enter') {
-            loginHandler();
-            localStorage.setItem('oidcIssuer', oidcIssuer);
-          }
-        }}
-        InputProps={{
-          disableUnderline: true
-        }}
+      <Autocomplete
+        id="pod-server-url"
         sx={{
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          border: isSmallScreen ? '1px solid grey' : '',
-          width: '100%'
+          width: isSmallScreen ? '250px' : '300px',
+          marginBottom: isSmallScreen && dropdownIsOpen ? '150px' : '0'
         }}
+        fullWidth
+        options={SUGGESTED_OIDC_OPTIONS}
+        size="small"
+        freeSolo
+        includeInputInList
+        disablePortal
+        selectOnFocus
+        autoHighlight
+        blurOnSelect
+        openOnFocus
+        onOpen={() => setDropdownIsOpen(true)}
+        onClose={() => setDropdownIsOpen(false)}
+        value={selectedOidcFromDropdown}
+        inputValue={oidcIssuer}
+        onChange={(_, newValue) => {
+          // This is called when the user selects a new option from the dropdown
+          setSelectedOidcFromDropdown(newValue);
+        }}
+        onInputChange={(_, newInputValue) => {
+          setOidcIssuer(newInputValue);
+        }}
+        renderInput={(renderParams) => (
+          <TextField
+            {...renderParams}
+            type="text"
+            label="Pod Server URL"
+            variant="filled"
+            InputProps={{
+              ...renderParams.InputProps,
+              disableUnderline: true
+            }}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              border: isSmallScreen ? '1px solid grey' : '',
+              width: '100%'
+            }}
+          />
+        )}
       />
       <Box sx={{ display: 'flex', gap: '10px' }}>
         {isSmallScreen && (
@@ -83,9 +115,8 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           size={isSmallScreen ? '' : 'large'}
           onClick={() => {
             loginHandler();
-            localStorage.setItem('oidcIssuer', oidcIssuer);
           }}
-          sx={{ borderRadius: '20px', marginLeft: isSmallScreen ? '0' : '32px' }}
+          sx={{ borderRadius: '20px' }}
         >
           Login
         </Button>

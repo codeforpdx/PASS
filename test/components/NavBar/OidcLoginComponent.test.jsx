@@ -14,12 +14,14 @@ afterEach(() => {
   cleanup();
 });
 
-vi.mock('../../../src/constants/', () => {
-  const actual = vi.importActual('../../../src/constants/');
+vi.mock('../../../src/constants/', async () => {
+  const actual = await vi.importActual('../../../src/constants/');
   return {
     ...actual,
     ENV: {
-      VITE_SOLID_IDENTITY_PROVIDER: 'https://www.testurl.com/'
+      VITE_SOLID_IDENTITY_PROVIDER: 'https://www.testurl.com/',
+      VITE_SUGGESTED_OIDC_OPTIONS:
+        'http://testurl_1.com/, http://testurl_2.com/, http://testurl_3.com/'
     }
   };
 });
@@ -27,14 +29,31 @@ vi.mock('../../../src/constants/', () => {
 it('sets OIDC provider on login', async () => {
   const user = userEvent.setup();
   const { getByRole } = render(<OidcLoginComponent />);
-  const input = getByRole('textbox');
+
+  const input = getByRole('combobox');
   const loginButton = getByRole('button');
+
   await user.clear(input);
   await user.type(input, 'http://oidc.provider.url/');
   expect(input.value).toBe('http://oidc.provider.url/');
+
   await user.click(loginButton);
   expect(login).toBeCalled();
   expect(localStorage.getItem('oidcIssuer')).toBe('http://oidc.provider.url/');
+});
+
+it('displays a list of suggested providers when focused', async () => {
+  const user = userEvent.setup();
+  const { getByRole, getByText } = render(<OidcLoginComponent />);
+
+  const input = getByRole('combobox');
+  await user.click(input);
+
+  const exampleProvider = getByText('http://testurl_2.com/');
+  expect(exampleProvider).not.toBeNull();
+
+  await user.click(exampleProvider);
+  expect(input.value).toBe('http://testurl_2.com/');
 });
 
 it('renders container items as row default', () => {

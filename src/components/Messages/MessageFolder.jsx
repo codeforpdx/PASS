@@ -34,13 +34,13 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  * Solid Pod
  * @returns {React.JSX.Element} React component for MessageFolder
  */
-const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList }) => {
+const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList = [] }) => {
   const [offset, setOffset] = useState(0);
   const itemsPerPage = 5;
 
   const endOffset = offset + itemsPerPage;
-  const currentMessages = messageList.slice(offset, endOffset);
-  const pageCount = Math.ceil(messageList.length / itemsPerPage);
+  const currentMessages = messageList?.slice(offset, endOffset);
+  const pageCount = Math.ceil((messageList?.length || 0) / itemsPerPage);
 
   // Handle user changing page
   const handlePageClick = (e) => {
