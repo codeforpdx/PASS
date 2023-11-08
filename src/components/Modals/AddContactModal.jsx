@@ -90,6 +90,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       setUserFamilyName('');
       setUsername('');
       setWebId('');
+      setPod('');
       setShowAddContactModal(false);
       setProcessing(false);
     }

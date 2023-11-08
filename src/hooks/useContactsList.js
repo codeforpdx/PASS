@@ -8,18 +8,6 @@ import {
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 import useRdfCollection from './useRdfCollection';
-
-
-const makeIntoThing = ({ givenName, familyName, webId, relationship, relationshipStatus }) =>
-  buildThing(createThing({ name: encodeURIComponent(webId) }))
-    .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
-    .addUrl(RDF_PREDICATES.identifier, webId)
-    .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
-    .addStringNoLocale(RDF_PREDICATES.role, relationship)
-    .addStringNoLocale(RDF_PREDICATES.status, relationshipStatus)
-    .build();
     
 /**
  * @typedef {object} ContactsList
@@ -60,13 +48,15 @@ const useContactsList = () => {
     return contacts;
   };
 
-  const serialize = ({ givenName, familyName, webId }) =>
+  const serialize = ({ givenName, familyName, webId, relationship, relationshipStatus }) =>
     buildThing(createThing({ name: encodeURIComponent(webId) }))
       .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
       .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
       .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
       .addUrl(RDF_PREDICATES.identifier, webId)
       .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
+      .addStringNoLocale(RDF_PREDICATES.role, relationship)
+      .addStringNoLocale(RDF_PREDICATES.status, relationshipStatus)
       .build();
 
   const hook = useRdfCollection(parse, serialize, fileUrl, fetch);
