@@ -36,7 +36,7 @@ const Breadcrumbs = () => {
     <MUIBreadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />}
-      sx={{ margin: '20px 80px' }}
+      sx={{ margin: { xs: '20px', sm: '20px 80px' } }}
     >
       {crumbs.map((crumb, index) =>
         index !== crumbs.length - 1 ? (
