@@ -18,15 +18,18 @@ const Layout = ({ ariaLabel, children }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const isLoggedInSmallScreen = () =>
+    session.info.isLoggedIn ? '64px 64px 1fr 1fr' : '64px 1fr 1fr';
+
+  const isLoggedInDesktop = () =>
+    session.info.isLoggedIn ? '64px 64px 1fr 280px' : '64px 1fr 280px';
+
   return (
     <Box
       aria-label={ariaLabel}
       sx={{
         display: 'grid',
-        gridTemplateRows: {
-          xs: 'none',
-          sm: session.info.isLoggedIn ? '64px 64px 1fr 280px' : '64px 1fr 280px'
-        },
+        gridTemplateRows: isSmallScreen ? isLoggedInSmallScreen() : isLoggedInDesktop(),
         minHeight: '100vh'
       }}
     >
