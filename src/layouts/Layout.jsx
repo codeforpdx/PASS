@@ -4,6 +4,8 @@ import React from 'react';
 import { useSession, useNotification } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/system';
 // Component Imports
 import { NavBar } from '../components/NavBar';
 import { InactivityMessage, NotificationContainer } from '../components/Notification';
@@ -13,6 +15,8 @@ import Breadcrumbs from './Breadcrumbs';
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
   const { state } = useNotification();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
