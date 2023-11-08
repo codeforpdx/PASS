@@ -18,7 +18,13 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+});
 
 const MockSignupContexts = ({ session }) => (
   <QueryClientProvider client={queryClient}>

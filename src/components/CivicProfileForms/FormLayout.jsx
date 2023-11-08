@@ -1,7 +1,12 @@
-import { Card, Container, Link } from '@mui/material';
+// React Imports
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { Box } from '@mui/system';
+// MUI Imports
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+// Other Imports
 import HMIS_FORM_LIST from './FormList';
 
 const FormLayout = ({ children }) => {
@@ -10,6 +15,7 @@ const FormLayout = ({ children }) => {
 
   localStorage.setItem('restorePath', location.pathname);
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
+
   return (
     <Container sx={{ margin: '8px' }}>
       <Card>{children}</Card>

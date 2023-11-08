@@ -24,9 +24,9 @@ import { RELATIONSHIPS, RELATIONSHIP_STATUS } from '@constants';
 import { FormSection } from '../Form';
 
 /**
- * @memberof Contcts
+ * @memberof Modals
  * @name renderWebId
- * @param {string} username - username to convert into a webId
+ * @param {string} username - Username to convert into a webId
  * @returns {URL} A url of the predicted webID
  */
 const renderWebId = (username) => {
@@ -38,12 +38,12 @@ const renderWebId = (username) => {
  * AddContactModal Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Contacts
+ * @memberof Modals
  * @name AddContactModal
- * @param {object} props - react props
- * @param {Function} props.addContact  - function to add a contact
- * @param {boolean} props.showAddContactModal - whether to display modal or not
- * @param {Function} props.setShowAddContactModal - toggle modal
+ * @param {object} props - React props
+ * @param {Function} props.addContact - Function to add a contact
+ * @param {boolean} props.showAddContactModal - Whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
