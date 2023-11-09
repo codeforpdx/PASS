@@ -19,7 +19,7 @@ const Layout = ({ ariaLabel, children }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const isLoggedInSmallScreen = () =>
-    session.info.isLoggedIn ? '64px 64px 1fr 1fr' : '64px 1fr 1fr';
+    session.info.isLoggedIn ? '64px 64px 1fr 560px' : '64px 1fr 560px';
 
   const isLoggedInDesktop = () =>
     session.info.isLoggedIn ? '64px 64px 1fr 280px' : '64px 1fr 280px';
