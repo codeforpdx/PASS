@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
@@ -32,11 +32,12 @@ import { MessageContext, SignedInUserContext } from '@contexts';
  * @param {boolean} Props.showModal - Boolean for showing message modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
  * - React set function for showModal
+ * @param {string} Props.toField - URL of the recipient
  * @param {messageListObject|string} Props.oldMessage - The previous message
  * object when using the modal to reply, else uses a string if empty
  * @returns {React.JSX.Element} React component for NewMessageModal
  */
-const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
+const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '' }) => {
   const { session } = useSession();
   const { outboxList, setOutboxList } = useContext(MessageContext);
   const { podUrl } = useContext(SignedInUserContext);
@@ -61,11 +62,22 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
     });
   };
 
+  useEffect(() => {
+    if (toField !== '') {
+      setMessage({
+        ...message,
+        recipientPodUrl: toField,
+        inReplyTo: '',
+        messageUrl: ''
+      });
+    }
+  }, [toField]);
+
   const handleReplyMessage = () => {
     setShowModal(!showModal);
   };
 
-  // Handles submit (awaiting functionality for this)
+  // Handles submitting a new message
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -128,7 +140,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
           </Typography>
           <TextField
             margin="normal"
-            value={message.recipientPodUrl}
+            value={toField || message.recipientPodUrl}
             type="text"
             name="recipientPodUrl"
             id="recipientPodUrl"
@@ -137,6 +149,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             autoFocus
             label="To"
             fullWidth
+            disabled={toField !== ''}
           />
           <TextField
             margin="normal"
