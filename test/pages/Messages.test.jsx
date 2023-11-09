@@ -8,6 +8,8 @@ import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 
+vi.mock('@inrupt/solid-client');
+
 const MockMessageContextValue = {
   inboxList: [
     {
@@ -71,54 +73,31 @@ const MockSignupContexts = ({ session }) => (
 );
 
 describe('Messages Page', () => {
-  it('renders', () => {
-    const sessionObj = {
-      login: vi.fn(),
+  const sessionObj = {
+    login: vi.fn(),
+    fetch: vi.fn(),
+    podUrl: 'https://example.com',
+    session: {
       fetch: vi.fn(),
-      podUrl: 'https://example.com',
-      session: {
-        info: {
-          webId: 'https://example.com/profile/',
-          isLoggedIn: true
-        }
+      info: {
+        webId: 'https://example.com/profile/',
+        isLoggedIn: true
       }
-    };
+    }
+  };
+  it('renders', () => {
     const { getByText } = render(<MockSignupContexts session={sessionObj} />);
     expect(getByText('Inbox', { exact: true })).not.toBeNull();
     expect(getByText('Outbox', { exact: true })).not.toBeNull();
   });
 
   it('should render messages', async () => {
-    const sessionObj = {
-      login: vi.fn(),
-      fetch: vi.fn(),
-      podUrl: 'https://example.com',
-      session: {
-        info: {
-          webId: 'https://example.com/profile/',
-          isLoggedIn: true
-        }
-      }
-    };
-
     const { getByText, queryByText } = render(<MockSignupContexts session={sessionObj} />);
     expect(getByText('RE:test-inbox')).not.toBeNull();
     expect(queryByText('RE:test-outbox')).toBeNull();
   });
 
   it('should have an unread message', () => {
-    const sessionObj = {
-      login: vi.fn(),
-      fetch: vi.fn(),
-      podUrl: 'https://example.com',
-      session: {
-        info: {
-          webId: 'https://example.com/profile/',
-          isLoggedIn: true
-        }
-      }
-    };
-
     render(<MockSignupContexts session={sessionObj} />);
     const messageBadge = screen.getAllByText('1', { exact: true })[0];
     const messageLabel = screen.getByLabelText('show new messages');
@@ -127,18 +106,6 @@ describe('Messages Page', () => {
   });
 
   it('should update state', async () => {
-    const sessionObj = {
-      login: vi.fn(),
-      fetch: vi.fn(),
-      podUrl: 'https://example.com',
-      session: {
-        info: {
-          webId: 'https://example.com/profile/',
-          isLoggedIn: true
-        }
-      }
-    };
-
     const user = userEvent.setup();
     render(<MockSignupContexts session={sessionObj} />);
     const unreadMessage = screen.queryByText('RE:test-inbox').parentElement;
