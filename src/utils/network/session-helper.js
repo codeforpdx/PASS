@@ -1,5 +1,4 @@
 import {
-  saveFileInContainer,
   getSolidDataset,
   createAcl,
   setAgentResourceAccess,
@@ -8,7 +7,6 @@ import {
   createThing,
   buildThing,
   setThing,
-  saveSolidDatasetAt,
   getThing,
   getStringNoLocale,
   saveSolidDatasetInContainer,
@@ -59,70 +57,6 @@ import { RDF_PREDICATES } from '../../constants';
 /**
  * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
  */
-
-/**
- * Function that helps place uploaded file from user into the user's Pod via a
- * Solid container
- *
- * @memberof utils
- * @function placeFileInContainer
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {fileObjectType} fileObject - Object of file being uploaded to Solid
- * (see {@link fileObjectType})
- * @param {URL} containerUrl - URL location of Pod container
- * @returns {Promise} Promise - Places and saves uploaded file onto Solid Pod
- * via a container
- */
-
-export const placeFileInContainer = async (session, fileObject, containerUrl) => {
-  await saveFileInContainer(containerUrl, fileObject.file, {
-    slug: fileObject.file.name,
-    fetch: session.fetch
-  });
-};
-
-/**
- *
- *
- * @memberof utils
- * @function getPodUrl
- * @param {string} username - String of user's Pod username
- * @returns {URL} podUrl - Returns the full pod url from the username based on
- * the existing oidcIssuer the user logged in from
- */
-
-export const getPodUrl = (username) => {
-  const podOidcIssuer = localStorage.getItem('oidcIssuer');
-  return `${podOidcIssuer.split('/')[0]}//${username}.${podOidcIssuer.split('/')[2]}/`;
-};
-
-/**
- * Function that returns the location of the Solid container containing a
- * specific file type, if exist on user's Pod
- *
- * @memberof utils
- * @function getContainerUrl
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {string} containerType - Type of document
- * @param {string} fetchType - Type of fetch (to own Pod, or "self" or to
- * other Pods, or "cross")
- * @param {URL} otherPodUsername - Username to other user's Pod or empty string
- * @returns {URL|null} url or null - A url of where the container that stores
- * the file is located in or null, if container doesn't exist
- */
-
-export const getContainerUrl = (session, containerType, fetchType, otherPodUsername) => {
-  const POD_URL =
-    fetchType === 'self'
-      ? String(session.info.webId.split('profile')[0])
-      : getPodUrl(otherPodUsername);
-
-  if (containerType.split(' ').length > 1) {
-    return `${POD_URL}PASS/${containerType.replace("'", '').replace(' ', '_')}/`;
-  }
-
-  return `${POD_URL}PASS/${containerType}/`;
-};
 
 /**
  * Function that setups ACL permissions for a Solid dataset or resource with an
@@ -205,39 +139,6 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
   let acl = setPublicResourceAccess(resourceAcl, accessObject);
   acl = setPublicDefaultAccess(acl, accessObject);
   await saveAclFor(podResource, acl, { fetch: session.fetch });
-};
-
-/**
- * Function that updates ttl file in Solid container for endDate (expiration
- * date) and description while also including datetime of all instances when
- * document was modified
- *
- * @memberof utils
- * @function updateTTLFile
- * @param {Session} session - Solid's Session Object (see {@link Session})
- * @param {URL} containerUrl - Url link to document container
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @returns {Promise} Promise - Perform an update to an existing document.ttl by
- * setting a new expiration date, description, and date modified
- */
-
-export const updateTTLFile = async (session, containerUrl, fileObject) => {
-  let solidDataset = await getSolidDataset(`${containerUrl}document.ttl`, { fetch: session.fetch });
-  let ttlFile = getThing(solidDataset, `${containerUrl}document.ttl#document`);
-
-  ttlFile = buildThing(ttlFile)
-    .setStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .setStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .setDatetime(RDF_PREDICATES.dateModified, dayjs().$d)
-    .build();
-  solidDataset = setThing(solidDataset, ttlFile);
-
-  try {
-    await saveSolidDatasetAt(`${containerUrl}document.ttl`, solidDataset, { fetch: session.fetch });
-  } catch (error) {
-    throw new Error('Failed to update ttl file.');
-  }
 };
 
 /**
