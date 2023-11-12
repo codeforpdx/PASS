@@ -71,21 +71,20 @@ const useMessageList = (messageType) => {
   const { session, podUrl } = useSession();
   const { fetch } = session;
   const containerUrl = podUrl && new URL(`PASS/${messageType}/`, podUrl).toString();
-  const messageList = [];
+  let messageList = [];
 
   const parse = async (data) => {
     const solidDataset = getThingAll(data);
     const allMessagesDataset = solidDataset.filter((thing) => thing.url.endsWith('ttl'));
 
     try {
-      const promises = allMessagesDataset.map(async (message) => {
-        const messageDataset = await getSolidDataset(message.url, { fetch });
-        const messageThing = getThingAll(messageDataset);
-        const parsedMessageObject = parseMessageTTL(messageThing);
-        messageList.push(parsedMessageObject);
-      });
-
-      await Promise.all(promises);
+      messageList = await Promise.all(
+        allMessagesDataset.map(async (message) => {
+          const messageDataset = await getSolidDataset(message.url, { fetch });
+          const messageThing = getThingAll(messageDataset);
+          return parseMessageTTL(messageThing);
+        })
+      );
     } catch {
       return [];
     }

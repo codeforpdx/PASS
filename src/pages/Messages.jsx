@@ -20,33 +20,28 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-  const { loadMessages, setLoadMessages, updateMessageCountState } = useContext(MessageContext);
-  const { data: inboxList, refetch: refreshInbox } = useMessageList('Inbox');
-  const { data: outboxList, refetch: refreshOutbox } = useMessageList('Outbox');
+  const { updateMessageCountState } = useContext(MessageContext);
+  const {
+    isFetching: fetchingInbox,
+    data: inboxList,
+    refetch: refreshInbox
+  } = useMessageList('Inbox');
+  const {
+    isFetching: fetchingOutbox,
+    data: outboxList,
+    refetch: refreshOutbox
+  } = useMessageList('Outbox');
 
   // Handler function for refreshing PASS messages
-  const handleMessageRefresh = async (boxType) => {
-    setLoadMessages(true);
-    if (boxType === 'inbox') {
-      await refreshInbox();
-    } else {
-      await refreshOutbox();
-    }
-    setLoadMessages(false);
+  const handleMessageRefresh = async () => {
+    await refreshInbox();
+    await refreshOutbox();
   };
 
   // Renders Inbox and updates unread message count
   useEffect(() => {
-    setLoadMessages(true);
     updateMessageCountState(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-    setLoadMessages(false);
   }, [inboxList]);
-
-  // Renders Outbox
-  useEffect(() => {
-    setLoadMessages(true);
-    setLoadMessages(false);
-  }, [outboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +58,7 @@ const Messages = () => {
       <MessageFolder
         folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
         handleRefresh={handleMessageRefresh}
-        loadMessages={loadMessages}
+        loadMessages={boxType === 'inbox' ? fetchingInbox : fetchingOutbox}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
       {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
