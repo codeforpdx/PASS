@@ -39,13 +39,13 @@ const AppRoutes = () => {
         }
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/profile">
-          <Route index element={<Profile />} />
+        <Route path="/contacts">
+          <Route index element={<Contacts />} />
           <Route path=":webId" element={<Profile />} />
         </Route>
-        <Route path="civic_profile" element={<CivicProfile />}>
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (
             <Route
               {...formProps}

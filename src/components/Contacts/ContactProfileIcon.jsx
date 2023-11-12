@@ -47,7 +47,7 @@ const ContactProfileIcon = ({ contact }) => {
 
   return (
     <Link
-      to={`/profile/${encodeURIComponent(contact.id)}`}
+      to={`/contacts/${encodeURIComponent(contact.id)}`}
       state={{ contact: contact.value }}
       onClick={() => handleSelectProfile(contact.value)}
       style={{ display: 'flex', alignItems: 'center' }}
