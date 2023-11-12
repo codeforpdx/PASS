@@ -54,9 +54,9 @@ export const signDocument = async (document, session, containerUrl) => {
 /**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
- * @function createDriversLicenseTtlFile
+ * @function addDriversLicenseInfo
  * @memberof utils
- * @function createDriversLicenseTtlFile
+ * @function addDriversLicenseInfo
  * @param {thing} thing - the thing to add info too
  * @param {fileObjectType} file - Object containing information about file
  * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
