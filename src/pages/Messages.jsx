@@ -1,13 +1,11 @@
 // React Imports
 import React, { useContext, useState, useEffect } from 'react';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useMessageList } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-// Utility Imports
-import { getMessageTTL } from '../utils';
 // Context Imports
-import { MessageContext, SignedInUserContext } from '../contexts';
+import { MessageContext } from '../contexts';
 // Component Imports
 import { NewMessageModal } from '../components/Modals';
 import { MessageButtonGroup, MessageFolder } from '../components/Messages';
@@ -22,28 +20,17 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-  const { podUrl } = useContext(SignedInUserContext);
-  const { session } = useSession();
-  const {
-    inboxList,
-    setInboxList,
-    outboxList,
-    setOutboxList,
-    loadMessages,
-    setLoadMessages,
-    updateMessageCountState
-  } = useContext(MessageContext);
+  const { loadMessages, setLoadMessages, updateMessageCountState } = useContext(MessageContext);
+  const { data: inboxList, refetch: refreshInbox } = useMessageList('Inbox');
+  const { data: outboxList, refetch: refreshOutbox } = useMessageList('Outbox');
 
   // Handler function for refreshing PASS messages
-  const handleMessageRefresh = async (folderType) => {
+  const handleMessageRefresh = async (boxType) => {
     setLoadMessages(true);
-    const messageList = folderType === 'Inbox' ? inboxList : outboxList;
-    const messagesInSolid = await getMessageTTL(session, folderType, messageList, podUrl);
-    messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-    if (folderType === 'Inbox') {
-      setInboxList(messagesInSolid);
+    if (boxType === 'inbox') {
+      await refreshInbox();
     } else {
-      setOutboxList(messagesInSolid);
+      await refreshOutbox();
     }
     setLoadMessages(false);
   };
@@ -51,19 +38,13 @@ const Messages = () => {
   // Re-sorts inbox messages upon updates
   useEffect(() => {
     setLoadMessages(true);
-    let inboxCopy = inboxList;
-    inboxCopy = inboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
-    updateMessageCountState(inboxList.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-    setInboxList(inboxCopy);
+    updateMessageCountState(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
     setLoadMessages(false);
   }, [inboxList]);
 
   // Re-sorts outbox messages upon updates
   useEffect(() => {
     setLoadMessages(true);
-    let outboxCopy = outboxList;
-    outboxCopy = outboxCopy.sort((a, b) => b.uploadDate - a.uploadDate);
-    setOutboxList(outboxCopy);
     setLoadMessages(false);
   }, [outboxList]);
 

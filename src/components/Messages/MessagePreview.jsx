@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,11 +12,9 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useMessageList, useSession } from '@hooks';
 // Utility Imports
-import { updateMessageReadStatus, getMessageTTL } from '@utils';
-// Context Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { updateMessageReadStatus } from '@utils';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -39,17 +37,14 @@ const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { session } = useSession();
-  const { podUrl } = useContext(SignedInUserContext);
-  const { inboxList, setInboxList } = useContext(MessageContext);
+  const { refetch: refreshInbox } = useMessageList('Inbox');
 
   const handleClick = async () => {
     setShowContents(!showContents);
     if (folderType === 'Inbox') {
       try {
         await updateMessageReadStatus(session, message);
-        const messagesInSolid = await getMessageTTL(session, folderType, inboxList, podUrl);
-        messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-        setInboxList(messagesInSolid);
+        await refreshInbox();
       } catch {
         throw new Error('Failed to update read status');
       }

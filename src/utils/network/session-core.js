@@ -1,6 +1,5 @@
 import {
   getSolidDataset,
-  getThingAll,
   getFile,
   getThing,
   getBoolean,
@@ -15,7 +14,6 @@ import {
   setDocAclForUser,
   getUserProfileName,
   saveMessageTTL,
-  parseMessageTTL,
   buildMessageTTL
 } from './session-helper';
 import { RDF_PREDICATES } from '../../constants';
@@ -92,56 +90,6 @@ export const setDocContainerAclPermission = async (
   
   Functions here deal primarily with user messages on PASS
 */
-
-/**
- * Function that fetches a list of TTL file messages from the Solid Pod and
- * returns the messages as a list of messageListObject
- *
- * @memberof utils
- * @function getMessageTTL
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} boxType - The message box being called "Inbox" or "Outbox"
- * @param {messageListObject[]} listMessages - A list of messageListObjects
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
- * from the user's inbox on Solid in JSON format
- */
-
-export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
-  const messageBoxContainerUrl = `${podUrl}PASS/${boxType}/`;
-  let messageList = [];
-  try {
-    const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
-      fetch: session.fetch
-    });
-    const ttlFileThing = getThingAll(solidDataset);
-    const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
-
-    // early return if there's not message TTL files on Solid
-    if (allMessageThing.length === 0) {
-      return listMessages;
-    }
-
-    try {
-      const promises = allMessageThing.map(async (messageTTL) => {
-        const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
-
-        const messageTTLThing = getThingAll(messageDataset);
-        const parsedMessageObject = parseMessageTTL(messageTTLThing);
-
-        messageList.push(parsedMessageObject);
-      });
-
-      await Promise.all(promises);
-    } catch (err) {
-      messageList = listMessages;
-    }
-  } catch {
-    messageList = listMessages;
-  }
-
-  return messageList;
-};
 
 /**
  * Function that sends a message to another user's Pod inbox as a TTL file and

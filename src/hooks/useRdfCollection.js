@@ -60,7 +60,7 @@ const useRdfCollection = (parse, serialize, fileUrl, fetchData) => {
     return parse(myDataset);
   };
 
-  const { isLoading, isError, error, data, isSuccess } = useQuery({
+  const { isLoading, isError, error, data, isSuccess, refetch } = useQuery({
     queryKey: [fileUrl?.toString()],
     queryFn: fetchDocument
   });
@@ -99,6 +99,7 @@ const useRdfCollection = (parse, serialize, fileUrl, fetchData) => {
     error,
     data,
     storedDataset,
+    refetch,
     add: addMutation.mutate,
     delete: deleteMutation.mutate
   };

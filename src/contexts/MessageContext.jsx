@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useMemo, useEffect, useState } from 'react';
 import { SessionContext } from './SessionContext';
 // Utility Imports
-import { createPASSContainer, getMessageTTL } from '../utils';
+import { createPASSContainer } from '../utils';
 // Context Imports
 import { SignedInUserContext } from './SignedInUserContext';
 
@@ -26,11 +26,9 @@ export const MessageContext = createContext([]);
 
 export const MessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
-  const [loadMessages, setLoadMessages] = useState(true);
   const { session } = useContext(SessionContext);
-  const [inboxList, setInboxList] = useState([]);
+  const [loadMessages, setLoadMessages] = useState(true);
   const [numUnreadMessages, setNumUnreadMessages] = useState(0);
-  const [outboxList, setOutboxList] = useState([]);
 
   // update unread message notifications when clicking on a unread message
   const updateMessageCountState = (unReadCount) => {
@@ -39,47 +37,30 @@ export const MessageContextProvider = ({ children }) => {
 
   const messageObject = useMemo(
     () => ({
-      inboxList,
-      setInboxList,
-      outboxList,
-      setOutboxList,
       loadMessages,
       setLoadMessages,
       numUnreadMessages,
       setNumUnreadMessages,
       updateMessageCountState
     }),
-    [outboxList, inboxList, loadMessages, numUnreadMessages]
+    [loadMessages, numUnreadMessages]
   );
 
   /**
-   * A function that generates a Users container if logging in for the first
-   * time and initializes the list of users from Solid
+   * A function that generates an Inbox/Outbox container if logging in for the
+   * first time or if the container is missing
    *
-   * @function fetchData
+   * @function generateContainers
    */
-  const fetchData = async () => {
-    setLoadMessages(true);
+  const generateContainers = async () => {
     await Promise.all([
       createPASSContainer(session, podUrl, 'Outbox'),
       createPASSContainer(session, podUrl, 'Inbox', { append: true })
     ]);
-
-    try {
-      const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
-      messagesInboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-      setNumUnreadMessages(messagesInboxSolid.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-      setInboxList(messagesInboxSolid);
-      const messagesOutboxSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
-      messagesOutboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-      setOutboxList(messagesOutboxSolid);
-    } finally {
-      setLoadMessages(false);
-    }
   };
 
   useEffect(() => {
-    if (podUrl) fetchData();
+    if (podUrl) generateContainers();
   }, [podUrl]);
 
   return <MessageContext.Provider value={messageObject}>{children}</MessageContext.Provider>;
