@@ -91,7 +91,11 @@ const MessagePreview = ({ message, folderType }) => {
     <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
         <Box sx={{ flexGrow: 1 }}>
-          <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
+          <ListItemButton
+            onClick={() => handleClick()}
+            alignItems="flex-start"
+            aria-label={`open message preview ${message.messageId}`}
+          >
             <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
               {messageInfo.map((info, index) => (
                 <Grid

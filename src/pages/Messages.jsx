@@ -35,14 +35,14 @@ const Messages = () => {
     setLoadMessages(false);
   };
 
-  // Re-sorts inbox messages upon updates
+  // Renders Inbox and updates unread message count
   useEffect(() => {
     setLoadMessages(true);
     updateMessageCountState(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
     setLoadMessages(false);
   }, [inboxList]);
 
-  // Re-sorts outbox messages upon updates
+  // Renders Outbox
   useEffect(() => {
     setLoadMessages(true);
     setLoadMessages(false);
