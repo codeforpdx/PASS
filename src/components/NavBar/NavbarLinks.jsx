@@ -12,8 +12,8 @@ import Tabs from '@mui/material/Tabs';
  *
  * @memberof NavBar
  * @name NavbarLinks
+ * @returns {React.JSX.Element} - The Navbar Links for Routing
  */
-
 const NavbarLinks = () => {
   // Tabs workaround to match route on login
   let location = useLocation().pathname.split('/')[1];
@@ -22,12 +22,15 @@ const NavbarLinks = () => {
   }
 
   // array of current nav links for menus
-  const routesArray = [{ label: 'Contacts', path: '/contacts' }];
+  const routesArray = [
+    { label: 'Contacts', path: '/contacts' },
+    { label: 'Civic Profile', path: '/civic-profile/basic-info' }
+  ];
 
   return (
     <Tabs
       value={
-        routesArray.map((route) => route.label.toLowerCase()).includes(location) ? location : false
+        routesArray.map((route) => route.path.split('/')[1]).includes(location) ? location : false
       }
       textColor="inherit"
       indicatorColor="secondary"
@@ -36,7 +39,7 @@ const NavbarLinks = () => {
       {routesArray.map((item) => (
         <Tab
           key={`${item.label}Tab`}
-          value={item.label.toLowerCase()}
+          value={item.path.split('/')[1]}
           label={item.label}
           component={NavLink}
           to={item.path}

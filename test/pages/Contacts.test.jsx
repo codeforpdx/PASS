@@ -52,7 +52,7 @@ describe('Contacts Page', () => {
         <Contacts />
       </BrowserRouter>
     );
-    const contacts = getByRole('table');
+    const contacts = getByRole('grid');
     expect(contacts).not.toBeNull();
   });
   it('displays empty list message when there are no contacts', () => {

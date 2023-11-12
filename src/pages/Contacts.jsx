@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 // Component Imports
-import { useContactsList } from '@hooks';
-import { AddContactModal, DeleteContactModal } from '@components/Modals';
+import { useContactsList, useNotification } from '@hooks';
+import { AddContactModal, ConfirmationModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
 
@@ -22,16 +22,37 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
 const Contacts = () => {
   localStorage.setItem('restorePath', '/contacts');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
-
-  const [showDeleteContactModal, setShowDeleteContactModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    add: addContact,
+    delete: deleteContact
+  } = useContactsList();
+  const { addNotification } = useNotification();
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
-    setShowDeleteContactModal(true);
+    setShowConfirmationModal(true);
   };
 
-  const { data, isLoading, isError, error, addContact, deleteContact } = useContactsList();
+  // Event handler for deleting contact
+  const handleDeleteContact = async () => {
+    setProcessing(true);
+    try {
+      await deleteContact(selectedContactToDelete);
+      addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
+    } catch (e) {
+      addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
+    } finally {
+      setShowConfirmationModal(false);
+      setProcessing(false);
+    }
+  };
 
   if (isLoading) return <LoadingAnimation loadingItem="Contacts" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
@@ -40,7 +61,8 @@ const Contacts = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%'
       }}
     >
       <Box>
@@ -48,10 +70,8 @@ const Contacts = () => {
           variant="contained"
           color="secondary"
           size="small"
-          aria-label="Add Contact Button"
           startIcon={<AddIcon />}
           onClick={() => setShowAddContactModal(true)}
-          sx={{ marginTop: '3rem' }}
         >
           Add Contact
         </Button>
@@ -70,11 +90,13 @@ const Contacts = () => {
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
       />
-      <DeleteContactModal
-        showDeleteContactModal={showDeleteContactModal}
-        setShowDeleteContactModal={setShowDeleteContactModal}
-        selectedContactToDelete={selectedContactToDelete}
-        deleteContact={deleteContact}
+      <ConfirmationModal
+        showConfirmationModal={showConfirmationModal}
+        setShowConfirmationModal={setShowConfirmationModal}
+        title="Delete Contact"
+        text={`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
+        confirmFunction={handleDeleteContact}
+        processing={processing}
       />
     </Container>
   );

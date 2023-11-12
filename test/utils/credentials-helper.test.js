@@ -27,6 +27,7 @@ describe('credentials', async () => {
   // Most of our tests should be in the JSDom browser environment
   // However, JSDom doesn't have a full implementation of Web Crypto
   // Node does, so we use node's implementation for these test
+
   window.crypto = webcrypto;
 
   const { privateKey, publicKey } = await window.crypto.subtle.generateKey(

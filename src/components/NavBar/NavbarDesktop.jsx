@@ -15,20 +15,24 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
+import { MessageContext, SignedInUserContext } from '@contexts';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
-import { SignedInUserContext } from '../../contexts';
 
 /**
  * NavbarDesktop Component - Component that generates Navbar section for PASS
  * when a user is logged in on larger than mobile screen device
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavbarDesktop
+ * @param {object} Props - The props for NavbarDesktop Component
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @returns {React.JSX.Element} - The Desktop version of Navbar Component
  */
-
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
+  const { numUnreadMessages } = useContext(MessageContext);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,13 +64,8 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
         <Toolbar sx={{ minHeight: '64px' }}>
-          <Link to="/">
-            <img
-              src="/pass-logo.png"
-              alt="logo"
-              style={{ marginRight: '2rem' }}
-              aria-label="logo"
-            />
+          <Link to="/" aria-label="Home">
+            <img src="/pass-logo.png" alt="PASS logo" style={{ marginRight: '2rem' }} />
           </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
@@ -81,7 +80,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               to="/messages"
               sx={{ marginRight: '10px' }}
             >
-              <Badge color="error">
+              <Badge badgeContent={numUnreadMessages} color="error">
                 <EmailIcon />
               </Badge>
             </IconButton>

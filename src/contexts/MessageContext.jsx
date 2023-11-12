@@ -7,10 +7,6 @@ import { createPASSContainer, getMessageTTL } from '../utils';
 import { SignedInUserContext } from './SignedInUserContext';
 
 /**
- * @typedef {import("../typedefs").messageListObject} messageListObject
- */
-
-/**
  * React Context for messages from Solid Pod
  *
  * @name MessageContext
@@ -33,8 +29,14 @@ export const MessageContextProvider = ({ children }) => {
   const [loadMessages, setLoadMessages] = useState(true);
   const { session } = useContext(SessionContext);
   const [inboxList, setInboxList] = useState([]);
-
+  const [numUnreadMessages, setNumUnreadMessages] = useState(0);
   const [outboxList, setOutboxList] = useState([]);
+
+  // update unread message notifications when clicking on a unread message
+  const updateMessageCountState = (unReadCount) => {
+    setNumUnreadMessages(unReadCount);
+  };
+
   const messageObject = useMemo(
     () => ({
       inboxList,
@@ -42,9 +44,12 @@ export const MessageContextProvider = ({ children }) => {
       outboxList,
       setOutboxList,
       loadMessages,
-      setLoadMessages
+      setLoadMessages,
+      numUnreadMessages,
+      setNumUnreadMessages,
+      updateMessageCountState
     }),
-    [outboxList, inboxList, loadMessages]
+    [outboxList, inboxList, loadMessages, numUnreadMessages]
   );
 
   /**
@@ -63,8 +68,8 @@ export const MessageContextProvider = ({ children }) => {
     try {
       const messagesInboxSolid = await getMessageTTL(session, 'Inbox', inboxList, podUrl);
       messagesInboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
+      setNumUnreadMessages(messagesInboxSolid.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
       setInboxList(messagesInboxSolid);
-
       const messagesOutboxSolid = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
       messagesOutboxSolid.sort((a, b) => b.uploadDate - a.uploadDate);
       setOutboxList(messagesOutboxSolid);
