@@ -3,6 +3,7 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
@@ -33,7 +34,7 @@ const HomeSection = ({
   isReallySmallScreen,
   noMargin
 }) => (
-  <Box mb={noMargin ? null : 8}>
+  <Stack mb={noMargin ? null : 8} alignItems="center">
     <Box
       component="img"
       src={componentImageSrc}
@@ -47,8 +48,6 @@ const HomeSection = ({
       mb={noMargin ? null : '24px'}
       sx={{
         color: 'primary.main',
-        textAlign: 'center',
-        marginBottom: '24px',
         fontSize: '28px'
       }}
     >
@@ -59,8 +58,7 @@ const HomeSection = ({
         sx={{
           color: 'primary.dark',
           width: isReallySmallScreen ? '100%' : '85%',
-          marginBottom: '24px',
-          textAlign: 'center'
+          marginBottom: '24px'
         }}
       >
         {description}
@@ -81,7 +79,7 @@ const HomeSection = ({
         {button}
       </Button>
     )}
-  </Box>
+  </Stack>
 );
 
 export default HomeSection;
