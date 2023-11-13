@@ -2,8 +2,8 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 /**
  * Represents a home section component
@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
  * @param {string} Props.href - section button href
  * @param {string} Props.label - section button aria-label
  * @param {boolean} Props.isReallySmallScreen - screen size
+ * @param {boolean} Props.noMargin - controls marginBottom
  * @returns {React.JSX.Element} - the home section component
  */
 const HomeSection = ({
@@ -29,9 +30,10 @@ const HomeSection = ({
   button,
   href,
   label,
-  isReallySmallScreen
+  isReallySmallScreen,
+  noMargin
 }) => (
-  <>
+  <Box mb={noMargin ? null : 8}>
     <Box
       component="img"
       src={componentImageSrc}
@@ -42,6 +44,7 @@ const HomeSection = ({
     />
     <Typography
       variant="h2"
+      mb={noMargin ? null : '24px'}
       sx={{
         color: 'primary.main',
         textAlign: 'center',
@@ -51,16 +54,18 @@ const HomeSection = ({
     >
       <strong>{title}</strong>
     </Typography>
-    <Typography
-      sx={{
-        color: 'primary.dark',
-        width: isReallySmallScreen ? '100%' : '85%',
-        marginBottom: '24px',
-        textAlign: 'center'
-      }}
-    >
-      {description}
-    </Typography>
+    {description && (
+      <Typography
+        sx={{
+          color: 'primary.dark',
+          width: isReallySmallScreen ? '100%' : '85%',
+          marginBottom: '24px',
+          textAlign: 'center'
+        }}
+      >
+        {description}
+      </Typography>
+    )}
     {button && (
       <Button
         variant="contained"
@@ -76,7 +81,7 @@ const HomeSection = ({
         {button}
       </Button>
     )}
-  </>
+  </Box>
 );
 
 export default HomeSection;
