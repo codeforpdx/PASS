@@ -8,9 +8,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
 import { NavBar } from '../components/NavBar';
-import { InactivityMessage } from '../components/Notification';
+import { InactivityMessage, NotificationContainer } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
-import NotificationContainer from '../components/Notification/NotificationContainer';
+import Breadcrumbs from './Breadcrumbs';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
@@ -18,16 +18,23 @@ const Layout = ({ ariaLabel, children }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const isLoggedInSmallScreen = () =>
+    session.info.isLoggedIn ? '64px 64px 1fr 560px' : '64px 1fr 560px';
+
+  const isLoggedInDesktop = () =>
+    session.info.isLoggedIn ? '64px 64px 1fr 280px' : '64px 1fr 280px';
+
   return (
     <Box
       aria-label={ariaLabel}
       sx={{
         display: 'grid',
-        gridTemplateRows: isSmallScreen ? '64px 1fr 1fr' : '64px 1fr 280px',
+        gridTemplateRows: isSmallScreen ? isLoggedInSmallScreen() : isLoggedInDesktop(),
         minHeight: '100vh'
       }}
     >
       <NavBar />
+      {session.info.isLoggedIn && <Breadcrumbs />}
       {children}
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />

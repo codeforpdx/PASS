@@ -93,7 +93,7 @@ const NavMenu = ({
               </MenuItem>
             </Link>
             <Link
-              to="/civic_profile/basic_info"
+              to="/civic-profile/basic-info"
               style={{ textDecoration: 'none', color: theme.palette.primary.main }}
             >
               <MenuItem
