@@ -13,19 +13,19 @@ import useRdfCollection from './useRdfCollection';
 const prefix = 'urn:hud:hmis:owl#';
 
 const civicProfileConfig = {
-  legalFirstName: {
+  firstName: {
     type: 'string',
     predicate: 'urn:hud:hmis:owl#FirstName'
   },
-  legalLastName: {
+  lastName: {
     type: 'string',
     predicate: 'urn:hud:hmis:owl#LastName'
   },
-  legalDOB: {
+  dateOfBirth: {
     type: 'date',
     predicate: 'urn:hud:hmis:owl#DOB'
   },
-  legalGender: {
+  gender: {
     type: 'number',
     predicate: 'urn:hud:hmis:owl#Gender'
   },
