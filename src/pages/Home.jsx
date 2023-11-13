@@ -14,7 +14,7 @@ import { HomeSection, KeyFeatures } from '@components/Home';
 
 /**
  * Home - First Page you encounter in PASS before login.
- * Should not display if you are already logged in
+ * Should not display if you are already logged in.
  *
  * @memberof Pages
  * @name Home
@@ -25,7 +25,7 @@ const Home = () => {
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container component="main" sx={{ width: '100vw' }}>
+    <Container sx={{ width: '100vw' }}>
       <Box
         sx={{
           margin: '18px 0',
@@ -59,6 +59,7 @@ const Home = () => {
               componentImageSrc="/assets/key-features-green.png"
               componentImageAlt=""
               title="Key Features"
+              noMargin
             />
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
