@@ -15,7 +15,7 @@ const HousingInfo = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setFormData(data);
+      setFormData((prevFormData) => ({ ...prevFormData, ...data }));
     }
   }, [isSuccess, data]);
 
