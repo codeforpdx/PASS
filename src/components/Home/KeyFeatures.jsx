@@ -22,13 +22,23 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
       sx={{
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: '10px',
         marginBottom: '14px',
         color: 'primary.main'
       }}
     >
       {icon}
-      <strong>{title}</strong>
+      <Typography
+        variant="h6"
+        component="h3"
+        sx={{
+          color: 'primary.main',
+          textAlign: 'center'
+        }}
+      >
+        <strong>{title}</strong>
+      </Typography>
     </Box>
     <Typography
       variant="body1"
