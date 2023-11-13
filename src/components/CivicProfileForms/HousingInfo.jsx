@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // MUI Imports
 import { TextField, Button } from '@mui/material';
 import { useCivicProfile } from '@hooks';
@@ -13,6 +13,12 @@ const HousingInfo = () => {
     lastPermanentZIP: ''
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      setFormData(data);
+    }
+  }, [isSuccess, data]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -22,8 +28,7 @@ const HousingInfo = () => {
     if (!isSuccess) {
       return;
     }
-    const newProfile = { ...data, ...formData };
-    add(newProfile);
+    add(formData);
   };
 
   return (
@@ -42,28 +47,28 @@ const HousingInfo = () => {
           name="lastPermanentStreet"
           label="Street:"
           onChange={handleChange}
-          value={formData.street}
+          value={formData.lastPermanentStreet}
         />
         <TextField
           id="city-input"
           name="lastPermanentCity"
           label="City:"
           onChange={handleChange}
-          value={formData.city}
+          value={formData.lastPermanentCity}
         />
         <TextField
           id="state-input"
           name="lastPermanentState"
           label="State:"
           onChange={handleChange}
-          value={formData.state}
+          value={formData.lastPermanentState}
         />
         <TextField
           id="zip-input"
           name="lastPermanentZIP"
           label="ZIP Code:"
           onChange={handleChange}
-          value={formData.zip}
+          value={formData.lastPermanentZIP}
         />
       </div>
       <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
