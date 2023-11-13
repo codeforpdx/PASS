@@ -20,27 +20,25 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-  const { updateMessageCountState } = useContext(MessageContext);
-  const {
-    isFetching: fetchingInbox,
-    data: inboxList,
-    refetch: refreshInbox
-  } = useMessageList('Inbox');
-  const {
-    isFetching: fetchingOutbox,
-    data: outboxList,
-    refetch: refreshOutbox
-  } = useMessageList('Outbox');
+  const { loadMessages, setLoadMessages, updateMessageCountState } = useContext(MessageContext);
+  const { data: inboxList, refetch: refreshInbox } = useMessageList('Inbox');
+  const { data: outboxList, refetch: refreshOutbox } = useMessageList('Outbox');
 
   // Handler function for refreshing PASS messages
   const handleMessageRefresh = async () => {
+    setLoadMessages(true);
     await refreshInbox();
     await refreshOutbox();
+    setLoadMessages(false);
   };
 
   // Renders Inbox and updates unread message count
   useEffect(() => {
     updateMessageCountState(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
+  }, [inboxList]);
+
+  useEffect(() => {
+    if (inboxList) setLoadMessages(false);
   }, [inboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
@@ -58,7 +56,7 @@ const Messages = () => {
       <MessageFolder
         folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
         handleRefresh={handleMessageRefresh}
-        loadMessages={boxType === 'inbox' ? fetchingInbox : fetchingOutbox}
+        loadMessages={loadMessages}
         messageList={boxType === 'inbox' ? inboxList : outboxList}
       />
       {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
