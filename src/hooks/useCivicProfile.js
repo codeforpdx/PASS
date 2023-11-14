@@ -15,19 +15,19 @@ const prefix = 'urn:hud:hmis:owl#';
 const civicProfileConfig = {
   firstName: {
     type: 'string',
-    predicate: 'urn:hud:hmis:owl#FirstName'
+    predicate: `${prefix}FirstName`
   },
   lastName: {
     type: 'string',
-    predicate: 'urn:hud:hmis:owl#LastName'
+    predicate: `${prefix}LastName`
   },
   dateOfBirth: {
     type: 'date',
-    predicate: 'urn:hud:hmis:owl#DOB'
+    predicate: `${prefix}DOB`
   },
   gender: {
     type: 'number',
-    predicate: 'urn:hud:hmis:owl#Gender'
+    predicate: `${prefix}Gender`
   },
   lastPermanentCity: {
     type: 'string',

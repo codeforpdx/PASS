@@ -4,6 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 import { useCivicProfile } from '@hooks';
 
+/**
+ * HousingInfo - A form to fill out with housing security info
+ *
+ * @memberof CivicProfileForms
+ * @name HousingInfo
+ * @returns {React.JSX.Element} The HousingInfo Component
+ */
 const HousingInfo = () => {
   const { data, add, isSuccess } = useCivicProfile();
   const [formData, setFormData] = useState({
