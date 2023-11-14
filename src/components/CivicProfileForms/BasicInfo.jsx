@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -14,6 +14,8 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// Hook Imports
+import { useCivicProfile } from '@hooks';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -26,107 +28,121 @@ import { FormSection } from '../Form';
  * @returns {React.JSX.Element} The BasicInfo Component
  */
 const BasicInfo = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [age, setAge] = useState(null);
-  const [gender, setGender] = useState('');
+  const { data, add, isSuccess } = useCivicProfile();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    age: '',
+    gender: ''
+  });
 
-  const clearForm = () => {
-    setFirstName('');
-    setLastName('');
-    setAge(null);
-    setGender('');
+  useEffect(() => {
+    if (isSuccess) {
+      setFormData((prevFormData) => ({ ...prevFormData, ...data }));
+    }
+  }, [isSuccess, data]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isSuccess) {
+      return;
+    }
+    add(formData);
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection title="Basic Information">
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="firstName"
-            name="firstName"
-            label="First name"
-            fullWidth
-            autoComplete="given-name"
-            variant="standard"
-            value={firstName}
-            onChange={(newFirstName) => setFirstName(newFirstName.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-            variant="standard"
-            value={lastName}
-            onChange={(newLastName) => setLastName(newLastName.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                name="date"
-                format="YYYY-MM-DD"
-                label="Date of birth"
-                type="date"
-                value={age}
-                onChange={(newAge) => setAge(newAge)}
-              />
-            </LocalizationProvider>
-            <FormHelperText>YYYY-MM-DD</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
-            <Select
-              labelId="hmis-basic-info-gender"
-              id="hmis-basic-info-gender"
-              value={gender}
-              label="Gender"
-              onChange={(newGender) => setGender(newGender.target.value)}
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="firstName"
+              name="firstName"
+              label="First name"
+              fullWidth
+              // autoComplete="given-name"
+              variant="standard"
+              onChange={handleChange}
+              value={formData.firstName}
+              autofocus
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="lastName"
+              name="lastName"
+              label="Last name"
+              fullWidth
+              // autoComplete="family-name"
+              variant="standard"
+              value={formData.lastName}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="hmis-basic-info-date"
+                  format="YYYY-MM-DD"
+                  label="Date of birth"
+                  type="date"
+                  value={formData.age}
+                />
+              </LocalizationProvider>
+              <FormHelperText>YYYY-MM-DD</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
+              <Select
+                labelId="hmis-basic-info-gender"
+                id="hmis-basic-info-gender"
+                value={formData.gender}
+                label="Gender"
+              >
+                <MenuItem value={0}>Female</MenuItem>
+                <MenuItem value={1}>Male</MenuItem>
+                <MenuItem value={2}>Transgender male to female</MenuItem>
+                <MenuItem value={3}>Transgender female to male</MenuItem>
+                <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
+                <MenuItem value={8}>Don&apos;t know</MenuItem>
+                <MenuItem value={9}>Decline to answer</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              variant="contained"
+              type="submit"
+              color="secondary"
+              startIcon={<ClearIcon />}
+              fullWidth
+              sx={{ borderRadius: '20px' }}
             >
-              <MenuItem value={0}>Female</MenuItem>
-              <MenuItem value={1}>Male</MenuItem>
-              <MenuItem value={2}>Transgender male to female</MenuItem>
-              <MenuItem value={3}>Transgender female to male</MenuItem>
-              <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
-              <MenuItem value={8}>Don&apos;t know</MenuItem>
-              <MenuItem value={9}>Decline to answer</MenuItem>
-            </Select>
-          </FormControl>
+              Cancel
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              variant="contained"
+              disabled={!isSuccess}
+              type="submit"
+              color="primary"
+              startIcon={<CheckIcon />}
+              fullWidth
+              sx={{ borderRadius: '20px' }}
+            >
+              Submit
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            variant="contained"
-            type="submit"
-            color="secondary"
-            startIcon={<ClearIcon />}
-            fullWidth
-            sx={{ borderRadius: '20px' }}
-            onClick={clearForm}
-          >
-            Cancel
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            variant="contained"
-            type="submit"
-            color="primary"
-            startIcon={<CheckIcon />}
-            fullWidth
-            sx={{ borderRadius: '20px' }}
-          >
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
+      </form>
     </FormSection>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */
