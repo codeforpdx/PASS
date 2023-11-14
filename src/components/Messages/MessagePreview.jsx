@@ -89,7 +89,7 @@ const MessagePreview = ({ message, folderType }) => {
         <Paper>
           <Box sx={{ flexGrow: 1 }}>
             <ListItemButton
-              onClick={() => handleClick()}
+              onClick={handleClick}
               alignItems="flex-start"
               aria-label={`open message preview ${message.messageId}`}
             >

@@ -8,7 +8,7 @@ import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { updateMessageReadStatus } from '../../src/hooks/useMessageList';
+import { useMessageList } from '@hooks';
 
 vi.mock('@inrupt/solid-client');
 
@@ -61,19 +61,10 @@ vi.mock('@hooks', async () => {
     ...actual,
     useMessageList: vi.fn().mockImplementation((boxType) => {
       if (boxType === 'Inbox') {
-        return { data: MockInboxList, refetch: vi.fn() };
+        return { data: MockInboxList, add: vi.fn() };
       }
-      return { data: MockOutboxList, refetch: vi.fn() };
+      return { data: MockOutboxList, add: vi.fn() };
     })
-  };
-});
-
-vi.mock('@hooks/useMessageList', async () => {
-  const actual = await vi.importActual('@hooks/useMessageList');
-
-  return {
-    ...actual,
-    updateMessageReadStatus: vi.fn()
   };
 });
 
@@ -136,7 +127,8 @@ describe('Messages Page', () => {
   });
 
   it('should update state', async () => {
-    updateMessageReadStatus.mockResolvedValue({
+    const { add } = useMessageList();
+    add.mockResolvedValue({
       message: 'test message',
       messageId: '3bf2a18d-0c6a-43e4-9650-992bf4fe7fe7',
       messageUrl:
