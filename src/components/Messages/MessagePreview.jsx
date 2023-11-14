@@ -36,9 +36,9 @@ const MessagePreview = ({ message, folderType }) => {
   const [showModal, setShowModal] = useState(false);
   const { add: updateReadStatus } = useMessageList('Inbox');
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setShowContents(!showContents);
-    if (folderType === 'Inbox' && !message.readStatus) {
+    if (folderType === 'Inbox' && message.readStatus === false) {
       try {
         updateReadStatus(message);
       } catch {
