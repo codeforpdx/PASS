@@ -27,7 +27,6 @@ export const MessageContext = createContext([]);
 export const MessageContextProvider = ({ children }) => {
   const { podUrl } = useContext(SignedInUserContext);
   const { session } = useContext(SessionContext);
-  const [loadMessages, setLoadMessages] = useState(true);
   const [numUnreadMessages, setNumUnreadMessages] = useState(0);
 
   // update unread message notifications when clicking on a unread message
@@ -37,13 +36,11 @@ export const MessageContextProvider = ({ children }) => {
 
   const messageObject = useMemo(
     () => ({
-      loadMessages,
-      setLoadMessages,
       numUnreadMessages,
       setNumUnreadMessages,
       updateMessageCountState
     }),
-    [loadMessages, numUnreadMessages]
+    [numUnreadMessages]
   );
 
   /**

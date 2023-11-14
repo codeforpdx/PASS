@@ -12,9 +12,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
-import { useMessageList, useSession } from '@hooks';
-// Utility Imports
-import { updateMessageReadStatus } from '@utils';
+import { useMessageList } from '@hooks';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -36,17 +34,13 @@ import { NewMessageModal } from '../Modals';
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { session } = useSession();
-  const { refetch: refreshInbox } = useMessageList('Inbox');
+  const { add: updateReadStatus } = useMessageList('Inbox');
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setShowContents(!showContents);
-    if (folderType === 'Inbox') {
+    if (folderType === 'Inbox' && !message.readStatus) {
       try {
-        await updateMessageReadStatus(session, message);
-        if (!message.readStatus) {
-          await refreshInbox();
-        }
+        updateReadStatus(message);
       } catch {
         throw new Error('Failed to update read status');
       }
