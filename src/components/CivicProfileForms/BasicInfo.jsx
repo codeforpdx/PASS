@@ -20,8 +20,7 @@ import { useCivicProfile } from '@hooks';
 import { FormSection } from '../Form';
 
 /**
- * BasicInfo Component - Component that generates the form for entering
- * basic user information in accordance with HMIS principles
+ * BasicInfo Component - A form to fill out basic user info
  *
  * @memberof CivicProfileForms
  * @name BasicInfo
@@ -30,10 +29,10 @@ import { FormSection } from '../Form';
 const BasicInfo = () => {
   const { data, add, isSuccess } = useCivicProfile();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    age: '',
-    gender: ''
+    legalFirstName: '',
+    legalLastName: '',
+    legalDOB: '',
+    legalGender: ''
   });
 
   useEffect(() => {
@@ -58,40 +57,43 @@ const BasicInfo = () => {
   return (
     <FormSection title="Basic Information">
       <form onSubmit={handleSubmit} autoComplete="off">
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="firstName"
-              name="firstName"
+              id="hmis-basic-info-first-name"
+              name="hmis-basic-info-first-name"
               label="First name"
+              margin="normal"
               fullWidth
               // autoComplete="given-name"
               variant="standard"
               onChange={handleChange}
-              value={formData.firstName}
+              value={formData.legalFirstName}
               autofocus
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="lastName"
-              name="lastName"
+              id="hmis-basic-info-last-name"
+              name="hmis-basic-info-last-name"
               label="Last name"
+              margin="normal"
               fullWidth
               // autoComplete="family-name"
               variant="standard"
-              value={formData.lastName}
+              value={formData.legalLastName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  name="hmis-basic-info-date"
+                  name="hmis-basic-info-dob"
                   format="YYYY-MM-DD"
                   label="Date of birth"
+                  // margin="normal"
                   type="date"
-                  value={formData.age}
+                  value={formData.legalDOB}
                 />
               </LocalizationProvider>
               <FormHelperText>YYYY-MM-DD</FormHelperText>
@@ -101,10 +103,11 @@ const BasicInfo = () => {
             <FormControl fullWidth>
               <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
               <Select
-                labelId="hmis-basic-info-gender"
                 id="hmis-basic-info-gender"
-                value={formData.gender}
                 label="Gender"
+                labelId="hmis-basic-info-gender"
+                margin="normal"
+                value={formData.legalGender}
               >
                 <MenuItem value={0}>Female</MenuItem>
                 <MenuItem value={1}>Male</MenuItem>
