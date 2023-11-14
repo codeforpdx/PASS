@@ -1,8 +1,8 @@
 const RELATIONSHIPS = {
-  Blank: '',
-  Client: 'Client',
-  CaseManagement: 'Case Management',
-  AssociatedOrg: 'Associated Organization',
+  blank: '',
+  client: 'Client',
+  caseManagement: 'Case Management',
+  associatedOrg: 'Associated Organization'
 };
 
 export default RELATIONSHIPS;

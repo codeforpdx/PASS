@@ -1,7 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
 // Material UI Imports
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,8 +11,6 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
 import InputLabel from '@mui/material/InputLabel';
@@ -52,12 +49,9 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const [pod, setPod] = useState('');
   const [relationship, setRelationship] = useState('');
   const [relationshipStatus, setRelationshipStatus] = useState('');
   const [processing, setProcessing] = useState(false);
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const wrappedSetUsername = (value) => {
     setUsername(value);
@@ -72,7 +66,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
       webId: event.target.addWebId.value,
-      pod: event.target.pod.value,
       relationship: event.target.relationship.value,
       relationshipStatus: event.target.relationshipStatus.value
     };
@@ -90,7 +83,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       setUserFamilyName('');
       setUsername('');
       setWebId('');
-      setPod('');
       setShowAddContactModal(false);
       setProcessing(false);
     }
@@ -105,7 +97,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       <FormSection title="Add Contact">
         <form onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
-
             <TextField
               margin="normal"
               id="add-user-given-name"
@@ -163,16 +154,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               )
             }}
           />
-          <TextField
-            margin="normal"
-            id="pod"
-            name="addPod"
-            label="Pod URL"
-            autoComplete="pod"
-            value={pod}
-            onChange={(e) => setPod(e.target.value)}
-            fullWidth
-          />
           <InputLabel id="relationship-label">Relationship</InputLabel>
           <Select
             labelId="relationship-label"
@@ -183,7 +164,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => setRelationship(e.target.value)}
             fullWidth
           >
-            <MenuItem value={RELATIONSHIPS.Blank}></MenuItem>
+            <MenuItem value={RELATIONSHIPS.Blank} />
             <MenuItem value={RELATIONSHIPS.Client}>Client</MenuItem>
             <MenuItem value={RELATIONSHIPS.CaseManagement}>Case Management</MenuItem>
             <MenuItem value={RELATIONSHIPS.AssociatedOrg}>Associated Organization</MenuItem>
@@ -198,6 +179,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => setRelationshipStatus(e.target.value)}
             fullWidth
           >
+            <MenuItem value={RELATIONSHIP_STATUS.BLANK} />
             <MenuItem value={RELATIONSHIP_STATUS.ACTIVE}>Active</MenuItem>
             <MenuItem value={RELATIONSHIP_STATUS.ARCHIVED}>Archived</MenuItem>
             <MenuItem value={RELATIONSHIP_STATUS.ETC}>etc</MenuItem>
