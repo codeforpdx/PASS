@@ -33,9 +33,12 @@ const Messages = () => {
   } = useMessageList('Outbox');
 
   // Handler function for refreshing PASS messages
-  const handleMessageRefresh = async () => {
-    await refreshInbox();
-    await refreshOutbox();
+  const handleMessageRefresh = async (folderType) => {
+    if (folderType === 'Inbox') {
+      await refreshInbox();
+    } else {
+      await refreshOutbox();
+    }
   };
 
   // Renders Inbox and updates unread message count
