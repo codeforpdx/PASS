@@ -8,7 +8,7 @@ import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { updateMessageReadStatus } from '@utils';
+import { updateMessageReadStatus } from '@hooks/useMessageList';
 
 vi.mock('@inrupt/solid-client');
 

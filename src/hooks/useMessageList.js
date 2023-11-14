@@ -25,13 +25,13 @@ import useSession from './useSession';
  * A function that parses a message TTL file from inbox or outbox and returns a
  * messageObject
  *
- * @memberof utils
+ * @memberof hooks
  * @function parseMessageTTL
  * @param {Thing[]} messageTTLThing - List of message Things from message boxes
  * @returns {object} messageObject - An object containinng the message content,
  * title, uploadDate, sender, and recipient
  */
-export const parseMessageTTL = (messageTTLThing) => {
+const parseMessageTTL = (messageTTLThing) => {
   // Get data related to #message
   const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
   const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
@@ -75,13 +75,12 @@ export const parseMessageTTL = (messageTTLThing) => {
 };
 
 /**
- * Function that updates the read status of the message in the inbox
+ * Function that updates the read status of the message in the inbox on Solid
  *
- * @memberof utils
+ * @memberof hooks
  * @function updateMessageReadStatus
- * @param fetchData
- * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} messageObject - An object containing inputs for the the message
+ * @param {Function} fetchData - Inrupt's session.fetch function
  * @returns {Promise} Promise - Perform action that updates read status of message
  * on messageObject
  */
