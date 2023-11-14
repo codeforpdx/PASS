@@ -29,16 +29,10 @@ export const MessageContextProvider = ({ children }) => {
   const { session } = useContext(SessionContext);
   const [numUnreadMessages, setNumUnreadMessages] = useState(0);
 
-  // update unread message notifications when clicking on a unread message
-  const updateMessageCountState = (unReadCount) => {
-    setNumUnreadMessages(unReadCount);
-  };
-
   const messageObject = useMemo(
     () => ({
       numUnreadMessages,
-      setNumUnreadMessages,
-      updateMessageCountState
+      setNumUnreadMessages
     }),
     [numUnreadMessages]
   );

@@ -74,8 +74,7 @@ const MockMessageContextValue = {
   loadMessages: false,
   setLoadMessages: vi.fn(),
   numUnreadMessages: 1,
-  setNumUnreadMessages: vi.fn(),
-  updateMessageCountState: vi.fn()
+  setNumUnreadMessages: vi.fn()
 };
 
 const MockMessagePage = ({ session }) => (
@@ -147,6 +146,6 @@ describe('Messages Page', () => {
     );
     expect(unreadMessage).not.toBeNull();
     await user.click(unreadMessage);
-    await waitFor(() => expect(MockMessageContextValue.updateMessageCountState).toHaveBeenCalled());
+    await waitFor(() => expect(MockMessageContextValue.setNumUnreadMessages).toHaveBeenCalled());
   });
 });

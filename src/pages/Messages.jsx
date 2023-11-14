@@ -20,7 +20,7 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-  const { updateMessageCountState } = useContext(MessageContext);
+  const { setNumUnreadMessages } = useContext(MessageContext);
   const {
     data: inboxList,
     refetch: refreshInbox,
@@ -43,7 +43,7 @@ const Messages = () => {
 
   // Renders Inbox and updates unread message count
   useEffect(() => {
-    updateMessageCountState(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
+    setNumUnreadMessages(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
   }, [inboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
