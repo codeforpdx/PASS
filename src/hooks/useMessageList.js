@@ -112,6 +112,29 @@ export const updateMessageReadStatus = async (messageObject, fetchData) => {
   }
 };
 
+/**
+ * @typedef {object} messageListHookObject
+ * @property {boolean} isLoading - if the message list is loading
+ * @property {boolean} isSuccess - if the message list has been loaded
+ * @property {boolean} isError - if an error occurred while fetching the message
+ * list
+ * @property {object} error - the error that occurred while fetching
+ * @property {Array} data - the list of messageObjects containing the message
+ * content and information
+ * @property {Function} add - updates the messageObject from messageListObject
+ */
+
+/**
+ * Custom hook that helps renders messages from Inbox/Outbox from PASS container
+ * in Solid. It's a wrapper for a React Query and manages the messageListObject
+ * pulled and parsed from Solid
+ *
+ * @memberof hooks
+ * @function useMessageList
+ * @param {string} messageType - The string for 'Inbox' or 'Outbox'
+ * @returns {messageListHookObject}messageListObject - all the data provided by
+ * the useQuery call
+ */
 const useMessageList = (messageType) => {
   const { session, podUrl } = useSession();
   const { fetch } = session;
@@ -139,7 +162,7 @@ const useMessageList = (messageType) => {
     return messageList?.sort((a, b) => b.uploadDate - a.uploadDate);
   };
 
-  const updateReadStatus = async (messageObject) => {
+  const updateMessageList = async (messageObject) => {
     await updateMessageReadStatus(messageObject, fetch);
   };
 
@@ -166,7 +189,7 @@ const useMessageList = (messageType) => {
 
   const addMutation = useMutation({
     mutationFn: async (item) => {
-      updateReadStatus(item);
+      await updateMessageList(item);
       const savedDataset = await getSolidDataset(containerUrl.toString(), { fetch });
       setStoredDataset(savedDataset);
       return parse(savedDataset);
