@@ -8,7 +8,7 @@ import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { updateMessageReadStatus } from '@hooks/useMessageList';
+import { updateMessageReadStatus } from '../../src/hooks/useMessageList';
 
 vi.mock('@inrupt/solid-client');
 
@@ -68,8 +68,8 @@ vi.mock('@hooks', async () => {
   };
 });
 
-vi.mock('@utils', async () => {
-  const actual = await vi.importActual('@utils');
+vi.mock('@hooks/useMessageList', async () => {
+  const actual = await vi.importActual('@hooks/useMessageList');
 
   return {
     ...actual,

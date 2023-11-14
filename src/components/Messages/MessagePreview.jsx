@@ -40,7 +40,7 @@ const MessagePreview = ({ message, folderType }) => {
     setShowContents(!showContents);
     if (folderType === 'Inbox' && message.readStatus === false) {
       try {
-        updateReadStatus(message);
+        await updateReadStatus(message);
       } catch {
         throw new Error('Failed to update read status');
       }

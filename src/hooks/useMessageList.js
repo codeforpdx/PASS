@@ -84,7 +84,7 @@ const parseMessageTTL = (messageTTLThing) => {
  * @returns {Promise} Promise - Perform action that updates read status of message
  * on messageObject
  */
-export const updateMessageReadStatus = async (messageObject, fetchData) => {
+const updateMessageReadStatus = async (messageObject, fetchData) => {
   let messageDataset = await getSolidDataset(messageObject.messageUrl, { fetch: fetchData });
   let messageStatusThing = getThing(messageDataset, `${messageObject.messageUrl}#messagestatus`);
 
@@ -112,6 +112,8 @@ export const updateMessageReadStatus = async (messageObject, fetchData) => {
   }
 };
 
+export { updateMessageReadStatus };
+
 /**
  * @typedef {object} messageListHookObject
  * @property {boolean} isLoading - if the message list is loading
@@ -121,7 +123,9 @@ export const updateMessageReadStatus = async (messageObject, fetchData) => {
  * @property {object} error - the error that occurred while fetching
  * @property {Array} data - the list of messageObjects containing the message
  * content and information
- * @property {Function} add - updates the messageObject from messageListObject
+ * @property {Function} refetch - function to refetch data
+ * @property {boolean} isFetching - is the collection being fetched
+ * @property {(messageObject) => Promise} add - updates the messageObject from messageListObject
  */
 
 /**
@@ -132,7 +136,7 @@ export const updateMessageReadStatus = async (messageObject, fetchData) => {
  * @memberof hooks
  * @function useMessageList
  * @param {string} messageType - The string for 'Inbox' or 'Outbox'
- * @returns {messageListHookObject}messageListObject - all the data provided by
+ * @returns {messageListHookObject} messageListObject - all the data provided by
  * the useQuery call
  */
 const useMessageList = (messageType) => {
