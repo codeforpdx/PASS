@@ -64,19 +64,17 @@ const convertDataToThing = (data, thingName, config) => {
   Object.keys(data).forEach((key) => {
     const definition = config[key];
     if (!definition) return;
-    try {
-      switch (definition.type) {
-        case 'number':
-          thingInProgress = thingInProgress.addInteger(definition.predicate, data[key]);
-          break;
-        case 'date':
-          thingInProgress = thingInProgress.addDate(definition.predicate, data[key]);
-          break;
-        default:
-          thingInProgress = thingInProgress.addStringNoLocale(definition.predicate, data[key]);
-      }
-      // eslint-disable-next-line no-empty
-    } catch {}
+    if (data[key] === null) return;
+    switch (definition.type) {
+      case 'number':
+        thingInProgress = thingInProgress.addInteger(definition.predicate, data[key]);
+        break;
+      case 'date':
+        thingInProgress = thingInProgress.addDate(definition.predicate, data[key]);
+        break;
+      default:
+        thingInProgress = thingInProgress.addStringNoLocale(definition.predicate, data[key]);
+    }
   });
   return thingInProgress.build();
 };
