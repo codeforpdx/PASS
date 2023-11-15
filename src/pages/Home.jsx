@@ -1,9 +1,11 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
+import Link from '@mui/material/Link';
 import SecurityIcon from '@mui/icons-material/Security';
 import Stack from '@mui/material/Stack';
 import SupportIcon from '@mui/icons-material/Support';
@@ -26,6 +28,22 @@ const Home = () => {
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const iconSize = isReallySmallScreen ? 'medium' : 'large';
 
+  const logoSection = isReallySmallScreen ? (
+    <Stack justifyContent="center" alignItems="center" spacing={2} mb={2}>
+      <Typography variant="h1" fontWeight="500" fontSize="72px">
+        PASS
+      </Typography>
+      <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="50%" />
+    </Stack>
+  ) : (
+    <Stack direction="row" justifyContent="center" alignItems="center" spacing={4}>
+      <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="150px" />
+      <Typography variant="h1" fontWeight="500" fontSize={isReallySmallScreen ? '72px' : '144px'}>
+        PASS
+      </Typography>
+    </Stack>
+  );
+
   return (
     <Container sx={{ width: '100vw' }}>
       <Box
@@ -40,21 +58,31 @@ const Home = () => {
       >
         <section id="home">
           <Stack alignItems="center" justifyContent="center">
-            <Box my={8}>
-              <Box
-                component="img"
-                src="/assets/PASSLogolightmode.png"
-                alt=""
-                sx={{ width: isReallySmallScreen ? '80%' : '300px', color: 'primary.main' }}
-              />
-              <Typography variant="h1" color="primary" fontWeight="600">
-                PASS
-              </Typography>
-              <Typography variant="h2" component="p" color="primary.main" fontWeight="500">
+            <Box
+              height="calc(100vh - 64px)"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {logoSection}
+              <Typography
+                variant="h3"
+                component="p"
+                fontWeight="600"
+                mb={isReallySmallScreen ? 12 : 24}
+              >
                 Personal Access System for Services
               </Typography>
+              <Typography color="primary.main" sx={{ fontSize: '24px' }}>
+                Learn More
+              </Typography>
+              <Link href="#about-pass">
+                <ArrowCircleDownOutlinedIcon color="primary" sx={{ fontSize: '32px' }} />
+              </Link>
             </Box>
             <HomeSection
+              id="about-pass"
               isReallySmallScreen={isReallySmallScreen}
               componentImageSrc="/assets/web-security-green.png"
               componentImageAlt=""
@@ -62,6 +90,7 @@ const Home = () => {
               description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
               button="Request a Demo"
               href="mailto:hugh@codeforpdx.org"
+              hasMargin
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
@@ -69,13 +98,13 @@ const Home = () => {
               componentImageAlt=""
               title="An App for Caseworkers"
               description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
+              hasMargin
             />
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
               componentImageSrc="/assets/key-features-green.png"
               componentImageAlt=""
               title="Key Features"
-              noMargin
             />
             <KeyFeatures
               isReallySmallScreen={isReallySmallScreen}
