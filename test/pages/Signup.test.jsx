@@ -49,8 +49,8 @@ describe('Signup Page', () => {
         }
       }
     };
-    const { getByText } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByText('Register for PASS', { exact: false })).not.toBeNull();
+    const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
+    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
   });
   it('lets users request to create pods', async () => {
     const session = {
