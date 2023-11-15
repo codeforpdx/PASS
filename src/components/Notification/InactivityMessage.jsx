@@ -107,6 +107,8 @@ const InactivityMessage = () => {
               variant="outlined"
               color="error"
               endIcon={<LogoutIcon />}
+              sx={{ borderRadius: '20px' }}
+              fullWidth
               onClick={() => {
                 localStorage.clear();
                 logout();
@@ -119,7 +121,8 @@ const InactivityMessage = () => {
             variant="contained"
             color="primary"
             endIcon={<CheckIcon />}
-            sx={{ marginLeft: '1rem' }}
+            sx={{ borderRadius: '20px' }}
+            fullWidth
             onClick={() => setShowPopup(false)}
           >
             Continue
