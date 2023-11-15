@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
@@ -54,6 +54,8 @@ const MockOutboxList = [
   }
 ];
 
+const mockAdd = vi.fn();
+
 vi.mock('@hooks', async () => {
   const actual = await vi.importActual('@hooks');
 
@@ -61,27 +63,39 @@ vi.mock('@hooks', async () => {
     ...actual,
     useMessageList: vi.fn().mockImplementation((boxType) => {
       if (boxType === 'Inbox') {
-        return { data: MockInboxList, add: vi.fn() };
+        return {
+          data: MockInboxList,
+          add: mockAdd
+        };
       }
-      return { data: MockOutboxList, add: vi.fn() };
+      return { data: MockOutboxList };
     })
   };
 });
 
 const queryClient = new QueryClient();
 
-const MockMessagePage = ({ session }) => (
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <SessionContext.Provider value={session}>
-        <IconButton aria-label="show new messages" datatestid="EmailIcon">
-          <Badge badgeContent={1} color="error" />
-        </IconButton>
-        <Messages />
-      </SessionContext.Provider>
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+const MockMessagePage = ({ session }) => {
+  const { data } = useMessageList('Inbox');
+  const [numUnreadMessages, setNumUnreadMessages] = useState(0);
+
+  useEffect(() => {
+    setNumUnreadMessages(data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
+  }, [data]);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <SessionContext.Provider value={session}>
+          <IconButton aria-label="show new messages" datatestid="EmailIcon">
+            <Badge badgeContent={numUnreadMessages} color="error" />
+          </IconButton>
+          <Messages />
+        </SessionContext.Provider>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
 describe('Messages Page', () => {
   const sessionObj = {
@@ -116,7 +130,7 @@ describe('Messages Page', () => {
     expect(messageLabel).not.toBeNull();
   });
 
-  it('should update state', async () => {
+  it('should trigger state update function', async () => {
     const user = userEvent.setup();
     render(<MockMessagePage session={sessionObj} />);
     const unreadMessage = screen.getByLabelText(
@@ -124,6 +138,6 @@ describe('Messages Page', () => {
     );
     expect(unreadMessage).not.toBeNull();
     await user.click(unreadMessage);
-    await waitFor(() => expect(useMessageList('Inbox').add()).toHaveBeenCalled());
+    await waitFor(() => expect(mockAdd).toBeCalled());
   });
 });
