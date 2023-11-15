@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
  * Represents a home section component
  *
  * @memberof Home
- * @name HomeSecton
+ * @name HomeSection
  * @param {object} Props - the component props
  * @param {string} Props.componentImageSrc - image src
  * @param {string} Props.componentImageAlt - image alt
@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {string} Props.href - section button href
  * @param {string} Props.label - section button aria-label
  * @param {boolean} Props.isReallySmallScreen - screen size
- * @param {boolean} Props.noMargin - controls marginBottom
+ * @param {boolean} Props.hasMargin - gives marginBottom
  * @returns {React.JSX.Element} - the home section component
  */
 const HomeSection = ({
@@ -32,9 +32,9 @@ const HomeSection = ({
   href,
   label,
   isReallySmallScreen,
-  noMargin
+  hasMargin
 }) => (
-  <Stack mb={noMargin ? null : 8} alignItems="center">
+  <Stack mb={hasMargin ? 8 : null} alignItems="center">
     <Box
       component="img"
       src={componentImageSrc}
@@ -45,7 +45,7 @@ const HomeSection = ({
     />
     <Typography
       variant="h2"
-      mb={noMargin ? null : '24px'}
+      mb="24px"
       sx={{
         color: 'primary.main',
         fontSize: '28px'
