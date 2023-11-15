@@ -1,19 +1,14 @@
 import {
   buildThing,
   createAcl,
-  createSolidDataset,
-  createThing,
   deleteFile,
-  getDate,
   getFile,
-  getSolidDataset,
   getSourceUrl,
   getStringNoLocale,
   getThing,
   getUrl,
   getWebIdDataset,
   removeStringNoLocale,
-  removeDate,
   removeUrl,
   saveAclFor,
   saveFileInContainer,
@@ -32,12 +27,11 @@ import { saveSourceUrlToThing, setupAcl } from '../utils';
  * card
  *
  * @function fetchProfileInfo
- * @param {Session} session - Solid's Session Object {@link Session}
  * @param {URL} webId - WebId of user
  * @returns {Promise<object>} Object - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
  */
-export const fetchProfileInfo = async (session, webId) => {
+export const fetchProfileInfo = async (webId) => {
   const profileDataset = await getWebIdDataset(webId);
   const profileThing = getThing(profileDataset, webId);
 
@@ -45,37 +39,12 @@ export const fetchProfileInfo = async (session, webId) => {
   const nickname = getStringNoLocale(profileThing, RDF_PREDICATES.nickname);
   const profileImage = getUrl(profileThing, RDF_PREDICATES.profileImg);
 
-  let privateProfileDataset;
-  let privateProfileThing;
-  let dateOfBirth;
-
-  try {
-    privateProfileDataset = await getSolidDataset(
-      `${webId.split('profile')[0]}PASS/Profile/privateProfile.ttl`,
-      { fetch: session.fetch }
-    );
-
-    privateProfileThing = getThing(
-      privateProfileDataset,
-      `${webId.split('profile')[0]}PASS/Profile/privateProfile.ttl#privateProfile`
-    );
-
-    dateOfBirth = getDate(privateProfileThing, RDF_PREDICATES.dateOfBirth);
-  } catch {
-    privateProfileThing = null;
-    dateOfBirth = null;
-  }
-
   const profileInfo = { profileName, nickname, profileImage };
-  const privateProfileInfo = { dateOfBirth };
 
   return {
     profileDataset,
     profileThing,
-    profileInfo,
-    privateProfileDataset,
-    privateProfileThing,
-    privateProfileInfo
+    profileInfo
   };
 };
 
@@ -89,14 +58,12 @@ export const fetchProfileInfo = async (session, webId) => {
  * to the person on their profile card, the profile dataset, and the profile Thing
  * @param {object} inputValues - The inputs for updating profile information
  * on their profile card
- * @param {object} inputValuesPrivate - The inputs for updating private profile
- * information on their private profile information
  * @returns {Promise} Promise - Performs action to update profile card on the
  * user's profile card
  */
-export const updateProfileInfo = async (session, profileData, inputValues, inputValuesPrivate) => {
-  let { profileDataset, profileThing, privateProfileDataset, privateProfileThing } = profileData;
-  const { profileInfo, privateProfileInfo } = profileData;
+export const updateProfileInfo = async (session, profileData, inputValues) => {
+  let { profileDataset, profileThing } = profileData;
+  const { profileInfo } = profileData;
 
   Object.keys(inputValues).forEach((input) => {
     switch (inputValues[input]) {
@@ -117,37 +84,8 @@ export const updateProfileInfo = async (session, profileData, inputValues, input
     }
   });
 
-  Object.keys(inputValuesPrivate).forEach((input) => {
-    if (input === 'dateOfBirth') {
-      switch (inputValuesPrivate[input]) {
-        case null:
-          privateProfileThing = removeDate(
-            privateProfileThing,
-            RDF_PREDICATES[input],
-            privateProfileInfo[input]
-          );
-          break;
-        default:
-          if (inputValuesPrivate[input].$d === undefined) {
-            return;
-          }
-          privateProfileThing = buildThing(privateProfileThing)
-            .setDate(RDF_PREDICATES[input], inputValuesPrivate[input].$d)
-            .build();
-          break;
-      }
-    }
-  });
-
   profileDataset = setThing(profileDataset, profileThing);
   await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
-
-  privateProfileDataset = setThing(privateProfileDataset, privateProfileThing);
-  await saveSolidDatasetAt(
-    `${session.info.webId.split('profile')[0]}PASS/Profile/privateProfile.ttl`,
-    privateProfileDataset,
-    { fetch: session.fetch }
-  );
 };
 
 /**
@@ -217,34 +155,5 @@ export const removeProfileImage = async (session, profileData) => {
     await saveSolidDatasetAt(session.info.webId, profileDataset, { fetch: session.fetch });
 
     await deleteFile(profileImg, { fetch: session.fetch });
-  }
-};
-
-/**
- * Function that generates the initial private profile TTL file for user if it
- * does not already exist within the user's Pod
- *
- * @function generatePrivateProfileTTL
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {URL} podUrl - Pod URL of user
- * @returns {Promise} Promise - Performs action that generates a new privateProfile.ttl
- * if it does not exist
- */
-export const generatePrivateProfileTTL = async (session, podUrl) => {
-  const privateProfileUrl = `${podUrl}PASS/Profile/privateProfile.ttl`;
-
-  try {
-    await getSolidDataset(privateProfileUrl, { fetch: session.fetch });
-  } catch {
-    const privateProfileThing = buildThing(createThing({ name: 'privateProfile' }))
-      .addUrl(RDF_PREDICATES.url, `${podUrl}PASS/Profile/privateProfile.ttl`)
-      .build();
-
-    let newPrivateProvileDataset = createSolidDataset();
-    newPrivateProvileDataset = setThing(newPrivateProvileDataset, privateProfileThing);
-
-    await saveSolidDatasetAt(`${podUrl}PASS/Profile/privateProfile.ttl`, newPrivateProvileDataset, {
-      fetch: session.fetch
-    });
   }
 };

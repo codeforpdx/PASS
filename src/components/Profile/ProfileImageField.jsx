@@ -39,7 +39,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     } else {
       await uploadProfileImage(session, profileData, event.target.files[0]);
 
-      const updatedProfileData = await fetchProfileInfo(session, session.info.webId);
+      const updatedProfileData = await fetchProfileInfo(session.info.webId);
       localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
       setProfileImg(updatedProfileData.profileInfo.profileImage);
 
