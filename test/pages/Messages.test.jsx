@@ -118,13 +118,12 @@ describe('Messages Page', () => {
 
   it('should update state', async () => {
     const user = userEvent.setup();
-    const { add: updateReadStatus } = useMessageList('Inbox');
     render(<MockMessagePage session={sessionObj} />);
     const unreadMessage = screen.getByLabelText(
       'open message preview 3bf2a18d-0c6a-43e4-9650-992bf4fe7fe7'
     );
     expect(unreadMessage).not.toBeNull();
     await user.click(unreadMessage);
-    await waitFor(() => expect(updateReadStatus).toHaveBeenCalled());
+    await waitFor(() => expect(useMessageList('Inbox').add()).toHaveBeenCalled());
   });
 });
