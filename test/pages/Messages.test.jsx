@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import { SessionContext, MessageContext } from '@contexts';
+import { SessionContext } from '@contexts';
 import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
@@ -70,23 +70,14 @@ vi.mock('@hooks', async () => {
 
 const queryClient = new QueryClient();
 
-const MockMessageContextValue = {
-  loadMessages: false,
-  setLoadMessages: vi.fn(),
-  numUnreadMessages: 1,
-  setNumUnreadMessages: vi.fn()
-};
-
 const MockMessagePage = ({ session }) => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <SessionContext.Provider value={session}>
-        <MessageContext.Provider value={MockMessageContextValue}>
-          <IconButton aria-label="show new messages" datatestid="EmailIcon">
-            <Badge badgeContent={MockMessageContextValue.numUnreadMessages} color="error" />
-          </IconButton>
-          <Messages />
-        </MessageContext.Provider>
+        <IconButton aria-label="show new messages" datatestid="EmailIcon">
+          <Badge badgeContent={1} color="error" />
+        </IconButton>
+        <Messages />
       </SessionContext.Provider>
     </BrowserRouter>
   </QueryClientProvider>
@@ -126,26 +117,14 @@ describe('Messages Page', () => {
   });
 
   it('should update state', async () => {
-    const { add } = useMessageList();
-    add.mockResolvedValue({
-      message: 'test message',
-      messageId: '3bf2a18d-0c6a-43e4-9650-992bf4fe7fe7',
-      messageUrl:
-        'http://localhost:3000/pod-test-name-here/PASS/Inbox/RE%3Ateste-20231023-195931.ttl',
-      title: 'RE:test-inbox',
-      uploadDate: new Date('2023-10-23T19:59:31.424Z'),
-      readStatus: true,
-      sender: 'PODMAN',
-      senderWebId: 'http://localhost:3000/pod-test-name-here/profile/card#me',
-      recipient: 'PODMAN'
-    });
     const user = userEvent.setup();
+    const { add: updateReadStatus } = useMessageList('Inbox');
     render(<MockMessagePage session={sessionObj} />);
     const unreadMessage = screen.getByLabelText(
       'open message preview 3bf2a18d-0c6a-43e4-9650-992bf4fe7fe7'
     );
     expect(unreadMessage).not.toBeNull();
     await user.click(unreadMessage);
-    await waitFor(() => expect(MockMessageContextValue.setNumUnreadMessages).toHaveBeenCalled());
+    await waitFor(() => expect(updateReadStatus).toHaveBeenCalled());
   });
 });

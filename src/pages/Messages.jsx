@@ -1,11 +1,10 @@
 // React Imports
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Custom Hook Imports
 import { useMessageList } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 // Context Imports
-import { MessageContext } from '../contexts';
 // Component Imports
 import { NewMessageModal } from '../components/Modals';
 import { MessageButtonGroup, MessageFolder } from '../components/Messages';
@@ -20,7 +19,6 @@ import { MessageButtonGroup, MessageFolder } from '../components/Messages';
  */
 const Messages = () => {
   localStorage.setItem('restorePath', '/messages');
-  const { setNumUnreadMessages } = useContext(MessageContext);
   const {
     data: inboxList,
     refetch: refreshInbox,
@@ -40,11 +38,6 @@ const Messages = () => {
       await refreshOutbox();
     }
   };
-
-  // Renders Inbox and updates unread message count
-  useEffect(() => {
-    setNumUnreadMessages(inboxList?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-  }, [inboxList]);
 
   const [boxType, setBoxType] = useState('inbox');
   const [showModal, setShowModal] = useState(false);

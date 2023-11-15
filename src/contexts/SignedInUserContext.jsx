@@ -66,6 +66,8 @@ export const SignedInUserContextProvider = ({ children }) => {
         await Promise.all([
           createPASSContainer(session, fetchedPodUrl, 'Documents'),
           createPASSContainer(session, fetchedPodUrl, 'Profile'),
+          createPASSContainer(session, podUrl, 'Outbox'),
+          createPASSContainer(session, podUrl, 'Inbox', { append: true }),
           generatePrivateProfileTTL(session, fetchedPodUrl)
         ]);
       } finally {
