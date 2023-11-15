@@ -71,5 +71,5 @@ it('sorts clients by familyName', () => {
   const client1 = getByRole('cell', { name: 'Zeigler' });
   const client2 = getByRole('cell', { name: 'Builder' });
 
-  expect(client1.compareDocumentPosition(client2)).toBe(2);
+  expect(client1.compareDocumentPosition(client2)).toBe(Node.DOCUMENT_POSITION_PRECEDING);
 });

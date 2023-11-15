@@ -8,7 +8,7 @@ import NavbarDesktop from '../../../src/components/NavBar/NavbarDesktop';
 const queryClient = new QueryClient();
 
 it('renders icon menu when on screen larger than mobile', () => {
-  const { queryByLabelText, queryByRole } = render(
+  const { queryByRole } = render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <NavbarDesktop />
@@ -17,10 +17,10 @@ it('renders icon menu when on screen larger than mobile', () => {
   );
 
   const logo = queryByRole('img', { name: /logo$/ });
-  const navLinks = queryByLabelText('navigation tabs');
-  const iconMenu = queryByLabelText('menu');
+  const navLinks = queryByRole('tablist', { name: 'navigation tabs' });
+  const navbarMenu = queryByRole('group');
 
   expect(logo).not.toBeNull();
   expect(navLinks).not.toBeNull();
-  expect(iconMenu).not.toBeNull();
+  expect(navbarMenu).not.toBeNull();
 });
