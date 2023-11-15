@@ -50,7 +50,7 @@ describe('Signup Page', () => {
       }
     };
     const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByRole('heading')).not.toBeNull();
+    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
   });
   it('lets users request to create pods', async () => {
     const session = {
