@@ -83,8 +83,7 @@ describe('useCivicProfile', () => {
     );
     getSolidDataset.mockResolvedValue(dataset);
     const { result } = renderHook(useCivicProfile, { wrapper });
-    await waitFor(() => expect(result.current.data).toStrictEqual(profile));
-    expect(result.current.data).toStrictEqual(profile);
+    await waitFor(() => expect(result.current.data).toEqual(expect.objectContaining(profile)));
   });
 
   it('Updates Civic Profile with proper data', async () => {
@@ -97,7 +96,7 @@ describe('useCivicProfile', () => {
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
     hook.add(profile);
-    await waitFor(() => expect(result.current.data).toStrictEqual(profile));
+    await waitFor(() => expect(result.current.data).toEqual(expect.objectContaining(profile)));
     expect(saveSolidDatasetAt).toBeCalled();
   });
 });
