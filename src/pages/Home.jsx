@@ -5,7 +5,7 @@ import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutl
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
-import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
 import SecurityIcon from '@mui/icons-material/Security';
 import Stack from '@mui/material/Stack';
 import SupportIcon from '@mui/icons-material/Support';
@@ -83,21 +83,22 @@ const Home = () => {
               <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
-              <Link href="#about-pass">
-                <ArrowCircleDownOutlinedIcon color="secondary" sx={{ fontSize: '32px' }} />
-              </Link>
+              <IconButton aria-label="Scroll down" color="secondary" href="#about-pass">
+                <ArrowCircleDownOutlinedIcon sx={{ fontSize: '32px' }} />
+              </IconButton>
             </Box>
-            <HomeSection
-              id="about-pass"
-              isReallySmallScreen={isReallySmallScreen}
-              componentImageSrc="/assets/web-security-green.png"
-              componentImageAlt=""
-              title="Keep Your Documents Safe and Secure Using Decentralized Technology"
-              description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
-              button="Request a Demo"
-              href="mailto:hugh@codeforpdx.org"
-              hasMargin
-            />
+            <div id="about-pass">
+              <HomeSection
+                isReallySmallScreen={isReallySmallScreen}
+                componentImageSrc="/assets/web-security-green.png"
+                componentImageAlt=""
+                title="Keep Your Documents Safe and Secure Using Decentralized Technology"
+                description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
+                button="Request a Demo"
+                href="mailto:hugh@codeforpdx.org"
+                hasMargin
+              />
+            </div>
             <HomeSection
               isReallySmallScreen={isReallySmallScreen}
               componentImageSrc="/assets/app-green.png"
