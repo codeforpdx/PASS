@@ -144,7 +144,6 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
           type: document.type,
           name: document.name,
           description: document.description,
-          sharing: 'foo',
           delete: document,
           'upload date': document.uploadDate,
           'expiration date': document.endDate,
