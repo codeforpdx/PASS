@@ -30,7 +30,7 @@ const Home = () => {
 
   const logoSection = isReallySmallScreen ? (
     <Stack justifyContent="center" alignItems="center" spacing={2} mb={2}>
-      <Typography variant="h1" fontWeight="500" fontSize="72px">
+      <Typography variant="h1" fontWeight="500" fontSize="72px" color="primary">
         PASS
       </Typography>
       <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="50%" />
@@ -38,7 +38,12 @@ const Home = () => {
   ) : (
     <Stack direction="row" justifyContent="center" alignItems="center" spacing={4}>
       <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="150px" />
-      <Typography variant="h1" fontWeight="500" fontSize={isReallySmallScreen ? '72px' : '144px'}>
+      <Typography
+        variant="h1"
+        fontWeight="500"
+        fontSize={isReallySmallScreen ? '72px' : '144px'}
+        color="primary"
+      >
         PASS
       </Typography>
     </Stack>
@@ -67,18 +72,19 @@ const Home = () => {
             >
               {logoSection}
               <Typography
-                variant="h3"
+                variant={isReallySmallScreen ? 'h4' : 'h3'}
                 component="p"
                 fontWeight="600"
-                mb={isReallySmallScreen ? 12 : 24}
+                mb={isReallySmallScreen ? 8 : 18}
+                color="primary"
               >
                 Personal Access System for Services
               </Typography>
-              <Typography color="primary.main" sx={{ fontSize: '24px' }}>
+              <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
               <Link href="#about-pass">
-                <ArrowCircleDownOutlinedIcon color="primary" sx={{ fontSize: '32px' }} />
+                <ArrowCircleDownOutlinedIcon color="secondary" sx={{ fontSize: '32px' }} />
               </Link>
             </Box>
             <HomeSection
