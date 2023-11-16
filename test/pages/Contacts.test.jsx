@@ -21,15 +21,16 @@ describe('Contacts Page', () => {
 
   it('displays Loading message while loading', () => {
     useContactsList.mockReturnValue({ isLoading: true });
-    const { getByText } = render(<Contacts />);
-    const button = getByText('Loading Contacts...');
-    expect(button).not.toBeNull();
+    const { getByRole } = render(<Contacts />);
+    const heading = getByRole('heading');
+    expect(heading.textContent).toBe('Loading Contacts...');
   });
 
   it('displays Errors when fetch errors', () => {
-    useContactsList.mockReturnValue({ isError: true, error: { message: 'error' } });
+    const errorMessage = 'error';
+    useContactsList.mockReturnValue({ isError: true, error: { message: errorMessage } });
     const { getByText } = render(<Contacts />);
-    const text = getByText('Error loading contacts list: error');
+    const text = getByText(`Error loading contacts list: ${errorMessage}`);
     expect(text).not.toBeNull();
   });
 
