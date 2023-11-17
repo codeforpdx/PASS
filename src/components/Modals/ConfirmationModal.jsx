@@ -47,7 +47,7 @@ const ConfirmationModal = ({
 
   const confirmButton = () =>
     isLogout ? (
-      <LogoutButton>
+      <LogoutButton onLogout={() => localStorage.clear()}>
         <ConfirmationButton
           title={title}
           confirmFunction={confirmFunction}
