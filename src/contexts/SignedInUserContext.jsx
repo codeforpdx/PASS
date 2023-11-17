@@ -66,7 +66,7 @@ export const SignedInUserContextProvider = ({ children }) => {
           createPASSContainer(session, fetchedPodUrl, 'Documents'),
           createPASSContainer(session, fetchedPodUrl, 'Profile'),
           createPASSContainer(session, podUrl, 'Outbox'),
-          createPASSContainer(session, podUrl, 'Inbox', { append: true }),
+          createPASSContainer(session, podUrl, 'Inbox', { append: true })
         ]);
       } finally {
         setLoadingUserInfo(false);
