@@ -35,8 +35,33 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const { session } = useSession();
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
 
+  /**
+   * Handles the local display of a document by opening it in a new window.
+   *
+   * @async
+   * @function
+   * @param {string} urlToOpen - The URL of the document to be opened.
+   * @throws {Error} Throws an error if there is an issue fetching the document blob.
+   * @returns {Promise<void>} A promise that resolves after the document is opened.
+   * @example
+   * // Example usage:
+   * const documentUrl = 'https://example.com/document.pdf';
+   * await handleShowDocumentLocal(documentUrl);
+   */
   const handleShowDocumentLocal = async (urlToOpen) => {
+    /**
+     * Fetches a Blob from a Solid pod based on the provided session and URL.
+     *
+     * @async
+     * @function
+     * @param {object} session - The Solid session object.
+     * @param {string} url - The URL of the document on the Solid pod.
+     * @returns {Promise<Blob>} A promise that resolves with the Blob of the document.
+     * @throws {Error} Throws an error if there is an issue fetching the document blob.
+     */
     const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
+
+    // Opens a new window with the Blob URL displaying the document.
     window.open(urlFileBlob);
   };
 
@@ -66,26 +91,25 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       align: 'center'
     },
     {
+      headerName: 'Upload Date',
       field: 'upload date',
-      type: 'dateTime',
-      valueGetter: ({ value }) => value && new Date(value),
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
+      headerName: 'Expiration Date',
       field: 'expiration date',
-      type: 'dateTime',
-      valueGetter: ({ value }) => value && new Date(value),
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
+      headerName: 'Preview File',
       field: 'preview file',
-      minWidth: 120,
+      minWidth: 100,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -104,7 +128,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       headerName: 'Sharing',
       field: 'sharing',
       type: 'actions',
-      minWidth: 120,
+      minWidth: 80,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -120,7 +144,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       headerName: 'Delete',
       field: 'actions',
       type: 'actions',
-      minWidth: 120,
+      minWidth: 80,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -145,8 +169,8 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
           name: document.name,
           description: document.description,
           delete: document,
-          'upload date': document.uploadDate,
-          'expiration date': document.endDate,
+          'upload date': document?.uploadDate.toLocaleDateString(),
+          'expiration date': document?.endDate.toLocaleDateString(),
           'preview file': document.fileUrl
         }))}
         pageSizeOptions={[10]}
