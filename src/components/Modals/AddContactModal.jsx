@@ -11,19 +11,14 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-// Custom Hook Imports
-import useNotification from '@hooks/useNotification';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuList';
-import { RELATIONSHIPS, RELATIONSHIP_STATUS } from '@constants';
 // Component Imports
 import { FormSection } from '../Form';
+import useNotification from '../../hooks/useNotification';
 
 /**
- * @memberof Modals
+ * @memberof Contcts
  * @name renderWebId
- * @param {string} username - Username to convert into a webId
+ * @param {string} username - username to convert into a webId
  * @returns {URL} A url of the predicted webID
  */
 const renderWebId = (username) => {
@@ -35,12 +30,12 @@ const renderWebId = (username) => {
  * AddContactModal Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Modals
+ * @memberof Contacts
  * @name AddContactModal
- * @param {object} props - React props
- * @param {Function} props.addContact - Function to add a contact
- * @param {boolean} props.showAddContactModal - Whether to display modal or not
- * @param {Function} props.setShowAddContactModal - Toggle modal
+ * @param {object} props - react props
+ * @param {Function} props.addContact  - function to add a contact
+ * @param {boolean} props.showAddContactModal - whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
@@ -49,8 +44,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [relationshipStatus, setRelationshipStatus] = useState('');
   const [processing, setProcessing] = useState(false);
 
   const wrappedSetUsername = (value) => {
@@ -65,9 +58,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     const userObject = {
       givenName: event.target.addUserGivenName.value,
       familyName: event.target.addUserFamilyName.value,
-      webId: event.target.addWebId.value,
-      relationship: event.target.relationship.value,
-      relationshipStatus: event.target.relationshipStatus.value
+      webId: event.target.addWebId.value
     };
 
     try {
@@ -154,36 +145,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               )
             }}
           />
-          <InputLabel id="relationship-label">Relationship</InputLabel>
-          <Select
-            labelId="relationship-label"
-            id="relationship"
-            name="relationship"
-            value={relationship}
-            label="Relationship"
-            onChange={(e) => setRelationship(e.target.value)}
-            fullWidth
-          >
-            <MenuItem value={RELATIONSHIPS.Blank} />
-            <MenuItem value={RELATIONSHIPS.Client}>Client</MenuItem>
-            <MenuItem value={RELATIONSHIPS.CaseManagement}>Case Management</MenuItem>
-            <MenuItem value={RELATIONSHIPS.AssociatedOrg}>Associated Organization</MenuItem>
-          </Select>
-          <InputLabel id="relationship-status-label">Relationship Status</InputLabel>
-          <Select
-            labelId="relationship-status-label"
-            id="relationshipStatus"
-            name="relationshipStatus"
-            value={relationshipStatus}
-            label="RelationshipStatus"
-            onChange={(e) => setRelationshipStatus(e.target.value)}
-            fullWidth
-          >
-            <MenuItem value={RELATIONSHIP_STATUS.BLANK} />
-            <MenuItem value={RELATIONSHIP_STATUS.ACTIVE}>Active</MenuItem>
-            <MenuItem value={RELATIONSHIP_STATUS.ARCHIVED}>Archived</MenuItem>
-            <MenuItem value={RELATIONSHIP_STATUS.ETC}>etc</MenuItem>
-          </Select>
           <DialogActions>
             <Button
               variant="outlined"

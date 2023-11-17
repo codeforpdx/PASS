@@ -69,12 +69,12 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
           </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
-          <Box aria-label="menu" sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} role="group">
             {/* messages icon */}
             <IconButton
               component={NavLink}
               size="large"
-              aria-label="show new messages"
+              aria-label="Show messages"
               edge="start"
               color="inherit"
               to="/messages"
@@ -87,7 +87,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
             {/* notifications icon */}
             <IconButton
               size="large"
-              aria-label="show new notifications"
+              aria-label="Show notifications"
               color="inherit"
               onClick={handleNotificationsMenu}
               edge="start"
@@ -124,7 +124,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
             <IconButton
               size="large"
               edge="end"
-              aria-label="account of current user"
+              aria-label="Account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleOpenMenu}

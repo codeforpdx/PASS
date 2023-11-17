@@ -8,7 +8,7 @@ import {
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 import useRdfCollection from './useRdfCollection';
-    
+
 /**
  * @typedef {object} ContactsList
  * @property {boolean} isLoading - if the contacts list is loading

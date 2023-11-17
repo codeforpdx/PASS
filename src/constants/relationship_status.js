@@ -1,8 +1,8 @@
 const RELATIONSHIP_STATUS = {
-  BLANK: '',
-  ACTIVE: 'active',
-  ARCHIVE: 'archive',
-  OTHER: 'other'
+  blank: '',
+  active: 'active',
+  archive: 'archive',
+  other: 'other'
 };
 
 export default RELATIONSHIP_STATUS;
