@@ -33,7 +33,6 @@ const NavBar = () => {
   const handleLogout = async () => {
     setProcessing(true);
     try {
-      localStorage.clear();
       addNotification('success', 'You have been logged out');
     } catch (e) {
       addNotification('error', `Log out failed. Reason: ${e.message}`);

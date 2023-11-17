@@ -44,16 +44,13 @@ describe('fetchProfileInfo', () => {
     });
     vi.spyOn(solidClient, 'getSolidDataset').mockResolvedValue();
 
-    const results = await fetchProfileInfo(session, session.info.webId);
+    const results = await fetchProfileInfo(session.info.webId);
 
     expect(results).toHaveProperty('profileInfo.profileName');
     expect(results).toHaveProperty('profileInfo.nickname');
     expect(results).toHaveProperty('profileInfo.profileImage');
     expect(results).toHaveProperty('profileDataset');
     expect(results).toHaveProperty('profileThing');
-    expect(results).toHaveProperty('privateProfileInfo.dateOfBirth');
-    expect(results).toHaveProperty('privateProfileDataset');
-    expect(results).toHaveProperty('privateProfileThing');
   });
 });
 
@@ -77,20 +74,16 @@ describe('updateProfileInfo', () => {
     const mockData = {
       profileDataset: mockDataset,
       profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null },
-      privateProfileDateset: mockDataset,
-      privateProfileThing: mockDatasetThing,
-      privateProfileInfo: { dateOfBirth: null }
+      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
     };
     const mockInputValues = { profileName: 'Alice', nickname: null };
-    const mockInputValuesPrivate = { dateOfBirth: null };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'setThing').mockReturnValue();
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues, mockInputValuesPrivate);
+    await updateProfileInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).not.toBeCalled();
     expect(solidClient.buildThing).toBeCalledTimes(1);
@@ -102,19 +95,15 @@ describe('updateProfileInfo', () => {
     const mockData = {
       profileDataset: mockDataset,
       profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null },
-      privateProfileDateset: mockDataset,
-      privateProfileThing: mockDatasetThing,
-      privateProfileInfo: { dateOfBirth: null }
+      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
     };
     const mockInputValues = { profileName: 'Alice', nickname: 'Al' };
-    const mockInputValuesPrivate = { dateOfBirth: null };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues, mockInputValuesPrivate);
+    await updateProfileInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).not.toBeCalled();
     expect(solidClient.buildThing).toBeCalledTimes(2);
@@ -126,19 +115,15 @@ describe('updateProfileInfo', () => {
     const mockData = {
       profileDataset: mockDataset,
       profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null },
-      privateProfileDateset: mockDataset,
-      privateProfileThing: mockDatasetThing,
-      privateProfileInfo: { dateOfBirth: null }
+      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
     };
     const mockInputValues = { profileName: '', nickname: 'Al' };
-    const mockInputValuesPrivate = { dateOfBirth: null };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues, mockInputValuesPrivate);
+    await updateProfileInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).toBeCalledTimes(1);
     expect(solidClient.buildThing).toBeCalledTimes(1);
@@ -166,10 +151,7 @@ describe('uploadProfileImage', () => {
     const mockData = {
       profileDataset: mockDataset,
       profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null },
-      privateProfileDateset: mockDataset,
-      privateProfileThing: mockDatasetThing,
-      privateProfileInfo: { dateOfBirth: null }
+      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
     };
     const mockImageData = new Blob(new Array(9).fill(0), { type: 'image/png' });
     const mockInputImage = new File([mockImageData], 'image.png', { type: 'image/png' });
