@@ -56,7 +56,7 @@ const Home = () => {
     </Typography>
   ) : (
     <Typography component="h1" color="primary" data-testid="testHomeH1">
-      <Stack direction="column" justifyContent="center" alignItems="center" spacing={4}>
+      <Stack justifyContent="center" alignItems="center" spacing={4} mb={18}>
         <Stack
           component="span"
           direction="row"
@@ -70,7 +70,7 @@ const Home = () => {
             {punctuation}
           </Typography>
         </Stack>
-        <Typography variant="h3" component="span" fontWeight="600" mb={18}>
+        <Typography variant="h3" component="span" fontWeight="600">
           {subheading}
         </Typography>
       </Stack>
