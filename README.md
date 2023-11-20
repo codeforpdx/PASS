@@ -33,20 +33,20 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Prerequisites
 
-  Currently we require Node version 16 or higher and NPM for our package manager. Most places recommend using a node version manager to install node and npm. To proceed using NVM perform the following..
+  Currently we require Node version 16.20.2 and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm
 - For Windows users: https://github.com/coreybutler/nvm-windows
 
-2. Install node version 16:
+2. Install node version 16.20.2:
    ```
-   nvm install 16
+   nvm install 16.20.2
    ```
 3. Use that node version:
    ```
-   nvm use 16
+   nvm use 16.20.2
    ```
 4. Check that node and npm are set up:
    ```
