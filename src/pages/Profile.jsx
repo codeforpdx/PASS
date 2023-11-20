@@ -97,7 +97,7 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchContactProfile = async () => {
-      const profileData = await fetchProfileInfo(session, webIdUrl);
+      const profileData = await fetchProfileInfo(webIdUrl);
       setContactProfile({
         ...contact,
         ...profileData.profileInfo,

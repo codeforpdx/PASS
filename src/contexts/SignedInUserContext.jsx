@@ -10,8 +10,7 @@ import {
   fetchProfileInfo,
   updateProfileInfo,
   uploadProfileImage,
-  removeProfileImage,
-  generatePrivateProfileTTL
+  removeProfileImage
 } from '../model-helpers';
 
 /**
@@ -58,15 +57,14 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(session, webId);
+        const fetchedProfileData = await fetchProfileInfo(webId);
         if (fetchedProfileData.profileInfo.profileImage) {
           localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
         }
         setProfileData(fetchedProfileData);
         await Promise.all([
           createPASSContainer(session, fetchedPodUrl, 'Documents'),
-          createPASSContainer(session, fetchedPodUrl, 'Profile'),
-          generatePrivateProfileTTL(session, fetchedPodUrl)
+          createPASSContainer(session, fetchedPodUrl, 'Profile')
         ]);
       } finally {
         setLoadingUserInfo(false);
