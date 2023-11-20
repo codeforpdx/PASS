@@ -1,11 +1,16 @@
 // React Imports
 import React, { useContext } from 'react';
+
+// Constants
+import DOC_TYPES from '@constants/doc_types';
+
 // Material UI Imports
 import Container from '@mui/material/Container';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+
 // Context Imports
 import { DocumentListContext } from '@contexts';
 import { useSession } from '@hooks';
@@ -158,19 +163,28 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     }
   ];
 
-  const determineDocumentsTable = documentListObject?.docList?.length ? (
+  // Updates type value to use DOC_TYPES for formatting the string
+  const mappingType = (type) => DOC_TYPES[type] || type;
+
+  // Map types for each document in the array
+  const mappedDocuments = documentListObject.docList.map((document) => ({
+    ...document,
+    type: mappingType(document.type)
+  }));
+
+  const determineDocumentsTable = mappedDocuments?.length ? (
     // render if documents
     <Container>
       <DataGrid
         columns={columnTitlesArray}
-        rows={documentListObject?.docList.map((document) => ({
+        rows={mappedDocuments.map((document) => ({
           id: document.name,
           type: document.type,
           name: document.name,
           description: document.description,
           delete: document,
           'upload date': document?.uploadDate.toLocaleDateString(),
-          'expiration date': document?.endDate.toLocaleDateString(),
+          'expiration date': document?.endDate?.toLocaleDateString(),
           'preview file': document.fileUrl
         }))}
         pageSizeOptions={[10]}
