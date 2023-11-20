@@ -5,11 +5,17 @@ import React, { useContext } from 'react';
 import DOC_TYPES from '@constants/doc_types';
 
 // Material UI Imports
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarFilterButton
+} from '@mui/x-data-grid';
 
 // Context Imports
 import { DocumentListContext } from '@contexts';
@@ -21,6 +27,14 @@ import { getBlobFromSolid } from '@utils';
 // Component Imports
 import theme from '../../theme';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
+
+// DataGrid Toolbar
+const CustomToolbar = () => (
+  <GridToolbarContainer>
+    <GridToolbarFilterButton />
+    <GridToolbarDensitySelector />
+  </GridToolbarContainer>
+);
 
 /**
  * DocumentTable Component - The Document Table that shows the list of documents
@@ -167,14 +181,14 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const mappingType = (type) => DOC_TYPES[type] || type;
 
   // Map types for each document in the array
-  const mappedDocuments = documentListObject.docList.map((document) => ({
+  const mappedDocuments = documentListObject?.docList.map((document) => ({
     ...document,
     type: mappingType(document.type)
   }));
 
   const determineDocumentsTable = mappedDocuments?.length ? (
     // render if documents
-    <Container>
+    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
       <DataGrid
         columns={columnTitlesArray}
         rows={mappedDocuments.map((document) => ({
@@ -193,6 +207,9 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
             paginationModel: { pageSize: 10, page: 0 }
           }
         }}
+        slots={{
+          toolbar: CustomToolbar
+        }}
         disableColumnMenu
         disableRowSelectionOnClick
         sx={{
@@ -205,7 +222,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
           }
         }}
       />
-    </Container>
+    </Box>
   ) : (
     // render if no documents
     <EmptyListNotification type="documents" />
