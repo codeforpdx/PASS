@@ -29,10 +29,10 @@ import { FormSection } from '../Form';
 const BasicInfo = () => {
   const { data, add, isSuccess } = useCivicProfile();
   const [formData, setFormData] = useState({
-    legalFirstName: '',
-    legalLastName: '',
-    legalDOB: '',
-    legalGender: ''
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    gender: ''
   });
 
   useEffect(() => {
@@ -53,7 +53,6 @@ const BasicInfo = () => {
     add(formData);
   };
 
-  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
     <FormSection title="Basic Information">
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -63,13 +62,11 @@ const BasicInfo = () => {
               id="hmis-basic-info-first-name"
               name="hmis-basic-info-first-name"
               label="First name"
-              margin="normal"
-              fullWidth
-              // autoComplete="given-name"
-              variant="standard"
               onChange={handleChange}
               value={formData.legalFirstName}
-              autofocus
+              margin="normal"
+              fullWidth
+              autoFocus
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -79,8 +76,6 @@ const BasicInfo = () => {
               label="Last name"
               margin="normal"
               fullWidth
-              // autoComplete="family-name"
-              variant="standard"
               value={formData.legalLastName}
             />
           </Grid>
@@ -91,7 +86,6 @@ const BasicInfo = () => {
                   name="hmis-basic-info-dob"
                   format="YYYY-MM-DD"
                   label="Date of birth"
-                  // margin="normal"
                   type="date"
                   value={formData.legalDOB}
                 />
@@ -106,7 +100,6 @@ const BasicInfo = () => {
                 id="hmis-basic-info-gender"
                 label="Gender"
                 labelId="hmis-basic-info-gender"
-                margin="normal"
                 value={formData.legalGender}
               >
                 <MenuItem value={0}>Female</MenuItem>
@@ -134,12 +127,12 @@ const BasicInfo = () => {
           <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
-              disabled={!isSuccess}
               type="submit"
               color="primary"
               startIcon={<CheckIcon />}
               fullWidth
               sx={{ borderRadius: '20px' }}
+              disabled={!isSuccess}
             >
               Submit
             </Button>
@@ -148,7 +141,6 @@ const BasicInfo = () => {
       </form>
     </FormSection>
   );
-  /* eslint-disable jsx-a11y/label-has-associated-control */
 };
 
 export default BasicInfo;
