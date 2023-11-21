@@ -17,7 +17,7 @@ import { useTheme } from '@mui/material/styles';
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
-import { DocumentTable } from '@components/Documents';
+import DocumentTable from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
 // Model Helpers
@@ -131,16 +131,15 @@ const Profile = () => {
   )}`;
 
   return (
-    <Box
+    <Container
       sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '20px',
-        padding: isSmallScreen ? '30px 0' : '30px'
+        width: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
         {!contact ? (
           <Typography>
@@ -214,10 +213,6 @@ const Profile = () => {
           setShowModal={setShowAclPermissionModal}
           dataset={dataset}
         />
-        <DocumentTable
-          handleAclPermissionsModal={handleAclPermissionsModal}
-          handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}
-        />
         <ConfirmationModal
           showConfirmationModal={showConfirmationModal}
           setShowConfirmationModal={setShowConfirmationModal}
@@ -227,7 +222,11 @@ const Profile = () => {
           processing={processing}
         />
       </Box>
-    </Box>
+      <DocumentTable
+        handleAclPermissionsModal={handleAclPermissionsModal}
+        handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}
+      />
+    </Container>
   );
 };
 
