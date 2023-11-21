@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
  */
 const RenderCallToActionSection = ({ isReallySmallScreen }) => (
   <Stack width={isReallySmallScreen ? 1 : 3 / 5} alignItems="center" justifyContent="center">
-    <Typography variant="h5" color="tertiary.main">
+    <Typography variant="h5" component="h2" color="tertiary.main">
       Want to partner with PASS?
     </Typography>
     <Typography variant="body1" color="#fff" sx={{ width: 3 / 4 }}>

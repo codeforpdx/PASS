@@ -60,7 +60,7 @@ const socialLinks = [
 const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
   <Stack width={isReallySmallScreen ? 1 : 1 / 5} justifyContent="space-between" alignItems="center">
     <Box>
-      <Typography color="tertiary.main" variant="h5" mb={1}>
+      <Typography color="tertiary.main" variant="h5" component="h2" mb={1}>
         Follow Us
       </Typography>
       <Stack direction="row" spacing={isReallySmallScreen ? 3 : 2} alignItems="center">
