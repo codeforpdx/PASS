@@ -18,7 +18,7 @@ describe('Basic info form', () => {
   it('renders', () => {
     useCivicProfile.mockReturnValue({ data: {}, isSuccess: true });
     const { getByRole } = render(<BasicInfo />);
-    const firstNameField = getByRole('textbox', { name: 'First Name:' });
+    const firstNameField = getByRole('input', { name: 'First Name:' });
     expect(firstNameField).not.toBeNull();
   });
 
@@ -28,15 +28,15 @@ describe('Basic info form', () => {
     const basicInfoProfile = {
       firstName: 'John',
       lastName: 'Doe',
-      dateOfBirth: '1980-12-12',
+      dateOfBirth: '1980-12-15',
       gender: 'Male'
     };
     useCivicProfile.mockReturnValue({ add: mockAdd, isSuccess: true });
     const { getByRole } = render(<BasicInfo />);
-    const firstNameField = getByRole('textbox', { name: 'First Name:' });
-    const lastNameField = getByRole('textbox', { name: 'Last Name:' });
-    const dateOfBirthField = getByRole('textbox', { name: 'Date of Birth:' });
-    const genderField = getByRole('textbox', { name: 'Gender:' });
+    const firstNameField = getByRole('textbox', { name: 'Legal First Name' });
+    const lastNameField = getByRole('textbox', { name: 'Legal Last Name' });
+    const dateOfBirthField = getByRole('textbox', { name: 'Date of Birth' });
+    const genderField = getByRole('textbox', { name: 'Gender' });
     const submitButton = getByRole('button');
     await user.type(firstNameField, basicInfoProfile.firstName);
     await user.type(lastNameField, basicInfoProfile.lastName);

@@ -54,91 +54,95 @@ const BasicInfo = () => {
   };
 
   return (
-    <FormSection title="Basic Information">
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="hmis-basic-info-first-name"
-              name="hmis-basic-info-first-name"
-              label="First name"
-              onChange={handleChange}
-              value={formData.legalFirstName}
-              margin="normal"
-              fullWidth
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="hmis-basic-info-last-name"
-              name="hmis-basic-info-last-name"
-              label="Last name"
-              margin="normal"
-              fullWidth
-              value={formData.legalLastName}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  name="hmis-basic-info-dob"
-                  format="YYYY-MM-DD"
-                  label="Date of birth"
-                  type="date"
-                  value={formData.legalDOB}
-                />
-              </LocalizationProvider>
-              <FormHelperText>YYYY-MM-DD</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
-              <Select
-                id="hmis-basic-info-gender"
-                label="Gender"
-                labelId="hmis-basic-info-gender"
-                value={formData.legalGender}
-              >
-                <MenuItem value={0}>Female</MenuItem>
-                <MenuItem value={1}>Male</MenuItem>
-                <MenuItem value={2}>Transgender male to female</MenuItem>
-                <MenuItem value={3}>Transgender female to male</MenuItem>
-                <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
-                <MenuItem value={8}>Don&apos;t know</MenuItem>
-                <MenuItem value={9}>Decline to answer</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              variant="contained"
-              type="submit"
-              color="secondary"
-              startIcon={<ClearIcon />}
-              fullWidth
-              sx={{ borderRadius: '20px' }}
-            >
-              Cancel
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              variant="contained"
-              type="submit"
-              color="primary"
-              startIcon={<CheckIcon />}
-              fullWidth
-              sx={{ borderRadius: '20px' }}
-              disabled={!isSuccess}
-            >
-              Submit
-            </Button>
-          </Grid>
+    <FormSection
+      title="Basic Information"
+      component="form"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="hmis-basic-info-first-name"
+            name="legalFirstName"
+            label="Legal First name"
+            onChange={handleChange}
+            value={formData.legalFirstName}
+            margin="normal"
+            fullWidth
+            autoFocus
+          />
         </Grid>
-      </form>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="hmis-basic-info-last-name"
+            name="legalLastName"
+            label="Legal Last name"
+            margin="normal"
+            fullWidth
+            value={formData.legalLastName}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                id="hmis-basic-info-date-of-birth"
+                name="legalDOB"
+                format="YYYY-MM-DD"
+                label="Date of birth"
+                type="date"
+                value={formData.legalDOB}
+              />
+            </LocalizationProvider>
+            <FormHelperText>YYYY-MM-DD</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth>
+            <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
+            <Select
+              labelId="hmis-basic-info-gender"
+              name="legalGender"
+              label="Gender"
+              value={formData.legalGender}
+            >
+              <MenuItem value={0}>Female</MenuItem>
+              <MenuItem value={1}>Male</MenuItem>
+              <MenuItem value={2}>Transgender male to female</MenuItem>
+              <MenuItem value={3}>Transgender female to male</MenuItem>
+              <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
+              <MenuItem value={8}>Don&apos;t know</MenuItem>
+              <MenuItem value={9}>Decline to answer</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="contained"
+            type="submit"
+            color="secondary"
+            startIcon={<ClearIcon />}
+            fullWidth
+            sx={{ borderRadius: '20px' }}
+          >
+            Cancel
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="contained"
+            type="submit"
+            color="primary"
+            startIcon={<CheckIcon />}
+            fullWidth
+            sx={{ borderRadius: '20px' }}
+            disabled={!isSuccess}
+          >
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
     </FormSection>
   );
 };
