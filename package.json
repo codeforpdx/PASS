@@ -39,7 +39,6 @@
     "@mui/x-date-pickers": "^6.5.0",
     "@tanstack/react-query": "^4.32.0",
     "@zxing/browser": "^0.1.3",
-    "crypto-js": "^4.1.1",
     "dayjs": "^1.11.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
