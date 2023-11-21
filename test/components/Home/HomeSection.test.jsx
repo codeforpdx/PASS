@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import { HomeSection } from '@components/Home';
 import createMatchMedia from '../../helpers/createMatchMedia';
@@ -39,15 +39,15 @@ describe('Button rendering', () => {
 
 describe('Default screen', () => {
   it('renders 300px padding by default', () => {
-    const component = render(<MockFormSectionDefault />);
-    const adjustableBox = getComputedStyle(component.container.firstChild);
+    render(<MockFormSectionDefault />);
+    const adjustableBox = getComputedStyle(screen.getByRole('img'));
 
     expect(adjustableBox.width).toBe('300px');
   });
 
   it('renders 85% padding by default', () => {
-    const { getByText } = render(<MockFormSectionDefault />);
-    const descriptionElement = getByText('Example Text');
+    render(<MockFormSectionDefault />);
+    const descriptionElement = screen.getByText('Example Text');
     const cssProperties = getComputedStyle(descriptionElement);
 
     expect(cssProperties.width).toBe('85%');
@@ -57,8 +57,8 @@ describe('Default screen', () => {
 describe('Mobile screen', () => {
   window.matchMedia = createMatchMedia(599);
   it('renders 80% padding by default', () => {
-    const component = render(<MockFormSectionMobile />);
-    const adjustableBox = getComputedStyle(component.container.firstChild);
+    render(<MockFormSectionMobile />);
+    const adjustableBox = getComputedStyle(screen.getByRole('img'));
 
     expect(adjustableBox.width).toBe('80%');
   });
