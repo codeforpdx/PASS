@@ -9,17 +9,17 @@ const MockKeyFeaturesMobile = () => <KeyFeatures isReallySmallScreen description
 
 it('renders 67% width default', () => {
   const { getByText } = render(<MockKeyFeaturesDefault />);
-  const component = getByText('Example Text');
-  const cssProperty = getComputedStyle(component);
+  const description = getByText('Example Text');
+  const descriptionStyles = getComputedStyle(description);
 
-  expect(cssProperty.width).toBe('67%');
+  expect(descriptionStyles.width).toBe('67%');
 });
 
 it('renders 100% width mobile', () => {
   window.matchMedia = createMatchMedia(599);
   const { getByText } = render(<MockKeyFeaturesMobile />);
-  const component = getByText('Example Text');
-  const cssProperty = getComputedStyle(component);
+  const description = getByText('Example Text');
+  const descriptionStyles = getComputedStyle(description);
 
-  expect(cssProperty.width).toBe('100%');
+  expect(descriptionStyles.width).toBe('100%');
 });

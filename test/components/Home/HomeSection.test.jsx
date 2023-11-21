@@ -4,70 +4,70 @@ import { expect, it, describe } from 'vitest';
 import { HomeSection } from '@components/Home';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-const MockFormSectionDefault = () => <HomeSection description="Example Text" />;
-const MockFormSectionMobile = () => <HomeSection isReallySmallScreen description="Example Text" />;
-const MockFormSectionButton = () => <HomeSection button="button" />;
-const MockFormSectionButtonMobile = () => <HomeSection isReallySmallScreen button="button" />;
+const MockSection = () => <HomeSection description="Example Text" />;
+const MockSectionMobile = () => <HomeSection isReallySmallScreen description="Example Text" />;
+const MockSectionButton = () => <HomeSection button="button" />;
+const MockSectionButtonMobile = () => <HomeSection isReallySmallScreen button="button" />;
 
 describe('Button rendering', () => {
   it('renders no button', () => {
-    const { queryByRole } = render(<MockFormSectionDefault />);
+    const { queryByRole } = render(<MockSection />);
     const button = queryByRole('button');
 
     expect(button).toBeNull();
   });
 
   it('renders button', () => {
-    const { queryByRole } = render(<MockFormSectionButton />);
+    const { queryByRole } = render(<MockSectionButton />);
     const button = queryByRole('button');
-    const cssProperties = getComputedStyle(button);
+    const buttonStyles = getComputedStyle(button);
 
     expect(button).not.toBeNull();
-    expect(cssProperties.width).toBe('25%');
+    expect(buttonStyles.width).toBe('25%');
   });
 
-  it('renders buttons mobile', () => {
+  it('renders button mobile', () => {
     window.matchMedia = createMatchMedia(599);
-    const { queryByRole } = render(<MockFormSectionButtonMobile />);
+    const { queryByRole } = render(<MockSectionButtonMobile />);
     const button = queryByRole('button');
-    const cssProperties = getComputedStyle(button);
+    const buttonStyles = getComputedStyle(button);
 
     expect(button).not.toBeNull();
-    expect(cssProperties.width).toBe('100%');
+    expect(buttonStyles.width).toBe('100%');
   });
 });
 
 describe('Default screen', () => {
   it('renders 300px padding by default', () => {
-    render(<MockFormSectionDefault />);
-    const adjustableBox = getComputedStyle(screen.getByRole('img'));
+    render(<MockSection />);
+    const image = getComputedStyle(screen.getByRole('img'));
 
-    expect(adjustableBox.width).toBe('300px');
+    expect(image.width).toBe('300px');
   });
 
   it('renders 85% padding by default', () => {
-    render(<MockFormSectionDefault />);
-    const descriptionElement = screen.getByText('Example Text');
-    const cssProperties = getComputedStyle(descriptionElement);
+    render(<MockSection />);
+    const description = screen.getByText('Example Text');
+    const descriptionStyles = getComputedStyle(description);
 
-    expect(cssProperties.width).toBe('85%');
+    expect(descriptionStyles.width).toBe('85%');
   });
 });
 
 describe('Mobile screen', () => {
   window.matchMedia = createMatchMedia(599);
   it('renders 80% padding by default', () => {
-    render(<MockFormSectionMobile />);
-    const adjustableBox = getComputedStyle(screen.getByRole('img'));
+    render(<MockSectionMobile />);
+    const image = getComputedStyle(screen.getByRole('img'));
 
-    expect(adjustableBox.width).toBe('80%');
+    expect(image.width).toBe('80%');
   });
 
   it('renders 100% padding by default', () => {
-    const { getByText } = render(<MockFormSectionMobile />);
-    const descriptionElement = getByText('Example Text');
-    const cssProperties = getComputedStyle(descriptionElement);
+    const { getByText } = render(<MockSectionMobile />);
+    const description = getByText('Example Text');
+    const descriptionStyles = getComputedStyle(description);
 
-    expect(cssProperties.width).toBe('100%');
+    expect(descriptionStyles.width).toBe('100%');
   });
 });
