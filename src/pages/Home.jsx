@@ -105,39 +105,39 @@ const Home = () => {
                 href="mailto:hugh@codeforpdx.org"
                 hasMargin
               />
+              <HomeSection
+                isReallySmallScreen={isReallySmallScreen}
+                componentImageSrc="/assets/app-green.png"
+                componentImageAlt=""
+                title="An App for Caseworkers"
+                description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
+                hasMargin
+              />
+              <HomeSection
+                isReallySmallScreen={isReallySmallScreen}
+                componentImageSrc="/assets/key-features-green.png"
+                componentImageAlt=""
+                title="Key Features"
+              />
+              <KeyFeatures
+                isReallySmallScreen={isReallySmallScreen}
+                icon={<SecurityIcon fontSize={iconSize} />}
+                title="Secure Storage"
+                description="Store vital documents like IDs, Social Security information, birth certificates, medical records, and bank statements in a valid digital format."
+              />
+              <KeyFeatures
+                isReallySmallScreen={isReallySmallScreen}
+                icon={<Diversity1Icon fontSize={iconSize} />}
+                title="Nonprofit-Caseworker Integration"
+                description="The platform facilitates smooth communication between nonprofit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
+              />
+              <KeyFeatures
+                isReallySmallScreen={isReallySmallScreen}
+                icon={<SupportIcon fontSize={iconSize} />}
+                title="Support Service"
+                description="Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplifies the process of submitting necessary documents for such services."
+              />
             </div>
-            <HomeSection
-              isReallySmallScreen={isReallySmallScreen}
-              componentImageSrc="/assets/app-green.png"
-              componentImageAlt=""
-              title="An App for Caseworkers"
-              description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
-              hasMargin
-            />
-            <HomeSection
-              isReallySmallScreen={isReallySmallScreen}
-              componentImageSrc="/assets/key-features-green.png"
-              componentImageAlt=""
-              title="Key Features"
-            />
-            <KeyFeatures
-              isReallySmallScreen={isReallySmallScreen}
-              icon={<SecurityIcon fontSize={iconSize} />}
-              title="Secure Storage"
-              description="Store vital documents like IDs, Social Security information, birth certificates, medical records, and bank statements in a valid digital format."
-            />
-            <KeyFeatures
-              isReallySmallScreen={isReallySmallScreen}
-              icon={<Diversity1Icon fontSize={iconSize} />}
-              title="Nonprofit-Caseworker Integration"
-              description="The platform facilitates smooth communication between nonprofit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
-            />
-            <KeyFeatures
-              isReallySmallScreen={isReallySmallScreen}
-              icon={<SupportIcon fontSize={iconSize} />}
-              title="Support Service"
-              description="Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplifies the process of submitting necessary documents for such services."
-            />
           </Stack>
         </section>
       </Box>
