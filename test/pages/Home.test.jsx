@@ -1,24 +1,29 @@
-import { render, cleanup } from '@testing-library/react';
 import React from 'react';
+import { render, cleanup, screen } from '@testing-library/react';
 import { expect, it, afterEach, describe } from 'vitest';
-import { ThemeProvider } from '@mui/material/styles';
-
-import Home from '../../src/pages/Home';
-import theme from '../../src/theme';
-
-const HomeWithContexts = () => (
-  <ThemeProvider theme={theme}>
-    <Home />
-  </ThemeProvider>
-);
+import { Home } from '@pages';
+import createMatchMedia from '../helpers/createMatchMedia';
 
 describe('Home Page', () => {
   afterEach(() => {
     cleanup();
   });
+  const h1FontSize = '144px';
 
-  it('renders', () => {
-    const { container } = render(<HomeWithContexts />);
-    expect(container).toMatchSnapshot();
+  it('renders desktop', () => {
+    render(<Home />);
+    const cssProperties = getComputedStyle(screen.getByTestId('testHomeH1'));
+
+    expect(screen.getByTestId('testHomeSection')).toBeDefined();
+    expect(cssProperties.fontSize).toBe(h1FontSize);
+  });
+
+  it('renders mobile', () => {
+    window.matchMedia = createMatchMedia(599);
+    render(<Home />);
+    const cssProperties = getComputedStyle(screen.getByTestId('testHomeH1'));
+
+    expect(screen.getByTestId('testHomeSection')).toBeDefined();
+    expect(cssProperties.fontSize).not.toBe(h1FontSize);
   });
 });

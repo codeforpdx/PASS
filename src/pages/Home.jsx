@@ -30,7 +30,13 @@ const Home = () => {
 
   const logoSection = isReallySmallScreen ? (
     <Stack justifyContent="center" alignItems="center" spacing={2} mb={2}>
-      <Typography variant="h1" fontWeight="500" fontSize="72px" color="primary">
+      <Typography
+        variant="h1"
+        fontWeight="500"
+        fontSize="72px"
+        color="primary"
+        data-testid="testHomeH1"
+      >
         PASS
       </Typography>
       <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="50%" />
@@ -41,8 +47,9 @@ const Home = () => {
       <Typography
         variant="h1"
         fontWeight="500"
-        fontSize={isReallySmallScreen ? '72px' : '144px'}
+        fontSize="144px"
         color="primary"
+        data-testid="testHomeH1"
       >
         PASS
       </Typography>
@@ -61,7 +68,7 @@ const Home = () => {
           padding: '20px'
         }}
       >
-        <section id="home">
+        <section id="home" data-testid="testHomeSection">
           <Stack alignItems="center" justifyContent="center">
             <Box
               height="calc(100vh - 64px)"
