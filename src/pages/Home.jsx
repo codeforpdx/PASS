@@ -33,11 +33,15 @@ const Home = () => {
   const handleClick = () => aboutRef.current.scrollIntoView({ behavior: 'smooth' });
 
   // Logo section elements
-  const heading = 'PASS';
-  const punctuation = (
-    <Box component="span" sx={visuallyHidden}>
-      :
-    </Box>
+  const heading = (
+    <>
+      PASS
+      {/* This is added for better screen reader experience by adding a pause
+          between the acronym and the expanded acronym. */}
+      <Box component="span" sx={visuallyHidden}>
+        :
+      </Box>
+    </>
   );
   const subheading = 'Personal Access System for Services';
 
@@ -46,7 +50,6 @@ const Home = () => {
       <Stack component="span" justifyContent="center" alignItems="center" spacing={2} mb={2}>
         <Typography variant="h1" component="span" fontWeight="500" fontSize="72px">
           {heading}
-          {punctuation}
         </Typography>
         <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
         <Typography variant="h4" component="span" fontWeight="600" mb={8}>
@@ -67,7 +70,6 @@ const Home = () => {
           <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
           <Typography variant="h1" component="span" fontWeight="500" fontSize="144px">
             {heading}
-            {punctuation}
           </Typography>
         </Stack>
         <Typography variant="h3" component="span" fontWeight="600">
