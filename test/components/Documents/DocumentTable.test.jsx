@@ -6,9 +6,6 @@ import DocumentTable from '@components/Documents';
 
 import { DocumentListContext } from '@contexts';
 
-// const handleAclPermissionsModal = vi.fn();
-// const handleSelectDeleteDoc = vi.fn();
-
 const mockedDocumentContext = {
   documentListObject: {
     docList: [
@@ -24,7 +21,7 @@ const mockedDocumentContext = {
         name: 'test2.pdf',
         type: 'Passport',
         description: 'test description 2',
-        endDate: new Date(),
+        endDate: null,
         uploadDate: new Date(),
         fileUrl: 'http://localhost:3000/pod/PASS/Documents/test2.pdf'
       }
@@ -52,9 +49,15 @@ describe('DocumentTable Component', () => {
     const row1FileName = queryByRole('cell', { name: 'test.pdf' });
     const row1FileType = queryByRole('cell', { name: 'Other' });
     const row1Description = queryByRole('cell', { name: 'test description' });
+    const row2FileName = queryByRole('cell', { name: 'test2.pdf' });
+    const row2FileType = queryByRole('cell', { name: 'Passport' });
+    const row2Description = queryByRole('cell', { name: 'test description 2' });
 
     expect(row1FileName).not.toBeNull();
     expect(row1FileType).not.toBeNull();
     expect(row1Description).not.toBeNull();
+    expect(row2FileName).not.toBeNull();
+    expect(row2FileType).not.toBeNull();
+    expect(row2Description).not.toBeNull();
   });
 });
