@@ -102,17 +102,13 @@ const InactivityMessage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <LogoutButton>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<LogoutIcon />}
+          <LogoutButton onLogout={() => localStorage.clear()}>
+            <Button 
+              variant="outlined" 
+              color="error" 
+              endIcon={<LogoutIcon />}               
               sx={{ borderRadius: '20px' }}
               fullWidth
-              onClick={() => {
-                localStorage.clear();
-                logout();
-              }}
             >
               Log Out
             </Button>

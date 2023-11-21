@@ -1,16 +1,9 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
-// Other Library Imports
-import dayjs from 'dayjs';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -40,18 +33,14 @@ const ProfileComponent = ({ contactProfile }) => {
   const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
 
-  // Private Profile Data
-  const [dateOfBirth, setDateOfBirth] = useState(profileData?.privateProfileData?.dateOfBirth);
-
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
-    const profileDataSolid = await fetchProfileInfo(session, session.info.webId);
+    const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
 
     setProfileName(profileDataSolid.profileInfo?.profileName);
     setNickname(profileDataSolid.profileInfo?.nickname);
-    setDateOfBirth(profileDataSolid.privateProfileInfo?.dateOfBirth);
   };
 
   const handleCancelEdit = () => {
@@ -71,11 +60,7 @@ const ProfileComponent = ({ contactProfile }) => {
       nickname
     };
 
-    const inputValuesPrivate = {
-      dateOfBirth
-    };
-
-    await updateProfileInfo(session, profileData, inputValues, inputValuesPrivate);
+    await updateProfileInfo(session, profileData, inputValues);
 
     loadProfileData();
     setEdit(false);
@@ -84,15 +69,6 @@ const ProfileComponent = ({ contactProfile }) => {
   useEffect(() => {
     loadProfileData();
   }, []);
-
-  const renderDateOfBirth = () => {
-    if (contactProfile) {
-      return contactProfile.dateOfBirth
-        ? dayjs(contactProfile.dateOfBirth).format('MM/DD/YYYY')
-        : 'No value set';
-    }
-    return dateOfBirth ? dayjs(dateOfBirth).format('MM/DD/YYYY') : 'No value set';
-  };
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -140,23 +116,6 @@ const ProfileComponent = ({ contactProfile }) => {
             setInputValue={setNickname}
             edit={edit}
           />
-          <Box sx={{ display: 'flex', gap: '10px' }}>
-            <Typography>Date of Birth: </Typography>
-            {edit ? (
-              <FormControl>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    format="MM/DD/YYYY"
-                    value={dayjs(dateOfBirth)}
-                    onChange={(newDateOfBirth) => setDateOfBirth(newDateOfBirth)}
-                    disableFuture
-                  />
-                </LocalizationProvider>
-              </FormControl>
-            ) : (
-              renderDateOfBirth()
-            )}
-          </Box>
         </Box>
         {!contactProfile && (
           <ProfileEditButtonGroup
