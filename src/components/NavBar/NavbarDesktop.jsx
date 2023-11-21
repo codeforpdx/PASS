@@ -35,11 +35,8 @@ import NavMenu from './NavMenu';
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
   const { data } = useMessageList('Inbox');
-  const [numUnreadMessages, setNumUnreadMessages] = useState(0);
 
-  useEffect(() => {
-    setNumUnreadMessages(data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-  }, [data]);
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);

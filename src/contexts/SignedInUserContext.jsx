@@ -64,9 +64,7 @@ export const SignedInUserContextProvider = ({ children }) => {
         setProfileData(fetchedProfileData);
         await Promise.all([
           createPASSContainer(session, fetchedPodUrl, 'Documents'),
-          createPASSContainer(session, fetchedPodUrl, 'Profile'),
-          createPASSContainer(session, podUrl, 'Outbox'),
-          createPASSContainer(session, podUrl, 'Inbox', { append: true })
+          createPASSContainer(session, fetchedPodUrl, 'Profile')
         ]);
       } finally {
         setLoadingUserInfo(false);

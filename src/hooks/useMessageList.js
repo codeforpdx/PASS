@@ -14,6 +14,7 @@ import {
   saveSolidDatasetAt,
   setThing
 } from '@inrupt/solid-client';
+import { generateACL } from '@utils';
 import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 
@@ -131,7 +132,9 @@ export { updateMessageReadStatus };
 /**
  * Custom hook that helps renders messages from Inbox/Outbox from PASS container
  * in Solid. It's a wrapper for a React Query and manages the messageListObject
- * pulled and parsed from Solid
+ * pulled and parsed from Solid; Also helps with generating the initial ACL file
+ * for inbox and only triggers when logging in for the first time of if the ACL
+ * file is missing
  *
  * @memberof hooks
  * @function useMessageList
@@ -178,10 +181,12 @@ const useMessageList = (messageType) => {
       if (e.response.status === 404) {
         myDataset = createSolidDataset();
         myDataset = await saveSolidDatasetAt(containerUrl.toString(), myDataset, { fetch });
+        await generateACL(session, podUrl, 'Inbox', { append: true });
       } else {
         throw e;
       }
     }
+
     setStoredDataset(myDataset);
     return parse(myDataset);
   };

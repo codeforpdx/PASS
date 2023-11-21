@@ -38,7 +38,7 @@ const MessagePreview = ({ message, folderType }) => {
 
   const handleClick = async () => {
     setShowContents(!showContents);
-    if (folderType === 'Inbox' && message.readStatus === false) {
+    if (folderType === 'Inbox' && !message.readStatus) {
       try {
         await updateReadStatus(message);
       } catch {

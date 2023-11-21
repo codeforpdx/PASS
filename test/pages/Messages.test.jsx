@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
@@ -77,11 +77,8 @@ const queryClient = new QueryClient();
 
 const MockMessagePage = ({ session }) => {
   const { data } = useMessageList('Inbox');
-  const [numUnreadMessages, setNumUnreadMessages] = useState(0);
 
-  useEffect(() => {
-    setNumUnreadMessages(data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-  }, [data]);
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   return (
     <QueryClientProvider client={queryClient}>

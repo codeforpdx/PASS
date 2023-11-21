@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 // Material UI Imports
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -54,11 +54,8 @@ const NavMenu = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { setContact } = useContext(DocumentListContext);
   const { data } = useMessageList('Inbox');
-  const [numUnreadMessages, setNumUnreadMessages] = useState(0);
 
-  useEffect(() => {
-    setNumUnreadMessages(data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0));
-  }, [data]);
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
