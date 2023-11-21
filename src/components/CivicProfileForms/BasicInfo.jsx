@@ -29,10 +29,10 @@ import { FormSection } from '../Form';
 const BasicInfo = () => {
   const { data, add, isSuccess } = useCivicProfile();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    gender: ''
+    legalFirstName: '',
+    legalLastName: '',
+    legalDOB: '',
+    legalGender: ''
   });
 
   useEffect(() => {
@@ -78,9 +78,10 @@ const BasicInfo = () => {
             id="hmis-basic-info-last-name"
             name="legalLastName"
             label="Legal Last name"
+            onChange={handleChange}
+            value={formData.legalLastName}
             margin="normal"
             fullWidth
-            value={formData.legalLastName}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -89,10 +90,11 @@ const BasicInfo = () => {
               <DatePicker
                 id="hmis-basic-info-date-of-birth"
                 name="legalDOB"
-                format="YYYY-MM-DD"
                 label="Date of birth"
-                type="date"
+                onChange={handleChange}
                 value={formData.legalDOB}
+                format="YYYY-MM-DD"
+                type="date"
               />
             </LocalizationProvider>
             <FormHelperText>YYYY-MM-DD</FormHelperText>
@@ -102,10 +104,13 @@ const BasicInfo = () => {
           <FormControl fullWidth>
             <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
             <Select
-              labelId="hmis-basic-info-gender"
+              id="hmis-basic-info-gender-select"
               name="legalGender"
               label="Gender"
+              onChange={handleChange}
               value={formData.legalGender}
+              labelId="hmis-basic-info-gender"
+              defaultValue=""
             >
               <MenuItem value={0}>Female</MenuItem>
               <MenuItem value={1}>Male</MenuItem>
