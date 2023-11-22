@@ -42,7 +42,6 @@ const NavbarLoggedOut = () => {
                 variant="contained"
                 color="secondary"
                 size="large"
-                // sx={{ opacity: '0.8', color: 'black' }}
                 sx={{ borderRadius: '20px' }}
                 onClick={handleSignIn}
               >
