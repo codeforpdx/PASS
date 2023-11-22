@@ -27,7 +27,9 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
     aria-describedby="dialog-description"
     onClose={() => setShowSignInModal(false)}
   >
-    <DialogTitle id="dialog-title">Sign In?</DialogTitle>
+    <DialogTitle id="dialog-title" textAlign="center">
+      Sign In?
+    </DialogTitle>
 
     <DialogContent>
       <DialogContentText id="dialog-description" textAlign="center">

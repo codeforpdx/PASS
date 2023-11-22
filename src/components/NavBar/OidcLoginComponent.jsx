@@ -97,7 +97,14 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           />
         )}
       />
-      <Box sx={{ display: 'flex', gap: '10px', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: isSmallScreen ? 'column' : 'row',
+          gap: '10px',
+          width: isSmallScreen ? '100%' : null
+        }}
+      >
         {isSmallScreen && (
           <Button
             variant="outlined"
@@ -115,7 +122,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           color="secondary"
           size={isSmallScreen ? '' : 'large'}
           onClick={() => loginHandler()}
-          fullWidth
+          fullWidth={isSmallScreen}
           sx={{ borderRadius: '20px' }}
         >
           Login
