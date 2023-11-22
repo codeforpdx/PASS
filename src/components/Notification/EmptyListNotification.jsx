@@ -30,7 +30,7 @@ const EmptyListNotification = ({ type }) => {
     >
       <Box sx={{ my: '3rem' }}>
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-          <Typography variant="h6" component="h2" align="center" color="secondary">
+          <Typography variant="h6" component="p" align="center" color="secondary">
             {str1}
             {type !== 'messages' ? (
               <>
