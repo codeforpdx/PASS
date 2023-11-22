@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useRef } from 'react';
 // Material UI Imports
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import Box from '@mui/material/Box';
@@ -27,6 +27,9 @@ const Home = () => {
   const theme = useTheme();
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const iconSize = isReallySmallScreen ? 'medium' : 'large';
+  const aboutRef = useRef(null);
+
+  const handleClick = () => aboutRef.current.scrollIntoView({ behavior: 'smooth' });
 
   const logoSection = isReallySmallScreen ? (
     <Stack justifyContent="center" alignItems="center" spacing={2} mb={2}>
@@ -90,11 +93,11 @@ const Home = () => {
               <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
-              <IconButton aria-label="Scroll down" color="secondary" href="#about-pass">
+              <IconButton aria-label="Scroll down" color="secondary" onClick={handleClick}>
                 <ArrowCircleDownOutlinedIcon sx={{ fontSize: '32px' }} />
               </IconButton>
             </Box>
-            <div id="about-pass">
+            <div ref={aboutRef}>
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
                 componentImageSrc="/assets/web-security-green.png"
@@ -104,6 +107,7 @@ const Home = () => {
                 button="Request a Demo"
                 href="mailto:hugh@codeforpdx.org"
                 hasMargin
+                ref={aboutRef}
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
