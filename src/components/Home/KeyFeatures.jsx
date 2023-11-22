@@ -2,6 +2,7 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
@@ -17,7 +18,7 @@ import Typography from '@mui/material/Typography';
  * @returns {React.JSX.Element} the KeyFeatures section component
  */
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
-  <>
+  <Stack alignItems="center">
     <Box
       sx={{
         display: 'flex',
@@ -51,7 +52,7 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
     >
       {description}
     </Typography>
-  </>
+  </Stack>
 );
 
 export default KeyFeatures;
