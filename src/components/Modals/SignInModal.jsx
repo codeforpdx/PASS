@@ -37,7 +37,7 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
       </DialogContentText>
     </DialogContent>
 
-    <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <DialogActions>
       <OidcLoginComponent setShowSignInModal={setShowSignInModal} />
     </DialogActions>
   </Dialog>
