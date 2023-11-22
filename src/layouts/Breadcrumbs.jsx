@@ -51,7 +51,9 @@ const Breadcrumbs = () => {
             {crumb}
           </Link>
         ) : (
-          <Typography key={crumb}>{crumb}</Typography>
+          <Typography component="h2" key={crumb}>
+            {crumb}
+          </Typography>
         )
       )}
     </MUIBreadcrumbs>
