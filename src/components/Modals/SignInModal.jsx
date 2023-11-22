@@ -28,12 +28,12 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
     onClose={() => setShowSignInModal(false)}
   >
     <DialogTitle id="dialog-title" textAlign="center">
-      Sign In?
+      Sign In
     </DialogTitle>
 
     <DialogContent>
       <DialogContentText id="dialog-description" textAlign="center">
-        Welcome to PASS. Sign in below
+        Please select a Solid Server to log in
       </DialogContentText>
     </DialogContent>
 

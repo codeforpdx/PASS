@@ -119,7 +119,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         <Button
           variant="contained"
           type="submit"
-          color="secondary"
+          color={isSmallScreen ? 'primary' : 'secondary'}
           size={isSmallScreen ? '' : 'large'}
           onClick={() => loginHandler()}
           fullWidth={isSmallScreen}
