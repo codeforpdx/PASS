@@ -29,7 +29,7 @@ const RenderCallToActionSection = ({ isReallySmallScreen }) => (
       href="mailto:hugh@codeforpdx.org"
       target="_blank"
       rel="noopener"
-      sx={{ my: '1rem', width: 1 / 2 }}
+      sx={{ my: '1rem', width: 1 / 2, borderRadius: '20px' }}
     >
       Make a Proposal
     </Button>

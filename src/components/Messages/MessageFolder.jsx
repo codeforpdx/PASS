@@ -82,7 +82,11 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList = 
           variant="contained"
           onClick={() => handleRefresh(folderType)}
           type="button"
-          sx={{ width: '120px', margin: isSmallScreen ? '10px 20px' : '10px' }}
+          sx={{
+            width: '120px',
+            margin: isSmallScreen ? '10px 20px' : '10px',
+            borderRadius: '20px'
+          }}
           startIcon={<RotateLeftOutlinedIcon />}
         >
           Refresh

@@ -70,7 +70,7 @@ const HomeSection = ({
           my: '1rem',
           backgroundColor: 'primary.light',
           width: isReallySmallScreen ? 1 : 1 / 4,
-          borderRadius: '25px'
+          borderRadius: '20px'
         }}
       >
         {button}
