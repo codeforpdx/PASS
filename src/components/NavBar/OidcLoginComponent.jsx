@@ -54,7 +54,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
       <Autocomplete
         id="pod-server-url"
         sx={{
-          width: isSmallScreen ? '250px' : '300px',
+          width: isSmallScreen ? '210px' : '300px',
           marginBottom: isSmallScreen && dropdownIsOpen ? '150px' : '0'
         }}
         fullWidth
