@@ -107,7 +107,6 @@ const Home = () => {
                 button="Request a Demo"
                 href="mailto:hugh@codeforpdx.org"
                 hasMargin
-                ref={aboutRef}
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
