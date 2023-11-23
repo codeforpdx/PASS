@@ -40,9 +40,9 @@ const NavbarLoggedOut = () => {
             <>
               <Button
                 variant="contained"
-                color="tertiary"
+                color="secondary"
                 size="large"
-                sx={{ opacity: '0.8', color: 'black' }}
+                sx={{ borderRadius: '20px' }}
                 onClick={handleSignIn}
               >
                 Sign In
