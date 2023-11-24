@@ -46,9 +46,15 @@ const Home = () => {
   const subheading = 'Personal Access System for Services';
 
   const logoSection = isReallySmallScreen ? (
-    <Typography component="h1" color="primary" data-testid="testHomeH1">
+    <Typography component="h1" color="primary">
       <Stack component="span" justifyContent="center" alignItems="center" spacing={2} mb={2}>
-        <Typography variant="h1" component="span" fontWeight="500" fontSize="72px">
+        <Typography
+          variant="h1"
+          component="span"
+          fontWeight="500"
+          fontSize="72px"
+          data-testid="testHomeH1"
+        >
           {heading}
         </Typography>
         <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
@@ -58,7 +64,7 @@ const Home = () => {
       </Stack>
     </Typography>
   ) : (
-    <Typography component="h1" color="primary" data-testid="testHomeH1">
+    <Typography component="h1" color="primary">
       <Stack justifyContent="center" alignItems="center" spacing={4} mb={18}>
         <Stack
           component="span"
@@ -68,7 +74,13 @@ const Home = () => {
           spacing={4}
         >
           <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
-          <Typography variant="h1" component="span" fontWeight="500" fontSize="144px">
+          <Typography
+            variant="h1"
+            component="span"
+            fontWeight="500"
+            fontSize="144px"
+            data-testid="testHomeH1"
+          >
             {heading}
           </Typography>
         </Stack>
