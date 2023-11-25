@@ -12,6 +12,5 @@ import createPASSContainer from './pod-management/pod-helper';
 
 export { getDriversLicenseData, formattedDate, createPASSContainer };
 
-export * from './cryptography/credentials-helper';
 export * from './network/session-core';
 export * from './network/session-helper';
