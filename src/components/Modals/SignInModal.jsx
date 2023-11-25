@@ -26,6 +26,7 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
     aria-labelledby="dialog-title"
     aria-describedby="dialog-description"
     onClose={() => setShowSignInModal(false)}
+    PaperProps={{ sx: { maxHeight: '20rem', overflow: 'clip' } }}
   >
     <DialogTitle id="dialog-title" textAlign="center">
       Sign In

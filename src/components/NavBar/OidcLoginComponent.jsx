@@ -79,6 +79,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         onInputChange={(_, newInputValue) => {
           setOidcIssuer(newInputValue);
         }}
+        ListboxProps={{ style: { maxHeight: '12rem' } }}
         renderInput={(renderParams) => (
           <TextField
             {...renderParams}
