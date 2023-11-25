@@ -191,7 +191,7 @@ const Profile = () => {
               size="small"
               startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
-              sx={{ width: isSmallScreen ? '250px' : 'default', borderRadius: '20px' }}
+              sx={{ width: isSmallScreen ? '250px' : 'default', borderRadius: '25px' }}
             >
               Share Documents Folder
             </Button>
@@ -202,7 +202,7 @@ const Profile = () => {
             size="small"
             startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '200px' : 'default', borderRadius: '20px' }}
+            sx={{ width: isSmallScreen ? '200px' : 'default', borderRadius: '25px' }}
           >
             Add Document
           </Button>

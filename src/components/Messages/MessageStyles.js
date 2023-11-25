@@ -5,7 +5,7 @@ export const StyledButton = styled('button')({
   height: '60px',
   backgroundColor: '#017969',
   borderColor: 'black',
-  borderRadius: '5px',
+  borderRadius: '25px',
   cursor: 'pointer',
   '&:hover': {
     filter: 'brightness(0.9)'

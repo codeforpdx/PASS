@@ -107,7 +107,7 @@ const InactivityMessage = () => {
               variant="outlined"
               color="error"
               endIcon={<LogoutIcon />}
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '25px' }}
               fullWidth
             >
               Log Out
@@ -117,7 +117,7 @@ const InactivityMessage = () => {
             variant="contained"
             color="primary"
             endIcon={<CheckIcon />}
-            sx={{ borderRadius: '20px' }}
+            sx={{ borderRadius: '25px' }}
             fullWidth
             onClick={() => setShowPopup(false)}
           >

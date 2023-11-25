@@ -155,7 +155,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               startIcon={<ClearIcon />}
               onClick={clearInputFields}
               fullWidth
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '25px' }}
             >
               Cancel
             </Button>
@@ -166,7 +166,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               color="primary"
               startIcon={<ShareIcon />}
               fullWidth
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '25px' }}
             >
               {permissionState.permissionType ? `${permissionState.permissionType}` : 'Share'}
             </Button>
