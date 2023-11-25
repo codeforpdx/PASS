@@ -47,14 +47,15 @@ const Home = () => {
 
   const logoSection = isReallySmallScreen ? (
     <Typography component="h1" color="primary">
-      <Stack component="span" justifyContent="center" alignItems="center" spacing={2} mb={2}>
-        <Typography
-          variant="h1"
-          component="span"
-          fontWeight="500"
-          fontSize="72px"
-          data-testid="testHomeH1"
-        >
+      <Stack
+        component="span"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        mb={2}
+        data-testid="testStack"
+      >
+        <Typography variant="h1" component="span" fontWeight="500" fontSize="72px">
           {heading}
         </Typography>
         <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
@@ -65,7 +66,13 @@ const Home = () => {
     </Typography>
   ) : (
     <Typography component="h1" color="primary">
-      <Stack justifyContent="center" alignItems="center" spacing={4} mb={18}>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        spacing={4}
+        mb={18}
+        data-testid="testStack"
+      >
         <Stack
           component="span"
           direction="row"
@@ -74,13 +81,7 @@ const Home = () => {
           spacing={4}
         >
           <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
-          <Typography
-            variant="h1"
-            component="span"
-            fontWeight="500"
-            fontSize="144px"
-            data-testid="testHomeH1"
-          >
+          <Typography variant="h1" component="span" fontWeight="500" fontSize="144px">
             {heading}
           </Typography>
         </Stack>
