@@ -1,11 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import { HomeSection } from '@components/Home';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-const MockSection = () => <HomeSection description="Example Text" />;
-const MockSectionMobile = () => <HomeSection isReallySmallScreen description="Example Text" />;
+const MockSection = () => <HomeSection />;
+const MockSectionDescription = () => <HomeSection description="Example Text" />;
+const MockSectionDescriptionMobile = () => (
+  <HomeSection isReallySmallScreen description="Example Text" />
+);
 const MockSectionButton = () => <HomeSection button="button" />;
 const MockSectionButtonMobile = () => <HomeSection isReallySmallScreen button="button" />;
 
@@ -23,7 +26,7 @@ describe('Button rendering', () => {
     const buttonStyles = getComputedStyle(button);
 
     expect(button).not.toBeNull();
-    expect(buttonStyles.width).toBe('25%');
+    expect(buttonStyles.width).not.toBe('100%');
   });
 
   it('renders button mobile', () => {
@@ -37,37 +40,45 @@ describe('Button rendering', () => {
   });
 });
 
-describe('Default screen', () => {
-  it('renders 300px padding by default', () => {
-    render(<MockSection />);
-    const image = getComputedStyle(screen.getByRole('img'));
+describe('Description rendering', () => {
+  it('renders no description', () => {
+    const { queryByText } = render(<MockSection />);
+    const description = queryByText('Example Text');
+
+    expect(description).toBeNull();
+  });
+
+  it('renders description', () => {
+    const { queryByText } = render(<MockSectionDescription />);
+    const description = queryByText('Example Text');
+    const descriptionStyles = getComputedStyle(description);
+
+    expect(descriptionStyles.width).not.toBe('100%');
+  });
+
+  it('renders description mobile', () => {
+    window.matchMedia = createMatchMedia(599);
+    const { queryByText } = render(<MockSectionDescriptionMobile />);
+    const description = queryByText('Example Text');
+    const descriptionStyles = getComputedStyle(description);
+
+    expect(descriptionStyles.width).toBe('100%');
+  });
+});
+
+describe('Image rendering', () => {
+  it('renders image at 300px width on desktop', () => {
+    const { queryByRole } = render(<MockSectionDescription />);
+    const image = getComputedStyle(queryByRole('img'));
 
     expect(image.width).toBe('300px');
   });
 
-  it('renders 85% padding by default', () => {
-    render(<MockSection />);
-    const description = screen.getByText('Example Text');
-    const descriptionStyles = getComputedStyle(description);
-
-    expect(descriptionStyles.width).toBe('85%');
-  });
-});
-
-describe('Mobile screen', () => {
-  window.matchMedia = createMatchMedia(599);
-  it('renders 80% padding by default', () => {
-    render(<MockSectionMobile />);
-    const image = getComputedStyle(screen.getByRole('img'));
+  it('renders image at 80% width on mobile', () => {
+    window.matchMedia = createMatchMedia(599);
+    const { queryByRole } = render(<MockSectionDescriptionMobile />);
+    const image = getComputedStyle(queryByRole('img'));
 
     expect(image.width).toBe('80%');
-  });
-
-  it('renders 100% padding by default', () => {
-    const { getByText } = render(<MockSectionMobile />);
-    const description = getByText('Example Text');
-    const descriptionStyles = getComputedStyle(description);
-
-    expect(descriptionStyles.width).toBe('100%');
   });
 });

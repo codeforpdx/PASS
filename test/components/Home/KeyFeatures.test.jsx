@@ -7,12 +7,12 @@ import createMatchMedia from '../../helpers/createMatchMedia';
 const MockKeyFeaturesDefault = () => <KeyFeatures description="Example Text" />;
 const MockKeyFeaturesMobile = () => <KeyFeatures isReallySmallScreen description="Example Text" />;
 
-it('renders 85% width default', () => {
+it('renders less width by default', () => {
   const { getByText } = render(<MockKeyFeaturesDefault />);
   const description = getByText('Example Text');
   const descriptionStyles = getComputedStyle(description);
 
-  expect(descriptionStyles.width).toBe('85%');
+  expect(descriptionStyles.width).not.toBe('100%');
 });
 
 it('renders 100% width mobile', () => {

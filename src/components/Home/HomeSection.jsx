@@ -55,6 +55,7 @@ const HomeSection = ({
     </Typography>
     {description && (
       <Typography
+        data-testid="testDescription"
         sx={{
           color: 'primary.dark',
           width: isReallySmallScreen ? '100%' : '85%',
