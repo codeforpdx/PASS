@@ -72,7 +72,6 @@ const Contacts = () => {
           size="small"
           startIcon={<AddIcon />}
           onClick={() => setShowAddContactModal(true)}
-          sx={{ borderRadius: '25px' }}
         >
           Add Contact
         </Button>

@@ -120,12 +120,7 @@ const MessagePreview = ({ message, folderType }) => {
                     </Typography>
                   ))}
                   {showContents && folderType === 'Inbox' && (
-                    <Button
-                      variant="contained"
-                      type="button"
-                      onClick={handleReplyMessage}
-                      sx={{ borderRadius: '25px' }}
-                    >
+                    <Button variant="contained" type="button" onClick={handleReplyMessage}>
                       Reply
                     </Button>
                   )}

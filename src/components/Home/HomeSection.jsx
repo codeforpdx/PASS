@@ -69,8 +69,7 @@ const HomeSection = ({
         sx={{
           my: '1rem',
           backgroundColor: 'primary.light',
-          width: isReallySmallScreen ? 1 : 1 / 4,
-          borderRadius: '25px'
+          width: isReallySmallScreen ? 1 : 1 / 4
         }}
       >
         {button}

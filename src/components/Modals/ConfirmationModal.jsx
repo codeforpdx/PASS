@@ -88,7 +88,6 @@ const ConfirmationModal = ({
             endIcon={<ClearIcon />}
             onClick={() => setShowConfirmationModal(false)}
             fullWidth
-            sx={{ borderRadius: '25px' }}
           >
             Cancel
           </Button>

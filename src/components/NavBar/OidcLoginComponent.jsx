@@ -111,7 +111,6 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
             color="error"
             onClick={() => setShowSignInModal(false)}
             fullWidth
-            sx={{ borderRadius: '25px' }}
           >
             Cancel
           </Button>
@@ -123,7 +122,6 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           size={isSmallScreen ? '' : 'large'}
           onClick={() => loginHandler()}
           fullWidth={isSmallScreen}
-          sx={{ borderRadius: '25px' }}
         >
           Login
         </Button>

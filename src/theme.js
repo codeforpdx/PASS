@@ -55,6 +55,13 @@ const theme = createTheme({
         }
       }
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 25
+        }
+      }
+    },
     MuiTableHead: {
       styleOverrides: {
         root: {

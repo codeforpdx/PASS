@@ -84,8 +84,7 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList = 
           type="button"
           sx={{
             width: '120px',
-            margin: isSmallScreen ? '10px 20px' : '10px',
-            borderRadius: '25px'
+            margin: isSmallScreen ? '10px 20px' : '10px'
           }}
           startIcon={<RotateLeftOutlinedIcon />}
         >
