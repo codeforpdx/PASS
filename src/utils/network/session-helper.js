@@ -18,7 +18,6 @@ import {
   getWebIdDataset
 } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
-import sha256 from 'crypto-js/sha256';
 import getDriversLicenseData from '../barcode/barcode-scan';
 import formattedDate from '../barcode/barcode-date-parser';
 import { RDF_PREDICATES } from '../../constants';
@@ -139,23 +138,6 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
 };
 
 /**
- * Function that generates checksum for uploaded file
- *
- * @memberof utils
- * @function createFileChecksum
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @returns {Promise<WordArray>} Promise - Generates checksum for uploaded file
- * using the SHA256 algorithm
- */
-const createFileChecksum = async (fileObject) => {
-  const { file } = fileObject;
-
-  const text = await file.text(); // only hash the first megabyte
-  return sha256(text);
-};
-
-/**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
  * @function createDriversLicenseTtlFile
@@ -215,10 +197,8 @@ const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) =>
  */
 
 export const createResourceTtlFile = async (fileObject, documentUrl) => {
-  const checksum = await createFileChecksum(fileObject);
-
   if (fileObject.type === "Driver's License") {
-    return createDriversLicenseTtlFile(fileObject, documentUrl, checksum);
+    return createDriversLicenseTtlFile(fileObject, documentUrl);
   }
 
   return buildThing(createThing({ name: 'document' }))
@@ -226,7 +206,6 @@ export const createResourceTtlFile = async (fileObject, documentUrl) => {
     .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
     .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
     .addUrl(RDF_PREDICATES.url, documentUrl)
     .build();
