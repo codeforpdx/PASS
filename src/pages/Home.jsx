@@ -12,6 +12,7 @@ import SupportIcon from '@mui/icons-material/Support';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { visuallyHidden } from '@mui/utils';
 // Components Import
 import { HomeSection, KeyFeatures } from '@components/Home';
 
@@ -31,32 +32,63 @@ const Home = () => {
 
   const handleClick = () => aboutRef.current.scrollIntoView({ behavior: 'smooth' });
 
+  // Logo section elements
+  const heading = (
+    <>
+      PASS
+      {/* This is added for better screen reader experience by adding a pause
+          between the acronym and the expanded acronym. */}
+      <Box component="span" sx={visuallyHidden}>
+        :
+      </Box>
+    </>
+  );
+  const subheading = 'Personal Access System for Services';
+
   const logoSection = isReallySmallScreen ? (
-    <Stack justifyContent="center" alignItems="center" spacing={2} mb={2}>
-      <Typography
-        variant="h1"
-        fontWeight="500"
-        fontSize="72px"
-        color="primary"
-        data-testid="testHomeH1"
-      >
-        PASS
-      </Typography>
-      <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="50%" />
-    </Stack>
+    <Typography component="h1" color="primary">
+      <Stack component="span" justifyContent="center" alignItems="center" spacing={2} mb={2}>
+        <Typography
+          variant="h1"
+          component="span"
+          fontWeight="500"
+          fontSize="72px"
+          data-testid="testHomeH1"
+        >
+          {heading}
+        </Typography>
+        <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
+        <Typography variant="h4" component="span" fontWeight="600" mb={8}>
+          {subheading}
+        </Typography>
+      </Stack>
+    </Typography>
   ) : (
-    <Stack direction="row" justifyContent="center" alignItems="center" spacing={4}>
-      <Box component="img" src="/assets/PASSLogolightmode.png" alt="PASS logo" width="150px" />
-      <Typography
-        variant="h1"
-        fontWeight="500"
-        fontSize="144px"
-        color="primary"
-        data-testid="testHomeH1"
-      >
-        PASS
-      </Typography>
-    </Stack>
+    <Typography component="h1" color="primary">
+      <Stack justifyContent="center" alignItems="center" spacing={4} mb={18}>
+        <Stack
+          component="span"
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={4}
+        >
+          <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
+          <Typography
+            variant="h1"
+            component="span"
+            fontWeight="500"
+            fontSize="144px"
+            data-testid="testHomeH1"
+          >
+            {heading}
+          </Typography>
+        </Stack>
+        <Typography variant="h3" component="span" fontWeight="600">
+          {subheading}
+        </Typography>
+      </Stack>
+    </Typography>
   );
 
   return (
@@ -81,15 +113,6 @@ const Home = () => {
               alignItems="center"
             >
               {logoSection}
-              <Typography
-                variant={isReallySmallScreen ? 'h4' : 'h3'}
-                component="p"
-                fontWeight="600"
-                mb={isReallySmallScreen ? 8 : 18}
-                color="primary"
-              >
-                Personal Access System for Services
-              </Typography>
               <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
