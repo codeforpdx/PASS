@@ -52,6 +52,9 @@ const BasicInfo = () => {
     }
     add(formData);
   };
+  const handleClear = () => {
+    setFormData({ legalFirstName: '', legalLastName: '', legalDOB: '', legalGender: '' });
+  };
 
   return (
     <FormSection
@@ -65,7 +68,7 @@ const BasicInfo = () => {
           <TextField
             id="hmis-basic-info-first-name"
             name="legalFirstName"
-            label="Legal First name"
+            label="Legal first name"
             onChange={handleChange}
             value={formData.legalFirstName}
             margin="normal"
@@ -77,7 +80,7 @@ const BasicInfo = () => {
           <TextField
             id="hmis-basic-info-last-name"
             name="legalLastName"
-            label="Legal Last name"
+            label="Legal last name"
             onChange={handleChange}
             value={formData.legalLastName}
             margin="normal"
@@ -95,6 +98,9 @@ const BasicInfo = () => {
                 value={formData.legalDOB}
                 format="YYYY-MM-DD"
                 type="date"
+                disableFuture
+                openTo="year"
+                views={['year', 'month', 'day']}
               />
             </LocalizationProvider>
             <FormHelperText>YYYY-MM-DD</FormHelperText>
@@ -124,14 +130,15 @@ const BasicInfo = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Button
-            variant="contained"
+            variant="outlined"
             type="submit"
-            color="secondary"
+            color="error"
             startIcon={<ClearIcon />}
             fullWidth
             sx={{ borderRadius: '20px' }}
+            onClick={handleClear}
           >
-            Cancel
+            Clear
           </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
