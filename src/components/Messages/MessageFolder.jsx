@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
 import MessagePreview from './MessagePreview';
-import { PaginationContainer } from './MessageStyles';
+import PaginationContainer from './PaginationStyles';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
@@ -82,7 +82,10 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList = 
           variant="contained"
           onClick={() => handleRefresh(folderType)}
           type="button"
-          sx={{ width: '120px', margin: isSmallScreen ? '10px 20px' : '10px' }}
+          sx={{
+            width: '120px',
+            margin: isSmallScreen ? '10px 20px' : '10px'
+          }}
           startIcon={<RotateLeftOutlinedIcon />}
         >
           Refresh
