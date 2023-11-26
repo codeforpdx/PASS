@@ -24,7 +24,6 @@ const ConfirmationButton = ({ title, confirmFunction, processing }) => (
     onClick={confirmFunction}
     disabled={processing}
     fullWidth
-    sx={{ borderRadius: '20px' }}
   >
     {title}
   </Button>
