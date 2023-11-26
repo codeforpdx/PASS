@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
 import MessagePreview from './MessagePreview';
-import { PaginationContainer } from './MessageStyles';
+import PaginationContainer from './PaginationStyles';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 /**
