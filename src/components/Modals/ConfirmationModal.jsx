@@ -103,7 +103,6 @@ const ConfirmationModal = ({
             endIcon={<ClearIcon />}
             onClick={handleClose}
             fullWidth
-            sx={{ borderRadius: '20px' }}
           >
             {cancelButtonText}
           </Button>

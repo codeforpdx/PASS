@@ -79,6 +79,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         onInputChange={(_, newInputValue) => {
           setOidcIssuer(newInputValue);
         }}
+        ListboxProps={{ style: { maxHeight: '12rem' } }}
         renderInput={(renderParams) => (
           <TextField
             {...renderParams}
@@ -111,7 +112,6 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
             color="error"
             onClick={() => setShowSignInModal(false)}
             fullWidth
-            sx={{ borderRadius: '20px' }}
           >
             Cancel
           </Button>
@@ -123,7 +123,6 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           size={isSmallScreen ? '' : 'large'}
           onClick={() => loginHandler()}
           fullWidth={isSmallScreen}
-          sx={{ borderRadius: '20px' }}
         >
           Login
         </Button>

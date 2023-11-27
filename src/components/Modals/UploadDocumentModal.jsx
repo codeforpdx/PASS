@@ -224,7 +224,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   startIcon={<ClearIcon />}
                   onClick={clearInputFields}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Cancel
                 </Button>
@@ -235,7 +234,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   color="primary"
                   startIcon={<FileUploadIcon />}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Upload
                 </Button>
