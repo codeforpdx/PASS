@@ -45,7 +45,6 @@ const UploadButtonGroup = ({ file, setFile }) => {
         fullWidth
         required
         startIcon={<SearchIcon />}
-        sx={{ borderRadius: '20px' }}
       >
         Choose file
         <input
@@ -65,7 +64,6 @@ const UploadButtonGroup = ({ file, setFile }) => {
           fullWidth
           required
           startIcon={<PhotoCameraIcon />}
-          sx={{ borderRadius: '20px' }}
         >
           Capture image
           <input type="file" hidden accept="image/*" capture="environment" />
