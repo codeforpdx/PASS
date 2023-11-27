@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
-import { NavBar } from '../components/NavBar';
+import { NavBar, NavBarSkipLink } from '../components/NavBar';
 import { InactivityMessage, NotificationContainer } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
 import Breadcrumbs from './Breadcrumbs';
@@ -33,9 +33,10 @@ const Layout = ({ ariaLabel, children }) => {
         minHeight: '100vh'
       }}
     >
+      <NavBarSkipLink />
       <NavBar />
       {session.info.isLoggedIn && <Breadcrumbs />}
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
       <NotificationContainer notifications={state.notifications} />
