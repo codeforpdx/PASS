@@ -39,8 +39,8 @@ import LogoutButton from './LogoutButton';
 const ConfirmationModal = ({
   showModal,
   setShowModal,
-  title,
-  text,
+  title = 'Are you sure?',
+  text = 'Are you sure you want to do this?',
   confirmButtonText = 'Confirm',
   cancelButtonText = 'Cancel',
   onConfirm = () => {},
