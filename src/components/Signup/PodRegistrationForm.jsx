@@ -18,7 +18,8 @@ import CardHeader from '@mui/material/CardHeader';
 const cardStyle = {
   padding: '8px',
   margin: '8px',
-  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+  textAlign: 'center'
+  // boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
 };
 
 const formRowStyle = {
@@ -69,7 +70,7 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
         <p>You are not registering with anyone</p>
       )}
 
-      <Card variant="outlined" sx={cardStyle}>
+      <Card variant="none" sx={cardStyle}>
         <CardHeader title="Set Up a New Pod" />
 
         <form onSubmit={handleSubmit} style={formRowStyle} autoComplete="off">
