@@ -63,7 +63,7 @@ const NavMenu = ({
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right'
       }}
       id={menuId}
@@ -75,7 +75,14 @@ const NavMenu = ({
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
+      slotProps={{
+        paper: {
+          style: {
+            marginTop: '10px'
+          }
+        }
+      }}
+      sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
       <MenuList>
         {isSmallScreen && (
