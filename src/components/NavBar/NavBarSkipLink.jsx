@@ -1,43 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
+// React Imports
+import React, { useState } from 'react';
 
+// MUI theme
+import theme from '../../theme';
+
+/**
+ * NavBarSkipLink component is an accessibility component
+ * that allows users to skip to the main content of the page.
+ *
+ * @returns {React.Element} The rendered NavBarSkipLink component.
+ */
 const NavBarSkipLink = () => {
-  const [showSkipLink, setShowSkipLink] = useState(false);
+  // state used for hiding and showing component
+  const [animateOut, setAnimateOut] = useState(true);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Tab') {
-        setShowSkipLink(true);
-      }
-    };
+  // when TAB key is pressed and bring link into focus
+  const handleFocus = () => {
+    setAnimateOut(false);
+  };
 
-    window.addEventListener('keydown', handleKeyDown);
+  // handles loosing focus
+  const handleBlur = () => {
+    setAnimateOut(true);
+  };
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  // handles clicking on link
+  const handleClick = () => {
+    setAnimateOut(true);
+    const targetElement = document.getElementById('main-content');
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div style={{ position: 'absolute', top: -9999 }}>
-      {showSkipLink && (
-        <Button
-          href="#main-content"
-          variant="contained"
-          color="primary"
-          style={{
-            position: 'fixed',
-            top: '10px',
-            left: '10px',
-            zIndex: 999,
-            transform: showSkipLink ? 'translateY(0%)' : 'translateY(-100%)',
-            transition: 'transform 0.3s'
-          }}
-        >
-          Skip to main content
-        </Button>
-      )}
-    </div>
+    <a
+      href="#main-content"
+      onClick={handleClick}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      tabIndex={0}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 100,
+        zIndex: 999,
+        transition: 'all 0.3s ease-in-out',
+        opacity: animateOut ? 0 : 1,
+        transform: animateOut ? 'translateY(-100%)' : 'translateY(0%)',
+        color: theme.palette.primary.contrastText,
+        cursor: 'pointer',
+        textDecoration: 'underline',
+        border: 'none'
+      }}
+    >
+      Skip to main content
+    </a>
   );
 };
 
