@@ -24,8 +24,9 @@ const NavBarSkipLink = () => {
     setAnimateOut(true);
   };
 
-  // handles clicking on link
-  const handleClick = () => {
+  // handles clicking on link and scrolling to content
+  const handleClick = (event) => {
+    event.preventDefault();
     setAnimateOut(true);
     const targetElement = document.getElementById('main-content');
     if (targetElement) {
