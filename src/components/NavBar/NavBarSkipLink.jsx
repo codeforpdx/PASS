@@ -19,7 +19,7 @@ const NavBarSkipLink = () => {
     setAnimateOut(false);
   };
 
-  // handles loosing focus
+  // handles blur on link
   const handleBlur = () => {
     setAnimateOut(true);
   };
