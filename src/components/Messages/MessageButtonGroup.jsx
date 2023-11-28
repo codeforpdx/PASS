@@ -39,7 +39,6 @@ const MessageButtonGroup = ({ showModal, setShowModal, boxType, setBoxType }) =>
         onClick={() => setShowModal(!showModal)}
         startIcon={<CreateIcon />}
         color="secondary"
-        sx={{ width: isReallySmallScreen ? '200px' : 'default' }}
       >
         New Message
       </Button>

@@ -216,7 +216,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 startIcon={<ClearIcon />}
                 onClick={() => setShowModal(false)}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
@@ -226,7 +225,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 color="primary"
                 startIcon={<CheckIcon />}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Submit
               </Button>

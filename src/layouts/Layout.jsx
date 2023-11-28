@@ -35,7 +35,7 @@ const Layout = ({ ariaLabel, children }) => {
     >
       <NavBar />
       {session.info.isLoggedIn && <Breadcrumbs />}
-      {children}
+      <main>{children}</main>
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
       <NotificationContainer notifications={state.notifications} />
