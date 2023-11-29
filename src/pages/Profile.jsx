@@ -100,8 +100,7 @@ const Profile = () => {
       const profileData = await fetchProfileInfo(webIdUrl);
       setContactProfile({
         ...contact,
-        ...profileData.profileInfo,
-        ...profileData.privateProfileInfo
+        ...profileData.profileInfo
       });
     };
 
