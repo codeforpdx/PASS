@@ -63,7 +63,7 @@ const BasicInfo = () => {
       onSubmit={handleSubmit}
       autoComplete="off"
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={{ xs: 2, sm: 2 }}>
         <Grid item xs={12} sm={6}>
           <TextField
             id="hmis-basic-info-first-name"
@@ -71,7 +71,6 @@ const BasicInfo = () => {
             label="Legal first name"
             onChange={handleChange}
             value={formData.legalFirstName}
-            margin="normal"
             fullWidth
             autoFocus
           />
@@ -83,7 +82,6 @@ const BasicInfo = () => {
             label="Legal last name"
             onChange={handleChange}
             value={formData.legalLastName}
-            margin="normal"
             fullWidth
           />
         </Grid>
