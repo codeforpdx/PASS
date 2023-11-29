@@ -67,6 +67,13 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     setShowModal(false);
   };
 
+  const compileDocData = () => ({
+    name: file.name,
+    type: docType,
+    date: expireDate,
+    description: docDescription
+  });
+
   const cleanup = () => {
     setShowConfirmationModal(false);
     setConfirmationModalType('add');
@@ -75,15 +82,10 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   const handleDocAdd = async () => {
-    const fileDesc = {
-      name: file.name,
-      type: docType,
-      date: expireDate,
-      description: docDescription
-    };
+    const docData = compileDocData();
 
     try {
-      await addDocument(fileDesc, file);
+      await addDocument(docData, file);
       addNotification('success', `File uploaded to Solid.`);
       cleanup();
     } catch (error) {
@@ -100,15 +102,10 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   const handleDocReplace = async () => {
-    const fileDesc = {
-      name: file.name,
-      type: docType,
-      date: expireDate,
-      description: docDescription
-    };
+    const docData = compileDocData();
 
     try {
-      await replaceDocument(fileDesc, file);
+      await replaceDocument(docData, file);
       addNotification('success', `File updated on Solid.`);
       cleanup();
     } catch (error) {
