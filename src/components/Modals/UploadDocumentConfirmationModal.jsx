@@ -39,7 +39,13 @@ const UploadDocumentConfirmationModal = ({
   onConfirm,
   onCancel
 }) => {
+  const [isProcessing, setIsProcessing] = React.useState(false);
   const modalContent = confirmationModalContentVariant[uploadType];
+
+  const handleConfirm = async () => {
+    setIsProcessing(true);
+    onConfirm();
+  };
 
   return (
     <ConfirmationModal
@@ -48,8 +54,9 @@ const UploadDocumentConfirmationModal = ({
       title={modalContent.title}
       text={modalContent.text}
       confirmButtonText={modalContent.confirmButtonText}
-      onConfirm={onConfirm}
+      onConfirm={handleConfirm}
       onCancel={onCancel}
+      processing={isProcessing}
     />
   );
 };
