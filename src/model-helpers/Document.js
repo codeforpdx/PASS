@@ -18,13 +18,8 @@ import { getDriversLicenseData, formattedDate } from '../utils';
  */
 
 /**
- * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
- */
-
-/**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
- * @function addDriversLicenseInfo
  * @memberof utils
  * @function addDriversLicenseInfo
  * @param {thing} thing - the thing to add info too
@@ -73,7 +68,7 @@ const addDriversLicenseInfo = async (thing, file) => {
  * @returns {Promise<ThingLocal>} a thing
  */
 const addAdditionalInfo = async (docDesc, thing, file) => {
-  if (docDesc.type === 'DriversLicense') {
+  if (docDesc.type === 'driversLicense') {
     const retThing = await addDriversLicenseInfo(thing, file);
     return retThing;
   }
