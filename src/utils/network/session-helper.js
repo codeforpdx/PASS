@@ -20,9 +20,6 @@ import {
   getWebIdDataset,
   getBoolean
 } from '@inrupt/solid-client';
-import dayjs from 'dayjs';
-import getDriversLicenseData from '../barcode/barcode-scan';
-import formattedDate from '../barcode/barcode-date-parser';
 import { RDF_PREDICATES } from '../../constants';
 
 /**
@@ -46,15 +43,7 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * @typedef {import('../../typedefs').fileObjectType} fileObjectType
- */
-
-/**
  * @typedef {import('@inrupt/solid-client').ThingLocal} ThingLocal
- */
-
-/**
- * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
  */
 
 /**
@@ -138,80 +127,6 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
   let acl = setPublicResourceAccess(resourceAcl, accessObject);
   acl = setPublicDefaultAccess(acl, accessObject);
   await saveAclFor(podResource, acl, { fetch: session.fetch });
-};
-
-/**
- * Helper Function that returns Driver's License ttl file based off of image passed
- *
- * @function createDriversLicenseTtlFile
- * @memberof utils
- * @function createDriversLicenseTtlFile
- * @param {fileObjectType} fileObject - Object containing information about file
- * @param {URL} documentUrl - url of uploaded document or resource
- * @param {WordArray} checksum - SHA256 checksum for verified uploads\
- * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
- * and returns a new TTL file Thing
- */
-
-const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
-  const dlData = await getDriversLicenseData(fileObject.file);
-  return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
-    .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
-    .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addDate(RDF_PREDICATES.expires, dayjs(`${formattedDate(dlData.DBA)}`).$d)
-    .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
-    .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
-    .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addDate(RDF_PREDICATES.dateIssued, dayjs(`${formattedDate(dlData.DBD)}`).$d)
-    .addDate(RDF_PREDICATES.dateOfBirth, dayjs(`${formattedDate(dlData.DBB)}`).$d)
-    .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
-    .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
-    .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
-    .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
-    .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
-    .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
-    .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
-    .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
-
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
-    .build();
-};
-
-/**
- * Creates a TTL file corresponding to an uploaded document or resource
- *
- * @memberof utils
- * @function createResourceTtlFile
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @param {string} documentUrl - url of uploaded document or resource
- * @returns {Promise<ThingLocal>} Promise - Perform action to generate a newly generated
- * Thing from buildThing
- */
-
-export const createResourceTtlFile = async (fileObject, documentUrl) => {
-  if (fileObject.type === "Driver's License") {
-    return createDriversLicenseTtlFile(fileObject, documentUrl);
-  }
-
-  return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
-    .build();
 };
 
 /**

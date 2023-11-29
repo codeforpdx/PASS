@@ -5,7 +5,7 @@
  * @memberof utils
  * @name docTypes
  * @type {Array<string>}
- * @property {string} bankStatement - Bank Statemet
+ * @property {string} bankStatement - Bank Statement
  * @property {string} passport - Passport
  * @property {string} driversLicense - Drivers License
  * @property {string} other - Anything Else
