@@ -23,21 +23,7 @@ import { DocumentListContext } from '@contexts';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
-import ConfirmationModal from './ConfirmationModal';
-
-// Display text for confirmation modal variants
-const confirmationModalContentVariant = {
-  replace: {
-    title: 'Replace Document?',
-    text: 'A file of this name and type already exists on the pod. Would you like to replace it?',
-    confirmButtonText: 'Replace'
-  },
-  add: {
-    title: 'Upload Document?',
-    text: 'Are you sure you want to upload this document?',
-    confirmButtonText: 'Upload'
-  }
-};
+import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
 
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
@@ -88,7 +74,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     clearInputFields();
   };
 
-  const handleDocUpload = async (uploadType) => {
+  const handleDocAdd = async () => {
     const fileDesc = {
       name: file.name,
       type: docType,
@@ -96,41 +82,41 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       description: docDescription
     };
 
-    switch (uploadType) {
-      case 'add':
-        try {
-          await addDocument(fileDesc, file);
-          addNotification('success', `File uploaded to Solid.`);
-          cleanup();
-        } catch (error) {
-          switch (error.message) {
-            case 'File already exists':
-              // The confirmation modal will prompt the user to replace the file or not
-              setConfirmationModalType('replace');
-              setShowConfirmationModal(true);
-              break;
-            default:
-              addNotification('error', `File failed to upload. Reason: ${error.message}`);
-          }
-        }
-        break;
-      case 'replace':
-        try {
-          await replaceDocument(fileDesc, file);
-          addNotification('success', `File updated on Solid.`);
-          cleanup();
-        } catch (error) {
+    try {
+      await addDocument(fileDesc, file);
+      addNotification('success', `File uploaded to Solid.`);
+      cleanup();
+    } catch (error) {
+      switch (error.message) {
+        case 'File already exists':
+          // The confirmation modal will prompt the user to replace the file or not
+          setConfirmationModalType('replace');
+          setShowConfirmationModal(true);
+          break;
+        default:
           addNotification('error', `File failed to upload. Reason: ${error.message}`);
-        }
-        break;
-      default:
-        throw new Error('handleDocUpload: Invalid uploadType');
+      }
+    }
+  };
+
+  const handleDocReplace = async () => {
+    const fileDesc = {
+      name: file.name,
+      type: docType,
+      date: expireDate,
+      description: docDescription
+    };
+
+    try {
+      await replaceDocument(fileDesc, file);
+      addNotification('success', `File updated on Solid.`);
+      cleanup();
+    } catch (error) {
+      addNotification('error', `File failed to upload. Reason: ${error.message}`);
     }
   };
 
   const handleUploadCancelled = () => {
-    setShowConfirmationModal(false);
-    setConfirmationModalType('add');
     setProcessing(false);
   };
 
@@ -138,17 +124,17 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const onFormSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
-    handleDocUpload('add');
+    handleDocAdd();
   };
 
   return (
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
-      <ConfirmationModal
-        {...confirmationModalContentVariant[confirmationModalType]}
-        onConfirm={() => handleDocUpload(confirmationModalType)}
-        onCancel={handleUploadCancelled}
-        setShowModal={setShowConfirmationModal}
+      <UploadDocumentConfirmationModal
         showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
+        onCancel={handleUploadCancelled}
+        onConfirm={confirmationModalType === 'add' ? handleDocAdd : handleDocReplace}
+        uploadType={confirmationModalType}
       />
       <FormSection title="Upload Document">
         <form
