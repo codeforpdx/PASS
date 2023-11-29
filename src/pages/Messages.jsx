@@ -44,12 +44,7 @@ const Messages = () => {
 
   return (
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
-      <MessageButtonGroup
-        showModal={showModal}
-        setShowModal={setShowModal}
-        boxType={boxType}
-        setBoxType={setBoxType}
-      />
+      <MessageButtonGroup setShowModal={setShowModal} boxType={boxType} setBoxType={setBoxType} />
 
       <MessageFolder
         folderType={boxType === 'inbox' ? 'Inbox' : 'Outbox'}
