@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
+import { InactivityMessage, NotificationContainer } from '@components/Notification';
 import { NavBar } from '../components/NavBar';
-import { InactivityMessage, NotificationContainer } from '../components/Notification';
 import Footer from '../components/Footer/Footer';
 import Breadcrumbs from './Breadcrumbs';
 
