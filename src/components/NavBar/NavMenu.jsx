@@ -75,6 +75,7 @@ const NavMenu = ({
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
+      MenuListProps={{ disablePadding: true }}
       slotProps={{
         paper: {
           style: {
@@ -84,7 +85,7 @@ const NavMenu = ({
       }}
       sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
-      <MenuList>
+      <MenuList sx={{ py: '0px' }}>
         {isSmallScreen && (
           <div>
             <Link
@@ -164,7 +165,7 @@ const NavMenu = ({
             Profile
           </MenuItem>
         </Link>
-        <Divider sx={{ marginY: '10px' }} />
+        <Divider sx={{ marginY: '5px' }} />
         {/* settings */}
         <MenuItem
           component={Button}
