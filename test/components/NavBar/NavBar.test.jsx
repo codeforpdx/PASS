@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { expect, it, afterEach, describe } from 'vitest';
 import { SessionContext } from '@contexts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
 import NavBar from '../../../src/components/NavBar/NavBar';
 
@@ -11,14 +12,18 @@ afterEach(() => {
   cleanup();
 });
 
+const queryClient = new QueryClient();
+
 describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {
     const { getByRole } = render(
-      <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
-        <BrowserRouter>
-          <NavBar />
-        </BrowserRouter>
-      </SessionContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
+          <BrowserRouter>
+            <NavBar />
+          </BrowserRouter>
+        </SessionContext.Provider>
+      </QueryClientProvider>
     );
     const loginButton = getByRole('button');
 
@@ -31,11 +36,13 @@ describe('resize tests', () => {
     window.matchMedia = createMatchMedia(1200);
 
     const { getByRole } = render(
-      <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
-        <BrowserRouter>
-          <NavBar />
-        </BrowserRouter>
-      </SessionContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+          <BrowserRouter>
+            <NavBar />
+          </BrowserRouter>
+        </SessionContext.Provider>
+      </QueryClientProvider>
     );
 
     const iconMenu = getByRole('group');
@@ -47,11 +54,13 @@ describe('resize tests', () => {
     window.matchMedia = createMatchMedia(500);
 
     const { getByRole } = render(
-      <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
-        <BrowserRouter>
-          <NavBar />
-        </BrowserRouter>
-      </SessionContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+          <BrowserRouter>
+            <NavBar />
+          </BrowserRouter>
+        </SessionContext.Provider>
+      </QueryClientProvider>
     );
 
     const hamburgerMenu = getByRole('button', { name: /mobile/ });

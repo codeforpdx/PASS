@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,11 +12,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
-import { useSession } from '@hooks';
-// Utility Imports
-import { updateMessageReadStatus, getMessageTTL } from '@utils';
-// Context Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { useMessageList } from '@hooks';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -38,18 +34,13 @@ import { NewMessageModal } from '../Modals';
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { session } = useSession();
-  const { podUrl } = useContext(SignedInUserContext);
-  const { inboxList, setInboxList } = useContext(MessageContext);
+  const { add: updateReadStatus } = useMessageList('Inbox');
 
   const handleClick = async () => {
     setShowContents(!showContents);
-    if (folderType === 'Inbox') {
+    if (folderType === 'Inbox' && !message.readStatus) {
       try {
-        await updateMessageReadStatus(session, message);
-        const messagesInSolid = await getMessageTTL(session, folderType, inboxList, podUrl);
-        messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-        setInboxList(messagesInSolid);
+        await updateReadStatus(message);
       } catch {
         throw new Error('Failed to update read status');
       }
@@ -93,52 +84,53 @@ const MessagePreview = ({ message, folderType }) => {
   ];
 
   return (
-    <Container sx={{ wordWrap: 'break-word' }}>
-      <Paper>
-        <Box sx={{ flexGrow: 1 }}>
-          <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
-            <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
-              {messageInfo.map((info, index) => (
-                <Grid
-                  item
-                  xs={info.xs_value}
-                  sx={{ opacity: message.readStatus ? '0.5' : '1' }}
-                  key={info.title + String(index)}
-                >
-                  <Typography>
-                    {info.title} <strong>{info.text}</strong>
-                  </Typography>
-                </Grid>
-              ))}
-
-              {showContents && (
-                <Grid item xs={12}>
-                  <Divider />
-                  {message.message.split('\n').map((line, index) => (
-                    <Typography sx={{ padding: '10px 5px' }} key={line + String(index)}>
-                      {line}
+    <>
+      <Container sx={{ wordWrap: 'break-word' }}>
+        <Paper>
+          <Box sx={{ flexGrow: 1 }}>
+            <ListItemButton
+              onClick={handleClick}
+              alignItems="flex-start"
+              aria-label={`open message preview ${message.messageId}`}
+            >
+              <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
+                {messageInfo.map((info, index) => (
+                  <Grid
+                    item
+                    xs={info.xs_value}
+                    sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                    key={info.title + String(index)}
+                  >
+                    <Typography>
+                      {info.title} <strong>{info.text}</strong>
                     </Typography>
-                  ))}
-                  {showContents && folderType === 'Inbox' && (
-                    <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                      Reply
-                    </Button>
-                  )}
-                </Grid>
-              )}
-            </Grid>
+                  </Grid>
+                ))}
 
-            {showModal && (
-              <NewMessageModal
-                showModal={showModal}
-                setShowModal={setShowModal}
-                oldMessage={message}
-              />
-            )}
-          </ListItemButton>
-        </Box>
-      </Paper>
-    </Container>
+                {showContents && (
+                  <Grid item xs={12}>
+                    <Divider />
+                    {message.message.split('\n').map((line, index) => (
+                      <Typography sx={{ padding: '10px 5px' }} key={line + String(index)}>
+                        {line}
+                      </Typography>
+                    ))}
+                    {showContents && folderType === 'Inbox' && (
+                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
+                        Reply
+                      </Button>
+                    )}
+                  </Grid>
+                )}
+              </Grid>
+            </ListItemButton>
+          </Box>
+        </Paper>
+      </Container>
+      {showModal && (
+        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
+      )}
+    </>
   );
 };
 
