@@ -24,8 +24,8 @@ describe('Default screen', () => {
 
   it('renders logout button container flex-direction as row default', () => {
     const { getByRole } = render(<MockConfirmationModalLogout />);
-    const cancelButton = getByRole('button', { name: 'Log Out' });
-    const buttonContainer = cancelButton.parentElement;
+    const confirmButton = getByRole('button', { name: 'Log Out' });
+    const buttonContainer = confirmButton.parentElement;
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('row');
@@ -46,8 +46,8 @@ describe('Mobile screen', () => {
   it('renders logout button container flex-direction as column mobile', () => {
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const cancelButton = getByRole('button', { name: 'Log Out' });
-    const buttonContainer = cancelButton.parentElement;
-    const cssProperty = getComputedStyle(buttonContainer);
+    const confirmButton = cancelButton.parentElement;
+    const cssProperty = getComputedStyle(confirmButton);
 
     expect(cssProperty.flexDirection).toBe('column');
   });
