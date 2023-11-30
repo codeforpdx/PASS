@@ -97,6 +97,13 @@ const updateMessageReadStatus = async (messageObject, fetchData) => {
         .setBoolean(RDF_PREDICATES.value, true)
         .build();
     }
+
+    // ================= HERE ==================
+    if (readStatus) {
+      messageStatusThing = buildThing(messageStatusThing)
+        .setBoolean(RDF_PREDICATES.value, false)
+        .build();
+    }
   } else {
     messageStatusThing = buildThing(createThing({ name: 'messagestatus' }))
       .addStringNoLocale(RDF_PREDICATES.propertyValue, 'Read Status')

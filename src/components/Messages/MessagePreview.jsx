@@ -8,11 +8,13 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import { useMessageList } from '@hooks';
+import { updateMessageReadStatus } from '@hooks/useMessageList';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -49,6 +51,13 @@ const MessagePreview = ({ message, folderType }) => {
 
   const handleReplyMessage = () => {
     setShowModal(!showModal);
+  };
+
+  // =================== HERE ========================
+  const handleMakeUnread = () => {
+    // mark the message as unread again
+    updateMessageReadStatus(message);
+    // message.readStatus = true;
   };
 
   const theme = useTheme();
@@ -116,9 +125,16 @@ const MessagePreview = ({ message, folderType }) => {
                       </Typography>
                     ))}
                     {showContents && folderType === 'Inbox' && (
-                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                        Reply
-                      </Button>
+                      <Stack direction="row" spacing={2}>
+                        <Button variant="contained" onClick={handleReplyMessage}>
+                          Reply
+                        </Button>
+
+                        {/* ============= AND HERE ============= */}
+                        <Button variant="outlined" onClick={handleMakeUnread}>
+                          Mark as Unread
+                        </Button>
+                      </Stack>
                     )}
                   </Grid>
                 )}
