@@ -27,10 +27,10 @@ it('renders cancel/upload group as column mobile', () => {
 });
 
 it('renders initial state and elements correctly', () => {
-  const { getByText, getByRole, getByLabelText } = render(<MockUploadDocumentModal />);
+  const { getByRole, getByLabelText } = render(<MockUploadDocumentModal />);
 
   // Check for initial state values
-  const modalTitle = getByText('Upload Document');
+  const modalTitle = getByRole('heading', { name: 'Upload Document' });
   const fileTypeInput = getByRole('combobox');
   const expirationDateInput = getByLabelText('Expiration Date');
   const descriptionInput = getByLabelText('Enter Description');

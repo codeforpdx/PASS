@@ -134,11 +134,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         uploadType={confirmationModalType}
       />
       <FormSection title="Upload Document">
-        <form
-          onSubmit={onFormSubmit}
-          autoComplete="off"
-          style={{ width: isSmallScreen ? '100%' : '100%' }}
-        >
+        <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
