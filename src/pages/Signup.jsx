@@ -6,9 +6,9 @@ import { getStringNoLocale, getThing, getWebIdDataset } from '@inrupt/solid-clie
 import { FOAF } from '@inrupt/vocab-common-rdf';
 
 // Material UI Imports
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
+// import Paper from '@mui/material/Paper';
 
 // Custom Hook Imports
 import useContactsList from '@hooks/useContactsList';
@@ -83,33 +83,27 @@ const Signup = () => {
   }, [isSuccess]);
 
   return (
-    <Container>
-      <Box
+    <Container sx={{ padding: '100px' }}>
+      <Stack
         sx={{
-          marginTop: 3,
-          display: 'flex',
-          flexDirection: 'column',
+          my: 3,
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          margin: 'auto',
+          // Apply box/stack stylings to the Paper component
+          width: '600px',
+          padding: '20px',
+          boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        <Paper
-          elevation={2}
-          sx={{
-            display: 'inline-block',
-            mx: '2px',
-            padding: '20px',
-            minWidth: '400px',
-            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-          }}
-        >
-          {session.info.isLoggedIn ? (
-            <ShowNewPod oidcIssuer={oidcIssuer} />
-          ) : (
-            <PodRegistrationForm register={registerAndLogin} caseManagerName={caseManagerName} />
-          )}
-        </Paper>
-      </Box>
+        {session.info.isLoggedIn ? (
+          <ShowNewPod oidcIssuer={oidcIssuer} />
+        ) : (
+          <PodRegistrationForm register={registerAndLogin} caseManagerName={caseManagerName} />
+        )}
+      </Stack>
     </Container>
   );
 };
