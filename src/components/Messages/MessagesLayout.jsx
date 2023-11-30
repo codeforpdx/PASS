@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 // Material UI Imports
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import { NewMessageModal } from '@components/Modals';
 import MessageButtonGroup from './MessageButtonGroup';
 
@@ -19,11 +19,11 @@ const MessagesLayout = ({ children, path }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <Container sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
+    <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <MessageButtonGroup setShowModal={setShowModal} boxType={boxType} setBoxType={setBoxType} />
       {children}
       {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
-    </Container>
+    </Box>
   );
 };
 

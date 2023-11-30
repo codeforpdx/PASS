@@ -1,7 +1,7 @@
 // React Imports
 import React from 'react';
 // Material UI Imports
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import { Outlet } from 'react-router-dom';
 
 /**
@@ -13,9 +13,9 @@ import { Outlet } from 'react-router-dom';
  * @returns {React.JSX.Element} The Messages Page
  */
 const Messages = () => (
-  <Container sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
+  <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
     <Outlet />
-  </Container>
+  </Box>
 );
 
 export default Messages;
