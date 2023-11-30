@@ -14,8 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
+// Custom Hook Imports
+import { useMessageList } from '@hooks';
 // Component Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 
@@ -32,7 +34,9 @@ import NavMenu from './NavMenu';
  */
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
-  const { numUnreadMessages } = useContext(MessageContext);
+  const { data } = useMessageList('Inbox');
+
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
