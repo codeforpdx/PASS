@@ -6,8 +6,8 @@ import { useMessageList } from '@hooks';
 import Box from '@mui/material/Box';
 // Context Imports
 // Component Imports
-import { NewMessageModal } from '../components/Modals';
-import { MessageButtonGroup, MessageFolder } from '../components/Messages';
+import { NewMessageModal } from '@components/Modals';
+import { MessageButtonGroup, MessageFolder } from '@components/Messages';
 
 /**
  * Messages Page - Page that generates the components for the Message system
