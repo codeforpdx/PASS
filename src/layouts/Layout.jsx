@@ -8,8 +8,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
 import { InactivityMessage, NotificationContainer } from '@components/Notification';
-import { NavBar } from '../components/NavBar';
-import Footer from '../components/Footer/Footer';
+import { NavBar } from '@components/NavBar';
+import Footer from '@components/Footer';
 import Breadcrumbs from './Breadcrumbs';
 
 const Layout = ({ ariaLabel, children }) => {
