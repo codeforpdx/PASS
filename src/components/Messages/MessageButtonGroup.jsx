@@ -14,7 +14,6 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  *  Renders the Message Button Group component for new message, inbox, and outbox
  *
  * @param {object} Props - The Props for MessageButtonGroup Component
- * @param {boolean} Props.showModal - The state to open new message modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal -
  * The set function for showModal
  * @param {string} Props.boxType - The state for inbox or outbox
@@ -22,7 +21,7 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  * set function for boxType
  * @returns {React.JSX.Element} - The MessageButtonGroup Component
  */
-const MessageButtonGroup = ({ showModal, setShowModal, boxType, setBoxType }) => {
+const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
   const isReallySmallScreen = useMediaQuery('(max-width: 480px)');
 
   return (
@@ -36,10 +35,9 @@ const MessageButtonGroup = ({ showModal, setShowModal, boxType, setBoxType }) =>
     >
       <Button
         variant="contained"
-        onClick={() => setShowModal(!showModal)}
+        onClick={() => setShowModal(true)}
         startIcon={<CreateIcon />}
         color="secondary"
-        sx={{ width: isReallySmallScreen ? '200px' : 'default' }}
       >
         New Message
       </Button>

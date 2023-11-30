@@ -1,22 +1,9 @@
-import {
-  createThing,
-  buildThing,
-  getStringNoLocale,
-  getUrl,
-  saveSolidDatasetAt,
-  getDate
-} from '@inrupt/solid-client';
+import { createThing, buildThing, getStringNoLocale, getUrl, getDate } from '@inrupt/solid-client';
 
 import dayjs from 'dayjs';
-import sha256 from 'crypto-js/sha256';
 
 import { RDF_PREDICATES } from '../constants';
-import {
-  getUserSigningKey,
-  signDocumentTtlFile,
-  getDriversLicenseData,
-  formattedDate
-} from '../utils';
+import { getDriversLicenseData, formattedDate } from '../utils';
 
 /**
  * @typedef {import('@inrupt/solid-client-authn-browser').Session} Session
@@ -31,30 +18,8 @@ import {
  */
 
 /**
- * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
- */
-
-/**
- * Generates a document Signature
- *
- * @function signDocument
- * @param {object} document - a document
- * @param {Session} session - the current session
- * @param {URL} containerUrl - url to upload to
- * @returns {Promise} Promise - Generates checksum for uploaded file
- */
-export const signDocument = async (document, session, containerUrl) => {
-  const signingKey = await getUserSigningKey(session);
-  const signatureDataset = await signDocumentTtlFile(signingKey, document, session, containerUrl);
-  await saveSolidDatasetAt(`${containerUrl}signature.ttl`, signatureDataset, {
-    fetch: session.fetch
-  });
-};
-
-/**
  * Helper Function that returns Driver's License ttl file based off of image passed
  *
- * @function addDriversLicenseInfo
  * @memberof utils
  * @function addDriversLicenseInfo
  * @param {thing} thing - the thing to add info too
@@ -93,21 +58,6 @@ const addDriversLicenseInfo = async (thing, file) => {
 };
 
 /**
- * Function that generates checksum for uploaded file
- *
- * @memberof Document
- * @function createFileChecksum
- * @param {fileObjectType} file - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @returns {Promise<WordArray>} Promise - Generates checksum for uploaded file
- * using the SHA256 algorithm
- */
-const createFileChecksum = async (file) => {
-  const text = await file.text(); // only hash the first megabyte
-  return sha256(text);
-};
-
-/**
  * returns additional info about a specific type
  *
  * @function addAdditionalInfo
@@ -118,7 +68,7 @@ const createFileChecksum = async (file) => {
  * @returns {Promise<ThingLocal>} a thing
  */
 const addAdditionalInfo = async (docDesc, thing, file) => {
-  if (docDesc.type === 'DriversLicense') {
+  if (docDesc.type === 'driversLicense') {
     const retThing = await addDriversLicenseInfo(thing, file);
     return retThing;
   }
@@ -135,13 +85,11 @@ const addAdditionalInfo = async (docDesc, thing, file) => {
  * @returns {Promise<ThingLocal>} a thing
  */
 export const makeDocIntoThing = async (docDesc, file) => {
-  const checksum = await createFileChecksum(file);
   let thing = buildThing(createThing({ name: docDesc.name }))
     .addDate(RDF_PREDICATES.uploadDate, dayjs().$d)
     .addStringNoLocale(RDF_PREDICATES.name, docDesc.name)
     .addStringNoLocale(RDF_PREDICATES.identifier, docDesc.type)
     .addStringNoLocale(RDF_PREDICATES.additionalType, docDesc.type)
-    .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
     .addStringNoLocale(RDF_PREDICATES.description, docDesc.description);
 
   if (docDesc.date) thing.addDate(RDF_PREDICATES.endDate, dayjs(docDesc.date).$d);
@@ -162,8 +110,7 @@ export const parseDocFromThing = (documentThing) => {
   const name = getStringNoLocale(documentThing, RDF_PREDICATES.name);
   const type = getStringNoLocale(documentThing, RDF_PREDICATES.identifier);
   const endDate = getDate(documentThing, RDF_PREDICATES.endDate);
-  const checksum = getStringNoLocale(documentThing, RDF_PREDICATES.sha256);
   const description = getStringNoLocale(documentThing, RDF_PREDICATES.description);
   const fileUrl = getUrl(documentThing, RDF_PREDICATES.url);
-  return { uploadDate, name, type, endDate, checksum, description, fileUrl };
+  return { uploadDate, name, type, endDate, description, fileUrl };
 };

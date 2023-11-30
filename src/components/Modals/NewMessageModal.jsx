@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
-import { useNotification, useSession } from '@hooks';
+import { useMessageList, useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,9 +14,9 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Utility Imports
-import { sendMessageTTL, getMessageTTL } from '@utils';
+import { sendMessageTTL } from '@utils';
 // Context Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
@@ -39,7 +39,7 @@ import { MessageContext, SignedInUserContext } from '@contexts';
  */
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '' }) => {
   const { session } = useSession();
-  const { outboxList, setOutboxList } = useContext(MessageContext);
+  const { refetch: refreshOutbox } = useMessageList('Outbox');
   const { podUrl } = useContext(SignedInUserContext);
   const { addNotification } = useNotification();
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
@@ -107,12 +107,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
         }, 2000);
       }
     }
-
-    // Re-sorts messages when new message is added to outboxList
-    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
-    const sortedOutbox = outboxMessages;
-    sortedOutbox.sort((a, b) => b.uploadDate - a.uploadDate);
-    setOutboxList(sortedOutbox);
+    await refreshOutbox();
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -216,7 +211,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 startIcon={<ClearIcon />}
                 onClick={() => setShowModal(false)}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
@@ -226,7 +220,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 color="primary"
                 startIcon={<CheckIcon />}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Submit
               </Button>

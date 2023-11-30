@@ -38,13 +38,7 @@ const NavbarLoggedOut = () => {
           </Link>
           {isSmallScreen ? (
             <>
-              <Button
-                variant="contained"
-                color="tertiary"
-                size="large"
-                sx={{ opacity: '0.8', color: 'black' }}
-                onClick={handleSignIn}
-              >
+              <Button variant="contained" color="secondary" size="large" onClick={handleSignIn}>
                 Sign In
               </Button>
               <SignInModal

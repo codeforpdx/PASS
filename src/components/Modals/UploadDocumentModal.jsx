@@ -102,11 +102,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   return (
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <FormSection title="Upload Document">
-        <form
-          onSubmit={handleDocUpload}
-          autoComplete="off"
-          style={{ width: isSmallScreen ? '100%' : '100%' }}
-        >
+        <form onSubmit={handleDocUpload} autoComplete="off">
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
@@ -175,7 +171,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   startIcon={<ClearIcon />}
                   onClick={clearInputFields}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Cancel
                 </Button>
@@ -186,7 +181,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   color="primary"
                   startIcon={<FileUploadIcon />}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Upload
                 </Button>

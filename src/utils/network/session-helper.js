@@ -14,16 +14,9 @@ import {
   getSolidDatasetWithAcl,
   setPublicResourceAccess,
   setPublicDefaultAccess,
-  getDatetime,
   createSolidDataset,
-  getUrl,
-  getWebIdDataset,
-  getBoolean
+  getWebIdDataset
 } from '@inrupt/solid-client';
-import dayjs from 'dayjs';
-import sha256 from 'crypto-js/sha256';
-import getDriversLicenseData from '../barcode/barcode-scan';
-import formattedDate from '../barcode/barcode-date-parser';
 import { RDF_PREDICATES } from '../../constants';
 
 /**
@@ -47,15 +40,7 @@ import { RDF_PREDICATES } from '../../constants';
  */
 
 /**
- * @typedef {import('../../typedefs').fileObjectType} fileObjectType
- */
-
-/**
  * @typedef {import('@inrupt/solid-client').ThingLocal} ThingLocal
- */
-
-/**
- * @typedef {import('crypto-js').CryptoJS.lib.WordArray} WordArray
  */
 
 /**
@@ -142,100 +127,6 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
 };
 
 /**
- * Function that generates checksum for uploaded file
- *
- * @memberof utils
- * @function createFileChecksum
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @returns {Promise<WordArray>} Promise - Generates checksum for uploaded file
- * using the SHA256 algorithm
- */
-const createFileChecksum = async (fileObject) => {
-  const { file } = fileObject;
-
-  const text = await file.text(); // only hash the first megabyte
-  return sha256(text);
-};
-
-/**
- * Helper Function that returns Driver's License ttl file based off of image passed
- *
- * @function createDriversLicenseTtlFile
- * @memberof utils
- * @function createDriversLicenseTtlFile
- * @param {fileObjectType} fileObject - Object containing information about file
- * @param {URL} documentUrl - url of uploaded document or resource
- * @param {WordArray} checksum - SHA256 checksum for verified uploads\
- * @returns {Promise<ThingLocal>} TTL file Thing - Processes a barcode using zxing
- * and returns a new TTL file Thing
- */
-
-const createDriversLicenseTtlFile = async (fileObject, documentUrl, checksum) => {
-  const dlData = await getDriversLicenseData(fileObject.file);
-  return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
-    .addStringNoLocale(RDF_PREDICATES.additionalType, dlData.DCA)
-    .addStringNoLocale(RDF_PREDICATES.conditionsOfAccess, dlData.DCB)
-    .addDate(RDF_PREDICATES.expires, dayjs(`${formattedDate(dlData.DBA)}`).$d)
-    .addStringNoLocale(RDF_PREDICATES.givenName, dlData.DCS)
-    .addStringNoLocale(RDF_PREDICATES.alternateName, dlData.DAC)
-    .addStringNoLocale(RDF_PREDICATES.familyName, dlData.DAD)
-    .addDate(RDF_PREDICATES.dateIssued, dayjs(`${formattedDate(dlData.DBD)}`).$d)
-    .addDate(RDF_PREDICATES.dateOfBirth, dayjs(`${formattedDate(dlData.DBB)}`).$d)
-    .addStringNoLocale(RDF_PREDICATES.gender, dlData.DBC)
-    .addStringNoLocale(RDF_PREDICATES.Eye, dlData.DAY)
-    .addInteger(RDF_PREDICATES.height, Number(dlData.DAU))
-    .addStringNoLocale(RDF_PREDICATES.streetAddress, dlData.DAG)
-    .addStringNoLocale(RDF_PREDICATES.City, dlData.DAI)
-    .addStringNoLocale(RDF_PREDICATES.State, dlData.DAJ)
-    .addStringNoLocale(RDF_PREDICATES.postalCode, dlData.DAK)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DAQ)
-    .addStringNoLocale(RDF_PREDICATES.identifier, dlData.DCF)
-    .addStringNoLocale(RDF_PREDICATES.Country, dlData.DCG)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDE)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDF)
-    .addStringNoLocale(RDF_PREDICATES.additionalName, dlData.DDG)
-
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.serialNumber, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
-    .build();
-};
-
-/**
- * Creates a TTL file corresponding to an uploaded document or resource
- *
- * @memberof utils
- * @function createResourceTtlFile
- * @param {fileObjectType} fileObject - Object containing information about file
- * from form submission (see {@link fileObjectType})
- * @param {string} documentUrl - url of uploaded document or resource
- * @returns {Promise<ThingLocal>} Promise - Perform action to generate a newly generated
- * Thing from buildThing
- */
-
-export const createResourceTtlFile = async (fileObject, documentUrl) => {
-  const checksum = await createFileChecksum(fileObject);
-
-  if (fileObject.type === "Driver's License") {
-    return createDriversLicenseTtlFile(fileObject, documentUrl, checksum);
-  }
-
-  return buildThing(createThing({ name: 'document' }))
-    .addDatetime(RDF_PREDICATES.uploadDate, dayjs().$d)
-    .addStringNoLocale(RDF_PREDICATES.name, fileObject.file.name)
-    .addStringNoLocale(RDF_PREDICATES.identifier, fileObject.type)
-    .addStringNoLocale(RDF_PREDICATES.endDate, fileObject.date)
-    .addStringNoLocale(RDF_PREDICATES.sha256, checksum)
-    .addStringNoLocale(RDF_PREDICATES.description, fileObject.description)
-    .addUrl(RDF_PREDICATES.url, documentUrl)
-    .build();
-};
-
-/**
  * Gets user's name from profile using their webId
  *
  * @memberof utils
@@ -271,60 +162,6 @@ export const saveMessageTTL = async (session, containerUrl, solidDatset, slug) =
     contentType: 'text/turtle',
     fetch: session.fetch
   });
-};
-
-/**
- * A function that parses a message TTL file from inbox or outbox and returns a
- * messageObject
- *
- * @memberof utils
- * @function parseMessageTTL
- * @param {Thing[]} messageTTLThing - List of message Things from message boxes
- * @returns {object} messageObject - An object containinng the message content,
- * title, uploadDate, sender, and recipient
- */
-
-export const parseMessageTTL = (messageTTLThing) => {
-  // Get data related to #message
-  const messageThing = messageTTLThing.find((thing) => thing.url.includes('#message'));
-  const message = getStringNoLocale(messageThing, RDF_PREDICATES.message);
-  const title = getStringNoLocale(messageThing, RDF_PREDICATES.title);
-  const uploadDate = getDatetime(messageThing, RDF_PREDICATES.uploadDate);
-
-  // Get data related to message status
-  const messageStatusThing = messageTTLThing.find((thing) => thing.url.includes('#messagestatus'));
-  let readStatus;
-  if (!messageStatusThing) {
-    readStatus = false;
-  } else {
-    readStatus = getBoolean(messageStatusThing, RDF_PREDICATES.value);
-  }
-
-  // Get data related to messageid
-  const messageIdThing = messageTTLThing.find((thing) => thing.url.includes('#messageid'));
-  const messageId = getStringNoLocale(messageIdThing, RDF_PREDICATES.identifier);
-  const messageUrl = getUrl(messageIdThing, RDF_PREDICATES.url);
-
-  // Get data related to #sender
-  const senderThing = messageTTLThing.find((thing) => thing.url.includes('#sender'));
-  const sender = getStringNoLocale(senderThing, RDF_PREDICATES.sender);
-  const senderWebId = getUrl(senderThing, RDF_PREDICATES.url);
-
-  // Get data related to #recipient
-  const recipientThing = messageTTLThing.find((thing) => thing.url.includes('#recipient'));
-  const recipient = getStringNoLocale(recipientThing, RDF_PREDICATES.recipient);
-
-  return {
-    message,
-    messageId,
-    messageUrl,
-    title,
-    uploadDate,
-    readStatus,
-    sender,
-    senderWebId,
-    recipient
-  };
 };
 
 /**

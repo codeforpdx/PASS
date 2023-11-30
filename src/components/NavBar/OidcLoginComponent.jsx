@@ -48,16 +48,17 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         display: 'flex',
         flexDirection: isSmallScreen ? 'column' : 'row',
         alignItems: 'center',
-        gap: '20px'
+        gap: '20px',
+        width: isSmallScreen ? '100%' : null
       }}
     >
       <Autocomplete
         id="pod-server-url"
         sx={{
-          width: isSmallScreen ? '250px' : '300px',
+          width: isSmallScreen ? null : '300px',
           marginBottom: isSmallScreen && dropdownIsOpen ? '150px' : '0'
         }}
-        fullWidth
+        fullWidth={isSmallScreen}
         options={SUGGESTED_OIDC_OPTIONS}
         size="small"
         freeSolo
@@ -78,6 +79,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         onInputChange={(_, newInputValue) => {
           setOidcIssuer(newInputValue);
         }}
+        ListboxProps={{ style: { maxHeight: '12rem' } }}
         renderInput={(renderParams) => (
           <TextField
             {...renderParams}
@@ -91,19 +93,25 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
             sx={{
               backgroundColor: 'white',
               borderRadius: '8px',
-              border: isSmallScreen ? '1px solid grey' : '',
-              width: '100%'
+              border: isSmallScreen ? '1px solid grey' : ''
             }}
           />
         )}
       />
-      <Box sx={{ display: 'flex', gap: '10px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: isSmallScreen ? 'column' : 'row',
+          gap: '10px',
+          width: isSmallScreen ? '100%' : null
+        }}
+      >
         {isSmallScreen && (
           <Button
             variant="outlined"
             color="error"
             onClick={() => setShowSignInModal(false)}
-            sx={{ borderRadius: '20px' }}
+            fullWidth
           >
             Cancel
           </Button>
@@ -111,12 +119,10 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         <Button
           variant="contained"
           type="submit"
-          color="secondary"
+          color={isSmallScreen ? 'primary' : 'secondary'}
           size={isSmallScreen ? '' : 'large'}
-          onClick={() => {
-            loginHandler();
-          }}
-          sx={{ borderRadius: '20px' }}
+          onClick={() => loginHandler()}
+          fullWidth={isSmallScreen}
         >
           Login
         </Button>
