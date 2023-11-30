@@ -25,7 +25,14 @@ const Contacts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
-  const { data, isLoading, isError, error, addContact, deleteContact } = useContactsList();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    add: addContact,
+    delete: deleteContact
+  } = useContactsList();
   const { addNotification } = useNotification();
 
   const handleSelectDeleteContact = (contact) => {
@@ -54,7 +61,8 @@ const Contacts = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%'
       }}
     >
       <Box>
@@ -64,7 +72,6 @@ const Contacts = () => {
           size="small"
           startIcon={<AddIcon />}
           onClick={() => setShowAddContactModal(true)}
-          sx={{ marginTop: '3rem' }}
         >
           Add Contact
         </Button>
@@ -84,11 +91,12 @@ const Contacts = () => {
         addContact={addContact}
       />
       <ConfirmationModal
-        showConfirmationModal={showConfirmationModal}
-        setShowConfirmationModal={setShowConfirmationModal}
+        showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
         title="Delete Contact"
         text={`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
-        confirmFunction={handleDeleteContact}
+        onConfirm={handleDeleteContact}
+        confirmButtonText="Delete"
         processing={processing}
       />
     </Container>

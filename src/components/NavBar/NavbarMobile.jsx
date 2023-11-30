@@ -9,6 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
 import NavbarLinks from './NavbarLinks';
@@ -20,12 +21,16 @@ import { SignedInUserContext } from '../../contexts';
  * when a user is logged in on a mobile screen device
  *
  *
- * @memberof GlobalComponents
- * @name NavbarLoggedOut
+ * @memberof NavBar
+ * @name NavbarMobile
+ * @param {object} Props - The props for NavbarMobile Component
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @returns {React.JSX.Element} - The Mobile version of the Navbar Component
  */
-
 const NavbarMobile = ({ setShowConfirmation }) => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,7 +65,7 @@ const NavbarMobile = ({ setShowConfirmation }) => {
           <Link to="/" aria-label="Home">
             <img src="/pass-logo.png" alt="PASS logo" style={{ marginRight: '2rem' }} />
           </Link>
-          <NavbarLinks aria-label="navigation links" />
+          {!isSmallScreen && <NavbarLinks aria-label="navigation links" />}
           <Box sx={{ flexGrow: 1 }} />
           <IconButton
             size="large"

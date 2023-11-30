@@ -11,10 +11,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Typography from '@mui/material/Typography';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
-
-/**
- * @typedef {import("../../typedefs").profileImageFieldProps} profileImageFieldProps
- */
+import useNotification from '../../hooks/useNotification';
 
 /**
  * ProfileImageField Component - Component that creates the editable inputs fields
@@ -22,23 +19,32 @@ import { SignedInUserContext } from '@contexts';
  *
  * @memberof Profile
  * @name ProfileImageField
- * @param {profileImageFieldProps} Props - Props used for NewMessage
+ * @param {object} Props - Props used for NewMessage
+ * @param {() => void} Props.loadProfileData - Handler function for setting local
+ * state for profile card in PASS
+ * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * or null if user profile is selected
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const ProfileImageField = ({ loadProfileData, contactProfile }) => {
+  const { addNotification } = useNotification();
   const { session } = useSession();
   const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
     useContext(SignedInUserContext);
   const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
 
   const handleProfileImage = async (event) => {
-    await uploadProfileImage(session, profileData, event.target.files[0]);
+    if (event.target.files[0].size > 1 * 1000 * 1024) {
+      addNotification('error', 'Profile images have a maximum size of 1MB.');
+    } else {
+      await uploadProfileImage(session, profileData, event.target.files[0]);
 
-    const updatedProfileData = await fetchProfileInfo(session, session.info.webId);
-    localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
-    setProfileImg(updatedProfileData.profileInfo.profileImage);
+      const updatedProfileData = await fetchProfileInfo(session.info.webId);
+      localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
+      setProfileImg(updatedProfileData.profileInfo.profileImage);
 
-    loadProfileData();
+      loadProfileData();
+    }
   };
 
   const handleRemoveProfileImg = async () => {
@@ -65,7 +71,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src={contactProfile ? contactProfile.profileImg : profileImg}
+        src={contactProfile ? contactProfile.profileImage : profileImg}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />

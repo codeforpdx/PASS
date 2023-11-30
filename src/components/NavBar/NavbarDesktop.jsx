@@ -14,8 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
+// Custom Hook Imports
+import { useMessageList } from '@hooks';
 // Component Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
 import NavbarLinks from './NavbarLinks';
 import NavMenu from './NavMenu';
 
@@ -23,13 +25,18 @@ import NavMenu from './NavMenu';
  * NavbarDesktop Component - Component that generates Navbar section for PASS
  * when a user is logged in on larger than mobile screen device
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavbarDesktop
+ * @param {object} Props - The props for NavbarDesktop Component
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @returns {React.JSX.Element} - The Desktop version of Navbar Component
  */
-
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const theme = useTheme();
-  const { numUnreadMessages } = useContext(MessageContext);
+  const { data } = useMessageList('Inbox');
+
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
@@ -66,12 +73,12 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
           </Link>
           <NavbarLinks aria-label="navigation links" />
           <Box sx={{ flexGrow: 1 }} />
-          <Box aria-label="menu" sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }} role="group">
             {/* messages icon */}
             <IconButton
               component={NavLink}
               size="large"
-              aria-label="show new messages"
+              aria-label="Show messages"
               edge="start"
               color="inherit"
               to="/messages"
@@ -84,7 +91,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
             {/* notifications icon */}
             <IconButton
               size="large"
-              aria-label="show new notifications"
+              aria-label="Show notifications"
               color="inherit"
               onClick={handleNotificationsMenu}
               edge="start"
@@ -121,7 +128,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
             <IconButton
               size="large"
               edge="end"
-              aria-label="account of current user"
+              aria-label="Account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleOpenMenu}

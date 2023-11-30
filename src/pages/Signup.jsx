@@ -33,7 +33,7 @@ const Signup = () => {
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
   const { session, login, podUrl } = useSession();
-  const { addContact, isSuccess } = useContactsList();
+  const { add: addContact, isSuccess } = useContactsList();
 
   const registerAndLogin = async (email, password, confirmPassword) => {
     await registerPod(

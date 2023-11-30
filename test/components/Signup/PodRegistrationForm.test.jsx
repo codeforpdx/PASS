@@ -17,7 +17,7 @@ describe('PodRegistrationForm', () => {
       </Router>
     );
 
-    const textField = screen.getByLabelText('Email');
+    const textField = screen.getByRole('textbox', { name: 'Email' });
     const inputElementPassword = screen.getByLabelText('Password');
     const inputElementConfirmPassord = screen.getByLabelText('Confirm Password');
 

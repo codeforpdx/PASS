@@ -14,8 +14,10 @@ import Typography from '@mui/material/Typography';
  *
  * @memberof Notification
  * @name EmptyListNotification
+ * @param {object} Props - The Props for EmptyNotification Component
+ * @param {string} Props.type - The type of list notification is used for
+ * @returns {React.JSX.Element} - The EmptyNotification Component
  */
-
 const EmptyListNotification = ({ type }) => {
   const str1 = `No ${type} found.`;
   const str2 = type === 'clients' ? 'Added' : 'Uploaded';
@@ -28,7 +30,7 @@ const EmptyListNotification = ({ type }) => {
     >
       <Box sx={{ my: '3rem' }}>
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
-          <Typography variant="h6" component="h2" align="center" color="secondary">
+          <Typography variant="h6" component="p" align="center" color="secondary">
             {str1}
             {type !== 'messages' ? (
               <>

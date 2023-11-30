@@ -8,10 +8,9 @@
  */
 import getDriversLicenseData from './barcode/barcode-scan';
 import formattedDate from './barcode/barcode-date-parser';
-import createPASSContainer from './pod-management/pod-helper';
+import createPASSContainer, { generateACL } from './pod-management/pod-helper';
 
-export { getDriversLicenseData, formattedDate, createPASSContainer };
+export { getDriversLicenseData, formattedDate, createPASSContainer, generateACL };
 
-export * from './cryptography/credentials-helper';
 export * from './network/session-core';
 export * from './network/session-helper';

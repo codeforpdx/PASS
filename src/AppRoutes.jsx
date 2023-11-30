@@ -4,8 +4,9 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
+import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 // Page Imports
-import { Home, Contacts, Messages, Profile, Signup } from './pages';
+import { CivicProfile, Home, Contacts, Messages, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -38,11 +39,23 @@ const AppRoutes = () => {
         }
       />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/profile">
-          <Route index element={<Profile />} />
+        <Route path="/contacts">
+          <Route index element={<Contacts />} />
           <Route path=":webId" element={<Profile />} />
+        </Route>
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/civic-profile" element={<CivicProfile />}>
+          {CIVIC_FORM_LIST.map((formProps) => (
+            <Route
+              {...formProps}
+              element={
+                <FormLayout>
+                  <formProps.element />
+                </FormLayout>
+              }
+            />
+          ))}
         </Route>
         <Route path="*" element={<Navigate to={restorePath} replace />} />
       </Route>
