@@ -1,5 +1,6 @@
 // React Imports
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,7 +8,6 @@ import CreateIcon from '@mui/icons-material/Create';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useNavigate } from 'react-router-dom';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 

@@ -1,5 +1,8 @@
+// React Imports
 import React from 'react';
+// Custom Hooks Imports
 import { useMessageList } from '@hooks';
+// Component Imports
 import MessageFolder from './MessageFolder';
 
 const Inbox = () => {
