@@ -93,7 +93,7 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<ContactsIcon style={{ height: '24px', width: '24px' }} />}
+                startIcon={<ContactsIcon sx={{ height: '24px', width: '24px' }} />}
                 sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
               >
                 Contacts
@@ -105,7 +105,7 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<AccountBoxIcon style={{ height: '24px', width: '24px' }} />}
+                startIcon={<AccountBoxIcon sx={{ height: '24px', width: '24px' }} />}
                 sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
               >
                 Civic Profile
@@ -120,7 +120,7 @@ const NavMenu = ({
             component={Button}
             startIcon={
               <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
-                <EmailIcon style={{ height: '24px', width: '24px' }} />
+                <EmailIcon sx={{ height: '24px', width: '24px' }} />
               </Badge>
             }
             sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
@@ -131,7 +131,7 @@ const NavMenu = ({
         {/* notifications */}
         <MenuItem
           component={Button}
-          startIcon={<NotificationsIcon style={{ height: '24px', width: '24px' }} />}
+          startIcon={<NotificationsIcon sx={{ height: '24px', width: '24px' }} />}
           onClick={handleNotificationsMenu}
           sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
         >
@@ -168,7 +168,7 @@ const NavMenu = ({
         {/* settings */}
         <MenuItem
           component={Button}
-          startIcon={<SettingsIcon style={{ height: '24px', width: '24px' }} />}
+          startIcon={<SettingsIcon sx={{ height: '24px', width: '24px' }} />}
           sx={{ color: theme.palette.primary.main, width: '100%' }}
         >
           Settings
@@ -176,7 +176,7 @@ const NavMenu = ({
         {/* logout */}
         <MenuItem
           component={Button}
-          startIcon={<LogoutIcon style={{ height: '24px', width: '24px' }} />}
+          startIcon={<LogoutIcon sx={{ height: '24px', width: '24px' }} />}
           onClick={() => setShowConfirmation(true)}
           sx={{ color: theme.palette.error.main, width: '100%' }}
         >
