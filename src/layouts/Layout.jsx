@@ -36,7 +36,9 @@ const Layout = ({ ariaLabel, children }) => {
       <NavBarSkipLink />
       <NavBar />
       {session.info.isLoggedIn && <Breadcrumbs />}
-      <main id="main-content">{children}</main>
+      <div id="main-content" tabIndex={-1}>
+        {children}
+      </div>
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
       <NotificationContainer notifications={state.notifications} />

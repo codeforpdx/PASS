@@ -1,16 +1,14 @@
-// React Imports
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
+import Link from '@mui/material/Link';
 
 // MUI theme
 import theme from '../../theme';
 
-/**
- * NavBarSkipLink component is an accessibility component
- * that allows users to skip to the main content of the page.
- *
- * @returns {React.Element} The rendered NavBarSkipLink component.
- */
 const NavBarSkipLink = () => {
+  // react router location
+  const location = useLocation();
   // state used for hiding and showing component
   const [animateOut, setAnimateOut] = useState(true);
 
@@ -24,39 +22,28 @@ const NavBarSkipLink = () => {
     setAnimateOut(true);
   };
 
-  // handles clicking on link and scrolling to content
-  const handleClick = (event) => {
-    event.preventDefault();
-    setAnimateOut(true);
-    const targetElement = document.getElementById('main-content');
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <a
-      href="#main-content"
-      onClick={handleClick}
+    <Link
+      component={HashLink}
+      smooth
       onFocus={handleFocus}
       onBlur={handleBlur}
-      tabIndex={0}
+      to={{ pathname: location.pathname, hash: '#main-content' }}
       style={{
         position: 'absolute',
         top: 0,
         left: 100,
         zIndex: 999,
         transition: 'all 0.3s ease-in-out',
+        background: theme.palette.accessible.main,
+        color: theme.palette.accessible.contrastText,
         opacity: animateOut ? 0 : 1,
-        transform: animateOut ? 'translateY(-100%)' : 'translateY(0%)',
-        color: theme.palette.primary.contrastText,
-        cursor: 'pointer',
-        textDecoration: 'underline',
-        border: 'none'
+        padding: '5px',
+        transform: animateOut ? 'translateY(-100%)' : 'translateY(0%)'
       }}
     >
       Skip to main content
-    </a>
+    </Link>
   );
 };
 
