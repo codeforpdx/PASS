@@ -1,8 +1,8 @@
 // React Imports
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import { Outlet } from 'react-router-dom';
 
 /**
  * Messages Page - Page that generates the components for the Message system
