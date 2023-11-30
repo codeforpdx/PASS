@@ -4,9 +4,11 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
+// Component Imports
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
+import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
-import { CivicProfile, Home, Contacts, Messages, Profile, Signup } from './pages';
+import { CivicProfile, Home, Contacts, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -43,7 +45,23 @@ const AppRoutes = () => {
           <Route index element={<Contacts />} />
           <Route path=":webId" element={<Profile />} />
         </Route>
-        <Route path="/messages" element={<Messages />} />
+        <Route path="/messages">
+          {MESSAGE_PAGES_LIST.map((messagePagesProps) => (
+            <Route
+              path={messagePagesProps.path}
+              key={messagePagesProps.path}
+              element={
+                messagePagesProps.path === '/messages' ? (
+                  <Navigate to="/messages/inbox" replace />
+                ) : (
+                  <MessagesLayout path={messagePagesProps.path}>
+                    {messagePagesProps.element}
+                  </MessagesLayout>
+                )
+              }
+            />
+          ))}
+        </Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (

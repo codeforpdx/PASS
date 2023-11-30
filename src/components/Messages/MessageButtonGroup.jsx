@@ -7,6 +7,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useNavigate } from 'react-router-dom';
 
 const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
 
@@ -23,6 +24,14 @@ const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
  */
 const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
   const isReallySmallScreen = useMediaQuery('(max-width: 480px)');
+  const navigate = useNavigate();
+
+  const handleNavigate = (pathLabel) => {
+    const path = pathLabel.toLowerCase();
+
+    setBoxType(path);
+    navigate(`/messages/${path}`);
+  };
 
   return (
     <Box
@@ -47,7 +56,7 @@ const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
             key={`${item.label}Tab`}
             value={item.label.toLowerCase()}
             label={item.label}
-            onClick={() => setBoxType(item.label.toLowerCase())}
+            onClick={() => handleNavigate(item.label)}
           />
         ))}
       </Tabs>
