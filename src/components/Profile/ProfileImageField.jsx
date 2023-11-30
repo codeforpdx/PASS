@@ -39,7 +39,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     } else {
       await uploadProfileImage(session, profileData, event.target.files[0]);
 
-      const updatedProfileData = await fetchProfileInfo(session, session.info.webId);
+      const updatedProfileData = await fetchProfileInfo(session.info.webId);
       localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
       setProfileImg(updatedProfileData.profileInfo.profileImage);
 
@@ -71,7 +71,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     >
       <Typography color="black">Profile Image: </Typography>
       <Avatar
-        src={contactProfile ? contactProfile.profileImg : profileImg}
+        src={contactProfile ? contactProfile.profileImage : profileImg}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />

@@ -5,16 +5,16 @@
  * @memberof utils
  * @name docTypes
  * @type {Array<string>}
- * @property {string} BankStatement - Bank Statemet
- * @property {string} Passport - Passport
- * @property {string} DriversLicense - Drivers License
- * @property {string} Other - Anything Else
+ * @property {string} bankStatement - Bank Statement
+ * @property {string} passport - Passport
+ * @property {string} driversLicense - Drivers License
+ * @property {string} other - Anything Else
  */
 const DOC_TYPES = {
-  BankStatement: 'Bank Statement',
-  Passport: 'Passport',
-  DriversLicense: "Driver's License",
-  Other: 'Other'
+  bankStatement: 'Bank Statement',
+  passport: 'Passport',
+  driversLicense: "Driver's License",
+  other: 'Other'
 };
 
 export default DOC_TYPES;

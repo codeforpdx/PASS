@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import SearchIcon from '@mui/icons-material/Search';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * The UploadButtonGroup Component is a component that renders the upload document
@@ -17,28 +19,22 @@ import SearchIcon from '@mui/icons-material/Search';
  * @param {Function} Props.setFile - The set function for handling files
  * @returns {React.JSX.Element} - The UploadButtonGroup Component
  */
-const UploadButtonGroup = ({ file, setFile }) => (
-  <Box sx={{ display: 'flex', padding: '8px 8px 0', boxSizing: 'border-box' }}>
-    <Button
-      variant={file ? 'outlined' : 'contained'}
-      component="label"
-      color="primary"
-      id="upload-doctype"
-      name="uploadDoctype"
-      onChange={(e) => setFile(e.target.files[0])}
-      fullWidth
-      required
-      startIcon={<SearchIcon />}
-      sx={{ borderRadius: '20px' }}
+const UploadButtonGroup = ({ file, setFile }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isCustomMediumScreen = useMediaQuery('(max-width: 768px)');
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        padding: '8px 8px 0',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        gap: isSmallScreen ? '10px' : '8px',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
     >
-      Choose file
-      <input
-        type="file"
-        hidden
-        accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
-      />
-    </Button>
-    {window.matchMedia('(max-width: 768px').matches && (
       <Button
         variant={file ? 'outlined' : 'contained'}
         component="label"
@@ -48,14 +44,33 @@ const UploadButtonGroup = ({ file, setFile }) => (
         onChange={(e) => setFile(e.target.files[0])}
         fullWidth
         required
-        startIcon={<PhotoCameraIcon />}
-        sx={{ borderRadius: '20px', marginLeft: '8px' }}
+        startIcon={<SearchIcon />}
       >
-        Capture image
-        <input type="file" hidden accept="image/*" capture="environment" />
+        Choose file
+        <input
+          type="file"
+          hidden
+          accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
+        />
       </Button>
-    )}
-  </Box>
-);
+      {isCustomMediumScreen && (
+        <Button
+          variant={file ? 'outlined' : 'contained'}
+          component="label"
+          color="primary"
+          id="upload-doctype"
+          name="uploadDoctype"
+          onChange={(e) => setFile(e.target.files[0])}
+          fullWidth
+          required
+          startIcon={<PhotoCameraIcon />}
+        >
+          Capture image
+          <input type="file" hidden accept="image/*" capture="environment" />
+        </Button>
+      )}
+    </Box>
+  );
+};
 
 export default UploadButtonGroup;

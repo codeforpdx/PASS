@@ -3,6 +3,8 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * FormSection Component - Component that wraps section with title and MUI Box
@@ -16,34 +18,29 @@ import Typography from '@mui/material/Typography';
  * @param {React.ReactElement} Props.children - JSX Element of the wrapped form
  * @returns {React.JSX.Element} - The FormSection Component
  */
-const FormSection = ({ title, children }) => (
-  <Box
-    sx={{
-      marginTop: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      mx: '3px',
-      padding: '20px',
-      minWidth: '50%'
-    }}
-  >
-    <Typography
-      align="center"
-      mb={2}
-      variant="h5"
+const FormSection = ({ title, children }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Box
       sx={{
-        maxWidth: '500px',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
+        marginTop: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        mx: '3px',
+        padding: isSmallScreen ? '10px' : '20px',
+        minWidth: '50%'
       }}
     >
-      {title}
-    </Typography>
-    {children}
-  </Box>
-);
+      <Typography variant="h2" align="center" mb={2} sx={{ fontSize: '20px' }}>
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
+};
 
 export default FormSection;

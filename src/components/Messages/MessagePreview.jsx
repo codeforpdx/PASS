@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,12 +9,10 @@ import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
-import { useSession } from '@hooks';
-// Utility Imports
-import { updateMessageReadStatus, getMessageTTL } from '@utils';
-// Context Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { useMessageList } from '@hooks';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -36,18 +34,13 @@ import { NewMessageModal } from '../Modals';
 const MessagePreview = ({ message, folderType }) => {
   const [showContents, setShowContents] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { session } = useSession();
-  const { podUrl } = useContext(SignedInUserContext);
-  const { inboxList, setInboxList } = useContext(MessageContext);
+  const { add: updateReadStatus } = useMessageList('Inbox');
 
   const handleClick = async () => {
     setShowContents(!showContents);
-    if (folderType === 'Inbox') {
+    if (folderType === 'Inbox' && !message.readStatus) {
       try {
-        await updateMessageReadStatus(session, message);
-        const messagesInSolid = await getMessageTTL(session, folderType, inboxList, podUrl);
-        messagesInSolid.sort((a, b) => b.uploadDate - a.uploadDate);
-        setInboxList(messagesInSolid);
+        await updateReadStatus(message);
       } catch {
         throw new Error('Failed to update read status');
       }
@@ -58,59 +51,86 @@ const MessagePreview = ({ message, folderType }) => {
     setShowModal(!showModal);
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const renderMediumGridLeft = () => {
+    if (isMediumScreen) return 8;
+    return 5;
+  };
+
+  const renderMediumGridRight = () => {
+    if (isMediumScreen) return 4;
+    return 2;
+  };
+
   const messageInfo = [
-    { title: 'Sender: ', text: message.sender, xs_value: 3 },
-    { title: 'Subject: ', text: message.title, xs_value: 7 },
-    { title: 'Date: ', text: message.uploadDate.toLocaleDateString(), xs_value: 2 }
+    {
+      title: 'Sender: ',
+      text: message?.sender,
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
+    },
+    {
+      title: 'Subject: ',
+      text: message?.title,
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
+    },
+    {
+      title: 'Date: ',
+      text: message?.uploadDate?.toLocaleDateString(),
+      xs_value: isSmallScreen ? 12 : renderMediumGridRight()
+    }
   ];
 
   return (
-    <Container sx={{ wordWrap: 'break-word' }}>
-      <Paper>
-        <Box sx={{ flexGrow: 1 }}>
-          <ListItemButton onClick={() => handleClick()} alignItems="flex-start">
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ padding: '10px' }}
+    <>
+      <Container sx={{ wordWrap: 'break-word' }}>
+        <Paper>
+          <Box sx={{ flexGrow: 1 }}>
+            <ListItemButton
+              onClick={handleClick}
+              alignItems="flex-start"
+              aria-label={`open message preview ${message.messageId}`}
             >
-              {messageInfo.map((info) => (
-                <Grid item xs={info.xs_value} sx={{ opacity: message.readStatus ? '0.5' : '1' }}>
-                  <Typography>
-                    {info.title} <strong>{info.text}</strong>
-                  </Typography>
-                </Grid>
-              ))}
-
-              {showContents && (
-                <Grid item xs={12}>
-                  <Divider />
-                  {message.message.split('\n').map((line, index) => (
-                    <Typography sx={{ padding: '10px 5px' }} key={line + String(index)}>
-                      {line}
+              <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
+                {messageInfo.map((info, index) => (
+                  <Grid
+                    item
+                    xs={info.xs_value}
+                    sx={{ opacity: message.readStatus ? '0.5' : '1' }}
+                    key={info.title + String(index)}
+                  >
+                    <Typography>
+                      {info.title} <strong>{info.text}</strong>
                     </Typography>
-                  ))}
-                  {showContents && folderType === 'Inbox' && (
-                    <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                      Reply
-                    </Button>
-                  )}
-                </Grid>
-              )}
-            </Grid>
+                  </Grid>
+                ))}
 
-            {showModal && (
-              <NewMessageModal
-                showModal={showModal}
-                setShowModal={setShowModal}
-                oldMessage={message}
-              />
-            )}
-          </ListItemButton>
-        </Box>
-      </Paper>
-    </Container>
+                {showContents && (
+                  <Grid item xs={12}>
+                    <Divider />
+                    {message.message.split('\n').map((line, index) => (
+                      <Typography sx={{ padding: '10px 5px' }} key={line + String(index)}>
+                        {line}
+                      </Typography>
+                    ))}
+                    {showContents && folderType === 'Inbox' && (
+                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
+                        Reply
+                      </Button>
+                    )}
+                  </Grid>
+                )}
+              </Grid>
+            </ListItemButton>
+          </Box>
+        </Paper>
+      </Container>
+      {showModal && (
+        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
+      )}
+    </>
   );
 };
 

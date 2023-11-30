@@ -150,25 +150,23 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           <br />
           <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
             <Button
+              variant="outlined"
+              color="error"
+              startIcon={<ClearIcon />}
+              onClick={clearInputFields}
+              fullWidth
+            >
+              Cancel
+            </Button>
+            <Button
               variant="contained"
               disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
               type="submit"
               color="primary"
               startIcon={<ShareIcon />}
               fullWidth
-              sx={{ borderRadius: '20px' }}
             >
               {permissionState.permissionType ? `${permissionState.permissionType}` : 'Share'}
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<ClearIcon />}
-              onClick={clearInputFields}
-              fullWidth
-              sx={{ borderRadius: '20px' }}
-            >
-              Cancel
             </Button>
           </FormControl>
         </form>

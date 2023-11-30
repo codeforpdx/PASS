@@ -1,21 +1,40 @@
 // React Imports
 import React, { useContext } from 'react';
+
+// Constants
+import DOC_TYPES from '@constants/doc_types';
+
 // Material UI Imports
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ShareIcon from '@mui/icons-material/Share';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarFilterButton
+} from '@mui/x-data-grid';
+
 // Context Imports
 import { DocumentListContext } from '@contexts';
+import { useSession } from '@hooks';
+
+// Utility Imports
+import { getBlobFromSolid } from '@utils';
+
 // Component Imports
-import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../theme';
-import DocumentTableRow from './DocumentTableRow';
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
+
+// DataGrid Toolbar
+const CustomToolbar = () => (
+  <GridToolbarContainer>
+    <GridToolbarFilterButton />
+    <GridToolbarDensitySelector />
+  </GridToolbarContainer>
+);
 
 /**
  * DocumentTable Component - The Document Table that shows the list of documents
@@ -32,47 +51,178 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  * @returns {React.JSX.Element} The DocumentTable component
  */
 const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => {
+  const { session } = useSession();
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
+
+  /**
+   * Handles the local display of a document by opening it in a new window.
+   *
+   * @async
+   * @function
+   * @param {string} urlToOpen - The URL of the document to be opened.
+   * @throws {Error} Throws an error if there is an issue fetching the document blob.
+   * @returns {Promise<void>} A promise that resolves after the document is opened.
+   * @example
+   * // Example usage:
+   * const documentUrl = 'https://example.com/document.pdf';
+   * await handleShowDocumentLocal(documentUrl);
+   */
+  const handleShowDocumentLocal = async (urlToOpen) => {
+    /**
+     * Fetches a Blob from a Solid pod based on the provided session and URL.
+     *
+     * @async
+     * @function
+     * @param {object} session - The Solid session object.
+     * @param {string} url - The URL of the document on the Solid pod.
+     * @returns {Promise<Blob>} A promise that resolves with the Blob of the document.
+     * @throws {Error} Throws an error if there is an issue fetching the document blob.
+     */
+    const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
+
+    // Opens a new window with the Blob URL displaying the document.
+    window.open(urlFileBlob);
+  };
+
   const columnTitlesArray = [
-    'Name',
-    'Type',
-    'Description',
-    'Upload Date',
-    'Expiration Date',
-    'Preview File',
-    'Sharing',
-    'Delete'
+    {
+      headerName: 'Name',
+      field: 'name',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      headerName: 'Type',
+      field: 'type',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      headerName: 'Description',
+      field: 'description',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      headerName: 'Upload Date',
+      field: 'upload date',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      headerName: 'Expiration Date',
+      field: 'expiration date',
+      minWidth: 120,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      headerName: 'Preview File',
+      field: 'preview file',
+      minWidth: 100,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false,
+      filterable: false,
+      renderCell: (fileUrl) => (
+        <GridActionsCellItem
+          key={String(fileUrl)}
+          icon={<FileOpenIcon />}
+          onClick={() => handleShowDocumentLocal(fileUrl)}
+          label="Preview"
+        />
+      )
+    },
+    {
+      headerName: 'Sharing',
+      field: 'sharing',
+      type: 'actions',
+      minWidth: 80,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center',
+      getActions: (data) => [
+        <GridActionsCellItem
+          icon={<ShareIcon />}
+          onClick={() => handleAclPermissionsModal('documents', data.name, data.type)}
+          label="Share"
+        />
+      ]
+    },
+    {
+      headerName: 'Delete',
+      field: 'actions',
+      type: 'actions',
+      minWidth: 80,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center',
+      getActions: (data) => [
+        <GridActionsCellItem
+          icon={<DeleteOutlineOutlinedIcon />}
+          onClick={() => handleSelectDeleteDoc(data.row.delete)}
+          label="Delete"
+        />
+      ]
+    }
   ];
 
-  const determineDocumentsTable = documentListObject?.docList?.length ? (
+  // Updates type value to use DOC_TYPES for formatting the string
+  const mappingType = (type) => DOC_TYPES[type] || type;
+
+  // Map types for each document in the array
+  const mappedDocuments = documentListObject?.docList.map((document) => ({
+    ...document,
+    type: mappingType(document.type)
+  }));
+
+  const determineDocumentsTable = mappedDocuments?.length ? (
     // render if documents
-    <ThemeProvider theme={theme}>
-      <Container>
-        <TableContainer component={Paper} sx={{ margin: '1rem 0' }}>
-          <Table aria-label="Documents Table">
-            <TableHead>
-              <TableRow>
-                {columnTitlesArray.map((columnTitle) => (
-                  <TableCell key={columnTitle} align="center">
-                    {columnTitle}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {documentListObject?.docList.map((document) => (
-                <DocumentTableRow
-                  key={document.name}
-                  document={document}
-                  handleAclPermissionsModal={handleAclPermissionsModal}
-                  handleSelectDeleteDoc={handleSelectDeleteDoc}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container>
-    </ThemeProvider>
+    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
+      <DataGrid
+        columns={columnTitlesArray}
+        rows={mappedDocuments.map((document) => ({
+          id: document.name,
+          type: document.type,
+          name: document.name,
+          description: document.description,
+          delete: document,
+          'upload date': document?.uploadDate.toLocaleDateString(),
+          'expiration date': document?.endDate?.toLocaleDateString(),
+          'preview file': document.fileUrl
+        }))}
+        pageSizeOptions={[10]}
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 10, page: 0 }
+          }
+        }}
+        slots={{
+          toolbar: CustomToolbar
+        }}
+        disableColumnMenu
+        disableRowSelectionOnClick
+        sx={{
+          '.MuiDataGrid-columnHeader': {
+            background: theme.palette.primary.light,
+            color: 'white'
+          },
+          '.MuiDataGrid-columnSeparator': {
+            display: 'none'
+          }
+        }}
+      />
+    </Box>
   ) : (
     // render if no documents
     <EmptyListNotification type="documents" />

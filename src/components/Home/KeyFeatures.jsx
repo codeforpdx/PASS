@@ -2,6 +2,7 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
@@ -17,23 +18,24 @@ import Typography from '@mui/material/Typography';
  * @returns {React.JSX.Element} the KeyFeatures section component
  */
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
-  <>
+  <Stack alignItems="center">
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
         marginBottom: '14px',
-        color: 'primary.main',
-        width: isReallySmallScreen ? 1 : 'full'
+        color: 'primary.main'
       }}
     >
       {icon}
       <Typography
-        variant={isReallySmallScreen ? 'h5' : 'h4'}
+        variant="h6"
+        component="h3"
         sx={{
-          marginLeft: '8px',
-          textAlign: isReallySmallScreen ? 'start' : 'center',
-          width: '100%'
+          color: 'primary.main',
+          textAlign: 'center'
         }}
       >
         <strong>{title}</strong>
@@ -42,15 +44,15 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
     <Typography
       variant="body1"
       sx={{
-        width: isReallySmallScreen ? 1 : 2 / 3,
-        textAlign: isReallySmallScreen ? 'start' : 'center',
+        width: isReallySmallScreen ? 1 : '85%',
+        textAlign: 'center',
         color: 'primary.dark',
         marginBottom: '50px'
       }}
     >
       {description}
     </Typography>
-  </>
+  </Stack>
 );
 
 export default KeyFeatures;
