@@ -85,7 +85,7 @@ const NavMenu = ({
       }}
       sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
-      <MenuList sx={{ py: '0px' }}>
+      <MenuList>
         {isSmallScreen && (
           <div>
             <Link
