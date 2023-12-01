@@ -40,6 +40,7 @@ const renderWebId = (username) => {
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
+ * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { addNotification } = useNotification();
