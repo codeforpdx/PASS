@@ -46,17 +46,15 @@ const AppRoutes = () => {
           <Route path=":webId" element={<Profile />} />
         </Route>
         <Route path="/messages">
-          {MESSAGE_PAGES_LIST.map((messagePagesProps) => (
+          {MESSAGE_PAGES_LIST.map((messagePages) => (
             <Route
-              path={messagePagesProps.path}
-              key={messagePagesProps.path}
+              path={messagePages.path}
+              key={messagePages.path}
               element={
-                messagePagesProps.path === '/messages' ? (
+                messagePages.path === '/messages' ? (
                   <Navigate to="/messages/inbox" replace />
                 ) : (
-                  <MessagesLayout path={messagePagesProps.path}>
-                    {messagePagesProps.element}
-                  </MessagesLayout>
+                  <MessagesLayout path={messagePages.path}>{messagePages.element}</MessagesLayout>
                 )
               }
             />

@@ -9,7 +9,10 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const routesArray = [{ label: 'Inbox' }, { label: 'Outbox' }];
+const routesArray = [
+  { label: 'Inbox', path: 'inbox' },
+  { label: 'Outbox', path: 'outbox' }
+];
 
 /**
  *  Renders the Message Button Group component for new message, inbox, and outbox
@@ -26,9 +29,7 @@ const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
   const isReallySmallScreen = useMediaQuery('(max-width: 480px)');
   const navigate = useNavigate();
 
-  const handleNavigate = (pathLabel) => {
-    const path = pathLabel.toLowerCase();
-
+  const handleNavigate = (path) => {
     setBoxType(path);
     navigate(`/messages/${path}`);
   };
@@ -51,12 +52,12 @@ const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
         New Message
       </Button>
       <Tabs value={boxType} sx={{ padding: '0 15px' }}>
-        {routesArray.map((item) => (
+        {routesArray.map(({ label, path }) => (
           <Tab
-            key={`${item.label}Tab`}
-            value={item.label.toLowerCase()}
-            label={item.label}
-            onClick={() => handleNavigate(item.label)}
+            key={`${label}Tab`}
+            value={path}
+            label={label}
+            onClick={() => handleNavigate(path)}
           />
         ))}
       </Tabs>
