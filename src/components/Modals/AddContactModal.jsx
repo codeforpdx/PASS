@@ -63,9 +63,9 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setProcessing(true);
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
     const userObject = {
-      givenName: addUserGivenName.value,
-      familyName: addUserFamilyName.value,
-      webId: addWebId.value
+      givenName: addUserGivenName.value.trim(),
+      familyName: addUserFamilyName.value.trim(),
+      webId: addWebId.value.trim()
     };
 
     try {
