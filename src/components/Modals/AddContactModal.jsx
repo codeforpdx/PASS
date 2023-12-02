@@ -112,7 +112,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </FormControl>
           <TextField
             margin="normal"
-            id="add-user-last-name"
+            id="add-user-family-name"
             name="addUserFamilyName"
             label="Last/family name"
             autoComplete="family-name"
@@ -125,7 +125,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             margin="normal"
             id="add-username"
             name="addUsername"
-            label="username"
+            label="Username"
             autoComplete="username"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
