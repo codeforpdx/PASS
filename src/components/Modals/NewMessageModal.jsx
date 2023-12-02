@@ -89,7 +89,14 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
       addNotification('error', 'Please enter a message');
     } else {
       try {
-        await sendMessageTTL(session, message, podUrl);
+        const messageWithTrimmedInputs = {
+          ...message,
+          recipientPodUrl: message.recipientPodUrl.trim(),
+          title: message.title.trim(),
+          message: message.message.trim()
+        };
+
+        await sendMessageTTL(session, messageWithTrimmedInputs, podUrl);
 
         setMessage({
           recipientPodUrl: '',
@@ -107,6 +114,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
         }, 2000);
       }
     }
+
     await refreshOutbox();
   };
 
@@ -188,7 +196,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             onChange={(e) => handleChange(e)}
             multiline
             rows={5}
-            label="Enter Message"
+            label="Message"
             required
             // TODO: Determine how long a maximum length, if any, is suitable
             inputProps={{ maxLength: '500' }}
