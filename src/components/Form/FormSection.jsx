@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles';
  * @name FormSection
  * @param {object} Props - A React prop that consists of
  * that consist of title and children (see {@link formSectionProps})
- * @param Props.id
+ * @param {string} Props.id - The `id` attribute of the element containing the `title`
  * @param {string} Props.title - Title of form section
  * @param {React.ReactElement} Props.children - JSX Element of the wrapped form
  * @returns {React.JSX.Element} - The FormSection Component
