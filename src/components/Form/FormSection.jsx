@@ -14,11 +14,12 @@ import { useTheme } from '@mui/material/styles';
  * @name FormSection
  * @param {object} Props - A React prop that consists of
  * that consist of title and children (see {@link formSectionProps})
+ * @param Props.id
  * @param {string} Props.title - Title of form section
  * @param {React.ReactElement} Props.children - JSX Element of the wrapped form
  * @returns {React.JSX.Element} - The FormSection Component
  */
-const FormSection = ({ title, children }) => {
+const FormSection = ({ title, id, children }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -35,7 +36,7 @@ const FormSection = ({ title, children }) => {
         minWidth: '50%'
       }}
     >
-      <Typography variant="h2" align="center" mb={2} sx={{ fontSize: '20px' }}>
+      <Typography variant="h2" align="center" mb={2} sx={{ fontSize: '20px' }} id={id}>
         {title}
       </Typography>
       {children}
