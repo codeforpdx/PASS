@@ -6,6 +6,12 @@ import Link from '@mui/material/Link';
 // MUI theme
 import theme from '../../theme';
 
+/**
+ * NavBarSkipLink component is an accessibility component
+ * that allows users to skip to the main content of the page.
+ *
+ * @returns {React.Element} The rendered NavBarSkipLink component.
+ */
 const NavBarSkipLink = () => {
   // react router location
   const location = useLocation();
