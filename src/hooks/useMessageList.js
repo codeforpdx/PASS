@@ -98,7 +98,6 @@ const updateMessageReadStatus = async (messageObject, fetchData) => {
         .build();
     }
 
-    // ================= HERE ==================
     if (readStatus) {
       messageStatusThing = buildThing(messageStatusThing)
         .setBoolean(RDF_PREDICATES.value, false)

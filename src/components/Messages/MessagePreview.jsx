@@ -14,7 +14,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import { useMessageList } from '@hooks';
-import { updateMessageReadStatus } from '@hooks/useMessageList';
 // Component Imports
 import { NewMessageModal } from '../Modals';
 
@@ -53,11 +52,12 @@ const MessagePreview = ({ message, folderType }) => {
     setShowModal(!showModal);
   };
 
-  // =================== HERE ========================
-  const handleMakeUnread = () => {
-    // mark the message as unread again
-    updateMessageReadStatus(message);
-    // message.readStatus = true;
+  const handleMakeUnread = async () => {
+    try {
+      await updateReadStatus(message);
+    } catch {
+      throw new Error('Failed to update read status');
+    }
   };
 
   const theme = useTheme();
@@ -129,8 +129,6 @@ const MessagePreview = ({ message, folderType }) => {
                         <Button variant="contained" onClick={handleReplyMessage}>
                           Reply
                         </Button>
-
-                        {/* ============= AND HERE ============= */}
                         <Button variant="outlined" onClick={handleMakeUnread}>
                           Mark as Unread
                         </Button>
