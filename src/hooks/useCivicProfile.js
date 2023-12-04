@@ -10,52 +10,50 @@ import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 import useRdfCollection from './useRdfCollection';
 
-const prefix = 'urn:hud:hmis:owl#';
-
 const civicProfileConfig = {
   firstName: {
     type: 'string',
-    predicate: `${prefix}FirstName`
+    predicate: RDF_PREDICATES.legalFirstName
   },
   lastName: {
     type: 'string',
-    predicate: `${prefix}LastName`
+    predicate: RDF_PREDICATES.legalLastName
   },
   dateOfBirth: {
     type: 'date',
-    predicate: `${prefix}DOB`
+    predicate: RDF_PREDICATES.legalDOB
   },
   gender: {
     type: 'number',
-    predicate: `${prefix}Gender`
+    predicate: RDF_PREDICATES.legalGender
   },
   lastPermanentCity: {
     type: 'string',
-    predicate: `${prefix}LastPermanentCity`
+    predicate: RDF_PREDICATES.lastPermanentCity
   },
   lastPermanentState: {
     type: 'string',
-    predicate: `${prefix}LastPermanentState`
+    predicate: RDF_PREDICATES.lastPermanentState
   },
   lastPermanentStreet: {
     type: 'string',
-    predicate: `${prefix}LastPermanentStreet`
+    predicate: RDF_PREDICATES.lastPermanentStreet
   },
   lastPermanentZIP: {
     type: 'string',
-    predicate: `${prefix}LastPermanentZIP`
+    predicate: RDF_PREDICATES.lastPermanentZIP
   },
   monthsHomeless: {
     type: 'number',
-    predicate: `${prefix}MonthsHomelessPast3Years`
+    predicate: RDF_PREDICATES.monthsHomeless
   },
   timesHomeless: {
     type: 'number',
-    predicate: `${prefix}TimesHomelessPast3Years`
+    predicate: RDF_PREDICATES.timesHomeless
   },
   timeToHousingLoss: {
     type: 'number',
-    predicate: `${prefix}TimeToHousingLoss`
+    predicate: RDF_PREDICATES.timeToHousingLoss
   }
 };
 

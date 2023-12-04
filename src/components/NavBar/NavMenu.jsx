@@ -18,7 +18,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
-import { DocumentListContext, MessageContext } from '@contexts';
+import { DocumentListContext } from '@contexts';
+import { useMessageList } from '@hooks';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -52,7 +53,9 @@ const NavMenu = ({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { setContact } = useContext(DocumentListContext);
-  const { numUnreadMessages } = useContext(MessageContext);
+  const { data } = useMessageList('Inbox');
+
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   const handleMenuClose = () => {
     setOpenMenu(false);

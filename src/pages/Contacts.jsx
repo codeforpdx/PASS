@@ -91,11 +91,12 @@ const Contacts = () => {
         addContact={addContact}
       />
       <ConfirmationModal
-        showConfirmationModal={showConfirmationModal}
-        setShowConfirmationModal={setShowConfirmationModal}
+        showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
         title="Delete Contact"
         text={`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
-        confirmFunction={handleDeleteContact}
+        onConfirm={handleDeleteContact}
+        confirmButtonText="Delete"
         processing={processing}
       />
     </Container>

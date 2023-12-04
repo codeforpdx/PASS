@@ -1,24 +1,12 @@
-import {
-  getSolidDataset,
-  getThingAll,
-  getFile,
-  getThing,
-  getBoolean,
-  buildThing,
-  setThing,
-  saveSolidDatasetAt,
-  createThing
-} from '@inrupt/solid-client';
+import { getFile } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import {
   setDocAclForUser,
   getUserProfileName,
   saveMessageTTL,
-  parseMessageTTL,
   buildMessageTTL
 } from './session-helper';
-import { RDF_PREDICATES } from '../../constants';
 
 /**
  * @typedef {import('@inrupt/solid-client-authn-browser').Session} Session
@@ -94,56 +82,6 @@ export const setDocContainerAclPermission = async (
 */
 
 /**
- * Function that fetches a list of TTL file messages from the Solid Pod and
- * returns the messages as a list of messageListObject
- *
- * @memberof utils
- * @function getMessageTTL
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} boxType - The message box being called "Inbox" or "Outbox"
- * @param {messageListObject[]} listMessages - A list of messageListObjects
- * @param {URL} podUrl - The pod URL of user
- * @returns {Promise<messageListObject[]>} inboxList - An array of inbox messages
- * from the user's inbox on Solid in JSON format
- */
-
-export const getMessageTTL = async (session, boxType, listMessages, podUrl) => {
-  const messageBoxContainerUrl = `${podUrl}PASS/${boxType}/`;
-  let messageList = [];
-  try {
-    const solidDataset = await getSolidDataset(messageBoxContainerUrl, {
-      fetch: session.fetch
-    });
-    const ttlFileThing = getThingAll(solidDataset);
-    const allMessageThing = ttlFileThing.filter((thing) => thing.url.endsWith('ttl'));
-
-    // early return if there's not message TTL files on Solid
-    if (allMessageThing.length === 0) {
-      return listMessages;
-    }
-
-    try {
-      const promises = allMessageThing.map(async (messageTTL) => {
-        const messageDataset = await getSolidDataset(messageTTL.url, { fetch: session.fetch });
-
-        const messageTTLThing = getThingAll(messageDataset);
-        const parsedMessageObject = parseMessageTTL(messageTTLThing);
-
-        messageList.push(parsedMessageObject);
-      });
-
-      await Promise.all(promises);
-    } catch (err) {
-      messageList = listMessages;
-    }
-  } catch {
-    messageList = listMessages;
-  }
-
-  return messageList;
-};
-
-/**
  * Function that sends a message to another user's Pod inbox as a TTL file and
  * saves a copy in the sender's outbox
  *
@@ -194,46 +132,6 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
     throw new Error(
       'Message failed to send. Reason: PASS-specific inbox does not exist for sender or recipient'
     );
-  }
-};
-
-/**
- * Function that updates the read status of the message in the inbox
- *
- * @memberof utils
- * @function updateMessageReadStatus
- * @param {Session} session - Solid's Session Object {@link Session}
- * @param {object} messageObject - An object containing inputs for the the message
- * @returns {Promise} Promise - Perform action that updates read status of message
- * on messageObject
- */
-export const updateMessageReadStatus = async (session, messageObject) => {
-  let messageDataset = await getSolidDataset(messageObject.messageUrl, {
-    fetch: session.fetch
-  });
-  let messageStatusThing = getThing(messageDataset, `${messageObject.messageUrl}#messagestatus`);
-
-  if (messageStatusThing) {
-    const readStatus = getBoolean(messageStatusThing, RDF_PREDICATES.value);
-
-    if (!readStatus) {
-      messageStatusThing = buildThing(messageStatusThing)
-        .setBoolean(RDF_PREDICATES.value, true)
-        .build();
-    }
-  } else {
-    messageStatusThing = buildThing(createThing({ name: 'messagestatus' }))
-      .addStringNoLocale(RDF_PREDICATES.propertyValue, 'Read Status')
-      .addBoolean(RDF_PREDICATES.value, true)
-      .build();
-  }
-
-  messageDataset = setThing(messageDataset, messageStatusThing);
-
-  try {
-    await saveSolidDatasetAt(messageObject.messageUrl, messageDataset, { fetch: session.fetch });
-  } catch (error) {
-    throw new Error('Failed to update ttl file.');
   }
 };
 
