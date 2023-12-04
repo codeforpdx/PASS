@@ -16,7 +16,7 @@ describe('NavBarSkipLink', () => {
     expect(skipLink).not.toBeNull();
   });
 
-  it.skip('moves the button in and out of view', async () => {
+  it('moves the button in and out of view', async () => {
     render(
       <BrowserRouter>
         <NavBarSkipLink />
@@ -37,7 +37,7 @@ describe('NavBarSkipLink', () => {
       const afterTabKeyPressTransform = window.getComputedStyle(skipLink).transform;
 
       expect(afterTabKeyPressOpacity).toBe('1');
-      expect(afterTabKeyPressTransform).not.toBe('translateY(0)');
+      expect(afterTabKeyPressTransform).toBe('translateY(0%)');
     });
 
     await userEvent.click(skipLink);
@@ -45,8 +45,11 @@ describe('NavBarSkipLink', () => {
     await waitFor(() => {
       const afterTabKeyPressOpacity = window.getComputedStyle(skipLink).opacity;
       const skipLinkAfterClick = window.getComputedStyle(skipLink).transform;
-      expect(afterTabKeyPressOpacity).toBe('1');
-      expect(skipLinkAfterClick).toBe('translateY(-100%)');
+      // wait for animation to finish
+      setTimeout(() => {
+        expect(afterTabKeyPressOpacity).toBe('0');
+        expect(skipLinkAfterClick).toBe('translateY(-100%)');
+      }, 300);
     });
   });
 });

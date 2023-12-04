@@ -9,8 +9,9 @@ import { useTheme } from '@mui/system';
 // Component Imports
 import { NavBar, NavBarSkipLink } from '../components/NavBar';
 import { InactivityMessage, NotificationContainer } from '../components/Notification';
-import Footer from '../components/Footer/Footer';
 import Breadcrumbs from './Breadcrumbs';
+import Footer from '../components/Footer/Footer';
+import Main from './Main';
 
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
@@ -36,9 +37,7 @@ const Layout = ({ ariaLabel, children }) => {
       <NavBarSkipLink />
       <NavBar />
       {session.info.isLoggedIn && <Breadcrumbs />}
-      <main id="main-content" tabIndex={-1}>
-        {children}
-      </main>
+      <Main>{children}</Main>
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />
       <NotificationContainer notifications={state.notifications} />
