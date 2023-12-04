@@ -47,11 +47,12 @@ const NavBar = () => {
       {isSmallScreen && <NavbarMobile setShowConfirmation={setShowConfirmationModal} />}
       {isLargeScreen && <NavbarDesktop setShowConfirmation={setShowConfirmationModal} />}
       <ConfirmationModal
-        showConfirmationModal={showConfirmationModal}
-        setShowConfirmationModal={setShowConfirmationModal}
+        showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
         title="Log Out"
         text="This will log you out of your pod. Are you sure?"
-        confirmFunction={handleLogout}
+        onConfirm={handleLogout}
+        confirmButtonText="Log Out"
         processing={processing}
         isLogout
       />
