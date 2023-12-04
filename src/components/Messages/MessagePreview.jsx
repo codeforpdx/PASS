@@ -37,7 +37,7 @@ const MessagePreview = ({ message, folderType }) => {
   const [showModal, setShowModal] = useState(false);
   const { add: updateReadStatus } = useMessageList('Inbox');
 
-  const handleClick = async () => {
+  const handleMarkRead = async () => {
     setShowContents(!showContents);
     if (folderType === 'Inbox' && !message.readStatus) {
       try {
@@ -48,16 +48,16 @@ const MessagePreview = ({ message, folderType }) => {
     }
   };
 
-  const handleReplyMessage = () => {
-    setShowModal(!showModal);
-  };
-
-  const handleMakeUnread = async () => {
+  const handleMarkUnread = async () => {
     try {
       await updateReadStatus(message);
     } catch {
       throw new Error('Failed to update read status');
     }
+  };
+
+  const handleReplyMessage = () => {
+    setShowModal(!showModal);
   };
 
   const theme = useTheme();
@@ -98,7 +98,7 @@ const MessagePreview = ({ message, folderType }) => {
         <Paper>
           <Box sx={{ flexGrow: 1 }}>
             <ListItemButton
-              onClick={handleClick}
+              onClick={handleMarkRead}
               alignItems="flex-start"
               aria-label={`open message preview ${message.messageId}`}
             >
@@ -129,7 +129,7 @@ const MessagePreview = ({ message, folderType }) => {
                         <Button variant="contained" onClick={handleReplyMessage}>
                           Reply
                         </Button>
-                        <Button variant="outlined" onClick={handleMakeUnread}>
+                        <Button variant="outlined" onClick={handleMarkUnread}>
                           Mark as Unread
                         </Button>
                       </Stack>
