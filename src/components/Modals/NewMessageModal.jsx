@@ -178,9 +178,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 InputProps={{
                   readOnly: true
                 }}
-                InputLabelProps={{
-                  shrink: true
-                }}
                 fullWidth
               />
             )}
