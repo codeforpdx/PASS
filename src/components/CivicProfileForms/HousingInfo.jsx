@@ -1,7 +1,9 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
 // MUI Imports
-import { TextField, Button } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+// Custom Hooks Imports
 import { useCivicProfile } from '@hooks';
 
 /**

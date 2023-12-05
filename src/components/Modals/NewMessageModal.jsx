@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
-import { useNotification, useSession } from '@hooks';
+import { useMessageList, useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,13 +10,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Utility Imports
-import { sendMessageTTL, getMessageTTL } from '@utils';
+import { sendMessageTTL } from '@utils';
 // Context Imports
-import { MessageContext, SignedInUserContext } from '@contexts';
+import { SignedInUserContext } from '@contexts';
+// Component Imports
+import { FormSection } from '../Form';
 
 /**
  * @typedef {import("../../typedefs.js").messageListObject} messageListObject
@@ -39,7 +40,7 @@ import { MessageContext, SignedInUserContext } from '@contexts';
  */
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '' }) => {
   const { session } = useSession();
-  const { outboxList, setOutboxList } = useContext(MessageContext);
+  const { refetch: refreshOutbox } = useMessageList('Outbox');
   const { podUrl } = useContext(SignedInUserContext);
   const { addNotification } = useNotification();
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
@@ -81,38 +82,33 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!message.title) {
-      addNotification('error', 'Please enter a title');
-    } else if (!message.recipientPodUrl) {
-      addNotification('error', 'Please enter a recipient Pod URL');
-    } else if (!message.message) {
-      addNotification('error', 'Please enter a message');
-    } else {
-      try {
-        await sendMessageTTL(session, message, podUrl);
+    try {
+      const messageWithTrimmedInputs = {
+        ...message,
+        recipientPodUrl: message.recipientPodUrl.trim(),
+        title: message.title.trim(),
+        message: message.message.trim()
+      };
 
-        setMessage({
-          recipientPodUrl: '',
-          title: '',
-          message: ''
-        });
-        addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
-      } catch (err) {
-        // TODO: Make sure invalid username is the only possible error
-        addNotification('error', `Invalid recipient: ${message.recipientPodUrl}`);
-      } finally {
-        setOriginalMessage('');
-        setTimeout(() => {
-          setShowModal(false);
-        }, 2000);
-      }
+      await sendMessageTTL(session, messageWithTrimmedInputs, podUrl);
+
+      setMessage({
+        recipientPodUrl: '',
+        title: '',
+        message: ''
+      });
+      addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
+    } catch (err) {
+      // TODO: Make sure invalid username is the only possible error
+      addNotification('error', `Invalid recipient: ${message.recipientPodUrl}`);
+    } finally {
+      setOriginalMessage('');
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
     }
 
-    // Re-sorts messages when new message is added to outboxList
-    const outboxMessages = await getMessageTTL(session, 'Outbox', outboxList, podUrl);
-    const sortedOutbox = outboxMessages;
-    sortedOutbox.sort((a, b) => b.uploadDate - a.uploadDate);
-    setOutboxList(sortedOutbox);
+    await refreshOutbox();
   };
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -134,103 +130,105 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           minHeight: '90%'
         }}
       >
-        <form onSubmit={(e) => handleSubmit(e)} autoComplete="off">
-          <Typography display="flex" justifyContent="center" variant="h5">
-            {oldMessage ? 'Reply To' : 'New Message'}
-          </Typography>
-          <TextField
-            margin="normal"
-            value={toField || message.recipientPodUrl}
-            type="text"
-            name="recipientPodUrl"
-            id="recipientPodUrl"
-            onChange={(e) => handleChange(e)}
-            required
-            autoFocus
-            label="To"
-            fullWidth
-            disabled={toField !== ''}
-          />
-          <TextField
-            margin="normal"
-            value={message.title}
-            type="text"
-            name="title"
-            id="title"
-            onChange={(e) => handleChange(e)}
-            required
-            label="Subject"
-            inputProps={{ maxLength: '48' }}
-            fullWidth
-          />
-          <TextField
-            margin="normal"
-            value={oldMessage && originalMessage}
-            type="text"
-            name="previousMessage"
-            id="previousMessage"
-            label="Previous Message"
-            variant="filled"
-            // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
-            // Is this something that needs to be addressed?
-            sx={{ display: oldMessage ? 'block' : 'none' }}
-            multiline
-            rows={3}
-            InputProps={{
-              readOnly: true
-            }}
-            InputLabelProps={{
-              shrink: true
-            }}
-            fullWidth
-          />
-          <TextField
-            margin="normal"
-            value={message.message}
-            type="text"
-            name="message"
-            id="message"
-            onChange={(e) => handleChange(e)}
-            multiline
-            rows={5}
-            label="Enter Message"
-            required
-            // TODO: Determine how long a maximum length, if any, is suitable
-            inputProps={{ maxLength: '500' }}
-            fullWidth
-          />
-          <DialogActions sx={{ width: '100%' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: isSmallScreen ? 'column' : 'row',
-                gap: isSmallScreen ? '10px' : '8px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%'
-              }}
-            >
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<ClearIcon />}
-                onClick={() => setShowModal(false)}
+        <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
+          <form
+            aria-labelledby="new-message-form"
+            onSubmit={(e) => handleSubmit(e)}
+            autoComplete="off"
+          >
+            <TextField
+              margin="normal"
+              value={toField || message.recipientPodUrl}
+              type="text"
+              name="recipientPodUrl"
+              id="recipientPodUrl"
+              onChange={(e) => handleChange(e)}
+              required
+              autoFocus
+              label="To"
+              fullWidth
+              disabled={toField !== ''}
+            />
+            <TextField
+              margin="normal"
+              value={message.title}
+              type="text"
+              name="title"
+              id="title"
+              onChange={(e) => handleChange(e)}
+              required
+              label="Subject"
+              inputProps={{ maxLength: '48' }}
+              fullWidth
+            />
+            {oldMessage && (
+              <TextField
+                margin="normal"
+                value={originalMessage}
+                type="text"
+                name="previousMessage"
+                id="previousMessage"
+                label="Previous Message"
+                variant="filled"
+                // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
+                // Is this something that needs to be addressed?
+                sx={{ display: 'block' }}
+                multiline
+                rows={3}
+                InputProps={{
+                  readOnly: true
+                }}
                 fullWidth
+              />
+            )}
+            <TextField
+              margin="normal"
+              value={message.message}
+              type="text"
+              name="message"
+              id="message"
+              onChange={(e) => handleChange(e)}
+              multiline
+              rows={5}
+              label="Message"
+              required
+              // TODO: Determine how long a maximum length, if any, is suitable
+              inputProps={{ maxLength: '500' }}
+              fullWidth
+            />
+            <DialogActions sx={{ width: '100%' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: isSmallScreen ? 'column' : 'row',
+                  gap: isSmallScreen ? '10px' : '8px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%'
+                }}
               >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                type="submit"
-                color="primary"
-                startIcon={<CheckIcon />}
-                fullWidth
-              >
-                Submit
-              </Button>
-            </Box>
-          </DialogActions>
-        </form>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<ClearIcon />}
+                  onClick={() => setShowModal(false)}
+                  fullWidth
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  startIcon={<CheckIcon />}
+                  fullWidth
+                >
+                  Submit
+                </Button>
+              </Box>
+            </DialogActions>
+          </form>
+        </FormSection>
       </Box>
     </Dialog>
   );

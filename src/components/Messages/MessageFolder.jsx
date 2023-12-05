@@ -27,7 +27,7 @@ import { EmptyListNotification, LoadingAnimation } from '../Notification';
  * @param {object} Props - Component props for MessageFolder
  * @param {string} Props.folderType - The name of the message box, i.e. "inbox"
  * or "outbox"
- * @param {() => Promise<void>} Props.handleRefresh - The handle function for
+ * @param {(folderType: string) => Promise<void>} Props.handleRefresh - The handle function for
  * message folder refresh
  * @param {boolean} Props.loadMessages - Boolean for triggering loading message
  * @param {messageListObject[]} Props.messageList - A list of messages from

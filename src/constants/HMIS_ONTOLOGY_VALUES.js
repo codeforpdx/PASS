@@ -1,10 +1,10 @@
 const prefix = 'urn:hud:hmis:owl#';
 
 const HMIS_ONTOLOGY_VALUES = {
-  legalFirstName: 'urn:hud:hmis:owl#FirstName',
-  legalLastName: 'urn:hud:hmis:owl#LastName',
-  legalDOB: 'urn:hud:hmis:owl#DOB',
-  legalGender: 'urn:hud:hmis:owl#Gender',
+  legalFirstName: `${prefix}FirstName`,
+  legalLastName: `${prefix}LastName`,
+  legalDOB: `${prefix}DOB`,
+  legalGender: `${prefix}Gender`,
   lastPermanentCity: `${prefix}LastPermanentCity`,
   lastPermanentState: `${prefix}LastPermanentState`,
   lastPermanentStreet: `${prefix}LastPermanentStreet`,
