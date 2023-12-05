@@ -161,27 +161,29 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               inputProps={{ maxLength: '48' }}
               fullWidth
             />
-            <TextField
-              margin="normal"
-              value={oldMessage && originalMessage}
-              type="text"
-              name="previousMessage"
-              id="previousMessage"
-              label="Previous Message"
-              variant="filled"
-              // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
-              // Is this something that needs to be addressed?
-              sx={{ display: oldMessage ? 'block' : 'none' }}
-              multiline
-              rows={3}
-              InputProps={{
-                readOnly: true
-              }}
-              InputLabelProps={{
-                shrink: true
-              }}
-              fullWidth
-            />
+            {oldMessage && (
+              <TextField
+                margin="normal"
+                value={originalMessage}
+                type="text"
+                name="previousMessage"
+                id="previousMessage"
+                label="Previous Message"
+                variant="filled"
+                // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
+                // Is this something that needs to be addressed?
+                sx={{ display: 'block' }}
+                multiline
+                rows={3}
+                InputProps={{
+                  readOnly: true
+                }}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                fullWidth
+              />
+            )}
             <TextField
               margin="normal"
               value={message.message}
