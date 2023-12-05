@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, describe, it } from 'vitest';
 import { NavBarSkipLink } from '@components/NavBar';
@@ -16,7 +16,39 @@ describe('NavBarSkipLink', () => {
     expect(skipLink).not.toBeNull();
   });
 
-  it('moves the button in and out of view', async () => {
+  it('animates into view', async () => {
+    render(
+      <BrowserRouter>
+        <NavBarSkipLink />
+      </BrowserRouter>
+    );
+
+    const skipLink = screen.getByText('Skip to main content');
+
+    // get styles
+    const initialOpacity = window.getComputedStyle(skipLink).opacity;
+    const initialTransform = window.getComputedStyle(skipLink).transform;
+
+    // starts out of view
+    expect(initialOpacity).toBe('0');
+    expect(initialTransform).toBe('translateY(-100%)');
+
+    // tab event
+    await userEvent.tab();
+
+    // wait for animation
+    await fireEvent.animationEnd(skipLink);
+
+    // get styles
+    const afterTabKeyPressOpacity = window.getComputedStyle(skipLink).opacity;
+    const afterTabKeyPressTransform = window.getComputedStyle(skipLink).transform;
+
+    // in view
+    expect(afterTabKeyPressOpacity).toBe('1');
+    expect(afterTabKeyPressTransform).toBe('translateY(0%)');
+  });
+
+  it('animates out of view', async () => {
     render(
       <BrowserRouter>
         <NavBarSkipLink />
@@ -24,32 +56,27 @@ describe('NavBarSkipLink', () => {
     );
     const skipLink = screen.getByText('Skip to main content');
 
+    // trigger link into view
+    await userEvent.tab();
     const initialOpacity = window.getComputedStyle(skipLink).opacity;
     const initialTransform = window.getComputedStyle(skipLink).transform;
 
-    expect(initialOpacity).toBe('0');
-    expect(initialTransform).toBe('translateY(-100%)');
+    // in view
+    expect(initialOpacity).toBe('1');
+    expect(initialTransform).toBe('translateY(0%)');
 
+    // tab event
     await userEvent.tab();
 
-    await waitFor(() => {
-      const afterTabKeyPressOpacity = window.getComputedStyle(skipLink).opacity;
-      const afterTabKeyPressTransform = window.getComputedStyle(skipLink).transform;
+    // wait for animation to end
+    await fireEvent.animationEnd(skipLink);
 
-      expect(afterTabKeyPressOpacity).toBe('1');
-      expect(afterTabKeyPressTransform).toBe('translateY(0%)');
-    });
+    // get styles
+    const afterTabKeyPressOpacity = window.getComputedStyle(skipLink).opacity;
+    const skipLinkAfterClick = window.getComputedStyle(skipLink).transform;
 
-    await userEvent.click(skipLink);
-
-    await waitFor(() => {
-      const afterTabKeyPressOpacity = window.getComputedStyle(skipLink).opacity;
-      const skipLinkAfterClick = window.getComputedStyle(skipLink).transform;
-      // wait for animation to finish
-      setTimeout(() => {
-        expect(afterTabKeyPressOpacity).toBe('0');
-        expect(skipLinkAfterClick).toBe('translateY(-100%)');
-      }, 300);
-    });
+    // out of view
+    expect(afterTabKeyPressOpacity).toBe('0');
+    expect(skipLinkAfterClick).toBe('translateY(-100%)');
   });
 });
