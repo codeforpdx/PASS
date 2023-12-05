@@ -86,16 +86,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     }
   };
 
-  const formTitle = 'Add Contact';
-
   return (
     <Dialog
       open={showAddContactModal}
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <FormSection title={formTitle}>
-        <form aria-label={formTitle} onSubmit={handleAddContact} autoComplete="off">
+      <FormSection title="Add Contact" headingId="add-contact-form">
+        <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
