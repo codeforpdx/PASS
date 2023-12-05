@@ -130,7 +130,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           minHeight: '90%'
         }}
       >
-        <FormSection title={oldMessage ? 'Reply To' : 'New Message'} id="new-message-form">
+        <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
           <form
             aria-labelledby="new-message-form"
             onSubmit={(e) => handleSubmit(e)}
