@@ -82,38 +82,30 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!message.title) {
-      addNotification('error', 'Please enter a title');
-    } else if (!message.recipientPodUrl) {
-      addNotification('error', 'Please enter a recipient Pod URL');
-    } else if (!message.message) {
-      addNotification('error', 'Please enter a message');
-    } else {
-      try {
-        const messageWithTrimmedInputs = {
-          ...message,
-          recipientPodUrl: message.recipientPodUrl.trim(),
-          title: message.title.trim(),
-          message: message.message.trim()
-        };
+    try {
+      const messageWithTrimmedInputs = {
+        ...message,
+        recipientPodUrl: message.recipientPodUrl.trim(),
+        title: message.title.trim(),
+        message: message.message.trim()
+      };
 
-        await sendMessageTTL(session, messageWithTrimmedInputs, podUrl);
+      await sendMessageTTL(session, messageWithTrimmedInputs, podUrl);
 
-        setMessage({
-          recipientPodUrl: '',
-          title: '',
-          message: ''
-        });
-        addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
-      } catch (err) {
-        // TODO: Make sure invalid username is the only possible error
-        addNotification('error', `Invalid recipient: ${message.recipientPodUrl}`);
-      } finally {
-        setOriginalMessage('');
-        setTimeout(() => {
-          setShowModal(false);
-        }, 2000);
-      }
+      setMessage({
+        recipientPodUrl: '',
+        title: '',
+        message: ''
+      });
+      addNotification('success', `Message successfully sent to ${message.recipientPodUrl}`);
+    } catch (err) {
+      // TODO: Make sure invalid username is the only possible error
+      addNotification('error', `Invalid recipient: ${message.recipientPodUrl}`);
+    } finally {
+      setOriginalMessage('');
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
     }
 
     await refreshOutbox();
