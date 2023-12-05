@@ -105,7 +105,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               id="menu-appbar-notifications"
               anchorEl={anchorElNotifications}
               anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right'
               }}
               keepMounted
@@ -115,7 +115,14 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               }}
               open={Boolean(anchorElNotifications)}
               onClose={handleNotificationsClose}
-              sx={{ marginTop: '40px', backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
+              slotProps={{
+                paper: {
+                  style: {
+                    marginTop: '10px'
+                  }
+                }
+              }}
+              sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             >
               <MenuItem onClick={handleNotificationsClose}>
                 <p style={{ color: theme.palette.primary.main }}>Notification 1</p>
