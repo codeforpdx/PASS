@@ -61,10 +61,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
+    const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
     const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      webId: event.target.addWebId.value
+      givenName: addUserGivenName.value.trim(),
+      familyName: addUserFamilyName.value.trim(),
+      webId: addWebId.value.trim()
     };
 
     try {
@@ -91,8 +92,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <FormSection title="Add Contact">
-        <form onSubmit={handleAddContact} autoComplete="off">
+      <FormSection title="Add Contact" headingId="add-contact-form">
+        <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
@@ -109,7 +110,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </FormControl>
           <TextField
             margin="normal"
-            id="add-user-last-name"
+            id="add-user-family-name"
             name="addUserFamilyName"
             label="Last/family name"
             autoComplete="family-name"
@@ -122,7 +123,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             margin="normal"
             id="add-username"
             name="addUsername"
-            label="username"
+            label="Username"
             autoComplete="username"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
