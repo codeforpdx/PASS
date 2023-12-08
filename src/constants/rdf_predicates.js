@@ -33,7 +33,7 @@ const RDF_PREDICATES = {
   dateCreated: 'https://schema.org/dateCreated',
   propertyValue: 'https://schema.org/PropertyValue',
   value: 'https://schema.org/value',
-  role: 'https://schema.org/Role',
+  role: 'https://schema.org/roleName',
   status: 'https://schema.org/status'
 };
 
