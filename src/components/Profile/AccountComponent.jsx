@@ -11,7 +11,7 @@ import { SignedInUserContext } from '@contexts';
 // Component Inputs
 import AccountImageField from './AccountImageField';
 import AccountInputField from './AccountInputField';
-import ProfileEditButtonGroup from './ProfileEditButtonGroup';
+import AccountEditButtonGroup from './AccountEditButtonGroup';
 
 /**
  * The UserAccount Component is a component that renders the user's account on
@@ -105,7 +105,7 @@ const AccountComponent = ({ contactProfile }) => {
           />
         </Stack>
         {!contactProfile && (
-          <ProfileEditButtonGroup
+          <AccountEditButtonGroup
             edit={edit}
             handleCancelEdit={handleCancelEdit}
             handleEditInput={handleEditInput}
