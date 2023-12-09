@@ -29,7 +29,7 @@ const mockSignedInUserContextMemo = {
   })
 };
 
-describe('ProfileComponent', () => {
+describe('AccountComponent', () => {
   afterEach(() => cleanup());
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
@@ -81,7 +81,7 @@ describe('ProfileComponent', () => {
     expect(cancelButton).toBeNull();
   });
 
-  it('renders no edit button for ProfileInputFields if contactProfile is not null', () => {
+  it('renders no edit button for AccountInputFields if contactProfile is not null', () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
         <AccountComponent contactProfile={{}} />
@@ -93,7 +93,7 @@ describe('ProfileComponent', () => {
   });
 });
 
-it('renders profile component as row default', () => {
+it('renders account component as row by default', () => {
   const component = render(
     <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
       <AccountComponent contactProfile={null} />
@@ -106,7 +106,7 @@ it('renders profile component as row default', () => {
   expect(cssProperty.flexDirection).toBe('row');
 });
 
-it('renders profile component as column mobile', () => {
+it('renders account component as column for mobile', () => {
   window.matchMedia = createMatchMedia(599);
   const component = render(
     <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>

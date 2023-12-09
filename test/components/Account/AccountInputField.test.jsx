@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { AccountInputField } from '@components/Account';
 import '@testing-library/jest-dom/extend-expect';
 
-const MockProfileComponent = ({ name }) => {
+const MockAccountComponent = ({ name }) => {
   const mockInputName = 'Name';
   const mockInputValue = name;
   const [, mockSetInputValue] = useState('');
@@ -19,10 +19,10 @@ const MockProfileComponent = ({ name }) => {
   );
 };
 
-describe('ProfileInputField', () => {
-  it('renders ProfileInputField with name Alice', () => {
+describe('AccountInputField', () => {
+  it('renders AccountInputField with name Alice', () => {
     const mockInputValue = 'Alice';
-    const { queryByRole } = render(<MockProfileComponent name={mockInputValue} />);
+    const { queryByRole } = render(<MockAccountComponent name={mockInputValue} />);
     const inputElement = queryByRole('textbox');
 
     expect(inputElement).toBeInTheDocument();
@@ -31,9 +31,9 @@ describe('ProfileInputField', () => {
     expect(inputElement).toHaveAttribute('disabled');
   });
 
-  it('renders ProfileInputField with empty string and placeholder for "No value set" if inputValue is null', () => {
+  it('renders AccountInputField with empty string and placeholder for "No value set" if inputValue is null', () => {
     const mockInputValue = null;
-    const { queryByRole } = render(<MockProfileComponent name={mockInputValue} />);
+    const { queryByRole } = render(<MockAccountComponent name={mockInputValue} />);
     const inputElement = queryByRole('textbox');
 
     expect(inputElement).toBeInTheDocument();
