@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
-import ProfileImageField from './ProfileImageField';
+import AccountImageField from './AccountImageField';
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 
@@ -75,7 +75,7 @@ const AccountComponent = ({ contactProfile }) => {
 
   return (
     <Stack direction={isSmallScreen ? 'column' : 'row'} spacing={2} padding="10px">
-      <ProfileImageField loadProfileData={loadAccountData} contactProfile={contactProfile} />
+      <AccountImageField loadAccountData={loadAccountData} contactProfile={contactProfile} />
       <form
         onSubmit={handleUpdateProfile}
         style={{

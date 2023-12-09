@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { ProfileImageField } from '../../../src/components/Profile';
+import { AccountImageField } from '@components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 
 const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
   if (!noUserImage) {
     localStorage.setItem('profileImage', 'https://example.com/user.png');
   }
-  return <ProfileImageField contactProfile={mockContactProfile} />;
+  return <AccountImageField contactProfile={mockContactProfile} />;
 };
 
 describe('ProfileImageField', () => {
