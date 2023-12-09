@@ -18,7 +18,7 @@ import { DocumentListContext } from '@contexts';
 // Component Imports
 import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
 import DocumentTable from '@components/Documents';
-import { AccountComponent } from '@components/Profile';
+import { AccountComponent } from '@components/Account';
 import { LoadingAnimation } from '@components/Notification';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';

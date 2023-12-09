@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { AccountImageField } from '@components/Profile';
+import { AccountImageField } from '@components/Account';
 import '@testing-library/jest-dom/extend-expect';
 
 const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
