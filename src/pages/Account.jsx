@@ -140,13 +140,13 @@ const Account = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Account Information</Typography>
-        {!contact ? (
+        {!contact && (
           <Typography>
             <a href={signupLink} rel="noopener noreferrer" target="_blank">
               Your Signup Link
             </a>
           </Typography>
-        ) : null}
+        )}
         <Box
           sx={{
             display: 'flex',
