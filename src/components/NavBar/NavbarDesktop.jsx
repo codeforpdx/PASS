@@ -58,10 +58,10 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
   };
 
   const { profileData } = useContext(SignedInUserContext);
-  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
+  const [accountImg, setAccountImg] = useState(localStorage.getItem('profileImage'));
 
   useEffect(() => {
-    setProfileImg(localStorage.getItem('profileImage'));
+    setAccountImg(localStorage.getItem('profileImage'));
   }, [profileData]);
 
   return (
@@ -131,7 +131,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
                 <p style={{ color: theme.palette.primary.main }}>Notification 2</p>
               </MenuItem>
             </Menu>
-            {/* profile icon */}
+            {/* account icon */}
             <IconButton
               size="large"
               edge="end"
@@ -142,8 +142,8 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               color="inherit"
             >
               <Avatar
-                src={profileImg}
-                alt="PASS profile"
+                src={accountImg}
+                alt="PASS account"
                 sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
               />
             </IconButton>
@@ -158,7 +158,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               setAnchorEl={setAnchorEl}
               setShowConfirmation={setShowConfirmation}
               handleNotificationsMenu={handleNotificationsMenu}
-              profileImg={profileImg}
+              accountImg={accountImg}
             />
           )}
         </Toolbar>

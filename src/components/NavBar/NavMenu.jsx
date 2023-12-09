@@ -37,7 +37,7 @@ import { useMessageList } from '@hooks';
  * - The set function for showConfirmationModal
  * @param {(event) => void} Props.handleNotificationsMenu - Handler function for
  * Notification Menu
- * @param {string} Props.profileImg - String for profile image
+ * @param {string} Props.accountImg - String for account image
  * @returns {React.JSX.Element} - The NavMenu Component
  */
 const NavMenu = ({
@@ -48,7 +48,7 @@ const NavMenu = ({
   setAnchorEl,
   setShowConfirmation,
   handleNotificationsMenu,
-  profileImg
+  accountImg
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -173,7 +173,7 @@ const NavMenu = ({
             sx={{ width: '100%', minHeight: '36px' }}
             startIcon={
               <Avatar
-                src={profileImg}
+                src={accountImg}
                 alt="PASS account"
                 sx={{
                   height: '24px',
