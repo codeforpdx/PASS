@@ -24,14 +24,14 @@ import { LoadingAnimation } from '@components/Notification';
 import { fetchProfileInfo } from '../model-helpers';
 
 /**
- * Profile Page - Page that displays the user's profile card information and
+ * Account Page - Page that displays the user's account card information and
  * allow users to edit/update them on PASS
  *
  * @memberof Pages
- * @name Profile
- * @returns {React.JSX.Element} The Profile Page
+ * @name Account
+ * @returns {React.JSX.Element} The Account Page
  */
-const Profile = () => {
+const Account = () => {
   // Route related states
   const location = useLocation();
   if (location.pathname.split('/')[1] === 'contacts') {
@@ -76,11 +76,11 @@ const Profile = () => {
     }
   };
 
-  // Profile related states
+  // Account related states
   const contact = location.state?.contact;
   const [contactProfile, setContactProfile] = useState(null);
   const webIdUrl = contact?.webId ?? session.info.webId;
-  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [loadingAccount, setLoadingAccount] = useState(true);
 
   // Handler for the SetAclPermissions Modal that
   // sets the appropriate version of the modal to load,
@@ -113,13 +113,13 @@ const Profile = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setLoadingProfile(false);
+      setLoadingAccount(false);
     }, 1000);
   }, []);
 
-  if (loadingProfile) {
+  if (loadingAccount) {
     return (
-      <LoadingAnimation loadingItem="Profile">
+      <LoadingAnimation loadingItem="Account">
         <CircularProgress />
       </LoadingAnimation>
     );
@@ -139,7 +139,7 @@ const Profile = () => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Account Information</Typography>
         {!contact ? (
           <Typography>
             <a href={signupLink} rel="noopener noreferrer" target="_blank">
@@ -230,4 +230,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Account;
