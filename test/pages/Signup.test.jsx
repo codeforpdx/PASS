@@ -14,7 +14,7 @@ vi.mock('react-router-dom', async () => {
 
   return {
     ...originalModule,
-    useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/profile' })]
+    useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/account' })]
   };
 });
 
@@ -44,7 +44,7 @@ describe('Signup Page', () => {
       podUrl: 'https://example.com',
       session: {
         info: {
-          webId: 'https://example.com/profile/',
+          webId: 'https://example.com/account/',
           isLoggedIn: false
         }
       }
@@ -59,7 +59,7 @@ describe('Signup Page', () => {
       podUrl: 'https://example.com',
       session: {
         info: {
-          webId: 'https://example.com/profile/',
+          webId: 'https://example.com/account/',
           isLoggedIn: false
         }
       }
@@ -106,7 +106,7 @@ describe('Signup Page', () => {
       podUrl: 'https://example.com',
       session: {
         info: {
-          webId: 'https://example.com/profile/',
+          webId: 'https://example.com/account/',
           isLoggedIn: true
         }
       }

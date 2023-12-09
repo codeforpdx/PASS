@@ -27,7 +27,7 @@ import { FormSection } from '../Form';
  */
 const renderWebId = (username) => {
   const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
-  return new URL(`${username}/profile/card#me`, baseUrl);
+  return new URL(`${username}/account/card#me`, baseUrl);
 };
 
 /**

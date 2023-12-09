@@ -31,7 +31,7 @@ describe('Desktop view', () => {
           session: {
             info: {
               isLoggedIn: true,
-              webId: 'https://example.com/pod/profile/card#me'
+              webId: 'https://example.com/pod/account/card#me'
             }
           }
         }}
@@ -79,7 +79,7 @@ describe('Mobile view below 600px', () => {
           session: {
             info: {
               isLoggedIn: true,
-              webId: 'https://example.com/pod/profile/card#me'
+              webId: 'https://example.com/pod/account/card#me'
             }
           }
         }}

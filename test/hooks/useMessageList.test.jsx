@@ -20,7 +20,7 @@ const sessionInfo = {
   session: {
     info: {
       isLoggedIn: true,
-      webId: 'https://example.com/test/profile/card#me'
+      webId: 'https://example.com/test/account/card#me'
     }
   }
 };

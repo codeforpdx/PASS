@@ -12,7 +12,7 @@ vi.mock('react-router-dom', async () => {
 
   return {
     ...originalModule,
-    useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/profile' })]
+    useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/account' })]
   };
 });
 

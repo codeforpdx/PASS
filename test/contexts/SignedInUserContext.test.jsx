@@ -53,7 +53,7 @@ describe('SignedInUserContext', () => {
           session: {
             info: {
               isLoggedIn: true,
-              webId: 'https://example.com/pod/profile/card#me'
+              webId: 'https://example.com/pod/account/card#me'
             }
           }
         }}

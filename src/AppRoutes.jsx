@@ -60,7 +60,7 @@ const AppRoutes = () => {
             />
           ))}
         </Route>
-        <Route path="/profile" element={<Account />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (
             <Route

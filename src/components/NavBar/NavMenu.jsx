@@ -163,7 +163,7 @@ const NavMenu = ({
         </MenuItem>
         {/* account */}
         <Link
-          to="/profile"
+          to="/account"
           state={{ contact: null }}
           style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           onClick={() => setContact(null)}

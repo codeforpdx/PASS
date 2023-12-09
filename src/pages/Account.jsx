@@ -37,7 +37,7 @@ const Account = () => {
   if (location.pathname.split('/')[1] === 'contacts') {
     localStorage.setItem('restorePath', '/contacts');
   } else {
-    localStorage.setItem('restorePath', '/profile');
+    localStorage.setItem('restorePath', '/account');
   }
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));

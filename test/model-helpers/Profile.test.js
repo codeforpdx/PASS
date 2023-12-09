@@ -9,7 +9,7 @@ import {
 import * as utils from '../../src/utils';
 
 let session = {};
-const mockWebId = 'https://example.com/pod/profile/card#me';
+const mockWebId = 'https://example.com/pod/account/card#me';
 
 vi.mock('@inrupt/solid-client');
 
@@ -40,7 +40,7 @@ describe('fetchProfileInfo', () => {
         }
       },
       type: 'Subject',
-      url: 'https://example.com/pod/profile/card#me'
+      url: 'https://example.com/pod/account/card#me'
     });
     vi.spyOn(solidClient, 'getSolidDataset').mockResolvedValue();
 
@@ -155,7 +155,7 @@ describe('uploadProfileImage', () => {
     };
     const mockImageData = new Blob(new Array(9).fill(0), { type: 'image/png' });
     const mockInputImage = new File([mockImageData], 'image.png', { type: 'image/png' });
-    const mockFileResource = solidClient.mockFileFrom('https://example.com/pod/profile/image.png');
+    const mockFileResource = solidClient.mockFileFrom('https://example.com/pod/account/image.png');
     const mockFileResourceWithAcl = solidClient.addMockResourceAclTo(mockFileResource);
 
     vi.spyOn(solidClient, 'saveFileInContainer').mockResolvedValue(mockFileResource);
@@ -224,7 +224,7 @@ describe('removeProfileImage', () => {
     const mockDatasetThing = solidClient.getThing(mockDataset, mockWebId);
     const mockData = { mockDataset, mockDatasetThing };
 
-    vi.spyOn(solidClient, 'getUrl').mockReturnValue('https://example.com/pod/profile/image.png');
+    vi.spyOn(solidClient, 'getUrl').mockReturnValue('https://example.com/pod/account/image.png');
     vi.spyOn(solidClient, 'removeUrl').mockReturnThis();
     vi.spyOn(solidClient, 'setThing').mockReturnThis();
     vi.spyOn(solidClient, 'saveSolidDatasetAt');

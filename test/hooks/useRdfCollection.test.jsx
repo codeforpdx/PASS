@@ -29,7 +29,7 @@ const queryClient = new QueryClient({
 const sessionInfo = {
   session: {
     info: {
-      webId: 'http://example.com/profile'
+      webId: 'http://example.com/account'
     }
   }
 };

@@ -28,7 +28,7 @@ describe('setDocContainerAclPermission', () => {
 
   it('runs setDocAclForUser with the correct inputs', async () => {
     const permissions = { read: true, append: true };
-    const expectedWebId = 'https://pod2.example.com/profile/card#me';
+    const expectedWebId = 'https://pod2.example.com/account/card#me';
 
     const expectedContainerUrl = 'https://pod.example.com/PASS/Documents/';
 

@@ -22,7 +22,7 @@ const MockInboxList = [
     uploadDate: new Date('2023-10-23T19:59:31.424Z'),
     readStatus: false,
     sender: 'PODMAN',
-    senderWebId: 'http://localhost:3000/pod-test-name-here/profile/card#me',
+    senderWebId: 'http://localhost:3000/pod-test-name-here/account/card#me',
     recipient: 'PODMAN'
   },
   {
@@ -34,7 +34,7 @@ const MockInboxList = [
     uploadDate: new Date('2023-10-23T19:59:31.424Z'),
     readStatus: true,
     sender: 'PODMAN',
-    senderWebId: 'http://localhost:3000/pod-test-name-here/profile/card#me',
+    senderWebId: 'http://localhost:3000/pod-test-name-here/account/card#me',
     recipient: 'PODMAN'
   }
 ];
@@ -49,7 +49,7 @@ const MockOutboxList = [
     uploadDate: new Date('2023-10-23T19:59:31.424Z'),
     readStatus: true,
     sender: 'PODMAN',
-    senderWebId: 'http://localhost:3000/pod-test-name-here/profile/card#me',
+    senderWebId: 'http://localhost:3000/pod-test-name-here/account/card#me',
     recipient: 'PODMAN'
   }
 ];
@@ -104,7 +104,7 @@ describe('Messages Page', () => {
     session: {
       fetch: vi.fn(),
       info: {
-        webId: 'https://example.com/profile/',
+        webId: 'https://example.com/account/',
         isLoggedIn: true
       }
     }
