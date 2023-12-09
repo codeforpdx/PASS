@@ -161,7 +161,7 @@ const NavMenu = ({
         >
           Notifications
         </MenuItem>
-        {/* profile */}
+        {/* account */}
         <Link
           to="/profile"
           state={{ contact: null }}
@@ -174,7 +174,7 @@ const NavMenu = ({
             startIcon={
               <Avatar
                 src={profileImg}
-                alt="PASS profile"
+                alt="PASS account"
                 sx={{
                   height: '24px',
                   width: '24px',
@@ -185,7 +185,7 @@ const NavMenu = ({
               />
             }
           >
-            Profile
+            Account
           </MenuItem>
         </Link>
         <Divider sx={{ marginY: '5px' }} />
