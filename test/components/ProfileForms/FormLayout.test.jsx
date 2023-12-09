@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
-import { FormLayout, PROFILE_FORM_LIST } from '@components/CivicProfileForms';
+import { FormLayout, PROFILE_FORM_LIST } from '@components/ProfileForms';
 
 const renderLayout = (route) =>
   render(

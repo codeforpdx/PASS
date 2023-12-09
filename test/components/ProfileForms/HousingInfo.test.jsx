@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { vi, expect, it, describe } from 'vitest';
-import { HousingInfo } from '@components/CivicProfileForms';
+import { HousingInfo } from '@components/ProfileForms';
 import { useCivicProfile } from '@hooks';
 import userEvent from '@testing-library/user-event';
 

@@ -9,7 +9,7 @@ import { useCivicProfile } from '@hooks';
 /**
  * HousingInfo - A form to fill out with housing security info
  *
- * @memberof CivicProfileForms
+ * @memberof ProfileForms
  * @name HousingInfo
  * @returns {React.JSX.Element} The HousingInfo Component
  */

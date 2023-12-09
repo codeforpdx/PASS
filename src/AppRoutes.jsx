@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
 // Component Imports
-import { PROFILE_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
+import { PROFILE_FORM_LIST, FormLayout } from '@components/ProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
 import { Account, Profile, Contacts, Home, Signup } from './pages';

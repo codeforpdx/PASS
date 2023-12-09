@@ -8,7 +8,7 @@ import MenuList from '@mui/material/MenuList';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
-import { PROFILE_FORM_LIST } from '@components/CivicProfileForms';
+import { PROFILE_FORM_LIST } from '@components/ProfileForms';
 
 const Profile = () => {
   const location = useLocation();

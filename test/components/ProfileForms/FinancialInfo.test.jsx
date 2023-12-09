@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
-import { FinancialInfo } from '@components/CivicProfileForms';
+import { FinancialInfo } from '@components/ProfileForms';
 
 describe('Financial Info Form', () => {
   it('renders', () => {
