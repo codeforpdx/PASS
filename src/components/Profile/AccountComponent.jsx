@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -14,37 +14,37 @@ import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 
 /**
- * The UserProfile Component is a component that renders the user's profile on
+ * The UserAccount Component is a component that renders the user's account on
  * PASS
  *
  * @memberof Profile
- * @name ProfileComponent
+ * @name AccountComponent
  * @param {object} Props - Props for ClientProfile component
  * @param {object} [Props.contactProfile] - Contact object with data from profile
  * or null if user profile is selected
- * @returns {React.JSX.Element} The UserProfile Component
+ * @returns {React.JSX.Element} The UserAccount Component
  */
-const ProfileComponent = ({ contactProfile }) => {
+const AccountComponent = ({ contactProfile }) => {
   const { session } = useSession();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
 
-  // Public Profile Data
-  const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
+  // Public Profile Data (Account Data)
+  const [accountName, setAccountName] = useState(profileData?.profileInfo?.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
 
   const [edit, setEdit] = useState(false);
 
-  const loadProfileData = async () => {
+  const loadAccountData = async () => {
     const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
 
-    setProfileName(profileDataSolid.profileInfo?.profileName);
+    setAccountName(profileDataSolid.profileInfo?.profileName);
     setNickname(profileDataSolid.profileInfo?.nickname);
   };
 
   const handleCancelEdit = () => {
-    loadProfileData();
+    loadAccountData();
     setEdit(!edit);
   };
 
@@ -56,33 +56,26 @@ const ProfileComponent = ({ contactProfile }) => {
     event.preventDefault();
 
     const inputValues = {
-      profileName,
+      accountName,
       nickname
     };
 
     await updateProfileInfo(session, profileData, inputValues);
 
-    loadProfileData();
+    loadAccountData();
     setEdit(false);
   };
 
   useEffect(() => {
-    loadProfileData();
+    loadAccountData();
   }, []);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: isSmallScreen ? 'column' : 'row',
-        gap: '15px',
-        padding: '10px'
-      }}
-    >
-      <ProfileImageField loadProfileData={loadProfileData} contactProfile={contactProfile} />
+    <Stack direction={isSmallScreen ? 'column' : 'row'} spacing={2} padding="10px">
+      <ProfileImageField loadProfileData={loadAccountData} contactProfile={contactProfile} />
       <form
         onSubmit={handleUpdateProfile}
         style={{
@@ -93,21 +86,15 @@ const ProfileComponent = ({ contactProfile }) => {
           padding: '20px'
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px'
-          }}
-        >
+        <Stack spacing={1}>
           <ProfileInputField
             inputName="Name"
             inputValue={
               contactProfile
                 ? `${contactProfile?.givenName ?? ''} ${contactProfile?.familyName ?? ''}`
-                : profileName
+                : accountName
             }
-            setInputValue={setProfileName}
+            setInputValue={setAccountName}
             edit={edit}
           />
           <ProfileInputField
@@ -116,7 +103,7 @@ const ProfileComponent = ({ contactProfile }) => {
             setInputValue={setNickname}
             edit={edit}
           />
-        </Box>
+        </Stack>
         {!contactProfile && (
           <ProfileEditButtonGroup
             edit={edit}
@@ -125,8 +112,8 @@ const ProfileComponent = ({ contactProfile }) => {
           />
         )}
       </form>
-    </Box>
+    </Stack>
   );
 };
 
-export default ProfileComponent;
+export default AccountComponent;

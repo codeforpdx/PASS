@@ -18,7 +18,7 @@ import { DocumentListContext } from '@contexts';
 // Component Imports
 import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
 import DocumentTable from '@components/Documents';
-import { ProfileComponent } from '@components/Profile';
+import { AccountComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
@@ -172,7 +172,7 @@ const Account = () => {
           </Link>
         </Box>
 
-        <ProfileComponent contactProfile={contactProfile} />
+        <AccountComponent contactProfile={contactProfile} />
 
         <Container
           sx={{

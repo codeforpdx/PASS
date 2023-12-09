@@ -2,7 +2,7 @@ import React from 'react';
 import { cleanup, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ProfileComponent } from '@components/Profile';
+import { AccountComponent } from '@components/Profile';
 import { SignedInUserContext } from '@contexts';
 import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
@@ -35,7 +35,7 @@ describe('ProfileComponent', () => {
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
+        <AccountComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
     let editButton = queryByRole('button', { name: 'Edit' });
@@ -57,7 +57,7 @@ describe('ProfileComponent', () => {
   it('renders edit buttons after clicking on cancel button', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
+        <AccountComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
     let editButton = queryByRole('button', { name: 'Edit' });
@@ -84,7 +84,7 @@ describe('ProfileComponent', () => {
   it('renders no edit button for ProfileInputFields if contactProfile is not null', () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={{}} />
+        <AccountComponent contactProfile={{}} />
       </SignedInUserContext.Provider>
     );
     const editButton = queryByRole('button', { name: 'Edit' });
@@ -96,7 +96,7 @@ describe('ProfileComponent', () => {
 it('renders profile component as row default', () => {
   const component = render(
     <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
+      <AccountComponent contactProfile={null} />
     </SignedInUserContext.Provider>
   );
 
@@ -110,7 +110,7 @@ it('renders profile component as column mobile', () => {
   window.matchMedia = createMatchMedia(599);
   const component = render(
     <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
+      <AccountComponent contactProfile={null} />
     </SignedInUserContext.Provider>
   );
 
