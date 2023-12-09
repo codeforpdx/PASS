@@ -8,7 +8,7 @@ import MenuList from '@mui/material/MenuList';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
-import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
+import { PROFILE_FORM_LIST } from '@components/CivicProfileForms';
 
 const Profile = () => {
   const location = useLocation();
@@ -23,7 +23,7 @@ const Profile = () => {
       <Container sx={{ width: isSmallScreen ? '100%' : '25%', minWidth: '250px' }}>
         <nav>
           <MenuList>
-            {CIVIC_FORM_LIST.map((form) => (
+            {PROFILE_FORM_LIST.map((form) => (
               <Link to={form.path} style={{ textDecoration: 'none' }} key={form.path}>
                 <MenuItem divider selected={currentForm === form.path}>
                   {form.label}

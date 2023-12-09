@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useSession } from '@hooks';
 import { SessionProvider } from '@contexts';
 // Component Imports
-import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
+import { PROFILE_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
 import { Account, Profile, Contacts, Home, Signup } from './pages';
@@ -62,7 +62,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="/account" element={<Account />} />
         <Route path="/civic-profile" element={<Profile />}>
-          {CIVIC_FORM_LIST.map((formProps) => (
+          {PROFILE_FORM_LIST.map((formProps) => (
             <Route
               {...formProps}
               element={

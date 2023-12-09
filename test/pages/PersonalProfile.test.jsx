@@ -3,12 +3,12 @@ import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
 import { Profile } from '@pages';
-import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
+import { PROFILE_FORM_LIST } from '@components/CivicProfileForms';
 
 describe('Profile', () => {
-  const numLinks = CIVIC_FORM_LIST.length;
+  const numLinks = PROFILE_FORM_LIST.length;
 
-  it('renders buttons for all forms in CIVIC_FORM_LIST', () => {
+  it('renders buttons for all forms in PROFILE_FORM_LIST', () => {
     const { getByRole, getAllByRole } = render(
       <BrowserRouter>
         <Profile />
