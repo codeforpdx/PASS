@@ -122,7 +122,7 @@ const NavMenu = ({
                   minHeight: '36px'
                 }}
               >
-                Civic Profile
+                Profile
               </MenuItem>
             </Link>
             <Divider sx={{ marginY: '5px' }} />

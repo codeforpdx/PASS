@@ -16,23 +16,23 @@ const MockNavMenu = () => (
   </QueryClientProvider>
 );
 
-it('does not render contacts and civic profile links above 600px', () => {
+it('does not render contacts and profile links above 600px', () => {
   const { queryByText } = render(<MockNavMenu />);
 
   const contactsLink = queryByText('Contacts');
-  const civicProfileLink = queryByText('Civic Profile');
+  const profileLink = queryByText('Profile');
 
   expect(contactsLink).toBeNull();
-  expect(civicProfileLink).toBeNull();
+  expect(profileLink).toBeNull();
 });
 
-it('renders contacts and civic profile links below 600px', () => {
+it('renders contacts and profile links below 600px', () => {
   window.matchMedia = createMatchMedia(599);
   const { queryByText } = render(<MockNavMenu />);
 
   const contactsLink = queryByText('Contacts');
-  const civicProfileLink = queryByText('Civic Profile');
+  const profileLink = queryByText('Profile');
 
   expect(contactsLink).not.toBeNull();
-  expect(civicProfileLink).not.toBeNull();
+  expect(profileLink).not.toBeNull();
 });
