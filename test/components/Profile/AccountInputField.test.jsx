@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { ProfileInputField } from '../../../src/components/Profile';
+import { AccountInputField } from '@components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 
 const MockProfileComponent = ({ name }) => {
@@ -10,7 +10,7 @@ const MockProfileComponent = ({ name }) => {
   const [, mockSetInputValue] = useState('');
   const [mockEdit] = useState(false);
   return (
-    <ProfileInputField
+    <AccountInputField
       inputName={mockInputName}
       inputValue={mockInputValue}
       setInputValue={mockSetInputValue}

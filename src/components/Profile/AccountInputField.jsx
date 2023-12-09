@@ -6,20 +6,20 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 /**
- * ProfileInputField Component - Component that creates the editable inputs fields
- * for the Profile page
+ * AccountInputField Component - Component that creates the editable inputs fields
+ * for the Account page
  *
  * @memberof Profile
- * @name ProfileInputField
- * @param {object} Props - Props used for NewMessage
+ * @name AccountInputField
+ * @param {object} Props - Props used for AccountInputField
  * @param {string} Props.inputName - Name of input field
  * @param {string} Props.inputValue - Value of input field used for updating profile
  * @param {(value: React.SetStateAction<string|null>) => void} Props.setInputValue
  * - Set function for inputValue
  * @param {boolean} Props.edit - Boolean used to toggle edit inputs
- * @returns {React.JSX.Element} React component for NewMessage
+ * @returns {React.JSX.Element} React component for AccountInputField
  */
-const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (
+const AccountInputField = ({ inputName, inputValue, setInputValue, edit }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
     <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
       {inputName}:
@@ -34,4 +34,4 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (
   </Box>
 );
 
-export default ProfileInputField;
+export default AccountInputField;

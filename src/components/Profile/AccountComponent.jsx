@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
 import AccountImageField from './AccountImageField';
-import ProfileInputField from './ProfileInputField';
+import AccountInputField from './AccountInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 
 /**
@@ -87,7 +87,7 @@ const AccountComponent = ({ contactProfile }) => {
         }}
       >
         <Stack spacing={1}>
-          <ProfileInputField
+          <AccountInputField
             inputName="Name"
             inputValue={
               contactProfile
@@ -97,7 +97,7 @@ const AccountComponent = ({ contactProfile }) => {
             setInputValue={setAccountName}
             edit={edit}
           />
-          <ProfileInputField
+          <AccountInputField
             inputName="Nickname"
             inputValue={contactProfile ? contactProfile?.nickname : nickname}
             setInputValue={setNickname}
