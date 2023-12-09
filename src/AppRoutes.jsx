@@ -8,7 +8,7 @@ import { SessionProvider } from '@contexts';
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
-import { Account, CivicProfile, Contacts, Home, Signup } from './pages';
+import { Account, Profile, Contacts, Home, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -61,7 +61,7 @@ const AppRoutes = () => {
           ))}
         </Route>
         <Route path="/account" element={<Account />} />
-        <Route path="/civic-profile" element={<CivicProfile />}>
+        <Route path="/civic-profile" element={<Profile />}>
           {CIVIC_FORM_LIST.map((formProps) => (
             <Route
               {...formProps}

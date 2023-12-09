@@ -2,13 +2,13 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
-import { CivicProfile } from '@pages';
+import { Profile } from '@pages';
 import createMatchMedia from '../helpers/createMatchMedia';
 
 it('renders page container flex direction as row and nav container width as 25% by default', () => {
   const component = render(
     <BrowserRouter>
-      <CivicProfile />
+      <Profile />
     </BrowserRouter>
   );
 
@@ -26,7 +26,7 @@ it('renders page container flex direction as column and nav container width as 1
   window.matchMedia = createMatchMedia(599);
   const component = render(
     <BrowserRouter>
-      <CivicProfile />
+      <Profile />
     </BrowserRouter>
   );
 

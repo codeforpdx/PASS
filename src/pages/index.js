@@ -1,8 +1,8 @@
 import Account from './Account';
-import CivicProfile from './CivicProfile';
 import Contacts from './Contacts';
 import Home from './Home';
 import Messages from './Messages';
+import Profile from './Profile';
 import Signup from './Signup';
 
 /**
@@ -11,4 +11,4 @@ import Signup from './Signup';
  * @namespace Pages
  */
 
-export { Account, Contacts, CivicProfile, Home, Messages, Signup };
+export { Account, Contacts, Home, Messages, Profile, Signup };

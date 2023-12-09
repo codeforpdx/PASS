@@ -10,7 +10,7 @@ import { useTheme } from '@mui/system';
 // Component Imports
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
-const CivicProfile = () => {
+const Profile = () => {
   const location = useLocation();
 
   localStorage.setItem('restorePath', location.pathname);
@@ -40,4 +40,4 @@ const CivicProfile = () => {
   );
 };
 
-export default CivicProfile;
+export default Profile;
