@@ -10,6 +10,14 @@ import { useTheme } from '@mui/system';
 // Component Imports
 import { PROFILE_FORM_LIST } from '@components/ProfileForms';
 
+/**
+ * Profile Page - Page that displays the user's profile card information and
+ * allow users to edit/update them on PASS
+ *
+ * @memberof Pages
+ * @name Profile
+ * @returns {React.JSX.Element} The Profile Page
+ */
 const Profile = () => {
   const location = useLocation();
 

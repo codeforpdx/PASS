@@ -6,14 +6,14 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 /**
- * AccountInputField Component - Component that creates the editable inputs fields
+ * AccountInputField Component - Component that creates the editable input fields
  * for the Account page
  *
  * @memberof Profile
  * @name AccountInputField
  * @param {object} Props - Props used for AccountInputField
  * @param {string} Props.inputName - Name of input field
- * @param {string} Props.inputValue - Value of input field used for updating profile
+ * @param {string} Props.inputValue - Value of input field used for updating account
  * @param {(value: React.SetStateAction<string|null>) => void} Props.setInputValue
  * - Set function for inputValue
  * @param {boolean} Props.edit - Boolean used to toggle edit inputs

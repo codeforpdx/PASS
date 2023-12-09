@@ -19,12 +19,12 @@ import useNotification from '../../hooks/useNotification';
  *
  * @memberof Profile
  * @name AccountImageField
- * @param {object} Props - Props used for NewMessage
+ * @param {object} Props - Props used for AccountImageField
  * @param {() => void} Props.loadAccountData - Handler function for setting local
- * state for profile card in PASS
+ * state for account card in PASS
  * @param {object} [Props.contactProfile] - Contact object with data from profile
  * or null if user account is selected
- * @returns {React.JSX.Element} React component for NewMessage
+ * @returns {React.JSX.Element} React component for AccountImageField
  */
 const AccountImageField = ({ loadAccountData, contactProfile }) => {
   const { addNotification } = useNotification();
