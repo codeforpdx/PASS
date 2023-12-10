@@ -50,6 +50,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [invalidWebId, setInvalidWebId] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -58,6 +59,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setUsername(value);
     const renderedWebId = renderWebId(value);
     setWebId(renderedWebId);
+    if (invalidWebId) setInvalidWebId(false);
   };
 
   const clearInputFields = () => {
@@ -65,6 +67,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setUserFamilyName('');
     setUsername('');
     setWebId('');
+    setInvalidWebId(false);
   };
 
   const handleAddContact = async (event) => {
@@ -82,6 +85,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       await getWebIdDataset(userObject.webId);
     } catch {
       addNotification('error', `Add contact failed. Reason: ${userObject.webId} does not exist`);
+      setInvalidWebId(true);
       setProcessing(false);
       return;
     }
@@ -156,6 +160,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => {
               setWebId(e.target.value);
             }}
+            error={invalidWebId}
+            label={invalidWebId ? 'Error' : ''}
+            // helperText for invalidWebId === false is ' ' and not '' is to
+            // prevent the field from stretching when helperText disappears
+            helperText={invalidWebId ? 'Invalid WebId.' : ' '}
             fullWidth
             InputProps={{
               endAdornment: (
