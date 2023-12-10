@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
+// Inrupt Imports
+import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -58,6 +60,13 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setWebId(renderedWebId);
   };
 
+  const clearInputFields = () => {
+    setUserGivenName('');
+    setUserFamilyName('');
+    setUsername('');
+    setWebId('');
+  };
+
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
@@ -68,6 +77,15 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       webId: addWebId.value.trim()
     };
 
+    // Validation for webId
+    try {
+      await getWebIdDataset(userObject.webId);
+    } catch {
+      addNotification('error', `Add contact failed. Reason: ${userObject.webId} does not exist`);
+      setProcessing(false);
+      return;
+    }
+
     try {
       await addContact(userObject);
       addNotification(
@@ -77,10 +95,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     } catch (e) {
       addNotification('error', `Add contact failed. Reason: ${e.message}`);
     } finally {
-      setUserGivenName('');
-      setUserFamilyName('');
-      setUsername('');
-      setWebId('');
+      clearInputFields();
       setShowAddContactModal(false);
       setProcessing(false);
     }
@@ -167,7 +182,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 variant="outlined"
                 color="error"
                 endIcon={<ClearIcon />}
-                onClick={() => setShowAddContactModal(false)}
+                onClick={() => {
+                  clearInputFields();
+                  setShowAddContactModal(false);
+                }}
                 fullWidth
               >
                 Cancel
