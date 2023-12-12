@@ -31,6 +31,10 @@ const theme = createTheme({
     neutral: {
       main: '#64748B',
       contrastText: '#fff'
+    },
+    accessible: {
+      main: '#fff',
+      contrastText: themePalettePrimaryMain
     }
   },
   // color properties TBD for status snackbar severities
