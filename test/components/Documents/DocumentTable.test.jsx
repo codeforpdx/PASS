@@ -62,7 +62,7 @@ describe('DocumentTable Component', () => {
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should be accessible', async () => {
+  it.skip('should be accessible', () => {
     isAccessible(render(<MockTableComponent />));
   });
 });

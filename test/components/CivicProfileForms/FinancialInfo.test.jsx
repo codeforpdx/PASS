@@ -10,7 +10,7 @@ describe('Financial Info Form', () => {
     expect(getByText('Financial Info')).not.toBeNull();
   });
 
-  it('should be accessible', async () => {
+  it('should be accessible', () => {
     isAccessible(render(<FinancialInfo />));
   });
 });

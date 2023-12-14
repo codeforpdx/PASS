@@ -17,7 +17,7 @@ const MockTableComponent = ({ contacts }) => (
 );
 
 // TODO: Fix accessibility issues within this component
-it.skip('should be accessible', async () => {
+it.skip('should be accessible', () => {
   const contacts = [
     {
       familyName: 'Abby',

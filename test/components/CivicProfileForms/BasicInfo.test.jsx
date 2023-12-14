@@ -10,7 +10,7 @@ describe('Basic Info Form', () => {
     expect(getByText('Basic Info')).not.toBeNull();
   });
 
-  it('should be accessible', async () => {
+  it('should be accessible', () => {
     isAccessible(render(<BasicInfo />));
   });
 });
