@@ -1,10 +1,8 @@
 import { axe } from 'vitest-axe';
-import { render } from '@testing-library/react';
 import { expect } from 'vitest';
 
-const isAccessible = async (jsx) => {
-  const { container } = render(jsx);
-  expect(await axe(container)).toHaveNoViolations();
+const isAccessible = async (renderResult) => {
+  expect(await axe(renderResult.container)).toHaveNoViolations();
 };
 
 export default isAccessible;

@@ -11,6 +11,6 @@ describe('Basic Info Form', () => {
   });
 
   it('should be accessible', async () => {
-    isAccessible(<BasicInfo />);
+    isAccessible(render(<BasicInfo />));
   });
 });

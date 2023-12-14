@@ -4,6 +4,7 @@ import { vi, expect, it, describe } from 'vitest';
 import { HousingInfo } from '@components/CivicProfileForms';
 import { useCivicProfile } from '@hooks';
 import userEvent from '@testing-library/user-event';
+import isAccessible from '../../utils/axe';
 
 vi.mock('@hooks', async () => {
   const actual = await vi.importActual('@hooks');
@@ -20,6 +21,11 @@ describe('Housing info form', () => {
     const { getByRole } = render(<HousingInfo />);
     const cityField = getByRole('textbox', { name: 'City:' });
     expect(cityField).not.toBeNull();
+  });
+
+  it('should be accessible', () => {
+    useCivicProfile.mockReturnValue({ data: {}, isSuccess: true });
+    isAccessible(render(<HousingInfo />));
   });
 
   it('submits an address update when you click the submit button', async () => {
