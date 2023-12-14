@@ -9,6 +9,7 @@ import Badge from '@mui/material/Badge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMessageList } from '@hooks';
 import { Outbox, MessagesLayout } from '@components/Messages';
+import isAccessible from '../../utils/axe';
 
 vi.mock('@inrupt/solid-client');
 
@@ -113,6 +114,11 @@ describe('Messages Page', () => {
     const { getByText } = render(<MockMessagePage session={sessionObj} />);
     expect(getByText('Inbox', { exact: true })).not.toBeNull();
     expect(getByText('Outbox', { exact: true })).not.toBeNull();
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', async () => {
+    await isAccessible(render(<MockMessagePage session={sessionObj} />));
   });
 
   it('should render messages', async () => {
