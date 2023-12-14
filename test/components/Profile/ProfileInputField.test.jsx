@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ProfileInputField } from '../../../src/components/Profile';
 import '@testing-library/jest-dom/extend-expect';
+import isAccessible from '../../utils/axe';
 
 const MockProfileComponent = ({ name }) => {
   const mockInputName = 'Name';
@@ -20,6 +21,10 @@ const MockProfileComponent = ({ name }) => {
 };
 
 describe('ProfileInputField', () => {
+  it('should be accessible', () => {
+    isAccessible(render(<MockProfileComponent name="mockInputValue" />));
+  });
+
   it('renders ProfileInputField with name Alice', () => {
     const mockInputValue = 'Alice';
     const { queryByRole } = render(<MockProfileComponent name={mockInputValue} />);
