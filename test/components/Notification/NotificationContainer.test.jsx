@@ -3,12 +3,22 @@ import { render, screen } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { NotificationContainer } from '../../../src/components/Notification';
+import isAccessible from '../../utils/axe';
 
 const MockNotificationContainer = ({ notifications }) => (
   <BrowserRouter>
     <NotificationContainer notifications={notifications} />
   </BrowserRouter>
 );
+
+it('should be accessible', () => {
+  const notifications = [
+    { id: 34345, message: 'this is a success', severity: 'success' },
+    { id: 45555, message: 'this is and error test', severity: 'error' },
+    { id: 32235, message: 'this is an info test', severity: 'info' }
+  ];
+  isAccessible(render(<MockNotificationContainer notifications={notifications} />));
+});
 
 it('renders all the notifications from notification context', () => {
   const notifications = [

@@ -4,6 +4,19 @@ import { expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { act } from 'react-dom/test-utils';
 import BasicNotification from '../../../src/components/Notification/BasicNotification';
 import { NotificationContext } from '../../../src/contexts/NotificationContext';
+import isAccessible from '../../utils/axe';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+it('should be accessible', () => {
+  isAccessible(render(<BasicNotification severity="success" message="message" id={123456} />));
+});
 
 it('renders correctly', () => {
   const message = 'my test message';
@@ -13,14 +26,6 @@ it('renders correctly', () => {
 
   const notification = screen.getByRole('alert');
   expect(notification.textContent).toBe(message);
-});
-
-beforeEach(() => {
-  vi.useFakeTimers();
-});
-
-afterEach(() => {
-  vi.useRealTimers();
 });
 
 it('calls remove after 8 seconds', () => {
