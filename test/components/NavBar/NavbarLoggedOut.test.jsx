@@ -1,11 +1,35 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { NavbarLoggedOut } from '@components/NavBar';
 import theme from '../../../src/theme';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
+
+describe('Accessibility', () => {
+  it('should be accessible', async () => {
+    await isAccessible(
+      render(
+        <BrowserRouter>
+          <NavbarLoggedOut />
+        </BrowserRouter>
+      )
+    );
+  });
+
+  it('should be accessible on mobile', async () => {
+    window.matchMedia = createMatchMedia(599);
+    await isAccessible(
+      render(
+        <BrowserRouter>
+          <NavbarLoggedOut />
+        </BrowserRouter>
+      )
+    );
+  });
+});
 
 it('renders login button when user is logged out', () => {
   const { queryByRole } = render(

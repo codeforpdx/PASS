@@ -4,8 +4,19 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, describe, it } from 'vitest';
 import { NavBarSkipLink } from '@components/NavBar';
+import isAccessible from '../../utils/axe';
 
 describe('NavBarSkipLink', () => {
+  it('should be accessible', async () => {
+    await isAccessible(
+      render(
+        <BrowserRouter>
+          <NavBarSkipLink />
+        </BrowserRouter>
+      )
+    );
+  });
+
   it('renders', () => {
     render(
       <BrowserRouter>

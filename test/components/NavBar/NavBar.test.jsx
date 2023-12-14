@@ -6,6 +6,7 @@ import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
 import NavBar from '../../../src/components/NavBar/NavBar';
+import isAccessible from '../../utils/axe';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
@@ -13,6 +14,28 @@ afterEach(() => {
 });
 
 const queryClient = new QueryClient();
+
+describe('Accessibility', () => {
+  const renderExample = () =>
+    render(
+      <QueryClientProvider client={queryClient}>
+        <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
+          <BrowserRouter>
+            <NavBar />
+          </BrowserRouter>
+        </SessionContext.Provider>
+      </QueryClientProvider>
+    );
+
+  it('should be accessible', async () => {
+    await isAccessible(renderExample());
+  });
+
+  it('should be accessible on mobile', async () => {
+    window.matchMedia = createMatchMedia(1200);
+    await isAccessible(renderExample());
+  });
+});
 
 describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {

@@ -5,6 +5,7 @@ import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 vi.mock('@inrupt/solid-client-authn-browser');
 
@@ -24,6 +25,10 @@ vi.mock('../../../src/constants/', async () => {
         'http://testurl_1.com/, http://testurl_2.com/, http://testurl_3.com/'
     }
   };
+});
+
+it('should be accessible', async () => {
+  await isAccessible(render(<OidcLoginComponent />));
 });
 
 it('sets OIDC provider on login', async () => {
@@ -62,6 +67,11 @@ it('renders container items as row default', () => {
   const cssProperty = getComputedStyle(container);
 
   expect(cssProperty.flexDirection).toBe('row');
+});
+
+it('should be accessible on mobile', async () => {
+  window.matchMedia = createMatchMedia(599);
+  await isAccessible(render(<OidcLoginComponent />));
 });
 
 it('renders container items as column mobile', () => {

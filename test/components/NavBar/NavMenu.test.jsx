@@ -5,6 +5,7 @@ import { NavMenu } from '@components/NavBar';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,10 @@ const MockNavMenu = () => (
   </QueryClientProvider>
 );
 
+it('should be accessible', async () => {
+  await isAccessible(render(<MockNavMenu />));
+});
+
 it('does not render contacts and civic profile links above 600px', () => {
   const { queryByText } = render(<MockNavMenu />);
 
@@ -24,6 +29,11 @@ it('does not render contacts and civic profile links above 600px', () => {
 
   expect(contactsLink).toBeNull();
   expect(civicProfileLink).toBeNull();
+});
+
+it('should be accessible on mobile', async () => {
+  window.matchMedia = createMatchMedia(599);
+  await isAccessible(render(<MockNavMenu />));
 });
 
 it('renders contacts and civic profile links below 600px', () => {
