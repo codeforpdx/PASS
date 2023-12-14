@@ -2,6 +2,7 @@ import React from 'react';
 import { expect, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import Breadcrumbs from '../../src/layouts/Breadcrumbs';
+import isAccessible from '../utils/axe';
 
 vi.mock('react-router-dom', async () => {
   const actual = vi.importActual('react-router-dom');
@@ -12,6 +13,10 @@ vi.mock('react-router-dom', async () => {
     }),
     Link: vi.fn().mockImplementation(({ to, children }) => <a href={to}>{children}</a>)
   };
+});
+
+it('should be accessible', () => {
+  isAccessible(render(<Breadcrumbs />));
 });
 
 it('Renders correct routes and links', () => {

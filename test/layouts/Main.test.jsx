@@ -2,8 +2,13 @@ import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import Main from '../../src/layouts/Main';
+import isAccessible from '../utils/axe';
 
 describe('Main Component', () => {
+  it('should be accessible', () => {
+    isAccessible(render(<Main>Text</Main>));
+  });
+
   it('renders', () => {
     render(<Main />);
   });
