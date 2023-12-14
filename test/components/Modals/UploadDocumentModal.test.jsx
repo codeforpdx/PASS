@@ -4,8 +4,13 @@ import { render } from '@testing-library/react';
 import { UploadDocumentModal } from '@components/Modals';
 import createMatchMedia from '../../helpers/createMatchMedia';
 import '@testing-library/jest-dom/extend-expect';
+import isAccessible from '../../utils/axe';
 
 const MockUploadDocumentModal = () => <UploadDocumentModal showModal />;
+
+it('should be accessible', async () => {
+  await isAccessible(render(<MockUploadDocumentModal />));
+});
 
 it('renders cancel/upload group as row default', () => {
   const { getByRole } = render(<MockUploadDocumentModal />);

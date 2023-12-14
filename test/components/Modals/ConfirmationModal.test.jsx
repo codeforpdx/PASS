@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import createMatchMedia from '../../helpers/createMatchMedia';
 import '@testing-library/jest-dom/extend-expect';
+import isAccessible from '../../utils/axe';
 
 const MockConfirmationModalBasic = () => (
   <ConfirmationModal showModal title="Action" cancelButtonText="Cancel" />
@@ -13,6 +14,10 @@ const MockConfirmationModalLogout = () => (
 );
 
 describe('Default screen', () => {
+  it('should be accessible', async () => {
+    await isAccessible(render(<MockConfirmationModalBasic />));
+  });
+
   it('renders button container flex-direction as row default', () => {
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
@@ -33,6 +38,11 @@ describe('Default screen', () => {
 });
 
 describe('Mobile screen', () => {
+  it('should be accessible', async () => {
+    window.matchMedia = createMatchMedia(599);
+    await isAccessible(render(<MockConfirmationModalBasic />));
+  });
+
   it('renders button container flex-direction as column mobile', () => {
     window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalBasic />);
