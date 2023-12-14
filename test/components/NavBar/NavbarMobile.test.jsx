@@ -7,8 +7,8 @@ import createMatchMedia from '../../helpers/createMatchMedia';
 import isAccessible from '../../utils/axe';
 
 // TODO: Fix accessibility issues with this component
-it.skip('should be accessible', async () => {
-  await isAccessible(
+it.skip('should be accessible', () => {
+  isAccessible(
     render(
       <BrowserRouter>
         <NavbarMobile />

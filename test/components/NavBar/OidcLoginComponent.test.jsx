@@ -27,8 +27,8 @@ vi.mock('../../../src/constants/', async () => {
   };
 });
 
-it('should be accessible', async () => {
-  await isAccessible(render(<OidcLoginComponent />));
+it('should be accessible', () => {
+  isAccessible(render(<OidcLoginComponent />));
 });
 
 it('sets OIDC provider on login', async () => {
@@ -69,9 +69,9 @@ it('renders container items as row default', () => {
   expect(cssProperty.flexDirection).toBe('row');
 });
 
-it('should be accessible on mobile', async () => {
+it('should be accessible on mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  await isAccessible(render(<OidcLoginComponent />));
+  isAccessible(render(<OidcLoginComponent />));
 });
 
 it('renders container items as column mobile', () => {

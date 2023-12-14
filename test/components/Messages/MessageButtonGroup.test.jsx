@@ -12,8 +12,8 @@ const MockMessageButtonGroup = () => (
   </BrowserRouter>
 );
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockMessageButtonGroup />));
+it('should be accessible', () => {
+  isAccessible(render(<MockMessageButtonGroup />));
 });
 
 it('renders button group as a row default', () => {

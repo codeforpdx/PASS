@@ -9,8 +9,8 @@ import isAccessible from '../../utils/axe';
 
 const MockAddContactModal = () => <AddContactModal showAddContactModal />;
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockAddContactModal />));
+it('should be accessible', () => {
+  isAccessible(render(<MockAddContactModal />));
 });
 
 it('renders button container flex-direction row default', () => {

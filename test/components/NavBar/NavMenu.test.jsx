@@ -17,6 +17,9 @@ const MockNavMenu = () => (
   </QueryClientProvider>
 );
 
+// These are set to async/await so that they don't conflict with each other.
+// `axe` requires synchronous execution, so if multiple are running at once,
+// it can give false positives.
 it('should be accessible', async () => {
   await isAccessible(render(<MockNavMenu />));
 });

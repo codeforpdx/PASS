@@ -13,8 +13,8 @@ const MockFormSection = () => (
   </FormSection>
 );
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockFormSection />));
+it('should be accessible', () => {
+  isAccessible(render(<MockFormSection />));
 });
 
 it('renders 20px padding by default', () => {

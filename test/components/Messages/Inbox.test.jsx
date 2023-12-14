@@ -112,8 +112,8 @@ describe('Messages Page', () => {
   };
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should be accessible', async () => {
-    await isAccessible(render(<MockMessagePage session={sessionObj} />));
+  it.skip('should be accessible', () => {
+    isAccessible(render(<MockMessagePage session={sessionObj} />));
   });
 
   it('renders', () => {

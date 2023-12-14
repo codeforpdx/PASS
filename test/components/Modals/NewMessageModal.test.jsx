@@ -17,8 +17,8 @@ const MockNewMessageModal = () => (
   </QueryClientProvider>
 );
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockNewMessageModal />));
+it('should be accessible', () => {
+  isAccessible(render(<MockNewMessageModal />));
 });
 
 it('renders button group flex-direction as row default', () => {

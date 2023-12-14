@@ -14,10 +14,6 @@ const MockConfirmationModalLogout = () => (
 );
 
 describe('Default screen', () => {
-  it('should be accessible', async () => {
-    await isAccessible(render(<MockConfirmationModalBasic />));
-  });
-
   it('renders button container flex-direction as row default', () => {
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
@@ -38,11 +34,6 @@ describe('Default screen', () => {
 });
 
 describe('Mobile screen', () => {
-  it('should be accessible', async () => {
-    window.matchMedia = createMatchMedia(599);
-    await isAccessible(render(<MockConfirmationModalBasic />));
-  });
-
   it('renders button container flex-direction as column mobile', () => {
     window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalBasic />);
@@ -60,6 +51,20 @@ describe('Mobile screen', () => {
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('column');
+  });
+});
+
+describe('Accessibility', () => {
+  // These are set to async/await so that they don't conflict with each other.
+  // `axe` requires synchronous execution, so if multiple are running at once,
+  // it can give false positives.
+  it('should be accessible', async () => {
+    await isAccessible(render(<MockConfirmationModalBasic />));
+  });
+
+  it('should be accessible on mobile', async () => {
+    window.matchMedia = createMatchMedia(599);
+    await isAccessible(render(<MockConfirmationModalBasic />));
   });
 });
 

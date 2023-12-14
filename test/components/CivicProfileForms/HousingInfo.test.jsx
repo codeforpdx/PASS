@@ -23,9 +23,9 @@ describe('Housing info form', () => {
     expect(cityField).not.toBeNull();
   });
 
-  it('should be accessible', async () => {
+  it('should be accessible', () => {
     useCivicProfile.mockReturnValue({ data: {}, isSuccess: true });
-    await isAccessible(render(<HousingInfo />));
+    isAccessible(render(<HousingInfo />));
   });
 
   it('submits an address update when you click the submit button', async () => {

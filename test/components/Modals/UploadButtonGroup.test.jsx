@@ -8,8 +8,8 @@ import isAccessible from '../../utils/axe';
 const MockUploadButtonGroup = () => <UploadButtonGroup />;
 
 // TODO: Fix accessibility issues with this component
-it.skip('should be accessible', async () => {
-  await isAccessible(render(<MockUploadButtonGroup />));
+it.skip('should be accessible', () => {
+  isAccessible(render(<MockUploadButtonGroup />));
 });
 
 it('renders only one button above 768px', () => {

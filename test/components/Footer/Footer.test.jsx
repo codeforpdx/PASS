@@ -30,8 +30,8 @@ describe('Footer', () => {
     expect(headings.length).toBe(2);
   });
 
-  it('should be accessible', async () => {
-    await isAccessible(
+  it('should be accessible', () => {
+    isAccessible(
       render(
         <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
           <ThemeProvider theme={theme}>

@@ -15,8 +15,8 @@ const MockMessagePreview = () => (
   </QueryClientProvider>
 );
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockMessagePreview />));
+it('should be accessible', () => {
+  isAccessible(render(<MockMessagePreview />));
 });
 
 describe('Grid sizes', () => {

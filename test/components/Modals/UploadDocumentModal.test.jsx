@@ -8,8 +8,8 @@ import isAccessible from '../../utils/axe';
 
 const MockUploadDocumentModal = () => <UploadDocumentModal showModal />;
 
-it('should be accessible', async () => {
-  await isAccessible(render(<MockUploadDocumentModal />));
+it('should be accessible', () => {
+  isAccessible(render(<MockUploadDocumentModal />));
 });
 
 it('renders cancel/upload group as row default', () => {

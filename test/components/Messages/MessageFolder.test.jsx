@@ -47,13 +47,13 @@ describe('Mobile screen', () => {
 
 describe('Accessibility', () => {
   // TODO: Fix accessibility issues with this component
-  it.skip('should be accessible', async () => {
-    await isAccessible(render(<MockMessageFolder />));
+  it.skip('should be accessible', () => {
+    isAccessible(render(<MockMessageFolder />));
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should be accessible on mobile', async () => {
+  it.skip('should be accessible on mobile', () => {
     window.matchMedia = createMatchMedia(599);
-    await isAccessible(render(<MockMessageFolder />));
+    isAccessible(render(<MockMessageFolder />));
   });
 });

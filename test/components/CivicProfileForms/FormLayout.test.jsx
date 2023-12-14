@@ -39,6 +39,6 @@ describe('Civic Form Layout', () => {
   });
 });
 
-it('should be accessible', async () => {
-  await isAccessible(renderLayout(CIVIC_FORM_LIST[0].path));
+it('should be accessible', () => {
+  isAccessible(renderLayout(CIVIC_FORM_LIST[0].path));
 });

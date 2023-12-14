@@ -86,27 +86,27 @@ describe('Image rendering', () => {
 
 describe('Accessibility', () => {
   // TODO: Fix accessibility issues with this component
-  it.skip('should have basic rendering be accessible', async () => {
-    await isAccessible(render(<MockSection />));
+  it.skip('should have basic rendering be accessible', () => {
+    isAccessible(render(<MockSection />));
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should have description rendering be accessible', async () => {
-    await isAccessible(render(<MockSectionDescription />));
+  it.skip('should have description rendering be accessible', () => {
+    isAccessible(render(<MockSectionDescription />));
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should have description mobile rendering be accessible', async () => {
-    await isAccessible(render(<MockSectionDescriptionMobile />));
+  it.skip('should have description mobile rendering be accessible', () => {
+    isAccessible(render(<MockSectionDescriptionMobile />));
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should have button rendering be accessible', async () => {
-    await isAccessible(render(<MockSectionButton />));
+  it.skip('should have button rendering be accessible', () => {
+    isAccessible(render(<MockSectionButton />));
   });
 
   // TODO: Fix accessibility issues with this component
-  it.skip('should have button mobile rendering be accessible', async () => {
-    await isAccessible(render(<MockSectionButtonMobile />));
+  it.skip('should have button mobile rendering be accessible', () => {
+    isAccessible(render(<MockSectionButtonMobile />));
   });
 });
