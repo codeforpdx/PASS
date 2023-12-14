@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
 import { HomeSection } from '@components/Home';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockSection = () => <HomeSection />;
 const MockSectionDescription = () => <HomeSection description="Example Text" />;
@@ -80,5 +81,32 @@ describe('Image rendering', () => {
     const image = getComputedStyle(queryByRole('img'));
 
     expect(image.width).toBe('80%');
+  });
+});
+
+describe('Accessibility', () => {
+  // TODO: Fix accessibility issues with this component
+  it.skip('should have basic rendering be accessible', async () => {
+    await isAccessible(render(<MockSection />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should have description rendering be accessible', async () => {
+    await isAccessible(render(<MockSectionDescription />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should have description mobile rendering be accessible', async () => {
+    await isAccessible(render(<MockSectionDescriptionMobile />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should have button rendering be accessible', async () => {
+    await isAccessible(render(<MockSectionButton />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should have button mobile rendering be accessible', async () => {
+    await isAccessible(render(<MockSectionButtonMobile />));
   });
 });

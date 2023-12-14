@@ -1,11 +1,24 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { KeyFeatures } from '@components/Home';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockKeyFeaturesDefault = () => <KeyFeatures description="Example Text" />;
 const MockKeyFeaturesMobile = () => <KeyFeatures isReallySmallScreen description="Example Text" />;
+
+describe('Accessibility', () => {
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', async () => {
+    await isAccessible(render(<MockKeyFeaturesDefault />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible on mobile', async () => {
+    await isAccessible(render(<MockKeyFeaturesMobile />));
+  });
+});
 
 it('renders less width by default', () => {
   const { getByText } = render(<MockKeyFeaturesDefault />);
