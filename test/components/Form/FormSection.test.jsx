@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { FormSection } from '@components/Form';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockChildrenComponent = () => <div />;
 
@@ -11,6 +12,10 @@ const MockFormSection = () => (
     <MockChildrenComponent />
   </FormSection>
 );
+
+it('should be accessible', async () => {
+  await isAccessible(render(<MockFormSection />));
+});
 
 it('renders 20px padding by default', () => {
   const component = render(<MockFormSection />);
