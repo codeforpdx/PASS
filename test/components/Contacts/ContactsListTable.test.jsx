@@ -4,6 +4,7 @@ import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { ContactListTable } from '@components/Contacts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import isAccessible from '../../utils/axe';
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,25 @@ const MockTableComponent = ({ contacts }) => (
     </BrowserRouter>
   </QueryClientProvider>
 );
+
+// TODO: Fix accessibility issues within this component
+it.skip('should be accessible', async () => {
+  const contacts = [
+    {
+      familyName: 'Abby',
+      givenName: 'Aaron',
+      person: 'Aaron Abby',
+      webId: 'https://example.com/Abby'
+    },
+    {
+      familyName: 'Builder',
+      givenName: 'Bob',
+      person: 'Bob Builder',
+      webId: 'https://example.com/Builder'
+    }
+  ];
+  isAccessible(render(<MockTableComponent contacts={contacts} />));
+});
 
 it('renders all clients from client context', () => {
   const contacts = [

@@ -3,8 +3,8 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import DocumentTable from '@components/Documents';
-
 import { DocumentListContext } from '@contexts';
+import isAccessible from '../../utils/axe';
 
 const mockedDocumentContext = {
   documentListObject: {
@@ -59,5 +59,10 @@ describe('DocumentTable Component', () => {
     expect(row2FileName).not.toBeNull();
     expect(row2FileType).not.toBeNull();
     expect(row2Description).not.toBeNull();
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', async () => {
+    isAccessible(render(<MockTableComponent />));
   });
 });
