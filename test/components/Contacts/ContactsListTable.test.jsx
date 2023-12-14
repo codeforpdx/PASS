@@ -17,7 +17,7 @@ const MockTableComponent = ({ contacts }) => (
 );
 
 // TODO: Fix accessibility issues within this component
-it.skip('should be accessible', () => {
+it.skip('should be accessible', async () => {
   const contacts = [
     {
       familyName: 'Abby',
@@ -32,7 +32,7 @@ it.skip('should be accessible', () => {
       webId: 'https://example.com/Builder'
     }
   ];
-  isAccessible(render(<MockTableComponent contacts={contacts} />));
+  await isAccessible(render(<MockTableComponent contacts={contacts} />));
 });
 
 it('renders all clients from client context', () => {
