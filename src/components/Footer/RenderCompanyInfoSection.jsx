@@ -29,30 +29,22 @@ const socialLinks = [
   {
     name: 'Twitter',
     href: 'https://twitter.com/',
-    icon: <TwitterIcon />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <TwitterIcon />
   },
   {
     name: 'Facebook',
     href: 'https://www.facebook.com/',
-    icon: <FacebookIcon fontSize="large" titleAccess="Facebook logo" />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <FacebookIcon fontSize="large" titleAccess="Facebook logo" />
   },
   {
     name: 'Instagram',
     href: 'https://www.instagram.com/',
-    icon: <InstagramIcon fontSize="large" titleAccess="Instagram logo" />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <InstagramIcon fontSize="large" titleAccess="Instagram logo" />
   },
   {
     name: 'LinkedIn',
     href: 'https://www.linkedin.com/company/code-pdx/',
-    icon: <LinkedInIcon fontSize="large" titleAccess="LinkedIn logo" />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <LinkedInIcon fontSize="large" titleAccess="LinkedIn logo" />
   }
 ];
 
