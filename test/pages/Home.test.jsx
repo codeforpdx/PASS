@@ -3,9 +3,14 @@ import { render, cleanup, screen } from '@testing-library/react';
 import { expect, describe, it, afterEach } from 'vitest';
 import { Home } from '@pages';
 import createMatchMedia from '../helpers/createMatchMedia';
+import isAccessible from '../utils/axe';
 
 describe('Home Page', () => {
   afterEach(cleanup);
+
+  it('should be accessible', () => {
+    isAccessible(render(<Home />));
+  });
 
   it('renders with correct order of logoSection on mobile', () => {
     window.matchMedia = createMatchMedia(599);

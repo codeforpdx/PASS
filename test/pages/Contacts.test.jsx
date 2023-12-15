@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import { useContactsList } from '@hooks';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import isAccessible from '../utils/axe';
 
 vi.mock('@hooks', async () => {
   const actual = await vi.importActual('@hooks');
@@ -20,6 +21,32 @@ const queryClient = new QueryClient();
 describe('Contacts Page', () => {
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', () => {
+    const firstContact = {
+      person: 'Peter Parker',
+      familyName: 'Parker',
+      givenName: 'Peter',
+      webId: 'http://peter.com'
+    };
+    const secondContact = {
+      person: 'Batman',
+      familyName: 'Batman',
+      givenName: 'Batman',
+      webId: 'http://batman.com'
+    };
+    useContactsList.mockReturnValue({ data: [firstContact, secondContact] });
+    isAccessible(
+      render(
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Contacts />
+          </BrowserRouter>
+        </QueryClientProvider>
+      )
+    );
   });
 
   it('displays Loading message while loading', () => {

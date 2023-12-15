@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Signup } from '@pages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionContext } from '@contexts';
+import isAccessible from '../utils/axe';
 
 vi.mock('@inrupt/solid-client');
 
@@ -37,6 +38,21 @@ const MockSignupContexts = ({ session }) => (
 );
 
 describe('Signup Page', () => {
+  it('should be accessible', () => {
+    const sessionObj = {
+      login: vi.fn(),
+      fetch: vi.fn(),
+      podUrl: 'https://example.com',
+      session: {
+        info: {
+          webId: 'https://example.com/profile/',
+          isLoggedIn: false
+        }
+      }
+    };
+    isAccessible(render(<MockSignupContexts session={sessionObj} />));
+  });
+
   it('renders', () => {
     const sessionObj = {
       login: vi.fn(),
