@@ -100,7 +100,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ## 3. Contribution Guidelines
 
-- Start by checking out the detailed on-boarding [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
+- Start by checking out the detailed on-boarding [in the Wiki](https://github.com/codeforpdx/PASS/wiki/Development#contribution-guidelines).
 - Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
 - Request git-hub access on Discord in the [github-access-request](https://discord.com/channels/1068260532806766733/1078124139983945858) channel of the General category.
 
