@@ -48,8 +48,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
   const [success, setSuccess] = useState('');
   const [successTimeout, setSuccessTimeout] = useState(false);
 
-  const contactListOptions = data?.map((contact) => ({ label: contact.person, id: contact.webId }));
-  const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.webId)[0];
+  const contactListOptions = data?.map((contact) => ({
+    label: `${contact.person} ${contact.podUrl}`,
+    id: contact.podUrl
+  }));
+  const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
     setMessage({
@@ -129,6 +132,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '' }) => {
             {oldMessage ? 'Reply To' : 'New Message'}
           </Typography>
           <Autocomplete
+            data-testid="newMessageTo"
             freeSolo
             value={recipientName?.person ?? message.recipientPodUrl}
             disablePortal
