@@ -31,9 +31,13 @@ const theme = createTheme({
     neutral: {
       main: '#64748B',
       contrastText: '#fff'
+    },
+    accessible: {
+      main: '#fff',
+      contrastText: themePalettePrimaryMain
     }
   },
-  // color properties TBD for status snackbar severieties
+  // color properties TBD for status snackbar severities
   components: {
     MuiAlert: {
       styleOverrides: {
@@ -55,11 +59,18 @@ const theme = createTheme({
         }
       }
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 25
+        }
+      }
+    },
     MuiTableHead: {
       styleOverrides: {
         root: {
           backgroundColor: themePalettePrimaryMain,
-          coolor: '#fff'
+          color: '#fff'
         }
       }
     },

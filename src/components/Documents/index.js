@@ -1,4 +1,3 @@
 import DocumentTable from './DocumentTable';
-import DocumentTableRow from './DocumentTableRow';
 
-export { DocumentTable, DocumentTableRow };
+export default DocumentTable;

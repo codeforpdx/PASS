@@ -2,68 +2,69 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-/**
- * @typedef {object} HomeSectionParams
- * @property {string} src - image src
- * @property {string} alt - image alt
- * @property {string} title - section title
- * @property {string} description - section description
- * @property {string} button - section button
- * @property {string} href - section button href
- * @property {string} label - section button aria-label
- * @property {boolean} isReallySmallScreen - screen size
- */
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
 /**
  * Represents a home section component
  *
- *  @memberof Home
- * @name HomeSecton
- * @param {HomeSectionParams} props - the component props
+ * @memberof Home
+ * @name HomeSection
+ * @param {object} Props - the component props
+ * @param {string} Props.componentImageSrc - image src
+ * @param {string} Props.componentImageAlt - image alt
+ * @param {string} Props.title - section title
+ * @param {string} Props.description - section description
+ * @param {string} Props.button - section button
+ * @param {string} Props.href - section button href
+ * @param {string} Props.label - section button aria-label
+ * @param {boolean} Props.isReallySmallScreen - screen size
+ * @param {boolean} Props.hasMargin - gives marginBottom
  * @returns {React.JSX.Element} - the home section component
  */
-
 const HomeSection = ({
-  src,
-  alt,
+  componentImageSrc,
+  componentImageAlt,
   title,
   description,
   button,
   href,
   label,
-  isReallySmallScreen
+  isReallySmallScreen,
+  hasMargin
 }) => (
-  <>
+  <Stack mb={hasMargin ? 8 : null} alignItems="center">
     <Box
       component="img"
-      src={src}
-      lt={alt}
+      src={componentImageSrc}
+      alt={componentImageAlt}
       sx={{
-        width: isReallySmallScreen ? 1 : 2 / 4
+        width: isReallySmallScreen ? '80%' : '300px'
       }}
     />
     <Typography
-      variant={isReallySmallScreen ? 'h3' : 'h2'}
+      variant="h2"
+      mb="24px"
       sx={{
         color: 'primary.main',
-        textAlign: 'center',
-        marginBottom: '24px'
+        fontSize: '28px'
       }}
     >
       <strong>{title}</strong>
     </Typography>
-    <Typography
-      variant={isReallySmallScreen ? 'h6' : 'h5'}
-      sx={{
-        color: 'primary.dark',
-        width: isReallySmallScreen ? '100%' : '85%',
-        marginBottom: '24px',
-        textAlign: 'center'
-      }}
-    >
-      {description}
-    </Typography>
+    {description && (
+      <Typography
+        data-testid="testDescription"
+        sx={{
+          color: 'primary.dark',
+          width: isReallySmallScreen ? '100%' : '85%',
+          marginBottom: '24px'
+        }}
+      >
+        {description}
+      </Typography>
+    )}
     {button && (
       <Button
         variant="contained"
@@ -72,14 +73,13 @@ const HomeSection = ({
         sx={{
           my: '1rem',
           backgroundColor: 'primary.light',
-          width: isReallySmallScreen ? 1 : 1 / 4,
-          borderRadius: '25px'
+          width: isReallySmallScreen ? 1 : 1 / 4
         }}
       >
         {button}
       </Button>
     )}
-  </>
+  </Stack>
 );
 
 export default HomeSection;

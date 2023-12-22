@@ -2,9 +2,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 // Material UI Imports
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
 import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -13,17 +15,31 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
-import { DocumentListContext, MessageContext } from '@contexts';
+import { DocumentListContext } from '@contexts';
+import { useMessageList } from '@hooks';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
  *
- * @memberof GlobalComponents
+ * @memberof NavBar
  * @name NavMenu
+ * @param {object} Props - The props for NavMenu Component
+ * @param {string} Props.menuId - The menu id
+ * @param {boolean} Props.openMenu - The state for opening menu
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setOpenMenu
+ * - The set function for openMenu
+ * @param {any} Props.anchorEl - The state for anchorEl
+ * @param {React.Dispatch<any>} Props.setAnchorEl - The set function for anchorEl
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
+ * - The set function for showConfirmationModal
+ * @param {(event) => void} Props.handleNotificationsMenu - Handler function for
+ * Notification Menu
+ * @param {string} Props.profileImg - String for profile image
+ * @returns {React.JSX.Element} - The NavMenu Component
  */
-
 const NavMenu = ({
   menuId,
   openMenu,
@@ -35,8 +51,11 @@ const NavMenu = ({
   profileImg
 }) => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { setContact } = useContext(DocumentListContext);
-  const { numUnreadMessages } = useContext(MessageContext);
+  const { data } = useMessageList('Inbox');
+
+  const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -47,7 +66,7 @@ const NavMenu = ({
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right'
       }}
       id={menuId}
@@ -59,19 +78,71 @@ const NavMenu = ({
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
+      MenuListProps={{ disablePadding: true }}
+      slotProps={{
+        paper: {
+          style: {
+            marginTop: '10px'
+          }
+        }
+      }}
+      sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
       <MenuList>
+        {isSmallScreen && (
+          <div>
+            <Link
+              to="/contacts"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              <MenuItem
+                component={Button}
+                startIcon={<ContactsIcon sx={{ height: '24px', width: '24px' }} />}
+                sx={{
+                  display: { md: 'none' },
+                  color: theme.palette.primary.main,
+                  width: '100%',
+                  minHeight: '36px'
+                }}
+              >
+                Contacts
+              </MenuItem>
+            </Link>
+            <Link
+              to="/civic-profile/basic-info"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              <MenuItem
+                component={Button}
+                startIcon={<AccountBoxIcon sx={{ height: '24px', width: '24px' }} />}
+                sx={{
+                  display: { md: 'none' },
+                  color: theme.palette.primary.main,
+                  width: '100%',
+                  minHeight: '36px'
+                }}
+              >
+                Civic Profile
+              </MenuItem>
+            </Link>
+            <Divider sx={{ marginY: '5px' }} />
+          </div>
+        )}
         {/* messages */}
         <Link to="/messages" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>
           <MenuItem
             component={Button}
             startIcon={
               <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
-                <EmailIcon />
+                <EmailIcon sx={{ height: '24px', width: '24px' }} />
               </Badge>
             }
-            sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+            sx={{
+              display: { md: 'none' },
+              color: theme.palette.primary.main,
+              width: '100%',
+              minHeight: '36px'
+            }}
           >
             Messages
           </MenuItem>
@@ -79,9 +150,14 @@ const NavMenu = ({
         {/* notifications */}
         <MenuItem
           component={Button}
-          startIcon={<NotificationsIcon />}
+          startIcon={<NotificationsIcon sx={{ height: '24px', width: '24px' }} />}
           onClick={handleNotificationsMenu}
-          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+          sx={{
+            display: { md: 'none' },
+            color: theme.palette.primary.main,
+            width: '100%',
+            minHeight: '36px'
+          }}
         >
           Notifications
         </MenuItem>
@@ -94,7 +170,7 @@ const NavMenu = ({
         >
           <MenuItem
             component={Button}
-            sx={{ width: '100%' }}
+            sx={{ width: '100%', minHeight: '36px' }}
             startIcon={
               <Avatar
                 src={profileImg}
@@ -112,21 +188,21 @@ const NavMenu = ({
             Profile
           </MenuItem>
         </Link>
-        <Divider />
+        <Divider sx={{ marginY: '5px' }} />
         {/* settings */}
         <MenuItem
           component={Button}
-          startIcon={<SettingsIcon />}
-          sx={{ color: theme.palette.primary.main, width: '100%' }}
+          startIcon={<SettingsIcon sx={{ height: '24px', width: '24px' }} />}
+          sx={{ color: theme.palette.primary.main, width: '100%', minHeight: '36px' }}
         >
           Settings
         </MenuItem>
         {/* logout */}
         <MenuItem
           component={Button}
-          startIcon={<LogoutIcon />}
+          startIcon={<LogoutIcon sx={{ height: '24px', width: '24px' }} />}
           onClick={() => setShowConfirmation(true)}
-          sx={{ color: theme.palette.error.main, width: '100%' }}
+          sx={{ color: theme.palette.error.main, width: '100%', minHeight: '36px' }}
         >
           Log Out
         </MenuItem>

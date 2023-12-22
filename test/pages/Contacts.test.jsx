@@ -4,6 +4,7 @@ import { expect, it, describe, vi, afterEach } from 'vitest';
 import { render } from '@testing-library/react';
 import { useContactsList } from '@hooks';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 vi.mock('@hooks', async () => {
   const actual = await vi.importActual('@hooks');
@@ -14,6 +15,8 @@ vi.mock('@hooks', async () => {
   };
 });
 
+const queryClient = new QueryClient();
+
 describe('Contacts Page', () => {
   afterEach(() => {
     vi.clearAllMocks();
@@ -21,15 +24,24 @@ describe('Contacts Page', () => {
 
   it('displays Loading message while loading', () => {
     useContactsList.mockReturnValue({ isLoading: true });
-    const { getByText } = render(<Contacts />);
-    const button = getByText('Loading Contacts...');
-    expect(button).not.toBeNull();
+    const { getByRole } = render(
+      <QueryClientProvider client={queryClient}>
+        <Contacts />
+      </QueryClientProvider>
+    );
+    const heading = getByRole('heading');
+    expect(heading.textContent).toBe('Loading Contacts...');
   });
 
   it('displays Errors when fetch errors', () => {
-    useContactsList.mockReturnValue({ isError: true, error: { message: 'error' } });
-    const { getByText } = render(<Contacts />);
-    const text = getByText('Error loading contacts list: error');
+    const errorMessage = 'error';
+    useContactsList.mockReturnValue({ isError: true, error: { message: errorMessage } });
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <Contacts />
+      </QueryClientProvider>
+    );
+    const text = getByText(`Error loading contacts list: ${errorMessage}`);
     expect(text).not.toBeNull();
   });
 
@@ -48,16 +60,22 @@ describe('Contacts Page', () => {
     };
     useContactsList.mockReturnValue({ data: [firstContact, secondContact] });
     const { getByRole } = render(
-      <BrowserRouter>
-        <Contacts />
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Contacts />
+        </BrowserRouter>
+      </QueryClientProvider>
     );
-    const contacts = getByRole('table');
+    const contacts = getByRole('grid');
     expect(contacts).not.toBeNull();
   });
   it('displays empty list message when there are no contacts', () => {
     useContactsList.mockReturnValue({ data: [] });
-    const { getByLabelText } = render(<Contacts />);
+    const { getByLabelText } = render(
+      <QueryClientProvider client={queryClient}>
+        <Contacts />
+      </QueryClientProvider>
+    );
     const contacts = getByLabelText('No Items Found Box');
     expect(contacts).not.toBeNull();
   });
