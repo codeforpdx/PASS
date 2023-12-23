@@ -47,6 +47,15 @@ it('will submit data only after deleting leading and trailing spaces from each f
     };
   });
 
+  // Mocks required so it won't crash from undefined imports
+  vi.mock('@hooks/useContactsList', async (importOriginal) => {
+    const mod = await importOriginal();
+    return {
+      ...mod,
+      default: vi.fn(() => ({ data: [] }))
+    };
+  });
+
   vi.mock('@utils', async (importOriginal) => {
     const mod = await importOriginal();
     return {
@@ -71,7 +80,10 @@ it('will submit data only after deleting leading and trailing spaces from each f
 
   render(<MockNewMessageModal />);
 
-  const toInput = screen.getByRole('textbox', { name: 'To' });
+  const autocomplete = screen.getByTestId('newMessageTo');
+  const toInput = autocomplete.querySelector('input');
+
+  autocomplete.focus();
   const subjectInput = screen.getByRole('textbox', { name: 'Subject' });
   const messageInput = screen.getByRole('textbox', { name: 'Message' });
   const submitButton = screen.getByRole('button', { name: 'Submit' });
