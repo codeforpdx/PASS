@@ -47,7 +47,6 @@ it('will submit data only after deleting leading and trailing spaces from each f
     };
   });
 
-  // Mocks required so it won't crash from undefined imports
   vi.mock('@hooks/useContactsList', async (importOriginal) => {
     const mod = await importOriginal();
     return {
@@ -80,10 +79,7 @@ it('will submit data only after deleting leading and trailing spaces from each f
 
   render(<MockNewMessageModal />);
 
-  const autocomplete = screen.getByTestId('newMessageTo');
-  const toInput = autocomplete.querySelector('input');
-
-  autocomplete.focus();
+  const toInput = screen.getByRole('combobox');
   const subjectInput = screen.getByRole('textbox', { name: 'Subject' });
   const messageInput = screen.getByRole('textbox', { name: 'Message' });
   const submitButton = screen.getByRole('button', { name: 'Submit' });
@@ -104,4 +100,27 @@ it('will submit data only after deleting leading and trailing spaces from each f
   expect(messageObject.recipientPodUrl).toBe(inputData.to.trim());
   expect(messageObject.title).toBe(inputData.subject.trim());
   expect(messageObject.message).toBe(inputData.message.trim());
+});
+
+it('selecting contact from autocomplete', async () => {
+  vi.mock('@hooks/useContactsList', async (importOriginal) => {
+    const mod = await importOriginal();
+    return {
+      ...mod,
+      default: vi.fn(() => ({ data: [] }))
+    };
+  });
+
+  render(<MockNewMessageModal />);
+  // Get the input field of autocomplete
+  const toInput = screen.getByRole('combobox');
+
+  // Change the value of input
+  await userEvent.type(toInput, 'mock test');
+  // Keydown to highlight autocomplete dropdown option
+  await userEvent.keyboard('[ArrowDown]');
+  // Enter to select dropdown option
+  await userEvent.keyboard('[Enter]');
+  // verify value of input field
+  expect(toInput.value).toBe('mock test');
 });
