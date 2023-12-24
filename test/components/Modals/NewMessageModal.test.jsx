@@ -107,7 +107,18 @@ it('selecting contact from autocomplete', async () => {
     const mod = await importOriginal();
     return {
       ...mod,
-      default: vi.fn(() => ({ data: [] }))
+      default: vi.fn(() => ({
+        data: [
+          {
+            familyName: 'test',
+            givenName: 'mock',
+            person: 'mock test',
+            podUrl: 'http://example/mocktest',
+            thingId: 'http://example/mocktest/profile/card#me',
+            webId: 'http://example/mocktest/profile/card#me'
+          }
+        ]
+      }))
     };
   });
 
@@ -116,7 +127,7 @@ it('selecting contact from autocomplete', async () => {
   const toInput = screen.getByRole('combobox');
 
   // Change the value of input
-  await userEvent.type(toInput, 'mock test');
+  await userEvent.type(toInput, 'test');
   // Keydown to highlight autocomplete dropdown option
   await userEvent.keyboard('[ArrowDown]');
   // Enter to select dropdown option
