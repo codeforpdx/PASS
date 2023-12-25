@@ -47,6 +47,14 @@ it('will submit data only after deleting leading and trailing spaces from each f
     };
   });
 
+  vi.mock('@hooks/useContactsList', async (importOriginal) => {
+    const mod = await importOriginal();
+    return {
+      ...mod,
+      default: vi.fn(() => ({ data: [] }))
+    };
+  });
+
   vi.mock('@utils', async (importOriginal) => {
     const mod = await importOriginal();
     return {
@@ -71,7 +79,8 @@ it('will submit data only after deleting leading and trailing spaces from each f
 
   render(<MockNewMessageModal />);
 
-  const toInput = screen.getByRole('textbox', { name: 'To' });
+  const autocomplete = screen.getByTestId('newMessageTo');
+  const toInput = autocomplete.querySelector('input');
   const subjectInput = screen.getByRole('textbox', { name: 'Subject' });
   const messageInput = screen.getByRole('textbox', { name: 'Message' });
   const submitButton = screen.getByRole('button', { name: 'Submit' });
@@ -92,4 +101,39 @@ it('will submit data only after deleting leading and trailing spaces from each f
   expect(messageObject.recipientPodUrl).toBe(inputData.to.trim());
   expect(messageObject.title).toBe(inputData.subject.trim());
   expect(messageObject.message).toBe(inputData.message.trim());
+});
+
+it('selecting contact from autocomplete', async () => {
+  vi.mock('@hooks/useContactsList', async (importOriginal) => {
+    const mod = await importOriginal();
+    return {
+      ...mod,
+      default: vi.fn(() => ({
+        data: [
+          {
+            familyName: 'test',
+            givenName: 'mock',
+            person: 'mock test',
+            podUrl: 'http://example/mocktest',
+            thingId: 'http://example/mocktest/profile/card#me',
+            webId: 'http://example/mocktest/profile/card#me'
+          }
+        ]
+      }))
+    };
+  });
+
+  render(<MockNewMessageModal />);
+  // Get the input field of autocomplete
+  const autocomplete = screen.getByTestId('newMessageTo');
+  const toInput = autocomplete.querySelector('input');
+
+  // Change the value of input
+  await userEvent.type(toInput, 'test');
+  // Keydown to highlight autocomplete dropdown option
+  await userEvent.keyboard('[ArrowDown]');
+  // Enter to select dropdown option
+  await userEvent.keyboard('[Enter]');
+  // verify value of input field
+  expect(toInput.value).toBe('mock test');
 });
