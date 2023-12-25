@@ -79,7 +79,8 @@ it('will submit data only after deleting leading and trailing spaces from each f
 
   render(<MockNewMessageModal />);
 
-  const toInput = screen.getByRole('combobox');
+  const autocomplete = screen.getByTestId('newMessageTo');
+  const toInput = autocomplete.querySelector('input');
   const subjectInput = screen.getByRole('textbox', { name: 'Subject' });
   const messageInput = screen.getByRole('textbox', { name: 'Message' });
   const submitButton = screen.getByRole('button', { name: 'Submit' });
@@ -124,7 +125,8 @@ it('selecting contact from autocomplete', async () => {
 
   render(<MockNewMessageModal />);
   // Get the input field of autocomplete
-  const toInput = screen.getByRole('combobox');
+  const autocomplete = screen.getByTestId('newMessageTo');
+  const toInput = autocomplete.querySelector('input');
 
   // Change the value of input
   await userEvent.type(toInput, 'test');
