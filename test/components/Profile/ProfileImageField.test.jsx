@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ProfileImageField } from '../../../src/components/Profile';
 import '@testing-library/jest-dom/extend-expect';
+import isAccessible from '../../utils/axe';
 
 const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
   if (!noUserImage) {
@@ -12,6 +13,11 @@ const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
 };
 
 describe('ProfileImageField', () => {
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', () => {
+    isAccessible(render(<MockProfileComponent noUserImage mockContactProfile={null} />));
+  });
+
   it('renders Choose Img button and PersonIcon if contactProfile is null and user has no profile img', () => {
     const { queryByRole, queryByTestId } = render(
       <MockProfileComponent noUserImage mockContactProfile={null} />

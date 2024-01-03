@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { MessagePreview } from '@components/Messages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,10 @@ const MockMessagePreview = () => (
     <MessagePreview message={mockMessageInfo} />
   </QueryClientProvider>
 );
+
+it('should be accessible', () => {
+  isAccessible(render(<MockMessagePreview />));
+});
 
 describe('Grid sizes', () => {
   it('renders grid values 5, 5, 2 default', () => {

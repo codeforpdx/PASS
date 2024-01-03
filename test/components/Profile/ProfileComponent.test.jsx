@@ -7,6 +7,7 @@ import { SignedInUserContext } from '@contexts';
 import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const profileInfo = {
   profileName: null,
@@ -31,6 +32,20 @@ const mockSignedInUserContextMemo = {
 
 describe('ProfileComponent', () => {
   afterEach(() => cleanup());
+
+  // These are set to async/await so that they don't conflict with each other.
+  // `axe` requires synchronous execution, so if multiple are running at once,
+  // it can give false positives.
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', async () => {
+    await isAccessible(
+      render(
+        <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+          <ProfileComponent contactProfile={null} />
+        </SignedInUserContext.Provider>
+      )
+    );
+  });
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
@@ -104,6 +119,18 @@ it('renders profile component as row default', () => {
   const cssProperty = getComputedStyle(container);
 
   expect(cssProperty.flexDirection).toBe('row');
+});
+
+// TODO: Fix accessibility issues with this component
+it.skip('should be accessible on mobile', async () => {
+  window.matchMedia = createMatchMedia(599);
+  await isAccessible(
+    render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    )
+  );
 });
 
 it('renders profile component as column mobile', () => {

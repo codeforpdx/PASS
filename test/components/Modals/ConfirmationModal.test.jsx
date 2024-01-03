@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import createMatchMedia from '../../helpers/createMatchMedia';
 import '@testing-library/jest-dom/extend-expect';
+import isAccessible from '../../utils/axe';
 
 const MockConfirmationModalBasic = () => (
   <ConfirmationModal showModal title="Action" cancelButtonText="Cancel" />
@@ -50,6 +51,20 @@ describe('Mobile screen', () => {
     const cssProperty = getComputedStyle(buttonContainer);
 
     expect(cssProperty.flexDirection).toBe('column');
+  });
+});
+
+describe('Accessibility', () => {
+  // These are set to async/await so that they don't conflict with each other.
+  // `axe` requires synchronous execution, so if multiple are running at once,
+  // it can give false positives.
+  it('should be accessible', async () => {
+    await isAccessible(render(<MockConfirmationModalBasic />));
+  });
+
+  it('should be accessible on mobile', async () => {
+    window.matchMedia = createMatchMedia(599);
+    await isAccessible(render(<MockConfirmationModalBasic />));
   });
 });
 

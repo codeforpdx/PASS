@@ -6,6 +6,7 @@ import { SessionContext } from '@contexts';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../../src/theme';
 import Footer from '../../../src/components/Footer/Footer';
+import isAccessible from '../../utils/axe';
 
 // clear created dom after each test, to start fresh for next
 afterEach(() => {
@@ -27,5 +28,19 @@ describe('Footer', () => {
     const headings = screen.getAllByRole('heading', { level: 2 });
 
     expect(headings.length).toBe(2);
+  });
+
+  it('should be accessible', () => {
+    isAccessible(
+      render(
+        <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <Footer />
+            </BrowserRouter>
+          </ThemeProvider>
+        </SessionContext.Provider>
+      )
+    );
   });
 });

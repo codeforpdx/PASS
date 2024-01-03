@@ -9,6 +9,7 @@ import { NavBar } from '@components/NavBar';
 import Layout from '../../src/layouts/Layout';
 import theme from '../../src/theme';
 import createMatchMedia from '../helpers/createMatchMedia';
+import isAccessible from '../utils/axe';
 
 const MockLayout = () => (
   <ThemeProvider theme={theme}>
@@ -21,6 +22,29 @@ const MockLayout = () => (
 );
 
 describe('Desktop view', () => {
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', () => {
+    vi.spyOn(hooks, 'useNotification').mockReturnValue({
+      state: { notifications: [] }
+    });
+    isAccessible(
+      render(
+        <SessionContext.Provider
+          value={{
+            session: {
+              info: {
+                isLoggedIn: true,
+                webId: 'https://example.com/pod/profile/card#me'
+              }
+            }
+          }}
+        >
+          <MockLayout />
+        </SessionContext.Provider>
+      )
+    );
+  });
+
   it('Renders breadcrumb when logged in, layout grid-template-rows as 64px 64px 1fr 280px', () => {
     vi.spyOn(hooks, 'useNotification').mockReturnValue({
       state: { notifications: [] }

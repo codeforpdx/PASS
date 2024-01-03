@@ -4,12 +4,18 @@ import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { MessageButtonGroup } from '@components/Messages';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockMessageButtonGroup = () => (
   <BrowserRouter>
     <MessageButtonGroup boxType="inbox" />
   </BrowserRouter>
 );
+
+it('should be accessible', () => {
+  isAccessible(render(<MockMessageButtonGroup />));
+});
+
 it('renders button group as a row default', () => {
   const { getByRole } = render(<MockMessageButtonGroup />);
   const newMessageButton = getByRole('button', { name: 'New Message' });

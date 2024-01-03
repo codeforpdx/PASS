@@ -5,8 +5,13 @@ import { describe, expect, it, vi } from 'vitest';
 import { AddContactModal } from '@components/Modals';
 import * as solidClient from '@inrupt/solid-client';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockAddContactModal = () => <AddContactModal showAddContactModal />;
+
+it('should be accessible', () => {
+  isAccessible(render(<MockAddContactModal />));
+});
 
 it('renders button container flex-direction row default', () => {
   const { getByRole } = render(<MockAddContactModal />);

@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
 import { FormLayout, CIVIC_FORM_LIST } from '@components/CivicProfileForms';
+import isAccessible from '../../utils/axe';
 
 const renderLayout = (route) =>
   render(
@@ -36,4 +37,8 @@ describe('Civic Form Layout', () => {
     expect(queryAllByRole('link').length).toEqual(1);
     expect(queryAllByRole('link')[0].getAttribute('href')).toBe(`/${prevRoute.path}`);
   });
+});
+
+it('should be accessible', () => {
+  isAccessible(renderLayout(CIVIC_FORM_LIST[0].path));
 });

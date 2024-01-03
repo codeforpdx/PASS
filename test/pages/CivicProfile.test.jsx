@@ -4,6 +4,18 @@ import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { CivicProfile } from '@pages';
 import createMatchMedia from '../helpers/createMatchMedia';
+import isAccessible from '../utils/axe';
+
+// TODO: Fix accessibility issues with this component
+it.skip('should be accessible', () => {
+  isAccessible(
+    render(
+      <BrowserRouter>
+        <CivicProfile />
+      </BrowserRouter>
+    )
+  );
+});
 
 it('renders page container flex direction as row and nav container width as 25% by default', () => {
   const component = render(

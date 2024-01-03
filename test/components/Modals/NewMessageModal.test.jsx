@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // For testing
 import { sendMessageTTL } from '@utils';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,10 @@ const MockNewMessageModal = () => (
     <NewMessageModal showModal />
   </QueryClientProvider>
 );
+
+it('should be accessible', () => {
+  isAccessible(render(<MockNewMessageModal />));
+});
 
 it('renders button group flex-direction as row default', () => {
   const { getByRole } = render(<MockNewMessageModal />);

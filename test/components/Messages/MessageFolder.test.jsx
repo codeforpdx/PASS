@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { MessageFolder } from '@components/Messages';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockMessageFolder = () => <MessageFolder messageList={[]} />;
 
@@ -41,5 +42,18 @@ describe('Mobile screen', () => {
     const cssProperty = getComputedStyle(button);
 
     expect(cssProperty.margin).toBe('10px 20px');
+  });
+});
+
+describe('Accessibility', () => {
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible', () => {
+    isAccessible(render(<MockMessageFolder />));
+  });
+
+  // TODO: Fix accessibility issues with this component
+  it.skip('should be accessible on mobile', () => {
+    window.matchMedia = createMatchMedia(599);
+    isAccessible(render(<MockMessageFolder />));
   });
 });

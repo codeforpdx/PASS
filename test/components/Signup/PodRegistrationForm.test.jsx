@@ -8,8 +8,19 @@ import { expect, it, describe } from 'vitest';
 
 // Component being tested
 import { PodRegistrationForm } from '@components/Signup';
+import isAccessible from '../../utils/axe';
 
 describe('PodRegistrationForm', () => {
+  it('should be accessible', () => {
+    isAccessible(
+      render(
+        <Router>
+          <PodRegistrationForm />
+        </Router>
+      )
+    );
+  });
+
   it('renders', () => {
     render(
       <Router>

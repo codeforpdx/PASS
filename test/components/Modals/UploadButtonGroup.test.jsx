@@ -3,8 +3,14 @@ import { expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import UploadButtonGroup from '../../../src/components/Modals/UploadButtonGroup';
 import createMatchMedia from '../../helpers/createMatchMedia';
+import isAccessible from '../../utils/axe';
 
 const MockUploadButtonGroup = () => <UploadButtonGroup />;
+
+// TODO: Fix accessibility issues with this component
+it.skip('should be accessible', () => {
+  isAccessible(render(<MockUploadButtonGroup />));
+});
 
 it('renders only one button above 768px', () => {
   const { getAllByRole } = render(<MockUploadButtonGroup />);
