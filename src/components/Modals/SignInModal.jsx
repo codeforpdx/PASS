@@ -26,16 +26,19 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
     aria-labelledby="dialog-title"
     aria-describedby="dialog-description"
     onClose={() => setShowSignInModal(false)}
+    PaperProps={{ sx: { maxHeight: '20rem', overflow: 'clip' } }}
   >
-    <DialogTitle id="dialog-title">Sign In?</DialogTitle>
+    <DialogTitle id="dialog-title" textAlign="center">
+      Sign In
+    </DialogTitle>
 
     <DialogContent>
       <DialogContentText id="dialog-description" textAlign="center">
-        Welcome to PASS. Sign in below
+        Please select a Solid Server to log in
       </DialogContentText>
     </DialogContent>
 
-    <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <DialogActions>
       <OidcLoginComponent setShowSignInModal={setShowSignInModal} />
     </DialogActions>
   </Dialog>

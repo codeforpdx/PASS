@@ -102,16 +102,8 @@ const InactivityMessage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <LogoutButton>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<LogoutIcon />}
-              onClick={() => {
-                localStorage.clear();
-                logout();
-              }}
-            >
+          <LogoutButton onLogout={() => localStorage.clear()}>
+            <Button variant="outlined" color="error" endIcon={<LogoutIcon />} fullWidth>
               Log Out
             </Button>
           </LogoutButton>
@@ -119,7 +111,7 @@ const InactivityMessage = () => {
             variant="contained"
             color="primary"
             endIcon={<CheckIcon />}
-            sx={{ marginLeft: '1rem' }}
+            fullWidth
             onClick={() => setShowPopup(false)}
           >
             Continue

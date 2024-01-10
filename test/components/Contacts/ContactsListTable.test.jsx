@@ -3,14 +3,17 @@ import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { ContactListTable } from '@components/Contacts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-/* eslint-disable react/jsx-no-constructed-context-values */
+const queryClient = new QueryClient();
+
 const MockTableComponent = ({ contacts }) => (
-  <BrowserRouter>
-    <ContactListTable contacts={contacts} />
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <ContactListTable contacts={contacts} />
+    </BrowserRouter>
+  </QueryClientProvider>
 );
-/* eslint-enable react/jsx-no-constructed-context-values */
 
 it('renders all clients from client context', () => {
   const contacts = [
@@ -68,5 +71,5 @@ it('sorts clients by familyName', () => {
   const client1 = getByRole('cell', { name: 'Zeigler' });
   const client2 = getByRole('cell', { name: 'Builder' });
 
-  expect(client1.compareDocumentPosition(client2)).toBe(2);
+  expect(client1.compareDocumentPosition(client2)).toBe(Node.DOCUMENT_POSITION_PRECEDING);
 });

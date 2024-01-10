@@ -23,6 +23,7 @@ import { DocumentListContext } from '@contexts';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
+import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
 
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
@@ -48,6 +49,8 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [confirmationModalType, setConfirmationModalType] = useState('add');
 
   const handleDocType = (event) => {
     setDocType(event.target.value);
@@ -64,49 +67,74 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
     setShowModal(false);
   };
 
-  // Event handler for form/document submission to Pod
-  const handleDocUpload = async (e) => {
-    e.preventDefault();
-    setProcessing(true);
+  const compileDocData = () => ({
+    name: file.name,
+    type: docType,
+    date: expireDate,
+    description: docDescription
+  });
 
-    const fileDesc = {
-      name: file.name,
-      type: docType,
-      date: expireDate,
-      description: docDescription
-    };
+  const cleanup = () => {
+    setShowConfirmationModal(false);
+    setConfirmationModalType('add');
+    setProcessing(false);
+    clearInputFields();
+  };
+
+  const handleDocAdd = async () => {
+    const docData = compileDocData();
 
     try {
-      await addDocument(fileDesc, file);
+      await addDocument(docData, file);
       addNotification('success', `File uploaded to Solid.`);
+      cleanup();
     } catch (error) {
-      const confirmationMessage =
-        'A file of this name and type already exists on the pod. Would you like to replace it?';
-
       switch (error.message) {
         case 'File already exists':
-          if (window.confirm(confirmationMessage)) {
-            await replaceDocument(fileDesc, file);
-            addNotification('success', `File updated on Solid.`);
-          }
+          // The confirmation modal will prompt the user to replace the file or not
+          setConfirmationModalType('replace');
+          setShowConfirmationModal(true);
           break;
         default:
           addNotification('error', `File failed to upload. Reason: ${error.message}`);
       }
-    } finally {
-      setProcessing(false);
-      clearInputFields();
     }
+  };
+
+  const handleDocReplace = async () => {
+    const docData = compileDocData();
+
+    try {
+      await replaceDocument(docData, file);
+      addNotification('success', `File updated on Solid.`);
+      cleanup();
+    } catch (error) {
+      addNotification('error', `File failed to upload. Reason: ${error.message}`);
+    }
+  };
+
+  const handleUploadCancelled = () => {
+    setProcessing(false);
+  };
+
+  // Event handler for form/document submission to Pod
+  const onFormSubmit = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
+    handleDocAdd();
   };
 
   return (
     <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
+      <UploadDocumentConfirmationModal
+        showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
+        onCancel={handleUploadCancelled}
+        onConfirm={confirmationModalType === 'add' ? handleDocAdd : handleDocReplace}
+        uploadType={confirmationModalType}
+      />
       <FormSection title="Upload Document">
-        <form
-          onSubmit={handleDocUpload}
-          autoComplete="off"
-          style={{ width: isSmallScreen ? '100%' : '100%' }}
-        >
+        <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
@@ -175,7 +203,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   startIcon={<ClearIcon />}
                   onClick={clearInputFields}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Cancel
                 </Button>
@@ -186,7 +213,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                   color="primary"
                   startIcon={<FileUploadIcon />}
                   fullWidth
-                  sx={{ borderRadius: '20px' }}
                 >
                   Upload
                 </Button>

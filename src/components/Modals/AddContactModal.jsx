@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
+// Inrupt Imports
+import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -20,9 +22,9 @@ import useNotification from '@hooks/useNotification';
 import { FormSection } from '../Form';
 
 /**
- * @memberof Contcts
+ * @memberof Modals
  * @name renderWebId
- * @param {string} username - username to convert into a webId
+ * @param {string} username - Username to convert into a webId
  * @returns {URL} A url of the predicted webID
  */
 const renderWebId = (username) => {
@@ -34,12 +36,12 @@ const renderWebId = (username) => {
  * AddContactModal Component - Component that allows users to add other user's
  * Pod URLs from a user's list stored on their own Pod
  *
- * @memberof Contacts
+ * @memberof Modals
  * @name AddContactModal
- * @param {object} props - react props
- * @param {Function} props.addContact  - function to add a contact
- * @param {boolean} props.showAddContactModal - whether to display modal or not
- * @param {Function} props.setShowAddContactModal - toggle modal
+ * @param {object} props - React props
+ * @param {Function} props.addContact - Function to add a contact
+ * @param {boolean} props.showAddContactModal - Whether to display modal or not
+ * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
@@ -48,6 +50,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [invalidWebId, setInvalidWebId] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -56,16 +59,36 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setUsername(value);
     const renderedWebId = renderWebId(value);
     setWebId(renderedWebId);
+    if (invalidWebId) setInvalidWebId(false);
+  };
+
+  const clearInputFields = () => {
+    setUserGivenName('');
+    setUserFamilyName('');
+    setUsername('');
+    setWebId('');
+    setInvalidWebId(false);
   };
 
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
+    const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
     const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      webId: event.target.addWebId.value
+      givenName: addUserGivenName.value.trim(),
+      familyName: addUserFamilyName.value.trim(),
+      webId: addWebId.value.trim()
     };
+
+    // Validation for webId
+    try {
+      await getWebIdDataset(userObject.webId);
+    } catch {
+      addNotification('error', `Add contact failed. Reason: ${userObject.webId} does not exist`);
+      setInvalidWebId(true);
+      setProcessing(false);
+      return;
+    }
 
     try {
       await addContact(userObject);
@@ -76,10 +99,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     } catch (e) {
       addNotification('error', `Add contact failed. Reason: ${e.message}`);
     } finally {
-      setUserGivenName('');
-      setUserFamilyName('');
-      setUsername('');
-      setWebId('');
+      clearInputFields();
       setShowAddContactModal(false);
       setProcessing(false);
     }
@@ -91,8 +111,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <FormSection title="Add Contact">
-        <form onSubmit={handleAddContact} autoComplete="off">
+      <FormSection title="Add Contact" headingId="add-contact-form">
+        <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
@@ -109,7 +129,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </FormControl>
           <TextField
             margin="normal"
-            id="add-user-last-name"
+            id="add-user-family-name"
             name="addUserFamilyName"
             label="Last/family name"
             autoComplete="family-name"
@@ -122,7 +142,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             margin="normal"
             id="add-username"
             name="addUsername"
-            label="username"
+            label="Username"
             autoComplete="username"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
@@ -140,6 +160,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => {
               setWebId(e.target.value);
             }}
+            error={invalidWebId}
+            label={invalidWebId ? 'Error' : ''}
+            // helperText for invalidWebId === false is ' ' and not '' is to
+            // prevent the field from stretching when helperText disappears
+            helperText={invalidWebId ? 'Invalid WebId.' : ' '}
             fullWidth
             InputProps={{
               endAdornment: (
@@ -166,9 +191,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 variant="outlined"
                 color="error"
                 endIcon={<ClearIcon />}
-                onClick={() => setShowAddContactModal(false)}
+                onClick={() => {
+                  clearInputFields();
+                  setShowAddContactModal(false);
+                }}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
@@ -179,7 +206,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 endIcon={<CheckIcon />}
                 type="submit"
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Add Contact
               </Button>

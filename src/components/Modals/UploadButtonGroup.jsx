@@ -73,7 +73,6 @@ const UploadButtonGroup = ({ file, setFile }) => {
         fullWidth
         required
         startIcon={<SearchIcon />}
-        sx={{ borderRadius: '20px' }}
       >
         Choose file
         <input

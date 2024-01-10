@@ -33,20 +33,20 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Prerequisites
 
-  Currently we require Node version 16 or higher and NPM for our package manager. Most places recommend using a node version manager to install node and npm. To proceed using NVM perform the following..
+  Currently we require Node version 16.20.2 and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm
 - For Windows users: https://github.com/coreybutler/nvm-windows
 
-2. Install node version 16:
+2. Install node version 16.20.2:
    ```
-   nvm install 16
+   nvm install 16.20.2
    ```
 3. Use that node version:
    ```
-   nvm use 16
+   nvm use 16.20.2
    ```
 4. Check that node and npm are set up:
    ```
@@ -100,7 +100,7 @@ In Portland, housing insecure individuals struggle to maintain documents often r
 
 ## 3. Contribution Guidelines
 
-- Start by checking out the detailed on-boarding [CONTRIBUTING.md](./docs/CONTRIBUTING.md).
+- Start by checking out the detailed on-boarding [in the Wiki](https://github.com/codeforpdx/PASS/wiki/Development#contribution-guidelines).
 - Join our [Discord](https://discord.gg/Ts923xaUYV) and self assign roles as you see fit. [![Discord](https://img.shields.io/discord/1068260532806766733)](https://discord.gg/Ts923xaUYV)
 - Request git-hub access on Discord in the [github-access-request](https://discord.com/channels/1068260532806766733/1078124139983945858) channel of the General category.
 
