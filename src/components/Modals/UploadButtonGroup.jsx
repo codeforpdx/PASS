@@ -1,14 +1,11 @@
 // React Imports
 import React, { useState, useEffect } from 'react';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import SearchIcon from '@mui/icons-material/Search';
 import WebcamModal from './WebcamModal';
-
-// unused
 // import useMediaQuery from '@mui/material/useMediaQuery';
 // import { useTheme } from '@mui/material/styles';
 
@@ -143,5 +140,4 @@ const UploadButtonGroup = ({ file, setFile }) => {
     </Box>
   );
 };
-
 export default UploadButtonGroup;
