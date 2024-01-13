@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -7,9 +7,10 @@ import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import SearchIcon from '@mui/icons-material/Search';
 import WebcamModal from './WebcamModal';
+
+// unused
 // import useMediaQuery from '@mui/material/useMediaQuery';
 // import { useTheme } from '@mui/material/styles';
-
 
 /**
  * The UploadButtonGroup Component is a component that renders the upload document
@@ -23,15 +24,13 @@ import WebcamModal from './WebcamModal';
  * @returns {React.JSX.Element} - The UploadButtonGroup Component
  */
 
-
-
 const checkCameraAvailability = async () => {
   try {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
+    const videoInputDevices = devices.filter((device) => device.kind === 'videoinput');
     return videoInputDevices.length > 0;
   } catch (error) {
-    console.error("Error checking camera availability: ", error);
+    // console.error("Error checking camera availability: ", error);
     return false;
   }
 };
@@ -57,13 +56,12 @@ const dataURItoBlob = (dataURI) => {
 const UploadButtonGroup = ({ file, setFile }) => {
   const [hasCamera, setHasCamera] = useState(false);
 
-
   useEffect(() => {
     const detectCamera = async () => {
       const isCameraAvailable = await checkCameraAvailability();
       setHasCamera(isCameraAvailable);
     };
-    
+
     detectCamera();
   }, []);
 
@@ -108,7 +106,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
         />
       </Button>
 
-      {hasCamera && (
+      {hasCamera ? (
         <Button
           variant={file ? 'outlined' : 'contained'}
           component="label"
@@ -120,8 +118,23 @@ const UploadButtonGroup = ({ file, setFile }) => {
         >
           Use Webcam
         </Button>
+      ) : (
+        <Button
+          variant={file ? 'outlined' : 'contained'}
+          component="label"
+          color="primary"
+          id="upload-doctype"
+          name="uploadDoctype"
+          onChange={(e) => setFile(e.target.files[0])}
+          fullWidth
+          required
+          startIcon={<PhotoCameraIcon />}
+          sx={{ borderRadius: '20px', marginLeft: '8px' }}
+        >
+          Capture image
+          <input type="file" hidden accept="image/*" capture="environment" />
+        </Button>
       )}
-
       <WebcamModal
         open={showWebcamModal}
         onClose={() => setShowWebcamModal(false)}
