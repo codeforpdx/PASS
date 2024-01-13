@@ -28,6 +28,7 @@ describe('App', () => {
   });
 
   afterEach(() => {
+    window.matchMedia = null;
     vi.clearAllMocks();
     cleanup();
   });
