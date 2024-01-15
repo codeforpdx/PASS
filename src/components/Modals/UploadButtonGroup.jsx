@@ -6,8 +6,6 @@ import Button from '@mui/material/Button';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import SearchIcon from '@mui/icons-material/Search';
 import WebcamModal from './WebcamModal';
-// import useMediaQuery from '@mui/material/useMediaQuery';
-// import { useTheme } from '@mui/material/styles';
 
 /**
  * The UploadButtonGroup Component is a component that renders the upload document
@@ -21,7 +19,7 @@ import WebcamModal from './WebcamModal';
  * @returns {React.JSX.Element} - The UploadButtonGroup Component
  */
 
-const checkCameraAvailability = async () => {
+const checkWebCamAvailability = async () => {
   try {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const videoInputDevices = devices.filter((device) => device.kind === 'videoinput');
@@ -51,12 +49,12 @@ const dataURItoBlob = (dataURI) => {
 };
 
 const UploadButtonGroup = ({ file, setFile }) => {
-  const [hasCamera, setHasCamera] = useState(false);
+  const [hasWebCam, sethasWebCam] = useState(false);
 
   useEffect(() => {
     const detectCamera = async () => {
-      const isCameraAvailable = await checkCameraAvailability();
-      setHasCamera(isCameraAvailable);
+      const isCameraAvailable = await checkWebCamAvailability();
+      sethasWebCam(isCameraAvailable);
     };
 
     detectCamera();
@@ -103,7 +101,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
         />
       </Button>
 
-      {hasCamera ? (
+      {hasWebCam ? (
         <Button
           variant={file ? 'outlined' : 'contained'}
           component="label"
