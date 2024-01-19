@@ -30,7 +30,10 @@ const mockSignedInUserContextMemo = {
 };
 
 describe('ProfileComponent', () => {
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    window.matchMedia = null;
+  });
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
@@ -91,31 +94,31 @@ describe('ProfileComponent', () => {
 
     expect(editButton).toBeNull();
   });
-});
 
-it('renders profile component as row default', () => {
-  const component = render(
-    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
-    </SignedInUserContext.Provider>
-  );
+  it('renders profile component as row default', () => {
+    const component = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    );
 
-  const container = component.container.firstChild;
-  const cssProperty = getComputedStyle(container);
+    const container = component.container.firstChild;
+    const cssProperty = getComputedStyle(container);
 
-  expect(cssProperty.flexDirection).toBe('row');
-});
+    expect(cssProperty.flexDirection).toBe('row');
+  });
 
-it('renders profile component as column mobile', () => {
-  window.matchMedia = createMatchMedia(599);
-  const component = render(
-    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
-    </SignedInUserContext.Provider>
-  );
+  it('renders profile component as column mobile', () => {
+    window.matchMedia = createMatchMedia(599);
+    const component = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    );
 
-  const container = component.container.firstChild;
-  const cssProperty = getComputedStyle(container);
+    const container = component.container.firstChild;
+    const cssProperty = getComputedStyle(container);
 
-  expect(cssProperty.flexDirection).toBe('column');
+    expect(cssProperty.flexDirection).toBe('column');
+  });
 });
