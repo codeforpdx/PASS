@@ -10,6 +10,7 @@
     "css:CommunitySolidServer/config/http/notifications/base/storage.json",
     "css:CommunitySolidServer/config/http/server-factory/https.json",
     "css:CommunitySolidServer/config/http/static/default.json",
+    "css:CommunitySolidServer/config/identity/oidc/default.json",
     "css:CommunitySolidServer/config/identity/access/public.json",
     "css:CommunitySolidServer/config/identity/email/default.json",
     "css:CommunitySolidServer/config/identity/handler/default.json",
