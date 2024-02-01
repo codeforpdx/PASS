@@ -100,8 +100,7 @@ const Profile = () => {
       const profileData = await fetchProfileInfo(webIdUrl);
       setContactProfile({
         ...contact,
-        ...profileData.profileInfo,
-        ...profileData.privateProfileInfo
+        ...profileData.profileInfo
       });
     };
 
@@ -214,11 +213,12 @@ const Profile = () => {
           dataset={dataset}
         />
         <ConfirmationModal
-          showConfirmationModal={showConfirmationModal}
-          setShowConfirmationModal={setShowConfirmationModal}
+          showModal={showConfirmationModal}
+          setShowModal={setShowConfirmationModal}
           title="Delete Document"
           text={`You're about to delete "${selectedDocToDelete?.name}" from the pod, do you wish to continue?`}
-          confirmFunction={handleDeleteDoc}
+          onConfirm={handleDeleteDoc}
+          confirmButtonText="Delete"
           processing={processing}
         />
       </Box>

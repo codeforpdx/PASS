@@ -35,6 +35,7 @@
     "@mui/material": "^5.12.2",
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/system": "^5.12.1",
+    "@mui/utils": "^5.14.18",
     "@mui/x-data-grid": "^6.16.2",
     "@mui/x-date-pickers": "^6.5.0",
     "@tanstack/react-query": "^4.32.0",
@@ -44,6 +45,8 @@
     "react-dom": "^18.2.0",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.10.0",
+    "react-router-hash-link": "^2.4.3",
+    "react-webcam": "^7.2.0",
     "styled-components": "^5.3.10",
     "uuid": "^9.0.0"
   },
@@ -57,7 +60,7 @@
   ],
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "@solid/community-server": "^6.1.0",
+    "@solid/community-server": "^7.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

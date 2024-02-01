@@ -66,7 +66,7 @@ const csvToJson = (csvData) => {
 
   // TODO: Use more accurate naming convention here (i.e. obj is too generic)
   const obj = {};
-  rows.forEach((_, i) => {
+  rows.forEach((_row, i) => {
     if (i === 0) {
       obj.DCA = `${values[i]}`;
     } else {

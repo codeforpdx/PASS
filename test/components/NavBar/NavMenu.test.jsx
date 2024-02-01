@@ -3,12 +3,17 @@ import { BrowserRouter } from 'react-router-dom';
 import { it, expect } from 'vitest';
 import { NavMenu } from '@components/NavBar';
 import { render } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
+const queryClient = new QueryClient();
+
 const MockNavMenu = () => (
-  <BrowserRouter>
-    <NavMenu openMenu />
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <NavMenu openMenu />
+    </BrowserRouter>
+  </QueryClientProvider>
 );
 
 it('does not render contacts and civic profile links above 600px', () => {
