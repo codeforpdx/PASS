@@ -32,6 +32,11 @@ describe('login tests', () => {
 });
 
 describe('resize tests', () => {
+  afterEach(() => {
+    cleanup();
+    delete window.matchMedia;
+  });
+
   it('renders NavbarDesktop when user is logged in on larger screen device', () => {
     window.matchMedia = createMatchMedia(1200);
 
