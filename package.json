@@ -8,7 +8,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "test": "vitest",
-    "test:ci": "vitest run --sequence.shuffle",
+    "test:ci": "vitest run",
     "coverage": "vitest run --coverage",
     "preview": "vite preview",
     "docs": "jsdoc --readme ./docs/README.md -c jsdoc.config.json",
