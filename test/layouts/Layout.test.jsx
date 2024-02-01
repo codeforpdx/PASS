@@ -1,6 +1,6 @@
 import React from 'react';
-import { describe, expect, it, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { describe, expect, it, vi, afterEach } from 'vitest';
+import { render, cleanup } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import * as hooks from '@hooks';
 import { SessionContext } from '@contexts';
@@ -68,6 +68,11 @@ describe('Desktop view', () => {
 });
 
 describe('Mobile view below 600px', () => {
+  afterEach(() => {
+    cleanup();
+    delete window.matchMedia;
+  });
+
   it('Renders breadcrumb when logged in, layout grid-template-rows as 64px 64px 1fr 560px', () => {
     window.matchMedia = createMatchMedia(599);
     vi.spyOn(hooks, 'useNotification').mockReturnValue({
