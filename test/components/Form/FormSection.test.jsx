@@ -15,7 +15,7 @@ const MockFormSection = () => (
 describe('Form Rendering', () => {
   afterEach(() => {
     cleanup();
-    window.matchMedia = null;
+    delete window.matchMedia;
   });
 
   it('renders 20px padding by default', () => {

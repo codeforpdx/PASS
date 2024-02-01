@@ -32,7 +32,7 @@ const mockSignedInUserContextMemo = {
 describe('ProfileComponent', () => {
   afterEach(() => {
     cleanup();
-    window.matchMedia = null;
+    delete window.matchMedia;
   });
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
