@@ -19,7 +19,6 @@ import Typography from '@mui/material/Typography';
  * @param {string} Props.button - section button
  * @param {string} Props.href - section button href
  * @param {string} Props.label - section button aria-label
- * @param {boolean} Props.isReallySmallScreen - screen size
  * @param {boolean} Props.hasMargin - gives marginBottom
  * @returns {React.JSX.Element} - the home section component
  */
@@ -31,7 +30,6 @@ const HomeSection = ({
   button,
   href,
   label,
-  isReallySmallScreen,
   hasMargin
 }) => (
   <Stack mb={hasMargin ? 8 : null} alignItems="center">
@@ -40,7 +38,7 @@ const HomeSection = ({
       src={componentImageSrc}
       alt={componentImageAlt}
       sx={{
-        width: isReallySmallScreen ? '80%' : '300px'
+        width: '300px'
       }}
     />
     <Typography
@@ -58,7 +56,7 @@ const HomeSection = ({
         data-testid="testDescription"
         sx={{
           color: 'primary.dark',
-          width: isReallySmallScreen ? '100%' : '85%',
+          width: '100%',
           marginBottom: '24px'
         }}
       >
@@ -72,8 +70,7 @@ const HomeSection = ({
         aria-label={label}
         sx={{
           my: '1rem',
-          backgroundColor: 'primary.light',
-          width: isReallySmallScreen ? 1 : 1 / 4
+          backgroundColor: 'primary.light'
         }}
       >
         {button}

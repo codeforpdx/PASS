@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
-import { useMessageList, useNotification, useSession } from '@hooks';
+import { useMessageList, useNotification, useSession, useContactsList } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Autocomplete from '@mui/material/Autocomplete';
 // Utility Imports
 import { sendMessageTTL } from '@utils';
 // Context Imports
@@ -40,6 +41,7 @@ import { FormSection } from '../Form';
  */
 const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '' }) => {
   const { session } = useSession();
+  const { data } = useContactsList();
   const { refetch: refreshOutbox } = useMessageList('Outbox');
   const { podUrl } = useContext(SignedInUserContext);
   const { addNotification } = useNotification();
@@ -55,6 +57,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const contactListOptions = data?.map((contact) => ({
+    label: `${contact.person} ${contact.podUrl}`,
+    id: contact.podUrl
+  }));
+  const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
     setMessage({
@@ -136,18 +143,26 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             onSubmit={(e) => handleSubmit(e)}
             autoComplete="off"
           >
-            <TextField
-              margin="normal"
-              value={toField || message.recipientPodUrl}
-              type="text"
-              name="recipientPodUrl"
+            <Autocomplete
+              data-testid="newMessageTo"
+              freeSolo
+              value={recipientName?.person ?? message.recipientPodUrl}
+              disablePortal
+              autoSelect
               id="recipientPodUrl"
-              onChange={(e) => handleChange(e)}
+              options={contactListOptions}
+              onChange={(event, newValue) => {
+                setMessage({
+                  ...message,
+                  // if user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
+                  recipientPodUrl: newValue.id ?? newValue
+                });
+              }}
+              fullWidth
               required
               autoFocus
-              label="To"
-              fullWidth
               disabled={toField !== ''}
+              renderInput={(params) => <TextField {...params} label="To" />}
             />
             <TextField
               margin="normal"
