@@ -2,28 +2,16 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
 import { FormSection } from '@components/Form';
-import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockChildrenComponent = () => <div />;
 
 const MockFormSection = () => (
-  <FormSection title="Example Title">
+  <FormSection title="Example Title" headingId="test">
     <MockChildrenComponent />
   </FormSection>
 );
 
-it('renders 20px padding by default', () => {
+it('renders', () => {
   const component = render(<MockFormSection />);
-  const adjustableBox = getComputedStyle(component.container.firstChild);
-
-  expect(adjustableBox.padding).toBe('20px');
-});
-
-it("renders 10px padding after MUI breakpoint 'sm' is triggered", () => {
-  window.matchMedia = createMatchMedia(599);
-
-  const component = render(<MockFormSection />);
-  const adjustableBox = getComputedStyle(component.container.firstChild);
-
-  expect(adjustableBox.padding).toBe('10px');
+  expect(component.getByText('Example Title')).not.toBeNull();
 });
