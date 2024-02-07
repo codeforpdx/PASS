@@ -2,7 +2,6 @@ import React from 'react';
 import { ConfirmationModal } from '@components/Modals';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
-import createMatchMedia from '../../helpers/createMatchMedia';
 import '@testing-library/jest-dom/extend-expect';
 
 const MockConfirmationModalBasic = () => (
@@ -35,11 +34,16 @@ describe('Default screen', () => {
 describe('Mobile screen', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders button container flex-direction as column mobile', () => {
-    window.matchMedia = createMatchMedia(599);
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
     const buttonContainer = cancelButton.parentElement;
@@ -49,6 +53,13 @@ describe('Mobile screen', () => {
   });
 
   it('renders logout button container flex-direction as column mobile', () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const confirmButton = getByRole('button', { name: 'Log Out' });
     const buttonContainer = confirmButton.parentElement;
