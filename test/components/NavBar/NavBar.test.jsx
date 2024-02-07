@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
-import { expect, it, afterEach, describe } from 'vitest';
+import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import createMatchMedia from '../../helpers/createMatchMedia';
 import NavBar from '../../../src/components/NavBar/NavBar';
 
 // clear created dom after each test, to start fresh for next
@@ -34,11 +33,16 @@ describe('login tests', () => {
 describe('resize tests', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders NavbarDesktop when user is logged in on larger screen device', () => {
-    window.matchMedia = createMatchMedia(1200);
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
 
     const { getByRole } = render(
       <QueryClientProvider client={queryClient}>
@@ -56,7 +60,13 @@ describe('resize tests', () => {
   });
 
   it('renders NavbarMobile when user is logged in on smaller screen device', () => {
-    window.matchMedia = createMatchMedia(500);
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
 
     const { getByRole } = render(
       <QueryClientProvider client={queryClient}>

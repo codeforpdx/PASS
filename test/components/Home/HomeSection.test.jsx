@@ -10,7 +10,6 @@ const MockSectionDescription = () => <HomeSection description="Example Text" />;
 describe('Button rendering', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders no button', () => {
@@ -33,7 +32,6 @@ describe('Button rendering', () => {
 describe('Description rendering', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders no description', () => {
@@ -53,7 +51,6 @@ describe('Description rendering', () => {
 describe('Image rendering', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders image at 300px width on desktop', () => {

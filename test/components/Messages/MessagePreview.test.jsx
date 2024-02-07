@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it, afterEach, vi } from 'vitest';
 import { MessagePreview } from '@components/Messages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
@@ -17,10 +17,16 @@ const MockMessagePreview = () => (
 describe('Grid sizes', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders grid values 5, 5, 2 default', () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
     const { getByText } = render(<MockMessagePreview />);
     const senderCell = getByText('Sender:').parentElement;
     const subjectCell = getByText('Subject:').parentElement;
@@ -44,7 +50,13 @@ describe('Grid sizes', () => {
   });
 
   it('renders grid values 12, 12, 12 small', () => {
-    window.matchMedia = createMatchMedia(599);
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }));
     const { getByText } = render(<MockMessagePreview />);
     const senderCell = getByText('Sender:').parentElement;
     const subjectCell = getByText('Subject:').parentElement;
