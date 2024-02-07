@@ -107,8 +107,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         columns={columnTitlesArray}
         rows={contacts?.map((contact) => ({
           id: contact.webId,
-          'First Name': contact.givenName,
-          'Last Name': contact.familyName,
+          'First Name': contact.givenName || 'N/A',
+          'Last Name': contact.familyName || 'N/A',
           Profile: contact,
           Message: contact,
           Delete: contact
