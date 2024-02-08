@@ -76,14 +76,17 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
       const nameDisplay =
-        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || 'WebId';
+        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') ||
+        `WebID of "${userObject.webId}`;
       addNotification('success', `"${nameDisplay}" added to contact list`);
 
       // Close the modal and reset the form on successful addition
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
-      addNotification('error', `Add contact failed. Reason: ${e.message}`);
+      // Check if e exists before accessing e.message
+      const errorMessage = e ? e.message : 'Unknown error occurred';
+      addNotification('error', `Add contact failed. Reason: ${errorMessage}`);
       setInvalidWebId(true); // Assuming this is for handling invalid WebID errors
     } finally {
       setProcessing(false);

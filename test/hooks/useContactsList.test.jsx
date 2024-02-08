@@ -53,7 +53,7 @@ describe('useContactsList', () => {
     givenName: 'Zoro',
     familyName: 'Roronoa',
     webId: 'http://www.example.com/swords',
-    person: 'Zoro Roronoa',
+    person: null,
     podUrl: 'http://www.example.com/swords',
     thingId: 'http://www.example.com/swords'
   };

@@ -10,17 +10,11 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: [
-    'react',
-    'prettier',
-    'jsdoc'
-  ],
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-    'prettier',
-    'plugin:jsdoc/recommended'
-  ],
+  globals: {
+    expect: 'readonly'
+  },
+  plugins: ['react', 'prettier', 'jsdoc'],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'plugin:jsdoc/recommended'],
   rules: {
     'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
     'react/prop-types': 'off',
