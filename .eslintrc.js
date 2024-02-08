@@ -10,9 +10,6 @@ module.exports = {
       jsx: true
     }
   },
-  globals: {
-    expect: 'readonly'
-  },
   plugins: ['react', 'prettier', 'jsdoc'],
   extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'plugin:jsdoc/recommended'],
   rules: {

@@ -118,9 +118,9 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           'First Name': contact.givenName || '',
           'Last Name': contact.familyName || '',
           webId: contact.webId,
-          Profile: contact, // Ensure this is rendered as intended
-          Message: contact, // Verify handleSendMessage uses correct data
-          Delete: contact // Check deleteContact logic
+          Profile: contact,
+          Message: contact,
+          Delete: contact
         }))}
         slots={{
           toolbar: CustomToolbar

@@ -42,7 +42,7 @@ const Contacts = () => {
 
     const { givenName, familyName, webId } = contact;
     const name = [givenName, familyName].filter(Boolean).join(' ');
-    return name || `Web ID: ${webId}`;
+    return name || webId;
   };
 
   const handleSelectDeleteContact = (contact) => {

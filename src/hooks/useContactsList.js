@@ -35,15 +35,16 @@ const useContactsList = () => {
     const contactThings = getThingAll(data);
     const contacts = [];
     contactThings.forEach((thing) => {
-      const contact = {};
-      contact.webId = getUrl(thing, RDF_PREDICATES.identifier);
-      if (!contact.webId) return;
-      contact.podUrl = getUrl(thing, RDF_PREDICATES.URL);
-      contact.givenName = getStringNoLocale(thing, RDF_PREDICATES.givenName);
-      contact.familyName = getStringNoLocale(thing, RDF_PREDICATES.familyName);
-      contact.person = getStringNoLocale(thing, RDF_PREDICATES.Person);
-      contact.thingId = contact.webId;
-      contacts.push(contact);
+      const contact = {
+        webId: getUrl(thing, RDF_PREDICATES.identifier),
+        podUrl: getUrl(thing, RDF_PREDICATES.URL),
+        givenName: getStringNoLocale(thing, RDF_PREDICATES.givenName),
+        familyName: getStringNoLocale(thing, RDF_PREDICATES.familyName),
+        thingId: getUrl(thing, RDF_PREDICATES.identifier)
+      };
+      if (contact.webId) {
+        contacts.push(contact);
+      }
     });
     return contacts;
   };

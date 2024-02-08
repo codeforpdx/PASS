@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { AddContactModal } from '@components/Modals';
 import * as solidClient from '@inrupt/solid-client';
 import createMatchMedia from '../../helpers/createMatchMedia';
@@ -47,7 +47,7 @@ describe('add contact', () => {
   const inputData = {
     givenName: 'given  ',
     familyName: '  family',
-    webId: '  webId ' // Changed 'username' to 'webId'
+    webId: '  webId '
   };
 
   const mockAdd = vi.fn();
@@ -67,7 +67,7 @@ describe('add contact', () => {
 
     await user.type(givenName, inputData.givenName);
     await user.type(familyName, inputData.familyName);
-    await user.type(webIdInput, inputData.webId); // Updated to use 'webId' instead of 'username'
+    await user.type(webIdInput, inputData.webId);
 
     expect(givenName.value).toBe(inputData.givenName);
     expect(familyName.value).toBe(inputData.familyName);
@@ -94,7 +94,7 @@ describe('add contact', () => {
 
     await user.type(givenName, inputData.givenName);
     await user.type(familyName, inputData.familyName);
-    await user.type(webIdInput, inputData.webId); // Updated to use 'webId' instead of 'username'
+    await user.type(webIdInput, inputData.webId);
 
     expect(givenName.value).toBe(inputData.givenName);
     expect(familyName.value).toBe(inputData.familyName);
@@ -112,7 +112,7 @@ describe('add contact', () => {
     expect(userObject).toMatchObject({
       givenName: inputData.givenName.trim(),
       familyName: inputData.familyName.trim(),
-      webId: expect.stringContaining(inputData.webId.trim()) // Updated to use 'webId' instead of 'username'
+      webId: expect.stringContaining(inputData.webId.trim())
     });
   });
 });
