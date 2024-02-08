@@ -64,6 +64,14 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       align: 'center'
     },
     {
+      field: 'webId',
+      headerName: 'Web ID',
+      minWidth: 150,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
       field: 'Profile',
       renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
       sortable: false,
@@ -107,11 +115,12 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         columns={columnTitlesArray}
         rows={contacts?.map((contact) => ({
           id: contact.webId,
-          'First Name': contact.givenName || 'N/A',
-          'Last Name': contact.familyName || 'N/A',
-          Profile: contact,
-          Message: contact,
-          Delete: contact
+          'First Name': contact.givenName || '',
+          'Last Name': contact.familyName || '',
+          webId: contact.webId,
+          Profile: contact, // Ensure this is rendered as intended
+          Message: contact, // Verify handleSendMessage uses correct data
+          Delete: contact // Check deleteContact logic
         }))}
         slots={{
           toolbar: CustomToolbar
@@ -131,7 +140,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
             paginationModel: { pageSize: 10, page: 0 }
           },
           sorting: {
-            sortModel: [{ field: 'Last Name', sort: 'asc' }]
+            sortModel: [{ field: 'webId', sort: 'asc' }]
           }
         }}
         disableColumnMenu

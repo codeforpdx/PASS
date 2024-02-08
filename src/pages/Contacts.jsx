@@ -35,17 +35,27 @@ const Contacts = () => {
   } = useContactsList();
   const { addNotification } = useNotification();
 
+  const getContactDisplayName = (contact) => {
+    if (!contact) {
+      return 'Unknown Contact';
+    }
+
+    const { givenName, familyName, webId } = contact;
+    const name = [givenName, familyName].filter(Boolean).join(' ');
+    return name || `Web ID: ${webId}`;
+  };
+
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
     setShowConfirmationModal(true);
   };
 
-  // Event handler for deleting contact
   const handleDeleteContact = async () => {
     setProcessing(true);
     try {
       await deleteContact(selectedContactToDelete);
-      addNotification('success', `"${selectedContactToDelete?.person}" deleted from contact list.`);
+      const displayName = getContactDisplayName(selectedContactToDelete);
+      addNotification('success', `"${displayName}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
     } finally {
@@ -94,7 +104,9 @@ const Contacts = () => {
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
         title="Delete Contact"
-        text={`Are you sure you want to delete "${selectedContactToDelete?.person}" from your contact list?`}
+        text={`Are you sure you want to delete "${getContactDisplayName(
+          selectedContactToDelete
+        )}" from your contact list?`}
         onConfirm={handleDeleteContact}
         confirmButtonText="Delete"
         processing={processing}

@@ -68,15 +68,15 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
 
     const userObject = {
       webId: addWebId.value.trim(),
-      ...(addUserGivenName.value.trim() && { givenName: addUserGivenName.value.trim() }),
-      ...(addUserFamilyName.value.trim() && { familyName: addUserFamilyName.value.trim() })
+      ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+      ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
     };
 
     try {
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
       const nameDisplay =
-        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || 'Contact';
+        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || 'WebId';
       addNotification('success', `"${nameDisplay}" added to contact list`);
 
       // Close the modal and reset the form on successful addition
@@ -107,7 +107,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               autoComplete="given-name"
               value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
-              required={false}
               fullWidth
               autoFocus
             />
@@ -120,7 +119,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             autoComplete="family-name"
             value={userFamilyName}
             onChange={(e) => setUserFamilyName(e.target.value)}
-            required={false}
             fullWidth
           />
 
