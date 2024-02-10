@@ -57,6 +57,7 @@ it('displays a list of suggested providers when focused', async () => {
 });
 
 it('renders container items as row default', () => {
+  window.matchMedia = createMatchMedia(1200);
   const component = render(<OidcLoginComponent />);
   const container = component.container.firstChild;
   const cssProperty = getComputedStyle(container);

@@ -3,6 +3,7 @@ import { ConfirmationModal } from '@components/Modals';
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockConfirmationModalBasic = () => (
   <ConfirmationModal showModal title="Action" cancelButtonText="Cancel" />
@@ -13,6 +14,7 @@ const MockConfirmationModalLogout = () => (
 
 describe('Default screen', () => {
   it('renders button container flex-direction as row default', () => {
+    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
     const buttonContainer = cancelButton.parentElement;
@@ -22,6 +24,7 @@ describe('Default screen', () => {
   });
 
   it('renders logout button container flex-direction as row default', () => {
+    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const confirmButton = getByRole('button', { name: 'Log Out' });
     const buttonContainer = confirmButton.parentElement;
@@ -37,13 +40,7 @@ describe('Mobile screen', () => {
   });
 
   it('renders button container flex-direction as column mobile', () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
     const buttonContainer = cancelButton.parentElement;
@@ -53,13 +50,7 @@ describe('Mobile screen', () => {
   });
 
   it('renders logout button container flex-direction as column mobile', () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const confirmButton = getByRole('button', { name: 'Log Out' });
     const buttonContainer = confirmButton.parentElement;

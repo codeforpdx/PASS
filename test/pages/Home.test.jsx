@@ -7,7 +7,6 @@ import createMatchMedia from '../helpers/createMatchMedia';
 describe('Home Page', () => {
   afterEach(() => {
     cleanup();
-    delete window.matchMedia;
   });
 
   it('renders with correct order of logoSection on mobile', () => {

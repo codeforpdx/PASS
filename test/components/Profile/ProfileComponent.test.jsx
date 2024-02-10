@@ -6,7 +6,7 @@ import { ProfileComponent } from '@components/Profile';
 import { SignedInUserContext } from '@contexts';
 import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
-// import { useMediaQuery } from '@mui/material';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const profileInfo = {
   profileName: null,
@@ -28,11 +28,6 @@ const mockSignedInUserContextMemo = {
     profileData: profileInfo
   })
 };
-
-// vi.mock('@mui/material', () => ({
-//   ...vi.importActual('@mui/material'),
-//   useMediaQuery: vi.fn().mockReturnValue(false),
-// }));
 
 describe('ProfileComponent', () => {
   afterEach(() => {
@@ -110,13 +105,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders profile component as row default', async () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(1200);
 
     const component = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
@@ -133,13 +122,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders profile component as column mobile', async () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(599);
 
     const component = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>

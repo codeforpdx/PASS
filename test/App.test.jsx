@@ -1,6 +1,7 @@
 import { render, cleanup } from '@testing-library/react';
 import React from 'react';
 import { expect, it, vi, afterEach, beforeEach, describe } from 'vitest';
+import createMatchMedia from './helpers/createMatchMedia';
 
 import App from '../src/App';
 
@@ -29,6 +30,7 @@ describe('App', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    window.matchMedia = createMatchMedia(1200);
     cleanup();
   });
 

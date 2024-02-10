@@ -1,12 +1,14 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { describe, expect, it, afterEach, vi } from 'vitest';
+import { describe, expect, it, afterEach } from 'vitest';
 import { MessageFolder } from '@components/Messages';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockMessageFolder = () => <MessageFolder messageList={[]} />;
 
 describe('Default screen', () => {
   it('renders 30px padding', () => {
+    window.matchMedia = createMatchMedia(1200);
     const component = render(<MockMessageFolder />);
     const adjustableBox = component.container.firstChild;
     const cssProperty = getComputedStyle(adjustableBox);
@@ -15,6 +17,7 @@ describe('Default screen', () => {
   });
 
   it('renders refresh button margin to 10px', () => {
+    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockMessageFolder />);
     const button = getByRole('button', { name: 'Refresh' });
     const cssProperty = getComputedStyle(button);
@@ -29,13 +32,7 @@ describe('Mobile screen', () => {
   });
 
   it("renders '30px 0px' padding", () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(599);
     const component = render(<MockMessageFolder />);
     const adjustableBox = component.container.firstChild;
     const cssProperty = getComputedStyle(adjustableBox);
@@ -44,13 +41,7 @@ describe('Mobile screen', () => {
   });
 
   it("renders refresh button margin to '10px 20px'", () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn()
-    }));
+    window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockMessageFolder />);
     const button = getByRole('button', { name: 'Refresh' });
     const cssProperty = getComputedStyle(button);
