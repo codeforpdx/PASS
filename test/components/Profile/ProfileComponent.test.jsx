@@ -105,8 +105,6 @@ describe('ProfileComponent', () => {
   });
 
   it('renders profile component as row default', async () => {
-    window.matchMedia = createMatchMedia(1200);
-
     const component = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
         <ProfileComponent contactProfile={null} />

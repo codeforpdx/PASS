@@ -17,7 +17,6 @@ const MockNewMessageModal = () => (
 );
 
 it('renders button group flex-direction as row default', () => {
-  window.matchMedia = createMatchMedia(1200);
   const { getByRole } = render(<MockNewMessageModal />);
   const cancelButton = getByRole('button', { name: 'Cancel' });
   const buttonContainer = cancelButton.parentElement;
