@@ -20,7 +20,6 @@ describe('Grid sizes', () => {
   });
 
   it('renders grid values 5, 5, 2 default', () => {
-    window.matchMedia = createMatchMedia(1200);
     const { getByText } = render(<MockMessagePreview />);
     const senderCell = getByText('Sender:').parentElement;
     const subjectCell = getByText('Subject:').parentElement;

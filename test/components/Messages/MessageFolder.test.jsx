@@ -8,7 +8,6 @@ const MockMessageFolder = () => <MessageFolder messageList={[]} />;
 
 describe('Default screen', () => {
   it('renders 30px padding', () => {
-    window.matchMedia = createMatchMedia(1200);
     const component = render(<MockMessageFolder />);
     const adjustableBox = component.container.firstChild;
     const cssProperty = getComputedStyle(adjustableBox);
@@ -17,7 +16,6 @@ describe('Default screen', () => {
   });
 
   it('renders refresh button margin to 10px', () => {
-    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockMessageFolder />);
     const button = getByRole('button', { name: 'Refresh' });
     const cssProperty = getComputedStyle(button);

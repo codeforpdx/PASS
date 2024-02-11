@@ -14,7 +14,6 @@ const MockConfirmationModalLogout = () => (
 
 describe('Default screen', () => {
   it('renders button container flex-direction as row default', () => {
-    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockConfirmationModalBasic />);
     const cancelButton = getByRole('button', { name: 'Cancel' });
     const buttonContainer = cancelButton.parentElement;
@@ -24,7 +23,6 @@ describe('Default screen', () => {
   });
 
   it('renders logout button container flex-direction as row default', () => {
-    window.matchMedia = createMatchMedia(1200);
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const confirmButton = getByRole('button', { name: 'Log Out' });
     const buttonContainer = confirmButton.parentElement;
