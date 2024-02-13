@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { expect, it, describe } from 'vitest';
+import { render, cleanup } from '@testing-library/react';
+import { expect, it, describe, afterEach } from 'vitest';
 import { HomeSection } from '@components/Home';
 
 const MockSection = () => <HomeSection />;
@@ -8,6 +8,10 @@ const MockSectionButton = () => <HomeSection button="button" />;
 const MockSectionDescription = () => <HomeSection description="Example Text" />;
 
 describe('Button rendering', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders no button', () => {
     const { queryByRole } = render(<MockSection />);
     const button = queryByRole('button');
@@ -26,6 +30,10 @@ describe('Button rendering', () => {
 });
 
 describe('Description rendering', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders no description', () => {
     const { queryByText } = render(<MockSection />);
     const description = queryByText('Example Text');
@@ -41,6 +49,10 @@ describe('Description rendering', () => {
 });
 
 describe('Image rendering', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders image at 300px width on desktop', () => {
     const { queryByRole } = render(<MockSectionDescription />);
     const image = queryByRole('img');
