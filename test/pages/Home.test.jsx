@@ -5,7 +5,9 @@ import { Home } from '@pages';
 import createMatchMedia from '../helpers/createMatchMedia';
 
 describe('Home Page', () => {
-  afterEach(cleanup);
+  afterEach(() => {
+    cleanup();
+  });
 
   it('renders with correct order of logoSection on mobile', () => {
     window.matchMedia = createMatchMedia(599);
