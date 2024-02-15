@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProfileComponent } from '@components/Profile';
@@ -30,7 +30,10 @@ const mockSignedInUserContextMemo = {
 };
 
 describe('ProfileComponent', () => {
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
     const { queryByRole } = render(
@@ -38,20 +41,23 @@ describe('ProfileComponent', () => {
         <ProfileComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
-    let editButton = queryByRole('button', { name: 'Edit' });
-    expect(editButton).not.toBeNull();
 
-    const user = userEvent.setup();
-    await user.click(editButton);
+    await waitFor(async () => {
+      let editButton = queryByRole('button', { name: 'Edit' });
+      expect(editButton).not.toBeNull();
 
-    const cancelButton = queryByRole('button', { name: 'Cancel' });
-    const updateButton = queryByRole('button', { name: 'Update' });
+      const user = userEvent.setup();
+      await user.click(editButton);
 
-    expect(cancelButton).not.toBeNull();
-    expect(updateButton).not.toBeNull();
+      const cancelButton = queryByRole('button', { name: 'Cancel' });
+      const updateButton = queryByRole('button', { name: 'Update' });
 
-    editButton = queryByRole('button', { name: 'Edit' });
-    expect(editButton).toBeNull();
+      expect(cancelButton).not.toBeNull();
+      expect(updateButton).not.toBeNull();
+
+      editButton = queryByRole('button', { name: 'Edit' });
+      expect(editButton).toBeNull();
+    });
   });
 
   it('renders edit buttons after clicking on cancel button', async () => {
@@ -60,62 +66,73 @@ describe('ProfileComponent', () => {
         <ProfileComponent contactProfile={null} />
       </SignedInUserContext.Provider>
     );
-    let editButton = queryByRole('button', { name: 'Edit' });
-    let cancelButton;
-    let updateButton;
 
-    const user = userEvent.setup();
-    await user.click(editButton);
+    await waitFor(async () => {
+      let editButton = queryByRole('button', { name: 'Edit' });
+      let cancelButton;
+      let updateButton;
 
-    updateButton = queryByRole('button', { name: 'Update' });
-    cancelButton = queryByRole('button', { name: 'Cancel' });
-    await user.click(cancelButton);
+      const user = userEvent.setup();
+      await user.click(editButton);
 
-    editButton = queryByRole('button', { name: 'Edit' });
-    expect(editButton).not.toBeNull();
+      updateButton = queryByRole('button', { name: 'Update' });
+      cancelButton = queryByRole('button', { name: 'Cancel' });
+      await user.click(cancelButton);
 
-    updateButton = queryByRole('button', { name: 'Update' });
-    expect(updateButton).toBeNull();
+      editButton = queryByRole('button', { name: 'Edit' });
+      expect(editButton).not.toBeNull();
 
-    cancelButton = queryByRole('button', { name: 'Cancel' });
-    expect(cancelButton).toBeNull();
+      updateButton = queryByRole('button', { name: 'Update' });
+      expect(updateButton).toBeNull();
+
+      cancelButton = queryByRole('button', { name: 'Cancel' });
+      expect(cancelButton).toBeNull();
+    });
   });
 
-  it('renders no edit button for ProfileInputFields if contactProfile is not null', () => {
+  it('renders no edit button for ProfileInputFields if contactProfile is not null', async () => {
     const { queryByRole } = render(
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
         <ProfileComponent contactProfile={{}} />
       </SignedInUserContext.Provider>
     );
-    const editButton = queryByRole('button', { name: 'Edit' });
 
-    expect(editButton).toBeNull();
+    await waitFor(() => {
+      const editButton = queryByRole('button', { name: 'Edit' });
+
+      expect(editButton).toBeNull();
+    });
   });
-});
 
-it('renders profile component as row default', () => {
-  const component = render(
-    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
-    </SignedInUserContext.Provider>
-  );
+  it('renders profile component as row default', async () => {
+    const component = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    );
 
-  const container = component.container.firstChild;
-  const cssProperty = getComputedStyle(container);
+    await waitFor(() => {
+      const container = component.container.firstChild;
+      const cssProperty = getComputedStyle(container);
 
-  expect(cssProperty.flexDirection).toBe('row');
-});
+      expect(cssProperty.flexDirection).toBe('row');
+    });
+  });
 
-it('renders profile component as column mobile', () => {
-  window.matchMedia = createMatchMedia(599);
-  const component = render(
-    <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-      <ProfileComponent contactProfile={null} />
-    </SignedInUserContext.Provider>
-  );
+  it('renders profile component as column mobile', async () => {
+    window.matchMedia = createMatchMedia(599);
 
-  const container = component.container.firstChild;
-  const cssProperty = getComputedStyle(container);
+    const component = render(
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    );
 
-  expect(cssProperty.flexDirection).toBe('column');
+    await waitFor(() => {
+      const container = component.container.firstChild;
+      const cssProperty = getComputedStyle(container);
+
+      expect(cssProperty.flexDirection).toBe('column');
+    });
+  });
 });

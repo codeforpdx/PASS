@@ -1,25 +1,23 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
+title: '[Feature Request] - Your Title Here '
+labels: 'new feature'
 assignees: ''
+
 ---
 
 ### Feature Description:
-Please provide a DETAILED description of the proposed feature.
+Briefly describe the feature.
 
-### Use Case:
-Explain when and why this feature would be used. Try to include as much detail as possible.
+### Problem it Solves:
+Describe the problem that this feature would solve. Explain any current workaround and how this will solve it.
 
 ### Proposed Solution:
-If you have a solution in mind, please outline it here.
+If you have a specific solution in mind, outline it here. Include as many details as possible about how this feature should work and any considerations that need to be taken into account.
 
-### Alternative Solutions:
-If there are alternative ways to solve this problem, please list them here.
-
-### Screenshots (if applicable):
-Include any screenshots that may be helpful.
+### Alternatives Considered:
+A clear and concise description of any alternative solutions or features you've considered and why they could or could not work.
 
 ### Additional Context:
-Please provide any other information that might be helpful.
+Add any other context or screenshots about the feature request here. If you have mock-ups, prototypes, or any visual aids that could help illustrate the feature, please include them.
