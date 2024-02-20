@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { SessionContext } from '@contexts';
-import { Messages } from '@pages';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMessageList } from '@hooks';
+import { Inbox, MessagesLayout } from '@components/Messages';
 
 vi.mock('@inrupt/solid-client');
 
@@ -87,7 +87,9 @@ const MockMessagePage = ({ session }) => {
           <IconButton aria-label="show new messages" datatestid="EmailIcon">
             <Badge badgeContent={numUnreadMessages} color="error" />
           </IconButton>
-          <Messages />
+          <MessagesLayout path="/messages/inbox">
+            <Inbox />
+          </MessagesLayout>
         </SessionContext.Provider>
       </BrowserRouter>
     </QueryClientProvider>
@@ -114,8 +116,8 @@ describe('Messages Page', () => {
   });
 
   it('should render messages', async () => {
-    const { getByText, queryByText } = render(<MockMessagePage session={sessionObj} />);
-    expect(getByText('RE:test-inbox')).not.toBeNull();
+    const { queryByText } = render(<MockMessagePage session={sessionObj} />);
+    expect(queryByText('RE:test-inbox')).not.toBeNull();
     expect(queryByText('RE:test-outbox')).toBeNull();
   });
 

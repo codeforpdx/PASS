@@ -17,9 +17,10 @@ import InputLabel from '@mui/material/InputLabel';
  * @param {(value: React.SetStateAction<string|null>) => void} Props.setInputValue
  * - Set function for inputValue
  * @param {boolean} Props.edit - Boolean used to toggle edit inputs
+ * @param {React.JSX.Element} Props.endAdornment - optional end adornment for input
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (
+const ProfileInputField = ({ inputName, inputValue, setInputValue, edit, endAdornment }) => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
     <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
       {inputName}:
@@ -30,6 +31,7 @@ const ProfileInputField = ({ inputName, inputValue, setInputValue, edit }) => (
       placeholder={inputValue || 'No value set'}
       disabled={!edit}
       onChange={(e) => setInputValue(e.target.value)}
+      endAdornment={endAdornment}
     />
   </Box>
 );

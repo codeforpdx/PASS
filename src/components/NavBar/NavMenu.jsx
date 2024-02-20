@@ -13,8 +13,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsIcon from '@mui/icons-material/Settings';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -35,7 +33,6 @@ import { useMessageList } from '@hooks';
  * @param {React.Dispatch<any>} Props.setAnchorEl - The set function for anchorEl
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @param {(event) => void} Props.handleNotificationsMenu - Handler function for
  * Notification Menu
  * @param {string} Props.profileImg - String for profile image
  * @returns {React.JSX.Element} - The NavMenu Component
@@ -47,7 +44,6 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
-  handleNotificationsMenu,
   profileImg
 }) => {
   const theme = useTheme();
@@ -66,7 +62,7 @@ const NavMenu = ({
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'right'
       }}
       id={menuId}
@@ -78,7 +74,15 @@ const NavMenu = ({
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      sx={{ mt: 5, backgroundColor: 'rgba(1, 121, 105, 0.2)' }}
+      MenuListProps={{ disablePadding: true }}
+      slotProps={{
+        paper: {
+          style: {
+            marginTop: '10px'
+          }
+        }
+      }}
+      sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
       <MenuList>
         {isSmallScreen && (
@@ -89,8 +93,13 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<ContactsIcon />}
-                sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+                startIcon={<ContactsIcon sx={{ height: '24px', width: '24px' }} />}
+                sx={{
+                  display: { md: 'none' },
+                  color: theme.palette.primary.main,
+                  width: '100%',
+                  minHeight: '36px'
+                }}
               >
                 Contacts
               </MenuItem>
@@ -101,13 +110,18 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<AccountBoxIcon />}
-                sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+                startIcon={<AccountBoxIcon sx={{ height: '24px', width: '24px' }} />}
+                sx={{
+                  display: { md: 'none' },
+                  color: theme.palette.primary.main,
+                  width: '100%',
+                  minHeight: '36px'
+                }}
               >
                 Civic Profile
               </MenuItem>
             </Link>
-            <Divider />
+            <Divider sx={{ marginY: '5px' }} />
           </div>
         )}
         {/* messages */}
@@ -116,23 +130,19 @@ const NavMenu = ({
             component={Button}
             startIcon={
               <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
-                <EmailIcon />
+                <EmailIcon sx={{ height: '24px', width: '24px' }} />
               </Badge>
             }
-            sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
+            sx={{
+              display: { md: 'none' },
+              color: theme.palette.primary.main,
+              width: '100%',
+              minHeight: '36px'
+            }}
           >
             Messages
           </MenuItem>
         </Link>
-        {/* notifications */}
-        <MenuItem
-          component={Button}
-          startIcon={<NotificationsIcon />}
-          onClick={handleNotificationsMenu}
-          sx={{ display: { md: 'none' }, color: theme.palette.primary.main, width: '100%' }}
-        >
-          Notifications
-        </MenuItem>
         {/* profile */}
         <Link
           to="/profile"
@@ -142,7 +152,7 @@ const NavMenu = ({
         >
           <MenuItem
             component={Button}
-            sx={{ width: '100%' }}
+            sx={{ width: '100%', minHeight: '36px' }}
             startIcon={
               <Avatar
                 src={profileImg}
@@ -160,21 +170,13 @@ const NavMenu = ({
             Profile
           </MenuItem>
         </Link>
-        <Divider />
-        {/* settings */}
-        <MenuItem
-          component={Button}
-          startIcon={<SettingsIcon />}
-          sx={{ color: theme.palette.primary.main, width: '100%' }}
-        >
-          Settings
-        </MenuItem>
+        <Divider sx={{ marginY: '5px' }} />
         {/* logout */}
         <MenuItem
           component={Button}
-          startIcon={<LogoutIcon />}
+          startIcon={<LogoutIcon sx={{ height: '24px', width: '24px' }} />}
           onClick={() => setShowConfirmation(true)}
-          sx={{ color: theme.palette.error.main, width: '100%' }}
+          sx={{ color: theme.palette.error.main, width: '100%', minHeight: '36px' }}
         >
           Log Out
         </MenuItem>

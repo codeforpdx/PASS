@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import SvgIcon from '@mui/material/SvgIcon';
 
 // new Twitter Icon
@@ -28,23 +29,22 @@ const socialLinks = [
   {
     name: 'Twitter',
     href: 'https://twitter.com/',
-    icon: <TwitterIcon />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <TwitterIcon />
   },
   {
     name: 'Facebook',
     href: 'https://www.facebook.com/',
-    icon: <FacebookIcon fontSize="large" titleAccess="Facebook logo" />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <FacebookIcon fontSize="large" titleAccess="Facebook logo" />
   },
   {
     name: 'Instagram',
     href: 'https://www.instagram.com/',
-    icon: <InstagramIcon fontSize="large" titleAccess="Instagram logo" />,
-    target: '_blank',
-    rel: 'noopenner'
+    icon: <InstagramIcon fontSize="large" titleAccess="Instagram logo" />
+  },
+  {
+    name: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/code-pdx/',
+    icon: <LinkedInIcon fontSize="large" titleAccess="LinkedIn logo" />
   }
 ];
 
@@ -61,7 +61,7 @@ const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
   <Stack width={isReallySmallScreen ? 1 : 1 / 5} justifyContent="space-between" alignItems="center">
     <Box>
       <Typography color="tertiary.main" variant="h5" component="h2" mb={1}>
-        Follow Us
+        Connect
       </Typography>
       <Stack direction="row" spacing={isReallySmallScreen ? 3 : 2} alignItems="center">
         {socialLinks.map(({ href, icon, name }) => (

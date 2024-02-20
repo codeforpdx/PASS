@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -36,7 +37,7 @@ const MessagePreview = ({ message, folderType }) => {
   const [showModal, setShowModal] = useState(false);
   const { add: updateReadStatus } = useMessageList('Inbox');
 
-  const handleClick = async () => {
+  const handleMarkRead = async () => {
     setShowContents(!showContents);
     if (folderType === 'Inbox' && !message.readStatus) {
       try {
@@ -44,6 +45,14 @@ const MessagePreview = ({ message, folderType }) => {
       } catch {
         throw new Error('Failed to update read status');
       }
+    }
+  };
+
+  const handleMarkUnread = async () => {
+    try {
+      await updateReadStatus(message);
+    } catch {
+      throw new Error('Failed to update read status');
     }
   };
 
@@ -89,7 +98,7 @@ const MessagePreview = ({ message, folderType }) => {
         <Paper>
           <Box sx={{ flexGrow: 1 }}>
             <ListItemButton
-              onClick={handleClick}
+              onClick={handleMarkRead}
               alignItems="flex-start"
               aria-label={`open message preview ${message.messageId}`}
             >
@@ -116,9 +125,14 @@ const MessagePreview = ({ message, folderType }) => {
                       </Typography>
                     ))}
                     {showContents && folderType === 'Inbox' && (
-                      <Button variant="contained" type="button" onClick={handleReplyMessage}>
-                        Reply
-                      </Button>
+                      <Stack direction="row" spacing={2}>
+                        <Button variant="contained" onClick={handleReplyMessage}>
+                          Reply
+                        </Button>
+                        <Button variant="outlined" onClick={handleMarkUnread}>
+                          Mark as Unread
+                        </Button>
+                      </Stack>
                     )}
                   </Grid>
                 )}
