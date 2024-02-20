@@ -8,8 +8,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import IconButton from '@mui/material/IconButton';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Container from '@mui/material/Container';
 import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
@@ -127,10 +125,6 @@ const Profile = () => {
     );
   }
 
-  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
-    session.info.webId
-  )}`;
-
   return (
     <Container
       sx={{
@@ -142,21 +136,6 @@ const Profile = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-        {!contact ? (
-          <Typography>
-            <a href={signupLink} rel="noopener noreferrer" target="_blank">
-              Your Invite Link
-            </a>
-            <IconButton aria-label="Copy Invite Link" edge="end">
-              <ContentCopyIcon
-                onClick={() => {
-                  navigator.clipboard.writeText(signupLink);
-                  addNotification('success', 'Invite link copied to clipboard');
-                }}
-              />
-            </IconButton>
-          </Typography>
-        ) : null}
         <Box
           sx={{
             display: 'flex',
