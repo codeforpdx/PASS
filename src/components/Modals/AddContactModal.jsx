@@ -119,7 +119,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             autoComplete="family-name"
             value={userFamilyName}
             onChange={(e) => setUserFamilyName(e.target.value)}
-
             fullWidth
           />
 
