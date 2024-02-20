@@ -9,11 +9,7 @@ import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Toolbar from '@mui/material/Toolbar';
-import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import { useMessageList } from '@hooks';
 // Component Imports
@@ -33,24 +29,14 @@ import NavMenu from './NavMenu';
  * @returns {React.JSX.Element} - The Desktop version of Navbar Component
  */
 const NavbarDesktop = ({ setShowConfirmation }) => {
-  const theme = useTheme();
   const { data } = useMessageList('Inbox');
 
   const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   // states for NavMenu component
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorElNotifications, setAnchorElNotifications] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
   const menuId = 'primary-search-account-menu';
-
-  const handleNotificationsMenu = (event) => {
-    setAnchorElNotifications(event.currentTarget);
-  };
-
-  const handleNotificationsClose = () => {
-    setAnchorElNotifications(null);
-  };
 
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -88,49 +74,6 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
                 <EmailIcon />
               </Badge>
             </IconButton>
-            {/* notifications icon */}
-            <IconButton
-              size="large"
-              aria-label="Show notifications"
-              color="inherit"
-              onClick={handleNotificationsMenu}
-              edge="start"
-            >
-              <Badge color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            {/* notifications menu */}
-            <Menu
-              id="menu-appbar-notifications"
-              anchorEl={anchorElNotifications}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElNotifications)}
-              onClose={handleNotificationsClose}
-              slotProps={{
-                paper: {
-                  style: {
-                    marginTop: '10px'
-                  }
-                }
-              }}
-              sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-            >
-              <MenuItem onClick={handleNotificationsClose}>
-                <p style={{ color: theme.palette.primary.main }}>Notification 1</p>
-              </MenuItem>
-              <MenuItem onClick={handleNotificationsClose}>
-                <p style={{ color: theme.palette.primary.main }}>Notification 2</p>
-              </MenuItem>
-            </Menu>
             {/* profile icon */}
             <IconButton
               size="large"
@@ -157,7 +100,6 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               anchorEl={anchorEl}
               setAnchorEl={setAnchorEl}
               setShowConfirmation={setShowConfirmation}
-              handleNotificationsMenu={handleNotificationsMenu}
               profileImg={profileImg}
             />
           )}
