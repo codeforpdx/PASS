@@ -47,7 +47,7 @@ describe('add contact', () => {
   const inputData = {
     givenName: 'given  ',
     familyName: '  family',
-    username: '  username  '
+    webId: '  webId '
   };
 
   const mockAdd = vi.fn();
@@ -60,18 +60,18 @@ describe('add contact', () => {
       <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
     );
 
-    const givenName = screen.getByRole('textbox', { name: 'First/given name' });
-    const familyName = screen.getByRole('textbox', { name: 'Last/family name' });
-    const username = screen.getByRole('textbox', { name: 'Username' });
+    const givenName = screen.getByRole('textbox', { name: 'First/given name (Optional)' });
+    const familyName = screen.getByRole('textbox', { name: 'Last/family name (Optional)' });
+    const webIdInput = screen.getByPlaceholderText('WebId');
     const submitButton = screen.getByRole('button', { name: 'Add Contact' });
 
     await user.type(givenName, inputData.givenName);
     await user.type(familyName, inputData.familyName);
-    await user.type(username, inputData.username);
+    await user.type(webIdInput, inputData.webId);
 
     expect(givenName.value).toBe(inputData.givenName);
     expect(familyName.value).toBe(inputData.familyName);
-    expect(username.value).toBe(inputData.username);
+    expect(webIdInput.value).toBe(inputData.webId);
 
     vi.spyOn(solidClient, 'getWebIdDataset').mockRejectedValue();
 
@@ -87,18 +87,18 @@ describe('add contact', () => {
       <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
     );
 
-    const givenName = screen.getByRole('textbox', { name: 'First/given name' });
-    const familyName = screen.getByRole('textbox', { name: 'Last/family name' });
-    const username = screen.getByRole('textbox', { name: 'Username' });
+    const givenName = screen.getByRole('textbox', { name: 'First/given name (Optional)' });
+    const familyName = screen.getByRole('textbox', { name: 'Last/family name (Optional)' });
+    const webIdInput = screen.getByPlaceholderText('WebId');
     const submitButton = screen.getByRole('button', { name: 'Add Contact' });
 
     await user.type(givenName, inputData.givenName);
     await user.type(familyName, inputData.familyName);
-    await user.type(username, inputData.username);
+    await user.type(webIdInput, inputData.webId);
 
     expect(givenName.value).toBe(inputData.givenName);
     expect(familyName.value).toBe(inputData.familyName);
-    expect(username.value).toBe(inputData.username);
+    expect(webIdInput.value).toBe(inputData.webId);
 
     vi.spyOn(solidClient, 'getWebIdDataset').mockResolvedValue(
       solidClient.mockSolidDatasetFrom('https://example.com/pod/profile/card#me')
@@ -112,7 +112,7 @@ describe('add contact', () => {
     expect(userObject).toMatchObject({
       givenName: inputData.givenName.trim(),
       familyName: inputData.familyName.trim(),
-      webId: expect.stringContaining(inputData.username.trim())
+      webId: expect.stringContaining(inputData.webId.trim())
     });
   });
 });
