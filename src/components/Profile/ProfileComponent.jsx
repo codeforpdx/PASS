@@ -137,13 +137,15 @@ const ProfileComponent = ({ contactProfile, webId }) => {
               <a href={signupLink} rel="noopener noreferrer" target="_blank">
                 Your Invite Link
               </a>
-              <IconButton aria-label="Copy Invite Link" edge="end">
-                <ContentCopyIcon
-                  onClick={() => {
-                    navigator.clipboard.writeText(signupLink);
-                    addNotification('success', 'Invite link copied to clipboard');
-                  }}
-                />
+              <IconButton
+                aria-label="Copy Invite Link"
+                edge="end"
+                onClick={() => {
+                  navigator.clipboard.writeText(signupLink);
+                  addNotification('success', 'Invite link copied to clipboard');
+                }}
+              >
+                <ContentCopyIcon />
               </IconButton>
             </Typography>
           </Box>
