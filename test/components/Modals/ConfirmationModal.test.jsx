@@ -1,9 +1,9 @@
 import React from 'react';
 import { ConfirmationModal } from '@components/Modals';
-import { describe, expect, it, vi } from 'vitest';
-import { render } from '@testing-library/react';
-import createMatchMedia from '../../helpers/createMatchMedia';
+import { describe, expect, it, vi, afterEach } from 'vitest';
+import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
 const MockConfirmationModalBasic = () => (
   <ConfirmationModal showModal title="Action" cancelButtonText="Cancel" />
@@ -33,6 +33,10 @@ describe('Default screen', () => {
 });
 
 describe('Mobile screen', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders button container flex-direction as column mobile', () => {
     window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalBasic />);
@@ -44,6 +48,7 @@ describe('Mobile screen', () => {
   });
 
   it('renders logout button container flex-direction as column mobile', () => {
+    window.matchMedia = createMatchMedia(599);
     const { getByRole } = render(<MockConfirmationModalLogout />);
     const confirmButton = getByRole('button', { name: 'Log Out' });
     const buttonContainer = confirmButton.parentElement;
