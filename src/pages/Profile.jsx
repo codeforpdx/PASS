@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // Custom Hook Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
@@ -125,10 +125,6 @@ const Profile = () => {
     );
   }
 
-  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
-    session.info.webId
-  )}`;
-
   return (
     <Container
       sx={{
@@ -140,13 +136,6 @@ const Profile = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-        {!contact ? (
-          <Typography>
-            <a href={signupLink} rel="noopener noreferrer" target="_blank">
-              Your Signup Link
-            </a>
-          </Typography>
-        ) : null}
         <Box
           sx={{
             display: 'flex',
@@ -155,24 +144,8 @@ const Profile = () => {
             justifyContent: 'center',
             flexDirection: isSmallScreen ? 'column' : 'row'
           }}
-        >
-          <Typography>User WebId: </Typography>
-          <Link
-            to={webIdUrl}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              maxWidth: isSmallScreen ? '240px' : 'none',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          >
-            {webIdUrl}
-          </Link>
-        </Box>
-
-        <ProfileComponent contactProfile={contactProfile} />
+        />
+        <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
 
         <Container
           sx={{
