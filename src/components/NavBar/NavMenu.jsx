@@ -13,8 +13,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsIcon from '@mui/icons-material/Settings';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -35,7 +33,6 @@ import { useMessageList } from '@hooks';
  * @param {React.Dispatch<any>} Props.setAnchorEl - The set function for anchorEl
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @param {(event) => void} Props.handleNotificationsMenu - Handler function for
  * Notification Menu
  * @param {string} Props.profileImg - String for profile image
  * @returns {React.JSX.Element} - The NavMenu Component
@@ -47,7 +44,6 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
-  handleNotificationsMenu,
   profileImg
 }) => {
   const theme = useTheme();
@@ -147,20 +143,6 @@ const NavMenu = ({
             Messages
           </MenuItem>
         </Link>
-        {/* notifications */}
-        <MenuItem
-          component={Button}
-          startIcon={<NotificationsIcon sx={{ height: '24px', width: '24px' }} />}
-          onClick={handleNotificationsMenu}
-          sx={{
-            display: { md: 'none' },
-            color: theme.palette.primary.main,
-            width: '100%',
-            minHeight: '36px'
-          }}
-        >
-          Notifications
-        </MenuItem>
         {/* profile */}
         <Link
           to="/profile"
@@ -189,14 +171,6 @@ const NavMenu = ({
           </MenuItem>
         </Link>
         <Divider sx={{ marginY: '5px' }} />
-        {/* settings */}
-        <MenuItem
-          component={Button}
-          startIcon={<SettingsIcon sx={{ height: '24px', width: '24px' }} />}
-          sx={{ color: theme.palette.primary.main, width: '100%', minHeight: '36px' }}
-        >
-          Settings
-        </MenuItem>
         {/* logout */}
         <MenuItem
           component={Button}

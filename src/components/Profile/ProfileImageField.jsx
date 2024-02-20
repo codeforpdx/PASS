@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
-import Typography from '@mui/material/Typography';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
 import useNotification from '../../hooks/useNotification';
@@ -69,7 +68,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         gap: '10px'
       }}
     >
-      <Typography color="black">Profile Image: </Typography>
       <Avatar
         src={contactProfile ? contactProfile.profileImage : profileImg}
         alt="PASS profile"
