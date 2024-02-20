@@ -124,7 +124,22 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             setInputValue={setNickname}
             edit={edit}
           />
-          <ProfileInputField inputName="WebId" inputValue={webId} />
+          <ProfileInputField
+            inputName="WebId"
+            inputValue={webId}
+            endAdornment={
+              <IconButton
+                aria-label="Copy WebId"
+                edge="end"
+                onClick={() => {
+                  navigator.clipboard.writeText(webId);
+                  addNotification('success', 'webId copied to clipboard');
+                }}
+              >
+                <ContentCopyIcon />
+              </IconButton>
+            }
+          />
         </Box>
         {!contactProfile && (
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
