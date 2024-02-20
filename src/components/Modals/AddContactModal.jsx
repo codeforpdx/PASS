@@ -146,7 +146,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             autoComplete="username"
             value={username}
             onChange={(e) => wrappedSetUsername(e.target.value)}
-            required
             fullWidth
           />
           <TextField

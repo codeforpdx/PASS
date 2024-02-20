@@ -21,10 +21,11 @@ import ProfileEditButtonGroup from './ProfileEditButtonGroup';
  * @name ProfileComponent
  * @param {object} Props - Props for ClientProfile component
  * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * @param {string} [Props.webId] - The webId of the contact
  * or null if user profile is selected
  * @returns {React.JSX.Element} The UserProfile Component
  */
-const ProfileComponent = ({ contactProfile }) => {
+const ProfileComponent = ({ contactProfile, webId }) => {
   const { session } = useSession();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
@@ -116,6 +117,7 @@ const ProfileComponent = ({ contactProfile }) => {
             setInputValue={setNickname}
             edit={edit}
           />
+          <ProfileInputField inputName="WebId" inputValue={webId} />
         </Box>
         {!contactProfile && (
           <ProfileEditButtonGroup
