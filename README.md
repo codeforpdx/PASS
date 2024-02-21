@@ -24,10 +24,10 @@ PASS is currently in development working towards MVP release by generous efforts
 
 ## Contents
 
-1.  [Setup Instructions](#1-setup-instructions)
-2.  [Project Overview](#2-project-overview)
-3.  [Contribution Guidelines](#3-contribution-guidelines)
-4.  [Code of Conduct](#4-code-of-conduct)
+1. [Setup Instructions](#1-setup-instructions)
+2. [Project Overview](#2-project-overview)
+3. [Contribution Guidelines](#3-contribution-guidelines)
+4. [Code of Conduct](#4-code-of-conduct)
 
 ## 1. Setup Instructions
 
@@ -37,45 +37,60 @@ PASS is currently in development working towards MVP release by generous efforts
 
 1. Download NVM for your system.
 
-- For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm
-- For Windows users: https://github.com/coreybutler/nvm-windows
+- For Mac, Linux, and other POSIX users: <https://github.com/nvm-sh/nvm>
+- For Windows users: <https://github.com/coreybutler/nvm-windows>
 
-2. Install node version 16.20.2:
+2. Install node version 18.19.0:
+
    ```
-   nvm install 16.20.2
+   nvm install 18.19.0
    ```
+
 3. Use that node version:
+
    ```
-   nvm use 16.20.2
+   nvm use 18.19.0
    ```
+
 4. Check that node and npm are set up:
+
    ```
    node -v
    npm -v
    ```
-   If either of those commands error, node has not been installed correctly.
+
+   The node version should be 18.19.0 and the npm version should be 10.2.3. If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
 
 - ### Clone and Install Dependencies
 
 1. Clone the git repository:
+
    ```
    git clone https://github.com/codeforpdx/PASS.git
    ```
+
 2. Install project dependencies:
+
    ```
    npm install
    ```
-3. Install the pre-commmit prettier, linter, and test hooks. 
+
+3. Install the pre-commmit prettier, linter, and test hooks.
+
    ```
    npm run prepare
    ```
-4. Run the project: 
+
+4. Run the project:
+
    ```
    npm run dev
    ```
+
 5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a Pod hosted at the OIDC provider of your choice.
 
 - ### Setting up a Development Pod Server
+
   PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
 
 1. Clone and install dependencies. [See previous section](#clone-and-install-dependencies)
