@@ -39,21 +39,26 @@ const wrapper = ({ children }) => (
   </SessionContext.Provider>
 );
 
-const makeIntoThing = ({ givenName, familyName, webId }) =>
-  buildThing(createThing({ name: encodeURIComponent(webId) }))
-    .addStringNoLocale(RDF_PREDICATES.Person, `${givenName} ${familyName}`)
-    .addStringNoLocale(RDF_PREDICATES.givenName, givenName)
-    .addStringNoLocale(RDF_PREDICATES.familyName, familyName)
+const makeIntoThing = ({ givenName, familyName, webId }) => {
+  let builder = buildThing(createThing({ name: encodeURIComponent(webId) }))
     .addUrl(RDF_PREDICATES.identifier, webId)
-    .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
-    .build();
+    .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0]);
+
+  if (givenName) {
+    builder = builder.addStringNoLocale(RDF_PREDICATES.givenName, givenName);
+  }
+  if (familyName) {
+    builder = builder.addStringNoLocale(RDF_PREDICATES.familyName, familyName);
+  }
+
+  return builder.build();
+};
 
 describe('useContactsList', () => {
   const contact = {
     givenName: 'Zoro',
     familyName: 'Roronoa',
     webId: 'http://www.example.com/swords',
-    person: 'Zoro Roronoa',
     podUrl: 'http://www.example.com/swords',
     thingId: 'http://www.example.com/swords'
   };

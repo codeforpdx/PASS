@@ -1,9 +1,12 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -21,11 +24,13 @@ import ProfileEditButtonGroup from './ProfileEditButtonGroup';
  * @name ProfileComponent
  * @param {object} Props - Props for ClientProfile component
  * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * @param {string} [Props.webId] - The webId of the contact
  * or null if user profile is selected
  * @returns {React.JSX.Element} The UserProfile Component
  */
-const ProfileComponent = ({ contactProfile }) => {
+const ProfileComponent = ({ contactProfile, webId }) => {
   const { session } = useSession();
+  const { addNotification } = useNotification();
   const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
     useContext(SignedInUserContext);
 
@@ -72,6 +77,9 @@ const ProfileComponent = ({ contactProfile }) => {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
+    session.info.webId
+  )}`;
 
   return (
     <Box
@@ -116,13 +124,46 @@ const ProfileComponent = ({ contactProfile }) => {
             setInputValue={setNickname}
             edit={edit}
           />
+          <ProfileInputField
+            inputName="WebId"
+            inputValue={webId}
+            endAdornment={
+              <IconButton
+                aria-label="Copy WebId"
+                edge="end"
+                onClick={() => {
+                  navigator.clipboard.writeText(webId);
+                  addNotification('success', 'webId copied to clipboard');
+                }}
+              >
+                <ContentCopyIcon />
+              </IconButton>
+            }
+          />
         </Box>
         {!contactProfile && (
-          <ProfileEditButtonGroup
-            edit={edit}
-            handleCancelEdit={handleCancelEdit}
-            handleEditInput={handleEditInput}
-          />
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+            <ProfileEditButtonGroup
+              edit={edit}
+              handleCancelEdit={handleCancelEdit}
+              handleEditInput={handleEditInput}
+            />
+            <Typography sx={{ marginTop: '8px' }}>
+              <a href={signupLink} rel="noopener noreferrer" target="_blank">
+                Your Invite Link
+              </a>
+              <IconButton
+                aria-label="Copy Invite Link"
+                edge="end"
+                onClick={() => {
+                  navigator.clipboard.writeText(signupLink);
+                  addNotification('success', 'Invite link copied to clipboard');
+                }}
+              >
+                <ContentCopyIcon />
+              </IconButton>
+            </Typography>
+          </Box>
         )}
       </form>
     </Box>

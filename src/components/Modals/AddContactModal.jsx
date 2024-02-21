@@ -21,16 +21,15 @@ import useNotification from '@hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
-/**
- * @memberof Modals
- * @name renderWebId
- * @param {string} username - Username to convert into a webId
- * @returns {URL} A url of the predicted webID
- */
-const renderWebId = (username) => {
-  const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
-  return new URL(`${username}/profile/card#me`, baseUrl);
-};
+// @memberof Modals
+// @name renderWebId
+// @param {string} username - Username to convert into a webId
+// @returns {URL} A url of the predicted webID
+
+// const renderWebId = (username) => {
+// const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
+//  return new URL(`${username}/profile/card#me`, baseUrl);
+// };
 
 /**
  * AddContactModal Component - Component that allows users to add other user's
@@ -48,24 +47,15 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
-  const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const wrappedSetUsername = (value) => {
-    setUsername(value);
-    const renderedWebId = renderWebId(value);
-    setWebId(renderedWebId);
-    if (invalidWebId) setInvalidWebId(false);
-  };
-
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
-    setUsername('');
     setWebId('');
     setInvalidWebId(false);
   };
@@ -73,34 +63,29 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
+
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
+
     const userObject = {
-      givenName: addUserGivenName.value.trim(),
-      familyName: addUserFamilyName.value.trim(),
-      webId: addWebId.value.trim()
+      webId: addWebId.value.trim(),
+      ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+      ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
     };
 
-    // Validation for webId
     try {
       await getWebIdDataset(userObject.webId);
-    } catch {
-      addNotification('error', `Add contact failed. Reason: ${userObject.webId} does not exist`);
-      setInvalidWebId(true);
-      setProcessing(false);
-      return;
-    }
-
-    try {
       await addContact(userObject);
-      addNotification(
-        'success',
-        `"${userObject.givenName} ${userObject.familyName}" added to contact list`
-      );
-    } catch (e) {
-      addNotification('error', `Add contact failed. Reason: ${e.message}`);
-    } finally {
-      clearInputFields();
+      const nameDisplay =
+        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
+      addNotification('success', `"${nameDisplay}" added to contact list`);
+
       setShowAddContactModal(false);
+      clearInputFields();
+    } catch (e) {
+      const errorMessage = e ? e.message : 'Unknown error occurred';
+      addNotification('error', `Add contact failed. Reason: ${errorMessage}`);
+      setInvalidWebId(true);
+    } finally {
       setProcessing(false);
     }
   };
@@ -118,11 +103,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               margin="normal"
               id="add-user-given-name"
               name="addUserGivenName"
-              label="First/given name"
+              label="First/given name (Optional)"
               autoComplete="given-name"
               value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
-              required
               fullWidth
               autoFocus
             />
@@ -131,24 +115,13 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             margin="normal"
             id="add-user-family-name"
             name="addUserFamilyName"
-            label="Last/family name"
+            label="Last/family name (Optional)"
             autoComplete="family-name"
             value={userFamilyName}
             onChange={(e) => setUserFamilyName(e.target.value)}
-            required
             fullWidth
           />
-          <TextField
-            margin="normal"
-            id="add-username"
-            name="addUsername"
-            label="Username"
-            autoComplete="username"
-            value={username}
-            onChange={(e) => wrappedSetUsername(e.target.value)}
-            required
-            fullWidth
-          />
+
           <TextField
             margin="normal"
             id="add-webId"
