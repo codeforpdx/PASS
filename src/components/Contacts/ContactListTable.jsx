@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -15,7 +16,8 @@ import {
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
-import { NewMessageModal } from '../Modals';
+//import { NewMessageModal } from '../Modals';
+import { AddContactModal, NewMessageModal } from '@components/Modals';
 
 const CustomToolbar = () => (
   <GridToolbarContainer>
@@ -42,6 +44,7 @@ const CustomToolbar = () => (
 const ContactListTable = ({ contacts, deleteContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+  const [showAddContactModal, setShowAddContactModal] = useState(false);
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
@@ -95,6 +98,19 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       align: 'center'
     },
     {
+      field: 'Edit',
+      renderCell: () => 
+        <EditIcon
+          //set a prop to true, send contactData to contact modal
+        />
+      ,
+      sortable: false,
+      filterable: false,
+      width: 80,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
       field: 'actions',
       type: 'actions',
       headerName: 'Delete',
@@ -120,7 +136,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           webId: contact.webId,
           Profile: contact,
           Message: contact,
-          Delete: contact
+          Edit: contact, 
+          Delete: contact,
         }))}
         slots={{
           toolbar: CustomToolbar
@@ -150,6 +167,9 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}
         toField={messageToField}
+      />
+      <AddContactModal
+        showAddContactModal={false}
       />
     </Box>
   );
