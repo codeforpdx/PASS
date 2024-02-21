@@ -27,8 +27,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
-    "@inrupt/solid-client": "^1.24.0",
-    "@inrupt/solid-client-authn-browser": "1.15.0",
+    "@inrupt/solid-client": "^2.0.0",
+    "@inrupt/solid-client-authn-browser": "^2.0.0",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@mui/base": "^5.0.0-beta.0",
     "@mui/icons-material": "^5.11.16",
