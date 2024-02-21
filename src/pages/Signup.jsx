@@ -29,7 +29,7 @@ import { PodRegistrationForm, ShowNewPod, initializePod, registerPod } from '@co
  * @returns {React.Component} - A react page
  */
 const Signup = () => {
-  const [oidcIssuer] = useState(ENV.VITE_SOLID_POD_SERVER || ENV.VITE_SOLID_IDENTITY_PROVIDER);
+  const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
@@ -45,6 +45,7 @@ const Signup = () => {
       },
       oidcIssuer
     );
+    console.log('pod created');
 
     await login({
       oidcIssuer,

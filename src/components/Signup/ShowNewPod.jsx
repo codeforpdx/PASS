@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 // Hooks imports
 import useSession from '@hooks/useSession';
 import { useContactsList } from '@hooks';
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 /**
  * A React component for displaying information about a newly registered Solid Pod.
@@ -17,7 +19,7 @@ import { useContactsList } from '@hooks';
  * @returns {React.JSX} The rendered React component.
  */
 const ShowNewPod = ({ oidcIssuer }) => {
-  const { session } = useSession();
+  const { session, logout } = useSession();
   const { data, isSuccess } = useContactsList();
 
   return (
@@ -32,6 +34,12 @@ const ShowNewPod = ({ oidcIssuer }) => {
           ? `You have registered with ${data[0].person}`
           : 'You have not registered with a case manager'}
       </Typography>
+      <Typography>Click here to return to the home page and log into PASS:</Typography>
+      <Button>
+        <Link onClick={logout} to={window.location.host}>
+          Homepage
+        </Link>
+      </Button>
     </>
   );
 };
