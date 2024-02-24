@@ -16,6 +16,14 @@ function withCustomResolver(
 }
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        clientAppId: resolve(__dirname, 'clientAppId.json')
+      }
+    }
+  },
   plugins: [
     react(),
     visualizer({

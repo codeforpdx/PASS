@@ -3,7 +3,6 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
-import { SessionProvider } from '@contexts';
 // Component Imports
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
@@ -32,14 +31,7 @@ const AppRoutes = () => {
         path="/"
         element={session.info.isLoggedIn ? <Navigate to={path} replace /> : <Home />}
       />
-      <Route
-        path="/signup"
-        element={
-          <SessionProvider>
-            <Signup />
-          </SessionProvider>
-        }
-      />
+      <Route path="/signup" element={<Signup />} />
       <Route element={<ProtectedRoute isLoggedIn={session.info.isLoggedIn} />}>
         <Route path="/contacts">
           <Route index element={<Contacts />} />

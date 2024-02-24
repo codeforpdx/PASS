@@ -95,7 +95,7 @@
     "vitest": "^0.34.6"
   },
   "lint-staged": {
-    "*.{js,css,ts,tsx,jsx}": [
+    "src/**/*.{js,css,ts,tsx,jsx}": [
       "npm run lint:fix",
       "npm run prettier:run"
     ]

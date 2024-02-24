@@ -45,7 +45,6 @@ const Signup = () => {
       },
       oidcIssuer
     );
-    console.log('pod created');
 
     await login({
       oidcIssuer,

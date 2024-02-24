@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -149,9 +150,17 @@ const ProfileComponent = ({ contactProfile, webId }) => {
               handleEditInput={handleEditInput}
             />
             <Typography sx={{ marginTop: '8px' }}>
-              <a href={signupLink} rel="noopener noreferrer" target="_blank">
+              <Button
+                onClick={() =>
+                  session.logout({
+                    logoutType: 'idp',
+                    postLogoutUrl: `${window.location.href}`,
+                    state: `webId=${encodeURIComponent(session.info.webId)}`
+                  })
+                }
+              >
                 Your Invite Link
-              </a>
+              </Button>
               <IconButton
                 aria-label="Copy Invite Link"
                 edge="end"
