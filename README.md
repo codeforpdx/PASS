@@ -89,6 +89,8 @@ PASS is currently in development working towards MVP release by generous efforts
 
 5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a Pod hosted at the OIDC provider of your choice.
 
+![PASS Web Site Main Landing Page image](https://github.com/codeforpdx/PASS/blob/576-README.md-and-Wiki-Getting-Started-Update/wiki-assets/images/pass-landing-page-screen.png)
+
 - ### Setting up a Development Pod Server
 
   PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
