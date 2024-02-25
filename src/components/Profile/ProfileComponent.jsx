@@ -1,10 +1,10 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 // Custom Hook Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -148,17 +148,9 @@ const ProfileComponent = ({ contactProfile, webId }) => {
               handleEditInput={handleEditInput}
             />
             <Typography sx={{ marginTop: '8px' }}>
-              <Button
-                onClick={() =>
-                  session.logout({
-                    logoutType: 'idp',
-                    postLogoutUrl: signupLink,
-                    state: `${encodeURIComponent(session.info.webId)}`
-                  })
-                }
-              >
+              <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
                 Your Invite Link
-              </Button>
+              </Link>
               <IconButton
                 aria-label="Copy Invite Link"
                 edge="end"
