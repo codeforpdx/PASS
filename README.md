@@ -87,7 +87,7 @@ PASS is currently in development working towards MVP release by generous efforts
    npm run dev
    ```
 
-5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a Pod hosted at the OIDC provider of your choice.
+5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a Pod hosted at the OIDC provider of your choice (see **[Setting up a Development Pod Server](https://github.com/codeforpdx/PASS/edit/576-README.md-and-Wiki-Getting-Started-Update/README.md#setting-up-a-development-pod-server)** below).
 
 ![PASS Web Site Main Landing Page image](https://github.com/codeforpdx/PASS/blob/576-README.md-and-Wiki-Getting-Started-Update/wiki-assets/images/pass-landing-page-screen.png)
 
