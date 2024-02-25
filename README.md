@@ -91,7 +91,7 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Setting up a Development Pod Server
 
-![PASS Solid Server Opening Pod Set-up Screen](https://drive.google.com/uc?export=view&id=1yY7vtEVqMlz71nmzsFBbL9mHtDsClycO)
+![PASS Solid Server Opening Pod Set-up Screen](https://github.com/codeforpdx/PASS/blob/576-README.md-and-Wiki-Getting-Started-Update/wiki-assets/images/community-solid-server-welcom-screen-small.png)
 
   PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
 
