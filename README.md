@@ -91,8 +91,6 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Setting up a Development Pod Server
 
-![PASS Solid Server Opening Pod Set-up Screen](https://github.com/codeforpdx/PASS/blob/576-README.md-and-Wiki-Getting-Started-Update/wiki-assets/images/community-solid-server-welcom-screen-small.png)
-
   PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
 
 1. Clone and install dependencies. [See previous section](#clone-and-install-dependencies)
@@ -104,6 +102,8 @@ PASS is currently in development working towards MVP release by generous efforts
    ```
 
 3. Run `npm run podserver` to launch the Pod server. The server will begin listening on `http://localhost:3000`, and will create a folder in the PASS project folder called `local_temp_server_files`. You can find all server and Pod files there.
+
+![PASS Solid Server Opening Pod Set-up Screen](https://github.com/codeforpdx/PASS/blob/576-README.md-and-Wiki-Getting-Started-Update/wiki-assets/images/community-solid-server-welcom-screen-small.png)
 
 4. Open a browser and navigate to `http://localhost:3000`. You should encounter a screen asking you to set up the server and create an account. Create your first account, and your server will be ready for development.
 
