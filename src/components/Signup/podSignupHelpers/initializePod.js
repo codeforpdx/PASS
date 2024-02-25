@@ -1,12 +1,18 @@
 // Inrupt Imports
+import { RDF_PREDICATES } from '@constants';
 import {
+  buildThing,
+  createThing,
   createAcl,
   createContainerAt,
+  createSolidDataset,
   getResourceAcl,
   getSolidDatasetWithAcl,
+  saveSolidDatasetAt,
   setAgentDefaultAccess,
   setAgentResourceAccess,
-  saveAclFor
+  saveAclFor,
+  setThing
 } from '@inrupt/solid-client';
 
 /**
@@ -19,7 +25,12 @@ import {
  * @param {Function} fetch - The fetch function for making HTTP requests.
  * @throws {Error} If there are issues with creating containers or setting access control.
  */
-const initializePod = async (webId, podUrl, caseManagerWebId, fetch) => {
+const initializePod = async (
+  webId,
+  podUrl,
+  { caseManagerWebId, caseManagerFirstName, caseManagerLastName },
+  fetch
+) => {
   await createContainerAt(`${podUrl}PASS`, { fetch });
   let datasetWithAcl;
   let acl;
@@ -55,7 +66,21 @@ const initializePod = async (webId, podUrl, caseManagerWebId, fetch) => {
       write: false,
       control: false
     });
-  } catch {
+    let contactsList = createSolidDataset();
+    let builder = buildThing(createThing({ name: encodeURIComponent(caseManagerWebId) }))
+      .addUrl(RDF_PREDICATES.identifier, caseManagerWebId)
+      .addUrl(RDF_PREDICATES.URL, caseManagerWebId.split('profile')[0]);
+
+    if (caseManagerFirstName) {
+      builder = builder.addStringNoLocale(RDF_PREDICATES.givenName, caseManagerFirstName);
+    }
+    if (caseManagerLastName) {
+      builder = builder.addStringNoLocale(RDF_PREDICATES.familyName, caseManagerLastName);
+    }
+    const caseManagerContact = builder.build();
+    contactsList = setThing(contactsList, caseManagerContact);
+    await saveSolidDatasetAt(`${podUrl}PASS/Users/userlist.ttl`, contactsList, { fetch });
+  } catch (e) {
     await saveAclFor(datasetWithAcl, acl, { fetch });
   } finally {
     await saveAclFor(datasetWithAcl, acl, { fetch });

@@ -39,8 +39,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
     localStorage.setItem('oidcIssuer', oidcIssuer);
     await login({
       oidcIssuer,
-      redirectUrl,
-      clientId: ENV.VITE_CLIENT_ID_DOC
+      redirectUrl
     });
   };
 

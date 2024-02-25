@@ -43,11 +43,15 @@ const Signup = () => {
       },
       oidcIssuer
     );
-    console.log('registration', registration);
+    const caseManagerNames = caseManagerName?.split(' ') || [];
     await initializePod(
       registration.webId,
       registration.podUrl,
-      caseManagerWebId,
+      {
+        caseManagerWebId,
+        caseManagerFirstName: caseManagerNames[0],
+        caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
+      },
       registration.fetch
     );
     setStep('done');
