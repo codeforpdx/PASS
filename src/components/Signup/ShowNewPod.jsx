@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
  * @returns {React.JSX} The rendered React component.
  */
 const ShowNewPod = ({ oidcIssuer }) => {
-  const { session, logout } = useSession();
+  const { session } = useSession();
   const { data, isSuccess } = useContactsList();
 
   return (
@@ -36,9 +36,7 @@ const ShowNewPod = ({ oidcIssuer }) => {
       </Typography>
       <Typography>Click here to return to the home page and log into PASS:</Typography>
       <Button>
-        <Link onClick={logout} to={window.location.host}>
-          Homepage
-        </Link>
+        <Link to={window.location.origin}>Homepage</Link>
       </Button>
     </>
   );

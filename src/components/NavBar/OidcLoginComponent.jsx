@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Autocomplete from '@mui/material/Autocomplete';
 // Constants Imports
+import { Link } from 'react-router-dom';
 import { ENV } from '../../constants';
 
 /**
@@ -129,6 +130,16 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           fullWidth={isSmallScreen}
         >
           Login
+        </Button>
+        <Button
+          variant="contained"
+          color={isSmallScreen ? 'primary' : 'secondary'}
+          size={isSmallScreen ? '' : 'large'}
+          fullWidth={isSmallScreen}
+        >
+          <Link to="signup" style={{ color: 'inherit', textDecoration: 'none' }}>
+            Sign Up
+          </Link>
         </Button>
       </Box>
     </Box>
