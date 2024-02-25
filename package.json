@@ -18,7 +18,7 @@
     "prettier:check": "prettier --check \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "prettier:run": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "podserver:temp": "community-solid-server",
-    "podserver": "community-solid-server -c @css:config/file.json -f local_temp_server_files/",
+    "podserver": "community-solid-server -c config/solid-server/solid-config.json -f local_temp_server_files/",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -59,7 +59,6 @@
     "last 3 edge versions"
   ],
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.1.0",
     "@solid/community-server": "^7.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",

@@ -34,9 +34,14 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
   const loginHandler = async () => {
-    const redirectUrl = window.location.href;
+    let redirectUrl = new URL(window.location.href);
+    redirectUrl = redirectUrl.toString();
     localStorage.setItem('oidcIssuer', oidcIssuer);
-    await login({ oidcIssuer, redirectUrl });
+    await login({
+      oidcIssuer,
+      redirectUrl,
+      clientId: ENV.VITE_CLIENT_ID_DOC
+    });
   };
 
   const theme = useTheme();

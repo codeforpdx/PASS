@@ -33,7 +33,7 @@ const Signup = () => {
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
-  const { session, login, podUrl } = useSession();
+  const { session, podUrl } = useSession();
   const { add: addContact, isSuccess } = useContactsList();
 
   const registerAndLogin = async (email, password, confirmPassword) => {
@@ -45,12 +45,6 @@ const Signup = () => {
       },
       oidcIssuer
     );
-
-    await login({
-      oidcIssuer,
-      redirectUrl: window.location.href,
-      clientName: 'PASS Registration'
-    });
   };
 
   const loadProfileInfo = async () => {

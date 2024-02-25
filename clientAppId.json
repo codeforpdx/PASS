@@ -1,9 +1,0 @@
-{
-  "@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
-  "client_id": "https://my-app.example.com/myappid",
-  "redirect_uris": ["http://localhost:3000/profile"],
-  "client_name": "PASS",
-  "client_uri": import.meta.env.BASE_URL,
-  "scope" : "openid offline_access webid",
-  "grant_types" : ["refresh_token","authorization_code"]
-}

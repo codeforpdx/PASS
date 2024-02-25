@@ -78,9 +78,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
-    session.info.webId
-  )}`;
+  const signupLink = `${window.location.origin}/signup`;
 
   return (
     <Box
@@ -154,8 +152,8 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 onClick={() =>
                   session.logout({
                     logoutType: 'idp',
-                    postLogoutUrl: `${window.location.href}`,
-                    state: `webId=${encodeURIComponent(session.info.webId)}`
+                    postLogoutUrl: signupLink,
+                    state: `${encodeURIComponent(session.info.webId)}`
                   })
                 }
               >
