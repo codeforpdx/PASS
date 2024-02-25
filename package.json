@@ -17,6 +17,7 @@
     "lint:fix": "eslint --fix \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\" \"__mocks__/**/*.js\"",
     "prettier:check": "prettier --check \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "prettier:run": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "podserver:temp": "community-solid-server",
     "podserver": "community-solid-server -c config/solid-server/solid-config.json -f local_temp_server_files/",
     "prepare": "husky install"

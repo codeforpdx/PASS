@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -28,6 +29,14 @@ const mockSignedInUserContextMemo = {
     profileData: profileInfo
   })
 };
+const renderTest = () =>
+  render(
+    <BrowserRouter>
+      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+        <ProfileComponent contactProfile={null} />
+      </SignedInUserContext.Provider>
+    </BrowserRouter>
+  );
 
 describe('ProfileComponent', () => {
   afterEach(() => {
@@ -36,12 +45,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders cancel and update buttons after clicking on edit button from initial render', async () => {
-    const { queryByRole } = render(
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
-      </SignedInUserContext.Provider>
-    );
-
+    const { queryByRole } = renderTest();
     await waitFor(async () => {
       let editButton = queryByRole('button', { name: 'Edit' });
       expect(editButton).not.toBeNull();
@@ -61,12 +65,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders edit buttons after clicking on cancel button', async () => {
-    const { queryByRole } = render(
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
-      </SignedInUserContext.Provider>
-    );
-
+    const { queryByRole } = renderTest();
     await waitFor(async () => {
       let editButton = queryByRole('button', { name: 'Edit' });
       let cancelButton;
@@ -92,11 +91,12 @@ describe('ProfileComponent', () => {
 
   it('renders no edit button for ProfileInputFields if contactProfile is not null', async () => {
     const { queryByRole } = render(
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={{}} />
-      </SignedInUserContext.Provider>
+      <BrowserRouter>
+        <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+          <ProfileComponent contactProfile={{}} />
+        </SignedInUserContext.Provider>
+      </BrowserRouter>
     );
-
     await waitFor(() => {
       const editButton = queryByRole('button', { name: 'Edit' });
 
@@ -105,12 +105,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders profile component as row default', async () => {
-    const component = render(
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
-      </SignedInUserContext.Provider>
-    );
-
+    const component = renderTest();
     await waitFor(() => {
       const container = component.container.firstChild;
       const cssProperty = getComputedStyle(container);
@@ -122,12 +117,7 @@ describe('ProfileComponent', () => {
   it('renders profile component as column mobile', async () => {
     window.matchMedia = createMatchMedia(599);
 
-    const component = render(
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
-      </SignedInUserContext.Provider>
-    );
-
+    const component = renderTest();
     await waitFor(() => {
       const container = component.container.firstChild;
       const cssProperty = getComputedStyle(container);
