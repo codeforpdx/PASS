@@ -52,15 +52,14 @@ const initializePod = async (
     write: true,
     control: true
   });
-  try {
-    const caseManagerUrl = new URL(caseManagerWebId);
-    acl = setAgentResourceAccess(acl, caseManagerUrl.href, {
+  if (caseManagerWebId && caseManagerWebId !== 'null') {
+    acl = setAgentResourceAccess(acl, caseManagerWebId, {
       read: true,
       append: true,
       write: false,
       control: false
     });
-    acl = setAgentDefaultAccess(acl, caseManagerUrl.href, {
+    acl = setAgentDefaultAccess(acl, caseManagerWebId, {
       read: true,
       append: true,
       write: false,
@@ -80,11 +79,13 @@ const initializePod = async (
     const caseManagerContact = builder.build();
     contactsList = setThing(contactsList, caseManagerContact);
     await saveSolidDatasetAt(`${podUrl}PASS/Users/userlist.ttl`, contactsList, { fetch });
-  } catch (e) {
-    await saveAclFor(datasetWithAcl, acl, { fetch });
-  } finally {
-    await saveAclFor(datasetWithAcl, acl, { fetch });
   }
+  await saveAclFor(datasetWithAcl, acl, { fetch });
+
+  await createContainerAt(`${podUrl}PASS/Documents`, { fetch });
+  await saveSolidDatasetAt(`${podUrl}PASS/Documents/doclist.ttl`, createSolidDataset(), {
+    fetch
+  });
 };
 
 export default initializePod;
