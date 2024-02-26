@@ -5,7 +5,6 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 
 // Hooks imports
-import useSession from '@hooks/useSession';
 import { useContactsList } from '@hooks';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -15,20 +14,20 @@ import { Link } from 'react-router-dom';
  *
  * @namespace ShowNewPod
  * @param {object} props - Component props.
- * @param {string} props.oidcIssuer - The OIDC issuer URL associated with the pod.
+ * @param {string} props.podUrl - The url of the newly created pod
+ * @param {string} props.webId - The user's new web ID
  * @returns {React.JSX} The rendered React component.
  */
-const ShowNewPod = ({ oidcIssuer }) => {
-  const { session } = useSession();
+const ShowNewPod = ({ podUrl, webId }) => {
   const { data, isSuccess } = useContactsList();
 
   return (
     <>
       <h1>You have successfully registered for a pod.</h1>
       <Typography>
-        You can find your pod here: {oidcIssuer}
+        You can find your pod here: {podUrl}
         <br />
-        Your webId is: {session.info.webId}
+        Your webId is: {webId}
         <br />
         {isSuccess && data.length > 0
           ? `You have registered with ${data[0].person}`

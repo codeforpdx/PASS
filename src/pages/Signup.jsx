@@ -32,6 +32,7 @@ const Signup = () => {
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
+  const [registrationInfo, setRegistrationInfo] = useState({});
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
@@ -43,6 +44,7 @@ const Signup = () => {
       },
       oidcIssuer
     );
+    setRegistrationInfo(registration);
     const caseManagerNames = caseManagerName?.split(' ') || [];
     await initializePod(
       registration.webId,
@@ -100,7 +102,9 @@ const Signup = () => {
             />
           )}
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
-          {step === 'done' && <ShowNewPod oidcIssuer={oidcIssuer} />}
+          {step === 'done' && (
+            <ShowNewPod podUrl={registrationInfo.podUrl} webId={registrationInfo.webId} />
+          )}
         </Paper>
       </Box>
     </Container>
