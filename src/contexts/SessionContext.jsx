@@ -27,7 +27,7 @@ import {
   logout,
   handleIncomingRedirect,
   getDefaultSession,
-  onSessionRestore as onSessionRestoreClient
+  EVENTS
 } from '@inrupt/solid-client-authn-browser';
 
 import { getProfileAll, getPodUrlAll } from '@inrupt/solid-client';
@@ -57,7 +57,7 @@ export const SessionProvider = ({
 
   useEffect(() => {
     if (onSessionRestore !== undefined) {
-      onSessionRestoreClient(onSessionRestore);
+      session.events.on(EVENTS.SESSION_RESTORED, onSessionRestore);
     }
   }, [onSessionRestore]);
 
@@ -109,7 +109,7 @@ export const SessionProvider = ({
         setSessionRequestInProgress(false);
       });
 
-    getDefaultSession().on('logout', () => {
+    getDefaultSession().events.on('logout', () => {
       setSession(getDefaultSession());
     });
   }, [session, sessionId, onError, currentLocation, restoreSession, skipLoadingProfile]);

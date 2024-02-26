@@ -5,33 +5,41 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 
 // Hooks imports
-import useSession from '@hooks/useSession';
 import { useContactsList } from '@hooks';
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 /**
  * A React component for displaying information about a newly registered Solid Pod.
  *
  * @namespace ShowNewPod
  * @param {object} props - Component props.
- * @param {string} props.oidcIssuer - The OIDC issuer URL associated with the pod.
+ * @param {string} props.oidcIssuer - The URL of the pod provider
+ * @param {string} props.podUrl - The url of the newly created pod
+ * @param {string} props.webId - The user's new web ID
  * @returns {React.JSX} The rendered React component.
  */
-const ShowNewPod = ({ oidcIssuer }) => {
-  const { session } = useSession();
+const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
   const { data, isSuccess } = useContactsList();
 
   return (
     <>
       <h1>You have successfully registered for a pod.</h1>
       <Typography>
-        You can find your pod here: {oidcIssuer}
+        You can access your pod through your Pod Provider: <a href={oidcIssuer}>{oidcIssuer}</a>
         <br />
-        Your webId is: {session.info.webId}
+        We set up this pod to operate with PASS: <a href={podUrl}>{podUrl}</a>
+        <br />
+        Your Pod Provider has created this webId for you: <a href={webId}>{webId}</a>
         <br />
         {isSuccess && data.length > 0
           ? `You have registered with ${data[0].person}`
           : 'You have not registered with a case manager'}
       </Typography>
+      <Typography>Click here to return to the home page and log into PASS:</Typography>
+      <Button>
+        <Link to={window.location.origin}>Homepage</Link>
+      </Button>
     </>
   );
 };

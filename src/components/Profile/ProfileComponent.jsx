@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 // Custom Hook Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
@@ -77,9 +78,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const signupLink = `${window.location.origin}/signup?webId=${encodeURIComponent(
-    session.info.webId
-  )}`;
+  const signupLink = `${window.location.origin}/signup`;
 
   return (
     <Box
@@ -149,9 +148,9 @@ const ProfileComponent = ({ contactProfile, webId }) => {
               handleEditInput={handleEditInput}
             />
             <Typography sx={{ marginTop: '8px' }}>
-              <a href={signupLink} rel="noopener noreferrer" target="_blank">
+              <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
                 Your Invite Link
-              </a>
+              </Link>
               <IconButton
                 aria-label="Copy Invite Link"
                 edge="end"

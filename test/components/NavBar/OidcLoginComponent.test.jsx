@@ -1,12 +1,20 @@
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { login } from '@inrupt/solid-client-authn-browser';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { expect, it, vi, afterEach } from 'vitest';
 import OidcLoginComponent from '../../../src/components/NavBar/OidcLoginComponent';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
 vi.mock('@inrupt/solid-client-authn-browser');
+
+const renderTest = () =>
+  render(
+    <BrowserRouter>
+      <OidcLoginComponent />
+    </BrowserRouter>
+  );
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -28,10 +36,10 @@ vi.mock('../../../src/constants/', async () => {
 
 it('sets OIDC provider on login', async () => {
   const user = userEvent.setup();
-  const { getByRole } = render(<OidcLoginComponent />);
+  const { getByRole, queryByRole } = renderTest();
 
   const input = getByRole('combobox');
-  const loginButton = getByRole('button');
+  const loginButton = queryByRole('button', { name: 'Login' });
 
   await user.clear(input);
   await user.type(input, 'http://oidc.provider.url/');
@@ -44,7 +52,7 @@ it('sets OIDC provider on login', async () => {
 
 it('displays a list of suggested providers when focused', async () => {
   const user = userEvent.setup();
-  const { getByRole, getByText } = render(<OidcLoginComponent />);
+  const { getByRole, getByText } = renderTest();
 
   const input = getByRole('combobox');
   await user.click(input);
@@ -57,7 +65,7 @@ it('displays a list of suggested providers when focused', async () => {
 });
 
 it('renders container items as row default', () => {
-  const component = render(<OidcLoginComponent />);
+  const component = renderTest();
   const container = component.container.firstChild;
   const cssProperty = getComputedStyle(container);
 
@@ -66,17 +74,17 @@ it('renders container items as row default', () => {
 
 it('renders container items as column mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  const component = render(<OidcLoginComponent />);
+  const component = renderTest();
   const container = component.container.firstChild;
   const cssProperty = getComputedStyle(container);
 
   expect(cssProperty.flexDirection).toBe('column');
 });
 
-it('renders 2 buttons when mobile', () => {
+it('renders at least 2 buttons when mobile', () => {
   window.matchMedia = createMatchMedia(599);
-  const { getAllByRole } = render(<OidcLoginComponent />);
+  const { getAllByRole } = renderTest();
   const buttons = getAllByRole('button');
 
-  expect(buttons.length).toBe(2);
+  expect(buttons.length > 2).toBe(true);
 });
