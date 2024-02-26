@@ -103,7 +103,11 @@ const Signup = () => {
           )}
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (
-            <ShowNewPod podUrl={registrationInfo.podUrl} webId={registrationInfo.webId} />
+            <ShowNewPod
+              oidcIssuer={oidcIssuer}
+              podUrl={registrationInfo.podUrl}
+              webId={registrationInfo.webId}
+            />
           )}
         </Paper>
       </Box>

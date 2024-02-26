@@ -14,20 +14,23 @@ import { Link } from 'react-router-dom';
  *
  * @namespace ShowNewPod
  * @param {object} props - Component props.
+ * @param {string} props.oidcIssuer - The URL of the pod provider
  * @param {string} props.podUrl - The url of the newly created pod
  * @param {string} props.webId - The user's new web ID
  * @returns {React.JSX} The rendered React component.
  */
-const ShowNewPod = ({ podUrl, webId }) => {
+const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
   const { data, isSuccess } = useContactsList();
 
   return (
     <>
       <h1>You have successfully registered for a pod.</h1>
       <Typography>
-        You can find your pod here: {podUrl}
+        You can access your pod through your Pod Provider: <a href={oidcIssuer}>{oidcIssuer}</a>
         <br />
-        Your webId is: {webId}
+        We set up this pod to operate with PASS: <a href={podUrl}>{podUrl}</a>
+        <br />
+        Your Pod Provider has created this webId for you: <a href={webId}>{webId}</a>
         <br />
         {isSuccess && data.length > 0
           ? `You have registered with ${data[0].person}`
