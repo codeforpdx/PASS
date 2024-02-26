@@ -58,6 +58,7 @@ const Signup = () => {
   };
 
   const loadProfileInfo = async () => {
+    if (caseManagerWebId === 'null') return;
     try {
       const profile = await getWebIdDataset(caseManagerWebId);
       const profileThing = getThing(profile, caseManagerWebId);
