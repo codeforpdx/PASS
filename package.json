@@ -17,8 +17,9 @@
     "lint:fix": "eslint --fix \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\" \"__mocks__/**/*.js\"",
     "prettier:check": "prettier --check \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "prettier:run": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.jsx\" \"test/**/*.js\" \"test/**/*.jsx\"",
     "podserver:temp": "community-solid-server",
-    "podserver": "community-solid-server -c @css:config/file.json -f local_temp_server_files/",
+    "podserver": "community-solid-server -c config/solid-server/solid-config.json -f local_temp_server_files/",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -27,8 +28,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
-    "@inrupt/solid-client": "^1.24.0",
-    "@inrupt/solid-client-authn-browser": "1.15.0",
+    "@inrupt/solid-client": "^2.0.0",
+    "@inrupt/solid-client-authn-browser": "^2.0.0",
+    "@inrupt/solid-client-authn-core": "^2.0.0",
     "@inrupt/vocab-common-rdf": "^1.0.5",
     "@mui/base": "^5.0.0-beta.0",
     "@mui/icons-material": "^5.11.16",
@@ -59,7 +61,6 @@
     "last 3 edge versions"
   ],
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.1.0",
     "@solid/community-server": "^7.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
@@ -95,7 +96,7 @@
     "vitest": "^0.34.6"
   },
   "lint-staged": {
-    "*.{js,css,ts,tsx,jsx}": [
+    "src/**/*.{js,css,ts,tsx,jsx}": [
       "npm run lint:fix",
       "npm run prettier:run"
     ]
