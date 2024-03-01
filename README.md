@@ -102,7 +102,7 @@ This will launch the pod server. The server will begin listening on `http://loca
 
 Note: The `npm run podserver` command will launch a server that stores documents on your local file system. If you don't want to store documents, and want all server data to be deleted on shutdown, you can run `npm run podserver:temp`
 
-2. Open a browser and navigate to `http://localhost:3000`. You should get a "Community Solid Server" screen. In the "Getting started as a _user_." section, click on the "Sign up for an account," asking you to set up the server and create an account.
+2. Open a browser and navigate to `http://localhost:3000`. You should get a "Community Solid Server" screen. In the "Getting started as a _user_." section, click on the "Sign up for an account."
 
 3. You'll be taken to an "Create Account" screen. Create a new Podserver account by inputting an email, password and confirm password in those fields, and then click on the "Register" button at the bottom.
 
@@ -114,7 +114,7 @@ Note: The `npm run podserver` command will launch a server that stores documents
 
 7. Below that, click the radio button for "Use the WebID in the Pod and register it to your account," unless you're testing with an external WebID you already have, in which case, click the "Use an external WebID" radio button and input that external WebID in that field. Once that is all filled in, click the "Create pod" button at the bottom.
 
-8. You'll be taken to a screen that has "Your new Pod" and "Your new WebID" and the URLs at which they're located. Note these down to use for your login to the PASS web site.
+8. You'll be taken to a screen that has "Your new Pod" and "Your new WebID" and the URLs for each. Note these down to use for your login to the PASS web site.
 
 - ### Launching PASS
 
