@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { render, cleanup } from '@testing-library/react';
+import { describe, expect, it, afterEach } from 'vitest';
 import { MessageFolder } from '@components/Messages';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
@@ -25,6 +25,10 @@ describe('Default screen', () => {
 });
 
 describe('Mobile screen', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it("renders '30px 0px' padding", () => {
     window.matchMedia = createMatchMedia(599);
     const component = render(<MockMessageFolder />);

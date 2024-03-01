@@ -14,10 +14,9 @@ import Typography from '@mui/material/Typography';
  * @param {string} Props.icon - icon
  * @param {string} Props.title - key feature title
  * @param {string} Props.description - key feature description
- * @param {boolean} Props.isReallySmallScreen - screen size
  * @returns {React.JSX.Element} the KeyFeatures section component
  */
-const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
+const KeyFeatures = ({ icon, title, description }) => (
   <Stack alignItems="center">
     <Box
       sx={{
@@ -44,7 +43,6 @@ const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => (
     <Typography
       variant="body1"
       sx={{
-        width: isReallySmallScreen ? 1 : '85%',
         textAlign: 'center',
         color: 'primary.dark',
         marginBottom: '50px'

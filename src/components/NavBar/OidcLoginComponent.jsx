@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Autocomplete from '@mui/material/Autocomplete';
 // Constants Imports
+import { Link } from 'react-router-dom';
 import { ENV } from '../../constants';
 
 /**
@@ -34,9 +35,13 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
   const loginHandler = async () => {
-    const redirectUrl = window.location.href;
+    let redirectUrl = new URL(window.location.href);
+    redirectUrl = redirectUrl.toString();
     localStorage.setItem('oidcIssuer', oidcIssuer);
-    await login({ oidcIssuer, redirectUrl });
+    await login({
+      oidcIssuer,
+      redirectUrl
+    });
   };
 
   const theme = useTheme();
@@ -125,6 +130,16 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           fullWidth={isSmallScreen}
         >
           Login
+        </Button>
+        <Button
+          variant="contained"
+          color={isSmallScreen ? 'primary' : 'secondary'}
+          size={isSmallScreen ? '' : 'large'}
+          fullWidth={isSmallScreen}
+        >
+          <Link to="signup" style={{ color: 'inherit', textDecoration: 'none' }}>
+            Sign Up
+          </Link>
         </Button>
       </Box>
     </Box>
