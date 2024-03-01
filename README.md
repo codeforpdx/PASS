@@ -32,7 +32,7 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Prerequisites
 
-  Currently, we require Node version 18.19.1 and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
+  Currently, we require Node version 18.19.x and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
 
 1. Download NVM for your system.
 
