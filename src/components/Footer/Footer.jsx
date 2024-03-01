@@ -1,23 +1,13 @@
-// React Imports
 import React from 'react';
-// Material UI Imports
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// Component Imports
 import RenderCallToActionSection from './RenderCallToActionSection';
 import RenderCompanyInfoSection from './RenderCompanyInfoSection';
 import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
 
-/**
- * Footer Component - Generates the responsive footer used in PASS
- *
- * @memberof Footer
- * @name Footer
- * @returns {React.JSX.Element} The Footer component
- */
 const Footer = () => {
   const theme = useTheme();
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -25,7 +15,6 @@ const Footer = () => {
   return (
     <Box
       component="footer"
-      py={5}
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -33,21 +22,16 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: 'primary.main'
+        bgcolor: 'primary.main',
+        height: 'auto',
+        padding: '5px'
       }}
     >
       <Stack
         alignItems="center"
         direction={isReallySmallScreen ? 'column' : 'row'}
-        spacing={isReallySmallScreen ? 1 : 4}
-        divider={
-          <Divider
-            orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
-            flexItem={isReallySmallScreen ? null : true}
-            color={theme.palette.tertiary.main}
-            sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
-          />
-        }
+        spacing={isReallySmallScreen ? 1 : 2}
+        divider={<Divider orientation={isReallySmallScreen ? 'horizontal' : 'vertical'} flexItem />}
       >
         <RenderCallToActionSection isReallySmallScreen={isReallySmallScreen} />
         <RenderCompanyInfoSection isReallySmallScreen={isReallySmallScreen} />

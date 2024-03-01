@@ -1,47 +1,93 @@
-// React Imports
 import React from 'react';
-
-// MUI imports
 import Typography from '@mui/material/Typography';
-
-// Hooks imports
-import { useContactsList } from '@hooks';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-/**
- * A React component for displaying information about a newly registered Solid Pod.
- *
- * @namespace ShowNewPod
- * @param {object} props - Component props.
- * @param {string} props.oidcIssuer - The URL of the pod provider
- * @param {string} props.podUrl - The url of the newly created pod
- * @param {string} props.webId - The user's new web ID
- * @returns {React.JSX} The rendered React component.
- */
-const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
-  const { data, isSuccess } = useContactsList();
-
-  return (
-    <>
-      <h1>You have successfully registered for a pod.</h1>
-      <Typography>
-        You can access your pod through your Pod Provider: <a href={oidcIssuer}>{oidcIssuer}</a>
-        <br />
-        We set up this pod to operate with PASS: <a href={podUrl}>{podUrl}</a>
-        <br />
-        Your Pod Provider has created this webId for you: <a href={webId}>{webId}</a>
-        <br />
-        {isSuccess && data.length > 0
-          ? `You have registered with ${data[0].person}`
-          : 'You have not registered with a case manager'}
-      </Typography>
-      <Typography>Click here to return to the home page and log into PASS:</Typography>
-      <Button>
-        <Link to={window.location.origin}>Homepage</Link>
-      </Button>
-    </>
-  );
-};
+const ShowNewPod = ({ oidcIssuer, podUrl, webId, isSuccess, data }) => (
+  <div style={{ textAlign: 'center', padding: '20px' }}>
+    <Typography
+      variant="h4"
+      style={{
+        marginBottom: '20px',
+        fontWeight: 'bold',
+        fontSize: '2.5rem',
+        '@media (max-width:600px)': { fontSize: '2rem' }
+      }}
+    >
+      Congratulations!
+    </Typography>
+    <Typography
+      variant="body1"
+      style={{
+        marginBottom: '10px',
+        fontSize: '1.2rem',
+        '@media (max-width:600px)': { fontSize: '1rem' }
+      }}
+    >
+      You have successfully registered for a pod.
+    </Typography>
+    <Typography
+      variant="body2"
+      style={{
+        marginBottom: '10px',
+        fontSize: '1rem',
+        '@media (max-width:600px)': { fontSize: '0.9rem' }
+      }}
+    >
+      You can access your pod through your Pod Provider: <a href={oidcIssuer}>{oidcIssuer}</a>
+    </Typography>
+    <Typography
+      variant="body2"
+      style={{
+        marginBottom: '10px',
+        fontSize: '1rem',
+        '@media (max-width:600px)': { fontSize: '0.9rem' }
+      }}
+    >
+      We set up this pod to operate with PASS: <a href={podUrl}>{podUrl}</a>
+    </Typography>
+    <Typography
+      variant="body2"
+      style={{
+        marginBottom: '10px',
+        fontSize: '1rem',
+        '@media (max-width:600px)': { fontSize: '0.9rem' }
+      }}
+    >
+      Your Pod Provider has created this webId for you: <a href={webId}>{webId}</a>
+    </Typography>
+    <Typography
+      variant="body1"
+      style={{
+        marginBottom: '10px',
+        fontSize: '1.2rem',
+        '@media (max-width:600px)': { fontSize: '1rem' }
+      }}
+    >
+      {isSuccess && data.length > 0
+        ? `You have registered with ${data[0].person}`
+        : 'You have not registered with a case manager'}
+    </Typography>
+    <Typography
+      variant="body1"
+      style={{
+        marginTop: '20px',
+        fontSize: '1.2rem',
+        '@media (max-width:600px)': { fontSize: '1rem' }
+      }}
+    >
+      Click here to return to the home page and log into PASS:
+    </Typography>
+    <Button
+      variant="contained"
+      color="primary"
+      component={Link}
+      to="/"
+      style={{ marginTop: '10px' }}
+    >
+      Homepage
+    </Button>
+  </div>
+);
 
 export default ShowNewPod;
