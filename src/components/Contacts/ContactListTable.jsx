@@ -19,6 +19,8 @@ import ContactProfileIcon from './ContactProfileIcon';
 //import { NewMessageModal } from '../Modals';
 import { AddContactModal, NewMessageModal } from '@components/Modals';
 
+// to do: open a modal like in message button. modal should have contact data. 
+
 const CustomToolbar = () => (
   <GridToolbarContainer>
     <GridToolbarFilterButton />
@@ -49,6 +51,11 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
     setMessageToField(contactId.value.podUrl);
+  };
+
+  const handleEditContact = () => {
+    setShowAddContactModal(!showAddContactModal);
+    contactData={contactData}
   };
 
   const columnTitlesArray = [
@@ -102,6 +109,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       renderCell: () => 
         <EditIcon
           //set a prop to true, send contactData to contact modal
+          onClick={() => handleEditContact(contactId)}
         />
       ,
       sortable: false,
@@ -169,7 +177,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         toField={messageToField}
       />
       <AddContactModal
-        showAddContactModal={false}
+        showAddContactModal={showAddContactModal}
+        contactData ={contactData}
       />
     </Box>
   );

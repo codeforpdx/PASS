@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
@@ -43,7 +43,11 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
-const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
+const AddContactModal = ({ addContact, 
+    showAddContactModal, 
+    setShowAddContactModal,
+    contactData
+  }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -90,6 +94,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     }
   };
 
+  const {givenName} = props; 
+
   return (
     <Dialog
       open={showAddContactModal}
@@ -105,7 +111,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               name="addUserGivenName"
               label="First/given name (Optional)"
               autoComplete="given-name"
-              value={userGivenName}
+              value={userGivenName || givenName}
               onChange={(e) => setUserGivenName(e.target.value)}
               fullWidth
               autoFocus
