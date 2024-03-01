@@ -19,8 +19,7 @@ PASS is an open source digital wallet for providing home-insecure individuals a 
 
 The [PASS wiki](https://github.com/codeforpdx/PASS/wiki) contains detailed information of all things PASS including contribution guidelines, tech stack, information on SOLID, etc...
 
-PASS is currently in development working towards MVP release by generous efforts from [our contributors](https://github.com/codeforpdx/PASS/graphs/contributors
-).
+PASS is currently in development working towards MVP release by generous efforts from [our contributors](https://github.com/codeforpdx/PASS/graphs/contributors).
 
 ## Contents
 
@@ -29,31 +28,32 @@ PASS is currently in development working towards MVP release by generous efforts
 3.  [Contribution Guidelines](#3-contribution-guidelines)
 4.  [Code of Conduct](#4-code-of-conduct)
 
-## 1. Setup Instructions
+## 1. Quick Setup Instructions
 
 - ### Prerequisites
 
-  Currently, we require Node version 16.20.2 and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
+  Currently, we require Node version 18.19.1 and NPM for our package manager. We recommend managing node and npm using Node Version Manager (NVM). To do so:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm
 - For Windows users: https://github.com/coreybutler/nvm-windows
 
-2. Install node version 16.20.2:
+2. Install node version 18 by running:
    ```
-   nvm install 16.20.2
+   nvm install 18
    ```
 3. Use that node version:
    ```
-   nvm use 16.20.2
+   nvm use 18
    ```
 4. Check that node and npm are set up:
    ```
    node -v
    npm -v
    ```
-   If either of those commands error, node has not been installed correctly.
+   If either of those commands error, node has not been installed correctly. At this time all 18.19.x versions are compatible
+   with PASS.
 
 - ### Clone and Install Dependencies
 
@@ -65,18 +65,18 @@ PASS is currently in development working towards MVP release by generous efforts
    ```
    npm install
    ```
-3. Install the pre-commmit prettier, linter, and test hooks. 
+3. Install the pre-commit prettier, linter, and test hooks.
    ```
    npm run prepare
    ```
-4. Run the project: 
+4. Run the project:
    ```
    npm run dev
    ```
 5. PASS should launch at `http://localhost:5173`. You can now visit that url, and sign into a Pod hosted at the OIDC provider of your choice.
 
-- ### Setting up a Development Pod Server
-  PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
+- ### Setting up a Development Solid Server
+  PASS is able to connect to any solid-spec compliant Solid server. However, for development and testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
 
 1. Clone and install dependencies. [See previous section](#clone-and-install-dependencies)
 
@@ -93,6 +93,10 @@ PASS is currently in development working towards MVP release by generous efforts
 5. Launch PASS with `npm run dev`. Click the `Login` button on the home page. If everything has been set up right, you should be redirected to your local Pod server to finish login.
 
 Note: The `npm run podserver` command will launch a server that stores documents on your local file system. If you don't want to store documents, and want all server data to be deleted on shutdown, you can run `npm run podserver:temp`
+
+- ### Setting up PASS with Development Solid Server
+
+To simplify the development process, the library `concurrently` is included as part of our development environment. Thus, you could run `npm run start` to start both the development server for PASS and the local Solid server without the need to run two separate terminal windows.
 
 ## 2. Project Overview
 
