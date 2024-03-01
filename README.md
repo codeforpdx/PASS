@@ -39,20 +39,25 @@ PASS is currently in development working towards MVP release by generous efforts
 - For Mac, Linux, and other POSIX users: https://github.com/nvm-sh/nvm
 - For Windows users: https://github.com/coreybutler/nvm-windows
 
-2. Install node version 18 by running:
+2. If you don't have node version 18, install node version 18 by running:
    ```
    nvm install 18
    ```
-3. Use that node version:
+3. Use node version 18, by running:
+   ```
+   nvm use
+   ```
+   Which would read the .nvmrc file from the root directory to use the latest version of node version 18, or run:
    ```
    nvm use 18
    ```
+   To explicitly use node version 18.
 4. Check that node and npm are set up:
    ```
    node -v
    npm -v
    ```
-   If either of those commands error, node has not been installed correctly. At this time all 18.19.x versions are compatible
+   If either of those commands error, node has not been installed correctly. At this time, all 18.19.x versions are compatible
    with PASS.
 
 - ### Clone and Install Dependencies
