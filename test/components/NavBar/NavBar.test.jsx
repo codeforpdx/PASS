@@ -16,7 +16,7 @@ const queryClient = new QueryClient();
 
 describe('login tests', () => {
   it('renders NavbarLoggedOut when user is not logged in', () => {
-    const { getByRole } = render(
+    const { queryByRole } = render(
       <QueryClientProvider client={queryClient}>
         <SessionContext.Provider value={{ session: { info: { isLoggedIn: false } } }}>
           <BrowserRouter>
@@ -25,7 +25,7 @@ describe('login tests', () => {
         </SessionContext.Provider>
       </QueryClientProvider>
     );
-    const loginButton = getByRole('button');
+    const loginButton = queryByRole('button', { name: 'Login' });
 
     expect(loginButton).not.toBeNull();
   });

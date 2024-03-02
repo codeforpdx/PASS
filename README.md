@@ -19,8 +19,7 @@ PASS is an open source digital wallet for providing home-insecure individuals a 
 
 The [PASS wiki](https://github.com/codeforpdx/PASS/wiki) contains detailed information of all things PASS including contribution guidelines, tech stack, information on SOLID, etc...
 
-PASS is currently in development working towards MVP release by generous efforts from [our contributors](https://github.com/codeforpdx/PASS/graphs/contributors
-).
+PASS is currently in development working towards MVP release by generous efforts from [our contributors](https://github.com/codeforpdx/PASS/graphs/contributors).
 
 ## Contents
 
@@ -29,29 +28,26 @@ PASS is currently in development working towards MVP release by generous efforts
 3. [Contribution Guidelines](#3-contribution-guidelines)
 4. [Code of Conduct](#4-code-of-conduct)
 
-## 1. Setup Instructions
+## 1. Quick Setup Instructions
 
 - ### Prerequisites
 
-  Currently, we require Node version 18.19.0 and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
+Currently, we require Node version 18.19.x and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: <https://github.com/nvm-sh/nvm>
 - For Windows users: <https://github.com/coreybutler/nvm-windows>
 
-2. Install node version 18.19.0:
-
-   ```bash
-   nvm install 18.19.0
+2. If you don't have node version 18, install node version 18 by running:
    ```
-
-3. Use that node version:
-
-   ```bash
-   nvm use 18.19.0
+   nvm install 18
    ```
-
+3. With nvm, nvm will read the .nvmrc file from the root directory to use the latest version of node version 18. So run:
+   ```
+   nvm use 18
+   ```
+   To explicitly use node version 18.
 4. Check that node and npm are set up:
 
    ```bash
@@ -62,7 +58,7 @@ PASS is currently in development working towards MVP release by generous efforts
    npm -v
    ```
 
-   The node version should be 18.19.0 and the npm version should be 10.2.3. If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
+The node version should be 18.19.x and the npm version should be 10.2.3. If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
 
 - ### Clone and Install Dependencies
 
@@ -77,7 +73,7 @@ PASS is currently in development working towards MVP release by generous efforts
    ```bash
    npm install
    ```
-
+   
 - ### Setting up a Development Pod Server
 
   PASS is able to connect to any solid-spec compliant Pod server. However, for testing, it's recommended that you run a server locally. PASS provides tools to make this easy to do.
@@ -133,6 +129,10 @@ Note: The `npm run podserver` command will launch a server that stores documents
 3. PASS should launch at <http://localhost:5173>.
 
 4. Once you visit that url, click the `Login` button on the home page to your local Pod server to finish login, using the WebID you just authorized from above, click the "Remember this client" checkbox, and click the "Authorize" buton. if everything has been set up right, you should be logged into your local Pod server and logged into your local PASS page.
+
+- ### Setting up PASS with Development Solid Server
+
+To simplify the development process, the library `concurrently` is included as part of our development environment. Thus, you could run `npm run start` to start both the development server for PASS and the local Solid server without the need to run two separate terminal windows.
 
 ## 2. Project Overview
 

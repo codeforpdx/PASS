@@ -15,7 +15,7 @@ it('renders login button when user is logged out', () => {
   );
 
   const logo = queryByRole('img', { name: /logo$/ });
-  const loginButton = queryByRole('button');
+  const loginButton = queryByRole('button', { name: 'Login' });
 
   expect(logo).not.toBeNull();
   expect(loginButton).not.toBeNull();
