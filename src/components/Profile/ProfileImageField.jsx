@@ -45,7 +45,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
       const updatedProfileData = await fetchProfileInfo(session.info.webId);
       localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
       setProfileImg(updatedProfileData.profileInfo.profileImage);
-
+      addNotification('success', `Profile image added.`);
       loadProfileData();
     }
   };
