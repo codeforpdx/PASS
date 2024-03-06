@@ -15,7 +15,13 @@ import Paper from '@mui/material/Paper';
 import { ENV } from '@constants';
 
 // Signup Form Imports
-import { PodRegistrationForm, ShowNewPod, initializePod, registerPod } from '@components/Signup';
+import {
+  PodRegistrationForm,
+  ShowNewPod,
+  initializePod,
+  registerPod,
+  ExistingPodForm
+} from '@components/Signup';
 import { Typography } from '@mui/material';
 
 /**
@@ -109,6 +115,7 @@ const Signup = () => {
               webId={registrationInfo.webId}
             />
           )}
+          <ExistingPodForm />
         </Paper>
       </Box>
     </Container>
