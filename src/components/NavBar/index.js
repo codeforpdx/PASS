@@ -4,6 +4,7 @@ import NavbarLinks from './NavbarLinks';
 import NavbarLoggedOut from './NavbarLoggedOut';
 import NavbarMobile from './NavbarMobile';
 import NavMenu from './NavMenu';
+import NavBarSkipLink from './NavBarSkipLink';
 
 /**
  * Components and functions related to NavBar functionality within project PASS
@@ -11,4 +12,12 @@ import NavMenu from './NavMenu';
  * @namespace NavBar
  */
 
-export { NavBar, NavbarDesktop, NavbarLinks, NavbarLoggedOut, NavbarMobile, NavMenu };
+export {
+  NavBar,
+  NavbarDesktop,
+  NavbarLinks,
+  NavbarLoggedOut,
+  NavbarMobile,
+  NavMenu,
+  NavBarSkipLink
+};

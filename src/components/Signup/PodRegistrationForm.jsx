@@ -63,10 +63,8 @@ const PodRegistrationForm = ({ register, caseManagerName }) => {
       >
         Register For PASS
       </Typography>
-      {searchParams.get('webId') ? (
+      {searchParams.get('webId') && (
         <p>You will register with {caseManagerName ?? searchParams.get('webId')}</p>
-      ) : (
-        <p>You are not registering with anyone</p>
       )}
 
       <Card variant="outlined" sx={cardStyle}>

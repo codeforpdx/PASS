@@ -1,5 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
+// Inrupt Imports
+import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,16 +21,15 @@ import useNotification from '@hooks/useNotification';
 // Component Imports
 import { FormSection } from '../Form';
 
-/**
- * @memberof Modals
- * @name renderWebId
- * @param {string} username - Username to convert into a webId
- * @returns {URL} A url of the predicted webID
- */
-const renderWebId = (username) => {
-  const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
-  return new URL(`${username}/profile/card#me`, baseUrl);
-};
+// @memberof Modals
+// @name renderWebId
+// @param {string} username - Username to convert into a webId
+// @returns {URL} A url of the predicted webID
+
+// const renderWebId = (username) => {
+// const baseUrl = new URL(localStorage.getItem('oidcIssuer'));
+//  return new URL(`${username}/profile/card#me`, baseUrl);
+// };
 
 /**
  * AddContactModal Component - Component that allows users to add other user's
@@ -46,41 +47,45 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
-  const [username, setUsername] = useState('');
   const [webId, setWebId] = useState('');
+  const [invalidWebId, setInvalidWebId] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const wrappedSetUsername = (value) => {
-    setUsername(value);
-    const renderedWebId = renderWebId(value);
-    setWebId(renderedWebId);
+  const clearInputFields = () => {
+    setUserGivenName('');
+    setUserFamilyName('');
+    setWebId('');
+    setInvalidWebId(false);
   };
 
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
+
+    const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
+
     const userObject = {
-      givenName: event.target.addUserGivenName.value,
-      familyName: event.target.addUserFamilyName.value,
-      webId: event.target.addWebId.value
+      webId: addWebId.value.trim(),
+      ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+      ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
     };
 
     try {
+      await getWebIdDataset(userObject.webId);
       await addContact(userObject);
-      addNotification(
-        'success',
-        `"${userObject.givenName} ${userObject.familyName}" added to contact list`
-      );
-    } catch (e) {
-      addNotification('error', `Add contact failed. Reason: ${e.message}`);
-    } finally {
-      setUserGivenName('');
-      setUserFamilyName('');
-      setUsername('');
-      setWebId('');
+      const nameDisplay =
+        [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
+      addNotification('success', `"${nameDisplay}" added to contact list`);
+
       setShowAddContactModal(false);
+      clearInputFields();
+    } catch (e) {
+      const errorMessage = e ? e.message : 'Unknown error occurred';
+      addNotification('error', `Add contact failed. Reason: ${errorMessage}`);
+      setInvalidWebId(true);
+    } finally {
       setProcessing(false);
     }
   };
@@ -91,44 +96,32 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <FormSection title="Add Contact">
-        <form onSubmit={handleAddContact} autoComplete="off">
+      <FormSection title="Add Contact" headingId="add-contact-form">
+        <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
               id="add-user-given-name"
               name="addUserGivenName"
-              label="First/given name"
+              label="First/given name (Optional)"
               autoComplete="given-name"
               value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
-              required
               fullWidth
               autoFocus
             />
           </FormControl>
           <TextField
             margin="normal"
-            id="add-user-last-name"
+            id="add-user-family-name"
             name="addUserFamilyName"
-            label="Last/family name"
+            label="Last/family name (Optional)"
             autoComplete="family-name"
             value={userFamilyName}
             onChange={(e) => setUserFamilyName(e.target.value)}
-            required
             fullWidth
           />
-          <TextField
-            margin="normal"
-            id="add-username"
-            name="addUsername"
-            label="username"
-            autoComplete="username"
-            value={username}
-            onChange={(e) => wrappedSetUsername(e.target.value)}
-            required
-            fullWidth
-          />
+
           <TextField
             margin="normal"
             id="add-webId"
@@ -140,6 +133,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => {
               setWebId(e.target.value);
             }}
+            error={invalidWebId}
+            label={invalidWebId ? 'Error' : ''}
+            // helperText for invalidWebId === false is ' ' and not '' is to
+            // prevent the field from stretching when helperText disappears
+            helperText={invalidWebId ? 'Invalid WebId.' : ' '}
             fullWidth
             InputProps={{
               endAdornment: (
@@ -166,7 +164,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 variant="outlined"
                 color="error"
                 endIcon={<ClearIcon />}
-                onClick={() => setShowAddContactModal(false)}
+                onClick={() => {
+                  clearInputFields();
+                  setShowAddContactModal(false);
+                }}
                 fullWidth
               >
                 Cancel

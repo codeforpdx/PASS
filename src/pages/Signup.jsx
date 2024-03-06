@@ -11,14 +11,12 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
-// Custom Hook Imports
-import useContactsList from '@hooks/useContactsList';
-import useSession from '@hooks/useSession';
 // Constant Imports
 import { ENV } from '@constants';
 
 // Signup Form Imports
 import { PodRegistrationForm, ShowNewPod, initializePod, registerPod } from '@components/Signup';
+import { Typography } from '@mui/material';
 
 /**
  * Signup - First screen in the user registration flow.
@@ -29,15 +27,16 @@ import { PodRegistrationForm, ShowNewPod, initializePod, registerPod } from '@co
  * @returns {React.Component} - A react page
  */
 const Signup = () => {
-  const [oidcIssuer] = useState(ENV.VITE_SOLID_POD_SERVER || ENV.VITE_SOLID_IDENTITY_PROVIDER);
+  const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
-  const { session, login, podUrl } = useSession();
-  const { add: addContact, isSuccess } = useContactsList();
+  const [step, setStep] = useState('begin');
+  const [registrationInfo, setRegistrationInfo] = useState({});
 
-  const registerAndLogin = async (email, password, confirmPassword) => {
-    await registerPod(
+  const registerAndInitialize = async (email, password, confirmPassword) => {
+    setStep('loading');
+    const registration = await registerPod(
       {
         email,
         password,
@@ -45,15 +44,23 @@ const Signup = () => {
       },
       oidcIssuer
     );
-
-    await login({
-      oidcIssuer,
-      redirectUrl: window.location.href,
-      clientName: 'PASS Registration'
-    });
+    setRegistrationInfo(registration);
+    const caseManagerNames = caseManagerName?.split(' ') || [];
+    await initializePod(
+      registration.webId,
+      registration.podUrl,
+      {
+        caseManagerWebId,
+        caseManagerFirstName: caseManagerNames[0],
+        caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
+      },
+      registration.fetch
+    );
+    setStep('done');
   };
 
   const loadProfileInfo = async () => {
+    if (caseManagerWebId === 'null') return;
     try {
       const profile = await getWebIdDataset(caseManagerWebId);
       const profileThing = getThing(profile, caseManagerWebId);
@@ -66,22 +73,6 @@ const Signup = () => {
   useEffect(() => {
     loadProfileInfo();
   }, []);
-
-  useEffect(() => {
-    if (session.info?.isLoggedIn)
-      initializePod(session.info.webId, podUrl, caseManagerWebId, session.fetch);
-  }, [session.info.isLoggedIn]);
-
-  useEffect(() => {
-    if (isSuccess && caseManagerWebId) {
-      const [cmFirstName, cmLastName] = caseManagerName?.split(' ') ?? [null, null];
-      addContact({
-        givenName: cmFirstName,
-        familyName: cmLastName,
-        webId: caseManagerWebId
-      });
-    }
-  }, [isSuccess]);
 
   return (
     <Container>
@@ -104,10 +95,19 @@ const Signup = () => {
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
           }}
         >
-          {session.info.isLoggedIn ? (
-            <ShowNewPod oidcIssuer={oidcIssuer} />
-          ) : (
-            <PodRegistrationForm register={registerAndLogin} caseManagerName={caseManagerName} />
+          {step === 'begin' && (
+            <PodRegistrationForm
+              register={registerAndInitialize}
+              caseManagerName={caseManagerName}
+            />
+          )}
+          {step === 'loading' && <Typography>Creating Pod...</Typography>}
+          {step === 'done' && (
+            <ShowNewPod
+              oidcIssuer={oidcIssuer}
+              podUrl={registrationInfo.podUrl}
+              webId={registrationInfo.webId}
+            />
           )}
         </Paper>
       </Box>

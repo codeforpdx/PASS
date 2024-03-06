@@ -2,7 +2,6 @@
 import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -21,7 +20,6 @@ import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
  */
 const Footer = () => {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -38,25 +36,23 @@ const Footer = () => {
         bgcolor: 'primary.main'
       }}
     >
-      <Container maxWidth={isSmallScreen ? 'md' : 'lg'}>
-        <Stack
-          alignItems="center"
-          direction={isReallySmallScreen ? 'column' : 'row'}
-          spacing={isSmallScreen ? 1 : 4}
-          divider={
-            <Divider
-              orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
-              flexItem={isReallySmallScreen ? null : true}
-              color={theme.palette.tertiary.main}
-              sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
-            />
-          }
-        >
-          <RenderCallToActionSection isReallySmallScreen={isReallySmallScreen} />
-          <RenderCompanyInfoSection isReallySmallScreen={isReallySmallScreen} />
-          <RenderCopyrightAndLinksSection isReallySmallScreen={isReallySmallScreen} />
-        </Stack>
-      </Container>
+      <Stack
+        alignItems="center"
+        direction={isReallySmallScreen ? 'column' : 'row'}
+        spacing={isReallySmallScreen ? 1 : 4}
+        divider={
+          <Divider
+            orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
+            flexItem={isReallySmallScreen ? null : true}
+            color={theme.palette.tertiary.main}
+            sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
+          />
+        }
+      >
+        <RenderCallToActionSection isReallySmallScreen={isReallySmallScreen} />
+        <RenderCompanyInfoSection isReallySmallScreen={isReallySmallScreen} />
+        <RenderCopyrightAndLinksSection isReallySmallScreen={isReallySmallScreen} />
+      </Stack>
     </Box>
   );
 };
