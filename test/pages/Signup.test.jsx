@@ -6,8 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Signup } from '@pages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionContext } from '@contexts';
-
-vi.mock('@inrupt/solid-client');
+import { initializePod, registerPod } from '@components/Signup';
 
 vi.mock('react-router-dom', async () => {
   const originalModule = await vi.importActual('react-router-dom');
@@ -15,6 +14,16 @@ vi.mock('react-router-dom', async () => {
   return {
     ...originalModule,
     useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/profile' })]
+  };
+});
+
+vi.mock('@components/Signup', async () => {
+  const orig = await vi.importActual('@components/Signup');
+
+  return {
+    ...orig,
+    initializePod: vi.fn(),
+    registerPod: vi.fn(() => Promise.resolve({ webId: '', podUrl: '', fetch: vi.fn() }))
   };
 });
 
@@ -80,26 +89,8 @@ describe('Signup Page', () => {
     await user.type(confirmPasswordField, confirmPassword);
     await user.click(getAllByRole('button')[2]);
 
-    const mockBody = {
-      email,
-      password,
-      confirmPassword,
-      podName: 'tim',
-      createWebId: true,
-      createPod: true,
-      rootPod: false,
-      register: true
-    };
-
-    const mockRequest = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(mockBody)
-    };
-
-    expect(global.fetch).toBeCalledWith(expect.anything(), mockRequest);
+    expect(registerPod).toBeCalledTimes(1);
+    expect(initializePod).toBeCalledTimes(1);
   });
   it('shows pod creation message when logged in', () => {
     const session = {
