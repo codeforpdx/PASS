@@ -14,12 +14,18 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
 // Component Imports
+import { ENV } from '@constants';
 import { FormSection } from '../Form';
+
+// Constant Imports
 
 // @memberof Modals
 // @name renderWebId
@@ -52,12 +58,19 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [oidcProviders] = useState(ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '));
+  const [Oidc, setOIDC] = React.useState('');
 
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
     setWebId('');
     setInvalidWebId(false);
+    setOIDC('');
+  };
+
+  const handleOidcSelection = (e) => {
+    setOIDC(e.target.value);
   };
 
   const handleAddContact = async (event) => {
@@ -71,6 +84,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
       ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
     };
+
+    console.log(oidcProviders);
 
     try {
       await getWebIdDataset(userObject.webId);
@@ -121,7 +136,23 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => setUserFamilyName(e.target.value)}
             fullWidth
           />
-
+          <FormControl fullWidth>
+            <InputLabel>OIDC Provider</InputLabel>
+            <Select
+              labelId="demo-multiple-name-label"
+              id="demo-multiple-name"
+              value={Oidc}
+              label="OIDC Provider"
+              onChange={handleOidcSelection}
+              fullWidth
+            >
+              {oidcProviders.map((oidc) => (
+                <MenuItem key={oidc} value={oidc}>
+                  {oidc}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField
             margin="normal"
             id="add-webId"
