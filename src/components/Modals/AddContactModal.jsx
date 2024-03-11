@@ -55,10 +55,12 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [webId, setWebId] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [customWebID, setCustomWebID] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const [oidcProviders] = useState(ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '));
+  const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = React.useState('');
 
   const clearInputFields = () => {
@@ -70,6 +72,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   };
 
   const handleOidcSelection = (e) => {
+    if (e.target.value === 'Other') {
+      setCustomWebID(true);
+    } else {
+      setCustomWebID(false);
+    }
     setOIDC(e.target.value);
   };
 
@@ -153,33 +160,48 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               ))}
             </Select>
           </FormControl>
-          <TextField
-            margin="normal"
-            id="add-webId"
-            name="addWebId"
-            placeholder="WebId"
-            autoComplete="webid"
-            value={webId}
-            type="text"
-            onChange={(e) => {
-              setWebId(e.target.value);
-            }}
-            error={invalidWebId}
-            label={invalidWebId ? 'Error' : ''}
-            // helperText for invalidWebId === false is ' ' and not '' is to
-            // prevent the field from stretching when helperText disappears
-            helperText={invalidWebId ? 'Invalid WebId.' : ' '}
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="Copy WebId" edge="end">
-                    <ContentCopyIcon />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
+
+          <FormControl fullWidth>
+            <TextField
+              margin="normal"
+              id="add-user-name"
+              name="addUserName"
+              label="Username"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              fullWidth
+              autoFocus
+            />
+          </FormControl>
+          {customWebID && (
+            <TextField
+              margin="normal"
+              id="add-webId"
+              name="addWebId"
+              placeholder="WebId"
+              autoComplete="webid"
+              value={webId}
+              type="text"
+              onChange={(e) => {
+                setWebId(e.target.value);
+              }}
+              error={invalidWebId}
+              label={invalidWebId ? 'Error' : ''}
+              // helperText for invalidWebId === false is ' ' and not '' is to
+              // prevent the field from stretching when helperText disappears
+              helperText={invalidWebId ? 'Invalid WebId.' : ' '}
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton aria-label="Copy WebId" edge="end">
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+          )}
           <DialogActions sx={{ width: '100%' }}>
             <Box
               sx={{
