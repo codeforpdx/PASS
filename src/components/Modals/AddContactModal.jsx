@@ -69,6 +69,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setWebId('');
     setInvalidWebId(false);
     setOIDC('');
+    setCustomWebID(false);
   };
 
   const handleOidcSelection = (e) => {
@@ -85,14 +86,21 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setProcessing(true);
 
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
+    let userObject;
 
-    const userObject = {
-      webId: addWebId.value.trim(),
-      ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
-      ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
-    };
-
-    console.log(oidcProviders);
+    if (customWebID) {
+      userObject = {
+        webId: addWebId.value.trim(),
+        ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+        ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
+      };
+    } else {
+      userObject = {
+        webId: addWebId.value.trim(),
+        ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+        ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
+      };
+    }
 
     try {
       await getWebIdDataset(userObject.webId);
@@ -161,18 +169,20 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             </Select>
           </FormControl>
 
-          <FormControl fullWidth>
-            <TextField
-              margin="normal"
-              id="add-user-name"
-              name="addUserName"
-              label="Username"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              fullWidth
-              autoFocus
-            />
-          </FormControl>
+          {!customWebID && (
+            <FormControl fullWidth>
+              <TextField
+                margin="normal"
+                id="add-user-name"
+                name="addUserName"
+                label="Username"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                fullWidth
+                autoFocus
+              />
+            </FormControl>
+          )}
           {customWebID && (
             <TextField
               margin="normal"
