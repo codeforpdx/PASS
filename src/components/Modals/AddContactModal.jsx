@@ -169,6 +169,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                   setShowAddContactModal(false);
                 }}
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
@@ -179,6 +180,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 endIcon={<CheckIcon />}
                 type="submit"
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Add Contact
               </Button>
