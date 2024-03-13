@@ -31,7 +31,7 @@ const BasicInfo = () => {
   const [formData, setFormData] = useState({
     legalFirstName: '',
     legalLastName: '',
-    legalDOB: '',
+    legalDOB: null,
     legalGender: ''
   });
 
@@ -42,9 +42,17 @@ const BasicInfo = () => {
   }, [isSuccess, data]);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    if (event && event.target) {
+      const { name, value } = event.target;
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    } else {
+      setFormData({
+        ...formData,
+        legalDOB: event
+      });
+    }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isSuccess) {
@@ -52,6 +60,7 @@ const BasicInfo = () => {
     }
     add(formData);
   };
+
   const handleClear = () => {
     setFormData({ legalFirstName: '', legalLastName: '', legalDOB: '', legalGender: '' });
   };
