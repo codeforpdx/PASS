@@ -129,7 +129,7 @@ const BasicInfo = () => {
               <MenuItem value={1}>Male</MenuItem>
               <MenuItem value={2}>Transgender male to female</MenuItem>
               <MenuItem value={3}>Transgender female to male</MenuItem>
-              <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
+              <MenuItem value={4}>Don&apos;t identify as male, female or transgender</MenuItem>
               <MenuItem value={8}>Don&apos;t know</MenuItem>
               <MenuItem value={9}>Decline to answer</MenuItem>
             </Select>
