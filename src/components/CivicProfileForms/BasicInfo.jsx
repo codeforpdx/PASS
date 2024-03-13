@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -110,7 +109,6 @@ const BasicInfo = () => {
                 views={['year', 'month', 'day']}
               />
             </LocalizationProvider>
-            <FormHelperText>YYYY-MM-DD</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -129,7 +127,7 @@ const BasicInfo = () => {
               <MenuItem value={1}>Male</MenuItem>
               <MenuItem value={2}>Transgender male to female</MenuItem>
               <MenuItem value={3}>Transgender female to male</MenuItem>
-              <MenuItem value={4}>Doesn&apos;t identify as male, female or transgender</MenuItem>
+              <MenuItem value={4}>Don&apos;t identify as male, female or transgender</MenuItem>
               <MenuItem value={8}>Don&apos;t know</MenuItem>
               <MenuItem value={9}>Decline to answer</MenuItem>
             </Select>
@@ -139,11 +137,13 @@ const BasicInfo = () => {
           <Button
             variant="outlined"
             type="submit"
+            label="Clear button"
             color="error"
             startIcon={<ClearIcon />}
             fullWidth
             sx={{ borderRadius: '20px' }}
             onClick={handleClear}
+            aria-label="Clear button"
           >
             Clear
           </Button>
@@ -152,11 +152,13 @@ const BasicInfo = () => {
           <Button
             variant="contained"
             type="submit"
+            label="Submit button"
             color="primary"
             startIcon={<CheckIcon />}
             fullWidth
             sx={{ borderRadius: '20px' }}
             disabled={!isSuccess}
+            aria-label="Submit button"
           >
             Submit
           </Button>
