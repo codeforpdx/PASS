@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -109,6 +110,7 @@ const BasicInfo = () => {
                 views={['year', 'month', 'day']}
               />
             </LocalizationProvider>
+            <FormHelperText>YYYY-MM-DD</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
