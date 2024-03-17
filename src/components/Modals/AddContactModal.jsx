@@ -63,6 +63,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = React.useState('');
 
+  const oidcForm = {
+    'http://localhost:3000/': 'http://localhost:3000/user/profile/card#me',
+    'https://opencommons.net/': 'http://opencommons.net/user/profile/card#me',
+    'https://solidcommunity.net/': 'https://user.solidcommunity.net/profile/card#me.',
+    'https://login.inrupt.com/': 'https://id.inrupt.com/user',
+    'https://inrupt.net/': 'https://id.inrupt.com/user'
+  };
+
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
@@ -70,6 +78,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setInvalidWebId(false);
     setOIDC('');
     setCustomWebID(false);
+    setUserName('');
   };
 
   const handleOidcSelection = (e) => {
@@ -96,7 +105,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       };
     } else {
       userObject = {
-        webId: addWebId.value.trim(),
+        webId: oidcForm[Oidc].replace('user', userName.trim()).trim(),
         ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
         ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
       };
