@@ -9,7 +9,6 @@ import { FOAF } from '@inrupt/vocab-common-rdf';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 
 // Constant Imports
 import { ENV } from '@constants';
@@ -85,31 +84,17 @@ const Signup = () => {
           alignItems: 'center'
         }}
       >
-        <Paper
-          elevation={2}
-          sx={{
-            display: 'inline-block',
-            mx: '2px',
-            padding: '20px',
-            minWidth: '400px',
-            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-          }}
-        >
-          {step === 'begin' && (
-            <PodRegistrationForm
-              register={registerAndInitialize}
-              caseManagerName={caseManagerName}
-            />
-          )}
-          {step === 'loading' && <Typography>Creating Pod...</Typography>}
-          {step === 'done' && (
-            <ShowNewPod
-              oidcIssuer={oidcIssuer}
-              podUrl={registrationInfo.podUrl}
-              webId={registrationInfo.webId}
-            />
-          )}
-        </Paper>
+        {step === 'begin' && (
+          <PodRegistrationForm register={registerAndInitialize} caseManagerName={caseManagerName} />
+        )}
+        {step === 'loading' && <Typography>Creating Pod...</Typography>}
+        {step === 'done' && (
+          <ShowNewPod
+            oidcIssuer={oidcIssuer}
+            podUrl={registrationInfo.podUrl}
+            webId={registrationInfo.webId}
+          />
+        )}
       </Box>
     </Container>
   );
