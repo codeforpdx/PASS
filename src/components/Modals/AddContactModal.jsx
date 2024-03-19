@@ -167,6 +167,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               id="demo-multiple-name"
               value={Oidc}
               label="OIDC Provider"
+              data-testid="select-oidc"
               onChange={handleOidcSelection}
               fullWidth
             >
