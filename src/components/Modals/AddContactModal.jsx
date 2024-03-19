@@ -61,7 +61,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
-  const [Oidc, setOIDC] = React.useState('');
+  const [Oidc, setOIDC] = useState('');
 
   const oidcForm = {
     'http://localhost:3000/': 'http://localhost:3000/user/profile/card#me',

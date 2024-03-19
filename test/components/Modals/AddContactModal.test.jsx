@@ -6,6 +6,18 @@ import { AddContactModal } from '@components/Modals';
 import * as solidClient from '@inrupt/solid-client';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
+vi.mock('../../../src/constants/', async () => {
+  const actual = await vi.importActual('../../../src/constants/');
+  return {
+    ...actual,
+    ENV: {
+      VITE_SOLID_IDENTITY_PROVIDER: 'https://www.testurl.com/',
+      VITE_SUGGESTED_OIDC_OPTIONS:
+        'http://testurl_1.com/, http://testurl_2.com/, http://testurl_3.com/'
+    }
+  };
+});
+
 const MockAddContactModal = () => <AddContactModal showAddContactModal />;
 
 it('renders button container flex-direction row default', () => {
