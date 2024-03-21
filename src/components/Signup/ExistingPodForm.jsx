@@ -21,6 +21,10 @@ const textFieldStyle = {
   margin: '8px'
 };
 
+const loginHandler = async () => {
+  // similar flow to login
+};
+
 const ExistingPodForm = () => (
   <Card style={cardStyle}>
     <CardHeader title="Use Existing Pod" />
@@ -40,6 +44,7 @@ const ExistingPodForm = () => (
         size="large"
         aria-label="Login to Pod Provider"
         type="submit"
+        onClick={() => loginHandler()}
       >
         Login to Pod Provider
       </Button>
