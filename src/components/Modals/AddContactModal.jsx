@@ -21,11 +21,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
-// Component Imports
-import { ENV } from '@constants';
-import { FormSection } from '../Form';
-
 // Constant Imports
+import { ENV } from '@constants';
+// Component Imports
+import { FormSection } from '../Form';
 
 // @memberof Modals
 // @name renderWebId
@@ -63,14 +62,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
 
-  const oidcForm = {
-    'http://localhost:3000/': 'http://localhost:3000/user/profile/card#me',
-    'https://opencommons.net/': 'http://opencommons.net/user/profile/card#me',
-    'https://solidcommunity.net/': 'https://user.solidcommunity.net/profile/card#me.',
-    'https://login.inrupt.com/': 'https://id.inrupt.com/user',
-    'https://inrupt.net/': 'https://id.inrupt.com/user'
-  };
-
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
@@ -105,7 +96,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       };
     } else {
       userObject = {
-        webId: oidcForm[Oidc].replace('user', userName.trim()).trim(),
+        webId: JSON.parse(ENV.VITE_OIDC_WEBIDS)[Oidc].replace('user', userName.trim()).trim(),
         ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
         ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
       };
