@@ -75,7 +75,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
         case 'document':
           await setDocAclPermission(
             session,
-            dataset.docType,
+            dataset.docName,
             permissions,
             podUrl,
             webIdToSetPermsTo

@@ -154,7 +154,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       getActions: (data) => [
         <GridActionsCellItem
           icon={<ShareIcon />}
-          onClick={() => handleAclPermissionsModal('documents', data.name, data.type)}
+          onClick={() => handleAclPermissionsModal('document', data.row.id, data.row.type)}
           label="Share"
         />
       ]
