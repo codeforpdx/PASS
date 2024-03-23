@@ -39,7 +39,7 @@ describe('setDocContainerAclPermission', () => {
     expect(sessionHelpers.setDocAclForUser).toBeCalledWith(
       session,
       expectedContainerUrl,
-      'update',
+      '',
       expectedWebId,
       permissions
     );
