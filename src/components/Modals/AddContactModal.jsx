@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
 // Constant Imports
@@ -151,67 +152,77 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => setUserFamilyName(e.target.value)}
             fullWidth
           />
-          <FormControl fullWidth>
-            <InputLabel>OIDC Provider</InputLabel>
-            <Select
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              value={Oidc}
-              label="OIDC Provider"
-              data-testid="select-oidc"
-              onChange={handleOidcSelection}
-              fullWidth
-            >
-              {oidcProviders.map((oidc) => (
-                <MenuItem key={oidc} value={oidc}>
-                  {oidc}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Tooltip
+            title="Select the server/website where your pod is located"
+            arrow
+            placement="left"
+          >
+            <FormControl fullWidth>
+              <InputLabel>OIDC Provider</InputLabel>
+              <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                value={Oidc}
+                label="OIDC Provider"
+                data-testid="select-oidc"
+                onChange={handleOidcSelection}
+                fullWidth
+              >
+                {oidcProviders.map((oidc) => (
+                  <MenuItem key={oidc} value={oidc}>
+                    {oidc}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Tooltip>
 
           {!customWebID && (
-            <FormControl fullWidth>
-              <TextField
-                margin="normal"
-                id="add-user-name"
-                name="addUserName"
-                label="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                fullWidth
-                autoFocus
-              />
-            </FormControl>
+            <Tooltip title="Enter the username associated with your WebID" arrow placement="left">
+              <FormControl fullWidth>
+                <TextField
+                  margin="normal"
+                  id="add-user-name"
+                  name="addUserName"
+                  label="Username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  fullWidth
+                  autoFocus
+                />
+              </FormControl>
+            </Tooltip>
           )}
           {customWebID && (
-            <TextField
-              margin="normal"
-              id="add-webId"
-              name="addWebId"
-              placeholder="WebId"
-              autoComplete="webid"
-              value={webId}
-              type="text"
-              onChange={(e) => {
-                setWebId(e.target.value);
-              }}
-              error={invalidWebId}
-              label={invalidWebId ? 'Error' : ''}
-              // helperText for invalidWebId === false is ' ' and not '' is to
-              // prevent the field from stretching when helperText disappears
-              helperText={invalidWebId ? 'Invalid WebId.' : ' '}
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton aria-label="Copy WebId" edge="end">
-                      <ContentCopyIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
+            <Tooltip title="Enter your full WebID" arrow placement="left">
+              <TextField
+                margin="normal"
+                id="add-webId"
+                name="addWebId"
+                placeholder="WebId"
+                autoComplete="webid"
+                value={webId}
+                type="text"
+                onChange={(e) => {
+                  setWebId(e.target.value);
+                }}
+                error={invalidWebId}
+                label={invalidWebId ? 'Error' : ''}
+                // helperText for invalidWebId === false is ' ' and not '' is to
+                // prevent the field from stretching when helperText disappears
+                helperText={invalidWebId ? 'Invalid WebId.' : ' '}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton aria-label="Copy WebId" edge="end">
+                        <ContentCopyIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Tooltip>
           )}
           <DialogActions sx={{ width: '100%' }}>
             <Box
