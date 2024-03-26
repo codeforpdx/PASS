@@ -1,5 +1,5 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
@@ -46,7 +46,8 @@ import { FormSection } from '../Form';
 const AddContactModal = ({ addContact, 
     showAddContactModal, 
     setShowAddContactModal,
-    contactData
+
+    contactToEdit
   }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
@@ -57,11 +58,23 @@ const AddContactModal = ({ addContact,
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // Planning and observations
+  // try to add different contact to pod A
+	// -result: updates contact
+  // add new contact to pod B
+  //   -result: adds to grid
+  // update icon needs to bring add contact modal but with webid filled out
+
+  // the nullable value is needed!
+  const givenName = contactToEdit?.givenName;
+
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
     setWebId('');
     setInvalidWebId(false);
+    console.log('cleared');
+    console.table(contact); 
   };
 
   const handleAddContact = async (event) => {
@@ -94,14 +107,14 @@ const AddContactModal = ({ addContact,
     }
   };
 
-  const {givenName} = props; 
-
   return (
     <Dialog
       open={showAddContactModal}
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
+      <h1>{givenName}</h1>
+      <h1>given name {contactToEdit?.givenName}</h1>
       <FormSection title="Add Contact" headingId="add-contact-form">
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
@@ -111,7 +124,7 @@ const AddContactModal = ({ addContact,
               name="addUserGivenName"
               label="First/given name (Optional)"
               autoComplete="given-name"
-              value={userGivenName || givenName}
+              value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
               fullWidth
               autoFocus
@@ -194,8 +207,18 @@ const AddContactModal = ({ addContact,
           </DialogActions>
         </form>
       </FormSection>
+      <Console
+        value={contactToEdit}
+      />
     </Dialog>
   );
 };
+
+const Console = props => {
+  const value=props; 
+  console.log('from modal');
+  console.table(value); 
+  return;
+}
 
 export default AddContactModal;

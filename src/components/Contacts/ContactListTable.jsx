@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -16,7 +16,6 @@ import {
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
-//import { NewMessageModal } from '../Modals';
 import { AddContactModal, NewMessageModal } from '@components/Modals';
 
 // to do: open a modal like in message button. modal should have contact data. 
@@ -47,15 +46,20 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
+  const [contactToEdit, setContactToEdit] = useState({}); 
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
+    console.table(contactId.value); 
     setMessageToField(contactId.value.podUrl);
   };
 
-  const handleEditContact = () => {
+  const handleEditContact = (contactId) => {
     setShowAddContactModal(!showAddContactModal);
-    contactData={contactData}
+    //setShowAddContactModal(true);
+    setContactToEdit(contactId.value);
+    console.log('contact to edit is:')
+    console.table(contactToEdit); 
   };
 
   const columnTitlesArray = [
@@ -106,12 +110,11 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     },
     {
       field: 'Edit',
-      renderCell: () => 
+      renderCell: (contactId) => (
         <EditIcon
-          //set a prop to true, send contactData to contact modal
           onClick={() => handleEditContact(contactId)}
         />
-      ,
+      ),
       sortable: false,
       filterable: false,
       width: 80,
@@ -176,12 +179,23 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         setShowModal={setShowMessageModal}
         toField={messageToField}
       />
+      {/* For editing contact */}
       <AddContactModal
         showAddContactModal={showAddContactModal}
-        contactData ={contactData}
+        contactToEdit={contactToEdit}
+        setShowAddContactModal={setShowAddContactModal}
+      />
+      <Console
+        messageToField={showMessageModal}
       />
     </Box>
   );
 };
+
+const Console = props => {
+  const message=props; 
+  console.log(message); 
+  return;
+}
 
 export default ContactListTable;

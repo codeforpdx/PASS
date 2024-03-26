@@ -31,7 +31,8 @@ const Contacts = () => {
     isError,
     error,
     add: addContact,
-    delete: deleteContact
+    delete: deleteContact,
+    edit: editContact
   } = useContactsList();
   const { addNotification } = useNotification();
 
@@ -58,6 +59,20 @@ const Contacts = () => {
       addNotification('success', `"${displayName}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
+    } finally {
+      setShowConfirmationModal(false);
+      setProcessing(false);
+    }
+  };
+
+  const handleEditContact = async () => {
+    setProcessing(true);
+    try {
+      // await editContact(selectedContactToEdit);
+      // const displayName = getContactDisplayName(selectedContactToDelete);
+      // addNotification('success', `"${displayName}" edit from contact list.`);
+    } catch (e) {
+      addNotification('error', `Contact edit failed. Reason: ${e.message}`);
     } finally {
       setShowConfirmationModal(false);
       setProcessing(false);
@@ -99,6 +114,8 @@ const Contacts = () => {
         showAddContactModal={showAddContactModal}
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
+        // contact={''}
+        // setContactToEdit={''}
       />
       <ConfirmationModal
         showModal={showConfirmationModal}
