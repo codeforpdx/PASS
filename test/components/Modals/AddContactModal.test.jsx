@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, getByRole as testGetByRole } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { AddContactModal } from '@components/Modals';
@@ -60,6 +60,10 @@ describe('add contact', () => {
       <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
     );
 
+    await userEvent.click(testGetByRole(screen.getByTestId('select-oidc'), 'combobox'));
+
+    await userEvent.click(await screen.findByRole('option', { name: 'Other' }));
+
     const givenName = screen.getByRole('textbox', { name: 'First/given name (Optional)' });
     const familyName = screen.getByRole('textbox', { name: 'Last/family name (Optional)' });
     const webIdInput = screen.getByPlaceholderText('WebId');
@@ -86,6 +90,10 @@ describe('add contact', () => {
     render(
       <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
     );
+
+    await userEvent.click(testGetByRole(screen.getByTestId('select-oidc'), 'combobox'));
+
+    await userEvent.click(await screen.findByRole('option', { name: 'Other' }));
 
     const givenName = screen.getByRole('textbox', { name: 'First/given name (Optional)' });
     const familyName = screen.getByRole('textbox', { name: 'Last/family name (Optional)' });
