@@ -3,6 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: '[Feature Request] - Your Title Here '
 labels: 'new feature'
+projects: 'PASS'
 assignees: ''
 
 ---

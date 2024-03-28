@@ -3,6 +3,7 @@ name: Bug report
 about: Create a bug report
 title: '[Bug Report] - Your Title Here'
 labels: 'bug'
+projects: 'PASS'
 assignees: ''
 
 ---
