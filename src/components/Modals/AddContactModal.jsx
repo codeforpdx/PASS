@@ -59,14 +59,12 @@ const AddContactModal = ({ addContact,
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Planning and observations
-  // try to add different contact to pod A
-	// -result: updates contact
-  // add new contact to pod B
+  // try to add new contact to pod A, which already has a contact
+	// -result: updates existing contact
+  // add new contact to pod B, which doesn't have a contact
   //   -result: adds to grid
-  // update icon needs to bring add contact modal but with webid filled out
-
-  // the nullable value is needed!
-  const givenName = contactToEdit?.givenName;
+  // current commit : Edit function will update contact names if webId remains the same.
+  // If user edits the webId, a new contact will be created. 
 
   const clearInputFields = () => {
     setUserGivenName('');
@@ -74,7 +72,7 @@ const AddContactModal = ({ addContact,
     setWebId('');
     setInvalidWebId(false);
     console.log('cleared');
-    console.table(contact); 
+    //console.table(contact); 
   };
 
   const handleAddContact = async (event) => {
@@ -113,15 +111,14 @@ const AddContactModal = ({ addContact,
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
     >
-      <h1>{givenName}</h1>
-      <h1>given name {contactToEdit?.givenName}</h1>
-      <FormSection title="Add Contact" headingId="add-contact-form">
+      <FormSection title={contactToEdit ? `Edit Contact` : `Add Contact`} headingId="add-contact-form">
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
               margin="normal"
               id="add-user-given-name"
               name="addUserGivenName"
+              placeholder={contactToEdit ? contactToEdit?.givenName : ``}
               label="First/given name (Optional)"
               autoComplete="given-name"
               value={userGivenName}
@@ -134,6 +131,7 @@ const AddContactModal = ({ addContact,
             margin="normal"
             id="add-user-family-name"
             name="addUserFamilyName"
+            placeholder={contactToEdit ? contactToEdit?.familyName : ``}
             label="Last/family name (Optional)"
             autoComplete="family-name"
             value={userFamilyName}
@@ -145,7 +143,7 @@ const AddContactModal = ({ addContact,
             margin="normal"
             id="add-webId"
             name="addWebId"
-            placeholder="WebId"
+            placeholder={contactToEdit ? contactToEdit?.webId : `WebId`}
             autoComplete="webid"
             value={webId}
             type="text"
@@ -201,7 +199,7 @@ const AddContactModal = ({ addContact,
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >
-                Add Contact
+                {contactToEdit ? `Edit Contact` : `Add Contact`}
               </Button>
             </Box>
           </DialogActions>

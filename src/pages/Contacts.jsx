@@ -31,8 +31,7 @@ const Contacts = () => {
     isError,
     error,
     add: addContact,
-    delete: deleteContact,
-    edit: editContact
+    delete: deleteContact
   } = useContactsList();
   const { addNotification } = useNotification();
 
@@ -104,6 +103,7 @@ const Contacts = () => {
           <ContactListTable
             contacts={data}
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
+            addContact={addContact}    
           />
         ) : (
           <EmptyListNotification type="Contacts" />
@@ -114,8 +114,6 @@ const Contacts = () => {
         showAddContactModal={showAddContactModal}
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
-        // contact={''}
-        // setContactToEdit={''}
       />
       <ConfirmationModal
         showModal={showConfirmationModal}

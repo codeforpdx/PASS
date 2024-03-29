@@ -42,7 +42,7 @@ const CustomToolbar = () => (
  * @param {Function} Props.deleteContact - method to delete contact
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact }) => {
+const ContactListTable = ({ contacts, deleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
@@ -56,7 +56,6 @@ const ContactListTable = ({ contacts, deleteContact }) => {
 
   const handleEditContact = (contactId) => {
     setShowAddContactModal(!showAddContactModal);
-    //setShowAddContactModal(true);
     setContactToEdit(contactId.value);
     console.log('contact to edit is:')
     console.table(contactToEdit); 
@@ -184,6 +183,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         showAddContactModal={showAddContactModal}
         contactToEdit={contactToEdit}
         setShowAddContactModal={setShowAddContactModal}
+        addContact={addContact}
       />
       <Console
         messageToField={showMessageModal}
