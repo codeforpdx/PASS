@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// Custom Hook Imports
+import { useSession } from '@hooks';
 
 // MUI imports
 import Card from '@mui/material/Card';
@@ -21,35 +24,51 @@ const textFieldStyle = {
   margin: '8px'
 };
 
-const loginHandler = async () => {
-  // similar flow to login
-};
+const ExistingPodForm = () => {
+  const { login } = useSession();
 
-const ExistingPodForm = () => (
-  <Card style={cardStyle}>
-    <CardHeader title="Use Existing Pod" />
-    <form style={formRowStyle}>
-      <TextField
-        id="pod-provider"
-        style={textFieldStyle}
-        aria-label="Email"
-        label="Pod Provider"
-        variant="outlined"
-        required
-      />
-      <br />
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        aria-label="Login to Pod Provider"
-        type="submit"
-        onClick={() => loginHandler()}
-      >
-        Login to Pod Provider
-      </Button>
-    </form>
-  </Card>
-);
+  const [provider, setProvider] = useState('https://inrupt.net/');
+
+  const loginHandler = async (event) => {
+    event.preventDefault();
+    console.log(provider, 'user entered Pod provider url');
+
+    let redirectUrl = new URL(window.location.href);
+    redirectUrl = redirectUrl.toString();
+
+    localStorage.setItem('oidcIssuer', provider);
+    await login({
+      provider,
+      redirectUrl
+    });
+  };
+
+  return (
+    <Card style={cardStyle}>
+      <CardHeader title="Register with Existing Pod" />
+      <form onSubmit={loginHandler} style={formRowStyle}>
+        <TextField
+          id="existing-pod-provider"
+          style={textFieldStyle}
+          aria-label="Email"
+          label="Pod Provider"
+          variant="outlined"
+          onChange={(e) => setProvider(e.target.value)}
+          required
+        />
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          aria-label="Login to Pod Provider"
+          type="submit"
+        >
+          Login to Pod Provider
+        </Button>
+      </form>
+    </Card>
+  );
+};
 
 export default ExistingPodForm;

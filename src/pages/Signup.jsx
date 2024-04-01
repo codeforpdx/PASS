@@ -107,6 +107,7 @@ const Signup = () => {
               caseManagerName={caseManagerName}
             />
           )}
+          <ExistingPodForm />
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (
             <ShowNewPod
@@ -115,7 +116,6 @@ const Signup = () => {
               webId={registrationInfo.webId}
             />
           )}
-          <ExistingPodForm />
         </Paper>
       </Box>
     </Container>
