@@ -185,17 +185,8 @@ const ContactListTable = ({ contacts, deleteContact, addContact }) => {
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
       />
-      <Console
-        messageToField={showMessageModal}
-      />
     </Box>
   );
 };
-
-const Console = props => {
-  const message=props; 
-  console.log(message); 
-  return;
-}
 
 export default ContactListTable;

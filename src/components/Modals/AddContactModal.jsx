@@ -60,7 +60,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  //const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
+  const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
 
   // Planning and observations
@@ -71,12 +71,16 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   // current commit : Edit function will update contact names if webId remains the same.
   // If user edits the webId, a new contact will be created. 
 
-  // ✅ prepopulate form when editing. Not sure what is going on with webId and OIDC
+  // ✅ prepopulate form when editing. 
   // ⬜ if webId is different, delete current contact and add contact
 
   useEffect(() => {
-    if (contactToEdit) {
+    console.log('USEEFFECT')
+    //Object.keys(contactToEdit).length > 0
+    //JSON.stringify(contactToEdit) !== '{}'
+    if (JSON.stringify(contactToEdit) !== '{}') {
       setUserGivenName(contactToEdit?.givenName)
+      console.log(userFamilyName)
       setUserFamilyName(contactToEdit?.familyName)
       setWebId(contactToEdit?.webId)
     }
@@ -104,7 +108,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
-
+    // previously when submitting without webId the button would always be disabled
+    if (Oidc == '') {
+      setProcessing(false);
+      return;
+    }
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
     let userObject;
 
@@ -187,11 +195,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 onChange={handleOidcSelection}
                 fullWidth
               >
-                {/* {oidcProviders.map((oidc) => (
+                {oidcProviders.map((oidc) => (
                   <MenuItem key={oidc} value={oidc}>
                     {oidc}
                   </MenuItem>
-                ))} */}
+                ))}
               </Select>
             </FormControl>
           </Tooltip>
