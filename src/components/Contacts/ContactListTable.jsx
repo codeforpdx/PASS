@@ -57,8 +57,8 @@ const ContactListTable = ({ contacts, deleteContact, addContact }) => {
   const handleEditContact = (contactId) => {
     setShowAddContactModal(!showAddContactModal);
     setContactToEdit(contactId.value);
-    console.log('contact to edit is:')
-    console.table(contactToEdit); 
+    // console.log('contact to edit is:')
+    // console.table(contactToEdit); 
   };
 
   const columnTitlesArray = [
