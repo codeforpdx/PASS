@@ -27,18 +27,17 @@ const textFieldStyle = {
 const ExistingPodForm = () => {
   const { login } = useSession();
 
-  const [provider, setProvider] = useState('https://inrupt.net/');
+  const [oidcIssuer, setOidcIssuer] = useState('https://inrupt.net/');
 
   const loginHandler = async (event) => {
     event.preventDefault();
-    console.log(provider, 'user entered Pod provider url');
 
     let redirectUrl = new URL(window.location.href);
     redirectUrl = redirectUrl.toString();
 
-    localStorage.setItem('oidcIssuer', provider);
+    localStorage.setItem('oidcIssuer', oidcIssuer);
     await login({
-      provider,
+      oidcIssuer,
       redirectUrl
     });
   };
@@ -53,7 +52,7 @@ const ExistingPodForm = () => {
           aria-label="Email"
           label="Pod Provider"
           variant="outlined"
-          onChange={(e) => setProvider(e.target.value)}
+          onChange={(e) => setOidcIssuer(e.target.value)}
           required
         />
         <br />
