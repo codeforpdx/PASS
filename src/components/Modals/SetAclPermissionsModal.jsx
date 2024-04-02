@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useSession, useContactsList } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
@@ -45,6 +46,15 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
     permissionType: ''
   });
   const [processing, setProcessing] = useState(false);
+
+  const { data } = useContactsList();
+  const contactListOptions = data?.map((contact) => ({
+    label: `${contact.person} ${contact.podUrl}`,
+    id: contact.podUrl
+  }));
+  const shareeName = data?.filter(
+    (contact) => permissionState.podUrlToSetPermissionsTo === contact.podUrl
+  )[0];
 
   const clearInputFields = () => {
     setPermissionState({
@@ -125,28 +135,33 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             </Select>
           </FormControl>
           <br />
-          <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-            <TextField
-              id="set-acl-to"
-              name="setAclTo"
-              value={permissionState.podUrlToSetPermissionsTo}
-              onChange={(e) =>
-                setPermissionState({
-                  ...permissionState,
-                  podUrlToSetPermissionsTo: e.target.value
-                })
-              }
-              placeholder={permissionState.podUrlToSetPermissionsTo}
-              label="Enter podURL"
-              required
-              error={permissionState.podUrlToSetPermissionsTo === podUrl}
-              helperText={
-                permissionState.podUrlToSetPermissionsTo === podUrl
-                  ? 'Cannot share to your own pod.'.toUpperCase()
-                  : ''
-              }
-            />
-          </FormControl>
+          <Autocomplete
+            id="set-acl-to"
+            name="setAclTo"
+            data-testid="newShareWith"
+            freeSolo
+            fullWidth
+            required
+            autoFocus
+            value={shareeName?.person ?? permissionState.podUrlToSetPermissionsTo}
+            disablePortal
+            autoSelect
+            options={contactListOptions}
+            onChange={(event, newValue) => {
+              setPermissionState({
+                ...permissionState,
+                podUrlToSetPermissionsTo: newValue.id ?? newValue
+              });
+            }}
+            placeholder={permissionState.podUrlToSetPermissionsTo}
+            error={permissionState.podUrlToSetPermissionsTo === podUrl}
+            helperText={
+              permissionState.podUrlToSetPermissionsTo === podUrl
+                ? 'Cannot share to your own pod.'.toUpperCase()
+                : ''
+            }
+            renderInput={(params) => <TextField {...params} label="PodURL to share with" />}
+          />
           <br />
           <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
             <Button
