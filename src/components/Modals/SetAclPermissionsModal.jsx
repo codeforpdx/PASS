@@ -40,25 +40,27 @@ import useNotification from '../../hooks/useNotification';
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
   const { addNotification } = useNotification();
-  const { podUrl } = useContext(SignedInUserContext);
+
+  const { podUrl, webId } = useContext(SignedInUserContext);
+
   const [permissionState, setPermissionState] = useState({
-    podUrlToSetPermissionsTo: '',
+    webIdToSetPermsTo: '',
     permissionType: ''
   });
   const [processing, setProcessing] = useState(false);
 
   const { data } = useContactsList();
   const contactListOptions = data?.map((contact) => ({
-    label: `${contact.person} ${contact.podUrl}`,
-    id: contact.podUrl
+    label: `${contact.person} ${contact.webId}`,
+    id: contact.webId
   }));
   const shareeName = data?.filter(
-    (contact) => permissionState.podUrlToSetPermissionsTo === contact.podUrl
+    (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
 
   const clearInputFields = () => {
     setPermissionState({
-      podUrlToSetPermissionsTo: '',
+      webIdToSetPermsTo: '',
       permissionType: ''
     });
     setProcessing(false);
@@ -75,12 +77,16 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           append: event.target.setAclPerms.value === 'Share' && dataset.modalType === 'container'
         }
       : undefined;
-    const webIdToSetPermsTo = `${permissionState.podUrlToSetPermissionsTo}profile/card#me`;
 
     try {
       switch (dataset.modalType) {
         case 'container':
-          await setDocContainerAclPermission(session, permissions, podUrl, webIdToSetPermsTo);
+          await setDocContainerAclPermission(
+            session,
+            permissions,
+            podUrl,
+            permissionState.webIdToSetPermsTo
+          );
           break;
         case 'document':
           await setDocAclPermission(
@@ -88,7 +94,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             dataset.docName,
             permissions,
             podUrl,
-            webIdToSetPermsTo
+            permissionState.webIdToSetPermsTo
           );
           break;
         default:
@@ -98,7 +104,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
       addNotification(
         'success',
         `${permissions.read ? 'Shared' : 'Unshared'} with ${
-          permissionState.podUrlToSetPermissionsTo
+          permissionState.webIdToSetPermsTo
         } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`
       );
     } catch (error) {
@@ -143,24 +149,24 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             fullWidth
             required
             autoFocus
-            value={shareeName?.person ?? permissionState.podUrlToSetPermissionsTo}
+            value={shareeName?.person ?? permissionState.webIdToSetPermsTo}
             disablePortal
             autoSelect
             options={contactListOptions}
             onChange={(event, newValue) => {
               setPermissionState({
                 ...permissionState,
-                podUrlToSetPermissionsTo: newValue.id ?? newValue
+                webIdToSetPermsTo: newValue.id ?? newValue
               });
             }}
             placeholder={permissionState.podUrlToSetPermissionsTo}
             error={permissionState.podUrlToSetPermissionsTo === podUrl}
             helperText={
-              permissionState.podUrlToSetPermissionsTo === podUrl
+              permissionState.webIdToSetPermsTo === webId
                 ? 'Cannot share to your own pod.'.toUpperCase()
                 : ''
             }
-            renderInput={(params) => <TextField {...params} label="PodURL to share with" />}
+            renderInput={(params) => <TextField {...params} label="WebID to share with" />}
           />
           <br />
           <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
@@ -175,7 +181,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             </Button>
             <Button
               variant="contained"
-              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
+              disabled={permissionState.webIdToSetPermsTo === webId || processing}
               type="submit"
               color="primary"
               startIcon={<ShareIcon />}
