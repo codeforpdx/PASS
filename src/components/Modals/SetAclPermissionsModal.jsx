@@ -123,8 +123,8 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
         }
       >
-        <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
+        <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
+          <FormControl required fullWidth sx={{ maxWidth: '75vdw', marginBottom: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -145,6 +145,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             id="set-acl-to"
             name="setAclTo"
             data-testid="newShareWith"
+            sx={{ marginBottom: '1rem' }}
             freeSolo
             fullWidth
             required

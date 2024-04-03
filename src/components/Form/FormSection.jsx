@@ -27,7 +27,8 @@ const FormSection = ({ title, headingId, children }) => (
       alignItems: 'center',
       mx: '3px',
       padding: '16px',
-      minWidth: '50%'
+      minWidth: '50%',
+      maxWidth: '75vdw'
     }}
   >
     <Typography variant="h2" align="center" mb={2} sx={{ fontSize: '20px' }} id={headingId}>
