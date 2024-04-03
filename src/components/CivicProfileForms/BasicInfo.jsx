@@ -17,7 +17,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // Hook Imports
 import { useCivicProfile } from '@hooks';
 // Component Imports
-import { FormSection } from '../Form';
 
 /**
  * BasicInfo Component - A form to fill out basic user info
@@ -66,12 +65,7 @@ const BasicInfo = () => {
   };
 
   return (
-    <FormSection
-      title="Basic Information"
-      component="form"
-      onSubmit={handleSubmit}
-      autoComplete="off"
-    >
+    <form title="Basic Information" onSubmit={handleSubmit} autoComplete="off">
       <Grid container spacing={{ xs: 2, sm: 2 }}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -166,7 +160,7 @@ const BasicInfo = () => {
           </Button>
         </Grid>
       </Grid>
-    </FormSection>
+    </form>
   );
 };
 

@@ -37,13 +37,11 @@ describe('Basic info form', () => {
     const lastNameField = getByRole('textbox', { name: 'Legal last name' });
     const dateOfBirthField = getByRole('textbox', { name: 'Choose date' });
     const genderField = getByRole('combobox', { name: 'Gender' });
-    const clearButton = getByRole('button', { name: 'Clear button' });
     const submitButton = getByRole('button', { name: 'Submit button' });
     await user.type(firstNameField, basicInfoProfile.firstName);
     await user.type(lastNameField, basicInfoProfile.lastName);
-    await userEvent.type(dateOfBirthField, basicInfoProfile.dateOfBirth);
-    await userEvent.type(genderField, `${basicInfoProfile.gender}{enter}`);
-    await user.click(clearButton);
+    await user.type(dateOfBirthField, basicInfoProfile.dateOfBirth);
+    await user.type(genderField, `${basicInfoProfile.gender}{enter}`);
     await user.click(submitButton);
     expect(mockAdd).toBeCalledWith(basicInfoProfile);
   });
