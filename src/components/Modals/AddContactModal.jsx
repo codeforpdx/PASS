@@ -49,11 +49,12 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
-const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal, contactToEdit }) => {
+const AddContactModal = ({ addContact, deleteContact, showAddContactModal, setShowAddContactModal, contactToEdit }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [webId, setWebId] = useState('');
+  const [originalWebId, setOriginalWebId ] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [userName, setUserName] = useState('');
   const [customWebID, setCustomWebID] = useState(false);
@@ -79,10 +80,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     //Object.keys(contactToEdit).length > 0
     //JSON.stringify(contactToEdit) !== '{}'
     if (JSON.stringify(contactToEdit) !== '{}') {
-      setUserGivenName(contactToEdit?.givenName)
-      console.log(userFamilyName)
-      setUserFamilyName(contactToEdit?.familyName)
-      setWebId(contactToEdit?.webId)
+      setUserGivenName(contactToEdit?.givenName);
+      console.log(userFamilyName);
+      setUserFamilyName(contactToEdit?.familyName);
+      setWebId(contactToEdit?.webId);
+      setOriginalWebId(contactToEdit?.webId);
     }
   }, [contactToEdit, showAddContactModal]);
 
@@ -136,6 +138,10 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       addNotification('success', `"${nameDisplay}" added to contact list`);
+
+      if (webId !== originalWebId) {
+        deleteContact(originalWebId);
+      }
 
       setShowAddContactModal(false);
       clearInputFields();

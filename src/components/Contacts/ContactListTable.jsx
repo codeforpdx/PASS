@@ -184,6 +184,7 @@ const ContactListTable = ({ contacts, deleteContact, addContact }) => {
         contactToEdit={contactToEdit}
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
+        deleteContact={deleteContact}
       />
     </Box>
   );
