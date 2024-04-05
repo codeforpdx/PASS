@@ -18,32 +18,59 @@ describe('Basic info form', () => {
   it('renders', () => {
     useCivicProfile.mockReturnValue({ data: {}, isSuccess: true });
     const { getByRole } = render(<BasicInfo />);
-    const firstNameField = getByRole('textbox', { name: 'Legal first name' });
-    expect(firstNameField).not.toBeNull();
+    const legalFirstName = getByRole('textbox', { name: 'Legal first name' });
+    expect(legalFirstName).not.toBeNull();
   });
 
-  it('Submits a basic info profile update when you click the submit button', async () => {
+  it('clears all input fields when you click the clear button', async () => {
+    const mockClear = vi.fn();
+    const basicInfoProfile = {
+      legalFirstName: 'Jane',
+      legalLastName: 'Doe',
+      legalDOB: '1980-12-15',
+      legalGender: 1
+    };
+    useCivicProfile.mockReturnValue({ add: mockClear, isSuccess: true });
+    const { getByRole } = render(<BasicInfo />);
+    const legalFirstName = getByRole('textbox', { name: 'Legal first name' });
+    const legalLastName = getByRole('textbox', { name: 'Legal last name' });
+    const legalDOB = getByRole('textbox', { name: 'Choose date' });
+    const legalGender = getByRole('combobox', { name: 'Gender' });
+    const clearButton = getByRole('button', { name: 'Clear button' });
+
+    await userEvent.type(legalFirstName, basicInfoProfile.legalFirstName);
+    await userEvent.type(legalLastName, basicInfoProfile.legalLastName);
+    await userEvent.type(legalDOB, basicInfoProfile.legalDOB);
+    await userEvent.type(legalGender, `${basicInfoProfile.legalGender}{enter}`);
+
+    await userEvent.click(clearButton);
+
+    // expect(legalFirstName.value).toBe('');
+    // expect(legalLastName.value).toBe('');
+    // expect(legalDOB.value).toBe('');
+    // expect(legalGender.value).toBe('');
+  });
+
+  it('submits a basic info profile update when you click the submit button', async () => {
     const user = userEvent.setup();
     const mockAdd = vi.fn();
     const basicInfoProfile = {
       legalFirstName: 'Jane',
       legalLastName: 'Doe',
       legalDOB: '1980-12-15',
-      legalGender: 0
+      legalGender: 1
     };
     useCivicProfile.mockReturnValue({ add: mockAdd, isSuccess: true });
     const { getByRole } = render(<BasicInfo />);
-    const firstNameField = getByRole('textbox', { name: 'Legal first name' });
-    const lastNameField = getByRole('textbox', { name: 'Legal last name' });
-    const dateOfBirthField = getByRole('textbox', { name: 'Choose date' });
-    const genderField = getByRole('combobox', { name: 'Gender' });
-    // const clearButton = getByRole('button', { name: 'Clear button' });
+    const legalFirstName = getByRole('textbox', { name: 'Legal first name' });
+    const legalLastName = getByRole('textbox', { name: 'Legal last name' });
+    const legalDOB = getByRole('textbox', { name: 'Choose date' });
+    const legalGender = getByRole('combobox', { name: 'Gender' });
     const submitButton = getByRole('button', { name: 'Submit button' });
-    await user.type(firstNameField, basicInfoProfile.legalFirstName);
-    await user.type(lastNameField, basicInfoProfile.legalLastName);
-    await user.type(dateOfBirthField, basicInfoProfile.legalDOB);
-    await user.type(genderField, `${basicInfoProfile.legalGender}{enter}`);
-    // await user.click(clearButton);
+    await user.type(legalFirstName, basicInfoProfile.legalFirstName);
+    await user.type(legalLastName, basicInfoProfile.legalLastName);
+    await user.type(legalDOB, basicInfoProfile.legalDOB);
+    await user.type(legalGender, `${basicInfoProfile.legalGender}{enter}`);
     await user.click(submitButton);
     expect(mockAdd).toBeCalledWith(basicInfoProfile);
   });

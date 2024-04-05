@@ -42,14 +42,16 @@ const BasicInfo = () => {
   }, [isSuccess, data]);
 
   const handleChange = (event) => {
-    if (event && event.target) {
-      const { name, value } = event.target;
-      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    } else {
-      setFormData({
-        ...formData,
-        legalDOB: event
-      });
+    if (event) {
+      if (event.$isDayjsObject) {
+        setFormData({
+          ...formData,
+          legalDOB: event
+        });
+      } else if (event.target) {
+        const { name, value } = event.target;
+        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+      }
     }
   };
 
@@ -134,7 +136,7 @@ const BasicInfo = () => {
           <Grid item xs={12} sm={6}>
             <Button
               variant="outlined"
-              type="submit"
+              type="button"
               label="Clear button"
               color="error"
               startIcon={<ClearIcon />}
