@@ -49,7 +49,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
-const AddContactModal = ({ addContact, deleteContact, showAddContactModal, setShowAddContactModal, contactToEdit }) => {
+const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal, setShowAddContactModal, contactToEdit, contacts }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -77,6 +77,8 @@ const AddContactModal = ({ addContact, deleteContact, showAddContactModal, setSh
 
   useEffect(() => {
     console.log('USEEFFECT')
+    console.log('console props : ');
+    console.log(contacts); 
     //Object.keys(contactToEdit).length > 0
     //JSON.stringify(contactToEdit) !== '{}'
     if (JSON.stringify(contactToEdit) !== '{}') {
@@ -85,6 +87,7 @@ const AddContactModal = ({ addContact, deleteContact, showAddContactModal, setSh
       setUserFamilyName(contactToEdit?.familyName);
       setWebId(contactToEdit?.webId);
       setOriginalWebId(contactToEdit?.webId);
+      console.log('original webid is ' + originalWebId);
     }
   }, [contactToEdit, showAddContactModal]);
 
@@ -133,15 +136,22 @@ const AddContactModal = ({ addContact, deleteContact, showAddContactModal, setSh
     }
 
     try {
+      if (userObject.webId !== originalWebId && contactToEdit) {
+        console.log('webId changed')
+        const toDelete = contacts.find(item => item.webId == originalWebId); 
+        console.log('to delete : ');
+        console.table(toDelete);
+        console.log('console props : ');
+        console.table(contacts); 
+        await handleDeleteContact(toDelete);
+      }
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       addNotification('success', `"${nameDisplay}" added to contact list`);
-
-      if (webId !== originalWebId) {
-        deleteContact(originalWebId);
-      }
+      
+      console.log(`CURRENT webid is ${userObject.webId} and ORIGINAL webId is ${originalWebId}`);
 
       setShowAddContactModal(false);
       clearInputFields();

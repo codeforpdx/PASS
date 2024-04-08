@@ -42,7 +42,7 @@ const CustomToolbar = () => (
  * @param {Function} Props.deleteContact - method to delete contact
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact, addContact }) => {
+const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
@@ -135,6 +135,8 @@ const ContactListTable = ({ contacts, deleteContact, addContact }) => {
     }
   ];
 
+  let contactWebIds = contacts.map(({ webId }) => ({webId}));
+
   return (
     <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
       <DataGrid
@@ -185,9 +187,21 @@ const ContactListTable = ({ contacts, deleteContact, addContact }) => {
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
         deleteContact={deleteContact}
+        handleDeleteContact={handleDeleteContact}
+        //contactWebIds={contactWebIds}
+        contacts={contacts}
       />
+    <Console 
+      contacts={contactWebIds}
+    />
     </Box>
   );
 };
+
+const Console = props => {
+  const contacts = props;
+  //console.table(contacts);
+  return false;
+}
 
 export default ContactListTable;

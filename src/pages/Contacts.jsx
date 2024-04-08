@@ -47,13 +47,22 @@ const Contacts = () => {
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
+    console.log('CONTACT TO DELETE IS : ')
+    console.table(contact);
     setShowConfirmationModal(true);
   };
 
-  const handleDeleteContact = async () => {
+  const handleDeleteContact = async (contact) => {
     setProcessing(true);
     try {
-      await deleteContact(selectedContactToDelete);
+      if (Object.hasOwn(contact, 'webId')) {
+        console.log('1st condition');
+        //console.log(Object.keys(contact).length)
+        deleteContact(contact);
+      } else {
+        console.log('2nd condition ');
+        await deleteContact(selectedContactToDelete);
+      }
       const displayName = getContactDisplayName(selectedContactToDelete);
       addNotification('success', `"${displayName}" deleted from contact list.`);
     } catch (e) {
@@ -103,6 +112,8 @@ const Contacts = () => {
           <ContactListTable
             contacts={data}
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
+            // for edit
+            handleDeleteContact={handleDeleteContact}
             addContact={addContact}    
           />
         ) : (
