@@ -54,7 +54,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
     label: `${contact.person} ${contact.webId}`,
     id: contact.webId
   }));
-  const shareeName = data?.filter(
+  const shareName = data?.filter(
     (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
 
@@ -124,7 +124,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
         }
       >
         <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
-          <FormControl required fullWidth sx={{ maxWidth: '75vdw', marginBottom: '1rem' }}>
+          <FormControl required fullWidth sx={{ maxWidth: '75dvw', marginBottom: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -150,7 +150,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             fullWidth
             required
             autoFocus
-            value={shareeName?.person ?? permissionState.webIdToSetPermsTo}
+            value={shareName?.person ?? permissionState.webIdToSetPermsTo}
             disablePortal
             autoSelect
             options={contactListOptions}
