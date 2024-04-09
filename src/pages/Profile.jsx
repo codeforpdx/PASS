@@ -143,12 +143,11 @@ const Profile = () => {
           }}
         />
 
-        <Container
+        <Box
           sx={{
             display: 'flex',
             gap: 2,
             flexDirection: 'row',
-            backgroundColor: 'grey',
             paddingLeft: '0px'
           }}
         >
@@ -158,7 +157,7 @@ const Profile = () => {
               color="primary"
               size="small"
               onClick={() => handleAclPermissionsModal('container')}
-              // sx={{ width: isSmallScreen ? '200px' : 'default'  }}
+              sx={{ width: isSmallScreen ? '165px' : '200px' }}
             >
               Share Documents
             </Button>
@@ -168,11 +167,11 @@ const Profile = () => {
             color="secondary"
             size="small"
             onClick={() => setShowAddDocModal(true)}
-            // sx={{ width: isSmallScreen ? '200px' : 'default' }}
+            sx={{ width: isSmallScreen ? '140px' : '180px' }}
           >
             Add Document
           </Button>
-        </Container>
+        </Box>
         <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
         <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
         <SetAclPermissionsModal
