@@ -154,14 +154,14 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             disablePortal
             autoSelect
             options={contactListOptions}
-            onChange={(event, newValue) => {
+            onChange={(_, newValue) => {
               setPermissionState({
                 ...permissionState,
                 webIdToSetPermsTo: newValue.id ?? newValue
               });
             }}
-            placeholder={permissionState.podUrlToSetPermissionsTo}
-            error={permissionState.podUrlToSetPermissionsTo === podUrl}
+            placeholder="WebID to share with"
+            error={permissionState.webIdToSetPermsTo === webId}
             helperText={
               permissionState.webIdToSetPermsTo === webId
                 ? 'Cannot share to your own pod.'.toUpperCase()
