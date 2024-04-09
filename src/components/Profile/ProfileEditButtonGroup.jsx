@@ -3,9 +3,10 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import EditIcon from '@mui/icons-material/Edit';
+import EditNote from '@mui/icons-material/EditNote';
 
 /**
  * The ProfileEditButtonGroup Component is a component that consist of the profile
@@ -26,8 +27,7 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
   <Box
     sx={{
       display: 'flex',
-      gap: '10px',
-      marginTop: '10px'
+      alignSelf: 'end'
     }}
   >
     {edit ? (
@@ -47,16 +47,9 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
         </Button>
       </>
     ) : (
-      <Button
-        variant="outlined"
-        type="button"
-        color="primary"
-        endIcon={<EditIcon />}
-        onClick={handleEditInput}
-        sx={{ width: '100px' }}
-      >
-        Edit
-      </Button>
+      <IconButton type="button" color="primary" onClick={handleEditInput}>
+        <EditNote />
+      </IconButton>
     )}
   </Box>
 );

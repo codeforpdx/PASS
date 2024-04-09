@@ -4,12 +4,10 @@ import { useLocation } from 'react-router-dom';
 // Custom Hook Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
-import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -134,26 +132,24 @@ const Profile = () => {
         width: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>My Profile</Typography>
         <Box
           sx={{
             display: 'flex',
             gap: '5px',
             alignItems: 'center',
-            justifyContent: 'center',
             flexDirection: isSmallScreen ? 'column' : 'row'
           }}
         />
-        <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
 
         <Container
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             gap: 2,
-            flexDirection: isSmallScreen ? 'column' : 'row'
+            flexDirection: 'row',
+            backgroundColor: 'grey',
+            paddingLeft: '0px'
           }}
         >
           {!contact && (
@@ -161,24 +157,23 @@ const Profile = () => {
               variant="contained"
               color="primary"
               size="small"
-              startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
-              sx={{ width: isSmallScreen ? '250px' : 'default' }}
+              // sx={{ width: isSmallScreen ? '200px' : 'default'  }}
             >
-              Share Documents Folder
+              Share Documents
             </Button>
           )}
           <Button
             variant="contained"
             color="secondary"
             size="small"
-            startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '200px' : 'default' }}
+            // sx={{ width: isSmallScreen ? '200px' : 'default' }}
           >
             Add Document
           </Button>
         </Container>
+        <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
         <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
         <SetAclPermissionsModal
           showModal={showAclPermissionModal}
