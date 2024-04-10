@@ -49,7 +49,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
-const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal, setShowAddContactModal, contactToEdit, contacts }) => {
+const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal, setShowAddContactModal, contactToEdit, contacts, contactWebIds }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
@@ -63,6 +63,7 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
+  const [deleteViaEdit, setDeleteViaEdit] = useState(false);
 
   // Planning and observations
   // try to add new contact to pod A, which already has a contact
@@ -73,23 +74,18 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
   // If user edits the webId, a new contact will be created. 
 
   // ✅ prepopulate form when editing. 
-  // ⬜ if webId is different, delete current contact and add contact
+  // ✅ if webId is different, delete current contact and add contact. Having issues with re-render
+  // ⬜ warning if webId already exists
 
   useEffect(() => {
     console.log('USEEFFECT')
-    console.log('console props : ');
-    console.log(contacts); 
-    //Object.keys(contactToEdit).length > 0
-    //JSON.stringify(contactToEdit) !== '{}'
-    if (JSON.stringify(contactToEdit) !== '{}') {
+    if (typeof contactToEdit !== 'undefined' && Object.hasOwn(contactToEdit, 'webId')) {
       setUserGivenName(contactToEdit?.givenName);
-      console.log(userFamilyName);
       setUserFamilyName(contactToEdit?.familyName);
       setWebId(contactToEdit?.webId);
       setOriginalWebId(contactToEdit?.webId);
-      console.log('original webid is ' + originalWebId);
     }
-  }, [contactToEdit, showAddContactModal]);
+  }, [deleteViaEdit, showAddContactModal]);
 
   const clearInputFields = () => {
     setUserGivenName('');
@@ -137,15 +133,22 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
 
     try {
       if (userObject.webId !== originalWebId && contactToEdit) {
+        if (await contactWebIds.includes(userObject.webId)) {
+          addNotification('error', 'Web ID exists. Edit appropriate contact');
+          return;
+        }
         console.log('webId changed')
         const toDelete = contacts.find(item => item.webId == originalWebId); 
         console.log('to delete : ');
         console.table(toDelete);
-        console.log('console props : ');
-        console.table(contacts); 
         await handleDeleteContact(toDelete);
+        setDeleteViaEdit(true); //attempt to re-render
+        console.log('webId changed. handleDeleteContact finished')
       }
       await getWebIdDataset(userObject.webId);
+      // alert(console.table(userObject));
+      // console.log('userobject is: ')
+      // console.table(userObject)
       await addContact(userObject);
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;

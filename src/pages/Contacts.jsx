@@ -25,6 +25,7 @@ const Contacts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
+  const [deleteViaEdit, setDeleteViaEdit] = useState(false);
   const {
     data,
     isLoading,
@@ -47,7 +48,7 @@ const Contacts = () => {
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
-    console.log('CONTACT TO DELETE IS : ')
+    console.log('select delete contact : CONTACT TO DELETE IS : ')
     console.table(contact);
     setShowConfirmationModal(true);
   };
@@ -55,10 +56,12 @@ const Contacts = () => {
   const handleDeleteContact = async (contact) => {
     setProcessing(true);
     try {
+      // Edit passes the contact as a parameter, deleting from the list table does not
       if (Object.hasOwn(contact, 'webId')) {
         console.log('1st condition');
         //console.log(Object.keys(contact).length)
-        deleteContact(contact);
+        await deleteContact(contact);
+        setDeleteViaEdit(!deleteViaEdit);
       } else {
         console.log('2nd condition ');
         await deleteContact(selectedContactToDelete);
@@ -67,20 +70,6 @@ const Contacts = () => {
       addNotification('success', `"${displayName}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
-    } finally {
-      setShowConfirmationModal(false);
-      setProcessing(false);
-    }
-  };
-
-  const handleEditContact = async () => {
-    setProcessing(true);
-    try {
-      // await editContact(selectedContactToEdit);
-      // const displayName = getContactDisplayName(selectedContactToDelete);
-      // addNotification('success', `"${displayName}" edit from contact list.`);
-    } catch (e) {
-      addNotification('error', `Contact edit failed. Reason: ${e.message}`);
     } finally {
       setShowConfirmationModal(false);
       setProcessing(false);

@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -135,7 +135,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     }
   ];
 
-  let contactWebIds = contacts.map(({ webId }) => ({webId}));
+  let contactWebIds = contacts.map(({ webId }) => webId);
 
   return (
     <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
@@ -188,7 +188,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         addContact={addContact}
         deleteContact={deleteContact}
         handleDeleteContact={handleDeleteContact}
-        //contactWebIds={contactWebIds}
+        contactWebIds={contactWebIds}
         contacts={contacts}
       />
     <Console 
@@ -200,7 +200,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
 
 const Console = props => {
   const contacts = props;
-  //console.table(contacts);
+  console.table(contacts);
   return false;
 }
 
