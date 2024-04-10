@@ -1,22 +1,22 @@
 import { createTheme } from '@mui/material/styles';
 
-const themePalettePrimaryMain = '#017969';
+const themePalettePrimaryMain = '#0758CA';
 const themePalettePrimarySlight = '#8fc2bb';
 
 const theme = createTheme({
-  typography: { fontFamily: 'Roboto, sans-serif' },
+  typography: { fontFamily: 'Red Hat Display, Red Hat Text' },
   palette: {
     primary: {
-      light: '#039686',
+      light: '#D3E7FD',
       main: themePalettePrimaryMain,
-      dark: '#004d3e',
+      dark: '#03295E',
       slight: themePalettePrimarySlight,
       contrastText: '#fff'
     },
     secondary: {
-      light: '#b32126',
-      main: '#961020',
-      dark: '#790111',
+      light: '#F8F1ED',
+      main: '#DC562E',
+      dark: '#321C15',
       contrastText: '#fff'
     },
     tertiary: {
