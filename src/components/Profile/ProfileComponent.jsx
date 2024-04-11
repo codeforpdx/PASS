@@ -108,11 +108,13 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             gap: '10px'
           }}
         >
-          <ProfileEditButtonGroup
-            edit={edit}
-            handleCancelEdit={handleCancelEdit}
-            handleEditInput={handleEditInput}
-          />
+          {!contactProfile && (
+            <ProfileEditButtonGroup
+              edit={edit}
+              handleCancelEdit={handleCancelEdit}
+              handleEditInput={handleEditInput}
+            />
+          )}
           <ProfileInputField
             inputName="Name"
             inputValue={
@@ -148,7 +150,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         </Box>
         {!contactProfile && (
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
-            <Typography sx={{ marginTop: '8px', marginRight: '6px' }}>
+            <Typography sx={{ marginTop: '8px' }}>
               <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
                 Your Invite Link
               </Link>

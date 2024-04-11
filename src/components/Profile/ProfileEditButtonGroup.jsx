@@ -27,6 +27,7 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
   <Box
     sx={{
       display: 'flex',
+      gap: '10px',
       alignSelf: 'end'
     }}
   >

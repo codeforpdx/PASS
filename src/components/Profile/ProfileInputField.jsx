@@ -21,20 +21,20 @@ import InputLabel from '@mui/material/InputLabel';
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const ProfileInputField = ({ inputName, inputValue, setInputValue, edit, endAdornment }) => (
-  <Box sx={{ display: 'flex', gap: '35px', justifyContent: 'space-between' }}>
+  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '20px', alignItems: 'center' }}>
     <InputLabel htmlFor={`input-${inputName}`} sx={{ color: 'black' }}>
       {inputName}:
     </InputLabel>
-    <Box sx={{ display: 'flex', width: '200px' }}>
-      <Input
-        id={`input-${inputName}`}
-        value={inputValue || ''}
-        placeholder={inputValue || 'No value set'}
-        disabled={!edit}
-        onChange={(e) => setInputValue(e.target.value)}
-        endAdornment={endAdornment}
-      />
-    </Box>
+
+    <Input
+      sx={{ width: '200px' }}
+      id={`input-${inputName}`}
+      value={inputValue || ''}
+      placeholder={inputValue || 'No value set'}
+      disabled={!edit}
+      onChange={(e) => setInputValue(e.target.value)}
+      endAdornment={endAdornment}
+    />
   </Box>
 );
 
