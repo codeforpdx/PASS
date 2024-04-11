@@ -50,15 +50,12 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
-    console.table(contactId.value); 
     setMessageToField(contactId.value.podUrl);
   };
 
   const handleEditContact = (contactId) => {
     setShowAddContactModal(!showAddContactModal);
     setContactToEdit(contactId.value);
-    // console.log('contact to edit is:')
-    // console.table(contactToEdit); 
   };
 
   const columnTitlesArray = [
@@ -191,17 +188,17 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         contactWebIds={contactWebIds}
         contacts={contacts}
       />
-    <Console 
+    {/* <Console 
       contacts={contactWebIds}
-    />
+    /> */}
     </Box>
   );
 };
 
-const Console = props => {
-  const contacts = props;
-  console.table(contacts);
-  return false;
-}
+// const Console = props => {
+//   const contacts = props;
+//   console.table(contacts);
+//   return false;
+// }
 
 export default ContactListTable;

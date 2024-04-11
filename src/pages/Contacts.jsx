@@ -48,8 +48,6 @@ const Contacts = () => {
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
-    console.log('select delete contact : CONTACT TO DELETE IS : ')
-    console.table(contact);
     setShowConfirmationModal(true);
   };
 
@@ -58,12 +56,9 @@ const Contacts = () => {
     try {
       // Edit passes the contact as a parameter, deleting from the list table does not
       if (Object.hasOwn(contact, 'webId')) {
-        console.log('1st condition');
-        //console.log(Object.keys(contact).length)
         await deleteContact(contact);
         setDeleteViaEdit(!deleteViaEdit);
       } else {
-        console.log('2nd condition ');
         await deleteContact(selectedContactToDelete);
       }
       const displayName = getContactDisplayName(selectedContactToDelete);

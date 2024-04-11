@@ -75,11 +75,10 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
 
   // ✅ prepopulate form when editing. 
   // ✅ if webId is different, delete current contact and add contact. Having issues with re-render
-  // ⬜ warning if webId already exists
+  // ✅ warning if webId already exists
 
   useEffect(() => {
-    console.log('USEEFFECT')
-    if (typeof contactToEdit !== 'undefined' && Object.hasOwn(contactToEdit, 'webId')) {
+    if (typeof contactToEdit !== 'undefined') {
       setUserGivenName(contactToEdit?.givenName);
       setUserFamilyName(contactToEdit?.familyName);
       setWebId(contactToEdit?.webId);
@@ -137,25 +136,16 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
           addNotification('error', 'Web ID exists. Edit appropriate contact');
           return;
         }
-        console.log('webId changed')
         const toDelete = contacts.find(item => item.webId == originalWebId); 
-        console.log('to delete : ');
-        console.table(toDelete);
         await handleDeleteContact(toDelete);
         setDeleteViaEdit(true); //attempt to re-render
-        console.log('webId changed. handleDeleteContact finished')
       }
       await getWebIdDataset(userObject.webId);
-      // alert(console.table(userObject));
-      // console.log('userobject is: ')
-      // console.table(userObject)
       await addContact(userObject);
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       addNotification('success', `"${nameDisplay}" added to contact list`);
       
-      console.log(`CURRENT webid is ${userObject.webId} and ORIGINAL webId is ${originalWebId}`);
-
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
