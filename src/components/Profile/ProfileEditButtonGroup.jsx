@@ -48,7 +48,7 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
         </Button>
       </>
     ) : (
-      <IconButton type="button" color="primary" onClick={handleEditInput}>
+      <IconButton type="button" aria-label="Edit" color="primary" onClick={handleEditInput}>
         <EditNote />
       </IconButton>
     )}
