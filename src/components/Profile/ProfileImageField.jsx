@@ -77,7 +77,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        boxShadow: '0 0 3px 0 black',
         padding: '20px',
         gap: '10px'
       }}
