@@ -98,7 +98,7 @@ const Contacts = () => {
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
             // for edit
             handleDeleteContact={handleDeleteContact}
-            addContact={addContact}    
+            addContact={addContact}
           />
         ) : (
           <EmptyListNotification type="Contacts" />

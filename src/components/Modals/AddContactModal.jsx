@@ -47,12 +47,10 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
- * // these are from contactlisttable
  * @param {Function} props.handleDeleteContact - ContactListTable delete function
- * @param {contact} props.contactToEdit - the contact being edited
+ * @param {object} props.contactToEdit - the contact being edited
  * @param {object} props.contacts - the contacts in the ContactListTable
  * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
- * @param {Function} props.handleDeleteContact - from the ContactListTable
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
 const AddContactModal = ({
