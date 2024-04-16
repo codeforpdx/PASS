@@ -13,12 +13,12 @@ import {
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
 // MUI Theme
+import { AddContactModal, NewMessageModal } from '@components/Modals';
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
-import { AddContactModal, NewMessageModal } from '@components/Modals';
 
-// to do: open a modal like in message button. modal should have contact data. 
+// to do: open a modal like in message button. modal should have contact data.
 
 const CustomToolbar = () => (
   <GridToolbarContainer>
@@ -40,13 +40,15 @@ const CustomToolbar = () => (
  * @param {object} Props - Props for ContactListTable
  * @param {userListObject[]} Props.contacts - this list of contacts to display
  * @param {Function} Props.deleteContact - method to delete contact
+ * @param {Function} Props.handleDeleteContact - from Contacts page
+ * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
-  const [contactToEdit, setContactToEdit] = useState({}); 
+  const [contactToEdit, setContactToEdit] = useState({});
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
@@ -106,11 +108,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     },
     {
       field: 'Edit',
-      renderCell: (contactId) => (
-        <EditIcon
-          onClick={() => handleEditContact(contactId)}
-        />
-      ),
+      renderCell: (contactId) => <EditIcon onClick={() => handleEditContact(contactId)} />,
       sortable: false,
       filterable: false,
       width: 80,
@@ -132,7 +130,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     }
   ];
 
-  let contactWebIds = contacts.map(({ webId }) => webId);
+  const contactWebIds = contacts.map(({ webId }) => webId);
 
   return (
     <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
@@ -145,8 +143,8 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
           webId: contact.webId,
           Profile: contact,
           Message: contact,
-          Edit: contact, 
-          Delete: contact,
+          Edit: contact,
+          Delete: contact
         }))}
         slots={{
           toolbar: CustomToolbar
@@ -188,7 +186,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         contactWebIds={contactWebIds}
         contacts={contacts}
       />
-    {/* <Console 
+      {/* <Console 
       contacts={contactWebIds}
     /> */}
     </Box>

@@ -47,14 +47,28 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
+ * // these are from contactlisttable
+ * @param {Function} props.handleDeleteContact - ContactListTable delete function
+ * @param {contact} props.contactToEdit - the contact being edited
+ * @param {object} props.contacts - the contacts in the ContactListTable
+ * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
+ * @param {Function} props.handleDeleteContact - from the ContactListTable
  * @returns {React.JSX.Element} - The Add Contact Modal
  */
-const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal, setShowAddContactModal, contactToEdit, contacts, contactWebIds }) => {
+const AddContactModal = ({
+  addContact,
+  handleDeleteContact,
+  showAddContactModal,
+  setShowAddContactModal,
+  contactToEdit,
+  contacts,
+  contactWebIds
+}) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [webId, setWebId] = useState('');
-  const [originalWebId, setOriginalWebId ] = useState('');
+  const [originalWebId, setOriginalWebId] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [userName, setUserName] = useState('');
   const [customWebID, setCustomWebID] = useState(false);
@@ -67,13 +81,13 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
 
   // Planning and observations
   // try to add new contact to pod A, which already has a contact
-	// -result: updates existing contact
+  // -result: updates existing contact
   // add new contact to pod B, which doesn't have a contact
   //   -result: adds to grid
   // current commit : Edit function will update contact names if webId remains the same.
-  // If user edits the webId, a new contact will be created. 
+  // If user edits the webId, a new contact will be created.
 
-  // ✅ prepopulate form when editing. 
+  // ✅ prepopulate form when editing.
   // ✅ if webId is different, delete current contact and add contact. Having issues with re-render
   // ✅ warning if webId already exists
 
@@ -109,7 +123,7 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
     event.preventDefault();
     setProcessing(true);
     // previously when submitting without webId the button would always be disabled
-    if (Oidc == '') {
+    if (Oidc === '') {
       setProcessing(false);
       return;
     }
@@ -136,16 +150,16 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
           addNotification('error', 'Web ID exists. Edit appropriate contact');
           return;
         }
-        const toDelete = contacts.find(item => item.webId == originalWebId); 
+        const toDelete = contacts.find((item) => item.webId === originalWebId);
         await handleDeleteContact(toDelete);
-        setDeleteViaEdit(true); //attempt to re-render
+        setDeleteViaEdit(true); // attempt to re-render
       }
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       addNotification('success', `"${nameDisplay}" added to contact list`);
-      
+
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
@@ -161,9 +175,15 @@ const AddContactModal = ({ addContact, handleDeleteContact, showAddContactModal,
     <Dialog
       open={showAddContactModal}
       aria-labelledby="dialog-title"
-      onClose={() => {setShowAddContactModal(false); clearInputFields();}}
+      onClose={() => {
+        setShowAddContactModal(false);
+        clearInputFields();
+      }}
     >
-      <FormSection title={contactToEdit ? `Edit Contact` : `Add Contact`} headingId="add-contact-form">
+      <FormSection
+        title={contactToEdit ? `Edit Contact` : `Add Contact`}
+        headingId="add-contact-form"
+      >
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
