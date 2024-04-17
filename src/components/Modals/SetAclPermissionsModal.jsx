@@ -154,10 +154,10 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             disablePortal
             autoSelect
             options={contactListOptions}
-            onChange={(_, value) => {
+            onChange={(_, newValue) => {
               setPermissionState({
                 ...permissionState,
-                webIdToSetPermsTo: value.id ?? value
+                webIdToSetPermsTo: newValue.id ?? newValue
               });
             }}
             placeholder="WebID to share with"
