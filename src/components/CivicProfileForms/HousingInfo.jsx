@@ -35,7 +35,6 @@ const HousingInfo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     if (!isSuccess) {
       return;
     }

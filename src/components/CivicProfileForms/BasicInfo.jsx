@@ -71,7 +71,7 @@ const BasicInfo = () => {
     <FormSection title="Basic Information">
       <form aria-labelledby="add-contact-form" onSubmit={handleSubmit} autoComplete="off">
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               id="hmis-basic-info-first-name"
               name="legalFirstName"
@@ -82,7 +82,7 @@ const BasicInfo = () => {
               autoFocus
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               id="hmis-basic-info-last-name"
               name="legalLastName"
@@ -92,7 +92,7 @@ const BasicInfo = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <FormControl fullWidth>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -111,7 +111,7 @@ const BasicInfo = () => {
               <FormHelperText>YYYY-MM-DD</FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <FormControl fullWidth>
               <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
               <Select
@@ -133,7 +133,7 @@ const BasicInfo = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <Button
               variant="outlined"
               type="button"
@@ -148,7 +148,7 @@ const BasicInfo = () => {
               Clear
             </Button>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <Button
               variant="contained"
               type="submit"
