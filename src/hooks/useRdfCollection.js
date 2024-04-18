@@ -70,7 +70,6 @@ const useRdfCollection = (parse, serialize, fileUrl, fetchData) => {
   const addMutation = useMutation({
     mutationFn: async (item) => {
       if (!data) await fetchDocument();
-    
       const thing = serialize(item);
       const newDataset = setThing(storedDataset, thing);
       const savedDataset = await saveData(newDataset);
