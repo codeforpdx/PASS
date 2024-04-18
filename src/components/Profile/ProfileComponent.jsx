@@ -13,9 +13,9 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
-import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
+import ProfileImageField from './ProfileImageField';
 
 /**
  * The UserProfile Component is a component that renders the user's profile on
@@ -86,7 +86,9 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         display: 'flex',
         flexDirection: isSmallScreen ? 'column' : 'row',
         gap: '15px',
-        padding: '10px'
+        padding: '10px',
+        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
+        borderRadius: '10px'
       }}
     >
       <ProfileImageField loadProfileData={loadProfileData} contactProfile={contactProfile} />
@@ -95,9 +97,8 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 0 3px 0 black',
           justifyContent: 'space-between',
-          padding: '20px'
+          padding: '10px'
         }}
       >
         <Box
@@ -107,6 +108,13 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             gap: '10px'
           }}
         >
+          {!contactProfile && (
+            <ProfileEditButtonGroup
+              edit={edit}
+              handleCancelEdit={handleCancelEdit}
+              handleEditInput={handleEditInput}
+            />
+          )}
           <ProfileInputField
             inputName="Name"
             inputValue={
@@ -141,12 +149,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
           />
         </Box>
         {!contactProfile && (
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <ProfileEditButtonGroup
-              edit={edit}
-              handleCancelEdit={handleCancelEdit}
-              handleEditInput={handleEditInput}
-            />
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
             <Typography sx={{ marginTop: '8px' }}>
               <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
                 Your Invite Link
