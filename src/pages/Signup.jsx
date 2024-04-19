@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+// Custom Hook Imports
+import { useSession } from '@hooks';
+
 // Inrupt Imports
 import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
@@ -39,6 +42,8 @@ const Signup = () => {
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
+
+  const { session } = useSession();
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
@@ -78,7 +83,13 @@ const Signup = () => {
 
   useEffect(() => {
     loadProfileInfo();
-  }, []);
+
+    if (session.info.isLoggedIn === true) {
+      setStep('done');
+    } else {
+      setStep('begin');
+    }
+  }, [session, window.location.href]);
 
   return (
     <Container>
@@ -102,19 +113,24 @@ const Signup = () => {
           }}
         >
           {step === 'begin' && (
-            <PodRegistrationForm
-              register={registerAndInitialize}
-              caseManagerName={caseManagerName}
-            />
+            <>
+              <PodRegistrationForm
+                register={registerAndInitialize}
+                caseManagerName={caseManagerName}
+              />
+              <ExistingPodForm />
+            </>
           )}
-          <ExistingPodForm />
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (
-            <ShowNewPod
-              oidcIssuer={oidcIssuer}
-              podUrl={registrationInfo.podUrl}
-              webId={registrationInfo.webId}
-            />
+            <>
+              <h1>Youve logged in with your existing pod</h1>
+              <ShowNewPod
+                oidcIssuer={oidcIssuer}
+                podUrl={registrationInfo.podUrl}
+                webId={registrationInfo.webId}
+              />
+            </>
           )}
         </Paper>
       </Box>
