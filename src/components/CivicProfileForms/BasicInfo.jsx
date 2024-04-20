@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
 // Hook Imports
 import { useCivicProfile } from '@hooks';
 // Component Imports
@@ -27,12 +28,12 @@ import { FormSection } from '../Form';
  * @returns {React.JSX.Element} The BasicInfo Component
  */
 const BasicInfo = () => {
-  const { data, add, isSuccess } = useCivicProfile();
+  const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
   const [formData, setFormData] = useState({
-    legalFirstName: '',
-    legalLastName: '',
-    legalDOB: null,
-    legalGender: ''
+    firstName: '',
+    lastName: '',
+    dateOfBirth: null,
+    gender: ''
   });
 
   useEffect(() => {
@@ -40,31 +41,40 @@ const BasicInfo = () => {
       setFormData((prevFormData) => ({ ...prevFormData, ...data }));
     }
   }, [isSuccess, data]);
+  useEffect(() => {
+    if (!storedDataset) {
+      refetch();
+    }
+  }, [storedDataset]);
 
-  const handleChange = (event) => {
-    if (event) {
-      if (event.$isDayjsObject) {
-        setFormData({
-          ...formData,
-          legalDOB: event
-        });
-      } else if (event.target) {
-        const { name, value } = event.target;
-        setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-      }
+  const handleChange = (e) => {
+    if (e.$isDayjsObject) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        dateOfBirth: e.toDate()
+      }));
+    } else if (e.target) {
+      const { name, value } = e.target;
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isSuccess) {
+    if (!isSuccess || !storedDataset) {
       return;
     }
     add(formData);
   };
 
   const handleClear = () => {
-    setFormData({ legalFirstName: '', legalLastName: '', legalDOB: '', legalGender: '' });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      firstName: '',
+      lastName: '',
+      dateOfBirth: null,
+      gender: ''
+    }));
   };
 
   return (
@@ -74,10 +84,10 @@ const BasicInfo = () => {
           <Grid item xs={12} md={6}>
             <TextField
               id="hmis-basic-info-first-name"
-              name="legalFirstName"
+              name="firstName"
               label="Legal first name"
               onChange={handleChange}
-              value={formData.legalFirstName}
+              value={formData.firstName}
               fullWidth
               autoFocus
             />
@@ -85,10 +95,10 @@ const BasicInfo = () => {
           <Grid item xs={12} md={6}>
             <TextField
               id="hmis-basic-info-last-name"
-              name="legalLastName"
+              name="lastName"
               label="Legal last name"
               onChange={handleChange}
-              value={formData.legalLastName}
+              value={formData.lastName}
               fullWidth
             />
           </Grid>
@@ -97,10 +107,10 @@ const BasicInfo = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   id="hmis-basic-info-date-of-birth"
-                  name="legalDOB"
+                  name="dateOfBirth"
                   label="Date of birth"
                   onChange={handleChange}
-                  value={formData.legalDOB}
+                  value={formData.dateOfBirth ? dayjs(formData.dateOfBirth) : null}
                   format="YYYY-MM-DD"
                   type="date"
                   disableFuture
@@ -116,10 +126,10 @@ const BasicInfo = () => {
               <InputLabel id="hmis-basic-info-gender">Gender</InputLabel>
               <Select
                 id="hmis-basic-info-gender-select"
-                name="legalGender"
+                name="gender"
                 label="Gender"
                 onChange={handleChange}
-                value={formData.legalGender}
+                value={formData.gender}
                 labelId="hmis-basic-info-gender"
                 defaultValue=""
               >
