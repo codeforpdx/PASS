@@ -123,4 +123,31 @@ describe('add contact', () => {
       webId: expect.stringContaining(inputData.webId.trim())
     });
   });
+
+  it('submit disabled if username is empty', async () => {
+    render(
+      <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
+    );
+
+    const submitButton = screen.getByRole('button', { name: 'Add Contact' });
+    const userName = screen.getByRole('textbox', { name: 'Username' });
+
+    expect(userName.value).toBe('');
+    expect(submitButton).toHaveProperty('disabled', true);
+  });
+  it('submit disabled if oidc is other and customWebID is empty', async () => {
+    render(
+      <AddContactModal setShowAddContactModal={() => {}} showAddContactModal addContact={mockAdd} />
+    );
+
+    await userEvent.click(testGetByRole(screen.getByTestId('select-oidc'), 'combobox'));
+
+    await userEvent.click(await screen.findByRole('option', { name: 'Other' }));
+
+    const submitButton = screen.getByRole('button', { name: 'Add Contact' });
+    const webIdInput = screen.getByPlaceholderText('WebId');
+
+    expect(webIdInput.value).toBe('');
+    expect(submitButton).toHaveProperty('disabled', true);
+  });
 });
