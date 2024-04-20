@@ -59,7 +59,7 @@ const Signup = () => {
     setStep('done');
   };
 
-  const loadProfileInfo = async () => {
+  const loadAccountInfo = async () => {
     if (caseManagerWebId === 'null') return;
     try {
       const profile = await getWebIdDataset(caseManagerWebId);
@@ -71,7 +71,7 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    loadProfileInfo();
+    loadAccountInfo();
   }, []);
 
   return (

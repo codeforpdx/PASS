@@ -13,44 +13,44 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Inputs
-import ProfileInputField from './ProfileInputField';
-import ProfileEditButtonGroup from './ProfileEditButtonGroup';
-import ProfileImageField from './ProfileImageField';
+import AccountInputField from './AccountInputField';
+import AccountEditButtonGroup from './AccountEditButtonGroup';
+import AccountImageField from './AccountImageField';
 
 /**
- * The UserProfile Component is a component that renders the user's profile on
+ * The UserAccount Component is a component that renders the user's profile on
  * PASS
  *
- * @memberof Profile
- * @name ProfileComponent
- * @param {object} Props - Props for ClientProfile component
- * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * @memberof Account
+ * @name AccountComponent
+ * @param {object} Props - Props for ClientAccount component
+ * @param {object} [Props.contactAccount] - Contact object with data from profile
  * @param {string} [Props.webId] - The webId of the contact
  * or null if user profile is selected
- * @returns {React.JSX.Element} The UserProfile Component
+ * @returns {React.JSX.Element} The UserAccount Component
  */
-const ProfileComponent = ({ contactProfile, webId }) => {
+const AccountComponent = ({ contactAccount, webId }) => {
   const { session } = useSession();
   const { addNotification } = useNotification();
-  const { updateProfileInfo, setProfileData, profileData, fetchProfileInfo } =
+  const { updateAccountInfo, setAccountData, accountData, fetchAccountInfo } =
     useContext(SignedInUserContext);
 
-  // Public Profile Data
-  const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
-  const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
+  // Public Account Data
+  const [accountName, setAccountName] = useState(accountData?.accountInfo?.accountName);
+  const [nickname, setNickname] = useState(accountData?.accountInfo?.nickname);
 
   const [edit, setEdit] = useState(false);
 
-  const loadProfileData = async () => {
-    const profileDataSolid = await fetchProfileInfo(session.info.webId);
-    setProfileData(profileDataSolid);
+  const loadAccountData = async () => {
+    const accountDataSolid = await fetchAccountInfo(session.info.webId);
+    setAccountData(accountDataSolid);
 
-    setProfileName(profileDataSolid.profileInfo?.profileName);
-    setNickname(profileDataSolid.profileInfo?.nickname);
+    setAccountName(accountDataSolid.accountInfo?.accountName);
+    setNickname(accountDataSolid.accountInfo?.nickname);
   };
 
   const handleCancelEdit = () => {
-    loadProfileData();
+    loadAccountData();
     setEdit(!edit);
   };
 
@@ -58,22 +58,22 @@ const ProfileComponent = ({ contactProfile, webId }) => {
     setEdit(!edit);
   };
 
-  const handleUpdateProfile = async (event) => {
+  const handleUpdateAccount = async (event) => {
     event.preventDefault();
 
     const inputValues = {
-      profileName,
+      accountName,
       nickname
     };
 
-    await updateProfileInfo(session, profileData, inputValues);
+    await updateAccountInfo(session, accountData, inputValues);
 
-    loadProfileData();
+    loadAccountData();
     setEdit(false);
   };
 
   useEffect(() => {
-    loadProfileData();
+    loadAccountData();
   }, []);
 
   const theme = useTheme();
@@ -91,9 +91,9 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         borderRadius: '10px'
       }}
     >
-      <ProfileImageField loadProfileData={loadProfileData} contactProfile={contactProfile} />
+      <AccountImageField loadAccountData={loadAccountData} contactAccount={contactAccount} />
       <form
-        onSubmit={handleUpdateProfile}
+        onSubmit={handleUpdateAccount}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -108,30 +108,30 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             gap: '10px'
           }}
         >
-          {!contactProfile && (
-            <ProfileEditButtonGroup
+          {!contactAccount && (
+            <AccountEditButtonGroup
               edit={edit}
               handleCancelEdit={handleCancelEdit}
               handleEditInput={handleEditInput}
             />
           )}
-          <ProfileInputField
+          <AccountInputField
             inputName="Name"
             inputValue={
-              contactProfile
-                ? `${contactProfile?.givenName ?? ''} ${contactProfile?.familyName ?? ''}`
-                : profileName
+              contactAccount
+                ? `${contactAccount?.givenName ?? ''} ${contactAccount?.familyName ?? ''}`
+                : accountName
             }
-            setInputValue={setProfileName}
+            setInputValue={setAccountName}
             edit={edit}
           />
-          <ProfileInputField
+          <AccountInputField
             inputName="Nickname"
-            inputValue={contactProfile ? contactProfile?.nickname : nickname}
+            inputValue={contactAccount ? contactAccount?.nickname : nickname}
             setInputValue={setNickname}
             edit={edit}
           />
-          <ProfileInputField
+          <AccountInputField
             inputName="WebId"
             inputValue={webId}
             endAdornment={
@@ -148,7 +148,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             }
           />
         </Box>
-        {!contactProfile && (
+        {!contactAccount && (
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
             <Typography sx={{ marginTop: '8px' }}>
               <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
@@ -172,4 +172,4 @@ const ProfileComponent = ({ contactProfile, webId }) => {
   );
 };
 
-export default ProfileComponent;
+export default AccountComponent;

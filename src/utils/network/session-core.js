@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import {
   setDocAclForUser,
-  getUserProfileName,
+  getUserAccountName,
   saveMessageTTL,
   buildMessageTTL
 } from './session-helper';
@@ -93,8 +93,8 @@ export const sendMessageTTL = async (session, messageObject, podUrl) => {
   const recipientInboxUrl = `${recipientPodUrl}PASS/Inbox/`;
   const outboxUrl = `${podUrl}PASS/Outbox/`;
 
-  const senderName = (await getUserProfileName(session.info.webId)) || podUrl;
-  const recipientName = (await getUserProfileName(recipientWebId)) || recipientPodUrl;
+  const senderName = (await getUserAccountName(session.info.webId)) || podUrl;
+  const recipientName = (await getUserAccountName(recipientWebId)) || recipientPodUrl;
 
   const date = dayjs().$d;
   const dateYYYYMMDD = dayjs().format('YYYYMMDD');

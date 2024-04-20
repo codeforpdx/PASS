@@ -34,7 +34,7 @@ import { useMessageList } from '@hooks';
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
  * Notification Menu
- * @param {string} Props.profileImg - String for profile image
+ * @param {string} Props.accountImg - String for account image
  * @returns {React.JSX.Element} - The NavMenu Component
  */
 const NavMenu = ({
@@ -44,7 +44,7 @@ const NavMenu = ({
   anchorEl,
   setAnchorEl,
   setShowConfirmation,
-  profileImg
+  accountImg
 }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -105,7 +105,7 @@ const NavMenu = ({
               </MenuItem>
             </Link>
             <Link
-              to="/civic-profile/basic-info"
+              to="/profile/basic-info"
               style={{ textDecoration: 'none', color: theme.palette.primary.main }}
             >
               <MenuItem
@@ -118,7 +118,7 @@ const NavMenu = ({
                   minHeight: '36px'
                 }}
               >
-                Civic Profile
+                Profile
               </MenuItem>
             </Link>
             <Divider sx={{ marginY: '5px' }} />
@@ -143,9 +143,9 @@ const NavMenu = ({
             Messages
           </MenuItem>
         </Link>
-        {/* profile */}
+        {/* PASS account */}
         <Link
-          to="/profile"
+          to="/account"
           state={{ contact: null }}
           style={{ textDecoration: 'none', color: theme.palette.primary.main }}
           onClick={() => setContact(null)}
@@ -155,8 +155,8 @@ const NavMenu = ({
             sx={{ width: '100%', minHeight: '36px' }}
             startIcon={
               <Avatar
-                src={profileImg}
-                alt="PASS profile"
+                src={accountImg}
+                alt="PASS account"
                 sx={{
                   height: '24px',
                   width: '24px',
@@ -167,7 +167,7 @@ const NavMenu = ({
               />
             }
           >
-            Profile
+            Account
           </MenuItem>
         </Link>
         <Divider sx={{ marginY: '5px' }} />

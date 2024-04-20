@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { vi, expect, it, describe } from 'vitest';
-import { HousingInfo } from '@components/CivicProfileForms';
-import { useCivicProfile } from '@hooks';
+import { HousingInfo } from '@components/ProfileForms';
+import { useProfile } from '@hooks';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('@hooks', async () => {
@@ -10,13 +10,13 @@ vi.mock('@hooks', async () => {
 
   return {
     ...actual,
-    useCivicProfile: vi.fn()
+    useProfile: vi.fn()
   };
 });
 
 describe('Housing info form', () => {
   it('renders', () => {
-    useCivicProfile.mockReturnValue({ data: {}, isSuccess: true, refetch: vi.fn() });
+    useProfile.mockReturnValue({ data: {}, isSuccess: true, refetch: vi.fn() });
     const { getByRole } = render(<HousingInfo />);
     const cityField = getByRole('textbox', { name: 'City:' });
     expect(cityField).not.toBeNull();
@@ -31,7 +31,7 @@ describe('Housing info form', () => {
       lastPermanentState: 'Oregon',
       lastPermanentZIP: '97205'
     };
-    useCivicProfile.mockReturnValue({
+    useProfile.mockReturnValue({
       add: mockAdd,
       isSuccess: true,
       storedDataset: {},
@@ -59,7 +59,7 @@ describe('Housing info form', () => {
       lastPermanentState: 'Oregon',
       lastPermanentZIP: '97205'
     };
-    useCivicProfile.mockReturnValue({
+    useProfile.mockReturnValue({
       add: mockAdd,
       isSuccess: true,
       storedDataset: null,

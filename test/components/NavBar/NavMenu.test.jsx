@@ -20,10 +20,10 @@ it('does not render contacts and civic profile links above 600px', () => {
   const { queryByText } = render(<MockNavMenu />);
 
   const contactsLink = queryByText('Contacts');
-  const civicProfileLink = queryByText('Civic Profile');
+  const civicAccountLink = queryByText('Profile');
 
   expect(contactsLink).toBeNull();
-  expect(civicProfileLink).toBeNull();
+  expect(civicAccountLink).toBeNull();
 });
 
 it('renders contacts and civic profile links below 600px', () => {
@@ -31,8 +31,8 @@ it('renders contacts and civic profile links below 600px', () => {
   const { queryByText } = render(<MockNavMenu />);
 
   const contactsLink = queryByText('Contacts');
-  const civicProfileLink = queryByText('Civic Profile');
+  const civicAccountLink = queryByText('Profile');
 
   expect(contactsLink).not.toBeNull();
-  expect(civicProfileLink).not.toBeNull();
+  expect(civicAccountLink).not.toBeNull();
 });

@@ -1,6 +1,6 @@
 import useContactsList from './useContactsList';
 import useNotification from './useNotification';
-import useCivicProfile from './useCivicProfile';
+import useProfile from './useProfile';
 import useSession from './useSession';
 import useMessageList from './useMessageList';
 /**
@@ -10,4 +10,4 @@ import useMessageList from './useMessageList';
  * @namespace hooks
  */
 
-export { useContactsList, useNotification, useSession, useCivicProfile, useMessageList };
+export { useContactsList, useNotification, useSession, useProfile, useMessageList };

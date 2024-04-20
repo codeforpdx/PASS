@@ -4,17 +4,17 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 // Custom Hooks Imports
-import { useCivicProfile } from '@hooks';
+import { useProfile } from '@hooks';
 
 /**
  * HousingInfo - A form to fill out with housing security info
  *
- * @memberof CivicProfileForms
+ * @memberof ProfileForms
  * @name HousingInfo
  * @returns {React.JSX.Element} The HousingInfo Component
  */
 const HousingInfo = () => {
-  const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
+  const { data, add, isSuccess, storedDataset, refetch } = useProfile();
   const [formData, setFormData] = useState({
     lastPermanentStreet: '',
     lastPermanentCity: '',

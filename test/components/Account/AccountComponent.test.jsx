@@ -3,42 +3,42 @@ import { BrowserRouter } from 'react-router-dom';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ProfileComponent } from '@components/Profile';
+import { AccountComponent } from '@components/Account';
 import { SignedInUserContext } from '@contexts';
-import * as profileHelper from '../../../src/model-helpers/Profile';
+import * as profileHelper from '../../../src/model-helpers/Account';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-const profileInfo = {
-  profileName: null,
+const accountInfo = {
+  accountName: null,
   nickname: null,
-  profileImg: null
+  accountImg: null
 };
 
 const mockSignedInUserContextMemo = {
-  updateProfileInfo: vi.fn(),
-  setProfileData: vi.fn(),
-  profileData: {
-    profileInfo: {
-      profileName: null,
+  updateAccountInfo: vi.fn(),
+  setAccountData: vi.fn(),
+  accountData: {
+    accountInfo: {
+      accountName: null,
       nickname: null,
-      profileImg: null
+      accountImg: null
     }
   },
-  fetchProfileInfo: vi.spyOn(profileHelper, 'fetchProfileInfo').mockResolvedValue({
-    profileData: profileInfo
+  fetchAccountInfo: vi.spyOn(profileHelper, 'fetchAccountInfo').mockResolvedValue({
+    accountData: accountInfo
   })
 };
 const renderTest = () =>
   render(
     <BrowserRouter>
       <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
+        <AccountComponent contactAccount={null} />
       </SignedInUserContext.Provider>
     </BrowserRouter>
   );
 
-describe('ProfileComponent', () => {
+describe('AccountComponent', () => {
   afterEach(() => {
     cleanup();
     vi.clearAllMocks();
@@ -89,11 +89,11 @@ describe('ProfileComponent', () => {
     });
   });
 
-  it('renders no edit button for ProfileInputFields if contactProfile is not null', async () => {
+  it('renders no edit button for AccountInputFields if contactAccount is not null', async () => {
     const { queryByRole } = render(
       <BrowserRouter>
         <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-          <ProfileComponent contactProfile={{}} />
+          <AccountComponent contactAccount={{}} />
         </SignedInUserContext.Provider>
       </BrowserRouter>
     );

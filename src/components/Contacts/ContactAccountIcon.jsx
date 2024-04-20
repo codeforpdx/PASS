@@ -11,30 +11,30 @@ import { useNotification } from '@hooks';
 import { DocumentListContext } from '@contexts';
 
 /**
- * contactProfileIconProps is an object that stores the props for the
- * ContactProfileIcon component
+ * contactAccountIconProps is an object that stores the props for the
+ * ContactAccountIcon component
  *
- * @typedef {object} contactProfileIconProps
+ * @typedef {object} contactAccountIconProps
  * @property {object} contact - Contain the object that stores contact metadata
  * @memberof typedefs
  */
 
 /**
- * ContactProfileIcon Component - Component that generates the contact profile
- * icon for the Contacts List which is a special link to their profile page
+ * ContactAccountIcon Component - Component that generates the contact profile
+ * icon for the Contacts List which is a special link to their account page
  *
  * @memberof Contacts
- * @name ContactProfileIcon
- * @param {contactProfileIconProps} Props - Props for ContactProfileIcon
- * @returns {React.JSX.Element} The ContactProfileIcon Component
+ * @name ContactAccountIcon
+ * @param {contactAccountIconProps} Props - Props for ContactAccountIcon
+ * @returns {React.JSX.Element} The ContactAccountIcon Component
  */
-const ContactProfileIcon = ({ contact }) => {
+const ContactAccountIcon = ({ contact }) => {
   const { setContact } = useContext(DocumentListContext);
   const navigate = useNavigate();
   const { addNotification } = useNotification();
 
-  // Event handler for profile page routing
-  const handleSelectProfile = async (contactInfo) => {
+  // Event handler for account page routing
+  const handleSelectAccount = async (contactInfo) => {
     try {
       await getWebIdDataset(contactInfo.webId);
       setContact(contactInfo);
@@ -49,7 +49,7 @@ const ContactProfileIcon = ({ contact }) => {
     <Link
       to={`/contacts/${encodeURIComponent(contact.id)}`}
       state={{ contact: contact.value }}
-      onClick={() => handleSelectProfile(contact.value)}
+      onClick={() => handleSelectAccount(contact.value)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
       <ContactPageIcon sx={{ color: 'gray' }} titleAccess="contact profile link" />
@@ -57,4 +57,4 @@ const ContactProfileIcon = ({ contact }) => {
   );
 };
 
-export default ContactProfileIcon;
+export default ContactAccountIcon;

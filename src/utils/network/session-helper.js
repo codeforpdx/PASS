@@ -130,16 +130,16 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
  * Gets user's name from profile using their webId
  *
  * @memberof utils
- * @function getUserProfileName
+ * @function getUserAccountName
  * @param {Session} session - Solid's Session Object (see {@link Session})
  * @param {URL} webId - A user's Solid webId attached to Solid Pod
  * @returns {Promise} Promise - Fetch user's name from their Solid Pod profile
  */
 
-export const getUserProfileName = async (webId) => {
+export const getUserAccountName = async (webId) => {
   const profile = await getWebIdDataset(webId);
-  const profileDataThing = getThing(profile, webId);
-  return getStringNoLocale(profileDataThing, RDF_PREDICATES.profileName);
+  const accountDataThing = getThing(profile, webId);
+  return getStringNoLocale(accountDataThing, RDF_PREDICATES.accountName);
 };
 
 /**

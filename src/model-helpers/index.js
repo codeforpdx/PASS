@@ -8,4 +8,4 @@
 
 export * from './Document';
 export * from './DocumentList';
-export * from './Profile';
+export * from './Account';

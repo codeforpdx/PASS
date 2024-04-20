@@ -1,20 +1,41 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { expect, it, describe } from 'vitest';
-import { CivicProfile } from '@pages';
-import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
+import { render } from '@testing-library/react';
+import { expect, it } from 'vitest';
+import { Profile } from '@pages';
+import createMatchMedia from '../helpers/createMatchMedia';
 
-describe('Civic Profile', () => {
-  const numLinks = CIVIC_FORM_LIST.length;
+it('renders page container flex direction as row and nav container width as 25% by default', () => {
+  const component = render(
+    <BrowserRouter>
+      <Profile />
+    </BrowserRouter>
+  );
 
-  it('renders buttons for all forms in CIVIC_FORM_LIST', () => {
-    const { getByRole, getAllByRole } = render(
-      <BrowserRouter>
-        <CivicProfile />
-      </BrowserRouter>
-    );
-    expect(getByRole('navigation')).not.toBeNull();
-    expect(getAllByRole('link').length).toEqual(numLinks);
-  });
+  const componentContainer = component.container.firstChild;
+  const navContainer = componentContainer.firstChild;
+
+  const componentContainerStyles = getComputedStyle(componentContainer);
+  const navContainerStyles = getComputedStyle(navContainer);
+
+  expect(componentContainerStyles.flexDirection).toBe('row');
+  expect(navContainerStyles.width).toBe('25%');
+});
+
+it('renders page container flex direction as column and nav container width as 100% below 600px', () => {
+  window.matchMedia = createMatchMedia(599);
+  const component = render(
+    <BrowserRouter>
+      <Profile />
+    </BrowserRouter>
+  );
+
+  const componentContainer = component.container.firstChild;
+  const navContainer = componentContainer.firstChild;
+
+  const componentContainerStyles = getComputedStyle(componentContainer);
+  const navContainerStyles = getComputedStyle(navContainer);
+
+  expect(componentContainerStyles.flexDirection).toBe('column');
+  expect(navContainerStyles.width).toBe('100%');
 });

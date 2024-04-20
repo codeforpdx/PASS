@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import { expect, it, afterEach, describe, vi } from 'vitest';
 import { SignedInUserContext, SignedInUserContextProvider, SessionContext } from '@contexts';
 import { RDF_PREDICATES } from '@constants';
-import { fetchProfileInfo } from '../../src/model-helpers';
+import { fetchAccountInfo } from '../../src/model-helpers';
 
 const TestConsumer = () => {
   const { podUrl } = useContext(SignedInUserContext);
@@ -27,7 +27,7 @@ vi.mock('../../src/model-helpers/', async () => {
 
   return {
     ...actual,
-    fetchProfileInfo: vi.fn()
+    fetchAccountInfo: vi.fn()
   };
 });
 
@@ -45,7 +45,7 @@ describe('SignedInUserContext', () => {
     const dataset = mockSolidDatasetFrom('https://example.com/pod/PASS/Public/active.ttl');
     getSolidDataset.mockResolvedValue(setThing(dataset, newActiveTTL));
 
-    fetchProfileInfo.mockResolvedValue({ profileInfo: {} });
+    fetchAccountInfo.mockResolvedValue({ accountInfo: {} });
     getPodUrlAll.mockResolvedValue(['https://example.com/pod/']);
     const { findByText } = render(
       <SessionContext.Provider

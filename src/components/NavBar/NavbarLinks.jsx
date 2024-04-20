@@ -24,7 +24,7 @@ const NavbarLinks = () => {
   // array of current nav links for menus
   const routesArray = [
     { label: 'Contacts', path: '/contacts' },
-    { label: 'Civic Profile', path: '/civic-profile/basic-info' }
+    { label: 'Profile', path: '/profile/basic-info' }
   ];
 
   return (

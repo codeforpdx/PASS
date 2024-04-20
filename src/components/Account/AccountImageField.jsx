@@ -15,49 +15,49 @@ import useNotification from '../../hooks/useNotification';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 
 /**
- * ProfileImageField Component - Component that creates the editable inputs fields
- * for the Profile page
+ * AccountImageField Component - Component that creates the editable inputs fields
+ * for the Account page
  *
- * @memberof Profile
- * @name ProfileImageField
+ * @memberof Account
+ * @name AccountImageField
  * @param {object} Props - Props used for NewMessage
- * @param {() => void} Props.loadProfileData - Handler function for setting local
+ * @param {() => void} Props.loadAccountData - Handler function for setting local
  * state for profile card in PASS
- * @param {object} [Props.contactProfile] - Contact object with data from profile
+ * @param {object} [Props.contactAccount] - Contact object with data from profile
  * or null if user profile is selected
  * @returns {React.JSX.Element} React component for NewMessage
  */
-const ProfileImageField = ({ loadProfileData, contactProfile }) => {
+const AccountImageField = ({ loadAccountData, contactAccount }) => {
   const { addNotification } = useNotification();
   const { session } = useSession();
-  const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
+  const { accountData, fetchAccountInfo, removeAccountImage, uploadAccountImage } =
     useContext(SignedInUserContext);
-  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
+  const [accountImg, setAccountImg] = useState(localStorage.getItem('accountImage'));
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  const handleProfileImage = async (event) => {
+  const handleAccountImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
-      addNotification('error', 'Profile images have a maximum size of 1MB.');
+      addNotification('error', 'Account images have a maximum size of 1MB.');
     } else {
-      await uploadProfileImage(session, profileData, event.target.files[0]);
+      await uploadAccountImage(session, accountData, event.target.files[0]);
 
-      const updatedProfileData = await fetchProfileInfo(session.info.webId);
-      localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
-      setProfileImg(updatedProfileData.profileInfo.profileImage);
-      addNotification('success', `Profile image added.`);
-      loadProfileData();
+      const updatedAccountData = await fetchAccountInfo(session.info.webId);
+      localStorage.setItem('accountImage', updatedAccountData.accountInfo.accountImage);
+      setAccountImg(updatedAccountData.accountInfo.accountImage);
+      addNotification('success', `Account image added.`);
+      loadAccountData();
     }
   };
 
-  const handleRemoveProfileImg = async () => {
+  const handleRemoveAccountImg = async () => {
     setProcessing(true);
     try {
-      await removeProfileImage(session, profileData);
-      loadProfileData();
-      localStorage.removeItem('profileImage');
-      setProfileImg(null);
-      addNotification('success', `Profile image deleted from the pod.`);
+      await removeAccountImage(session, accountData);
+      loadAccountData();
+      localStorage.removeItem('accountImage');
+      setAccountImg(null);
+      addNotification('success', `Account image deleted from the pod.`);
     } catch (e) {
       addNotification('error', `Image deletion failed. Reason: ${e.message}`);
     } finally {
@@ -66,7 +66,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     }
   };
 
-  const handleSelectRemoveProfileImg = async () => {
+  const handleSelectRemoveAccountImg = async () => {
     setShowConfirmationModal(true);
   };
 
@@ -82,17 +82,17 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
       }}
     >
       <Avatar
-        src={contactProfile ? contactProfile.profileImage : profileImg}
+        src={contactAccount ? contactAccount.accountImage : accountImg}
         alt="PASS profile"
         sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
       />
-      {!contactProfile &&
-        (profileImg ? (
+      {!contactAccount &&
+        (accountImg ? (
           <Button
             variant="outlined"
             color="error"
             sx={{ width: '150px' }}
-            onClick={handleSelectRemoveProfileImg}
+            onClick={handleSelectRemoveAccountImg}
             endIcon={<HideImageIcon />}
           >
             Remove Img
@@ -102,7 +102,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
             variant="outlined"
             component="label"
             color="primary"
-            onChange={handleProfileImage}
+            onChange={handleAccountImage}
             endIcon={<ImageIcon />}
             sx={{ width: '150px' }}
           >
@@ -114,8 +114,8 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
         title="Delete Image"
-        text={"You're about to delete your profile image. Do you wish to continue?"}
-        onConfirm={handleRemoveProfileImg}
+        text={"You're about to delete your account image. Do you wish to continue?"}
+        onConfirm={handleRemoveAccountImg}
         confirmButtonText="Delete"
         processing={processing}
       />
@@ -123,4 +123,4 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   );
 };
 
-export default ProfileImageField;
+export default AccountImageField;

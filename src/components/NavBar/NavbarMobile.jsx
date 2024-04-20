@@ -51,12 +51,12 @@ const NavbarMobile = ({ setShowConfirmation }) => {
     setAnchorElNotifications(null);
   };
 
-  const { profileData } = useContext(SignedInUserContext);
-  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
+  const { accountData } = useContext(SignedInUserContext);
+  const [accountImg, setAccountImg] = useState(localStorage.getItem('accountImage'));
 
   useEffect(() => {
-    setProfileImg(localStorage.getItem('profileImage'));
-  }, [profileData]);
+    setAccountImg(localStorage.getItem('accountImage'));
+  }, [accountData]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -111,7 +111,7 @@ const NavbarMobile = ({ setShowConfirmation }) => {
               setAnchorEl={setAnchorEl}
               setShowConfirmation={setShowConfirmation}
               handleNotificationsMenu={handleNotificationsMenu}
-              profileImg={profileImg}
+              accountImg={accountImg}
             />
           )}
         </Toolbar>

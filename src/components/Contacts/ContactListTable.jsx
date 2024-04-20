@@ -14,7 +14,7 @@ import {
 // MUI Theme
 import theme from '../../theme';
 // Component Imports
-import ContactProfileIcon from './ContactProfileIcon';
+import ContactAccountIcon from './ContactAccountIcon';
 import { NewMessageModal } from '../Modals';
 
 const CustomToolbar = () => (
@@ -72,8 +72,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       align: 'center'
     },
     {
-      field: 'Profile',
-      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
+      field: 'Account',
+      renderCell: (contactData) => <ContactAccountIcon contact={contactData} />,
       sortable: false,
       filterable: false,
       width: 80,
@@ -118,7 +118,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           'First Name': contact.givenName || '',
           'Last Name': contact.familyName || '',
           webId: contact.webId,
-          Profile: contact,
+          Account: contact,
           Message: contact,
           Delete: contact
         }))}

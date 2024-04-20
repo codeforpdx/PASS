@@ -9,21 +9,21 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditNote from '@mui/icons-material/EditNote';
 
 /**
- * The ProfileEditButtonGroup Component is a component that consist of the profile
- * page edit buttons for the ProfileInputField component
+ * The AccountEditButtonGroup Component is a component that consist of the profile
+ * page edit buttons for the AccountInputField component
  *
- * @memberof Profile
- * @name ProfileEditButtonGroup
- * @param {object} Props - Props for Profile Edit buttons
+ * @memberof Account
+ * @name AccountEditButtonGroup
+ * @param {object} Props - Props for Account Edit buttons
  * @param {boolean} Props.edit - Boolean state for editing values in the
- * ProfileInputField component
+ * AccountInputField component
  * @param {() => void} Props.handleCancelEdit - Handler function for canceling
- * edit for ProfileInputField component
+ * edit for AccountInputField component
  * @param {() => void} Props.handleEditInput - Handler function for editing the
- * ProfileInputField component
- * @returns {React.JSX.Element} The ProfileEditButtonGroup
+ * AccountInputField component
+ * @returns {React.JSX.Element} The AccountEditButtonGroup
  */
-const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => (
+const AccountEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => (
   <Box
     sx={{
       display: 'flex',
@@ -55,4 +55,4 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
   </Box>
 );
 
-export default ProfileEditButtonGroup;
+export default AccountEditButtonGroup;

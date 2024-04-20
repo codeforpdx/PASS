@@ -1,5 +1,5 @@
 import ContactListTable from './ContactListTable';
-import ContactProfileIcon from './ContactProfileIcon';
+import ContactAccountIcon from './ContactAccountIcon';
 
 /**
  * Components and functions related to Contacts functionality within project PASS
@@ -7,4 +7,4 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @namespace Contacts
  */
 
-export { ContactListTable, ContactProfileIcon };
+export { ContactListTable, ContactAccountIcon };

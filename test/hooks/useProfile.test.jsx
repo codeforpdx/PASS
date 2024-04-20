@@ -11,7 +11,7 @@ import {
 import { RDF_PREDICATES } from '@constants';
 import { expect, it, describe, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useCivicProfile } from '@hooks';
+import { useProfile } from '@hooks';
 import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -40,14 +40,14 @@ const wrapper = ({ children }) => (
 );
 
 const makeIntoThing = ({ firstName, lastName, dateOfBirth, gender }) =>
-  buildThing(createThing({ name: 'Civic Profile' }))
+  buildThing(createThing({ name: 'Profile' }))
     .addStringNoLocale(RDF_PREDICATES.legalFirstName, firstName)
     .addStringNoLocale(RDF_PREDICATES.legalLastName, lastName)
     .addDate(RDF_PREDICATES.legalDOB, dateOfBirth)
     .addInteger(RDF_PREDICATES.legalGender, gender)
     .build();
 
-describe('useCivicProfile', () => {
+describe('useProfile', () => {
   const profile = {
     firstName: 'Luffy',
     lastName: 'Monkey',
@@ -58,20 +58,20 @@ describe('useCivicProfile', () => {
     getSolidDataset.mockResolvedValue(
       mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl')
     );
-    const { result } = renderHook(useCivicProfile, { wrapper });
+    const { result } = renderHook(useProfile, { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     expect(result.current.data).toStrictEqual({});
   });
 
   it('Creates a new file if none exists', async () => {
     getSolidDataset.mockRejectedValue({ response: { status: 404 } });
-    const { result } = renderHook(useCivicProfile, { wrapper });
+    const { result } = renderHook(useProfile, { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     expect(createSolidDataset).toBeCalledTimes(1);
   });
 
-  it('Returns the Civic Profile if found', async () => {
-    const thing = buildThing(createThing({ name: 'Civic Profile' }))
+  it('Returns the Profile if found', async () => {
+    const thing = buildThing(createThing({ name: 'Profile' }))
       .addStringNoLocale(RDF_PREDICATES.legalFirstName, profile.firstName)
       .addStringNoLocale(RDF_PREDICATES.legalLastName, profile.lastName)
       .addDate(RDF_PREDICATES.legalDOB, profile.dateOfBirth)
@@ -82,17 +82,17 @@ describe('useCivicProfile', () => {
       thing
     );
     getSolidDataset.mockResolvedValue(dataset);
-    const { result } = renderHook(useCivicProfile, { wrapper });
+    const { result } = renderHook(useProfile, { wrapper });
     await waitFor(() => expect(result.current.data).toEqual(expect.objectContaining(profile)));
   });
 
-  it('Updates Civic Profile with proper data', async () => {
+  it('Updates Profile with proper data', async () => {
     let dataset = mockSolidDatasetFrom('https://example.com/PASS/Profile/civic_profile.ttl');
     getSolidDataset.mockResolvedValue(dataset);
     saveSolidDatasetAt.mockImplementation((_, data) => Promise.resolve(data));
     const thing = makeIntoThing(profile);
     dataset = setThing(dataset, thing);
-    const { result } = renderHook(useCivicProfile, { wrapper });
+    const { result } = renderHook(useProfile, { wrapper });
     await waitFor(() => expect(result.current.storedDataset).not.toBe(null));
     const hook = result.current;
     hook.add(profile);

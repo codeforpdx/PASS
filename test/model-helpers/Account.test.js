@@ -1,10 +1,10 @@
 import * as solidClient from '@inrupt/solid-client';
 import { beforeEach, afterEach, describe, expect, vi, it } from 'vitest';
 import {
-  fetchProfileInfo,
-  removeProfileImage,
-  updateProfileInfo,
-  uploadProfileImage
+  fetchAccountInfo,
+  removeAccountImage,
+  updateAccountInfo,
+  uploadAccountImage
 } from '../../src/model-helpers';
 import * as utils from '../../src/utils';
 
@@ -13,7 +13,7 @@ const mockWebId = 'https://example.com/pod/profile/card#me';
 
 vi.mock('@inrupt/solid-client');
 
-describe('fetchProfileInfo', () => {
+describe('fetchAccountInfo', () => {
   beforeEach(() => {
     session = {
       fetch: vi.fn(),
@@ -26,7 +26,7 @@ describe('fetchProfileInfo', () => {
     vi.clearAllMocks();
   });
 
-  it('returns expected properties for profileData object', async () => {
+  it('returns expected properties for accountData object', async () => {
     vi.spyOn(solidClient, 'getWebIdDataset').mockResolvedValue(
       solidClient.mockSolidDatasetFrom(mockWebId)
     );
@@ -44,17 +44,17 @@ describe('fetchProfileInfo', () => {
     });
     vi.spyOn(solidClient, 'getSolidDataset').mockResolvedValue();
 
-    const results = await fetchProfileInfo(session.info.webId);
+    const results = await fetchAccountInfo(session.info.webId);
 
-    expect(results).toHaveProperty('profileInfo.profileName');
-    expect(results).toHaveProperty('profileInfo.nickname');
-    expect(results).toHaveProperty('profileInfo.profileImage');
-    expect(results).toHaveProperty('profileDataset');
-    expect(results).toHaveProperty('profileThing');
+    expect(results).toHaveProperty('accountInfo.accountName');
+    expect(results).toHaveProperty('accountInfo.nickname');
+    expect(results).toHaveProperty('accountInfo.accountImage');
+    expect(results).toHaveProperty('accountDataset');
+    expect(results).toHaveProperty('accountThing');
   });
 });
 
-describe('updateProfileInfo', () => {
+describe('updateAccountInfo', () => {
   beforeEach(() => {
     session = {
       fetch: vi.fn(),
@@ -72,38 +72,38 @@ describe('updateProfileInfo', () => {
   it('only run buildThing or removeStringNoLocale when value is not null', async () => {
     const mockDatasetThing = solidClient.getThing(mockDataset, mockWebId);
     const mockData = {
-      profileDataset: mockDataset,
-      profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
+      accountDataset: mockDataset,
+      accountThing: mockDatasetThing,
+      accountInfo: { accountName: 'Alice', nickname: null, accountImage: null }
     };
-    const mockInputValues = { profileName: 'Alice', nickname: null };
+    const mockInputValues = { accountName: 'Alice', nickname: null };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'setThing').mockReturnValue();
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues);
+    await updateAccountInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).not.toBeCalled();
     expect(solidClient.buildThing).toBeCalledTimes(1);
     expect(solidClient.saveSolidDatasetAt).toBeCalled();
   });
 
-  it('run buildThing twice when updating both profileName and nickname', async () => {
+  it('run buildThing twice when updating both accountName and nickname', async () => {
     const mockDatasetThing = solidClient.getThing(mockDataset, mockWebId);
     const mockData = {
-      profileDataset: mockDataset,
-      profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
+      accountDataset: mockDataset,
+      accountThing: mockDatasetThing,
+      accountInfo: { accountName: 'Alice', nickname: null, accountImage: null }
     };
-    const mockInputValues = { profileName: 'Alice', nickname: 'Al' };
+    const mockInputValues = { accountName: 'Alice', nickname: 'Al' };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues);
+    await updateAccountInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).not.toBeCalled();
     expect(solidClient.buildThing).toBeCalledTimes(2);
@@ -113,17 +113,17 @@ describe('updateProfileInfo', () => {
   it('run removeStringNoLocale when one of the inputValues are an empty string', async () => {
     const mockDatasetThing = solidClient.getThing(mockDataset, mockWebId);
     const mockData = {
-      profileDataset: mockDataset,
-      profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
+      accountDataset: mockDataset,
+      accountThing: mockDatasetThing,
+      accountInfo: { accountName: 'Alice', nickname: null, accountImage: null }
     };
-    const mockInputValues = { profileName: '', nickname: 'Al' };
+    const mockInputValues = { accountName: '', nickname: 'Al' };
 
     vi.spyOn(solidClient, 'removeStringNoLocale');
     vi.spyOn(solidClient, 'buildThing');
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
 
-    await updateProfileInfo(session, mockData, mockInputValues);
+    await updateAccountInfo(session, mockData, mockInputValues);
 
     expect(solidClient.removeStringNoLocale).toBeCalledTimes(1);
     expect(solidClient.buildThing).toBeCalledTimes(1);
@@ -131,7 +131,7 @@ describe('updateProfileInfo', () => {
   });
 });
 
-describe('uploadProfileImage', () => {
+describe('uploadAccountImage', () => {
   beforeEach(() => {
     session = {
       fetch: vi.fn(),
@@ -149,9 +149,9 @@ describe('uploadProfileImage', () => {
   it('run function when triggered with inputImage', async () => {
     const mockDatasetThing = solidClient.getThing(mockDataset, mockWebId);
     const mockData = {
-      profileDataset: mockDataset,
-      profileThing: mockDatasetThing,
-      profileInfo: { profileName: 'Alice', nickname: null, profileImage: null }
+      accountDataset: mockDataset,
+      accountThing: mockDatasetThing,
+      accountInfo: { accountName: 'Alice', nickname: null, accountImage: null }
     };
     const mockImageData = new Blob(new Array(9).fill(0), { type: 'image/png' });
     const mockInputImage = new File([mockImageData], 'image.png', { type: 'image/png' });
@@ -160,7 +160,7 @@ describe('uploadProfileImage', () => {
 
     vi.spyOn(solidClient, 'saveFileInContainer').mockResolvedValue(mockFileResource);
     vi.spyOn(solidClient, 'getSourceUrl');
-    vi.spyOn(utils, 'saveSourceUrlToThing').mockReturnValue(mockData.profileThing);
+    vi.spyOn(utils, 'saveSourceUrlToThing').mockReturnValue(mockData.accountThing);
     vi.spyOn(solidClient, 'setThing');
     vi.spyOn(solidClient, 'getFile').mockReturnValue(mockFileResource);
     vi.spyOn(solidClient, 'createAcl');
@@ -169,7 +169,7 @@ describe('uploadProfileImage', () => {
     vi.spyOn(utils, 'setupAcl').mockReturnValue(mockFileResourceWithAcl);
     vi.spyOn(solidClient, 'saveAclFor');
 
-    await uploadProfileImage(session, mockData, mockInputImage);
+    await uploadAccountImage(session, mockData, mockInputImage);
 
     expect(solidClient.saveFileInContainer).toBeCalled();
     expect(utils.saveSourceUrlToThing).toBeCalled();
@@ -183,7 +183,7 @@ describe('uploadProfileImage', () => {
   });
 });
 
-describe('removeProfileImage', () => {
+describe('removeAccountImage', () => {
   beforeEach(() => {
     session = {
       fetch: vi.fn(),
@@ -196,7 +196,7 @@ describe('removeProfileImage', () => {
     vi.clearAllMocks();
   });
 
-  it('does not run deleteFile only when profileImg is null', async () => {
+  it('does not run deleteFile only when accountImg is null', async () => {
     const mockDataset = solidClient.addMockResourceAclTo(
       solidClient.mockSolidDatasetFrom(mockWebId)
     );
@@ -209,7 +209,7 @@ describe('removeProfileImage', () => {
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
     vi.spyOn(solidClient, 'deleteFile');
 
-    await removeProfileImage(session, mockData);
+    await removeAccountImage(session, mockData);
 
     expect(solidClient.removeUrl).not.toBeCalled();
     expect(solidClient.setThing).not.toBeCalled();
@@ -217,7 +217,7 @@ describe('removeProfileImage', () => {
     expect(solidClient.deleteFile).not.toBeCalled();
   });
 
-  it('run deleteFile only when profileImg is defined', async () => {
+  it('run deleteFile only when accountImg is defined', async () => {
     const mockDataset = solidClient.addMockResourceAclTo(
       solidClient.mockSolidDatasetFrom(mockWebId)
     );
@@ -230,7 +230,7 @@ describe('removeProfileImage', () => {
     vi.spyOn(solidClient, 'saveSolidDatasetAt');
     vi.spyOn(solidClient, 'deleteFile');
 
-    await removeProfileImage(session, mockData);
+    await removeAccountImage(session, mockData);
 
     expect(solidClient.removeUrl).toBeCalled();
     expect(solidClient.setThing).toBeCalled();

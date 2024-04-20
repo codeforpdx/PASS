@@ -7,10 +7,10 @@ import { SessionContext } from './SessionContext';
 import { createPASSContainer } from '../utils';
 // Model Imports
 import {
-  fetchProfileInfo,
-  updateProfileInfo,
-  uploadProfileImage,
-  removeProfileImage
+  fetchAccountInfo,
+  updateAccountInfo,
+  uploadAccountImage,
+  removeAccountImage
 } from '../model-helpers';
 
 /**
@@ -35,19 +35,19 @@ export const SignedInUserContextProvider = ({ children }) => {
   const { session } = useContext(SessionContext);
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [podUrl, setPodUrl] = useState('');
-  const [profileData, setProfileData] = useState(null);
+  const [accountData, setAccountData] = useState(null);
 
   const userInfoMemo = useMemo(
     () => ({
       podUrl,
-      profileData,
-      setProfileData: async (newProfileData) => setProfileData(newProfileData),
-      fetchProfileInfo,
-      updateProfileInfo,
-      uploadProfileImage,
-      removeProfileImage
+      accountData,
+      setAccountData: async (newAccountData) => setAccountData(newAccountData),
+      fetchAccountInfo,
+      updateAccountInfo,
+      uploadAccountImage,
+      removeAccountImage
     }),
-    [podUrl, profileData, loadingUserInfo]
+    [podUrl, accountData, loadingUserInfo]
   );
 
   useEffect(() => {
@@ -57,11 +57,11 @@ export const SignedInUserContextProvider = ({ children }) => {
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);
-        const fetchedProfileData = await fetchProfileInfo(webId);
-        if (fetchedProfileData.profileInfo.profileImage) {
-          localStorage.setItem('profileImage', fetchedProfileData.profileInfo.profileImage);
+        const fetchedAccountData = await fetchAccountInfo(webId);
+        if (fetchedAccountData.accountInfo.accountImage) {
+          localStorage.setItem('accountImage', fetchedAccountData.accountInfo.accountImage);
         }
-        setProfileData(fetchedProfileData);
+        setAccountData(fetchedAccountData);
         await Promise.all([
           createPASSContainer(session, fetchedPodUrl, 'Documents'),
           createPASSContainer(session, fetchedPodUrl, 'Profile')

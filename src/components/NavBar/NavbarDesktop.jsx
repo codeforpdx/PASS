@@ -43,12 +43,12 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
     setOpenMenu(true);
   };
 
-  const { profileData } = useContext(SignedInUserContext);
-  const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
+  const { accountData } = useContext(SignedInUserContext);
+  const [accountImg, setAccountImg] = useState(localStorage.getItem('accountImage'));
 
   useEffect(() => {
-    setProfileImg(localStorage.getItem('profileImage'));
-  }, [profileData]);
+    setAccountImg(localStorage.getItem('accountImage'));
+  }, [accountData]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -85,7 +85,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               color="inherit"
             >
               <Avatar
-                src={profileImg}
+                src={accountImg}
                 alt="PASS profile"
                 sx={{ height: '24px', width: '24px', objectFit: 'contain' }}
               />
@@ -100,7 +100,7 @@ const NavbarDesktop = ({ setShowConfirmation }) => {
               anchorEl={anchorEl}
               setAnchorEl={setAnchorEl}
               setShowConfirmation={setShowConfirmation}
-              profileImg={profileImg}
+              accountImg={accountImg}
             />
           )}
         </Toolbar>
