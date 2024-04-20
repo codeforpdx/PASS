@@ -24,9 +24,9 @@ import AccountImageField from './AccountImageField';
  * @memberof Account
  * @name AccountComponent
  * @param {object} Props - Props for ClientAccount component
- * @param {object} [Props.contactAccount] - Contact object with data from profile
+ * @param {object} [Props.contactAccount] - Contact object with data from account
  * @param {string} [Props.webId] - The webId of the contact
- * or null if user profile is selected
+ * or null if user account is selected
  * @returns {React.JSX.Element} The UserAccount Component
  */
 const AccountComponent = ({ contactAccount, webId }) => {

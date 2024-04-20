@@ -13,7 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
  * @name AccountInputField
  * @param {object} Props - Props used for NewMessage
  * @param {string} Props.inputName - Name of input field
- * @param {string} Props.inputValue - Value of input field used for updating profile
+ * @param {string} Props.inputValue - Value of input field used for updating account
  * @param {(value: React.SetStateAction<string|null>) => void} Props.setInputValue
  * - Set function for inputValue
  * @param {boolean} Props.edit - Boolean used to toggle edit inputs

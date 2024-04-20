@@ -20,7 +20,7 @@ import { DocumentListContext } from '@contexts';
  */
 
 /**
- * ContactAccountIcon Component - Component that generates the contact profile
+ * ContactAccountIcon Component - Component that generates the contact account
  * icon for the Contacts List which is a special link to their account page
  *
  * @memberof Contacts
@@ -52,7 +52,7 @@ const ContactAccountIcon = ({ contact }) => {
       onClick={() => handleSelectAccount(contact.value)}
       style={{ display: 'flex', alignItems: 'center' }}
     >
-      <ContactPageIcon sx={{ color: 'gray' }} titleAccess="contact profile link" />
+      <ContactPageIcon sx={{ color: 'gray' }} titleAccess="contact account link" />
     </Link>
   );
 };

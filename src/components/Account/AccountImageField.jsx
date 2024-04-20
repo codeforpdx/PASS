@@ -23,8 +23,8 @@ import ConfirmationModal from '../Modals/ConfirmationModal';
  * @param {object} Props - Props used for NewMessage
  * @param {() => void} Props.loadAccountData - Handler function for setting local
  * state for profile card in PASS
- * @param {object} [Props.contactAccount] - Contact object with data from profile
- * or null if user profile is selected
+ * @param {object} [Props.contactAccount] - Contact object with data from account
+ * or null if user account is selected
  * @returns {React.JSX.Element} React component for NewMessage
  */
 const AccountImageField = ({ loadAccountData, contactAccount }) => {

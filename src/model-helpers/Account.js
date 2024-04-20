@@ -56,7 +56,7 @@ export const fetchAccountInfo = async (webId) => {
  * @param {Session} session - Solid's Session Object {@link Session}
  * @param {object} accountData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
- * @param {object} inputValues - The inputs for updating profile information
+ * @param {object} inputValues - The inputs for updating account information
  * on their profile card
  * @returns {Promise} Promise - Performs action to update profile card on the
  * user's profile card
@@ -98,7 +98,7 @@ export const updateAccountInfo = async (session, accountData, inputValues) => {
  * to the person on their profile card, the profile dataset, and the profile Thing
  * @param {Blob} inputImage - File blob being uploaded for account image
  * @returns {Promise} Promise - Performs a file upload of your account image onto
- * your pod at /account
+ * your pod at /profile
  */
 export const uploadAccountImage = async (session, accountData, inputImage) => {
   let { accountDataset, accountThing } = accountData;
@@ -142,7 +142,7 @@ export const uploadAccountImage = async (session, accountData, inputImage) => {
  * @param {object} accountData - The object containing the information related
  * to the person on their profile card, the profile dataset, and the profile Thing
  * @returns {Promise} Promise - Perform action that removes the account image from
- * the profile card and the account image
+ * the profile card
  */
 export const removeAccountImage = async (session, accountData) => {
   let { accountDataset, accountThing } = accountData;

@@ -127,7 +127,7 @@ export const setDocAclForPublic = async (session, documentUrl, accessObject) => 
 };
 
 /**
- * Gets user's name from profile using their webId
+ * Gets user's name from account using their webId
  *
  * @memberof utils
  * @function getUserAccountName

@@ -47,7 +47,7 @@ export const SessionProvider = ({
   onError,
   sessionRequestInProgress: defaultSessionRequestInProgress,
   restorePreviousSession,
-  skipLoadingAccount,
+  skipLoadingProfile,
   onSessionRestore
 }) => {
   const restoreSession = restorePreviousSession || typeof onSessionRestore !== 'undefined';
@@ -80,7 +80,7 @@ export const SessionProvider = ({
       restorePreviousSession: restoreSession
     })
       .then(async (sessionInfo) => {
-        if (skipLoadingAccount === true) {
+        if (skipLoadingProfile === true) {
           return;
         }
 
@@ -112,7 +112,7 @@ export const SessionProvider = ({
     getDefaultSession().events.on('logout', () => {
       setSession(getDefaultSession());
     });
-  }, [session, sessionId, onError, currentLocation, restoreSession, skipLoadingAccount]);
+  }, [session, sessionId, onError, currentLocation, restoreSession, skipLoadingProfile]);
 
   const contextLogin = async (options) => {
     setSessionRequestInProgress(true);

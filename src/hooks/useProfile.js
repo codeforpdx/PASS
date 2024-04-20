@@ -10,7 +10,7 @@ import { RDF_PREDICATES } from '@constants';
 import useSession from './useSession';
 import useRdfCollection from './useRdfCollection';
 
-const civicAccountConfig = {
+const civicProfileConfig = {
   firstName: {
     type: 'string',
     predicate: RDF_PREDICATES.legalFirstName
@@ -82,7 +82,7 @@ const useProfile = () => {
   const { fetch } = session;
   const fileUrl = podUrl && new URL('PASS/Profile/civic_profile.ttl', podUrl).toString();
 
-  const serialize = (data) => convertDataToThing(data, 'Profile', civicAccountConfig);
+  const serialize = (data) => convertDataToThing(data, 'Profile', civicProfileConfig);
 
   const parse = (data) => {
     const url = new URL(fileUrl);
