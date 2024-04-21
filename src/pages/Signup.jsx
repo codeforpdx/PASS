@@ -37,6 +37,7 @@ import { Typography } from '@mui/material';
  */
 const Signup = () => {
   const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
+  const [storredIssuer, setStorredIssuer] = useState(null);
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
@@ -89,7 +90,10 @@ const Signup = () => {
     } else {
       setStep('begin');
     }
-  }, [session, window.location.href]);
+
+    const storedOidcIssuer = localStorage.getItem('oidcIssuer', oidcIssuer);
+    setStorredIssuer(storedOidcIssuer);
+  }, [session.info.isLoggedIn, window.location.href]);
 
   return (
     <Container>
@@ -123,14 +127,12 @@ const Signup = () => {
           )}
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (
-            <>
-              <h1>Youve logged in with your existing pod</h1>
-              <ShowNewPod
-                oidcIssuer={oidcIssuer}
-                podUrl={registrationInfo.podUrl}
-                webId={registrationInfo.webId}
-              />
-            </>
+            <ShowNewPod
+              oidcIssuer={oidcIssuer}
+              oidcExisting={storredIssuer}
+              podUrl={registrationInfo.podUrl}
+              webId={session.info.webId}
+            />
           )}
         </Paper>
       </Box>
