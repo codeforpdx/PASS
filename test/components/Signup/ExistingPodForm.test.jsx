@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 
 // Component being tested
 import { ExistingPodForm } from '@components/Signup';
-import { login } from '@inrupt/solid-client-authn-browser';
+// import { login } from '@inrupt/solid-client-authn-browser';
 
 vi.mock('@inrupt/solid-client-authn-browser');
 
