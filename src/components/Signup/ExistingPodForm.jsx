@@ -49,7 +49,7 @@ const ExistingPodForm = () => {
         <TextField
           id="existing-pod-provider"
           style={textFieldStyle}
-          aria-label="Email"
+          aria-label="Pod Provider"
           label="Pod Provider"
           variant="outlined"
           onChange={(e) => setOidcIssuer(e.target.value)}
