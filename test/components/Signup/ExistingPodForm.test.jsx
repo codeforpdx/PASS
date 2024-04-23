@@ -46,7 +46,6 @@ describe('ExistingPodForm', () => {
 
     await user.click(subButton);
 
-    
     expect(login).toHaveBeenCalled();
     expect(localStorage.getItem('oidcIssuer')).toBe('http://oidc.provider.url/');
   });
