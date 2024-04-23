@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
@@ -14,10 +14,16 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
+// Constant Imports
+import { ENV } from '@constants';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -49,15 +55,39 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [userFamilyName, setUserFamilyName] = useState('');
   const [webId, setWebId] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [customWebID, setCustomWebID] = useState(false);
   const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
+  const [Oidc, setOIDC] = useState('');
+  const [isSubmittable, setIsSubmittable] = useState(false);
+
+  useEffect(() => {
+    // disables submit button if form not fully filled out
+    if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
+      setIsSubmittable(true);
+    else setIsSubmittable(false);
+  }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   const clearInputFields = () => {
     setUserGivenName('');
     setUserFamilyName('');
     setWebId('');
     setInvalidWebId(false);
+    setOIDC('');
+    setCustomWebID(false);
+    setUserName('');
+  };
+
+  const handleOidcSelection = (e) => {
+    if (e.target.value === 'Other') {
+      setCustomWebID(true);
+    } else {
+      setCustomWebID(false);
+    }
+    setOIDC(e.target.value);
   };
 
   const handleAddContact = async (event) => {
@@ -65,12 +95,21 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     setProcessing(true);
 
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
+    let userObject;
 
-    const userObject = {
-      webId: addWebId.value.trim(),
-      ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
-      ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
-    };
+    if (customWebID) {
+      userObject = {
+        webId: addWebId.value.trim(),
+        ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+        ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
+      };
+    } else {
+      userObject = {
+        webId: JSON.parse(ENV.VITE_OIDC_WEBIDS)[Oidc].replace('user', userName.trim()).trim(),
+        ...(addUserGivenName.value && { givenName: addUserGivenName.value.trim() }),
+        ...(addUserFamilyName.value && { familyName: addUserFamilyName.value.trim() })
+      };
+    }
 
     try {
       await getWebIdDataset(userObject.webId);
@@ -121,34 +160,82 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             onChange={(e) => setUserFamilyName(e.target.value)}
             fullWidth
           />
+          <Tooltip
+            title="Select the server/website where your pod is located"
+            arrow
+            placement="left"
+          >
+            <FormControl fullWidth>
+              <InputLabel>OIDC Provider</InputLabel>
+              <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                value={Oidc}
+                label="OIDC Provider"
+                data-testid="select-oidc"
+                onChange={handleOidcSelection}
+                fullWidth
+                required
+                aria-required
+              >
+                {oidcProviders.map((oidc) => (
+                  <MenuItem key={oidc} value={oidc}>
+                    {oidc}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Tooltip>
 
-          <TextField
-            margin="normal"
-            id="add-webId"
-            name="addWebId"
-            placeholder="WebId"
-            autoComplete="webid"
-            value={webId}
-            type="text"
-            onChange={(e) => {
-              setWebId(e.target.value);
-            }}
-            error={invalidWebId}
-            label={invalidWebId ? 'Error' : ''}
-            // helperText for invalidWebId === false is ' ' and not '' is to
-            // prevent the field from stretching when helperText disappears
-            helperText={invalidWebId ? 'Invalid WebId.' : ' '}
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="Copy WebId" edge="end">
-                    <ContentCopyIcon />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
+          {!customWebID && (
+            <Tooltip title="Enter the username associated with your WebID" arrow placement="left">
+              <FormControl fullWidth>
+                <TextField
+                  margin="normal"
+                  id="add-user-name"
+                  name="addUserName"
+                  label="Username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required={!customWebID}
+                  aria-required
+                  fullWidth
+                  autoFocus
+                />
+              </FormControl>
+            </Tooltip>
+          )}
+          {customWebID && (
+            <Tooltip title="Enter your full WebID" arrow placement="left">
+              <TextField
+                margin="normal"
+                id="add-webId"
+                name="addWebId"
+                placeholder="WebId"
+                autoComplete="webid"
+                value={webId}
+                type="text"
+                onChange={(e) => {
+                  setWebId(e.target.value);
+                }}
+                error={invalidWebId}
+                label={invalidWebId ? 'Error' : ''}
+                // helperText for invalidWebId === false is ' ' and not '' is to
+                // prevent the field from stretching when helperText disappears
+                helperText={invalidWebId ? 'Invalid WebId.' : ' '}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton aria-label="Copy WebId" edge="end">
+                        <ContentCopyIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Tooltip>
+          )}
           <DialogActions sx={{ width: '100%' }}>
             <Box
               sx={{
@@ -169,16 +256,18 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                   setShowAddContactModal(false);
                 }}
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
               <Button
                 variant="contained"
-                disabled={processing}
+                disabled={processing || !isSubmittable}
                 color="primary"
                 endIcon={<CheckIcon />}
                 type="submit"
                 fullWidth
+                sx={{ borderRadius: '20px' }}
               >
                 Add Contact
               </Button>

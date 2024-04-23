@@ -11,6 +11,8 @@ import ImageIcon from '@mui/icons-material/Image';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
 import useNotification from '../../hooks/useNotification';
+// Component Imports
+import ConfirmationModal from '../Modals/ConfirmationModal';
 
 /**
  * ProfileImageField Component - Component that creates the editable inputs fields
@@ -31,6 +33,8 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const { profileData, fetchProfileInfo, removeProfileImage, uploadProfileImage } =
     useContext(SignedInUserContext);
   const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
+  const [processing, setProcessing] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleProfileImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
@@ -41,19 +45,29 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
       const updatedProfileData = await fetchProfileInfo(session.info.webId);
       localStorage.setItem('profileImage', updatedProfileData.profileInfo.profileImage);
       setProfileImg(updatedProfileData.profileInfo.profileImage);
-
+      addNotification('success', `Profile image added.`);
       loadProfileData();
     }
   };
 
   const handleRemoveProfileImg = async () => {
-    if (window.confirm("You're about to delete your profile image. Do you wish to continue?")) {
+    setProcessing(true);
+    try {
       await removeProfileImage(session, profileData);
-
       loadProfileData();
       localStorage.removeItem('profileImage');
       setProfileImg(null);
+      addNotification('success', `Profile image deleted from the pod.`);
+    } catch (e) {
+      addNotification('error', `Image deletion failed. Reason: ${e.message}`);
+    } finally {
+      setShowConfirmationModal(false);
+      setProcessing(false);
     }
+  };
+
+  const handleSelectRemoveProfileImg = async () => {
+    setShowConfirmationModal(true);
   };
 
   return (
@@ -63,7 +77,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        boxShadow: '0 0 3px 0 black',
         padding: '20px',
         gap: '10px'
       }}
@@ -79,7 +92,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
             variant="outlined"
             color="error"
             sx={{ width: '150px' }}
-            onClick={handleRemoveProfileImg}
+            onClick={handleSelectRemoveProfileImg}
             endIcon={<HideImageIcon />}
           >
             Remove Img
@@ -97,6 +110,15 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
             <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
           </Button>
         ))}
+      <ConfirmationModal
+        showModal={showConfirmationModal}
+        setShowModal={setShowConfirmationModal}
+        title="Delete Image"
+        text={"You're about to delete your profile image. Do you wish to continue?"}
+        onConfirm={handleRemoveProfileImg}
+        confirmButtonText="Delete"
+        processing={processing}
+      />
     </Box>
   );
 };
