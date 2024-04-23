@@ -11,8 +11,6 @@ import userEvent from '@testing-library/user-event';
 import { ExistingPodForm } from '@components/Signup';
 import { login } from '@inrupt/solid-client-authn-browser';
 
-
-
 describe('ExistingPodForm', () => {
   it('renders', () => {
     render(
@@ -27,22 +25,21 @@ describe('ExistingPodForm', () => {
   });
 
   it('calls the login function when the form is submitted', async () => {
-
     vi.mock('@inrupt/solid-client-authn-browser');
-    
+
     render(
       <Router>
         <ExistingPodForm />
       </Router>
     );
-    
+
     const input = document.getElementById('existing-pod-provider');
 
     const subButton = screen.getByRole('button', { name: 'Login to Pod Provider' });
     expect(subButton).not.toBeNull();
 
     const user = userEvent.setup();
-    
+
     await user.clear(input);
     await user.type(input, 'http://oidc.provider.url/');
     expect(input.value).toBe('http://oidc.provider.url/');
