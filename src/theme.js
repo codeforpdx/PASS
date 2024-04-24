@@ -1,9 +1,18 @@
 import { createTheme } from '@mui/material/styles';
+import RedHatDisplay from '../public/fonts/RedHatDisplay-Italic-VariableFont_wght.ttf';
+import RedHatText from '../public/fonts/RedHatText-Italic-VariableFont_wght.ttf';
 
 // theming from Figma
 
 const theme = createTheme({
-  typography: { fontFamily: 'Roboto, sans-serif' },
+  typography: {
+    // old font family
+    fontFamily: 'Roboto, sans-serif',
+
+    // new font family
+    brand: { fontFamily: 'RedHatDisplay, sans-serif' },
+    text: { fontFamily: 'RedHatText, sans-serif' }
+  },
   palette: {
     primary: {
       // new primary themes
@@ -88,6 +97,26 @@ const theme = createTheme({
   // color properties TBD for status snackbar severities
   // LOOK INTO THESE
   components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'RedHatDisplay';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('RedHatDisplay'), local('RedHatDisplay-Regular'), url(${RedHatDisplay}) format('ttf');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+        @font-face {
+          font-family: 'RedHatText';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('RedHatText'), local('RedHatText-Regular'), url(${RedHatText}) format('ttf');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `
+    },
     MuiAlert: {
       styleOverrides: {
         filledSuccess: {
