@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
@@ -62,6 +62,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
+  const [isSubmittable, setIsSubmittable] = useState(false);
+
+  useEffect(() => {
+    // disables submit button if form not fully filled out
+    if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
+      setIsSubmittable(true);
+    else setIsSubmittable(false);
+  }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   const clearInputFields = () => {
     setUserGivenName('');
@@ -167,6 +175,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
                 fullWidth
+                required
+                aria-required
               >
                 {oidcProviders.map((oidc) => (
                   <MenuItem key={oidc} value={oidc}>
@@ -187,6 +197,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                   label="Username"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
+                  required={!customWebID}
+                  aria-required
                   fullWidth
                   autoFocus
                 />
@@ -250,7 +262,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               </Button>
               <Button
                 variant="contained"
-                disabled={processing}
+                disabled={processing || !isSubmittable}
                 color="primary"
                 endIcon={<CheckIcon />}
                 type="submit"
