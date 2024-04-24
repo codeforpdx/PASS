@@ -1,14 +1,17 @@
 import { createTheme } from '@mui/material/styles';
-import RedHatDisplay from '../public/fonts/RedHatDisplay-Italic-VariableFont_wght.ttf';
-import RedHatText from '../public/fonts/RedHatText-Italic-VariableFont_wght.ttf';
+import RedHatDisplay from './fonts/RedHatDisplay-Italic-VariableFont_wght.ttf';
+import RedHatText from './fonts/RedHatText-Italic-VariableFont_wght.ttf';
 
 // theming from Figma
 
 const theme = createTheme({
   typography: {
+    button: {
+      textTransform: 'none',
+      fontWeight: 600
+    },
     // old font family
-    fontFamily: 'Roboto, sans-serif',
-
+    fontFamily: 'RedHatText, sans-serif',
     // new font family
     brand: { fontFamily: 'RedHatDisplay, sans-serif' },
     text: { fontFamily: 'RedHatText, sans-serif' }
@@ -120,15 +123,15 @@ const theme = createTheme({
     MuiAlert: {
       styleOverrides: {
         filledSuccess: {
-          backgroundColor: 'green',
+          backgroundColor: '#27826B',
           color: 'white'
         },
         filledError: {
-          backgroundColor: 'red',
+          backgroundColor: '#D3403D',
           color: 'white'
         },
         filledWarning: {
-          backgroundColor: 'orange',
+          backgroundColor: '#E9A033',
           color: 'white'
         },
         filledInfo: {
@@ -138,12 +141,16 @@ const theme = createTheme({
       }
     },
     MuiButton: {
+      defaultProps: {
+        disableElevation: true
+      },
       styleOverrides: {
         root: {
           borderRadius: 25
         }
       }
     },
+
     MuiTableHead: {
       styleOverrides: {
         root: {

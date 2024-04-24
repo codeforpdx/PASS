@@ -153,21 +153,25 @@ const Profile = () => {
         >
           {!contact && (
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => handleAclPermissionsModal('container')}
-              sx={{ width: isSmallScreen ? '165px' : '200px' }}
+              sx={{
+                width: isSmallScreen ? '165px' : '200px',
+                borderColor: 'primary.main',
+                padding: '5px 12px'
+              }}
             >
               Share Documents
             </Button>
           )}
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '140px' : '180px' }}
+            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '5px 12px' }}
           >
             Add Document
           </Button>
