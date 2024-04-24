@@ -16,7 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 // Hook Imports
-import { useCivicProfile } from '@hooks';
+import { useCivicProfile, useNotification } from '@hooks';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -29,11 +29,12 @@ import { FormSection } from '../Form';
  */
 const BasicInfo = () => {
   const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
+  const { addNotification } = useNotification();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     dateOfBirth: null,
-    gender: ''
+    gender: 9
   });
 
   useEffect(() => {
@@ -64,6 +65,7 @@ const BasicInfo = () => {
       return;
     }
     add(formData);
+    addNotification('success', `Form submitted!`);
   };
 
   const handleClear = () => {
@@ -72,8 +74,9 @@ const BasicInfo = () => {
       firstName: '',
       lastName: '',
       dateOfBirth: null,
-      gender: ''
+      gender: 9
     }));
+    addNotification('success', `Form cleared!`);
   };
 
   return (
@@ -130,7 +133,7 @@ const BasicInfo = () => {
                 onChange={handleChange}
                 value={formData.gender}
                 labelId="hmis-basic-info-gender"
-                defaultValue={0}
+                defaultValue={9}
               >
                 <MenuItem value={0}>Female</MenuItem>
                 <MenuItem value={1}>Male</MenuItem>
