@@ -36,6 +36,7 @@ const HousingInfo = () => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isSuccess || !storedDataset) {
