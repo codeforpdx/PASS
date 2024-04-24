@@ -131,7 +131,7 @@ const BasicInfo = () => {
                 onChange={handleChange}
                 value={formData.gender}
                 labelId="hmis-basic-info-gender"
-                defaultValue=""
+                defaultValue={0}
               >
                 <MenuItem value={0}>Female</MenuItem>
                 <MenuItem value={1}>Male</MenuItem>
