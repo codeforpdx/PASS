@@ -9,19 +9,10 @@ import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-/* Styles for MUI components */
-const cardStyle = {
-  padding: '8px',
-  margin: '8px',
-  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-};
+/* Styles */
 
 const formRowStyle = {
   margin: '20px 0'
-};
-
-const textFieldStyle = {
-  margin: '8px'
 };
 
 const ExistingPodForm = () => {
@@ -43,12 +34,18 @@ const ExistingPodForm = () => {
   };
 
   return (
-    <Card style={cardStyle}>
+    <Card
+      sx={{
+        padding: '8px',
+        margin: '8px',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+      }}
+    >
       <CardHeader title="Register with Existing Pod" />
       <form onSubmit={loginHandler} style={formRowStyle}>
         <TextField
+          sx={{ margin: '8px' }}
           id="existing-pod-provider"
-          style={textFieldStyle}
           aria-label="Pod Provider"
           label="Pod Provider"
           variant="outlined"
