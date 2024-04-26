@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import SearchIcon from '@mui/icons-material/Search';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import WebcamModal from './WebcamModal';
 
 /**
@@ -91,16 +92,26 @@ const UploadButtonGroup = ({ file, setFile }) => {
         onChange={(e) => setFile(e.target.files[0])}
         fullWidth
         required
-        startIcon={<SearchIcon />}
+        startIcon={<FileUploadOutlinedIcon />}
       >
-        Choose file
-        <input
-          type="file"
-          hidden
-          accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
-        />
+        Upload File
+        <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" />
       </Button>
 
+      <Button
+        variant={file ? 'outlined' : 'contained'}
+        component="label"
+        color="primary"
+        id="upload-doctype"
+        name="uploadDoctype"
+        onChange={(e) => setFile(e.target.files[0])}
+        fullWidth
+        required
+        startIcon={<InsertPhotoOutlinedIcon />}
+      >
+        Upload Photos
+        <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
+      </Button>
       {hasWebCam ? (
         <Button
           variant={file ? 'outlined' : 'contained'}
@@ -108,10 +119,10 @@ const UploadButtonGroup = ({ file, setFile }) => {
           color="primary"
           onClick={() => setShowWebcamModal(true)}
           fullWidth
-          startIcon={<PhotoCameraIcon />}
+          startIcon={<PhotoCameraOutlinedIcon />}
           sx={{ borderRadius: '20px', marginLeft: '8px' }}
         >
-          Use Webcam
+          Take Photos
         </Button>
       ) : (
         <Button
@@ -123,7 +134,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
           onChange={(e) => setFile(e.target.files[0])}
           fullWidth
           required
-          startIcon={<PhotoCameraIcon />}
+          startIcon={<PhotoCameraOutlinedIcon />}
           sx={{ borderRadius: '20px', marginLeft: '8px' }}
         >
           Capture image

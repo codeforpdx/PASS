@@ -132,7 +132,15 @@ const Profile = () => {
         width: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxSizing: 'border-box',
+          width: isSmallScreen ? '100%' : 'auto'
+        }}
+      >
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>My Profile</Typography>
         <Box
           sx={{
@@ -160,7 +168,7 @@ const Profile = () => {
               sx={{
                 width: isSmallScreen ? '165px' : '200px',
                 borderColor: 'primary.main',
-                padding: '5px 12px'
+                padding: '6px 12px'
               }}
             >
               Share Documents
@@ -171,7 +179,7 @@ const Profile = () => {
             color="primary"
             size="small"
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '5px 12px' }}
+            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
           >
             Add Document
           </Button>
