@@ -1,11 +1,12 @@
 // React Imports
 import React, { useState } from 'react';
 // Material UI Imports
-import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { FormControl, Select, MenuItem } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // Component Imports
 import { useContactsList, useNotification } from '@hooks';
 import { AddContactModal, ConfirmationModal } from '@components/Modals';
@@ -19,6 +20,7 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
  * @name Contacts
  * @returns {React.JSX.Component} - the Contacts Page
  */
+
 const Contacts = () => {
   localStorage.setItem('restorePath', '/contacts');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
@@ -34,6 +36,7 @@ const Contacts = () => {
     delete: deleteContact
   } = useContactsList();
   const { addNotification } = useNotification();
+  const [fieldType, setFieldType] = useState('First Name');
 
   const getContactDisplayName = (contact) => {
     if (!contact) {
@@ -76,15 +79,42 @@ const Contacts = () => {
       }}
     >
       <Box>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="small"
-          startIcon={<AddIcon />}
-          onClick={() => setShowAddContactModal(true)}
-        >
-          Add Contact
-        </Button>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <FormControl sx={{ minWidth: 120 }} size="small">
+            <Select
+              id="contact-select-field-small"
+              value={fieldType}
+              defaultValue="First Name"
+              onChange={(e) => setFieldType(e.target.value)}
+              sx={{
+                borderRadius: '8px',
+                color: 'primary.main',
+                '.MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'primary.main'
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'primary.main'
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'primary.main'
+                }
+              }}
+              IconComponent={KeyboardArrowDownIcon}
+            >
+              <MenuItem value="First Name">First Name</MenuItem>
+              <MenuItem value="Last Name">Last Name</MenuItem>
+            </Select>
+          </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => setShowAddContactModal(true)}
+            sx={{ fontWeight: 500, padding: '0px 36px' }}
+          >
+            Add Contact
+          </Button>
+        </Box>
         {data.length > 0 ? (
           <ContactListTable
             contacts={data}

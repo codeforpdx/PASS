@@ -22,6 +22,7 @@ const theme = createTheme({
       strong: '#03295E',
       background: '#DDECFD',
       main: '#0758CA',
+      text: 'black',
 
       // old primary themes
       dark: '#004d3e',
