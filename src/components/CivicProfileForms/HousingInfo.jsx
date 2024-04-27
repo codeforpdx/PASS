@@ -14,7 +14,7 @@ import { useCivicProfile } from '@hooks';
  * @returns {React.JSX.Element} The HousingInfo Component
  */
 const HousingInfo = () => {
-  const { data, add, isSuccess } = useCivicProfile();
+  const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
   const [formData, setFormData] = useState({
     lastPermanentStreet: '',
     lastPermanentCity: '',
@@ -27,16 +27,22 @@ const HousingInfo = () => {
       setFormData((prevFormData) => ({ ...prevFormData, ...data }));
     }
   }, [isSuccess, data]);
-
+  useEffect(() => {
+    if (!storedDataset) {
+      refetch();
+    }
+  }, [storedDataset]);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isSuccess) {
+    if (!isSuccess || !storedDataset) {
       return;
     }
+
     add(formData);
   };
 

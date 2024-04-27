@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Inrupt Imports
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
@@ -70,24 +70,20 @@ const AddContactModal = ({
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [userName, setUserName] = useState('');
   const [customWebID, setCustomWebID] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  // const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
+  const [isSubmittable, setIsSubmittable] = useState(false);
   const [deleteViaEdit, setDeleteViaEdit] = useState(false);
 
-  // Planning and observations
-  // try to add new contact to pod A, which already has a contact
-  // -result: updates existing contact
-  // add new contact to pod B, which doesn't have a contact
-  //   -result: adds to grid
-  // current commit : Edit function will update contact names if webId remains the same.
-  // If user edits the webId, a new contact will be created.
-
-  // ✅ prepopulate form when editing.
-  // ✅ if webId is different, delete current contact and add contact. Having issues with re-render
-  // ✅ warning if webId already exists
+  useEffect(() => {
+    // disables submit button if form not fully filled out
+    if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
+      setIsSubmittable(true);
+    else setIsSubmittable(false);
+  }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   useEffect(() => {
     if (typeof contactToEdit !== 'undefined') {
@@ -120,11 +116,7 @@ const AddContactModal = ({
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
-    // previously when submitting without webId the button would always be disabled
-    if (Oidc === '') {
-      setProcessing(false);
-      return;
-    }
+
     const { addUserGivenName, addUserFamilyName, addWebId } = event.target.elements;
     let userObject;
 
@@ -221,6 +213,8 @@ const AddContactModal = ({
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
                 fullWidth
+                required
+                aria-required
               >
                 {oidcProviders.map((oidc) => (
                   <MenuItem key={oidc} value={oidc}>
@@ -241,6 +235,8 @@ const AddContactModal = ({
                   label="Username"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
+                  required={!customWebID}
+                  aria-required
                   fullWidth
                   autoFocus
                 />
@@ -304,7 +300,7 @@ const AddContactModal = ({
               </Button>
               <Button
                 variant="contained"
-                disabled={processing}
+                disabled={processing || !isSubmittable}
                 color="primary"
                 endIcon={<CheckIcon />}
                 type="submit"
