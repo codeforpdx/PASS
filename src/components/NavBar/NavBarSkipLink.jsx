@@ -41,8 +41,8 @@ const NavBarSkipLink = () => {
         left: 100,
         zIndex: 999,
         transition: 'all 0.3s ease-in-out',
-        background: theme.palette.accessible.main,
-        color: theme.palette.accessible.contrastText,
+        background: theme.palette.background.main,
+        color: theme.palette.primary.text,
         opacity: animateOut ? 0 : 1,
         padding: '5px',
         transform: animateOut ? 'translateY(-100%)' : 'translateY(0%)'

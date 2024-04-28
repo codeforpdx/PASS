@@ -44,7 +44,7 @@ const Footer = () => {
           <Divider
             orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
             flexItem={isReallySmallScreen ? null : true}
-            color={theme.palette.tertiary.main}
+            color={theme.palette.primary.main}
             sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
           />
         }

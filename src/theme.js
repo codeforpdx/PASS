@@ -2,56 +2,30 @@ import { createTheme } from '@mui/material/styles';
 import RedHatDisplay from './fonts/RedHatDisplay-Italic-VariableFont_wght.ttf';
 import RedHatText from './fonts/RedHatText-Italic-VariableFont_wght.ttf';
 
-// theming from Figma
-
 const theme = createTheme({
   typography: {
     button: {
       textTransform: 'none',
       fontWeight: 600
     },
-    // old font family
     fontFamily: 'RedHatText, sans-serif',
-    // new font family
     brand: { fontFamily: 'RedHatDisplay, sans-serif' },
     text: { fontFamily: 'RedHatText, sans-serif' }
   },
   palette: {
     primary: {
-      // new primary themes
       strong: '#03295E',
       background: '#DDECFD',
       main: '#0758CA',
-      text: 'black',
-
-      // old primary themes
-      dark: '#004d3e',
-      light: '#039686',
-      slight: '#03295E',
-      contrastText: '#fff'
+      text: 'black'
     },
     secondary: {
-      // new seconday theming
       weak: '#FFD4C8',
       main: '#DB562E',
-      strong: '#822E15',
+      strong: '#822E15'
+    },
 
-      // old themes
-      light: '#b32126',
-      dark: '#790111',
-      contrastText: '#fff'
-    },
-    // tertiary old theme
-    tertiary: {
-      light: '#dbc584',
-      main: '#DEBC59',
-      dark: '#dbb032',
-      contrastText: '#fff'
-    },
     status: {
-      // danger theme is old
-      danger: '#e53e3e',
-      // error, success, warning new themes
       error: {
         main: '#D3403D',
         weak: '#FFDEDE',
@@ -68,13 +42,11 @@ const theme = createTheme({
         strong: '#9E5F00'
       }
     },
-    // background new theme
     background: {
       main: '#FFFFFF',
       tint: '#EEE8E2',
       light: '#FAF7F5'
     },
-    // content new theme
     content: {
       disabled: '#9C948F',
       weak: '#786965',
@@ -82,24 +54,11 @@ const theme = createTheme({
       strong: '#321C15',
       reverse: '#FFFEFC'
     },
-    // border new theme
     border: {
       weak: '#C2BBB6',
       strong: '#918C88'
-    },
-    // neutral old theme
-    neutral: {
-      main: '#64748B',
-      contrastText: '#fff'
-    },
-    // accessible old theme
-    accessible: {
-      main: '#fff',
-      contrastText: '#0758CA'
     }
   },
-  // color properties TBD for status snackbar severities
-  // LOOK INTO THESE
   components: {
     MuiCssBaseline: {
       styleOverrides: `
