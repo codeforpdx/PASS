@@ -30,7 +30,7 @@ describe('UploadButtonGroup Component', () => {
     mockEnumerateDevices(false);
     const { findByText } = render(<UploadButtonGroup />);
 
-    const captureImageButton = await findByText('Capture image');
+    const captureImageButton = await findByText('Capture Image');
     // eslint-disable-next-line no-unused-expressions
     expect(captureImageButton).to.be.ok;
   });
