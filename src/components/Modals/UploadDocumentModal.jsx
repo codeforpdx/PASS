@@ -139,7 +139,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
         onConfirm={confirmationModalType === 'add' ? handleDocAdd : handleDocReplace}
         uploadType={confirmationModalType}
       />
-      km
       <FormSection title="Upload Document">
         <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
           <FormControlLabel
