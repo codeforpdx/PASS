@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { FormControl, Select, MenuItem } from '@mui/material';
+import { FormControl, Select, MenuItem, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/system';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // Component Imports
 import { useContactsList, useNotification } from '@hooks';
@@ -23,6 +24,9 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
 
 const Contacts = () => {
   localStorage.setItem('restorePath', '/contacts');
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -80,37 +84,39 @@ const Contacts = () => {
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <FormControl sx={{ minWidth: 120 }} size="small">
-            <Select
-              id="contact-select-field-small"
-              value={fieldType}
-              defaultValue="First Name"
-              onChange={(e) => setFieldType(e.target.value)}
-              sx={{
-                borderRadius: '8px',
-                color: 'primary.main',
-                '.MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'primary.main'
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'primary.main'
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'primary.main'
-                }
-              }}
-              IconComponent={KeyboardArrowDownIcon}
-            >
-              <MenuItem value="First Name">First Name</MenuItem>
-              <MenuItem value="Last Name">Last Name</MenuItem>
-            </Select>
-          </FormControl>
+          {isSmallScreen && (
+            <FormControl sx={{ minWidth: 120 }} size="small">
+              <Select
+                id="contact-select-field-small"
+                value={fieldType}
+                defaultValue="First Name"
+                onChange={(e) => setFieldType(e.target.value)}
+                sx={{
+                  borderRadius: '8px',
+                  color: 'primary.main',
+                  '.MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.main'
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.main'
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'primary.main'
+                  }
+                }}
+                IconComponent={KeyboardArrowDownIcon}
+              >
+                <MenuItem value="First Name">First Name</MenuItem>
+                <MenuItem value="Last Name">Last Name</MenuItem>
+              </Select>
+            </FormControl>
+          )}
           <Button
             variant="contained"
             color="primary"
             size="small"
             onClick={() => setShowAddContactModal(true)}
-            sx={{ fontWeight: 500, padding: '0px 36px' }}
+            sx={{ fontWeight: 500, padding: '10px 36px' }}
           >
             Add Contact
           </Button>
