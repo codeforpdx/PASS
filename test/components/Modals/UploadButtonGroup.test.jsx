@@ -22,7 +22,7 @@ describe('UploadButtonGroup Component', () => {
     mockEnumerateDevices(true);
     const { findByText } = render(<UploadButtonGroup />);
 
-    const webcamButton = await findByText('Use Webcam');
+    const webcamButton = await findByText('Take Photos');
     expect(webcamButton).to.be.ok;
   });
 
