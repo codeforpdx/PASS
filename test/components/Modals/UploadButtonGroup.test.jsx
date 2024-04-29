@@ -11,11 +11,11 @@ const mockEnumerateDevices = (available) => {
 };
 
 describe('UploadButtonGroup Component', () => {
-  it('renders only two buttons', () => {
+  it('renders only three buttons', () => {
     global.innerWidth = 1024;
     const { getAllByRole } = render(<UploadButtonGroup />);
     const buttons = getAllByRole('button');
-    expect(buttons.length).toBe(2);
+    expect(buttons.length).toBe(3);
   });
 
   it('renders use webcam button when webcam exists', async () => {
