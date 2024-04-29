@@ -5,8 +5,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
-import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
-import WebcamModal from './WebcamModal';
+/* import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+ */ import WebcamModal from './WebcamModal';
 
 /**
  * The UploadButtonGroup Component is a component that renders the upload document
@@ -64,6 +64,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
   const [showWebcamModal, setShowWebcamModal] = useState(false);
 
   const handleCapture = (imageSrc) => {
+    if (!imageSrc) return;
     const now = new Date();
     const imageFilename = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
       2,
@@ -75,7 +76,6 @@ const UploadButtonGroup = ({ file, setFile }) => {
       2,
       '0'
     )}.jpg`;
-
     const imageBlob = dataURItoBlob(imageSrc);
     const imageFile = new File([imageBlob], imageFilename, { type: 'image/jpeg' });
     setFile(imageFile);
@@ -98,12 +98,12 @@ const UploadButtonGroup = ({ file, setFile }) => {
         <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" />
       </Button>
 
-      <Button
+      {/*       <Button
         variant={file ? 'outlined' : 'contained'}
         component="label"
         color="primary"
-        id="upload-doctype"
-        name="uploadDoctype"
+        id="upload-media-type"
+        name="uploadMediaType"
         onChange={(e) => setFile(e.target.files[0])}
         fullWidth
         required
@@ -111,7 +111,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
       >
         Upload Photos
         <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
-      </Button>
+      </Button> */}
       {hasWebCam ? (
         <Button
           variant={file ? 'outlined' : 'contained'}

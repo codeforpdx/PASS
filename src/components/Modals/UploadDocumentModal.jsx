@@ -131,12 +131,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog
-      open={showModal}
-      aria-labelledby="upload-document-dialog"
-      onClose={clearInputFields}
-      sx={{ border: '2px red solid' }}
-    >
+    <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <UploadDocumentConfirmationModal
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
