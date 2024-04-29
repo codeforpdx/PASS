@@ -47,7 +47,7 @@ const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
         variant="contained"
         onClick={() => setShowModal(true)}
         startIcon={<CreateIcon />}
-        color="secondary"
+        color="primary"
       >
         New Message
       </Button>

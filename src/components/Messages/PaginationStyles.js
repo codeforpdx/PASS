@@ -10,8 +10,8 @@ const PaginationContainer = styled.div`
     gap: 3px;
   }
 
-  .page-green,
-  .page-red {
+  .page-blue,
+  .page-weak-blue {
     color: #fff;
     font-weight: bold;
     padding: 8px 12px;
@@ -21,17 +21,16 @@ const PaginationContainer = styled.div`
     display: flex;
   }
 
-  .page-green {
-    background-color: #74b0a8;
+  .page-blue {
+    background-color: #0758ca;
     &:hover {
-      background-color: #017969;
+      background-color: #03295e;
     }
   }
-
-  .page-red {
-    background-color: #bf7c84;
+  .page-weak-blue {
+    background-color: #03295e;
     &:hover {
-      background-color: #961020;
+      background-color: #0758ca;
     }
   }
 
@@ -40,7 +39,7 @@ const PaginationContainer = styled.div`
   }
 
   .active-page {
-    background-color: #017969;
+    background-color: #0758ca;
     cursor: default;
   }
 `;

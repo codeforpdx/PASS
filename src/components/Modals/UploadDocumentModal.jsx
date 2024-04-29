@@ -17,14 +17,19 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// Context Imports
+/* import Slide from '@mui/material/Slide';
+ */ // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
-
+/* 
+const Transition = React.forwardRef((props, ref) => {
+  <Slide direction="up" ref={ref} {...props} />;
+});
+ */
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
@@ -37,6 +42,7 @@ import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
  * - React set function for setting showModal state
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
+
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { addNotification } = useNotification();
   const [expireDate, setExpireDate] = useState(null);

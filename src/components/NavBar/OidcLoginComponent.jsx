@@ -124,7 +124,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         <Button
           variant="contained"
           type="submit"
-          color={isSmallScreen ? 'primary' : 'secondary'}
+          sx={{ backgroundColor: 'primary.strong' }}
           size={isSmallScreen ? '' : 'large'}
           onClick={() => loginHandler()}
           fullWidth={isSmallScreen}
@@ -133,7 +133,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
         </Button>
         <Button
           variant="contained"
-          color={isSmallScreen ? 'primary' : 'secondary'}
+          sx={{ backgroundColor: 'primary.strong' }}
           size={isSmallScreen ? '' : 'large'}
           fullWidth={isSmallScreen}
         >

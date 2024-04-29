@@ -55,17 +55,23 @@ const Home = () => {
         mb={2}
         data-testid="testStack"
       >
-        <Typography variant="h1" component="span" fontWeight="500" fontSize="72px">
+        <Typography
+          color="primary.text"
+          variant="h1"
+          component="span"
+          fontWeight="500"
+          fontSize="72px"
+        >
           {heading}
         </Typography>
         <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
-        <Typography variant="h4" component="span" fontWeight="600" mb={8}>
+        <Typography color="primary.text" variant="h4" component="span" fontWeight="600" mb={8}>
           {subheading}
         </Typography>
       </Stack>
     </Typography>
   ) : (
-    <Typography component="h1" color="primary">
+    <Typography component="h1" color="primary.text">
       <Stack
         justifyContent="center"
         alignItems="center"
@@ -81,11 +87,17 @@ const Home = () => {
           spacing={4}
         >
           <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
-          <Typography variant="h1" component="span" fontWeight="500" fontSize="144px">
+          <Typography
+            color="primary.text"
+            variant="h1"
+            component="span"
+            fontWeight="500"
+            fontSize="144px"
+          >
             {heading}
           </Typography>
         </Stack>
-        <Typography variant="h3" component="span" fontWeight="600">
+        <Typography color="primary.text" variant="h3" component="span" fontWeight="600">
           {subheading}
         </Typography>
       </Stack>
@@ -114,10 +126,10 @@ const Home = () => {
               alignItems="center"
             >
               {logoSection}
-              <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
+              <Typography color="primary" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
-              <IconButton aria-label="Scroll down" color="secondary" onClick={handleClick}>
+              <IconButton aria-label="Scroll down" color="primary" onClick={handleClick}>
                 <ArrowCircleDownOutlinedIcon sx={{ fontSize: '32px' }} />
               </IconButton>
             </Box>

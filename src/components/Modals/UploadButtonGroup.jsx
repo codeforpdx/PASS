@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import SearchIcon from '@mui/icons-material/Search';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import WebcamModal from './WebcamModal';
 
 /**
@@ -63,6 +64,7 @@ const UploadButtonGroup = ({ file, setFile }) => {
   const [showWebcamModal, setShowWebcamModal] = useState(false);
 
   const handleCapture = (imageSrc) => {
+    if (!imageSrc) return;
     const now = new Date();
     const imageFilename = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
       2,
@@ -74,14 +76,21 @@ const UploadButtonGroup = ({ file, setFile }) => {
       2,
       '0'
     )}.jpg`;
-
     const imageBlob = dataURItoBlob(imageSrc);
     const imageFile = new File([imageBlob], imageFilename, { type: 'image/jpeg' });
     setFile(imageFile);
   };
 
   return (
-    <Box sx={{ display: 'flex', padding: '8px 8px 0', boxSizing: 'border-box' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '8px 8px 0',
+        boxSizing: 'border-box',
+        gap: 2
+      }}
+    >
       <Button
         variant={file ? 'outlined' : 'contained'}
         component="label"
@@ -89,29 +98,35 @@ const UploadButtonGroup = ({ file, setFile }) => {
         id="upload-doctype"
         name="uploadDoctype"
         onChange={(e) => setFile(e.target.files[0])}
-        fullWidth
         required
-        startIcon={<SearchIcon />}
+        startIcon={<FileUploadOutlinedIcon />}
       >
-        Choose file
-        <input
-          type="file"
-          hidden
-          accept=".pdf, .docx, .doc, .txt, .rtf, .gif, .png, .jpeg, .jpg, .webp"
-        />
+        Upload File
+        <input type="file" hidden accept=".pdf, .docx, .doc, .txt, .rtf" />
       </Button>
 
+      <Button
+        variant={file ? 'outlined' : 'contained'}
+        component="label"
+        color="primary"
+        id="upload-media-type"
+        name="uploadMediaType"
+        onChange={(e) => setFile(e.target.files[0])}
+        required
+        startIcon={<InsertPhotoOutlinedIcon />}
+      >
+        Upload Photos
+        <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
+      </Button>
       {hasWebCam ? (
         <Button
           variant={file ? 'outlined' : 'contained'}
           component="label"
           color="primary"
           onClick={() => setShowWebcamModal(true)}
-          fullWidth
-          startIcon={<PhotoCameraIcon />}
-          sx={{ borderRadius: '20px', marginLeft: '8px' }}
+          startIcon={<PhotoCameraOutlinedIcon />}
         >
-          Use Webcam
+          Take Photos
         </Button>
       ) : (
         <Button
@@ -121,12 +136,10 @@ const UploadButtonGroup = ({ file, setFile }) => {
           id="upload-doctype"
           name="uploadDoctype"
           onChange={(e) => setFile(e.target.files[0])}
-          fullWidth
           required
-          startIcon={<PhotoCameraIcon />}
-          sx={{ borderRadius: '20px', marginLeft: '8px' }}
+          startIcon={<PhotoCameraOutlinedIcon />}
         >
-          Capture image
+          Capture Image
           <input type="file" hidden accept="image/*" capture="environment" />
         </Button>
       )}
