@@ -24,12 +24,17 @@ const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
 
   return (
     <>
-      <h1>You have successfully registered for a pod.</h1>
+      {podUrl ? (
+        <h1>You have successfully registered for a pod.</h1>
+      ) : (
+        <h1>You have logged in with your existing pod.</h1>
+      )}
       <Typography>
-        You can access your pod through your Pod Provider: <a href={oidcIssuer}>{oidcIssuer}</a>
+        {podUrl &&
+          `You can access your pod through your Pod Provider: <a href=${oidcIssuer}>${oidcIssuer}</a>
         <br />
-        We set up this pod to operate with PASS: <a href={podUrl}>{podUrl}</a>
-        <br />
+        We set up this pod to operate with PASS: <a href=${podUrl}>${podUrl}</a>
+        <br />`}
         Your Pod Provider has created this webId for you: <a href={webId}>{webId}</a>
         <br />
         {isSuccess && data.length > 0
