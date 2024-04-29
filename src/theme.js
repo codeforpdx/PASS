@@ -17,7 +17,7 @@ const theme = createTheme({
       strong: '#03295E',
       background: '#DDECFD',
       main: '#0758CA',
-      text: 'black'
+      text: '#000000'
     },
     secondary: {
       weak: '#FFD4C8',

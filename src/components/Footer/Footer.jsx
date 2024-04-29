@@ -33,7 +33,7 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: 'primary.main'
+        bgcolor: 'primary.background'
       }}
     >
       <Stack
