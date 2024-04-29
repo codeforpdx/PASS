@@ -103,11 +103,11 @@ const MessageFolder = ({ folderType, handleRefresh, loadMessages, messageList = 
                 previousLabel={<ChevronLeftIcon />}
                 renderOnZeroPageCount={null}
                 className="pagination"
-                previousLinkClassName="page-red"
+                previousLinkClassName="page-weak-blue"
                 previousClassName="chevron"
-                nextLinkClassName="page-red"
+                nextLinkClassName="page-weak-blue"
                 nextClassName="chevron"
-                pageLinkClassName="page-green"
+                pageLinkClassName="page-blue"
                 activeLinkClassName="active-page"
               />
             </PaginationContainer>
