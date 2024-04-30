@@ -12,6 +12,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
+// Util Imports
+import { saveToClipboard } from '@utils';
 // Component Inputs
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
@@ -139,8 +141,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy WebId"
                 edge="end"
                 onClick={() => {
-                  navigator.clipboard.writeText(webId);
-                  addNotification('success', 'webId copied to clipboard');
+                  saveToClipboard(webId, 'webId copied to clipboard', addNotification);
                 }}
               >
                 <ContentCopyIcon />
@@ -158,8 +159,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy Invite Link"
                 edge="end"
                 onClick={() => {
-                  navigator.clipboard.writeText(signupLink);
-                  addNotification('success', 'Invite link copied to clipboard');
+                  saveToClipboard(webId, 'Invite link copied to clipboard', addNotification);
                 }}
               >
                 <ContentCopyIcon />
