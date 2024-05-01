@@ -40,13 +40,11 @@ const ProfileComponent = ({ contactProfile, webId }) => {
   // Public Profile Data
   const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
-
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
-
     setProfileName(profileDataSolid.profileInfo?.profileName);
     setNickname(profileDataSolid.profileInfo?.nickname);
   };
@@ -159,7 +157,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy Invite Link"
                 edge="end"
                 onClick={() => {
-                  saveToClipboard(webId, 'Invite link copied to clipboard', addNotification);
+                  saveToClipboard(signupLink, 'Invite link copied to clipboard', addNotification);
                 }}
               >
                 <ContentCopyIcon />
