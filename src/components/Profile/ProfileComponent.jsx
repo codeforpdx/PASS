@@ -157,7 +157,11 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy Invite Link"
                 edge="end"
                 onClick={() => {
-                  saveToClipboard(signupLink, 'Invite link copied to clipboard', addNotification);
+                  saveToClipboard(
+                    `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
+                    'Invite link copied to clipboard',
+                    addNotification
+                  );
                 }}
               >
                 <ContentCopyIcon />
