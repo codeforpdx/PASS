@@ -9,7 +9,6 @@ import dayjs from 'dayjs';
  * @param {string} dateStr - unformatted date string
  * @returns {string} newDate.toISOstring.substring(0, 10) - formatted date string
  */
-
 const formattedDate = (dateStr) => {
   const dateStrWithSpaces = dateStr.replace(/(\d{2})(\d{2})(\d{4})/, '$1 $2 $3');
   return dayjs(dateStrWithSpaces).toISOString();
