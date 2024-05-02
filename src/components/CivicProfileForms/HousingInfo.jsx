@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 // Custom Hooks Imports
 import { useCivicProfile } from '@hooks';
+import HousingInfoTextField from './atomized-components/HousningInfoTextField';
 
 /**
  * HousingInfo - A form to fill out with housing security info
@@ -19,7 +20,10 @@ const HousingInfo = () => {
     lastPermanentStreet: '',
     lastPermanentCity: '',
     lastPermanentState: '',
-    lastPermanentZIP: ''
+    lastPermanentZIP: '',
+    monthsHomeless: '',
+    timesHomeless: '',
+    timeToHousingLoss: ''
   });
 
   useEffect(() => {
@@ -84,6 +88,27 @@ const HousingInfo = () => {
           label="ZIP Code:"
           onChange={handleChange}
           value={formData.lastPermanentZIP}
+        />
+        <HousingInfoTextField
+          id="months-homeless-input"
+          name="monthsHomeless"
+          label="Months Houseless Past 3 Years:"
+          onChange={handleChange}
+          value={formData.monthsHomeless}
+        />
+        <HousingInfoTextField
+          id="times-homeless-input"
+          name="monthsHomeless"
+          label="Number of Times Houseless Past 3 Years:"
+          onChange={handleChange}
+          value={formData.timesHomeless}
+        />
+        <HousingInfoTextField
+          id="time-to-housing-loss-input"
+          name="timeToHousingLoss"
+          label="Time Until Loss of Housing:"
+          onChange={handleChange}
+          value={formData.timeToHousingLoss}
         />
       </div>
       <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
