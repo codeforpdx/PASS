@@ -34,7 +34,7 @@ it('renders initial state and elements correctly', () => {
   const fileTypeInput = getByRole('combobox');
   const expirationDateInput = getByLabelText('Expiration Date');
   const descriptionInput = getByLabelText('Enter Description');
-  const fileUploadButton = getByRole('button', { name: 'Choose file' });
+  const fileUploadButton = getByRole('button', { name: 'Upload File' });
 
   // Check for the presence of specific elements
   expect(modalTitle).toBeInTheDocument();

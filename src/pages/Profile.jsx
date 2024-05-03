@@ -132,7 +132,15 @@ const Profile = () => {
         width: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxSizing: 'border-box',
+          width: isSmallScreen ? '100%' : 'auto'
+        }}
+      >
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>My Profile</Typography>
         <Box
           sx={{
@@ -153,21 +161,25 @@ const Profile = () => {
         >
           {!contact && (
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => handleAclPermissionsModal('container')}
-              sx={{ width: isSmallScreen ? '165px' : '200px' }}
+              sx={{
+                width: isSmallScreen ? '165px' : '200px',
+                borderColor: 'primary.main',
+                padding: '6px 12px'
+              }}
             >
               Share Documents
             </Button>
           )}
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '140px' : '180px' }}
+            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
           >
             Add Document
           </Button>

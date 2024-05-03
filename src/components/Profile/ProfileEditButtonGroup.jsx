@@ -49,7 +49,7 @@ const ProfileEditButtonGroup = ({ edit, handleCancelEdit, handleEditInput }) => 
       </>
     ) : (
       <IconButton type="button" aria-label="Edit" color="primary" onClick={handleEditInput}>
-        <EditNote />
+        <EditNote sx={{ color: 'primary.strong' }} />
       </IconButton>
     )}
   </Box>

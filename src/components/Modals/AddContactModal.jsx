@@ -24,6 +24,8 @@ import Tooltip from '@mui/material/Tooltip';
 import useNotification from '@hooks/useNotification';
 // Constant Imports
 import { ENV } from '@constants';
+// Util Imports
+import { saveToClipboard } from '@utils';
 // Component Imports
 import { FormSection } from '../Form';
 
@@ -265,7 +267,13 @@ const AddContactModal = ({
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton aria-label="Copy WebId" edge="end">
+                      <IconButton
+                        aria-label="Copy WebId"
+                        edge="end"
+                        onClick={() => {
+                          saveToClipboard(webId, 'webId copied to clipboard', addNotification);
+                        }}
+                      >
                         <ContentCopyIcon />
                       </IconButton>
                     </InputAdornment>

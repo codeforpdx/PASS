@@ -55,7 +55,7 @@ const HomeSection = ({
       <Typography
         data-testid="testDescription"
         sx={{
-          color: 'primary.dark',
+          color: 'primary.strong',
           width: '100%',
           marginBottom: '24px'
         }}
@@ -70,7 +70,7 @@ const HomeSection = ({
         aria-label={label}
         sx={{
           my: '1rem',
-          backgroundColor: 'primary.light'
+          backgroundColor: 'primary.main'
         }}
       >
         {button}
