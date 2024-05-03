@@ -51,69 +51,99 @@ const HousingInfo = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: 'flex',
+        gap: '8px',
+        justifyContent: 'space-between'
+        // maxWidth: '720px',
+      }}
+    >
       <div
         style={{
-          padding: '8px',
           display: 'flex',
-          flexDirection: 'column',
           gap: '8px',
-          maxWidth: '360px'
+          justifyContent: 'space-between',
+          maxWidth: '720px',
+          padding: '8px'
         }}
       >
-        <TextField
-          id="street-input"
-          name="lastPermanentStreet"
-          label="Street:"
-          onChange={handleChange}
-          value={formData.lastPermanentStreet}
-        />
-        <TextField
-          id="city-input"
-          name="lastPermanentCity"
-          label="City:"
-          onChange={handleChange}
-          value={formData.lastPermanentCity}
-        />
-        <TextField
-          id="state-input"
-          name="lastPermanentState"
-          label="State:"
-          onChange={handleChange}
-          value={formData.lastPermanentState}
-        />
-        <TextField
-          id="zip-input"
-          name="lastPermanentZIP"
-          label="ZIP Code:"
-          onChange={handleChange}
-          value={formData.lastPermanentZIP}
-        />
-        <HousingInfoTextField
-          id="months-homeless-input"
-          name="monthsHomeless"
-          label="Months Houseless Past 3 Years:"
-          onChange={handleChange}
-          value={formData.monthsHomeless}
-        />
-        <HousingInfoTextField
-          id="times-homeless-input"
-          name="monthsHomeless"
-          label="Number of Times Houseless Past 3 Years:"
-          onChange={handleChange}
-          value={formData.timesHomeless}
-        />
-        <HousingInfoTextField
-          id="time-to-housing-loss-input"
-          name="timeToHousingLoss"
-          label="Time Until Loss of Housing:"
-          onChange={handleChange}
-          value={formData.timeToHousingLoss}
-        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            maxWidth: '360px',
+            padding: '8px'
+          }}
+        >
+          <TextField
+            id="street-input"
+            name="lastPermanentStreet"
+            label="Street:"
+            onChange={handleChange}
+            value={formData.lastPermanentStreet}
+          />
+          <TextField
+            id="city-input"
+            name="lastPermanentCity"
+            label="City:"
+            onChange={handleChange}
+            value={formData.lastPermanentCity}
+          />
+          <TextField
+            id="state-input"
+            name="lastPermanentState"
+            label="State:"
+            onChange={handleChange}
+            value={formData.lastPermanentState}
+          />
+          <TextField
+            id="zip-input"
+            name="lastPermanentZIP"
+            label="ZIP Code:"
+            onChange={handleChange}
+            value={formData.lastPermanentZIP}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            maxWidth: '360px',
+            padding: '8px'
+          }}
+        >
+          <HousingInfoTextField
+            id="months-homeless-input"
+            name="monthsHomeless"
+            label="Months Houseless Past 3 Years:"
+            onChange={handleChange}
+            value={formData.monthsHomeless}
+          />
+          <HousingInfoTextField
+            id="times-homeless-input"
+            name="monthsHomeless"
+            label="Number of Times Houseless Past 3 Years:"
+            onChange={handleChange}
+            value={formData.timesHomeless}
+          />
+          <HousingInfoTextField
+            id="time-to-housing-loss-input"
+            name="timeToHousingLoss"
+            label="Time Until Loss of Housing:"
+            onChange={handleChange}
+            value={formData.timeToHousingLoss}
+          />
+        </div>
       </div>
-      <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
-        Submit
-      </Button>
+      <div style={{ padding: '8px' }}>
+        <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
+          Submit
+        </Button>
+      </div>
     </form>
   );
 };
