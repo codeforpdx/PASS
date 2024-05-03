@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -40,15 +40,30 @@ const CustomToolbar = () => (
  * @param {object} Props - Props for ContactListTable
  * @param {userListObject[]} Props.contacts - this list of contacts to display
  * @param {Function} Props.deleteContact - method to delete contact
+ * @param Props.refresh
+ * @param Props.setRefresh
  * @param {Function} Props.handleDeleteContact - from Contacts page
  * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
+const ContactListTable = ({
+  contacts,
+  deleteContact,
+  handleDeleteContact,
+  addContact,
+  refresh,
+  setRefresh
+}) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [contactToEdit, setContactToEdit] = useState({});
+  const [contacts_, setContacts] = useState(contacts);
+
+  useEffect(() => {
+    setContacts(contacts_);
+    console.log('Contact list table refreshed');
+  }, [contacts_]);
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
@@ -185,6 +200,8 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         handleDeleteContact={handleDeleteContact}
         contactWebIds={contactWebIds}
         contacts={contacts}
+        refresh={refresh}
+        setRefresh={setRefresh}
       />
       {/* <Console 
       contacts={contactWebIds}

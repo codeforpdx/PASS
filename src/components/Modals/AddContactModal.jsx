@@ -51,6 +51,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @param {Function} props.handleDeleteContact - ContactListTable delete function
  * @param {object} props.contactToEdit - the contact being edited
+ * @param props.setRefresh
  * @param {object} props.contacts - the contacts in the ContactListTable
  * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
  * @returns {React.JSX.Element} - The Add Contact Modal
@@ -62,7 +63,8 @@ const AddContactModal = ({
   setShowAddContactModal,
   contactToEdit,
   contacts,
-  contactWebIds
+  contactWebIds,
+  setRefresh
 }) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
@@ -72,13 +74,13 @@ const AddContactModal = ({
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [userName, setUserName] = useState('');
   const [customWebID, setCustomWebID] = useState(false);
-  // const [processing, setProcessing] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
   const [isSubmittable, setIsSubmittable] = useState(false);
-  const [deleteViaEdit, setDeleteViaEdit] = useState(false);
+  // const [deleteViaEdit, setDeleteViaEdit] = useState(false);
 
   useEffect(() => {
     // disables submit button if form not fully filled out
@@ -94,7 +96,7 @@ const AddContactModal = ({
       setWebId(contactToEdit?.webId);
       setOriginalWebId(contactToEdit?.webId);
     }
-  }, [deleteViaEdit, showAddContactModal]);
+  }, [showAddContactModal]);
 
   const clearInputFields = () => {
     setUserGivenName('');
@@ -136,21 +138,30 @@ const AddContactModal = ({
       };
     }
 
+    const webIdChangedInEdit =
+      userObject.webId !== originalWebId && typeof contactToEdit !== 'undefined';
+
     try {
-      if (userObject.webId !== originalWebId && contactToEdit) {
-        if (await contactWebIds.includes(userObject.webId)) {
-          addNotification('error', 'Web ID exists. Edit appropriate contact');
-          return;
-        }
-        const toDelete = contacts.find((item) => item.webId === originalWebId);
-        await handleDeleteContact(toDelete);
-        setDeleteViaEdit(true); // attempt to re-render
+      if (webIdChangedInEdit && contactWebIds.includes(userObject.webId)) {
+        addNotification('error', 'Web ID exists. Edit appropriate contact');
+        return;
       }
+
       await getWebIdDataset(userObject.webId);
+      console.log('userobject is : ');
+      console.table(userObject);
       await addContact(userObject);
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       addNotification('success', `"${nameDisplay}" added to contact list`);
+
+      if (webIdChangedInEdit) {
+        const toDelete = contacts.find((item) => item.webId === originalWebId);
+        await handleDeleteContact(toDelete);
+        // setDeleteViaEdit(true); // attempt to re-render
+        setRefresh(true);
+        console.log('finally block delete');
+      }
 
       setShowAddContactModal(false);
       clearInputFields();
@@ -160,6 +171,7 @@ const AddContactModal = ({
       setInvalidWebId(true);
     } finally {
       setProcessing(false);
+      console.log('finally logic block');
     }
   };
 
