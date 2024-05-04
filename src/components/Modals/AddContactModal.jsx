@@ -138,17 +138,16 @@ const AddContactModal = ({
       };
     }
 
-    const webIdChangedInEdit =
-      userObject.webId !== originalWebId && typeof contactToEdit !== 'undefined';
+    const webIdChangedInEdit = userObject.webId !== originalWebId && typeof contactToEdit != 'undefined';
 
     try {
       if (webIdChangedInEdit && contactWebIds.includes(userObject.webId)) {
-        addNotification('error', 'Web ID exists. Edit appropriate contact');
-        return;
+          addNotification('error', 'Web ID exists. Edit appropriate contact');
+          return;
       }
 
       await getWebIdDataset(userObject.webId);
-      console.log('userobject is : ');
+      console.log('userobject is : ')
       console.table(userObject);
       await addContact(userObject);
       const nameDisplay =
@@ -158,11 +157,10 @@ const AddContactModal = ({
       if (webIdChangedInEdit) {
         const toDelete = contacts.find((item) => item.webId === originalWebId);
         await handleDeleteContact(toDelete);
-        // setDeleteViaEdit(true); // attempt to re-render
+        //setDeleteViaEdit(true); // attempt to re-render
         setRefresh(true);
-        console.log('finally block delete');
       }
-
+      
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
@@ -171,7 +169,6 @@ const AddContactModal = ({
       setInvalidWebId(true);
     } finally {
       setProcessing(false);
-      console.log('finally logic block');
     }
   };
 
