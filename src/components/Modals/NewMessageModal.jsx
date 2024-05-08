@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -18,6 +17,7 @@ import { sendMessageTTL } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
 /**
@@ -120,10 +120,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <Dialog
+    <ModalBase
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => handleReplyMessage(false)}
+      anchor="bottom"
     >
       <Box
         noValidate
@@ -245,7 +246,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           </form>
         </FormSection>
       </Box>
-    </Dialog>
+    </ModalBase>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */
 };

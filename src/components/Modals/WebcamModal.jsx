@@ -3,6 +3,7 @@ import Webcam from 'react-webcam';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 
+// TODO: Determine future of this modal
 // web camera modal
 const WebcamModal = ({ open, onClose, onCapture }) => {
   const webcamRef = useRef(null);

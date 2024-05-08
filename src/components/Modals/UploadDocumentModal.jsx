@@ -4,7 +4,6 @@ import React, { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
@@ -21,6 +20,7 @@ import { useTheme } from '@mui/material/styles';
  */ // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
@@ -131,7 +131,12 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
+    <ModalBase
+      open={showModal}
+      aria-labelledby="upload-document-dialog"
+      onClose={clearInputFields}
+      anchor="bottom"
+    >
       <UploadDocumentConfirmationModal
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
@@ -227,7 +232,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
           </FormControl>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

@@ -5,7 +5,6 @@ import { useSession, useContactsList } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +17,7 @@ import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 import useNotification from '../../hooks/useNotification';
 
@@ -117,7 +117,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   };
 
   return (
-    <Dialog open={showModal} onClose={clearInputFields}>
+    <ModalBase open={showModal} onClose={clearInputFields} anchor="bottom">
       <FormSection
         title={
           dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
@@ -193,7 +193,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           </FormControl>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

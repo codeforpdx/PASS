@@ -8,18 +8,17 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 // Custom Hook Imports
 import useNotification from '@hooks/useNotification';
 // Constant Imports
@@ -27,6 +26,7 @@ import { ENV } from '@constants';
 // Util Imports
 import { saveToClipboard } from '@utils';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
 // @memberof Modals
@@ -132,10 +132,11 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   };
 
   return (
-    <Dialog
+    <ModalBase
       open={showAddContactModal}
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
+      anchor="bottom"
     >
       <FormSection title="Add Contact" headingId="add-contact-form">
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
@@ -283,7 +284,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </DialogActions>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 
