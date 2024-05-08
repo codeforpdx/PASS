@@ -56,7 +56,7 @@ const HousingInfo = () => {
       style={{
         display: 'flex',
         gap: '8px',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around'
         // maxWidth: '720px',
       }}
     >
@@ -65,7 +65,7 @@ const HousingInfo = () => {
           display: 'flex',
           gap: '8px',
           justifyContent: 'space-around',
-          maxWidth: '744px',
+          maxWidth: '746px',
           padding: '8px'
         }}
       >
