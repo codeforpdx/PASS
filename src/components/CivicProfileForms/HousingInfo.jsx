@@ -55,8 +55,9 @@ const HousingInfo = () => {
       onSubmit={handleSubmit}
       style={{
         display: 'flex',
+        flexDirection: 'column',
         gap: '8px',
-        justifyContent: 'space-around'
+        justifyContent: 'space-between'
         // maxWidth: '720px',
       }}
     >
@@ -64,7 +65,7 @@ const HousingInfo = () => {
         style={{
           display: 'flex',
           gap: '8px',
-          justifyContent: 'space-around',
+          // justifyContent: 'space-around',
           maxWidth: '746px',
           padding: '8px'
         }}
@@ -141,10 +142,10 @@ const HousingInfo = () => {
       </div>
       <div
         style={{
-          alignSelf: 'flex-end',
+          alignSelf: 'flex-start',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-start',
+          // justifyContent: 'flex-start',
           // marginRight: '15em',
           padding: '8px'
         }}
