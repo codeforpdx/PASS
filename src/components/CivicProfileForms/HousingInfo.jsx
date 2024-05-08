@@ -64,8 +64,8 @@ const HousingInfo = () => {
         style={{
           display: 'flex',
           gap: '8px',
-          justifyContent: 'space-between',
-          maxWidth: '720px',
+          justifyContent: 'space-around',
+          maxWidth: '744px',
           padding: '8px'
         }}
       >
@@ -139,7 +139,16 @@ const HousingInfo = () => {
           />
         </div>
       </div>
-      <div style={{ padding: '8px' }}>
+      <div
+        style={{
+          alignSelf: 'flex-end',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          // marginRight: '15em',
+          padding: '8px'
+        }}
+      >
         <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
           Submit
         </Button>
