@@ -195,7 +195,7 @@ const Profile = () => {
           showModal={showConfirmationModal}
           setShowModal={setShowConfirmationModal}
           title="Delete Document"
-          text={`You're about to delete "${selectedDocToDelete?.name}" from the pod, do you wish to continue?`}
+          text={`You're about to delete "${selectedDocToDelete?.name}" from the pod. Do you wish to continue?`}
           onConfirm={handleDeleteDoc}
           confirmButtonText="Delete"
           processing={processing}

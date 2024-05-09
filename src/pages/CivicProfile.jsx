@@ -19,6 +19,7 @@ const CivicProfile = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
+    // TODO: Reevaluate whether we need nested Containers
     <Container sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
       <Container sx={{ width: isSmallScreen ? '100%' : '25%', minWidth: '250px' }}>
         <nav>

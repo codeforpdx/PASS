@@ -166,7 +166,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           <Tooltip
             title="Select the server/website where your pod is located"
             arrow
-            placement="left"
+            placement="bottom"
           >
             <FormControl fullWidth>
               <InputLabel>OIDC Provider</InputLabel>
@@ -191,7 +191,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </Tooltip>
 
           {!customWebID && (
-            <Tooltip title="Enter the username associated with your WebID" arrow placement="left">
+            <Tooltip title="Enter the username associated with your WebID" arrow placement="bottom">
               <FormControl fullWidth>
                 <TextField
                   margin="normal"
@@ -209,7 +209,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             </Tooltip>
           )}
           {customWebID && (
-            <Tooltip title="Enter your full WebID" arrow placement="left">
+            <Tooltip title="Enter your full WebID" arrow placement="bottom">
               <TextField
                 margin="normal"
                 id="add-webId"

@@ -4,7 +4,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -12,6 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
+import ModalBase from './ModalBase';
 import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
@@ -74,11 +74,12 @@ const ConfirmationModal = ({
   };
 
   return (
-    <Dialog
+    <ModalBase
       open={showModal}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onClose={handleClose}
+      anchor="bottom"
     >
       <DialogTitle id="dialog-title">{title.toUpperCase()}</DialogTitle>
 
@@ -109,7 +110,7 @@ const ConfirmationModal = ({
           {confirmButton()}
         </Box>
       </DialogActions>
-    </Dialog>
+    </ModalBase>
   );
 };
 

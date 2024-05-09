@@ -81,7 +81,7 @@ const BasicInfo = () => {
 
   return (
     <FormSection title="Basic Information">
-      <form aria-labelledby="add-contact-form" onSubmit={handleSubmit} autoComplete="off">
+      <form aria-labelledby="hmis-basic-info-form" onSubmit={handleSubmit} autoComplete="off">
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField

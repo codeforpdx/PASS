@@ -26,6 +26,7 @@ import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
 /* 
+// TODO: Determine whether to keep this
 const Transition = React.forwardRef((props, ref) => {
   <Slide direction="up" ref={ref} {...props} />;
 });
@@ -146,6 +147,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       />
       <FormSection title="Upload Document">
         <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
+          {/* TODO: Determine whether to keep this for MVP */}
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
