@@ -23,6 +23,7 @@ import OidcLoginComponent from '../NavBar/OidcLoginComponent';
  * @returns {React.JSX.Element} - The SignInModal Component
  */
 const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
+  // TODO: Determine whether to convert this to a Drawer
   <Dialog
     open={showSignInModal}
     aria-labelledby="dialog-title"

@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+// import Backdrop from '@mui/material/Backdrop';
 import Badge from '@mui/material/Badge';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
@@ -18,6 +20,8 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 import { useMessageList } from '@hooks';
+// Component Imports
+// import ModalBase from '../Modals/ModalBase';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -50,7 +54,7 @@ const NavMenu = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { setContact } = useContext(DocumentListContext);
   const { data } = useMessageList('Inbox');
-
+  const MenuOrDrawer = isSmallScreen ? Drawer : Menu;
   const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   const handleMenuClose = () => {
@@ -58,31 +62,47 @@ const NavMenu = ({
     setAnchorEl(null);
   };
 
+  const MenuProps = isSmallScreen
+    ? {
+        PaperProps: {
+          sx: {
+            borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
+            // width: isSmallScreen ? '75vw' : 0
+            // minWidth: '50dvw'
+          }
+        }
+      }
+    : {
+        anchorEl,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'right'
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        },
+        MenuListProps: { disablePadding: true },
+        style: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        },
+        slotProps: {
+          paper: {
+            style: {
+              marginTop: '10px'
+            }
+          }
+        }
+      };
+
   return (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right'
-      }}
+    <MenuOrDrawer
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      MenuListProps={{ disablePadding: true }}
-      slotProps={{
-        paper: {
-          style: {
-            marginTop: '10px'
-          }
-        }
-      }}
-      sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      {...MenuProps}
     >
       <MenuList>
         {isSmallScreen && (
@@ -181,7 +201,7 @@ const NavMenu = ({
           Log Out
         </MenuItem>
       </MenuList>
-    </Menu>
+    </MenuOrDrawer>
   );
 };
 

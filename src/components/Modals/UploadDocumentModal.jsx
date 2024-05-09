@@ -180,7 +180,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             <TextField
               name="description"
               multiline
-              rows={4}
+              rows={3}
               label="Enter Description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}

@@ -132,10 +132,10 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px',
-          minWidth: '50%',
-          minHeight: '90%'
+          alignItems: 'center'
+          // padding: '20px',
+          // minWidth: '50%',
+          // minHeight: '90%'
         }}
       >
         <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
@@ -155,7 +155,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               onChange={(event, newValue) => {
                 setMessage({
                   ...message,
-                  // if user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
+                  // If user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
                   recipientPodUrl: newValue.id ?? newValue
                 });
               }}

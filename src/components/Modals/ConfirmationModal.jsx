@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
+import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -11,7 +12,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
-import ModalBase from './ModalBase';
 import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
@@ -74,43 +74,51 @@ const ConfirmationModal = ({
   };
 
   return (
-    <ModalBase
+    <Dialog
       open={showModal}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onClose={handleClose}
       anchor="bottom"
     >
-      <DialogTitle id="dialog-title">{title.toUpperCase()}</DialogTitle>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <DialogTitle id="dialog-title">{title.toUpperCase()}</DialogTitle>
 
-      <DialogContent>
-        <DialogContentText id="dialog-description">{text}</DialogContentText>
-      </DialogContent>
+        <DialogContent>
+          <DialogContentText id="dialog-description">{text}</DialogContentText>
+        </DialogContent>
 
-      <DialogActions sx={{ width: '100%' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: isSmallScreen ? 'column' : 'row',
-            gap: isSmallScreen ? '10px' : '8px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%'
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="error"
-            endIcon={<ClearIcon />}
-            onClick={handleClose}
-            fullWidth
+        <DialogActions sx={{ width: '100%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              width: '100%'
+            }}
           >
-            {cancelButtonText}
-          </Button>
-          {confirmButton()}
-        </Box>
-      </DialogActions>
-    </ModalBase>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<ClearIcon />}
+              onClick={handleClose}
+              fullWidth
+            >
+              {cancelButtonText}
+            </Button>
+            {confirmButton()}
+          </Box>
+        </DialogActions>
+      </Box>
+    </Dialog>
   );
 };
 

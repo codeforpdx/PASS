@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +12,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Component Imports
 import LogoutButton from '../Modals/LogoutButton';
 
@@ -28,6 +31,8 @@ const InactivityMessage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [secondsToLogout, setSecondsToLogout] = useState(300);
   const logoutTimer = useRef();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Toggles the popup after twenty-five minutes of inactivity
   useEffect(() => {
@@ -74,7 +79,7 @@ const InactivityMessage = () => {
           logout();
           setShowPopup(false);
         }
-      }, 1000);
+      }, 1500000);
     }
     return () => {
       clearInterval(logoutTimer.current);
@@ -102,20 +107,31 @@ const InactivityMessage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <LogoutButton onLogout={() => localStorage.clear()}>
-            <Button variant="outlined" color="error" endIcon={<LogoutIcon />} fullWidth>
-              Log Out
-            </Button>
-          </LogoutButton>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<CheckIcon />}
-            fullWidth
-            onClick={() => setShowPopup(false)}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%'
+            }}
           >
-            Continue
-          </Button>
+            <LogoutButton onLogout={() => localStorage.clear()}>
+              <Button variant="outlined" color="error" endIcon={<LogoutIcon />} fullWidth>
+                Log Out
+              </Button>
+            </LogoutButton>
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<CheckIcon />}
+              fullWidth
+              onClick={() => setShowPopup(false)}
+            >
+              Continue
+            </Button>
+          </Box>
         </DialogActions>
       </Dialog>
     )

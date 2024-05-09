@@ -21,27 +21,26 @@ import { useTheme } from '@mui/material/styles';
  */
 const FormSection = ({ title, headingId, children }) => {
   const theme = useTheme();
+  // eslint-disable-next-line no-unused-vars
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
       sx={{
-        marginTop: 1,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        mx: '3px',
-        padding: '16px',
+        padding: '20px',
         minWidth: '50%',
-        maxWidth: isSmallScreen ? '100dvw' : '75dvw',
+        // maxWidth: isSmallScreen ? '100dvw' : '75dvw',
         width: '100%'
       }}
     >
       <Typography
         variant="h2"
         align="center"
-        mb={2}
+        mb={1}
         sx={{ fontSize: '20px', fontWeight: 'bold' }}
         id={headingId}
       >
