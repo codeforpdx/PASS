@@ -79,7 +79,6 @@ const ConfirmationModal = ({
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onClose={handleClose}
-      anchor="bottom"
     >
       <Box
         sx={{

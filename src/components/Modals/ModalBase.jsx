@@ -16,11 +16,10 @@ import { useTheme } from '@mui/material/styles';
  * @param {string} Props.arialabelledby - ID of the element that labels the modal
  * @param {string} Props.ariadescribedby - ID of the element that describes the modal
  * @param {Function} Props.onClose - Function to call when the modal is closed
- * @param {'left'|'top'|'right'|'bottom'} [Props.anchor='left'] - Determines the anchor position for the modal
  * @param {React.JSX.Element} Props.children - Content to be displayed within the modal
  * @returns {React.JSX.Element} - The rendered modal component
  */
-const ModalBase = ({ open, arialabelledby, ariadescribedby, onClose, anchor, children }) => {
+const ModalBase = ({ open, arialabelledby, ariadescribedby, onClose, children }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const DialogOrDrawer = isSmallScreen ? Drawer : Dialog;
@@ -31,7 +30,7 @@ const ModalBase = ({ open, arialabelledby, ariadescribedby, onClose, anchor, chi
       aria-labelledby={arialabelledby}
       aria-describedby={ariadescribedby}
       onClose={onClose}
-      anchor={anchor}
+      anchor="bottom"
       PaperProps={{
         sx: {
           borderRadius: isSmallScreen ? '15px 15px 0px 0px' : '15px'

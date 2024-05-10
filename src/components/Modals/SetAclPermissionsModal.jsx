@@ -117,7 +117,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   };
 
   return (
-    <ModalBase open={showModal} onClose={clearInputFields} anchor="bottom">
+    <ModalBase open={showModal} onClose={clearInputFields}>
       <FormSection
         title={
           dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`

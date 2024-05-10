@@ -62,10 +62,23 @@ const NavMenu = ({
     setAnchorEl(null);
   };
 
+  const iconSize = {
+    height: '24px',
+    width: '24px'
+  };
+
+  const iconStyling = {
+    display: { md: 'none' },
+    color: theme.palette.primary.main,
+    width: '100%',
+    minHeight: '36px'
+  };
+
   const MenuProps = isSmallScreen
     ? {
         PaperProps: {
           sx: {
+            padding: '20px 20px 0 20px',
             borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
             // width: isSmallScreen ? '75vw' : 0
             // minWidth: '50dvw'
@@ -113,13 +126,8 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<ContactsIcon sx={{ height: '24px', width: '24px' }} />}
-                sx={{
-                  display: { md: 'none' },
-                  color: theme.palette.primary.main,
-                  width: '100%',
-                  minHeight: '36px'
-                }}
+                startIcon={<ContactsIcon sx={iconSize} />}
+                sx={iconStyling}
               >
                 Contacts
               </MenuItem>
@@ -130,13 +138,8 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<AccountBoxIcon sx={{ height: '24px', width: '24px' }} />}
-                sx={{
-                  display: { md: 'none' },
-                  color: theme.palette.primary.main,
-                  width: '100%',
-                  minHeight: '36px'
-                }}
+                startIcon={<AccountBoxIcon sx={iconSize} />}
+                sx={iconStyling}
               >
                 Civic Profile
               </MenuItem>
@@ -150,15 +153,10 @@ const NavMenu = ({
             component={Button}
             startIcon={
               <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
-                <EmailIcon sx={{ height: '24px', width: '24px' }} />
+                <EmailIcon sx={iconSize} />
               </Badge>
             }
-            sx={{
-              display: { md: 'none' },
-              color: theme.palette.primary.main,
-              width: '100%',
-              minHeight: '36px'
-            }}
+            sx={iconStyling}
           >
             Messages
           </MenuItem>
@@ -172,7 +170,7 @@ const NavMenu = ({
         >
           <MenuItem
             component={Button}
-            sx={{ width: '100%', minHeight: '36px' }}
+            sx={iconStyling}
             startIcon={
               <Avatar
                 src={profileImg}
@@ -194,7 +192,7 @@ const NavMenu = ({
         {/* logout */}
         <MenuItem
           component={Button}
-          startIcon={<LogoutIcon sx={{ height: '24px', width: '24px' }} />}
+          startIcon={<LogoutIcon sx={iconSize} />}
           onClick={() => setShowConfirmation(true)}
           sx={{ color: theme.palette.error.main, width: '100%', minHeight: '36px' }}
         >

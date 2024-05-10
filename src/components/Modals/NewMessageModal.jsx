@@ -124,7 +124,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => handleReplyMessage(false)}
-      anchor="bottom"
     >
       <Box
         noValidate
@@ -163,7 +162,9 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               required
               autoFocus
               disabled={toField !== ''}
-              renderInput={(params) => <TextField {...params} margin="normal" label="To" />}
+              renderInput={(params) => (
+                <TextField {...params} margin="normal" label="To" required />
+              )}
             />
             <TextField
               margin="normal"

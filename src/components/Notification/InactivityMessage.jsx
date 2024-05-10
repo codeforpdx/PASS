@@ -79,7 +79,7 @@ const InactivityMessage = () => {
           logout();
           setShowPopup(false);
         }
-      }, 1500000);
+      }, 1000);
     }
     return () => {
       clearInterval(logoutTimer.current);
@@ -94,45 +94,54 @@ const InactivityMessage = () => {
         open={showPopup}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        <DialogTitle id="inactivity-message-title">Continue session?</DialogTitle>
-        <DialogContent id="inactivity-message-description">
-          <DialogContentText>
-            You have been inactive for a while now. Would you like to continue using PASS? You will
-            automatically be logged out in {Math.floor(secondsToLogout / 60)}:
-            {(secondsToLogout % 60).toLocaleString('en-US', {
-              minimumIntegerDigits: 2,
-              useGrouping: false
-            })}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: isSmallScreen ? 'column' : 'row',
-              gap: isSmallScreen ? '10px' : '8px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%'
-            }}
-          >
-            <LogoutButton onLogout={() => localStorage.clear()}>
-              <Button variant="outlined" color="error" endIcon={<LogoutIcon />} fullWidth>
-                Log Out
-              </Button>
-            </LogoutButton>
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<CheckIcon />}
-              fullWidth
-              onClick={() => setShowPopup(false)}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <DialogTitle id="inactivity-message-title">CONTINUE SESSION?</DialogTitle>
+          <DialogContent id="inactivity-message-description">
+            <DialogContentText>
+              You have been inactive for a while now. Would you like to continue using PASS? You
+              will automatically be logged out in {Math.floor(secondsToLogout / 60)}:
+              {(secondsToLogout % 60).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+              })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions sx={{ width: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                gap: isSmallScreen ? '10px' : '8px',
+                // justifyContent: 'center',
+                // alignItems: 'center',
+                width: '100%'
+              }}
             >
-              Continue
-            </Button>
-          </Box>
-        </DialogActions>
+              <LogoutButton onLogout={() => localStorage.clear()}>
+                <Button variant="outlined" color="error" endIcon={<LogoutIcon />} fullWidth>
+                  Log Out
+                </Button>
+              </LogoutButton>
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<CheckIcon />}
+                fullWidth
+                onClick={() => setShowPopup(false)}
+              >
+                Continue
+              </Button>
+            </Box>
+          </DialogActions>
+        </Box>
       </Dialog>
     )
   );

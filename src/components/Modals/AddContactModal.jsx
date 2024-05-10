@@ -136,7 +136,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       open={showAddContactModal}
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
-      anchor="bottom"
     >
       <FormSection title="Add Contact" headingId="add-contact-form">
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
@@ -169,17 +168,16 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             arrow
             placement="bottom"
           >
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
               <InputLabel>OIDC Provider</InputLabel>
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
-                value={Oidc}
+                id="add-oidc-provider"
+                name="oidcProvider"
                 label="OIDC Provider"
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
+                value={Oidc}
                 fullWidth
-                required
                 aria-required
               >
                 {oidcProviders.map((oidc) => (
@@ -195,7 +193,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             <Tooltip
               title="Enter the username associated with your WebID"
               arrow
-              placement="left"
+              placement="bottom"
               margin="normal"
             >
               <FormControl fullWidth>
