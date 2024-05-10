@@ -163,7 +163,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               required
               autoFocus
               disabled={toField !== ''}
-              renderInput={(params) => <TextField {...params} label="To" />}
+              renderInput={(params) => <TextField {...params} margin="normal" label="To" />}
             />
             <TextField
               margin="normal"

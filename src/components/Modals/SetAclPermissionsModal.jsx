@@ -176,7 +176,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             }
             renderInput={(params) => <TextField {...params} label="WebID to share with" />}
           />
-
           <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
             <Button
               variant="outlined"

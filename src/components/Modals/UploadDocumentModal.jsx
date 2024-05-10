@@ -158,13 +158,14 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             sx={{ mb: 1 }}
           />
           <FormControl fullWidth>
-            <DocumentSelection
-              htmlForAndIdProp="upload-doc"
-              handleDocType={handleDocType}
-              docType={docType}
-            />
-            <br />
-            <FormControl>
+            <FormControl margin="normal">
+              <DocumentSelection
+                htmlForAndIdProp="upload-doc"
+                handleDocType={handleDocType}
+                docType={docType}
+              />
+            </FormControl>
+            <FormControl margin="normal">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   name="date"
@@ -176,8 +177,8 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 />
               </LocalizationProvider>
             </FormControl>
-            <br />
             <TextField
+              margin="normal"
               name="description"
               multiline
               rows={3}
@@ -186,7 +187,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
             />
-            <br />
             <UploadButtonGroup file={file} setFile={setFile} />
             <FormHelperText
               sx={{
