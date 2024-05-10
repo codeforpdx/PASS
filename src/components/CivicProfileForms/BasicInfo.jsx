@@ -33,7 +33,7 @@ const BasicInfo = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    dateOfBirth: null,
+    dateOfBirth: '',
     gender: 9
   });
 
@@ -51,7 +51,7 @@ const BasicInfo = () => {
     if (e.$isDayjsObject) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        dateOfBirth: e.toDate()
+        dateOfBirth: dayjs(e).toDate()
       }));
     } else if (e.target) {
       const { name, value } = e.target;
@@ -73,7 +73,7 @@ const BasicInfo = () => {
       ...prevFormData,
       firstName: '',
       lastName: '',
-      dateOfBirth: null,
+      dateOfBirth: '',
       gender: 9
     }));
     addNotification('success', `Form cleared!`);

@@ -84,7 +84,11 @@ describe('Basic info form', () => {
     };
     const basicInfoTransformed = {
       ...basicInfoProfile,
-      dateOfBirth: dayjs(basicInfoProfile.dateOfBirth).toDate()
+      dateOfBirth: dayjs(
+        `${basicInfoProfile.dateOfBirth.getFullYear()}-${
+          basicInfoProfile.dateOfBirth.getMonth() + 1
+        }-${basicInfoProfile.dateOfBirth.getDate()}`
+      ).toDate()
     };
 
     useCivicProfile.mockReturnValue({
