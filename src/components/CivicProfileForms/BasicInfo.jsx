@@ -51,7 +51,7 @@ const BasicInfo = () => {
     if (e.$isDayjsObject) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        dateOfBirth: dayjs(e).toDate()
+        dateOfBirth: e.toDate()
       }));
     } else if (e.target) {
       const { name, value } = e.target;

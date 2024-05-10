@@ -29,11 +29,6 @@ describe('Basic info form', () => {
 
   // TODO: Resolve test not passing
 
-  /* Likely related to the data types being entered into the form. Strings are processing as intended, 
-  but BasicInfo has date as well as a select input. The test must account for these as well.
-  See useCivicProfile.js for more info about the data that the Basic Info form uses as a hook. 
-  */
-
   it('clears all input fields when you click the clear button', async () => {
     const user = userEvent.setup();
     const mockClear = vi.fn();
