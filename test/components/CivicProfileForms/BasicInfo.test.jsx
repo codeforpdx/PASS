@@ -27,15 +27,13 @@ describe('Basic info form', () => {
     expect(legalFirstName).not.toBeNull();
   });
 
-  // TODO: Resolve test not passing
-
   it('clears all input fields when you click the clear button', async () => {
     const user = userEvent.setup();
     const mockClear = vi.fn();
     const basicInfoProfile = {
       legalFirstName: 'Jane',
       legalLastName: 'Doe',
-      legalDOB: '1980-12-15',
+      legalDOB: Date.now(),
       legalGender: 1
     };
     useCivicProfile.mockReturnValue({
@@ -55,10 +53,11 @@ describe('Basic info form', () => {
 
     await user.type(legalFirstName, basicInfoProfile.legalFirstName);
     await user.type(legalLastName, basicInfoProfile.legalLastName);
-    await user.type(legalDOB, basicInfoProfile.legalDOB);
+    await user.type(legalDOB, `{enter}`);
     await user.click(legalGender);
     const listBox = within(getByRole('listbox'));
     user.click(listBox.getByText('Female'));
+
     await user.click(clearButton);
 
     expect(legalFirstName.value).toBe('');
@@ -67,7 +66,6 @@ describe('Basic info form', () => {
     expect(await screen.findByText(/Decline to answer/i)).toBeInTheDocument();
   });
 
-  // TODO: Resolve test not passing
   it('submits a basic info profile update when you click the submit button', async () => {
     const user = userEvent.setup();
     const mockAdd = vi.fn();
