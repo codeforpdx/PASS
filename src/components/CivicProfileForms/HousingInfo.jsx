@@ -66,7 +66,7 @@ const HousingInfo = () => {
           display: 'flex',
           gap: '8px',
           // justifyContent: 'space-around',
-          maxWidth: '746px',
+          minWidth: '846px',
           padding: '8px'
         }}
       >
@@ -75,8 +75,8 @@ const HousingInfo = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: '8px',
-            maxWidth: '360px',
-            padding: '8px'
+            padding: '8px',
+            width: '40%'
           }}
         >
           <TextField
@@ -113,8 +113,8 @@ const HousingInfo = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: '8px',
-            maxWidth: '360px',
-            padding: '8px'
+            padding: '8px',
+            width: '40%'
           }}
         >
           <HousingInfoTextField
@@ -145,8 +145,6 @@ const HousingInfo = () => {
           alignSelf: 'flex-start',
           display: 'flex',
           flexDirection: 'column',
-          // justifyContent: 'flex-start',
-          // marginRight: '15em',
           padding: '8px'
         }}
       >
