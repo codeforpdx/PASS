@@ -141,9 +141,7 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Paper>
       </Container>
-      {showModal && (
-        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
-      )}
+      <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
     </>
   );
 };

@@ -22,7 +22,7 @@ const MessagesLayout = ({ children, path }) => {
     <Box sx={{ display: 'grid', gridTemplateRows: '80px 1fr' }}>
       <MessageButtonGroup setShowModal={setShowModal} boxType={boxType} setBoxType={setBoxType} />
       {children}
-      {showModal && <NewMessageModal showModal={showModal} setShowModal={setShowModal} />}
+      <NewMessageModal showModal={showModal} setShowModal={setShowModal} />
     </Box>
   );
 };

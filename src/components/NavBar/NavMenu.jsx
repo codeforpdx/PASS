@@ -144,7 +144,7 @@ const NavMenu = ({
                 Civic Profile
               </MenuItem>
             </Link>
-            <Divider sx={{ marginY: '5px' }} />
+            <Divider sx={{ my: '5px' }} />
           </div>
         )}
         {/* messages */}
@@ -170,7 +170,10 @@ const NavMenu = ({
         >
           <MenuItem
             component={Button}
-            sx={iconStyling}
+            sx={{
+              width: '100%',
+              minHeight: '36px'
+            }}
             startIcon={
               <Avatar
                 src={profileImg}
@@ -188,7 +191,7 @@ const NavMenu = ({
             Profile
           </MenuItem>
         </Link>
-        <Divider sx={{ marginY: '5px' }} />
+        <Divider sx={{ my: '5px' }} />
         {/* logout */}
         <MenuItem
           component={Button}

@@ -46,10 +46,11 @@ const HomeSection = ({
       mb="24px"
       sx={{
         color: 'primary.main',
-        fontSize: '28px'
+        fontSize: '28px',
+        fontWeight: 'bold'
       }}
     >
-      <strong>{title}</strong>
+      {title}
     </Typography>
     {description && (
       <Typography

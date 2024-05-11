@@ -103,7 +103,9 @@ const InactivityMessage = () => {
             alignItems: 'center'
           }}
         >
-          <DialogTitle id="inactivity-message-title">CONTINUE SESSION?</DialogTitle>
+          <DialogTitle id="inactivity-message-title" sx={{ fontWeight: 'bold' }}>
+            CONTINUE SESSION?
+          </DialogTitle>
           <DialogContent id="inactivity-message-description">
             <DialogContentText>
               You have been inactive for a while now. Would you like to continue using PASS? You

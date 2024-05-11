@@ -150,7 +150,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             value={verifyFile}
             checked={verifyFile}
             onChange={() => setVerifyFile(!verifyFile)}
-            sx={{ mb: 1 }}
+            // sx={{ mb: 1 }}
           />
           <FormControl fullWidth>
             <FormControl margin="normal">
@@ -165,7 +165,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 <DatePicker
                   name="date"
                   format="MM/DD/YYYY"
-                  label="Expiration Date"
+                  label="Enter Expiration Date"
                   value={expireDate}
                   onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                   type="date"

@@ -40,9 +40,7 @@ import useNotification from '../../hooks/useNotification';
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
   const { addNotification } = useNotification();
-
   const { podUrl, webId } = useContext(SignedInUserContext);
-
   const [permissionState, setPermissionState] = useState({
     webIdToSetPermsTo: '',
     permissionType: ''

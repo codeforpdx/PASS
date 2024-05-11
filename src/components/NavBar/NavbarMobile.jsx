@@ -102,18 +102,16 @@ const NavbarMobile = ({ setShowConfirmation }) => {
             </MenuItem>
           </Menu>
 
-          {openMenu && (
-            <NavMenu
-              menuId={menuId}
-              openMenu={openMenu}
-              setOpenMenu={setOpenMenu}
-              anchorEl={anchorEl}
-              setAnchorEl={setAnchorEl}
-              setShowConfirmation={setShowConfirmation}
-              handleNotificationsMenu={handleNotificationsMenu}
-              profileImg={profileImg}
-            />
-          )}
+          <NavMenu
+            menuId={menuId}
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+            setShowConfirmation={setShowConfirmation}
+            handleNotificationsMenu={handleNotificationsMenu}
+            profileImg={profileImg}
+          />
         </Toolbar>
       </AppBar>
     </Box>

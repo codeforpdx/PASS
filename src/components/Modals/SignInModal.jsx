@@ -26,17 +26,17 @@ const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
   // TODO: Determine whether to convert this to a Drawer
   <Dialog
     open={showSignInModal}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-description"
+    aria-labelledby="sign-in-dialog"
+    aria-describedby="sign-in-dialog-text"
     onClose={() => setShowSignInModal(false)}
-    PaperProps={{ sx: { maxHeight: '20rem', overflow: 'clip' } }}
+    // PaperProps={{ sx: { maxHeight: '20rem', overflow: 'clip' } }}
   >
-    <DialogTitle id="dialog-title" textAlign="center">
+    <DialogTitle id="sign-in-dialog" textAlign="center" sx={{ fontWeight: 'bold' }}>
       Sign In
     </DialogTitle>
 
     <DialogContent>
-      <DialogContentText id="dialog-description" textAlign="center">
+      <DialogContentText id="sign-in-dialog-text" textAlign="center">
         Please select a Solid Server to log in
       </DialogContentText>
     </DialogContent>
