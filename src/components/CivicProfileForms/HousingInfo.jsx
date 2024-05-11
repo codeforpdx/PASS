@@ -126,7 +126,7 @@ const HousingInfo = () => {
           />
           <HousingInfoTextField
             id="times-homeless-input"
-            name="monthsHomeless"
+            name="timesHomeless"
             label="Number of Times Houseless Past 3 Years:"
             onChange={handleChange}
             value={formData.timesHomeless}
