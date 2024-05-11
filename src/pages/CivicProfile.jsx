@@ -33,7 +33,7 @@ const CivicProfile = () => {
           </MenuList>
         </nav>
       </Container>
-      <Container sx={{ width: 'unset' }}>
+      <Container sx={{ width: '60dvw' }}>
         <Outlet />
       </Container>
     </Container>
