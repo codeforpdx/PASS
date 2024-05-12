@@ -4,7 +4,6 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 // MUI Imports
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 // Other Imports
 import HMIS_FORM_LIST from './FormList';
@@ -17,10 +16,9 @@ const FormLayout = ({ children }) => {
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (
-    // TODO: Reevaluate whether we need nested Containers
-    <Container sx={{ margin: '8px' }}>
+    <Box sx={{ margin: '8px' }}>
       <Card>{children}</Card>
-      <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {pageIdx > 0 ? (
           <Link component={RouterLink} to={`../${HMIS_FORM_LIST[pageIdx - 1].path}`}>
             &lt; Prev
@@ -35,8 +33,8 @@ const FormLayout = ({ children }) => {
         ) : (
           <Box />
         )}
-      </Container>
-    </Container>
+      </Box>
+    </Box>
   );
 };
 

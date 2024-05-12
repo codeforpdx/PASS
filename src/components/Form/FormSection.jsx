@@ -41,7 +41,15 @@ const FormSection = ({ title, headingId, children }) => {
         variant="h2"
         align="center"
         mb={1}
-        sx={{ fontSize: '20px', fontWeight: 'bold' }}
+        sx={{
+          fontSize: '20px',
+          fontWeight: 'bold',
+          // maxWidth: '400px',
+          width: isSmallScreen ? '100dvw' : '50dvw',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}
         id={headingId}
       >
         {title}
