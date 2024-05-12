@@ -33,7 +33,7 @@ const BasicInfo = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    dateOfBirth: '',
+    dateOfBirth: null,
     gender: 9
   });
 
@@ -64,7 +64,11 @@ const BasicInfo = () => {
     if (!isSuccess || !storedDataset) {
       return;
     }
-    add(formData);
+    const formDataCopy = { ...formData };
+    if (formData.dateOfBirth === '') {
+      formDataCopy.dateOfBirth = null;
+    }
+    add(formDataCopy);
     addNotification('success', `Form submitted!`);
   };
 
@@ -73,9 +77,10 @@ const BasicInfo = () => {
       ...prevFormData,
       firstName: '',
       lastName: '',
-      dateOfBirth: '',
+      dateOfBirth: null,
       gender: 9
     }));
+
     addNotification('success', `Form cleared!`);
   };
 
