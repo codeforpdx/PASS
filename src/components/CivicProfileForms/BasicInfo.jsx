@@ -64,11 +64,7 @@ const BasicInfo = () => {
     if (!isSuccess || !storedDataset) {
       return;
     }
-    const formDataCopy = { ...formData };
-    if (formData.dateOfBirth === '') {
-      formDataCopy.dateOfBirth = null;
-    }
-    add(formDataCopy);
+    add(formData);
     addNotification('success', `Form submitted!`);
   };
 
