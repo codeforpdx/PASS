@@ -44,7 +44,8 @@ const FormSection = ({ title, headingId, children }) => {
         sx={{
           fontSize: '20px',
           fontWeight: 'bold',
-          // maxWidth: '400px',
+          // TODO: Discuss whether any widths should be set
+          // The below is not optimal and has been chosen for demonstration purposes
           width: isSmallScreen ? '100dvw' : '50dvw',
           whiteSpace: 'nowrap',
           overflow: 'hidden',

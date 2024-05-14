@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 // Material UI Imports
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-// import Backdrop from '@mui/material/Backdrop';
 import Badge from '@mui/material/Badge';
+import Button from '@mui/material/Button';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -20,8 +19,6 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 import { useMessageList } from '@hooks';
-// Component Imports
-// import ModalBase from '../Modals/ModalBase';
 
 /**
  * NavMenu Component - Component that generates NavMenu section for PASS
@@ -78,7 +75,7 @@ const NavMenu = ({
     ? {
         PaperProps: {
           sx: {
-            padding: '20px 20px 0 20px',
+            p: '15px 15px 0 15px',
             borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
             // width: isSmallScreen ? '75vw' : 0
             // minWidth: '50dvw'

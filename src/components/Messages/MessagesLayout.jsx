@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
+// Component Imports
 import { NewMessageModal } from '@components/Modals';
 import MessageButtonGroup from './MessageButtonGroup';
 
@@ -11,8 +12,8 @@ import MessageButtonGroup from './MessageButtonGroup';
  *
  * @memberof Pages
  * @name Messages
- * @param {React.JSX.Element} chilren - The wrapped Message Component
- * @returns {React.JSX.Element} The Messages Page
+ * @param {React.JSX.Element} children - The wrapped Message Component
+ * @returns {React.JSX.Element} - The Messages Page
  */
 const MessagesLayout = ({ children, path }) => {
   const [boxType, setBoxType] = useState(path === '/messages/inbox' ? 'inbox' : 'outbox');

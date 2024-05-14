@@ -203,7 +203,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               id="message"
               onChange={(e) => handleChange(e)}
               multiline
-              rows={5}
+              rows={4}
               label="Message"
               required
               // TODO: Determine how long a maximum length, if any, is suitable

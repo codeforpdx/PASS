@@ -10,20 +10,18 @@ import Typography from '@mui/material/Typography';
 // Links for component
 const legalLinks = [
   {
-    href: 'https://www.codeforpdx.org/',
+    href: 'https://www.codepdx.org/',
     title: 'Privacy Policy'
   },
   {
-    href: 'https://www.codeforpdx.org/',
+    href: 'https://www.codepdx.org/',
     title: 'Terms and Conditions'
   },
   {
-    href: 'https://www.codeforpdx.org/',
-    target: '_blank',
-    rel: 'noopenner',
+    href: 'https://www.codepdx.org/',
+    title: 'CODE PDX',
     ml: 0.5,
-    text: `©${dayjs().year()}`,
-    title: 'CODE PDX'
+    text: `©${dayjs().year()}`
   }
 ];
 
@@ -50,8 +48,8 @@ const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (
           href={link.href}
           underline="none"
           color="tertiary.main"
-          target={link.target ?? null}
-          rel={link.rel ?? null}
+          target="_blank"
+          rel="noopenner"
           ml={link.ml ?? null}
         >
           {link.title}
