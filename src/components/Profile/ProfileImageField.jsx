@@ -15,7 +15,7 @@ import useNotification from '../../hooks/useNotification';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 
 /**
- * ProfileImageField Component - Component that creates the editable inputs fields
+ * ProfileImageField - Component that creates the editable inputs fields
  * for the Profile page
  *
  * @memberof Profile

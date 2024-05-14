@@ -26,7 +26,7 @@ import NavMenu from './NavMenu';
  * @param {object} Props - The props for NavbarDesktop Component
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @returns {React.JSX.Element} - The Desktop version of Navbar Component
+ * @returns {React.JSX.Element} The Desktop version of Navbar Component
  */
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const { data } = useMessageList('Inbox');

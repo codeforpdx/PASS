@@ -1,18 +1,17 @@
 // React Imports
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
 // MUI imports
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import FilledInput from '@mui/material/FilledInput';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 /* Styles for MUI components */
 const cardStyle = {

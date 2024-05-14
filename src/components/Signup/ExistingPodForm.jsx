@@ -1,8 +1,7 @@
+// React Imports
 import React, { useState } from 'react';
-
 // Custom Hook Imports
 import { useSession } from '@hooks';
-
 // MUI imports
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -10,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 /* Styles */
-
 const formRowStyle = {
   margin: '20px 0'
 };

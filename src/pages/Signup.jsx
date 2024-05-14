@@ -28,7 +28,7 @@ import {
  *
  * @memberof Pages
  * @name Signup
- * @returns {React.Component} - A react page
+ * @returns {React.Component} - A React Page
  */
 const Signup = () => {
   const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);

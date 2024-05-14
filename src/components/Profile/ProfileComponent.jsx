@@ -20,7 +20,7 @@ import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 import ProfileImageField from './ProfileImageField';
 
 /**
- * The UserProfile Component is a component that renders the user's profile on
+ * UserProfile - Component is a component that renders the user's profile on
  * PASS
  *
  * @memberof Profile

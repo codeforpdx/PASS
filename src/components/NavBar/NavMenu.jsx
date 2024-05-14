@@ -36,7 +36,7 @@ import { useMessageList } from '@hooks';
  * - The set function for showConfirmationModal
  * Notification Menu
  * @param {string} Props.profileImg - String for profile image
- * @returns {React.JSX.Element} - The NavMenu Component
+ * @returns {React.JSX.Element} The NavMenu Component
  */
 const NavMenu = ({
   menuId,

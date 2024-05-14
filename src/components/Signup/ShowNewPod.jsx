@@ -1,13 +1,11 @@
 // React Imports
 import React from 'react';
-
-// MUI imports
-import Typography from '@mui/material/Typography';
-
-// Hooks imports
-import { useContactsList } from '@hooks';
-import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+// MUI Imports
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+// Hooks Imports
+import { useContactsList } from '@hooks';
 
 /**
  * A React component for displaying information about a newly registered Solid Pod.

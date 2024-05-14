@@ -9,7 +9,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EditNote from '@mui/icons-material/EditNote';
 
 /**
- * The ProfileEditButtonGroup Component is a component that consist of the profile
+ * ProfileEditButtonGroup - Component that consist of the profile
  * page edit buttons for the ProfileInputField component
  *
  * @memberof Profile

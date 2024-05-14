@@ -22,19 +22,19 @@ import LogoutButton from './LogoutButton';
  * @memberof Modals
  * @name ConfirmationModal
  * @param {object} Props - Props used for ConfirmationModal
- * @param {boolean} Props.showModal - toggle showing modal
+ * @param {boolean} Props.showModal - Toggle showing modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
- * - used to close the modal
- * @param {string} Props.title - text rendered in dialog title & confirmationButton
- * @param {string} Props.text - text rendered in dialog content text
- * @param {string} Props.confirmButtonText - text rendered in the confirmation button
- * @param {string} Props.cancelButtonText - text rendered in the cancel button
- * @param {Function} Props.onConfirm - callback that runs onClick of confirm button
- * @param {Function} Props.onCancel - callback that runs onClick of cancel button and after modal is closed (optional)
- * @param {boolean} Props.processing - state used to disable button
- * @param {boolean} [Props.isLogout] - boolean to wrap button with inrupt logout
+ * - Used to close the modal
+ * @param {string} Props.title - Text rendered in dialog title & confirmationButton
+ * @param {string} Props.text - Text rendered in dialog content text
+ * @param {string} Props.confirmButtonText - Text rendered in the confirmation button
+ * @param {string} Props.cancelButtonText - Text rendered in the cancel button
+ * @param {Function} Props.onConfirm - Callback that runs onClick of confirm button
+ * @param {Function} Props.onCancel - Callback that runs onClick of cancel button and after modal is closed (optional)
+ * @param {boolean} Props.processing - State used to disable button
+ * @param {boolean} [Props.isLogout] - Boolean to wrap button with inrupt logout
  * functionality
- * @returns {React.JSX.Element} - The confirmation modal
+ * @returns {React.JSX.Element} The confirmation modal
  */
 const ConfirmationModal = ({
   showModal,

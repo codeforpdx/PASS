@@ -13,7 +13,7 @@ import MessageButtonGroup from './MessageButtonGroup';
  * @memberof Pages
  * @name Messages
  * @param {React.JSX.Element} children - The wrapped Message Component
- * @returns {React.JSX.Element} - The Messages Page
+ * @returns {React.JSX.Element} The Messages Page
  */
 const MessagesLayout = ({ children, path }) => {
   const [boxType, setBoxType] = useState(path === '/messages/inbox' ? 'inbox' : 'outbox');

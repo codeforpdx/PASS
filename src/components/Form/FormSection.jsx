@@ -16,8 +16,8 @@ import { useTheme } from '@mui/material/styles';
  * that consist of title and children (see {@link formSectionProps})
  * @param {string} Props.headingId - The `id` attribute of the element containing the `title`
  * @param {string} Props.title - Title of form section
- * @param {React.ReactElement} Props.children - JSX Element of the wrapped form
- * @returns {React.JSX.Element} - The FormSection Component
+ * @param {React.ReactElement} Props.children - The child elements to be rendered inside the main content area
+ * @returns {React.JSX.Element} The FormSection Component
  */
 const FormSection = ({ title, headingId, children }) => {
   const theme = useTheme();
@@ -44,9 +44,8 @@ const FormSection = ({ title, headingId, children }) => {
         sx={{
           fontSize: '20px',
           fontWeight: 'bold',
-          // TODO: Discuss whether any widths should be set
-          // The below is not optimal and has been chosen for demonstration purposes
-          width: isSmallScreen ? '100dvw' : '50dvw',
+          // TODO: Discuss whether any widths (normal, max, and/or min) should be set
+          // width: isSmallScreen ? '100dvw' : '50dvw',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis'

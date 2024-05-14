@@ -20,13 +20,12 @@ import { SignedInUserContext } from '../../contexts';
  * NavbarMobile Component - Component that generates Navbar section for PASS
  * when a user is logged in on a mobile screen device
  *
- *
  * @memberof NavBar
  * @name NavbarMobile
  * @param {object} Props - The props for NavbarMobile Component
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @returns {React.JSX.Element} - The Mobile version of the Navbar Component
+ * @returns {React.JSX.Element} The Mobile version of the Navbar Component
  */
 const NavbarMobile = ({ setShowConfirmation }) => {
   const theme = useTheme();

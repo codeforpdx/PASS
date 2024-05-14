@@ -24,7 +24,7 @@ import LogoutButton from '../Modals/LogoutButton';
  *
  * @memberof Notification
  * @name InactivityMessage
- * @returns {React.JSX.Element} - The InactivityMessage Component
+ * @returns {React.JSX.Element} The InactivityMessage Component
  */
 const InactivityMessage = () => {
   const { session, logout } = useSession();

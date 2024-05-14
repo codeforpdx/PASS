@@ -6,15 +6,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
- * Represents key features section component
+ * KeyFeatures - Represents key features section component
  *
  * @memberof Home
  * @name KeyFeatures
- * @param {object} Props - the props
- * @param {string} Props.icon - icon
- * @param {string} Props.title - key feature title
- * @param {string} Props.description - key feature description
- * @returns {React.JSX.Element} the KeyFeatures section component
+ * @param {object} Props - The props
+ * @param {string} Props.icon - Icon
+ * @param {string} Props.title - Key feature title
+ * @param {string} Props.description - Key feature description
+ * @returns {React.JSX.Element} The KeyFeatures section component
  */
 const KeyFeatures = ({ icon, title, description }) => (
   <Stack alignItems="center">

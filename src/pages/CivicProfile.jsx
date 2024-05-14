@@ -10,6 +10,13 @@ import { useTheme } from '@mui/system';
 // Component Imports
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
+/**
+ * CivicProfile - Component that generates the Civic Profile for PASS
+ *
+ * @memberof Pages
+ * @name CivicProfile
+ * @returns {React.ReactNode} The Civic Profile
+ */
 const CivicProfile = () => {
   const location = useLocation();
 
@@ -20,6 +27,7 @@ const CivicProfile = () => {
 
   return (
     // TODO: Reevaluate whether we need nested Containers
+    // Containers contain styling by default. Boxes may be preferable
     <Container sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
       <Container sx={{ width: isSmallScreen ? '100%' : '25%', minWidth: '250px' }}>
         <nav>

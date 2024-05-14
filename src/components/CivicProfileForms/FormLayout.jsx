@@ -8,6 +8,15 @@ import Link from '@mui/material/Link';
 // Other Imports
 import HMIS_FORM_LIST from './FormList';
 
+/**
+ * FormLayout - Component that contains the Civic Profile forms
+ *
+ * @memberof CivicProfileForms
+ * @name FormLayout
+ * @param {object} props - The props for the FormLayout component
+ * @param {React.ReactNode} props.children - The child elements to be rendered inside the main content area
+ * @returns {React.ReactNode} The layout for Civic Profile forms
+ */
 const FormLayout = ({ children }) => {
   const location = useLocation();
   const path = location.pathname.split('/').pop();
