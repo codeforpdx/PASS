@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 // Custom Hooks Imports
 import { useCivicProfile } from '@hooks';
-import HousingInfoTextField from './atomized-components/HousningInfoTextField';
 
 /**
  * HousingInfo - A form to fill out with housing security info
@@ -116,21 +115,21 @@ const HousingInfo = () => {
             width: '40%'
           }}
         >
-          <HousingInfoTextField
+          <TextField
             id="months-homeless-input"
             name="monthsHomeless"
             label="Months Houseless Past 3 Years:"
             onChange={handleChange}
             value={formData.monthsHomeless}
           />
-          <HousingInfoTextField
+          <TextField
             id="times-homeless-input"
             name="timesHomeless"
             label="Number of Times Houseless Past 3 Years:"
             onChange={handleChange}
             value={formData.timesHomeless}
           />
-          <HousingInfoTextField
+          <TextField
             id="time-to-housing-loss-input"
             name="timeToHousingLoss"
             label="Time Until Loss of Housing:"
