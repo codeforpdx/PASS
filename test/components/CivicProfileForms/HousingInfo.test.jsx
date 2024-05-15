@@ -32,7 +32,7 @@ describe('Housing info form', () => {
       lastPermanentZIP: '97205',
       monthsHomeless: '1',
       timesHomeless: '3',
-			timeToHousingLoss: '2 weeks'
+      timeToHousingLoss: '2 weeks'
     };
     useCivicProfile.mockReturnValue({
       add: mockAdd,
@@ -45,17 +45,19 @@ describe('Housing info form', () => {
     const streetField = getByRole('textbox', { name: 'Street:' });
     const stateField = getByRole('textbox', { name: 'State:' });
     const zipField = getByRole('textbox', { name: 'ZIP Code:' });
-		const monthsHomelessField = getByRole('textbox', { name: 'Months Houseless Past 3 Years:' });
-		const timesHomelessField = getByRole('textbox', { name: 'Number of Times Houseless Past 3 Years:' });
-		const timeToHousingLossField = getByRole('textbox', { name: 'Time Until Loss of Housing:' });
+    const monthsHomelessField = getByRole('textbox', { name: 'Months Houseless Past 3 Years:' });
+    const timesHomelessField = getByRole('textbox', {
+      name: 'Number of Times Houseless Past 3 Years:'
+    });
+    const timeToHousingLossField = getByRole('textbox', { name: 'Time Until Loss of Housing:' });
     const submitButton = getByRole('button');
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
     await user.type(zipField, address.lastPermanentZIP);
-		await user.type(monthsHomelessField, address.monthsHomeless);
-		await user.type(timesHomelessField, address.timesHomeless);
-		await user.type(timeToHousingLossField, address.timeToHousingLoss);
+    await user.type(monthsHomelessField, address.monthsHomeless);
+    await user.type(timesHomelessField, address.timesHomeless);
+    await user.type(timeToHousingLossField, address.timeToHousingLoss);
     await user.click(submitButton);
     expect(mockAdd).toBeCalledWith(address);
   });
@@ -69,7 +71,7 @@ describe('Housing info form', () => {
       lastPermanentZIP: '97205',
       monthsHomeless: '1',
       timesHomeless: '3',
-			timeToHousingLoss: '2 weeks'
+      timeToHousingLoss: '2 weeks'
     };
     useCivicProfile.mockReturnValue({
       add: mockAdd,
@@ -82,17 +84,19 @@ describe('Housing info form', () => {
     const streetField = getByRole('textbox', { name: 'Street:' });
     const stateField = getByRole('textbox', { name: 'State:' });
     const zipField = getByRole('textbox', { name: 'ZIP Code:' });
-		const monthsHomelessField = getByRole('textbox', { name: 'Months Houseless Past 3 Years:' });
-		const timesHomelessField = getByRole('textbox', { name: 'Number of Times Houseless Past 3 Years:' });
-		const timeToHousingLossField = getByRole('textbox', { name: 'Time Until Loss of Housing:' });
+    const monthsHomelessField = getByRole('textbox', { name: 'Months Houseless Past 3 Years:' });
+    const timesHomelessField = getByRole('textbox', {
+      name: 'Number of Times Houseless Past 3 Years:'
+    });
+    const timeToHousingLossField = getByRole('textbox', { name: 'Time Until Loss of Housing:' });
     const submitButton = getByRole('button');
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
     await user.type(zipField, address.lastPermanentZIP);
-		await user.type(monthsHomelessField, address.monthsHomeless);
-		await user.type(timesHomelessField, address.timesHomeless);
-		await user.type(timeToHousingLossField, address.timeToHousingLoss);
+    await user.type(monthsHomelessField, address.monthsHomeless);
+    await user.type(timesHomelessField, address.timesHomeless);
+    await user.type(timeToHousingLossField, address.timeToHousingLoss);
     await user.click(submitButton);
     expect(mockAdd).not.toBeCalled();
   });
