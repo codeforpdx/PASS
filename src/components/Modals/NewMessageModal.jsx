@@ -48,7 +48,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
-    recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
+    recipientPodUrl:
+      oldMessage && oldMessage.senderWebId ? oldMessage.senderWebId.split('profile')[0] : '',
     title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
     message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
@@ -162,8 +163,15 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               required
               autoFocus
               disabled={toField !== ''}
+              readOnly={oldMessage && true}
               renderInput={(params) => (
-                <TextField {...params} margin="normal" label="To" required />
+                <TextField
+                  {...params}
+                  variant={oldMessage ? 'filled' : 'outlined'}
+                  margin="normal"
+                  label="To"
+                  required
+                />
               )}
             />
             <TextField
@@ -175,7 +183,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               onChange={(e) => handleChange(e)}
               required
               label="Subject"
-              inputProps={{ maxLength: '48' }}
+              variant={oldMessage ? 'filled' : 'outlined'}
+              inputProps={{
+                readOnly: oldMessage && true,
+                maxLength: '48'
+              }}
               fullWidth
             />
             {oldMessage && (

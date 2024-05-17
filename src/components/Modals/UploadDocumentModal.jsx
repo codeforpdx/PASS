@@ -142,7 +142,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       />
       <FormSection title="Upload Document">
         <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
-          {/* TODO: Determine whether to keep this for MVP */}
+          {/* TODO: Determine whether to keep this Switch for MVP */}
           <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
@@ -150,7 +150,6 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             value={verifyFile}
             checked={verifyFile}
             onChange={() => setVerifyFile(!verifyFile)}
-            // sx={{ mb: 1 }}
           />
           <FormControl fullWidth>
             <FormControl margin="normal">
@@ -165,7 +164,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 <DatePicker
                   name="date"
                   format="MM/DD/YYYY"
-                  label="Enter Expiration Date"
+                  label="Expiration Date"
                   value={expireDate}
                   onChange={(newExpireDate) => setExpireDate(newExpireDate)}
                   type="date"

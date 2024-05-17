@@ -49,7 +49,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
- * @returns {React.JSX.Element} - The Add Contact Modal
+ * @returns {React.JSX.Element} The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { addNotification } = useNotification();
@@ -67,7 +67,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [isSubmittable, setIsSubmittable] = useState(false);
 
   useEffect(() => {
-    // disables submit button if form not fully filled out
+    // Disables submit button if form not fully filled out
     if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
       setIsSubmittable(true);
     else setIsSubmittable(false);
