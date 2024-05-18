@@ -162,16 +162,9 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               fullWidth
               required
               autoFocus
-              disabled={toField !== ''}
-              readOnly={oldMessage && true}
+              disabled={Boolean(toField) || Boolean(oldMessage)}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant={oldMessage ? 'filled' : 'outlined'}
-                  margin="normal"
-                  label="To"
-                  required
-                />
+                <TextField {...params} margin="normal" label="To" required />
               )}
             />
             <TextField
@@ -183,9 +176,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               onChange={(e) => handleChange(e)}
               required
               label="Subject"
-              variant={oldMessage ? 'filled' : 'outlined'}
+              disabled={Boolean(oldMessage)}
               inputProps={{
-                readOnly: oldMessage && true,
                 maxLength: '48'
               }}
               fullWidth
