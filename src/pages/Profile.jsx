@@ -18,6 +18,8 @@ import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '
 import DocumentTable from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
+// Util Imports
+import { truncateText } from '@utils';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
 
@@ -115,6 +117,8 @@ const Profile = () => {
     }, 1000);
   }, []);
 
+  const truncatedText = selectedDocToDelete?.name ? truncateText(selectedDocToDelete.name) : '';
+
   if (loadingProfile) {
     return (
       <LoadingAnimation loadingItem="Profile">
@@ -195,7 +199,7 @@ const Profile = () => {
           showModal={showConfirmationModal}
           setShowModal={setShowConfirmationModal}
           title="Delete Document"
-          text={`You're about to delete "${selectedDocToDelete?.name}" from the pod. Do you wish to continue?`}
+          text={`You're about to delete "${truncatedText}" from the pod. Do you wish to continue?`}
           onConfirm={handleDeleteDoc}
           confirmButtonText="Delete"
           processing={processing}

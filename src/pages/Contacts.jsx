@@ -13,6 +13,8 @@ import { useContactsList, useNotification } from '@hooks';
 import { AddContactModal, ConfirmationModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
+// Util Imports
+import { truncateText } from '@utils';
 
 /**
  * Contacts Component - Component that generates Contacts Page for PASS
@@ -50,6 +52,8 @@ const Contacts = () => {
     const name = [givenName, familyName].filter(Boolean).join(' ');
     return name || webId;
   };
+  const displayName = getContactDisplayName(selectedContactToDelete);
+  const truncatedText = displayName ? truncateText(displayName) : '';
 
   const handleSelectDeleteContact = (contact) => {
     setSelectedContactToDelete(contact);
@@ -60,8 +64,8 @@ const Contacts = () => {
     setProcessing(true);
     try {
       await deleteContact(selectedContactToDelete);
-      const displayName = getContactDisplayName(selectedContactToDelete);
-      addNotification('success', `"${displayName}" deleted from contact list.`);
+
+      addNotification('success', `"${truncatedText}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
     } finally {
@@ -139,9 +143,7 @@ const Contacts = () => {
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
         title="Delete Contact"
-        text={`Are you sure you want to delete "${getContactDisplayName(
-          selectedContactToDelete
-        )}" from your contact list?`}
+        text={`Are you sure you want to delete "${truncatedText}" from your contact list?`}
         onConfirm={handleDeleteContact}
         confirmButtonText="Delete"
         processing={processing}

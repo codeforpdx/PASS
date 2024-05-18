@@ -33,7 +33,7 @@ const ModalBase = ({ open, arialabelledby, ariadescribedby, onClose, children })
       anchor="bottom"
       PaperProps={{
         sx: {
-          borderRadius: isSmallScreen ? '15px 15px 0px 0px' : '15px'
+          borderRadius: isSmallScreen ? '25px 25px 0px 0px' : '25px'
           // minWidth: '50dvw'
         }
       }}

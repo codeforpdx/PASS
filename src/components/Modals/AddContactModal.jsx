@@ -24,7 +24,7 @@ import useNotification from '@hooks/useNotification';
 // Constant Imports
 import { ENV } from '@constants';
 // Util Imports
-import { saveToClipboard } from '@utils';
+import { saveToClipboard, truncateText } from '@utils';
 // Component Imports
 import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
@@ -116,10 +116,12 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     try {
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
+
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
-      addNotification('success', `"${nameDisplay}" added to contact list`);
+      const truncatedText = nameDisplay ? truncateText(nameDisplay) : '';
 
+      addNotification('success', `"${truncatedText}" added to contact list`);
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {

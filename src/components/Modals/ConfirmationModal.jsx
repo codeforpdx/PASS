@@ -79,6 +79,11 @@ const ConfirmationModal = ({
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onClose={handleClose}
+      PaperProps={{
+        sx: {
+          borderRadius: '25px'
+        }
+      }}
     >
       <Box
         sx={{

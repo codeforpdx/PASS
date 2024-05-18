@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+// Util Imports
+import { truncateText } from '@utils';
 
 /**
  * FormSection Component - Component that wraps section with title and MUI Box
@@ -24,6 +26,8 @@ const FormSection = ({ title, headingId, children }) => {
   // eslint-disable-next-line no-unused-vars
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const truncatedText = title ? truncateText(title) : '';
+
   return (
     <Box
       sx={{
@@ -32,7 +36,8 @@ const FormSection = ({ title, headingId, children }) => {
         justifyContent: 'center',
         alignItems: 'center',
         padding: '20px',
-        minWidth: '50%',
+        // minWidth: '50vw',
+        // minWidth: isSmallScreen ? null : '50dvw',
         // maxWidth: isSmallScreen ? '100dvw' : '75dvw',
         width: '100%'
       }}
@@ -46,13 +51,14 @@ const FormSection = ({ title, headingId, children }) => {
           fontWeight: 'bold',
           // TODO: Discuss whether any widths (normal, max, and/or min) should be set
           // width: isSmallScreen ? '100dvw' : '50dvw',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          // whiteSpace: 'nowrap',
+          // overflow: 'hidden',
+          // textOverflow: 'ellipsis',
+          maxWidth: '100%'
         }}
         id={headingId}
       >
-        {title}
+        {truncatedText}
       </Typography>
       {children}
     </Box>
