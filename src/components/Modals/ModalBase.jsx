@@ -17,7 +17,7 @@ import { useTheme } from '@mui/material/styles';
  * @param {string} Props.ariadescribedby - ID of the element that describes the modal
  * @param {Function} Props.onClose - Function to call when the modal is closed
  * @param {React.JSX.Element} Props.children - Content to be displayed within the modal
- * @returns {React.JSX.Element} - The rendered modal component
+ * @returns {React.JSX.Element} The rendered modal component
  */
 const ModalBase = ({ open, arialabelledby, ariadescribedby, onClose, children }) => {
   const theme = useTheme();

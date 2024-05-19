@@ -19,8 +19,9 @@ import { DocumentListContext } from '@contexts';
 import { useSession } from '@hooks';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-// Component Imports
+// Theme Imports
 import theme from '../../theme';
+// Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 // DataGrid Toolbar

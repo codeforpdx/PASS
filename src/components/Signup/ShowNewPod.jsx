@@ -1,21 +1,22 @@
 // React Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
-// MUI Imports
+// Material UI Imports
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // Hooks Imports
 import { useContactsList } from '@hooks';
 
 /**
- * A React component for displaying information about a newly registered Solid Pod.
+ * ShowNewPod - Component for displaying information about a newly registered Solid Pod.
  *
+ * @memberof Signup
  * @namespace ShowNewPod
- * @param {object} props - Component props.
- * @param {string} props.oidcIssuer - The URL of the pod provider
- * @param {string} props.podUrl - The url of the newly created pod
+ * @param {object} props - Component props
+ * @param {string} props.oidcIssuer - The URL of the Pod provider
+ * @param {string} props.podUrl - The URL of the newly created pod
  * @param {string} props.webId - The user's new web ID
- * @returns {React.JSX} The rendered React component.
+ * @returns {React.JSX} The rendered React component
  */
 const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
   const { data, isSuccess } = useContactsList();

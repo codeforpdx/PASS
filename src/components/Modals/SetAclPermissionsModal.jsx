@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Custom Hook Imports
-import { useContactsList, useSession } from '@hooks';
+import { useContactsList, useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -19,7 +19,6 @@ import { SignedInUserContext } from '@contexts';
 // Component Imports
 import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
-import useNotification from '../../hooks/useNotification';
 
 /**
  * SetPermissionsModal Component - Modal component that generates the form for

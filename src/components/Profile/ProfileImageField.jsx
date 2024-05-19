@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useState } from 'react';
 // Custom Hook Imports
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -10,7 +10,6 @@ import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
-import useNotification from '../../hooks/useNotification';
 // Component Imports
 import ConfirmationModal from '../Modals/ConfirmationModal';
 

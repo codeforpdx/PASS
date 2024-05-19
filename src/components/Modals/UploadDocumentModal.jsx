@@ -16,8 +16,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-/* import Slide from '@mui/material/Slide';
- */ // Context Imports
+/* import Slide from '@mui/material/Slide'; */
+// Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import ModalBase from './ModalBase';
@@ -25,12 +25,14 @@ import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
+
 /* 
 // TODO: Determine whether to keep this
 const Transition = React.forwardRef((props, ref) => {
   <Slide direction="up" ref={ref} {...props} />;
 });
  */
+
 /**
  * UploadDocumentModal Component - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session

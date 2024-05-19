@@ -1,6 +1,5 @@
 // React Imports
 import React from 'react';
-// React Router Imports
 import { NavLink, useLocation } from 'react-router-dom';
 // Material UI Imports
 import Tab from '@mui/material/Tab';

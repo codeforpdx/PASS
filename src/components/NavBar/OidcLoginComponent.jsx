@@ -1,20 +1,20 @@
 // React Imports
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Autocomplete from '@mui/material/Autocomplete';
+import { useTheme } from '@mui/material';
 // Constants Imports
-import { Link } from 'react-router-dom';
 import { ENV } from '../../constants';
 
 /**
- * The OidcLoginComponent is a component that renders the login button for PASS
+ * OidcLoginComponent - Component that renders the login button for PASS
  * and linked to the login of a specific Solid IDP
  *
  * @memberof NavBar
@@ -22,7 +22,7 @@ import { ENV } from '../../constants';
  * @param {object} Props - The props for OidcLoginComponent
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowSignInModal
  * - The set function for closing sign in modal
- * @returns {React.JSX.Element} - The OidcLoginComponent Component
+ * @returns {React.JSX.Element} The OidcLoginComponent Component
  */
 const OidcLoginComponent = ({ setShowSignInModal }) => {
   const { login } = useSession();
@@ -90,6 +90,8 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
             {...renderParams}
             type="text"
             label="Pod Server URL"
+            // TODO: Consider changing the variant
+            // When greyed out, input may appear to be disabled to the user
             variant="filled"
             InputProps={{
               ...renderParams.InputProps,

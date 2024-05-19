@@ -1,7 +1,7 @@
 // React Imports
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-// MUI Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';

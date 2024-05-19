@@ -11,7 +11,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
-// MUI Theme
+// Theme Imports
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
