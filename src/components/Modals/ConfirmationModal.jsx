@@ -16,7 +16,7 @@ import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
 /**
- * ConfirmationModal Component - Component that allows users to cancel or
+ * ConfirmationModal - Component that allows users to cancel or
  * confirm their previously chosen action
  *
  * @memberof Modals
@@ -96,8 +96,8 @@ const ConfirmationModal = ({
           {title.toUpperCase()}
         </DialogTitle>
 
-        <DialogContent>
-          <DialogContentText id="dialog-description">{text}</DialogContentText>
+        <DialogContent id="dialog-description">
+          <DialogContentText>{text}</DialogContentText>
         </DialogContent>
 
         <DialogActions sx={{ width: '100%' }}>
@@ -106,8 +106,6 @@ const ConfirmationModal = ({
               display: 'flex',
               flexDirection: isSmallScreen ? 'column' : 'row',
               gap: isSmallScreen ? '10px' : '8px',
-              // justifyContent: 'center',
-              // alignItems: 'center',
               width: '100%'
             }}
           >

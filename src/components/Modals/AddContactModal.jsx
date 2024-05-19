@@ -29,6 +29,7 @@ import { saveToClipboard, truncateText } from '@utils';
 import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
+// TODO: Delete this if unneeded
 // @memberof Modals
 // @name renderWebId
 // @param {string} username - Username to convert into a webId
@@ -40,8 +41,8 @@ import { FormSection } from '../Form';
 // };
 
 /**
- * AddContactModal Component - Component that allows users to add other user's
- * Pod URLs from a user's list stored on their own Pod
+ * AddContactModal - Component that allows users to add other users'
+ * Pod URLs from a list stored in their own Pod
  *
  * @memberof Modals
  * @name AddContactModal
@@ -121,6 +122,8 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       const truncatedText = nameDisplay ? truncateText(nameDisplay) : '';
 
+      // TODO: If the webid is the same as an existing contact,
+      // edit notification to say that it has been updated rather than added
       addNotification('success', `"${truncatedText}" added to contact list`);
       setShowAddContactModal(false);
       clearInputFields();

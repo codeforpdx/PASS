@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // Custom Hook Imports
 import { useSession } from '@hooks';
 // Material UI Imports
@@ -18,7 +18,7 @@ import { useTheme } from '@mui/material/styles';
 import LogoutButton from '../Modals/LogoutButton';
 
 /**
- * InactivityMessage Component is a component that displays a popup modal
+ * InactivityMessage - Component that displays a popup modal
  * after 25 minutes of inactivity, prompting the user to either logout or
  * continue their session.
  *
@@ -94,7 +94,11 @@ const InactivityMessage = () => {
         open={showPopup}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        PaperProps={{
+          sx: {
+            borderRadius: '25px'
+          }
+        }}
       >
         <Box
           sx={{
@@ -106,6 +110,7 @@ const InactivityMessage = () => {
           <DialogTitle id="inactivity-message-title" sx={{ fontWeight: 'bold' }}>
             CONTINUE SESSION?
           </DialogTitle>
+
           <DialogContent id="inactivity-message-description">
             <DialogContentText>
               You have been inactive for a while now. Would you like to continue using PASS? You
@@ -116,14 +121,13 @@ const InactivityMessage = () => {
               })}
             </DialogContentText>
           </DialogContent>
+
           <DialogActions sx={{ width: '100%' }}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: isSmallScreen ? 'column' : 'row',
                 gap: isSmallScreen ? '10px' : '8px',
-                // justifyContent: 'center',
-                // alignItems: 'center',
                 width: '100%'
               }}
             >
