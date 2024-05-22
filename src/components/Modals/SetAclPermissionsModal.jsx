@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
@@ -46,6 +48,8 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   });
   const [processing, setProcessing] = useState(false);
   const { data } = useContactsList();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const contactListOptions =
     data?.map((contact) => ({
       label: `${contact.person} ${contact.webId}`,
@@ -55,7 +59,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
     (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
   const isError = permissionState.webIdToSetPermsTo === webId;
-  const helperText = isError ? 'Cannot share to your own pod.'.toUpperCase() : '';
+  const helperText = isError ? 'Cannot share to your own pod.' : '';
 
   const clearInputFields = () => {
     setPermissionState({
@@ -174,7 +178,15 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               />
             )}
           />
-          <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
+          <FormControl
+            fullWidth
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              width: '100%'
+            }}
+          >
             <Button
               variant="outlined"
               color="error"
