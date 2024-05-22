@@ -1,4 +1,4 @@
-// React Imporst
+// React Imports
 import React from 'react';
 // Custom Hooks Imports
 import { useMessageList } from '@hooks';

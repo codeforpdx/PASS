@@ -1,7 +1,7 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';

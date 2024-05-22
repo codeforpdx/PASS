@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// Hooks Imports
+// Custom Hooks Imports
 import { useContactsList } from '@hooks';
 
 /**

@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// MUI imports
+// Material UI Imports
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';

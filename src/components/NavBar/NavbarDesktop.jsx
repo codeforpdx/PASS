@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useMessageList } from '@hooks';
 // Component Imports
 import { SignedInUserContext } from '@contexts';

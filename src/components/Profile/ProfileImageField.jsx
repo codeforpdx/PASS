@@ -1,6 +1,6 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';

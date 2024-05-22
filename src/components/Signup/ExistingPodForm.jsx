@@ -1,6 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';

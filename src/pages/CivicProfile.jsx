@@ -1,7 +1,7 @@
 // React Imports
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-// MUI Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';

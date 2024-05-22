@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useSession } from '@hooks';
 // Material UI Imports
 import Autocomplete from '@mui/material/Autocomplete';

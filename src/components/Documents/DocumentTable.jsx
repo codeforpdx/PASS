@@ -33,7 +33,7 @@ const CustomToolbar = () => (
 );
 
 /**
- * DocumentTable Component - The Document Table that shows the list of documents
+ * DocumentTable - Component that shows the list of documents
  * stored on Solid
  *
  * @memberof Documents

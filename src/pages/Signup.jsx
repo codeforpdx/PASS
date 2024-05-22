@@ -1,7 +1,7 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useSession } from '@hooks';
 // Inrupt Imports
 import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
