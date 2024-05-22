@@ -58,10 +58,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const contactListOptions = data?.map((contact) => ({
-    label: `${contact.person} ${contact.podUrl}`,
-    id: contact.podUrl
-  }));
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.podUrl}`,
+      id: contact.podUrl
+    })) ?? [];
   const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
