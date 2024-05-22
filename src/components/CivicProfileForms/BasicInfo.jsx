@@ -21,7 +21,7 @@ import { useCivicProfile, useNotification } from '@hooks';
 import { FormSection } from '../Form';
 
 /**
- * BasicInfo Component - A form to fill out basic user info
+ * BasicInfo - A form to fill out basic user info
  *
  * @memberof CivicProfileForms
  * @name BasicInfo

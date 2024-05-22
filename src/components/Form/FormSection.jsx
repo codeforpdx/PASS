@@ -3,13 +3,11 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 // Util Imports
 import { truncateText } from '@utils';
 
 /**
- * FormSection Component - Component that wraps section with title and MUI Box
+ * FormSection - Component that wraps section with title and MUI Box
  * component
  *
  * @memberof Forms
@@ -19,13 +17,9 @@ import { truncateText } from '@utils';
  * @param {string} Props.headingId - The `id` attribute of the element containing the `title`
  * @param {string} Props.title - Title of form section
  * @param {React.ReactElement} Props.children - The child elements to be rendered inside the main content area
- * @returns {React.JSX.Element} The FormSection Component
+ * @returns {React.JSX.Element} The FormSection component
  */
 const FormSection = ({ title, headingId, children }) => {
-  const theme = useTheme();
-  // eslint-disable-next-line no-unused-vars
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
   const truncatedText = title ? truncateText(title) : '';
 
   return (
@@ -36,9 +30,6 @@ const FormSection = ({ title, headingId, children }) => {
         justifyContent: 'center',
         alignItems: 'center',
         padding: '20px',
-        // minWidth: '50vw',
-        // minWidth: isSmallScreen ? null : '50dvw',
-        // maxWidth: isSmallScreen ? '100dvw' : '75dvw',
         width: '100%'
       }}
     >
@@ -49,11 +40,6 @@ const FormSection = ({ title, headingId, children }) => {
         sx={{
           fontSize: '20px',
           fontWeight: 'bold',
-          // TODO: Discuss whether any widths (normal, max, and/or min) should be set
-          // width: isSmallScreen ? '100dvw' : '50dvw',
-          // whiteSpace: 'nowrap',
-          // overflow: 'hidden',
-          // textOverflow: 'ellipsis',
           maxWidth: '100%'
         }}
         id={headingId}

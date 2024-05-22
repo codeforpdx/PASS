@@ -108,7 +108,7 @@ const InactivityMessage = () => {
           }}
         >
           <DialogTitle id="inactivity-message-title" sx={{ fontWeight: 'bold' }}>
-            CONTINUE SESSION?
+            Continue Session?
           </DialogTitle>
 
           <DialogContent id="inactivity-message-description">

@@ -93,7 +93,7 @@ const ConfirmationModal = ({
         }}
       >
         <DialogTitle id="dialog-title" sx={{ fontWeight: 'bold' }}>
-          {title.toUpperCase()}
+          {title}
         </DialogTitle>
 
         <DialogContent id="dialog-description">

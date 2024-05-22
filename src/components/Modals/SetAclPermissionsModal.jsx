@@ -46,12 +46,11 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   });
   const [processing, setProcessing] = useState(false);
   const { data } = useContactsList();
-  const contactListOptions = data
-    ? data.map((contact) => ({
-        label: `${contact.person} ${contact.webId}`,
-        id: contact.webId
-      }))
-    : [];
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.webId}`,
+      id: contact.webId
+    })) ?? [];
   const shareName = data?.filter(
     (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
@@ -128,8 +127,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             required
             fullWidth
             sx={{
-              // minWidth: '50dvw',
-              // maxWidth: '75dvw',
               mb: '1rem'
             }}
           >

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useMessageList, useNotification, useSession, useContactsList } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -11,7 +12,6 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Autocomplete from '@mui/material/Autocomplete';
 // Utility Imports
 import { sendMessageTTL } from '@utils';
 // Context Imports
@@ -25,7 +25,7 @@ import { FormSection } from '../Form';
  */
 
 /**
- * NewMessageModal Component - Component that allows user to write
+ * NewMessageModal - Component that allows user to write
  *  a message to another user from their inbox
  *
  * @memberof Modals
@@ -133,9 +133,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center'
-          // padding: '20px',
-          // minWidth: '50%',
-          // minHeight: '90%'
         }}
       >
         <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">

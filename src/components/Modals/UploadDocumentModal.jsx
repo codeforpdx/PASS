@@ -7,9 +7,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -26,15 +26,8 @@ import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
 
-/* 
-// TODO: Determine whether to keep this
-const Transition = React.forwardRef((props, ref) => {
-  <Slide direction="up" ref={ref} {...props} />;
-});
- */
-
 /**
- * UploadDocumentModal Component - Component that generates the form for uploading
+ * UploadDocumentModal - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
  * @memberof Modals
@@ -51,7 +44,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
-  const [verifyFile, setVerifyFile] = useState(false);
+  // const [verifyFile, setVerifyFile] = useState(false);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
   const { addDocument, replaceDocument } = useContext(DocumentListContext);
@@ -66,7 +59,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   const clearInputFields = () => {
-    setVerifyFile(false);
+    // setVerifyFile(false);
     setDocType('');
     setFile('');
     setInputKey(!inputKey); // Clears file by forcing re-render
@@ -144,15 +137,15 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       />
       <FormSection title="Upload Document">
         <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
-          {/* TODO: Determine whether to keep this Switch for MVP */}
-          <FormControlLabel
+          {/* TODO: Fully implement this switch */}
+          {/* <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
             id="verify-checkbox"
             value={verifyFile}
             checked={verifyFile}
-            onChange={() => setVerifyFile(!verifyFile)}
-          />
+            // onChange={() => setVerifyFile(!verifyFile)}
+          /> */}
           <FormControl fullWidth>
             <FormControl margin="normal">
               <DocumentSelection

@@ -26,8 +26,8 @@ const legalLinks = [
 ];
 
 /**
- * The RenderCopyrightAndLinksSection component renders information about policy,
- * terms and conditions, and the site to Code for PDX
+ * RenderCopyrightAndLinksSection - Component that renders information about policy,
+ * terms and conditions, and the site to CODE PDX
  *
  * @param {object} Props - The props for footer sub-component
  * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme

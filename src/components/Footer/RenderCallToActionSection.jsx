@@ -6,9 +6,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
- * The RenderCallToActionSection component renders information about policy,
- * terms and conditions, and the site to Code for PDX
+ * RenderCallToActionSection - Component that renders information about policy,
+ * terms and conditions, and the site to CODE PDX
  *
+ * @memberof Footer
+ * @name RenderCallToActionSection
  * @param {object} Props - The props for footer sub-component
  * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
