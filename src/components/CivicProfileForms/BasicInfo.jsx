@@ -76,6 +76,7 @@ const BasicInfo = () => {
       dateOfBirth: null,
       gender: 9
     }));
+
     addNotification('success', `Form cleared!`);
   };
 

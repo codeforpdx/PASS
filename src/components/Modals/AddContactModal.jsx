@@ -211,6 +211,7 @@ const AddContactModal = ({
           />
           <Tooltip
             title="Select the server/website where your pod is located"
+            margin="normal"
             arrow
             placement="left"
           >
@@ -237,10 +238,14 @@ const AddContactModal = ({
           </Tooltip>
 
           {!customWebID && (
-            <Tooltip title="Enter the username associated with your WebID" arrow placement="left">
+            <Tooltip
+              title="Enter the username associated with your WebID"
+              arrow
+              placement="left"
+              margin="normal"
+            >
               <FormControl fullWidth>
                 <TextField
-                  margin="normal"
                   id="add-user-name"
                   name="addUserName"
                   label="Username"
