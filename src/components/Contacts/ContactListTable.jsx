@@ -40,13 +40,11 @@ const CustomToolbar = () => (
  * @param {object} Props - Props for ContactListTable
  * @param {userListObject[]} Props.contacts - this list of contacts to display
  * @param {Function} Props.deleteContact - method to delete contact
- * @param Props.refresh
- * @param Props.setRefresh
  * @param {Function} Props.handleDeleteContact - from Contacts page
  * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact, refresh, setRefresh }) => {
+const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
@@ -117,7 +115,11 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     },
     {
       field: 'Edit',
-      renderCell: (contactId) => <EditIcon onClick={() => handleEditContact(contactId)} />,
+      renderCell: (contactId) => (
+        <EditIcon 
+          sx={{ color: 'gray' }}
+          onClick={() => handleEditContact(contactId)} />
+      ),
       sortable: false,
       filterable: false,
       width: 80,
@@ -194,8 +196,6 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         handleDeleteContact={handleDeleteContact}
         contactWebIds={contactWebIds}
         contacts={contacts}
-        refresh={refresh}
-        setRefresh={setRefresh}
       />
     </Box>
   );

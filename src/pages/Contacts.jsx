@@ -32,7 +32,6 @@ const Contacts = () => {
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
   const [deleteViaEdit, setDeleteViaEdit] = useState(false);
-  const [refresh, setRefresh] = useState(false);
   const {
     data,
     isLoading,
@@ -136,8 +135,6 @@ const Contacts = () => {
             // for edit
             handleDeleteContact={handleDeleteContact}
             addContact={addContact}
-            refresh={refresh}
-            setRefresh={setRefresh}
           />
         ) : (
           <EmptyListNotification type="Contacts" />
