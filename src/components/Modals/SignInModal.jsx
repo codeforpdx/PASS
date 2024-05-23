@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+// Component Imports
 import OidcLoginComponent from '../NavBar/OidcLoginComponent';
 
 /**
@@ -18,22 +19,24 @@ import OidcLoginComponent from '../NavBar/OidcLoginComponent';
  * @param {boolean} Props.showSignInModal - The state for showing the modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowSignInModal
  * - The set function for handling the Sign In modal
- * @returns {React.JSX.Element} - The SignInModal Component
+ * @returns {React.JSX.Element} The SignInModal Component
  */
 const SignInModal = ({ showSignInModal, setShowSignInModal }) => (
+  // TODO: Determine whether to convert this to a Drawer for mobile views
   <Dialog
     open={showSignInModal}
-    aria-labelledby="dialog-title"
-    aria-describedby="dialog-description"
+    aria-labelledby="sign-in-dialog"
+    aria-describedby="sign-in-dialog-text"
     onClose={() => setShowSignInModal(false)}
-    PaperProps={{ sx: { maxHeight: '20rem', overflow: 'clip' } }}
+    // TODO: Ensure issue originally resolved by PR 541 does not recur
+    PaperProps={{ sx: { height: '22rem', overflow: 'clip' } }}
   >
-    <DialogTitle id="dialog-title" textAlign="center">
+    <DialogTitle id="sign-in-dialog" textAlign="center" sx={{ fontWeight: 'bold' }}>
       Sign In
     </DialogTitle>
 
     <DialogContent>
-      <DialogContentText id="dialog-description" textAlign="center">
+      <DialogContentText id="sign-in-dialog-text" textAlign="center">
         Please select a Solid Server to log in
       </DialogContentText>
     </DialogContent>

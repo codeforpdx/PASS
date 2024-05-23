@@ -1,20 +1,19 @@
+// React Imports
 import React, { useState } from 'react';
-
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useSession } from '@hooks';
-
-// MUI imports
+// Material UI Imports
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 
 /* Styles */
-
 const formRowStyle = {
   margin: '20px 0'
 };
 
+// TODO: Add JSDocs
 const ExistingPodForm = () => {
   const { login } = useSession();
 
@@ -43,6 +42,7 @@ const ExistingPodForm = () => {
     >
       <CardHeader title="Register with Existing Pod" />
       <form onSubmit={loginHandler} style={formRowStyle}>
+        {/* TODO: Consider changing this to Autocomplete like the NavBar and SignInModal have */}
         <TextField
           sx={{ margin: '8px' }}
           id="existing-pod-provider"

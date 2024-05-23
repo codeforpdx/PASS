@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useMessageList } from '@hooks';
 // Component Imports
 import { NewMessageModal } from '../Modals';
@@ -22,7 +22,7 @@ import { NewMessageModal } from '../Modals';
  */
 
 /**
- * Message Preview Component - Component that displays message previews from
+ * MessagePreview - Component that displays message previews from
  * user's Inbox container
  *
  * @memberof Messages
@@ -141,9 +141,7 @@ const MessagePreview = ({ message, folderType }) => {
           </Box>
         </Paper>
       </Container>
-      {showModal && (
-        <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
-      )}
+      <NewMessageModal showModal={showModal} setShowModal={setShowModal} oldMessage={message} />
     </>
   );
 };

@@ -9,9 +9,17 @@
 import getDriversLicenseData from './barcode/barcode-scan';
 import formattedDate from './barcode/barcode-date-parser';
 import createPASSContainer, { generateACL } from './pod-management/pod-helper';
-import saveToClipboard from './copy/saveToClipboard';
+import saveToClipboard from './text/saveToClipboard';
+import truncateText from './text/truncateText';
 
-export { getDriversLicenseData, formattedDate, createPASSContainer, generateACL, saveToClipboard };
+export {
+  getDriversLicenseData,
+  formattedDate,
+  createPASSContainer,
+  generateACL,
+  saveToClipboard,
+  truncateText
+};
 
 export * from './network/session-core';
 export * from './network/session-helper';

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification } from '@hooks';
 // Context Imports
 import { DocumentListContext } from '@contexts';

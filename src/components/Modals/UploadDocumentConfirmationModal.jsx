@@ -18,7 +18,7 @@ const confirmationModalContentVariant = {
 };
 
 /**
- * UploadDocumentConfirmationModal Component - Custom ConfirmationModal
+ * UploadDocumentConfirmationModal - Custom ConfirmationModal
  * based on the type of document upload (add or replace) that the user is attempting to perform.
  *
  * @memberof Modals

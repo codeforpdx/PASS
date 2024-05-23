@@ -1,14 +1,22 @@
 // React Imports
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-// MUI Imports
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 // Other Imports
 import HMIS_FORM_LIST from './FormList';
 
+/**
+ * FormLayout - Component that contains the Civic Profile forms
+ *
+ * @memberof CivicProfileForms
+ * @name FormLayout
+ * @param {object} props - The props for the FormLayout component
+ * @param {React.ReactNode} props.children - The child elements to be rendered inside the main content area
+ * @returns {React.ReactNode} The layout for Civic Profile forms
+ */
 const FormLayout = ({ children }) => {
   const location = useLocation();
   const path = location.pathname.split('/').pop();
@@ -17,9 +25,9 @@ const FormLayout = ({ children }) => {
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (
-    <Container sx={{ margin: '8px' }}>
+    <Box sx={{ margin: '8px' }}>
       <Card>{children}</Card>
-      <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         {pageIdx > 0 ? (
           <Link component={RouterLink} to={`../${HMIS_FORM_LIST[pageIdx - 1].path}`}>
             &lt; Prev
@@ -34,8 +42,8 @@ const FormLayout = ({ children }) => {
         ) : (
           <Box />
         )}
-      </Container>
-    </Container>
+      </Box>
+    </Box>
   );
 };
 

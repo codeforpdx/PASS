@@ -1,9 +1,7 @@
 // React Imports
 import React, { useContext } from 'react';
-
 // Constants
 import DOC_TYPES from '@constants/doc_types';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -16,16 +14,14 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
-
 // Context Imports
 import { DocumentListContext } from '@contexts';
 import { useSession } from '@hooks';
-
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-
-// Component Imports
+// Theme Imports
 import theme from '../../theme';
+// Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 
 // DataGrid Toolbar
@@ -37,7 +33,7 @@ const CustomToolbar = () => (
 );
 
 /**
- * DocumentTable Component - The Document Table that shows the list of documents
+ * DocumentTable - Component that shows the list of documents
  * stored on Solid
  *
  * @memberof Documents
@@ -187,7 +183,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   }));
 
   const determineDocumentsTable = mappedDocuments?.length ? (
-    // render if documents
+    // Render if documents
     <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
       <DataGrid
         columns={columnTitlesArray}
@@ -224,7 +220,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       />
     </Box>
   ) : (
-    // render if no documents
+    // Render if no documents
     <EmptyListNotification type="documents" />
   );
 

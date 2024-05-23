@@ -15,15 +15,17 @@ const routesArray = [
 ];
 
 /**
- *  Renders the Message Button Group component for new message, inbox, and outbox
+ * MessageButtonGroup - Renders the Message Button Group component for new message, inbox, and outbox
  *
+ * @memberof Messages
+ * @name MessageButtonGroup
  * @param {object} Props - The Props for MessageButtonGroup Component
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal -
  * The set function for showModal
  * @param {string} Props.boxType - The state for inbox or outbox
  * @param {React.Dispatch<React.SetStateAction<string>>} Props.setBoxType - The
  * set function for boxType
- * @returns {React.JSX.Element} - The MessageButtonGroup Component
+ * @returns {React.JSX.Element} The MessageButtonGroup Component
  */
 const MessageButtonGroup = ({ setShowModal, boxType, setBoxType }) => {
   const isReallySmallScreen = useMediaQuery('(max-width: 480px)');

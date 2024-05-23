@@ -1,18 +1,17 @@
 // React Imports
 import React from 'react';
-// React Router Imports
 import { NavLink, useLocation } from 'react-router-dom';
 // Material UI Imports
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
 /**
- * NavbarLinks Component - The sub-component used in NavBar to render the
+ * NavbarLinks - Sub-component used in NavBar to render the
  * navigation for PASS
  *
  * @memberof NavBar
  * @name NavbarLinks
- * @returns {React.JSX.Element} - The Navbar Links for Routing
+ * @returns {React.JSX.Element} The NavbarLinks for Routing
  */
 const NavbarLinks = () => {
   // Tabs workaround to match route on login
@@ -21,7 +20,7 @@ const NavbarLinks = () => {
     location = 'contacts';
   }
 
-  // array of current nav links for menus
+  // Array of current nav links for menus
   const routesArray = [
     { label: 'Contacts', path: '/contacts' },
     { label: 'Civic Profile', path: '/civic-profile/basic-info' }

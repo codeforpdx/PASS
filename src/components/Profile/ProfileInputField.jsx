@@ -6,7 +6,7 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 /**
- * ProfileInputField Component - Component that creates the editable inputs fields
+ * ProfileInputField - Component that creates the editable inputs fields
  * for the Profile page
  *
  * @memberof Profile

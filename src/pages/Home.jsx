@@ -22,7 +22,7 @@ import { HomeSection, KeyFeatures } from '@components/Home';
  *
  * @memberof Pages
  * @name Home
- * @returns {React.ReactElement} The home page
+ * @returns {React.ReactElement} The Home Page
  */
 const Home = () => {
   const theme = useTheme();

@@ -1,25 +1,26 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Custom Hook Imports
-import { useSession, useContactsList } from '@hooks';
+// Custom Hooks Imports
+import { useContactsList, useNotification, useSession } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
-import useNotification from '../../hooks/useNotification';
 
 /**
  * SetPermissionsModal Component - Modal component that generates the form for
@@ -40,23 +41,25 @@ import useNotification from '../../hooks/useNotification';
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
   const { addNotification } = useNotification();
-
   const { podUrl, webId } = useContext(SignedInUserContext);
-
   const [permissionState, setPermissionState] = useState({
     webIdToSetPermsTo: '',
     permissionType: ''
   });
   const [processing, setProcessing] = useState(false);
-
   const { data } = useContactsList();
-  const contactListOptions = data?.map((contact) => ({
-    label: `${contact.person} ${contact.webId}`,
-    id: contact.webId
-  }));
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.webId}`,
+      id: contact.webId
+    })) ?? [];
   const shareName = data?.filter(
     (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
+  const isError = permissionState.webIdToSetPermsTo === webId;
+  const helperText = isError ? 'Cannot share to your own pod.' : '';
 
   const clearInputFields = () => {
     setPermissionState({
@@ -117,14 +120,20 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   };
 
   return (
-    <Dialog open={showModal} onClose={clearInputFields}>
+    <ModalBase open={showModal} onClose={clearInputFields}>
       <FormSection
         title={
           dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
         }
       >
         <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
-          <FormControl required fullWidth sx={{ maxWidth: '75dvw', marginBottom: '1rem' }}>
+          <FormControl
+            required
+            fullWidth
+            sx={{
+              mb: '1rem'
+            }}
+          >
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -144,7 +153,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             id="set-acl-to"
             name="setAclTo"
             data-testid="newShareWith"
-            sx={{ marginBottom: '1rem' }}
+            sx={{ mb: '1rem' }}
             freeSolo
             fullWidth
             required
@@ -162,13 +171,26 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             placeholder="WebID to share with"
             error={permissionState.webIdToSetPermsTo === webId}
             helperText={
-              permissionState.webIdToSetPermsTo === webId
-                ? 'Cannot share to your own pod.'.toUpperCase()
-                : ''
+              permissionState.webIdToSetPermsTo === webId ? 'Cannot share to your own pod.' : ''
             }
-            renderInput={(params) => <TextField {...params} label="WebID to share with" />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="WebID to share with"
+                error={isError}
+                helperText={helperText}
+              />
+            )}
           />
-          <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
+          <FormControl
+            fullWidth
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              width: '100%'
+            }}
+          >
             <Button
               variant="outlined"
               color="error"
@@ -191,7 +213,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           </FormControl>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

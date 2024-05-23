@@ -6,8 +6,8 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -20,13 +20,12 @@ import { SignedInUserContext } from '../../contexts';
  * NavbarMobile Component - Component that generates Navbar section for PASS
  * when a user is logged in on a mobile screen device
  *
- *
  * @memberof NavBar
  * @name NavbarMobile
  * @param {object} Props - The props for NavbarMobile Component
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @returns {React.JSX.Element} - The Mobile version of the Navbar Component
+ * @returns {React.JSX.Element} The Mobile version of the Navbar Component
  */
 const NavbarMobile = ({ setShowConfirmation }) => {
   const theme = useTheme();
@@ -102,18 +101,16 @@ const NavbarMobile = ({ setShowConfirmation }) => {
             </MenuItem>
           </Menu>
 
-          {openMenu && (
-            <NavMenu
-              menuId={menuId}
-              openMenu={openMenu}
-              setOpenMenu={setOpenMenu}
-              anchorEl={anchorEl}
-              setAnchorEl={setAnchorEl}
-              setShowConfirmation={setShowConfirmation}
-              handleNotificationsMenu={handleNotificationsMenu}
-              profileImg={profileImg}
-            />
-          )}
+          <NavMenu
+            menuId={menuId}
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+            setShowConfirmation={setShowConfirmation}
+            handleNotificationsMenu={handleNotificationsMenu}
+            profileImg={profileImg}
+          />
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,9 +1,10 @@
+// React Imports
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
+// Material UI Imports
 import Link from '@mui/material/Link';
-
-// MUI theme
+// Theme Imports
 import theme from '../../theme';
 
 /**

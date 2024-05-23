@@ -3,13 +3,13 @@ import React from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import EditNote from '@mui/icons-material/EditNote';
+import IconButton from '@mui/material/IconButton';
 
 /**
- * The ProfileEditButtonGroup Component is a component that consist of the profile
+ * ProfileEditButtonGroup - Component that consist of the profile
  * page edit buttons for the ProfileInputField component
  *
  * @memberof Profile

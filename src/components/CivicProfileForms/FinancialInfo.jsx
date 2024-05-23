@@ -1,6 +1,6 @@
 // React Imports
 import React from 'react';
-// MUI Imports
+// Material UI Imports
 import Typography from '@mui/material/Typography';
 
 const FinancialInfo = () => <Typography>Financial Info</Typography>;

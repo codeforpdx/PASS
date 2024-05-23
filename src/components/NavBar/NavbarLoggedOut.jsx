@@ -13,12 +13,12 @@ import { SignInModal } from '@components/Modals';
 import OidcLoginComponent from './OidcLoginComponent';
 
 /**
- * NavbarLoggedOut Component - Component that generates Navbar section for PASS
+ * NavbarLoggedOut - Component that generates Navbar section for PASS
  * when a user is logged out
  *
  * @memberof NavBar
  * @name NavbarLoggedOut
- * @returns {React.JSX.Element} - The NavbarLoggedOut Component
+ * @returns {React.JSX.Element} The NavbarLoggedOut Component
  */
 const NavbarLoggedOut = () => {
   const theme = useTheme();

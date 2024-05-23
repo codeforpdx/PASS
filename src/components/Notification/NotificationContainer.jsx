@@ -2,7 +2,7 @@ import React from 'react';
 import BasicNotification from './BasicNotification';
 
 /**
- * The NotificationContainer Component is a component that renders and contains
+ * NotificationContainer - Component is a component that renders and contains
  * the MUI snackbar when a notification is being displayed
  *
  * @memberof Notification
@@ -10,7 +10,7 @@ import BasicNotification from './BasicNotification';
  * @param {object} Props - The Props for NotificationContainer Component
  * @param {object} Props.notifications - An object containing information about
  * the notification in question
- * @returns {React.JSX.Element} - The NotificationContainer Component
+ * @returns {React.JSX.Element} The NotificationContainer Component
  */
 const NotificationContainer = ({ notifications }) => (
   <div>
