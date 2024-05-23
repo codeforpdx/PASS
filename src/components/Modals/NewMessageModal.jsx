@@ -144,13 +144,13 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           >
             <Autocomplete
               data-testid="newMessageTo"
+              id="recipientPodUrl"
               freeSolo
               value={recipientName?.person ?? message.recipientPodUrl}
               disablePortal
               autoSelect
-              id="recipientPodUrl"
               options={contactListOptions}
-              onChange={(event, newValue) => {
+              onChange={(_event, newValue) => {
                 setMessage({
                   ...message,
                   // If user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
@@ -158,11 +158,9 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 });
               }}
               fullWidth
-              required
-              autoFocus
               disabled={Boolean(toField) || Boolean(oldMessage)}
               renderInput={(params) => (
-                <TextField {...params} margin="normal" label="To" required />
+                <TextField {...params} autoFocus margin="normal" label="To" required />
               )}
             />
             <TextField

@@ -58,8 +58,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const shareName = data?.filter(
     (contact) => permissionState.webIdToSetPermsTo === contact.webId
   )[0];
-  const isError = permissionState.webIdToSetPermsTo === webId;
-  const helperText = isError ? 'Cannot share to your own pod.' : '';
 
   const clearInputFields = () => {
     setPermissionState({
@@ -127,13 +125,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
         }
       >
         <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
-          <FormControl
-            required
-            fullWidth
-            sx={{
-              mb: '1rem'
-            }}
-          >
+          <FormControl required fullWidth sx={{ mb: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -150,14 +142,12 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             </Select>
           </FormControl>
           <Autocomplete
-            id="set-acl-to"
-            name="setAclTo"
             data-testid="newShareWith"
+            id="set-acl-to"
             sx={{ mb: '1rem' }}
             freeSolo
             fullWidth
             required
-            autoFocus
             value={shareName?.person ?? permissionState.webIdToSetPermsTo}
             disablePortal
             autoSelect
@@ -168,17 +158,17 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
                 webIdToSetPermsTo: newValue.id ?? newValue
               });
             }}
-            placeholder="WebID to share with"
-            error={permissionState.webIdToSetPermsTo === webId}
-            helperText={
-              permissionState.webIdToSetPermsTo === webId ? 'Cannot share to your own pod.' : ''
-            }
             renderInput={(params) => (
               <TextField
                 {...params}
+                name="setAclTo"
+                autoFocus
                 label="WebID to share with"
-                error={isError}
-                helperText={helperText}
+                placeholder="WebID to share with"
+                error={permissionState.webIdToSetPermsTo === webId}
+                helperText={
+                  permissionState.webIdToSetPermsTo === webId ? 'Cannot share to your own pod.' : ''
+                }
               />
             )}
           />
