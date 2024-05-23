@@ -80,7 +80,6 @@ const AddContactModal = ({
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
   const [isSubmittable, setIsSubmittable] = useState(false);
-  // const [deleteViaEdit, setDeleteViaEdit] = useState(false);
 
   useEffect(() => {
     // disables submit button if form not fully filled out
@@ -90,6 +89,7 @@ const AddContactModal = ({
   }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   useEffect(() => {
+    // sets fields if form is set to Edit
     if (typeof contactToEdit !== 'undefined') {
       setUserGivenName(contactToEdit?.givenName);
       setUserFamilyName(contactToEdit?.familyName);

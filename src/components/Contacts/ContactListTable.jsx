@@ -46,34 +46,17 @@ const CustomToolbar = () => (
  * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-<<<<<<< Updated upstream
-const ContactListTable = ({
-  contacts,
-  deleteContact,
-  handleDeleteContact,
-  addContact,
-  refresh,
-  setRefresh
-}) => {
-=======
 const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact, refresh, setRefresh }) => {
->>>>>>> Stashed changes
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [contactToEdit, setContactToEdit] = useState({});
   const [contacts_, setContacts] = useState(contacts);
 
-<<<<<<< Updated upstream
-  useEffect(() => {
-    setContacts(contacts_);
-    console.log('Contact list table refreshed');
-=======
 
   useEffect(() => {
       setContacts(contacts_);
       console.log('Contact list table refreshed');
->>>>>>> Stashed changes
   }, [contacts_]);
 
   const handleSendMessage = (contactId) => {
@@ -214,17 +197,8 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         refresh={refresh}
         setRefresh={setRefresh}
       />
-      {/* <Console 
-      contacts={contactWebIds}
-    /> */}
     </Box>
   );
 };
-
-// const Console = props => {
-//   const contacts = props;
-//   console.table(contacts);
-//   return false;
-// }
 
 export default ContactListTable;
