@@ -169,6 +169,10 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               });
             }}
             placeholder="WebID to share with"
+            error={permissionState.webIdToSetPermsTo === webId}
+            helperText={
+              permissionState.webIdToSetPermsTo === webId ? 'Cannot share to your own pod.' : ''
+            }
             renderInput={(params) => (
               <TextField
                 {...params}

@@ -94,11 +94,7 @@ const InactivityMessage = () => {
         open={showPopup}
         aria-labelledby="inactivity-message-title"
         aria-describedby="inactivity-message-description"
-        PaperProps={{
-          sx: {
-            borderRadius: '25px'
-          }
-        }}
+        PaperProps={{ sx: { borderRadius: '25px' } }}
       >
         <Box
           sx={{
