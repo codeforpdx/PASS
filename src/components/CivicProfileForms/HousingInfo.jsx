@@ -17,6 +17,7 @@ import { FormSection } from '../Form';
  */
 const HousingInfo = () => {
   const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
+  const [zipError, setZipError] = useState(false);
   const [formData, setFormData] = useState({
     lastPermanentStreet: '',
     lastPermanentCity: '',
@@ -39,6 +40,16 @@ const HousingInfo = () => {
   }, [storedDataset]);
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    if (name === 'lastPermanentZIP') {
+      const zipRegex = /^\d{5}(-\d{4})?$/;
+      if (!zipRegex.test(value)) {
+        setZipError(true);
+      } else {
+        setZipError(false);
+      }
+    }
+
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
@@ -106,6 +117,8 @@ const HousingInfo = () => {
               label="ZIP Code:"
               onChange={handleChange}
               value={formData.lastPermanentZIP}
+              error={zipError}
+              helperText={zipError ? 'Invalid ZIP format. Expected: 12345 or 12345-6789' : ''}
             />
           </div>
           <div
