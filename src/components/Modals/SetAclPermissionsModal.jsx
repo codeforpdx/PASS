@@ -125,13 +125,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
         }
       >
         <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
-          <FormControl
-            required
-            fullWidth
-            sx={{
-              mb: '1rem'
-            }}
-          >
+          <FormControl required fullWidth sx={{ mb: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -149,6 +143,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           </FormControl>
           <Autocomplete
             data-testid="newShareWith"
+            id="set-acl-to"
             sx={{ mb: '1rem' }}
             freeSolo
             fullWidth
@@ -166,7 +161,6 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                id="set-acl-to"
                 name="setAclTo"
                 autoFocus
                 label="WebID to share with"
