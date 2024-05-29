@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 // Custom Hooks Imports
 import { useCivicProfile } from '@hooks';
@@ -67,30 +68,30 @@ const HousingInfo = () => {
 
   return (
     <FormSection title="Housing Information">
-      <FormControl
-        onSubmit={handleSubmit}
+      <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
           gap: '8px',
-          justifyContent: 'space-between'
+          minWidth: '846px',
+          padding: '8px'
         }}
       >
         <div
           style={{
             display: 'flex',
+            flexDirection: 'column',
             gap: '8px',
-            minWidth: '846px',
-            padding: '8px'
+            padding: '8px',
+            width: '40%'
           }}
         >
-          <div
+          <FormControl
+            onSubmit={handleSubmit}
             style={{
               display: 'flex',
               flexDirection: 'column',
               gap: '8px',
-              padding: '8px',
-              width: '40%'
+              justifyContent: 'space-between'
             }}
           >
             <TextField
@@ -123,18 +124,22 @@ const HousingInfo = () => {
               error={zipError}
               helperText={zipError ? 'Invalid ZIP format. Expected: 12345 or 12345-6789' : ''}
             />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              padding: '8px',
-              width: '40%'
-            }}
-          >
+          </FormControl>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            padding: '8px',
+            width: '40%'
+          }}
+        >
+          <FormControl onSubmit={handleSubmit}>
+            <InputLabel id="months-homeless-input-label">Months Houseless Past 3 Years:</InputLabel>
             <Select
               id="months-homeless-input"
+              labelId="months-homeless-input-label"
               name="monthsHomeless"
               label="Months Houseless Past 3 Years:"
               onChange={handleChange}
@@ -157,8 +162,12 @@ const HousingInfo = () => {
               <MenuItem value={9}>Client refused</MenuItem>
               <MenuItem value={99}>Data not collected</MenuItem>
             </Select>
+          </FormControl>
+          <FormControl onSubmit={handleSubmit}>
+            <InputLabel id="times-homeless-input-label">Months Houseless Past 3 Years:</InputLabel>
             <Select
               id="times-homeless-input"
+              labelId="times-homeless-input-label"
               name="timesHomeless"
               label="Number of Times Houseless Past 3 Years:"
               onChange={handleChange}
@@ -172,8 +181,14 @@ const HousingInfo = () => {
               <MenuItem value={9}>Client refused</MenuItem>
               <MenuItem value={99}>Data not collected</MenuItem>
             </Select>
+          </FormControl>
+          <FormControl onSubmit={handleSubmit}>
+            <InputLabel id="time-to-housing-loss-input-label">
+              Months Houseless Past 3 Years:
+            </InputLabel>
             <Select
               id="time-to-housing-loss-input"
+              labelId="time-to-housing-loss-input-label"
               name="timeToHousingLoss"
               label="Time Until Loss of Housing:"
               onChange={handleChange}
@@ -185,21 +200,21 @@ const HousingInfo = () => {
               <MenuItem value={3}>More than 21 days (0 points)</MenuItem>
               <MenuItem value={99}>Data not collected</MenuItem>
             </Select>
-          </div>
+          </FormControl>
         </div>
-        <div
-          style={{
-            alignSelf: 'flex-start',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '8px'
-          }}
-        >
-          <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
-            Submit
-          </Button>
-        </div>
-      </FormControl>
+      </div>
+      <div
+        style={{
+          alignSelf: 'flex-start',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '8px'
+        }}
+      >
+        <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
+          Submit
+        </Button>
+      </div>
     </FormSection>
   );
 };
