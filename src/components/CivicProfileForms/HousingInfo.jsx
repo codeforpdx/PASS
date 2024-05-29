@@ -164,7 +164,9 @@ const HousingInfo = () => {
             </Select>
           </FormControl>
           <FormControl onSubmit={handleSubmit}>
-            <InputLabel id="times-homeless-input-label">Months Houseless Past 3 Years:</InputLabel>
+            <InputLabel id="times-homeless-input-label">
+              Number of Times Houseless Past 3 Years:
+            </InputLabel>
             <Select
               id="times-homeless-input"
               labelId="times-homeless-input-label"
@@ -184,7 +186,7 @@ const HousingInfo = () => {
           </FormControl>
           <FormControl onSubmit={handleSubmit}>
             <InputLabel id="time-to-housing-loss-input-label">
-              Months Houseless Past 3 Years:
+              Time Until Loss of Housing:
             </InputLabel>
             <Select
               id="time-to-housing-loss-input"
