@@ -2,14 +2,16 @@
 import React, { useState, useEffect } from 'react';
 // MUI Imports
 import FormControl from '@mui/material/FormControl';
-// import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 // Custom Hooks Imports
-import { useCivicProfile } from '@hooks';
+import { useCivicProfile, useNotification } from '@hooks';
 import { FormSection } from '../Form';
 
 /**
@@ -19,8 +21,10 @@ import { FormSection } from '../Form';
  * @name HousingInfo
  * @returns {React.JSX.Element} The HousingInfo Component
  */
+
 const HousingInfo = () => {
   const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
+  const { addNotification } = useNotification();
   const [zipError, setZipError] = useState(false);
   const [formData, setFormData] = useState({
     lastPermanentStreet: '',
@@ -42,6 +46,7 @@ const HousingInfo = () => {
       refetch();
     }
   }, [storedDataset]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -57,6 +62,21 @@ const HousingInfo = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  const handleClear = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      lastPermanentStreet: '',
+      lastPermanentCity: '',
+      lastPermanentState: '',
+      lastPermanentZIP: '',
+      monthsHomeless: '',
+      timesHomeless: '',
+      timeToHousingLoss: ''
+    }));
+
+    addNotification('success', `Form cleared!`);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isSuccess || !storedDataset) {
@@ -64,6 +84,7 @@ const HousingInfo = () => {
     }
 
     add(formData);
+    addNotification('success', `Form submitted!`);
   };
 
   return (
@@ -205,18 +226,41 @@ const HousingInfo = () => {
           </FormControl>
         </div>
       </div>
-      <div
-        style={{
-          alignSelf: 'flex-start',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '8px'
-        }}
-      >
-        <Button variant="outlined" disabled={!isSuccess} type="submit" style={{ margin: '8px' }}>
-          Submit
-        </Button>
-      </div>
+      <Grid item xs={12} md={6}>
+        <FormControl>
+          <Button
+            variant="outlined"
+            type="button"
+            label="Clear button"
+            color="error"
+            startIcon={<ClearIcon />}
+            fullWidth
+            sx={{ borderRadius: '20px' }}
+            onClick={handleClear}
+            aria-label="Clear button"
+          >
+            Clear
+          </Button>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <FormControl onSubmit={handleSubmit}>
+          <Button
+            variant="contained"
+            type="submit"
+            label="Submit button"
+            color="primary"
+            startIcon={<CheckIcon />}
+            fullWidth
+            sx={{ borderRadius: '20px' }}
+            onClick={handleSubmit}
+            disabled={!isSuccess}
+            aria-label="Submit button"
+          >
+            Submit
+          </Button>
+        </FormControl>
+      </Grid>
     </FormSection>
   );
 };
