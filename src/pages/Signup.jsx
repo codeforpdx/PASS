@@ -21,6 +21,7 @@ import {
   registerPod,
   ExistingPodForm
 } from '@components/Signup';
+import BasicNotification from '@components/Notification/BasicNotification.jsx';
 
 /**
  * Signup - First screen in the user registration flow.
@@ -38,32 +39,40 @@ const Signup = () => {
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
+  const [httpError, setHttpError] = useState(null);
 
   const { session } = useSession();
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
-    const registration = await registerPod(
-      {
-        email,
-        password,
-        confirmPassword
-      },
-      oidcIssuer
-    );
-    setRegistrationInfo(registration);
-    const caseManagerNames = caseManagerName?.split(' ') || [];
-    await initializePod(
-      registration.webId,
-      registration.podUrl,
-      {
-        caseManagerWebId,
-        caseManagerFirstName: caseManagerNames[0],
-        caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
-      },
-      registration.fetch
-    );
-    setStep('done');
+    try {
+      const registration = await registerPod(
+        {
+          email,
+          password,
+          confirmPassword
+        },
+        oidcIssuer
+      );
+      setRegistrationInfo(registration);
+      const caseManagerNames = caseManagerName?.split(' ') || [];
+      await initializePod(
+        registration.webId,
+        registration.podUrl,
+        {
+          caseManagerWebId,
+          caseManagerFirstName: caseManagerNames[0],
+          caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
+        },
+        registration.fetch
+      );
+
+      setStep('done');
+      setHttpError(null);
+    } catch (error) {
+      setHttpError(error);
+      setStep('begin');
+    }
   };
 
   const loadProfileInfo = async () => {
@@ -92,6 +101,7 @@ const Signup = () => {
 
   return (
     <Container>
+      {httpError && <BasicNotification message={httpError.message} id={5} severity="error" />}
       <Box
         sx={{
           marginTop: 3,
