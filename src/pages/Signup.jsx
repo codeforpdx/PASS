@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Custom Hooks Imports
-import { useSession } from '@hooks';
+import { useSession, useNotification } from '@hooks';
 // Inrupt Imports
 import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
@@ -21,7 +21,6 @@ import {
   registerPod,
   ExistingPodForm
 } from '@components/Signup';
-import BasicNotification from '@components/Notification/BasicNotification.jsx';
 
 /**
  * Signup - First screen in the user registration flow.
@@ -39,7 +38,7 @@ const Signup = () => {
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
-  const [httpError, setHttpError] = useState(null);
+  const { addNotification } = useNotification();
 
   const { session } = useSession();
 
@@ -68,9 +67,8 @@ const Signup = () => {
       );
 
       setStep('done');
-      setHttpError(null);
     } catch (error) {
-      setHttpError(error);
+      addNotification('error', error.message);
       setStep('begin');
     }
   };
@@ -101,7 +99,6 @@ const Signup = () => {
 
   return (
     <Container>
-      {httpError && <BasicNotification message={httpError.message} id={5} severity="error" />}
       <Box
         sx={{
           marginTop: 3,

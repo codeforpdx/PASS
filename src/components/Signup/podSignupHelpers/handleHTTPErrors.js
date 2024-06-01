@@ -6,13 +6,17 @@
  * @returns {void} - either throws or nothing
  */
 export default function handleIncomingHTTPErrors({ message, statusCode }) {
-  // extensible with new error codes and messages
-  if (statusCode !== 400) return;
+  // left as a switch for now, in case different handling will be done based on error code in the future
 
-  switch (message) {
-    case 'There already is a login for this e-mail address.':
+  switch (statusCode) {
+    case 400:
+      throw new Error(message);
+    case 401:
+      throw new Error(message);
+    case 500:
       throw new Error(message);
     default:
-      break;
+      if (statusCode <= 400) throw new Error(message);
+      else break;
   }
 }

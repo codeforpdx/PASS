@@ -38,6 +38,7 @@ const registerPod = async ({ email, password }, oidcProvider) => {
   });
 
   const { controls: createControls } = await response.json();
+
   const createHeaders = {
     'Content-Type': 'application/json',
     Authorization: `CSS-Account-Token ${newAccountAuth.authorization}`
@@ -47,6 +48,7 @@ const registerPod = async ({ email, password }, oidcProvider) => {
     headers: createHeaders,
     body: JSON.stringify({ email, password })
   });
+
   handleIncomingHTTPErrors(await createControlsResp.json());
 
   const podResp = await fetch(createControls.account.pod, {
