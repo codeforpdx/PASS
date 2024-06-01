@@ -89,23 +89,8 @@ const HousingInfo = () => {
 
   return (
     <FormSection title="Housing Information">
-      <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          minWidth: '846px',
-          padding: '8px'
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            padding: '8px',
-            width: '40%'
-          }}
-        >
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
           <FormControl
             onSubmit={handleSubmit}
             style={{
@@ -146,16 +131,8 @@ const HousingInfo = () => {
               helperText={zipError ? 'Invalid ZIP format. Expected: 12345 or 12345-6789' : ''}
             />
           </FormControl>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-            padding: '8px',
-            width: '40%'
-          }}
-        >
+        </Grid>
+        <Grid item xs={6} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <FormControl onSubmit={handleSubmit}>
             <InputLabel id="months-homeless-input-label">Months Houseless Past 3 Years:</InputLabel>
             <Select
@@ -224,42 +201,42 @@ const HousingInfo = () => {
               <MenuItem value={99}>Data not collected</MenuItem>
             </Select>
           </FormControl>
-        </div>
-      </div>
-      <Grid item xs={12} md={6}>
-        <FormControl>
-          <Button
-            variant="outlined"
-            type="button"
-            label="Clear button"
-            color="error"
-            startIcon={<ClearIcon />}
-            fullWidth
-            sx={{ borderRadius: '20px' }}
-            onClick={handleClear}
-            aria-label="Clear button"
-          >
-            Clear
-          </Button>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControl onSubmit={handleSubmit}>
-          <Button
-            variant="contained"
-            type="submit"
-            label="Submit button"
-            color="primary"
-            startIcon={<CheckIcon />}
-            fullWidth
-            sx={{ borderRadius: '20px' }}
-            onClick={handleSubmit}
-            disabled={!isSuccess}
-            aria-label="Submit button"
-          >
-            Submit
-          </Button>
-        </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl style={{ display: 'flex' }}>
+            <Button
+              variant="outlined"
+              type="button"
+              label="Clear button"
+              color="error"
+              startIcon={<ClearIcon />}
+              fullWidth
+              sx={{ borderRadius: '20px' }}
+              onClick={handleClear}
+              aria-label="Clear button"
+            >
+              Clear
+            </Button>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl style={{ display: 'flex' }}>
+            <Button
+              variant="contained"
+              type="submit"
+              label="Submit button"
+              color="primary"
+              startIcon={<CheckIcon />}
+              fullWidth
+              sx={{ borderRadius: '20px' }}
+              onClick={handleSubmit}
+              disabled={!isSuccess}
+              aria-label="Submit button"
+            >
+              Submit
+            </Button>
+          </FormControl>
+        </Grid>
       </Grid>
     </FormSection>
   );
