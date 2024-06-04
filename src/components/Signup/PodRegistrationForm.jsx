@@ -36,12 +36,15 @@ const textFieldStyle = {
  * @param {object} props - Component props
  * @param {Function} props.register - The function to handle user registration
  * @param {string} props.caseManagerName - The name of the case manager (optional)
+ * @param {object} props.previousInfo - previous info in case an error occurs
  * @returns {React.Element} The rendered React component
  */
-const PodRegistrationForm = ({ register, caseManagerName }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null }) => {
+  const [email, setEmail] = useState(previousInfo ? previousInfo.email : '');
+  const [password, setPassword] = useState(previousInfo ? previousInfo.password : '');
+  const [confirmPassword, setConfirmPassword] = useState(
+    previousInfo ? previousInfo.confirmPassword : ''
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
