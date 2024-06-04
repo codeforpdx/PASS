@@ -39,11 +39,13 @@ const Signup = () => {
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
   const { addNotification } = useNotification();
+  const [previousInfo, setPreviousInfo] = useState(null);
 
   const { session } = useSession();
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
+    setPreviousInfo({ email, password, confirmPassword });
     try {
       const registration = await registerPod(
         {
@@ -67,8 +69,8 @@ const Signup = () => {
       );
 
       setStep('done');
-    } catch (error) {
-      addNotification('error', error.message);
+    } catch (httpError) {
+      addNotification('error', httpError.message);
       setStep('begin');
     }
   };
@@ -121,6 +123,7 @@ const Signup = () => {
           {step === 'begin' && (
             <>
               <PodRegistrationForm
+                previousInfo={previousInfo}
                 register={registerAndInitialize}
                 caseManagerName={caseManagerName}
               />
