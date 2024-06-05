@@ -10,7 +10,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import SvgIcon from '@mui/material/SvgIcon';
 
-// new Twitter Icon
+// New Twitter Icon
 const TwitterIcon = () => (
   <SvgIcon
     viewBox="0 0 512 512"
@@ -49,9 +49,11 @@ const socialLinks = [
 ];
 
 /**
- * The RenderCompanyInfoSection component renders information about policy,
- * terms and conditions, and the site to Code for PDX
+ * RenderCompanyInfoSection - Component renders information about policy,
+ * terms and conditions, and the site to CODE PDX
  *
+ * @memberof Footer
+ * @name RenderCompanyInfoSection
  * @param {object} Props - The props for footer sub-component
  * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI

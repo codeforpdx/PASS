@@ -1,15 +1,16 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import PhotoCameraOutlinedIcon from '@mui/icons-material/PhotoCameraOutlined';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+// Component Imports
 import WebcamModal from './WebcamModal';
 
 /**
- * The UploadButtonGroup Component is a component that renders the upload document
+ * UploadButtonGroup - Component that renders the upload document
  * buttons and renders a capture image button when screen width is below 768px
  *
  * @memberof Modals
@@ -17,7 +18,7 @@ import WebcamModal from './WebcamModal';
  * @param {object} Props - The props for UploadButtonGroup Component
  * @param {File} Props.file - The selected file
  * @param {Function} Props.setFile - The set function for handling files
- * @returns {React.JSX.Element} - The UploadButtonGroup Component
+ * @returns {React.JSX.Element} The UploadButtonGroup Component
  */
 
 const checkWebCamAvailability = async () => {

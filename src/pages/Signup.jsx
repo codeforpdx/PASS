@@ -1,22 +1,18 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-// Custom Hook Imports
-import { useSession } from '@hooks';
-
+// Custom Hooks Imports
+import { useSession, useNotification } from '@hooks';
 // Inrupt Imports
 import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-
+import { Typography } from '@mui/material';
 // Constant Imports
 import { ENV } from '@constants';
-
 // Signup Form Imports
 import {
   PodRegistrationForm,
@@ -25,7 +21,6 @@ import {
   registerPod,
   ExistingPodForm
 } from '@components/Signup';
-import { Typography } from '@mui/material';
 
 /**
  * Signup - First screen in the user registration flow.
@@ -33,7 +28,7 @@ import { Typography } from '@mui/material';
  *
  * @memberof Pages
  * @name Signup
- * @returns {React.Component} - A react page
+ * @returns {React.Component} - A React Page
  */
 const Signup = () => {
   const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
@@ -43,32 +38,41 @@ const Signup = () => {
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
+  const { addNotification } = useNotification();
+  const [previousInfo, setPreviousInfo] = useState(null);
 
   const { session } = useSession();
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
-    const registration = await registerPod(
-      {
-        email,
-        password,
-        confirmPassword
-      },
-      oidcIssuer
-    );
-    setRegistrationInfo(registration);
-    const caseManagerNames = caseManagerName?.split(' ') || [];
-    await initializePod(
-      registration.webId,
-      registration.podUrl,
-      {
-        caseManagerWebId,
-        caseManagerFirstName: caseManagerNames[0],
-        caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
-      },
-      registration.fetch
-    );
-    setStep('done');
+    setPreviousInfo({ email, password, confirmPassword });
+    try {
+      const registration = await registerPod(
+        {
+          email,
+          password,
+          confirmPassword
+        },
+        oidcIssuer
+      );
+      setRegistrationInfo(registration);
+      const caseManagerNames = caseManagerName?.split(' ') || [];
+      await initializePod(
+        registration.webId,
+        registration.podUrl,
+        {
+          caseManagerWebId,
+          caseManagerFirstName: caseManagerNames[0],
+          caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
+        },
+        registration.fetch
+      );
+
+      setStep('done');
+    } catch (httpError) {
+      addNotification('error', httpError.message);
+      setStep('begin');
+    }
   };
 
   const loadProfileInfo = async () => {
@@ -119,6 +123,7 @@ const Signup = () => {
           {step === 'begin' && (
             <>
               <PodRegistrationForm
+                previousInfo={previousInfo}
                 register={registerAndInitialize}
                 caseManagerName={caseManagerName}
               />

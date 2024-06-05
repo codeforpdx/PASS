@@ -3,21 +3,21 @@ import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useMessageList, useNotification, useSession, useContactsList } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Autocomplete from '@mui/material/Autocomplete';
 // Utility Imports
 import { sendMessageTTL } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
 /**
@@ -25,7 +25,7 @@ import { FormSection } from '../Form';
  */
 
 /**
- * NewMessageModal Component - Component that allows user to write
+ * NewMessageModal - Component that allows user to write
  *  a message to another user from their inbox
  *
  * @memberof Modals
@@ -48,7 +48,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
-    recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
+    recipientPodUrl:
+      oldMessage && oldMessage.senderWebId ? oldMessage.senderWebId.split('profile')[0] : '',
     title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
     message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
@@ -57,10 +58,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const contactListOptions = data?.map((contact) => ({
-    label: `${contact.person} ${contact.podUrl}`,
-    id: contact.podUrl
-  }));
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.podUrl}`,
+      id: contact.podUrl
+    })) ?? [];
   const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
@@ -120,7 +122,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <Dialog
+    <ModalBase
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => handleReplyMessage(false)}
@@ -131,10 +133,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px',
-          minWidth: '50%',
-          minHeight: '90%'
+          alignItems: 'center'
         }}
       >
         <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
@@ -145,24 +144,24 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           >
             <Autocomplete
               data-testid="newMessageTo"
+              id="recipientPodUrl"
               freeSolo
               value={recipientName?.person ?? message.recipientPodUrl}
               disablePortal
               autoSelect
-              id="recipientPodUrl"
               options={contactListOptions}
-              onChange={(event, newValue) => {
+              onChange={(_event, newValue) => {
                 setMessage({
                   ...message,
-                  // if user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
+                  // If user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
                   recipientPodUrl: newValue.id ?? newValue
                 });
               }}
               fullWidth
-              required
-              autoFocus
-              disabled={toField !== ''}
-              renderInput={(params) => <TextField {...params} margin="normal" label="To" />}
+              disabled={Boolean(toField) || Boolean(oldMessage)}
+              renderInput={(params) => (
+                <TextField {...params} autoFocus margin="normal" label="To" required />
+              )}
             />
             <TextField
               margin="normal"
@@ -173,7 +172,10 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               onChange={(e) => handleChange(e)}
               required
               label="Subject"
-              inputProps={{ maxLength: '48' }}
+              disabled={Boolean(oldMessage)}
+              inputProps={{
+                maxLength: '48'
+              }}
               fullWidth
             />
             {oldMessage && (
@@ -185,9 +187,6 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
                 id="previousMessage"
                 label="Previous Message"
                 variant="filled"
-                // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
-                // Is this something that needs to be addressed?
-                sx={{ display: 'block' }}
                 multiline
                 rows={3}
                 InputProps={{
@@ -204,7 +203,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
               id="message"
               onChange={(e) => handleChange(e)}
               multiline
-              rows={5}
+              rows={4}
               label="Message"
               required
               // TODO: Determine how long a maximum length, if any, is suitable
@@ -245,7 +244,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
           </form>
         </FormSection>
       </Box>
-    </Dialog>
+    </ModalBase>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */
 };

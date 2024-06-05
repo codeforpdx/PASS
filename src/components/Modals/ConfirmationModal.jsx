@@ -16,25 +16,25 @@ import ConfirmationButton from './ConfirmationButton';
 import LogoutButton from './LogoutButton';
 
 /**
- * ConfirmationModal Component - Component that allows users to cancel or
+ * ConfirmationModal - Component that allows users to cancel or
  * confirm their previously chosen action
  *
  * @memberof Modals
  * @name ConfirmationModal
  * @param {object} Props - Props used for ConfirmationModal
- * @param {boolean} Props.showModal - toggle showing modal
+ * @param {boolean} Props.showModal - Toggle showing modal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowModal
- * - used to close the modal
- * @param {string} Props.title - text rendered in dialog title & confirmationButton
- * @param {string} Props.text - text rendered in dialog content text
- * @param {string} Props.confirmButtonText - text rendered in the confirmation button
- * @param {string} Props.cancelButtonText - text rendered in the cancel button
- * @param {Function} Props.onConfirm - callback that runs onClick of confirm button
- * @param {Function} Props.onCancel - callback that runs onClick of cancel button and after modal is closed (optional)
- * @param {boolean} Props.processing - state used to disable button
- * @param {boolean} [Props.isLogout] - boolean to wrap button with inrupt logout
+ * - Used to close the modal
+ * @param {string} Props.title - Text rendered in dialog title & confirmationButton
+ * @param {string} Props.text - Text rendered in dialog content text
+ * @param {string} Props.confirmButtonText - Text rendered in the confirmation button
+ * @param {string} Props.cancelButtonText - Text rendered in the cancel button
+ * @param {Function} Props.onConfirm - Callback that runs onClick of confirm button
+ * @param {Function} Props.onCancel - Callback that runs onClick of cancel button and after modal is closed (optional)
+ * @param {boolean} Props.processing - State used to disable button
+ * @param {boolean} [Props.isLogout] - Boolean to wrap button with inrupt logout
  * functionality
- * @returns {React.JSX.Element} - The confirmation modal
+ * @returns {React.JSX.Element} The confirmation modal
  */
 const ConfirmationModal = ({
   showModal,
@@ -79,36 +79,45 @@ const ConfirmationModal = ({
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
       onClose={handleClose}
+      PaperProps={{ sx: { borderRadius: '25px' } }}
     >
-      <DialogTitle id="dialog-title">{title.toUpperCase()}</DialogTitle>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <DialogTitle id="dialog-title" sx={{ fontWeight: 'bold' }}>
+          {title}
+        </DialogTitle>
 
-      <DialogContent>
-        <DialogContentText id="dialog-description">{text}</DialogContentText>
-      </DialogContent>
+        <DialogContent id="dialog-description">
+          <DialogContentText>{text}</DialogContentText>
+        </DialogContent>
 
-      <DialogActions sx={{ width: '100%' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: isSmallScreen ? 'column' : 'row',
-            gap: isSmallScreen ? '10px' : '8px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%'
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="error"
-            endIcon={<ClearIcon />}
-            onClick={handleClose}
-            fullWidth
+        <DialogActions sx={{ width: '100%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              width: '100%'
+            }}
           >
-            {cancelButtonText}
-          </Button>
-          {confirmButton()}
-        </Box>
-      </DialogActions>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<ClearIcon />}
+              onClick={handleClose}
+              fullWidth
+            >
+              {cancelButtonText}
+            </Button>
+            {confirmButton()}
+          </Box>
+        </DialogActions>
+      </Box>
     </Dialog>
   );
 };

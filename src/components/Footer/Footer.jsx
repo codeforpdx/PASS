@@ -12,7 +12,7 @@ import RenderCompanyInfoSection from './RenderCompanyInfoSection';
 import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
 
 /**
- * Footer Component - Generates the responsive footer used in PASS
+ * Footer - Generates the responsive footer used in PASS
  *
  * @memberof Footer
  * @name Footer

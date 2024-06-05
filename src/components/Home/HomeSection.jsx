@@ -7,20 +7,20 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 /**
- * Represents a home section component
+ * HomeSection - Generates a home section component
  *
  * @memberof Home
  * @name HomeSection
- * @param {object} Props - the component props
- * @param {string} Props.componentImageSrc - image src
- * @param {string} Props.componentImageAlt - image alt
- * @param {string} Props.title - section title
- * @param {string} Props.description - section description
- * @param {string} Props.button - section button
- * @param {string} Props.href - section button href
- * @param {string} Props.label - section button aria-label
- * @param {boolean} Props.hasMargin - gives marginBottom
- * @returns {React.JSX.Element} - the home section component
+ * @param {object} Props - The component props
+ * @param {string} Props.componentImageSrc - Image src
+ * @param {string} Props.componentImageAlt - Image alt
+ * @param {string} Props.title - Section title
+ * @param {string} Props.description - Section description
+ * @param {string} Props.button - Section button
+ * @param {string} Props.href - Section button href
+ * @param {string} Props.label - Section button aria-label
+ * @param {boolean} Props.hasMargin - Gives marginBottom
+ * @returns {React.JSX.Element} The Home Section component
  */
 const HomeSection = ({
   componentImageSrc,
@@ -46,10 +46,11 @@ const HomeSection = ({
       mb="24px"
       sx={{
         color: 'primary.main',
-        fontSize: '28px'
+        fontSize: '28px',
+        fontWeight: 'bold'
       }}
     >
-      <strong>{title}</strong>
+      {title}
     </Typography>
     {description && (
       <Typography

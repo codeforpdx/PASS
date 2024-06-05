@@ -1,8 +1,11 @@
+// React Imports
 import React, { useRef } from 'react';
 import Webcam from 'react-webcam';
-import Modal from '@mui/material/Modal';
+// Material UI Imports
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
+// TODO: Determine future of this modal
 // web camera modal
 const WebcamModal = ({ open, onClose, onCapture }) => {
   const webcamRef = useRef(null);

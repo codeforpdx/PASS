@@ -1,13 +1,13 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
@@ -20,7 +20,7 @@ import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 import ProfileImageField from './ProfileImageField';
 
 /**
- * The UserProfile Component is a component that renders the user's profile on
+ * UserProfile - Component is a component that renders the user's profile on
  * PASS
  *
  * @memberof Profile

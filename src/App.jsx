@@ -2,11 +2,11 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SessionProvider } from '@contexts';
 // Material UI Imports
-import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 // Context Imports
+import { SessionProvider } from '@contexts';
 import UserDataContextProvider from './contexts/UserDataContext';
 import { NotificationContextProvider } from './contexts/NotificationContext';
 // Theme Imports
@@ -18,7 +18,7 @@ import Layout from './layouts/Layout';
 const queryClientConfig = {
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 // one minute
+      staleTime: 1000 * 60 // One minute
     }
   }
 };

@@ -2,15 +2,22 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { expect, it } from 'vitest';
-import NavbarMobile from '../../../src/components/NavBar/NavbarMobile';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NavbarMobile } from '@components/NavBar';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-it('renders hamburger menu when on mobile', () => {
-  const { queryByRole } = render(
+const queryClient = new QueryClient();
+
+const MockNavbarMobile = () => (
+  <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <NavbarMobile />
+      <NavbarMobile openMenu />
     </BrowserRouter>
-  );
+  </QueryClientProvider>
+);
+
+it('renders hamburger menu when on mobile', () => {
+  const { queryByRole } = render(<MockNavbarMobile />);
 
   const logo = queryByRole('img', { name: /logo$/ });
   const navLinks = queryByRole('tablist');
@@ -23,11 +30,7 @@ it('renders hamburger menu when on mobile', () => {
 
 it('removes tab links from header to NavMenu below 600px', async () => {
   window.matchMedia = createMatchMedia(599);
-  const { queryByLabelText, queryByRole } = render(
-    <BrowserRouter>
-      <NavbarMobile />
-    </BrowserRouter>
-  );
+  const { queryByLabelText, queryByRole } = render(<MockNavbarMobile />);
 
   const logo = queryByRole('img', { name: /logo$/ });
   const navLinks = queryByLabelText('navigation tabs');

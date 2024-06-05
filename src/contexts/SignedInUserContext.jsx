@@ -36,9 +36,11 @@ export const SignedInUserContextProvider = ({ children }) => {
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
   const [podUrl, setPodUrl] = useState('');
   const [profileData, setProfileData] = useState(null);
+  const { webId } = session.info;
 
   const userInfoMemo = useMemo(
     () => ({
+      webId,
       podUrl,
       profileData,
       setProfileData: async (newProfileData) => setProfileData(newProfileData),
@@ -53,7 +55,6 @@ export const SignedInUserContextProvider = ({ children }) => {
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
-        const { webId } = session.info;
         let fetchedPodUrl = (await getPodUrlAll(webId, { fetch: session.fetch }))[0];
         fetchedPodUrl = fetchedPodUrl || webId.split('profile')[0];
         setPodUrl(fetchedPodUrl);

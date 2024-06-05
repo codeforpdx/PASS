@@ -4,12 +4,12 @@ import React from 'react';
 import { DocumentListContextProvider, SignedInUserContextProvider } from '.';
 
 /**
- * A collection of React Contexts used for PASS to be used as a single wrapper
+ * UserDataContextProvider - A collection of React Contexts used for PASS to be used as a single wrapper
  *
  * @memberof contexts
  * @function UserDataContextProvider
  * @param {React.JSX.Element} children - The components that consume the data context
- * @returns {React.JSX.Element} - A react app
+ * @returns {React.JSX.Element} A React app
  * Context from Provider
  */
 const UserDataContextProvider = ({ children }) => (

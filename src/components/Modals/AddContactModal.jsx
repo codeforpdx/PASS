@@ -8,27 +8,28 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-// Custom Hook Imports
+// Custom Hooks Imports
 import useNotification from '@hooks/useNotification';
 // Constant Imports
 import { ENV } from '@constants';
 // Util Imports
-import { saveToClipboard } from '@utils';
+import { saveToClipboard, truncateText } from '@utils';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
+// TODO: Delete this if unneeded
 // @memberof Modals
 // @name renderWebId
 // @param {string} username - Username to convert into a webId
@@ -40,8 +41,8 @@ import { FormSection } from '../Form';
 // };
 
 /**
- * AddContactModal Component - Component that allows users to add other user's
- * Pod URLs from a user's list stored on their own Pod
+ * AddContactModal - Component that allows users to add other users'
+ * Pod URLs from a list stored in their own Pod
  *
  * @memberof Modals
  * @name AddContactModal
@@ -49,7 +50,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
- * @returns {React.JSX.Element} - The Add Contact Modal
+ * @returns {React.JSX.Element} The Add Contact Modal
  */
 const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
   const { addNotification } = useNotification();
@@ -67,7 +68,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   const [isSubmittable, setIsSubmittable] = useState(false);
 
   useEffect(() => {
-    // disables submit button if form not fully filled out
+    // Disables submit button if form not fully filled out
     if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
       setIsSubmittable(true);
     else setIsSubmittable(false);
@@ -116,10 +117,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     try {
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
+
       const nameDisplay =
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
-      addNotification('success', `"${nameDisplay}" added to contact list`);
+      const truncatedText = nameDisplay ? truncateText(nameDisplay) : '';
 
+      // TODO: If the webid is the same as an existing contact,
+      // edit notification to say that it has been updated rather than added
+      addNotification('success', `"${truncatedText}" added to contact list`);
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
@@ -132,7 +137,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
   };
 
   return (
-    <Dialog
+    <ModalBase
       open={showAddContactModal}
       aria-labelledby="dialog-title"
       onClose={() => setShowAddContactModal(false)}
@@ -166,19 +171,18 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             title="Select the server/website where your pod is located"
             margin="normal"
             arrow
-            placement="left"
+            placement="bottom"
           >
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
               <InputLabel>OIDC Provider</InputLabel>
               <Select
-                labelId="demo-multiple-name-label"
-                id="demo-multiple-name"
-                value={Oidc}
+                id="add-oidc-provider"
+                name="oidcProvider"
                 label="OIDC Provider"
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
+                value={Oidc}
                 fullWidth
-                required
                 aria-required
               >
                 {oidcProviders.map((oidc) => (
@@ -194,7 +198,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             <Tooltip
               title="Enter the username associated with your WebID"
               arrow
-              placement="left"
+              placement="bottom"
               margin="normal"
             >
               <FormControl fullWidth>
@@ -213,7 +217,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
             </Tooltip>
           )}
           {customWebID && (
-            <Tooltip title="Enter your full WebID" arrow placement="left">
+            <Tooltip title="Enter your full WebID" arrow placement="bottom">
               <TextField
                 margin="normal"
                 id="add-webId"
@@ -288,7 +292,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
           </DialogActions>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

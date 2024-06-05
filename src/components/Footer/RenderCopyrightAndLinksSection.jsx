@@ -10,26 +10,24 @@ import Typography from '@mui/material/Typography';
 // Links for component
 const legalLinks = [
   {
-    href: 'https://www.codeforpdx.org/',
+    href: 'https://www.codepdx.org/',
     title: 'Privacy Policy'
   },
   {
-    href: 'https://www.codeforpdx.org/',
+    href: 'https://www.codepdx.org/',
     title: 'Terms and Conditions'
   },
   {
-    href: 'https://www.codeforpdx.org/',
-    target: '_blank',
-    rel: 'noopenner',
+    href: 'https://www.codepdx.org/',
+    title: 'CODE PDX',
     ml: 0.5,
-    text: `©${dayjs().year()}`,
-    title: 'CODE PDX'
+    text: `©${dayjs().year()}`
   }
 ];
 
 /**
- * The RenderCopyrightAndLinksSection component renders information about policy,
- * terms and conditions, and the site to Code for PDX
+ * RenderCopyrightAndLinksSection - Component that renders information about policy,
+ * terms and conditions, and the site to CODE PDX
  *
  * @param {object} Props - The props for footer sub-component
  * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
@@ -50,8 +48,8 @@ const RenderCopyrightAndLinksSection = ({ isReallySmallScreen }) => (
           href={link.href}
           underline="none"
           color="tertiary.main"
-          target={link.target ?? null}
-          rel={link.rel ?? null}
+          target="_blank"
+          rel="noopenner"
           ml={link.ml ?? null}
         >
           {link.title}

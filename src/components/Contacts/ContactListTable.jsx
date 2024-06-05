@@ -11,7 +11,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
-// MUI Theme
+// Theme Imports
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
@@ -35,8 +35,8 @@ const CustomToolbar = () => (
  * @memberof Contacts
  * @name ContactListTable
  * @param {object} Props - Props for ContactListTable
- * @param {userListObject[]} Props.contacts - this list of contacts to display
- * @param {Function} Props.deleteContact - method to delete contact
+ * @param {userListObject[]} Props.contacts - This list of contacts to display
+ * @param {Function} Props.deleteContact - Method to delete contact
  * @returns {React.JSX.Element} The ContactListTable Component
  */
 const ContactListTable = ({ contacts, deleteContact }) => {

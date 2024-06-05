@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
@@ -14,14 +14,15 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// Dependency Imports
 import dayjs from 'dayjs';
-// Hook Imports
+// Hooks Imports
 import { useCivicProfile, useNotification } from '@hooks';
 // Component Imports
 import { FormSection } from '../Form';
 
 /**
- * BasicInfo Component - A form to fill out basic user info
+ * BasicInfo - A form to fill out basic user info
  *
  * @memberof CivicProfileForms
  * @name BasicInfo
@@ -82,7 +83,7 @@ const BasicInfo = () => {
 
   return (
     <FormSection title="Basic Information">
-      <form aria-labelledby="add-contact-form" onSubmit={handleSubmit} autoComplete="off">
+      <form aria-labelledby="hmis-basic-info-form" onSubmit={handleSubmit} autoComplete="off">
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField

@@ -3,6 +3,7 @@ import {
   generateDpopKeyPair,
   buildAuthenticatedFetch
 } from '@inrupt/solid-client-authn-core';
+import handleIncomingHTTPErrors from './handleHTTPErrors';
 /**
  * @typedef RegistrationDoc
  * @property {string} podUrl - The URL of the pod created during registration
@@ -26,8 +27,8 @@ import {
 const registerPod = async ({ email, password }, oidcProvider) => {
   // See https://communitysolidserver.github.io/CommunitySolidServer/latest/usage/account/json-api/
   // For API
-
   // Create User account, web ID, and Pod
+
   const res = await fetch(`${oidcProvider}.account/`, { headers: { Accepts: 'application/json' } });
   const { controls } = await res.json();
   const createResp = await fetch(controls.account.create, { method: 'POST' });
@@ -35,16 +36,21 @@ const registerPod = async ({ email, password }, oidcProvider) => {
   const response = await fetch(`${oidcProvider}.account/`, {
     headers: { Authorization: `CSS-Account-Token ${newAccountAuth.authorization}` }
   });
+
   const { controls: createControls } = await response.json();
+
   const createHeaders = {
     'Content-Type': 'application/json',
     Authorization: `CSS-Account-Token ${newAccountAuth.authorization}`
   };
-  await fetch(createControls.password.create, {
+  const createControlsResp = await fetch(createControls.password.create, {
     method: 'POST',
     headers: createHeaders,
     body: JSON.stringify({ email, password })
   });
+
+  handleIncomingHTTPErrors(await createControlsResp.json());
+
   const podResp = await fetch(createControls.account.pod, {
     method: 'POST',
     headers: createHeaders,
@@ -96,6 +102,7 @@ const registerPod = async ({ email, password }, oidcProvider) => {
 
   const { access_token: accessToken } = await tokenResponse.json();
   const authFetch = await buildAuthenticatedFetch(accessToken, { dpopKey });
+
   return { podUrl, webId, fetch: authFetch };
 };
 
