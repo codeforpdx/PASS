@@ -79,7 +79,8 @@ const HousingInfo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isSuccess || !storedDataset) {
+    if (!isSuccess || !storedDataset || zipError) {
+      addNotification('error', 'Form error. Please check for errors.');
       return;
     }
 
