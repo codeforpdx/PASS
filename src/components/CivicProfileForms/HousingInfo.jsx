@@ -24,7 +24,7 @@ import { FormSection } from '../Form';
 
 const HousingInfo = () => {
   const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
-  // const { addNotification } = useNotification();
+  const addNotification = useNotification();
   const [zipError, setZipError] = useState(false);
   const [formData, setFormData] = useState({
     lastPermanentStreet: '',
@@ -74,18 +74,18 @@ const HousingInfo = () => {
       timeToHousingLoss: ''
     }));
 
-    useNotification('success', `Form cleared!`);
+    addNotification('success', `Form cleared!`);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isSuccess || !storedDataset || zipError) {
-      useNotification('error', 'Form error. Please check for errors.');
+      addNotification('error', 'Form error. Please check for errors.');
       return;
     }
 
     add(formData);
-    useNotification('success', `Form submitted!`);
+    addNotification('success', `Form submitted!`);
   };
 
   return (
