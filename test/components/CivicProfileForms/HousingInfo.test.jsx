@@ -50,8 +50,8 @@ describe('Housing info form', () => {
       name: 'Number of Times Houseless Past 3 Years:'
     });
     const timeToHousingLossField = getByRole('option', { name: 'Time Until Loss of Housing:' });
-    const submitButton = getByRole('button', { name: 'submit' });
-    const clearButton = getByRole('button', { name: 'clear' });
+    const submitButton = getByRole('button', { name: 'Submit button' });
+    const clearButton = getByRole('button', { name: 'Clear button' });
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
@@ -91,8 +91,8 @@ describe('Housing info form', () => {
       name: 'Number of Times Houseless Past 3 Years:'
     });
     const timeToHousingLossField = getByRole('option', { name: 'Time Until Loss of Housing:' });
-    const submitButton = getByRole('button', { name: 'submit' });
-    const clearButton = getByRole('button', { name: 'clear' });
+    const submitButton = getByRole('button', { name: 'Submit button' });
+    const clearButton = getByRole('button', { name: 'Clear button' });
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
