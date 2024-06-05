@@ -69,9 +69,9 @@ describe('Housing info form', () => {
       lastPermanentStreet: '20th ave',
       lastPermanentState: 'Oregon',
       lastPermanentZIP: '97205',
-      monthsHomeless: '1',
-      timesHomeless: '3',
-      timeToHousingLoss: '2 weeks'
+      monthsHomeless: '1 Month',
+      timesHomeless: 'One Time',
+      timeToHousingLoss: '7-13 Days'
     };
     useCivicProfile.mockReturnValue({
       add: mockAdd,
@@ -84,11 +84,11 @@ describe('Housing info form', () => {
     const streetField = getByRole('textbox', { name: 'Street:' });
     const stateField = getByRole('textbox', { name: 'State:' });
     const zipField = getByRole('textbox', { name: 'ZIP Code:' });
-    const monthsHomelessField = getByRole('textbox', { name: 'Months Houseless Past 3 Years:' });
-    const timesHomelessField = getByRole('textbox', {
+    const monthsHomelessField = getByRole('option', { name: 'Months Houseless Past 3 Years:' });
+    const timesHomelessField = getByRole('option', {
       name: 'Number of Times Houseless Past 3 Years:'
     });
-    const timeToHousingLossField = getByRole('textbox', { name: 'Time Until Loss of Housing:' });
+    const timeToHousingLossField = getByRole('option', { name: 'Time Until Loss of Housing:' });
     const submitButton = getByRole('button');
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
