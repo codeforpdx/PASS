@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Custom Hooks Imports
-import { useSession } from '@hooks';
+import { useSession, useNotification } from '@hooks';
 // Inrupt Imports
 import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
@@ -38,32 +38,41 @@ const Signup = () => {
   const [caseManagerName, setCaseManagerName] = useState();
   const [step, setStep] = useState('begin');
   const [registrationInfo, setRegistrationInfo] = useState({});
+  const { addNotification } = useNotification();
+  const [previousInfo, setPreviousInfo] = useState(null);
 
   const { session } = useSession();
 
   const registerAndInitialize = async (email, password, confirmPassword) => {
     setStep('loading');
-    const registration = await registerPod(
-      {
-        email,
-        password,
-        confirmPassword
-      },
-      oidcIssuer
-    );
-    setRegistrationInfo(registration);
-    const caseManagerNames = caseManagerName?.split(' ') || [];
-    await initializePod(
-      registration.webId,
-      registration.podUrl,
-      {
-        caseManagerWebId,
-        caseManagerFirstName: caseManagerNames[0],
-        caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
-      },
-      registration.fetch
-    );
-    setStep('done');
+    setPreviousInfo({ email, password, confirmPassword });
+    try {
+      const registration = await registerPod(
+        {
+          email,
+          password,
+          confirmPassword
+        },
+        oidcIssuer
+      );
+      setRegistrationInfo(registration);
+      const caseManagerNames = caseManagerName?.split(' ') || [];
+      await initializePod(
+        registration.webId,
+        registration.podUrl,
+        {
+          caseManagerWebId,
+          caseManagerFirstName: caseManagerNames[0],
+          caseManagerLastName: caseManagerNames[caseManagerNames.length - 1]
+        },
+        registration.fetch
+      );
+
+      setStep('done');
+    } catch (httpError) {
+      addNotification('error', httpError.message);
+      setStep('begin');
+    }
   };
 
   const loadProfileInfo = async () => {
@@ -114,6 +123,7 @@ const Signup = () => {
           {step === 'begin' && (
             <>
               <PodRegistrationForm
+                previousInfo={previousInfo}
                 register={registerAndInitialize}
                 caseManagerName={caseManagerName}
               />
