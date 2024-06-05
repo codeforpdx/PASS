@@ -211,6 +211,7 @@ const HousingInfo = () => {
               variant="outlined"
               type="button"
               label="Clear button"
+              name="clear"
               color="error"
               startIcon={<ClearIcon />}
               fullWidth
@@ -227,6 +228,7 @@ const HousingInfo = () => {
             <Button
               variant="contained"
               type="submit"
+              name="submit"
               label="Submit button"
               color="primary"
               startIcon={<CheckIcon />}
