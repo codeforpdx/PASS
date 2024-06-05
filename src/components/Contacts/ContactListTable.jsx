@@ -3,9 +3,14 @@ import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -46,12 +51,27 @@ const CustomToolbar = () => (
 const ContactListTable = ({ contacts, deleteContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
     setMessageToField(isSmallScreen ? contactId.podUrl : contactId.value.podUrl);
+    setAnchorEl(null);
+  };
+
+  const handleProfileClick = () => {
+    setAnchorEl(null);
   };
 
   const columnTitlesArray = [
@@ -79,7 +99,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     },
     {
       field: 'Profile',
-      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
+      renderCell: (contactData) => <SendIcon onClick={() => handleProfileClick(contactData)} />,
       sortable: false,
       filterable: false,
       width: 80,
@@ -116,32 +136,88 @@ const ContactListTable = ({ contacts, deleteContact }) => {
   ];
 
   return (
-    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
+    <Box
+      sx={{
+        margin: '20px 0',
+        width: '90vw',
+        height: '500px'
+      }}
+    >
       {isSmallScreen ? (
         <Box>
           {contacts?.map((contact) => (
-            <Card key={contact.webId} sx={{ my: '15px', p: '15px' }}>
-              <Typography>
-                {contact.givenName || ''} {contact.familyName || ''}
-              </Typography>
-              <Typography>{contact.webId}</Typography>
-              <ButtonGroup
-                variant="text"
-                direction="horizontal"
-                aria-label="Basic button group"
-                fullWidth
+            <Box key={contact.webId}>
+              <Card
+                sx={{
+                  my: '5px'
+                }}
               >
-                <Button>
-                  <ContactProfileIcon contact={contact} />
-                </Button>
-                <Button onClick={() => handleSendMessage(contact.podUrl)}>
-                  <SendIcon sx={{ color: '#808080', cursor: 'pointer' }} />
-                </Button>
-                <Button>
-                  <DeleteOutlineOutlinedIcon />
-                </Button>
-              </ButtonGroup>
-            </Card>
+                <CardContent>
+                  <Grid container alignItems="center">
+                    <Grid item xs={9}>
+                      <CardContent>
+                        <Typography variant="h6" component="div">
+                          {contact.givenName || ''} {contact.familyName || ''}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" noWrap>
+                          {contact.webId}
+                        </Typography>
+                      </CardContent>
+                    </Grid>
+                    <Grid item xs={3} container justifyContent="flex-end">
+                      <IconButton
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button'
+                    }}
+                  >
+                    <MenuItem
+                      component={Button}
+                      onClick={() => handleProfileClick(contact)}
+                      startIcon={<ContactProfileIcon contact={contact} />}
+                    >
+                      Profile
+                    </MenuItem>
+                    <MenuItem
+                      component={Button}
+                      onClick={() => handleSendMessage(contact)}
+                      startIcon={
+                        <SendIcon
+                          sx={{
+                            color: '#808080',
+                            cursor: 'pointer'
+                          }}
+                        />
+                      }
+                    >
+                      Message
+                    </MenuItem>
+                    <MenuItem
+                      component={Button}
+                      onClick={() => deleteContact(contact)}
+                      startIcon={<DeleteOutlineOutlinedIcon />}
+                    >
+                      Delete
+                    </MenuItem>
+                  </Menu>
+                </CardContent>
+              </Card>
+            </Box>
           ))}
         </Box>
       ) : (

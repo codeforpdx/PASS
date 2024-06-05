@@ -115,6 +115,7 @@ const Contacts = () => {
               >
                 <MenuItem value="First Name">First Name</MenuItem>
                 <MenuItem value="Last Name">Last Name</MenuItem>
+                <MenuItem value="Web ID">Web ID</MenuItem>
               </Select>
             </FormControl>
           )}
