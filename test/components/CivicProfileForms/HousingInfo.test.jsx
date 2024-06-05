@@ -30,9 +30,9 @@ describe('Housing info form', () => {
       lastPermanentStreet: '20th ave',
       lastPermanentState: 'Oregon',
       lastPermanentZIP: '97205',
-      monthsHomeless: '1',
-      timesHomeless: '3',
-      timeToHousingLoss: '2 weeks'
+      monthsHomeless: '3 Months',
+      timesHomeless: 'Two Times',
+      timeToHousingLoss: '7-13 Days'
     };
     useCivicProfile.mockReturnValue({
       add: mockAdd,
