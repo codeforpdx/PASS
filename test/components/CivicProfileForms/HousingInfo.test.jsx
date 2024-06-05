@@ -50,7 +50,8 @@ describe('Housing info form', () => {
       name: 'Number of Times Houseless Past 3 Years:'
     });
     const timeToHousingLossField = getByRole('option', { name: 'Time Until Loss of Housing:' });
-    const submitButton = getByRole('button');
+    const submitButton = getByRole('button', { name: 'submit' });
+    const clearButton = getByRole('button', { name: 'clear' });
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
@@ -59,6 +60,7 @@ describe('Housing info form', () => {
     await user.type(timesHomelessField, address.timesHomeless);
     await user.type(timeToHousingLossField, address.timeToHousingLoss);
     await user.click(submitButton);
+    await user.click(clearButton);
     expect(mockAdd).toBeCalledWith(address);
   });
   it('does not submit when storedDataset is null', async () => {
@@ -89,7 +91,8 @@ describe('Housing info form', () => {
       name: 'Number of Times Houseless Past 3 Years:'
     });
     const timeToHousingLossField = getByRole('option', { name: 'Time Until Loss of Housing:' });
-    const submitButton = getByRole('button');
+    const submitButton = getByRole('button', { name: 'submit' });
+    const clearButton = getByRole('button', { name: 'clear' });
     await user.type(cityField, address.lastPermanentCity);
     await user.type(streetField, address.lastPermanentStreet);
     await user.type(stateField, address.lastPermanentState);
@@ -98,6 +101,7 @@ describe('Housing info form', () => {
     await user.type(timesHomelessField, address.timesHomeless);
     await user.type(timeToHousingLossField, address.timeToHousingLoss);
     await user.click(submitButton);
+    await user.click(clearButton);
     expect(mockAdd).not.toBeCalled();
   });
 });
