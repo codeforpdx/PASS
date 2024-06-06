@@ -31,9 +31,9 @@ const HousingInfo = () => {
     lastPermanentCity: '',
     lastPermanentState: '',
     lastPermanentZIP: '',
-    monthsHomeless: '',
-    timesHomeless: '',
-    timeToHousingLoss: ''
+    monthsHomeless: 99,
+    timesHomeless: 99,
+    timeToHousingLoss: 99
   });
 
   useEffect(() => {
@@ -69,9 +69,9 @@ const HousingInfo = () => {
       lastPermanentCity: '',
       lastPermanentState: '',
       lastPermanentZIP: '',
-      monthsHomeless: '',
-      timesHomeless: '',
-      timeToHousingLoss: ''
+      monthsHomeless: 99,
+      timesHomeless: 99,
+      timeToHousingLoss: 99
     }));
 
     addNotification('success', `Form cleared!`);
@@ -137,7 +137,6 @@ const HousingInfo = () => {
           <FormControl onSubmit={handleSubmit}>
             <InputLabel id="months-homeless-input-label">Months Houseless Past 3 Years:</InputLabel>
             <Select
-              role="option"
               id="months-homeless-input"
               labelId="months-homeless-input-label"
               name="monthsHomeless"
@@ -168,7 +167,6 @@ const HousingInfo = () => {
               Number of Times Houseless Past 3 Years:
             </InputLabel>
             <Select
-              role="option"
               id="times-homeless-input"
               labelId="times-homeless-input-label"
               name="timesHomeless"
@@ -190,7 +188,6 @@ const HousingInfo = () => {
               Time Until Loss of Housing:
             </InputLabel>
             <Select
-              role="option"
               id="time-to-housing-loss-input"
               labelId="time-to-housing-loss-input-label"
               name="timeToHousingLoss"
