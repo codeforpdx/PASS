@@ -1,9 +1,15 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import { ContactListTable } from '@components/Contacts';
+import { render, cleanup } from '@testing-library/react';
+import { afterEach, expect, it } from 'vitest';
+// import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ContactListTable } from '@components/Contacts';
+import createMatchMedia from '../../helpers/createMatchMedia';
+
+afterEach(() => {
+  cleanup();
+});
 
 const queryClient = new QueryClient();
 
@@ -14,6 +20,16 @@ const MockTableComponent = ({ contacts }) => (
     </BrowserRouter>
   </QueryClientProvider>
 );
+
+// const { getByRole } = render(
+//   <QueryClientProvider client={queryClient}>
+//     <SessionContext.Provider value={{ session: { info: { isLoggedIn: true } } }}>
+//       <BrowserRouter>
+//         <ContactListTable contacts={contacts} />
+//       </BrowserRouter>
+//     </SessionContext.Provider>
+//   </QueryClientProvider>
+// );
 
 it('renders all clients from client context', () => {
   const contacts = [
@@ -72,4 +88,12 @@ it('sorts clients by familyName', () => {
   const client2 = getByRole('cell', { name: 'Builder' });
 
   expect(client1.compareDocumentPosition(client2)).toBe(Node.DOCUMENT_POSITION_PRECEDING);
+
+  it('renders ContactsListTable when user is logged in on larger screen device', () => {
+    window.matchMedia = createMatchMedia(1200);
+  });
+
+  it('renders ContactsListTable when user is logged in on smaller screen device', () => {
+    window.matchMedia = createMatchMedia(1200);
+  });
 });
