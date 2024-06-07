@@ -3,22 +3,13 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Material UI Imports
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import FilledInput from '@mui/material/FilledInput';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-/* Styles for MUI components */
-const cardStyle = {
-  padding: '8px',
-  margin: '8px',
-  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-};
 
 const formRowStyle = {
   margin: '20px 0'
@@ -56,23 +47,11 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
 
   return (
     <>
-      <Typography
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        mb={2}
-        variant="h5"
-        component="h3"
-      >
-        Register For PASS
-      </Typography>
       {searchParams.get('webId') && (
         <p>You will register with {caseManagerName ?? searchParams.get('webId')}</p>
       )}
 
-      <Card variant="outlined" sx={cardStyle}>
-        <CardHeader title="Set Up a New Pod" />
-
+      <Box>
         <form onSubmit={handleSubmit} style={formRowStyle} autoComplete="off">
           <TextField
             style={textFieldStyle}
@@ -145,7 +124,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
             Set up your Pod
           </Button>
         </form>
-      </Card>
+      </Box>
     </>
   );
 };

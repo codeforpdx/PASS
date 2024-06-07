@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 /* Styles */
@@ -33,14 +32,7 @@ const ExistingPodForm = () => {
   };
 
   return (
-    <Card
-      sx={{
-        padding: '8px',
-        margin: '8px',
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-      }}
-    >
-      <CardHeader title="Register with Existing Pod" />
+    <Box>
       <form onSubmit={loginHandler} style={formRowStyle}>
         {/* TODO: Consider changing this to Autocomplete like the NavBar and SignInModal have */}
         <TextField
@@ -63,7 +55,7 @@ const ExistingPodForm = () => {
           Login to Pod Provider
         </Button>
       </form>
-    </Card>
+    </Box>
   );
 };
 
