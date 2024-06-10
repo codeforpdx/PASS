@@ -35,12 +35,10 @@ const ContactProfileIcon = ({ contact }) => {
 
   // Event handler for profile page routing
   const handleSelectProfile = async (contactInfo) => {
-    console.log(`contactInfo: ${contactInfo}`);
     try {
       await getWebIdDataset(contactInfo.webId);
       setContact(contactInfo);
     } catch (error) {
-      console.error('Error fetching webId dataset:', error);
       setContact(null);
       navigate('/contacts');
       addNotification('error', 'WebId does not exist');

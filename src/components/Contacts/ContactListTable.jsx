@@ -83,8 +83,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     setMessageToField(isSmallScreen ? contactId.podUrl : contactId.value.podUrl);
   };
 
-  const handleProfileClick = (value) => {
-    console.log(value);
+  const handleProfileClick = (contactData) => {
+    <ContactProfileIcon contact={contactData} />;
   };
 
   const columnTitlesArray = [
@@ -187,9 +187,16 @@ const ContactListTable = ({ contacts, deleteContact }) => {
               <Grid item xs={6}>
                 <Typography component="div">Last Name</Typography>
               </Grid>
-              <Grid item container xs={2}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: 15,
+                  transform: 'translateY(-50%)'
+                }}
+              >
                 <Typography>Actions</Typography>
-              </Grid>
+              </Box>
             </Grid>
           </Box>
           {contacts?.map((contact) => (
