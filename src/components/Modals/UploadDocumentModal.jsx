@@ -20,6 +20,7 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
+import { LoadingAnimation } from '@components/Notification';
 import ModalBase from './ModalBase';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
@@ -222,6 +223,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             </DialogActions>
           </FormControl>
         </form>
+        {processing && <LoadingAnimation loadingItem={file.name} />}
       </FormSection>
     </ModalBase>
   );
