@@ -4,8 +4,8 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
 // Component Imports
@@ -27,18 +27,25 @@ const CivicProfile = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: isSmallScreen ? 'column' : 'row' }}>
-      <Box sx={{ width: isSmallScreen ? '100%' : '25%', minWidth: '250px' }}>
+    <Container>
+      <Box>
         <nav>
-          <MenuList>
+          <Tabs
+            value={currentForm}
+            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+            aria-label="civic profile tabs"
+          >
             {CIVIC_FORM_LIST.map((form) => (
-              <Link to={form.path} style={{ textDecoration: 'none' }} key={form.path}>
-                <MenuItem divider selected={currentForm === form.path}>
-                  {form.label}
-                </MenuItem>
-              </Link>
+              <Tab
+                key={form.path}
+                component={Link}
+                to={form.path}
+                label={form.label}
+                value={form.path}
+                disabled={form.label === 'Financial Information'}
+              />
             ))}
-          </MenuList>
+          </Tabs>
         </nav>
       </Box>
       <Container>
