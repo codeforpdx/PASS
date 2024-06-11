@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/system';
+// import useMediaQuery from '@mui/material/useMediaQuery';
+// import { useTheme } from '@mui/system';
 // Component Imports
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
@@ -23,8 +23,8 @@ const CivicProfile = () => {
 
   localStorage.setItem('restorePath', location.pathname);
   const currentForm = location.pathname.split('/').pop();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  // const theme = useTheme();
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Container>
@@ -32,7 +32,7 @@ const CivicProfile = () => {
         <nav>
           <Tabs
             value={currentForm}
-            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+            // orientation={isSmallScreen ? 'vertical' : 'horizontal'}
             aria-label="civic profile tabs"
           >
             {CIVIC_FORM_LIST.map((form) => (
@@ -48,9 +48,9 @@ const CivicProfile = () => {
           </Tabs>
         </nav>
       </Box>
-      <Container>
+      <Box>
         <Outlet />
-      </Container>
+      </Box>
     </Container>
   );
 };
