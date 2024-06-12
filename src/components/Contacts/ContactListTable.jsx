@@ -7,7 +7,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -180,13 +179,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
               position: 'relative'
             }}
           >
-            <Grid container>
-              <Grid item xs={4}>
-                <Typography component="div">First Name</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography component="div">Last Name</Typography>
-              </Grid>
+            <Box>
+              <Typography>Name</Typography>
               <Box
                 sx={{
                   position: 'absolute',
@@ -197,7 +191,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
               >
                 <Typography>Actions</Typography>
               </Box>
-            </Grid>
+            </Box>
           </Box>
           {contacts?.map((contact) => (
             <Box key={contact.webId}>
@@ -208,22 +202,13 @@ const ContactListTable = ({ contacts, deleteContact }) => {
                 }}
               >
                 <CardContent>
-                  <Grid container alignItems="center">
-                    <Grid item xs={4}>
-                      <Typography component="div" noWrap>
-                        {contact.givenName || ''}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography component="div" noWrap>
-                        {contact.familyName || ''}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Typography variant="body2" component="div" noWrap color="text.secondary">
-                        {contact.webId}
-                      </Typography>
-                    </Grid>
+                  <Box>
+                    <Typography variant="body1" component="div" noWrap>
+                      {contact.givenName || ''} {contact.familyName || ''}
+                    </Typography>
+                    <Typography variant="body2" component="div" noWrap color="text.secondary">
+                      {contact.webId}
+                    </Typography>
                     <Box
                       sx={{
                         position: 'absolute',
@@ -242,7 +227,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
                         <MoreVertIcon />
                       </IconButton>
                     </Box>
-                  </Grid>
+                  </Box>
                 </CardContent>
 
                 <Menu
