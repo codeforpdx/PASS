@@ -21,7 +21,24 @@ import { saveToClipboard } from '@utils';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
 
-// JSDocs
+/**
+ * @typedef {object} Contact
+ * @property {string} webId - The Web ID of the contact
+ * @property {string} givenName - The given name of the contact
+ * @property {string} familyName - The family name of the contact
+ */
+
+/**
+ * ContactListTableMobile - Component for displaying contacts in a DataGrid
+ *
+ * @memberof Contacts
+ * @name ContactListTableMobile
+ * @param {object} Props - The props for ContactListTableMobile
+ * @param {Contact[]} Props.contacts - The list of contacts to display
+ * @param {Function} Props.deleteContact - Function to delete a contact
+ * @param {Function} Props.handleSendMessage - Function to handle sending a message
+ * @returns {React.JSX.Element} The ContactListTableMobile component
+ */
 const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) => {
   const { addNotification } = useNotification();
   const [anchorEl, setAnchorEl] = useState(null);
