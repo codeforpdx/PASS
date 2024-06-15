@@ -53,6 +53,7 @@ const AppRoutes = () => {
           ))}
         </Route>
         <Route path="/profile" element={<Profile />} />
+        {/* TODO: Remove blank Civic Profile page, ensure it directs Basic Information instead */}
         <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (
             <Route

@@ -22,7 +22,6 @@ import { FormSection } from '../Form';
  * @name HousingInfo
  * @returns {React.JSX.Element} The HousingInfo Component
  */
-
 const HousingInfo = () => {
   const { data, add, isSuccess, storedDataset, refetch } = useCivicProfile();
   const { addNotification } = useNotification();
@@ -92,14 +91,10 @@ const HousingInfo = () => {
   return (
     <FormSection title="Housing Information">
       <form aria-labelledby="hmis-basic-info-form" onSubmit={handleSubmit} autoComplete="off">
-        <Grid
-          container
-          spacing={2}
-          // columns={{ xs: 1, sm: 2 }}
-        >
+        <Grid container spacing={2} mt={0} mb={2}>
           <Grid item xs={12} md={6}>
             <TextField
-              id="street-input"
+              id="hmis-housing-info-last-street"
               name="lastPermanentStreet"
               label="Street:"
               onChange={handleChange}
@@ -110,7 +105,7 @@ const HousingInfo = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              id="city-input"
+              id="hmis-housing-info-last-city"
               name="lastPermanentCity"
               label="City:"
               onChange={handleChange}
@@ -120,7 +115,7 @@ const HousingInfo = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              id="state-input"
+              id="hmis-housing-info-last-state"
               name="lastPermanentState"
               label="State:"
               onChange={handleChange}
@@ -130,7 +125,7 @@ const HousingInfo = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              id="zip-input"
+              id="hmis-housing-info-last-zip"
               name="lastPermanentZIP"
               label="ZIP Code:"
               onChange={handleChange}
@@ -146,7 +141,7 @@ const HousingInfo = () => {
                 Months Houseless Past 3 Years:
               </InputLabel>
               <Select
-                id="months-homeless-input"
+                id="hmis-housing-info-months-homeless"
                 labelId="months-homeless-input-label"
                 name="monthsHomeless"
                 label="Months Houseless Past 3 Years:"
@@ -178,7 +173,7 @@ const HousingInfo = () => {
                 Number of Times Houseless Past 3 Years:
               </InputLabel>
               <Select
-                id="times-homeless-input"
+                id="hmis-housing-info-times-homeless"
                 labelId="times-homeless-input-label"
                 name="timesHomeless"
                 label="Number of Times Houseless Past 3 Years:"
@@ -201,7 +196,7 @@ const HousingInfo = () => {
                 Time Until Loss of Housing:
               </InputLabel>
               <Select
-                id="time-to-housing-loss-input"
+                id="hmis-housing-info-time-to-housing-loss"
                 labelId="time-to-housing-loss-input-label"
                 name="timeToHousingLoss"
                 label="Time Until Loss of Housing:"
@@ -217,8 +212,8 @@ const HousingInfo = () => {
             </FormControl>
           </Grid>
         </Grid>
-        <Grid container>
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
             <Button
               variant="outlined"
               type="button"
@@ -227,14 +222,13 @@ const HousingInfo = () => {
               color="error"
               startIcon={<ClearIcon />}
               fullWidth
-              // sx={{ borderRadius: '20px' }}
               onClick={handleClear}
               aria-label="Clear button"
             >
               Clear
             </Button>
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
               type="submit"
@@ -243,7 +237,6 @@ const HousingInfo = () => {
               color="primary"
               startIcon={<CheckIcon />}
               fullWidth
-              // sx={{ borderRadius: '20px' }}
               onClick={handleSubmit}
               disabled={!isSuccess}
               aria-label="Submit button"

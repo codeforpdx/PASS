@@ -2,9 +2,11 @@
 import React from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // Material UI Imports
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import Link from '@mui/material/Link';
 // Other Imports
 import HMIS_FORM_LIST from './FormList';
 
@@ -25,20 +27,34 @@ const FormLayout = ({ children }) => {
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (
-    <Box sx={{ margin: '8px' }}>
+    <Box sx={{ m: '8px' }}>
       <Card>{children}</Card>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', my: 1 }}>
         {pageIdx > 0 ? (
-          <Link component={RouterLink} to={`../${HMIS_FORM_LIST[pageIdx - 1].path}`}>
-            &lt; Prev
-          </Link>
+          <Button
+            variant="outlined"
+            component={RouterLink}
+            to={`../${HMIS_FORM_LIST[pageIdx - 1].path}`}
+            startIcon={<ArrowBackIcon />}
+            size="large"
+          >
+            Prev
+          </Button>
         ) : (
           <Box />
         )}
         {pageIdx < HMIS_FORM_LIST.length - 1 ? (
-          <Link component={RouterLink} to={`../${HMIS_FORM_LIST[pageIdx + 1].path}`}>
-            Next &gt;
-          </Link>
+          <Button
+            variant="outlined"
+            component={RouterLink}
+            to={`../${HMIS_FORM_LIST[pageIdx + 1].path}`}
+            endIcon={<ArrowForwardIcon />}
+            size="large"
+            // Disabled for incomplete Financial Information form
+            disabled={pageIdx === 1}
+          >
+            Next
+          </Button>
         ) : (
           <Box />
         )}
