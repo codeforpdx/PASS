@@ -117,7 +117,10 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     {
       field: 'Edit',
       renderCell: (contactId) => (
-        <EditIcon sx={{ color: 'gray' }} onClick={() => handleEditContact(contactId)} />
+        <EditIcon
+          sx={{ color: 'gray', cursor: 'pointer' }}
+          onClick={() => handleEditContact(contactId)}
+        />
       ),
       sortable: false,
       filterable: false,
