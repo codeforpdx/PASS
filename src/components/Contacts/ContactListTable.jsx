@@ -56,7 +56,6 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
 
   useEffect(() => {
     setContacts(contacts_);
-    console.log('Contact list table refreshed');
   }, [contacts_]);
 
   const handleSendMessage = (contactId) => {

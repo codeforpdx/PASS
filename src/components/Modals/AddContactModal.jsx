@@ -197,6 +197,7 @@ const AddContactModal = ({
               autoComplete="given-name"
               value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
+              InputLabelProps={{ shrink: !!userGivenName }}
               fullWidth
               autoFocus
             />
@@ -209,6 +210,7 @@ const AddContactModal = ({
             autoComplete="family-name"
             value={userFamilyName}
             onChange={(e) => setUserFamilyName(e.target.value)}
+            InputLabelProps={{ shrink: !!userFamilyName }}
             fullWidth
           />
           <Tooltip
