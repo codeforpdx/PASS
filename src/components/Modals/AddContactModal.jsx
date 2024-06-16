@@ -50,13 +50,28 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
+ * @param {Function} props.setShowAddContactModal - Toggle modal
+ * @param {Function} props.handleDeleteContact - ContactListTable delete function
+ * @param {object} props.contactToEdit - the contact being edited
+ * @param {object} props.contacts - the contacts in the ContactListTable
+ * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
  * @returns {React.JSX.Element} The Add Contact Modal
  */
-const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactModal }) => {
+
+const AddContactModal = ({
+  addContact,
+  handleDeleteContact,
+  showAddContactModal,
+  setShowAddContactModal,
+  contactToEdit,
+  contacts,
+  contactWebIds
+}) => {
   const { addNotification } = useNotification();
   const [userGivenName, setUserGivenName] = useState('');
   const [userFamilyName, setUserFamilyName] = useState('');
   const [webId, setWebId] = useState('');
+  const [originalWebId, setOriginalWebId] = useState('');
   const [invalidWebId, setInvalidWebId] = useState(false);
   const [userName, setUserName] = useState('');
   const [customWebID, setCustomWebID] = useState(false);
@@ -73,6 +88,16 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       setIsSubmittable(true);
     else setIsSubmittable(false);
   }, [isSubmittable, Oidc, userName, customWebID, webId]);
+
+  useEffect(() => {
+    // sets fields if form is set to Edit
+    if (typeof contactToEdit !== 'undefined') {
+      setUserGivenName(contactToEdit?.givenName);
+      setUserFamilyName(contactToEdit?.familyName);
+      setWebId(contactToEdit?.webId);
+      setOriginalWebId(contactToEdit?.webId);
+    }
+  }, [showAddContactModal]);
 
   const clearInputFields = () => {
     setUserGivenName('');
@@ -114,7 +139,14 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       };
     }
 
+    const webIdChangedInEdit =
+      userObject.webId !== originalWebId && typeof contactToEdit !== 'undefined';
+
     try {
+      if (webIdChangedInEdit && contactWebIds.includes(userObject.webId)) {
+        addNotification('error', 'Web ID exists. Edit appropriate contact');
+        return;
+      }
       await getWebIdDataset(userObject.webId);
       await addContact(userObject);
 
@@ -125,6 +157,12 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
       // TODO: If the webid is the same as an existing contact,
       // edit notification to say that it has been updated rather than added
       addNotification('success', `"${truncatedText}" added to contact list`);
+
+      if (webIdChangedInEdit) {
+        const toDelete = contacts.find((item) => item.webId === originalWebId);
+        await handleDeleteContact(toDelete);
+      }
+
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
@@ -140,9 +178,15 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
     <ModalBase
       open={showAddContactModal}
       aria-labelledby="dialog-title"
-      onClose={() => setShowAddContactModal(false)}
+      onClose={() => {
+        setShowAddContactModal(false);
+        clearInputFields();
+      }}
     >
-      <FormSection title="Add Contact" headingId="add-contact-form">
+      <FormSection
+        title={contactToEdit ? `Edit Contact` : `Add Contact`}
+        headingId="add-contact-form"
+      >
         <form aria-labelledby="add-contact-form" onSubmit={handleAddContact} autoComplete="off">
           <FormControl fullWidth>
             <TextField
@@ -286,7 +330,7 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >
-                Add Contact
+                {contactToEdit ? `Edit Contact` : `Add Contact`}{' '}
               </Button>
             </Box>
           </DialogActions>

@@ -1,9 +1,11 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 // Material UI Imports
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -11,11 +13,14 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
+
+// import modals
+import { AddContactModal, NewMessageModal } from '@components/Modals';
+
 // Theme Imports
 import theme from '../../theme';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
-import { NewMessageModal } from '../Modals';
 
 const CustomToolbar = () => (
   <GridToolbarContainer>
@@ -37,15 +42,31 @@ const CustomToolbar = () => (
  * @param {object} Props - Props for ContactListTable
  * @param {userListObject[]} Props.contacts - This list of contacts to display
  * @param {Function} Props.deleteContact - Method to delete contact
+ * @param {Function} Props.handleDeleteContact - from Contacts page
+ * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact }) => {
+const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+
+  const [showAddContactModal, setShowAddContactModal] = useState(false);
+  const [contactToEdit, setContactToEdit] = useState({});
+  const [contacts_, setContacts] = useState(contacts);
+
+  useEffect(() => {
+    setContacts(contacts_);
+    console.log('Contact list table refreshed');
+  }, [contacts_]);
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
     setMessageToField(contactId.value.podUrl);
+  };
+
+  const handleEditContact = (contactId) => {
+    setShowAddContactModal(!showAddContactModal);
+    setContactToEdit(contactId.value);
   };
 
   const columnTitlesArray = [
@@ -95,6 +116,17 @@ const ContactListTable = ({ contacts, deleteContact }) => {
       align: 'center'
     },
     {
+      field: 'Edit',
+      renderCell: (contactId) => (
+        <EditIcon sx={{ color: 'gray' }} onClick={() => handleEditContact(contactId)} />
+      ),
+      sortable: false,
+      filterable: false,
+      width: 80,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
       field: 'actions',
       type: 'actions',
       headerName: 'Delete',
@@ -109,6 +141,8 @@ const ContactListTable = ({ contacts, deleteContact }) => {
     }
   ];
 
+  const contactWebIds = contacts.map(({ webId }) => webId);
+
   return (
     <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
       <DataGrid
@@ -120,6 +154,7 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           webId: contact.webId,
           Profile: contact,
           Message: contact,
+          Edit: contact,
           Delete: contact
         }))}
         slots={{
@@ -150,6 +185,17 @@ const ContactListTable = ({ contacts, deleteContact }) => {
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}
         toField={messageToField}
+      />
+      {/* For editing contact */}
+      <AddContactModal
+        showAddContactModal={showAddContactModal}
+        contactToEdit={contactToEdit}
+        setShowAddContactModal={setShowAddContactModal}
+        addContact={addContact}
+        deleteContact={deleteContact}
+        handleDeleteContact={handleDeleteContact}
+        contactWebIds={contactWebIds}
+        contacts={contacts}
       />
     </Box>
   );
