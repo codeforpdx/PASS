@@ -27,9 +27,15 @@ const FormLayout = ({ children }) => {
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (
-    <Box sx={{ m: '8px' }}>
+    <Box>
       <Card>{children}</Card>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', my: 1 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          my: 1
+        }}
+      >
         {pageIdx > 0 ? (
           <Button
             variant="outlined"

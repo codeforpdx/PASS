@@ -28,13 +28,18 @@ const CivicProfile = () => {
 
   return (
     <Container>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
         <nav>
           <Tabs
             value={currentForm}
-            // orientation={isSmallScreen ? 'vertical' : 'horizontal'}
             aria-label="civic profile tabs"
-            // centered
+            centered={isSmallScreen ? null : true}
             variant={isSmallScreen ? 'scrollable' : null}
           >
             {CIVIC_FORM_LIST.map((form) => (
