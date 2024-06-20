@@ -171,5 +171,3 @@ describe('Housing info form', () => {
     expect(timeToHousingLossField.firstChild.textContent).toBe('Data not collected');
   });
 });
-
-
