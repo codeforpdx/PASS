@@ -6,6 +6,6 @@ import { FinancialInfo } from '@components/CivicProfileForms';
 describe('Financial Info Form', () => {
   it('renders', () => {
     const { getByText } = render(<FinancialInfo />);
-    expect(getByText('Financial Info')).not.toBeNull();
+    expect(getByText('Financial Information')).not.toBeNull();
   });
 });
