@@ -7,7 +7,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-// Other Imports
+// Component Imports
 import HMIS_FORM_LIST from './FormList';
 
 /**
@@ -27,12 +27,28 @@ const FormLayout = ({ children }) => {
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (
-    <Box>
-      <Card>{children}</Card>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        my: 1
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          mb: 1
+        }}
+      >
+        <Card>{children}</Card>
+      </Box>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
+          width: '100%',
           my: 1
         }}
       >
