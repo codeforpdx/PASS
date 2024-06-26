@@ -38,7 +38,7 @@ const ContactProfileIcon = ({ contact }) => {
     try {
       await getWebIdDataset(contactInfo.webId);
       setContact(contactInfo);
-    } catch (error) {
+    } catch {
       setContact(null);
       navigate('/contacts');
       addNotification('error', 'WebId does not exist');

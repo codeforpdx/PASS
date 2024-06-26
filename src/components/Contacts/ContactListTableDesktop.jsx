@@ -40,12 +40,7 @@ const CustomToolbar = () => (
 //  * @param {Function} Props.handleProfileClick - Function to handle profile click
  * @returns {React.JSX.Element} The ContactListTableDesktop component
  */
-const ContactListTableDesktop = ({
-  contacts,
-  deleteContact,
-  handleSendMessage
-  // handleProfileClick
-}) => {
+const ContactListTableDesktop = ({ contacts, deleteContact, handleSendMessage }) => {
   const theme = useTheme();
 
   const columnTitlesArray = [
@@ -73,10 +68,7 @@ const ContactListTableDesktop = ({
     },
     {
       field: 'Profile',
-      renderCell: (contactData) => (
-        <ContactProfileIcon contact={contactData} />
-        // <SendIcon onClick={() => handleProfileClick(contactData)} />
-      ),
+      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
       sortable: false,
       filterable: false,
       width: 80,

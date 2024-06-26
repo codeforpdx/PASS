@@ -108,10 +108,16 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
           >
             <CardContent>
               <Box>
-                <Typography variant="body1" component="div" noWrap>
-                  {contact.givenName || ''} {contact.familyName || ''}
+                <Typography variant="body1" component="div" noWrap sx={{ maxWidth: '90%' }}>
+                  {contact.givenName || ''}&nbsp;{contact.familyName || ''}
                 </Typography>
-                <Typography variant="body2" component="div" noWrap color="text.secondary">
+                <Typography
+                  variant="body2"
+                  component="div"
+                  noWrap
+                  color="text.secondary"
+                  sx={{ maxWidth: '90%' }}
+                >
                   {contact.webId}
                 </Typography>
                 <Box

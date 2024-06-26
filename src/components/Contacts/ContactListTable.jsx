@@ -54,7 +54,6 @@ const ContactListTable = ({ contacts, deleteContact }) => {
           contacts={contacts}
           deleteContact={deleteContact}
           handleSendMessage={handleSendMessage}
-          // handleProfileClick={handleProfileClick}
         />
       )}
       <NewMessageModal

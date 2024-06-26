@@ -91,6 +91,7 @@ const Contacts = () => {
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* TODO: Make sorting options functional */}
           {isSmallScreen && (
             <FormControl sx={{ minWidth: 120 }} size="small">
               <Select
