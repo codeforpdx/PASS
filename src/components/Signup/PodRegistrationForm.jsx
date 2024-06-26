@@ -120,6 +120,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             type={showConfirmPassword ? 'text' : 'password'}
+            error={password !== confirmPassword}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -141,6 +142,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
             size="large"
             aria-label="Sign Up For a Pod"
             type="submit"
+            disabled={password !== confirmPassword}
           >
             Set up your Pod
           </Button>
