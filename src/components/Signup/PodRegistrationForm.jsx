@@ -12,6 +12,8 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { FormHelperText } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 /* Styles for MUI components */
 const cardStyle = {
@@ -47,6 +49,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const theme = useTheme();
 
   const [searchParams] = useSearchParams();
   const handleSubmit = async (event) => {
@@ -135,6 +138,11 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
             minLength="8"
             required
           />
+          {password !== confirmPassword && (
+            <FormHelperText sx={{ color: theme.palette.status.error.main }}>
+              Password does not match
+            </FormHelperText>
+          )}
           <br />
           <Button
             variant="contained"
