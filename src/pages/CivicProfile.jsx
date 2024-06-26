@@ -37,10 +37,9 @@ const CivicProfile = () => {
       >
         <nav>
           <Tabs
+            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
             value={currentForm}
             aria-label="civic profile tabs"
-            centered={isSmallScreen ? null : true}
-            variant={isSmallScreen ? 'scrollable' : null}
           >
             {CIVIC_FORM_LIST.map((form) => (
               <Tab
