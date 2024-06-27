@@ -6,8 +6,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/system';
 // Component Imports
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
@@ -23,8 +21,6 @@ const CivicProfile = () => {
 
   localStorage.setItem('restorePath', location.pathname);
   const currentForm = location.pathname.split('/').pop();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Container>
@@ -36,11 +32,7 @@ const CivicProfile = () => {
         }}
       >
         <nav>
-          <Tabs
-            orientation={isSmallScreen ? 'vertical' : 'horizontal'}
-            value={currentForm}
-            aria-label="civic profile tabs"
-          >
+          <Tabs value={currentForm} aria-label="civic profile tabs">
             {CIVIC_FORM_LIST.map((form) => (
               <Tab
                 key={form.path}
@@ -48,8 +40,6 @@ const CivicProfile = () => {
                 to={form.path}
                 label={form.label}
                 value={form.path}
-                // Disabled for incomplete Financial Information form
-                disabled={form.label === 'Financial Information'}
               />
             ))}
           </Tabs>
