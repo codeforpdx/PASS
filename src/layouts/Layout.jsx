@@ -19,7 +19,6 @@ const Layout = ({ ariaLabel, children }) => {
     <Box
       aria-label={ariaLabel}
       sx={{
-        display: 'grid',
         minHeight: '100vh'
       }}
     >
