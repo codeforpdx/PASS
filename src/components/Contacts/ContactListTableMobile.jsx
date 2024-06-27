@@ -78,7 +78,7 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
         sx={{
           my: '15px',
           p: '15px',
-          background: theme.palette.primary.light,
+          background: theme.palette.primary.main,
           color: '#fff',
           borderRadius: '8px',
           position: 'relative'
@@ -109,7 +109,9 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
             <CardContent>
               <Box>
                 <Typography variant="body1" component="div" noWrap sx={{ maxWidth: '90%' }}>
-                  {contact.givenName || ''}&nbsp;{contact.familyName || ''}
+                  {contact.givenName || contact.familyName
+                    ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
+                    : '[No name given]'}
                 </Typography>
                 <Typography
                   variant="body2"
