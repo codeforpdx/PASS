@@ -7,8 +7,8 @@ import FilledInput from '@mui/material/FilledInput';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Box } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const formRowStyle = {
@@ -37,12 +37,16 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
     previousInfo ? previousInfo.confirmPassword : ''
   );
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [searchParams] = useSearchParams();
   const handleSubmit = async (event) => {
     event.preventDefault();
     register(email, password, confirmPassword);
+  };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -68,9 +72,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
           <FilledInput
             style={textFieldStyle}
             id="password-form"
-            inputProps={{
-              'aria-label': 'Password'
-            }}
+            aria-label="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={showPassword ? 'text' : 'password'}
@@ -78,7 +80,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={handleClickShowPassword}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -93,20 +95,19 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
           <FilledInput
             style={textFieldStyle}
             id="confirm-password-form"
-            inputProps={{
-              'aria-label': 'Confirm Password'
-            }}
+            aria-label="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            type={showConfirmPassword ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle confirm password visibility"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
