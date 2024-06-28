@@ -99,6 +99,7 @@ const HousingInfo = () => {
               label="Street:"
               onChange={handleChange}
               value={formData.lastPermanentStreet ?? ''}
+              autoComplete="street"
               fullWidth
               autoFocus
             />
@@ -110,6 +111,7 @@ const HousingInfo = () => {
               label="City:"
               onChange={handleChange}
               value={formData.lastPermanentCity ?? ''}
+              autoComplete="city"
               fullWidth
             />
           </Grid>
@@ -120,6 +122,7 @@ const HousingInfo = () => {
               label="State:"
               onChange={handleChange}
               value={formData.lastPermanentState ?? ''}
+              autoComplete="state"
               fullWidth
             />
           </Grid>
@@ -132,6 +135,7 @@ const HousingInfo = () => {
               value={formData.lastPermanentZIP ?? ''}
               error={zipError}
               helperText={zipError ? 'Invalid ZIP format. Expected: 12345 or 12345-6789' : ''}
+              autoComplete="postal-code"
               fullWidth
             />
           </Grid>
