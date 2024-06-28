@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
  * @name KeyFeatures
  * @param {object} Props - The props
  * @param {string} Props.icon - Icon
- * @param Props.isReallySmallScreen
  * @param {string} Props.title - Key feature title
  * @param {string} Props.description - Key feature description
  * @param {string} Props.isReallySmallScreen - Screen size based on media query
