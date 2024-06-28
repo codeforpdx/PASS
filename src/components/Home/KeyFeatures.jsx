@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
  * @param Props.isReallySmallScreen
  * @param {string} Props.title - Key feature title
  * @param {string} Props.description - Key feature description
+ * @param {string} Props.isReallySmallScreen - Screen size based on media query
  * @returns {React.JSX.Element} The KeyFeatures section component
  */
 const KeyFeatures = ({ icon, title, description, isReallySmallScreen }) => {
