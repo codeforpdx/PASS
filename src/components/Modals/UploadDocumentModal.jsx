@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
+import Backdrop from '@mui/material/Backdrop';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 // import Switch from '@mui/material/Switch';
@@ -223,8 +224,12 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             </DialogActions>
           </FormControl>
         </form>
-        {processing && <LoadingAnimation loadingItem={file.name} />}
+        {/* {processing && <LoadingAnimation loadingItem={file.name} />} */}
+        {/* <LoadingAnimation loadingItem={'testfilename'} /> */}
       </FormSection>
+      <Backdrop open={processing}>
+        <LoadingAnimation loadingItem="file name" />
+      </Backdrop>
     </ModalBase>
   );
 };
