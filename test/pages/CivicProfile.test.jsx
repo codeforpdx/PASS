@@ -1,13 +1,13 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { CivicProfile } from '@pages';
-import createMatchMedia from '../helpers/createMatchMedia';
+// import React from 'react';
+// import { BrowserRouter } from 'react-router-dom';
+// import { render } from '@testing-library/react';
+// import { describe, expect, it } from 'vitest';
+// import { CivicProfile } from '@pages';
+// import createMatchMedia from '../helpers/createMatchMedia';
 
 // TODO: Rewrite tests to align with changes in CivicProfile component
 // e.g. "successfully navigates to Basic Information"
-describe('CivicProfile Page', () => {
+// describe('CivicProfile Page', () => {
   // it('renders page container flex direction as row and nav container width as 25% by default', () => {
   //   const component = render(
   //     <BrowserRouter>
@@ -35,4 +35,4 @@ describe('CivicProfile Page', () => {
   //   expect(componentContainerStyles.flexDirection).toBe('column');
   //   expect(navContainerStyles.width).toBe('100%');
   // });
-});
+// });
