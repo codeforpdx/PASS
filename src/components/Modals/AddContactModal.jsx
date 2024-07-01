@@ -153,20 +153,20 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
               autoComplete="given-name"
               value={userGivenName}
               onChange={(e) => setUserGivenName(e.target.value)}
-              fullWidth
               autoFocus
             />
           </FormControl>
-          <TextField
-            margin="normal"
-            id="add-user-family-name"
-            name="addUserFamilyName"
-            label="Last/family name (Optional)"
-            autoComplete="family-name"
-            value={userFamilyName}
-            onChange={(e) => setUserFamilyName(e.target.value)}
-            fullWidth
-          />
+          <FormControl fullWidth>
+            <TextField
+              margin="normal"
+              id="add-user-family-name"
+              name="addUserFamilyName"
+              label="Last/family name (Optional)"
+              autoComplete="family-name"
+              value={userFamilyName}
+              onChange={(e) => setUserFamilyName(e.target.value)}
+            />
+          </FormControl>
           <Tooltip
             title="Select the server/website where your pod is located"
             margin="normal"
@@ -182,7 +182,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
                 value={Oidc}
-                fullWidth
                 aria-required
               >
                 {oidcProviders.map((oidc) => (
@@ -210,7 +209,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                   onChange={(e) => setUserName(e.target.value)}
                   required={!customWebID}
                   aria-required
-                  fullWidth
                   autoFocus
                 />
               </FormControl>
@@ -273,7 +271,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                   setShowAddContactModal(false);
                 }}
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Cancel
               </Button>
@@ -284,7 +281,6 @@ const AddContactModal = ({ addContact, showAddContactModal, setShowAddContactMod
                 endIcon={<CheckIcon />}
                 type="submit"
                 fullWidth
-                sx={{ borderRadius: '20px' }}
               >
                 Add Contact
               </Button>
