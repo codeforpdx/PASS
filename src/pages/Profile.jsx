@@ -146,14 +146,15 @@ const Profile = () => {
         }}
       >
         <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>My Profile</Typography>
-        <Box
+        {/* TODO: Determine whether this Box is needed */}
+        {/* <Box
           sx={{
             display: 'flex',
             gap: '5px',
             alignItems: 'center',
             flexDirection: isSmallScreen ? 'column' : 'row'
           }}
-        />
+        /> */}
 
         <Box
           sx={{

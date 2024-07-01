@@ -5,6 +5,8 @@ import { expect, it, describe } from 'vitest';
 import { CivicProfile } from '@pages';
 import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 
+// TODO: Shouldn't this be testing Profile.jsx rather than CivicProfile.jsx?
+// There is already a CivicProfile.test.jsx
 describe('Civic Profile', () => {
   const numLinks = CIVIC_FORM_LIST.length;
 
@@ -14,7 +16,7 @@ describe('Civic Profile', () => {
         <CivicProfile />
       </BrowserRouter>
     );
-    expect(getByRole('navigation')).not.toBeNull();
+    expect(getByRole('nav')).not.toBeNull();
     expect(getAllByRole('link').length).toEqual(numLinks);
   });
 });
