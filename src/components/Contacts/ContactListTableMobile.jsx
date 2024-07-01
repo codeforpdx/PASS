@@ -1,5 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -43,6 +44,7 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
   const { addNotification } = useNotification();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const handleClick = (event, contact) => {
@@ -59,8 +61,9 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
     handleClose();
   };
 
-  const handleProfileClick = (contactData) => {
-    <ContactProfileIcon contact={contactData} />;
+  const handleProfileClick = (contact) => {
+    // TODO: Abstract this so ContactListTableDesktop uses the same function?
+    navigate(`/contacts/${encodeURIComponent(contact.webId)}`);
   };
 
   const iconSize = {
@@ -152,6 +155,9 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
                 'aria-labelledby': 'actions-icon-button'
               }}
             >
+              {/* TODO: Keep copy function? */}
+              {/* If so, also add to Desktop table? */}
+              {/* Maybe without icon. Simply click on it and it will copy? */}
               <MenuItem
                 component={Button}
                 onClick={handleMenuItemClick(
