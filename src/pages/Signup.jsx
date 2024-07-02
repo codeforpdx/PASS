@@ -33,7 +33,7 @@ const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
   return (
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h3" component="h1">
+        <Typography variant="h4" component="h1">
           Register
         </Typography>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -133,7 +133,7 @@ const Signup = () => {
   }, [session.info.isLoggedIn, window.location.href]);
 
   return (
-    <Container id="andrew">
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
           display: 'flex',
@@ -145,10 +145,8 @@ const Signup = () => {
         <Paper
           elevation={2}
           sx={{
-            display: 'inline-block',
             mx: '2px',
             padding: '20px',
-            minWidth: '280px',
             margin: '24px',
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
           }}

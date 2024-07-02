@@ -9,7 +9,12 @@ import TextField from '@mui/material/TextField';
 
 /* Styles */
 const formRowStyle = {
-  margin: '20px 0'
+  m: 1
+};
+
+const textFieldStyle = {
+  margin: '8px',
+  width: '27ch'
 };
 
 // TODO: Add JSDocs
@@ -32,29 +37,27 @@ const ExistingPodForm = () => {
   };
 
   return (
-    <Box>
-      <form onSubmit={loginHandler} style={formRowStyle}>
-        {/* TODO: Consider changing this to Autocomplete like the NavBar and SignInModal have */}
-        <TextField
-          sx={{ margin: '8px' }}
-          id="existing-pod-provider"
-          aria-label="Pod Provider"
-          label="Pod Provider"
-          variant="outlined"
-          onChange={(e) => setOidcIssuer(e.target.value)}
-          required
-        />
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          aria-label="Login to Pod Provider"
-          type="submit"
-        >
-          Login to Pod Provider
-        </Button>
-      </form>
+    <Box component="form" onSubmit={loginHandler} sx={formRowStyle}>
+      {/* TODO: Consider changing this to Autocomplete like the NavBar and SignInModal have */}
+      <TextField
+        sx={textFieldStyle}
+        id="existing-pod-provider"
+        label="Pod Provider"
+        variant="outlined"
+        onChange={(e) => setOidcIssuer(e.target.value)}
+        fullWidth
+        required
+      />
+      <br />
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        aria-label="Login to Pod Provider"
+        type="submit"
+      >
+        Login to Pod Provider
+      </Button>
     </Box>
   );
 };

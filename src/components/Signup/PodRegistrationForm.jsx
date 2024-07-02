@@ -3,20 +3,19 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Material UI Imports
 import Button from '@mui/material/Button';
-import FilledInput from '@mui/material/FilledInput';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const formRowStyle = {
-  margin: '20px 0'
+  m: 1
 };
 
 const textFieldStyle = {
-  margin: '8px'
+  margin: '8px',
+  width: '27ch'
 };
 
 /**
@@ -55,28 +54,30 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
         <p>You will register with {caseManagerName ?? searchParams.get('webId')}</p>
       )}
 
-      <Box>
-        <form onSubmit={handleSubmit} style={formRowStyle} autoComplete="off">
-          <TextField
-            style={textFieldStyle}
-            id="email-form"
-            aria-label="Email"
-            label="Email"
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <br />
-          <InputLabel htmlFor="password-form">Password</InputLabel>
-          <FilledInput
-            style={textFieldStyle}
-            id="password-form"
-            aria-label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
+      <Box component="form" onSubmit={handleSubmit} sx={formRowStyle} autoComplete="off">
+        <TextField
+          sx={textFieldStyle}
+          id="email-form"
+          aria-label="Email"
+          label="Email"
+          variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          margin="normal"
+          required
+          fullWidth
+        />
+        <br />
+        <TextField
+          sx={textFieldStyle}
+          id="password-form"
+          margin="normal"
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
@@ -86,20 +87,23 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }
-            minLength="8"
-            required
-          />
-          <br />
-          <InputLabel htmlFor="confirm-password-form">Confirm Password</InputLabel>
-          <FilledInput
-            style={textFieldStyle}
-            id="confirm-password-form"
-            aria-label="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
+            )
+          }}
+          required
+          fullWidth
+          variant="outlined"
+          minLength="8"
+        />
+        <br />
+        <TextField
+          sx={textFieldStyle}
+          id="confirm-password-form"
+          label="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
@@ -110,21 +114,23 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }
-            minLength="8"
-            required
-          />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            aria-label="Sign Up For a Pod"
-            type="submit"
-          >
-            Set up your Pod
-          </Button>
-        </form>
+            )
+          }}
+          variant="outlined"
+          minLength="8"
+          required
+          fullWidth
+        />
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          aria-label="Sign Up For a Pod"
+          type="submit"
+        >
+          Set up your Pod
+        </Button>
       </Box>
     </>
   );
