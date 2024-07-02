@@ -34,7 +34,7 @@ const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Typography variant="h4" component="h1">
-          Register
+          Sign Up
         </Typography>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="New Pod" value="1" />
