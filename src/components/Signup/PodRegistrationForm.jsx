@@ -54,7 +54,13 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
         <p>You will register with {caseManagerName ?? searchParams.get('webId')}</p>
       )}
 
-      <Box component="form" onSubmit={handleSubmit} sx={formRowStyle} autoComplete="off">
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={formRowStyle}
+        autoComplete="off"
+        textAlign="center"
+      >
         <TextField
           sx={textFieldStyle}
           id="email-form"

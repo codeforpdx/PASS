@@ -37,7 +37,7 @@ const ExistingPodForm = () => {
   };
 
   return (
-    <Box component="form" onSubmit={loginHandler} sx={formRowStyle}>
+    <Box component="form" onSubmit={loginHandler} sx={formRowStyle} textAlign="center">
       {/* TODO: Consider changing this to Autocomplete like the NavBar and SignInModal have */}
       <TextField
         sx={textFieldStyle}

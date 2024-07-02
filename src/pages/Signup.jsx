@@ -33,10 +33,15 @@ const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
   return (
     <Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" align="center">
           Sign Up
         </Typography>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="New or Existing Pod"
+          variant="fullWidth"
+        >
           <Tab label="New Pod" value="1" />
           <Tab label="Existing Pod" value="2" />
         </Tabs>
