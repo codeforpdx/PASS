@@ -81,12 +81,15 @@ const AddContactModal = ({
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
   const [isSubmittable, setIsSubmittable] = useState(false);
-
+  /*   const [isEditing, setIsEditing] = useState(false);
+   */
   useEffect(() => {
     // Disables submit button if form not fully filled out
     if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
       setIsSubmittable(true);
-    else setIsSubmittable(false);
+    /*    else if (isEditing && userGivenName !== '' && userFamilyName !== '') {
+      setIsSubmittable(true);
+    } */ else setIsSubmittable(false);
   }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   useEffect(() => {
@@ -96,6 +99,8 @@ const AddContactModal = ({
       setUserFamilyName(contactToEdit?.familyName);
       setWebId(contactToEdit?.webId);
       setOriginalWebId(contactToEdit?.webId);
+      /*       setIsEditing(true);
+       */
     }
   }, [showAddContactModal]);
 
@@ -213,6 +218,7 @@ const AddContactModal = ({
             InputLabelProps={{ shrink: !!userFamilyName }}
             fullWidth
           />
+
           <Tooltip
             title="Select the server/website where your pod is located"
             margin="normal"
@@ -227,6 +233,7 @@ const AddContactModal = ({
                 label="OIDC Provider"
                 data-testid="select-oidc"
                 onChange={handleOidcSelection}
+                InputLabelProps={{ shrink: !!Oidc }}
                 value={Oidc}
                 fullWidth
                 aria-required
@@ -299,6 +306,7 @@ const AddContactModal = ({
               />
             </Tooltip>
           )}
+
           <DialogActions sx={{ width: '100%' }}>
             <Box
               sx={{
@@ -332,7 +340,7 @@ const AddContactModal = ({
                 fullWidth
                 sx={{ borderRadius: '20px' }}
               >
-                {contactToEdit ? `Edit Contact` : `Add Contact`}{' '}
+                {contactToEdit ? `Edit Contact` : `Add Contact`}
               </Button>
             </Box>
           </DialogActions>
