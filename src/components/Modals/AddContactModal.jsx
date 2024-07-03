@@ -53,6 +53,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @param {Function} props.handleDeleteContact - ContactListTable delete function
  * @param {object} props.contactToEdit - the contact being edited
+ * @param {boolean} props.isEditing - state of editing contacts or makign a new contact
  * @param {object} props.contacts - the contacts in the ContactListTable
  * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
  * @returns {React.JSX.Element} The Add Contact Modal
@@ -64,6 +65,7 @@ const AddContactModal = ({
   showAddContactModal,
   setShowAddContactModal,
   contactToEdit,
+  isEditing,
   contacts,
   contactWebIds
 }) => {
@@ -81,26 +83,44 @@ const AddContactModal = ({
   const [oidcProviders] = useState([...ENV.VITE_SUGGESTED_OIDC_OPTIONS.split(', '), 'Other']);
   const [Oidc, setOIDC] = useState('');
   const [isSubmittable, setIsSubmittable] = useState(false);
-  /*   const [isEditing, setIsEditing] = useState(false);
-   */
+
+  const parsePodUrl = () => {
+    // parses out the oidc assuming that it is a standard URL.
+    // in a standard URL 3 slashes concludes the OIDC
+    let oidcResult = '';
+    let usernameResult = '';
+    let slashCount = 0;
+
+    for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
+      const char = contactToEdit.podUrl[i];
+      if (char === '/') slashCount += 1;
+      if (slashCount < 3) oidcResult += char;
+      if (slashCount >= 3 && char !== '/') usernameResult += char;
+      if (slashCount === 4) break;
+    }
+    oidcResult += '/';
+
+    setOIDC(oidcResult);
+    setUserName(usernameResult);
+  };
+
   useEffect(() => {
     // Disables submit button if form not fully filled out
     if (Oidc !== '' && ((!customWebID && userName !== '') || (customWebID && webId !== '')))
       setIsSubmittable(true);
-    /*    else if (isEditing && userGivenName !== '' && userFamilyName !== '') {
-      setIsSubmittable(true);
-    } */ else setIsSubmittable(false);
+    else setIsSubmittable(false);
   }, [isSubmittable, Oidc, userName, customWebID, webId]);
 
   useEffect(() => {
     // sets fields if form is set to Edit
-    if (typeof contactToEdit !== 'undefined') {
+    if (isEditing) {
       setUserGivenName(contactToEdit?.givenName);
       setUserFamilyName(contactToEdit?.familyName);
+
+      // parse out webid and usernames and set them to the state values
+      parsePodUrl();
       setWebId(contactToEdit?.webId);
       setOriginalWebId(contactToEdit?.webId);
-      /*       setIsEditing(true);
-       */
     }
   }, [showAddContactModal]);
 
@@ -218,93 +238,96 @@ const AddContactModal = ({
             InputLabelProps={{ shrink: !!userFamilyName }}
             fullWidth
           />
-
-          <Tooltip
-            title="Select the server/website where your pod is located"
-            margin="normal"
-            arrow
-            placement="bottom"
-          >
-            <FormControl fullWidth required>
-              <InputLabel>OIDC Provider</InputLabel>
-              <Select
-                id="add-oidc-provider"
-                name="oidcProvider"
-                label="OIDC Provider"
-                data-testid="select-oidc"
-                onChange={handleOidcSelection}
-                InputLabelProps={{ shrink: !!Oidc }}
-                value={Oidc}
-                fullWidth
-                aria-required
-              >
-                {oidcProviders.map((oidc) => (
-                  <MenuItem key={oidc} value={oidc}>
-                    {oidc}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Tooltip>
-
-          {!customWebID && (
-            <Tooltip
-              title="Enter the username associated with your WebID"
-              arrow
-              placement="bottom"
-              margin="normal"
-            >
-              <FormControl fullWidth>
-                <TextField
-                  id="add-user-name"
-                  name="addUserName"
-                  label="Username"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  required={!customWebID}
-                  aria-required
-                  fullWidth
-                  autoFocus
-                />
-              </FormControl>
-            </Tooltip>
-          )}
-          {customWebID && (
-            <Tooltip title="Enter your full WebID" arrow placement="bottom">
-              <TextField
+          {!isEditing && (
+            <>
+              <Tooltip
+                title="Select the server/website where your pod is located"
                 margin="normal"
-                id="add-webId"
-                name="addWebId"
-                placeholder="WebId"
-                autoComplete="webid"
-                value={webId}
-                type="text"
-                onChange={(e) => {
-                  setWebId(e.target.value);
-                }}
-                error={invalidWebId}
-                label={invalidWebId ? 'Error' : ''}
-                // helperText for invalidWebId === false is ' ' and not '' is to
-                // prevent the field from stretching when helperText disappears
-                helperText={invalidWebId ? 'Invalid WebId.' : ' '}
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Copy WebId"
-                        edge="end"
-                        onClick={() => {
-                          saveToClipboard(webId, 'webId copied to clipboard', addNotification);
-                        }}
-                      >
-                        <ContentCopyIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Tooltip>
+                arrow
+                placement="bottom"
+              >
+                <FormControl fullWidth required>
+                  <InputLabel>OIDC Provider</InputLabel>
+                  <Select
+                    id="add-oidc-provider"
+                    name="oidcProvider"
+                    label="OIDC Provider"
+                    data-testid="select-oidc"
+                    onChange={handleOidcSelection}
+                    InputLabelProps={{ shrink: !!Oidc }}
+                    value={Oidc}
+                    fullWidth
+                    aria-required
+                  >
+                    {oidcProviders.map((oidc) => (
+                      <MenuItem key={oidc} value={oidc}>
+                        {oidc}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Tooltip>
+
+              {!customWebID && (
+                <Tooltip
+                  title="Enter the username associated with your WebID"
+                  arrow
+                  placement="bottom"
+                  margin="normal"
+                >
+                  <FormControl fullWidth>
+                    <TextField
+                      id="add-user-name"
+                      name="addUserName"
+                      label="Username"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      required={!customWebID}
+                      aria-required
+                      fullWidth
+                      autoFocus
+                    />
+                  </FormControl>
+                </Tooltip>
+              )}
+              {customWebID && (
+                <Tooltip title="Enter your full WebID" arrow placement="bottom">
+                  <TextField
+                    margin="normal"
+                    id="add-webId"
+                    name="addWebId"
+                    placeholder="WebId"
+                    autoComplete="webid"
+                    value={webId}
+                    type="text"
+                    onChange={(e) => {
+                      setWebId(e.target.value);
+                    }}
+                    error={invalidWebId}
+                    label={invalidWebId ? 'Error' : ''}
+                    // helperText for invalidWebId === false is ' ' and not '' is to
+                    // prevent the field from stretching when helperText disappears
+                    helperText={invalidWebId ? 'Invalid WebId.' : ' '}
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="Copy WebId"
+                            edge="end"
+                            onClick={() => {
+                              saveToClipboard(webId, 'webId copied to clipboard', addNotification);
+                            }}
+                          >
+                            <ContentCopyIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </>
           )}
 
           <DialogActions sx={{ width: '100%' }}>

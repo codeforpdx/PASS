@@ -52,6 +52,8 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
 
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [contactToEdit, setContactToEdit] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+
   const [contacts_, setContacts] = useState(contacts);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
   const handleEditContact = (contactId) => {
     setShowAddContactModal(!showAddContactModal);
     setContactToEdit(contactId.value);
+    setIsEditing(true);
   };
 
   const columnTitlesArray = [
@@ -192,6 +195,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
       <AddContactModal
         showAddContactModal={showAddContactModal}
         contactToEdit={contactToEdit}
+        isEditing={isEditing}
         setShowAddContactModal={setShowAddContactModal}
         addContact={addContact}
         deleteContact={deleteContact}

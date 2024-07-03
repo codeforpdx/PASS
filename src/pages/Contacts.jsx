@@ -83,6 +83,7 @@ const Contacts = () => {
 
   if (isLoading) return <LoadingAnimation loadingItem="Contacts" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
+
   return (
     <Container
       sx={{
