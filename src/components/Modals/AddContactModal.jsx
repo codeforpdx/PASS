@@ -85,20 +85,36 @@ const AddContactModal = ({
   const [isSubmittable, setIsSubmittable] = useState(false);
 
   const parsePodUrl = () => {
-    // parses out the oidc assuming that it is a standard URL.
-    // in a standard URL 3 slashes concludes the OIDC
     let oidcResult = '';
     let usernameResult = '';
     let slashCount = 0;
+    // oidc poviders url shapes == http://providerLoc/userName/extras
+    // solid community pod url shape == http://username.solidcommunity.net/extras
 
-    for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
-      const char = contactToEdit.podUrl[i];
-      if (char === '/') slashCount += 1;
-      if (slashCount < 3) oidcResult += char;
-      if (slashCount >= 3 && char !== '/') usernameResult += char;
-      if (slashCount === 4) break;
+    if (contactToEdit.podUrl.includes('solidcommunity')) {
+      // parse out username and oidc differently for solidcommunity
+      oidcResult = 'https://solidcommunity.net/';
+      const matchingString = 'https://'; // the url segment ahead of username in solid urls
+      let s = '';
+      for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
+        const char = contactToEdit.podUrl[i];
+        if (s === matchingString) {
+          if (char === '.') break;
+          usernameResult += char;
+        } else {
+          s += char;
+        }
+      }
+    } else {
+      for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
+        const char = contactToEdit.podUrl[i];
+        if (char === '/') slashCount += 1;
+        if (slashCount < 3) oidcResult += char;
+        if (slashCount >= 3 && char !== '/') usernameResult += char;
+        if (slashCount === 4) break;
+      }
+      oidcResult += '/';
     }
-    oidcResult += '/';
 
     setOIDC(oidcResult);
     setUserName(usernameResult);
@@ -179,9 +195,10 @@ const AddContactModal = ({
         [userObject.givenName, userObject.familyName].filter(Boolean).join(' ') || userObject.webId;
       const truncatedText = nameDisplay ? truncateText(nameDisplay) : '';
 
-      // TODO: If the webid is the same as an existing contact,
-      // edit notification to say that it has been updated rather than added
-      addNotification('success', `"${truncatedText}" added to contact list`);
+      addNotification(
+        'success',
+        `"${truncatedText}" ${isEditing ? 'updated' : 'added to contact list'}`
+      );
 
       if (webIdChangedInEdit) {
         const toDelete = contacts.find((item) => item.webId === originalWebId);
