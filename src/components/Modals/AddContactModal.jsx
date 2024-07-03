@@ -53,7 +53,7 @@ import { FormSection } from '../Form';
  * @param {Function} props.setShowAddContactModal - Toggle modal
  * @param {Function} props.handleDeleteContact - ContactListTable delete function
  * @param {object} props.contactToEdit - the contact being edited
- * @param {boolean} props.isEditing - state of editing contacts or makign a new contact
+ * @param {boolean} props.isEditing - state of editing contacts or making a new contact
  * @param {object} props.contacts - the contacts in the ContactListTable
  * @param {URL[]} props.contactWebIds - list of WebIds from the ContactListTable
  * @returns {React.JSX.Element} The Add Contact Modal
@@ -93,7 +93,7 @@ const AddContactModal = ({
     if (contactToEdit.podUrl.includes('solidcommunity')) {
       // parse out username and oidc differently for solidcommunity
       oidcResult = 'https://solidcommunity.net/';
-      const matchingString = 'https://'; // the url segment ahead of username in solid urls
+      const matchingString = 'https://';
       let s = '';
       for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
         const char = contactToEdit.podUrl[i];

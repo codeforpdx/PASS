@@ -185,7 +185,6 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         setShowModal={setShowMessageModal}
         toField={messageToField}
       />
-      {/* For editing contact */}
       <AddContactModal
         showAddContactModal={showAddContactModal}
         contactToEdit={contactToEdit}
