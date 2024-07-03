@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -53,12 +53,6 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [contactToEdit, setContactToEdit] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-
-  const [contacts_, setContacts] = useState(contacts);
-
-  useEffect(() => {
-    setContacts(contacts_);
-  }, [contacts_]);
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);

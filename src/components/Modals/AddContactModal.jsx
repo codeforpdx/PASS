@@ -87,7 +87,6 @@ const AddContactModal = ({
   const parsePodUrl = () => {
     let oidcResult = '';
     let usernameResult = '';
-    let slashCount = 0;
     // oidc poviders url shapes == http://providerLoc/userName/extras
     // solid community pod url shape == http://username.solidcommunity.net/extras
 
@@ -106,6 +105,7 @@ const AddContactModal = ({
         }
       }
     } else {
+      let slashCount = 0;
       for (let i = 0; i < contactToEdit.podUrl.length; i += 1) {
         const char = contactToEdit.podUrl[i];
         if (char === '/') slashCount += 1;
