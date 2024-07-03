@@ -62,8 +62,10 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
   };
 
   const handleProfileClick = (contact) => {
-    // TODO: Abstract this so ContactListTableDesktop uses the same function?
-    navigate(`/contacts/${encodeURIComponent(contact.webId)}`);
+    // TODO: Consider abstracting this into a reusable function
+    navigate(`/contacts/${encodeURIComponent(contact.webId)}`, {
+      state: { contact }
+    });
   };
 
   const iconSize = {
@@ -145,7 +147,6 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
                 </Box>
               </Box>
             </CardContent>
-
             <Menu
               id="actions-menu"
               anchorEl={anchorEl}
@@ -155,21 +156,6 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
                 'aria-labelledby': 'actions-icon-button'
               }}
             >
-              {/* TODO: Keep copy function? */}
-              {/* If so, also add to Desktop table? */}
-              {/* Maybe without icon. Simply click on it and it will copy? */}
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(
-                  () =>
-                    saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
-                  contact
-                )}
-                startIcon={<ContentCopyIcon sx={iconSize} />}
-                sx={iconStyling}
-              >
-                Copy WebId
-              </MenuItem>
               <MenuItem
                 component={Button}
                 onClick={handleMenuItemClick(handleProfileClick, contact)}
@@ -193,6 +179,21 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
                 sx={iconStyling}
               >
                 Message
+              </MenuItem>
+              {/* TODO: Keep copy function? */}
+              {/* If so, also add to Desktop table? */}
+              {/* Maybe without any icon. Simply click on the web ID and it will copy? */}
+              <MenuItem
+                component={Button}
+                onClick={handleMenuItemClick(
+                  () =>
+                    saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
+                  contact
+                )}
+                startIcon={<ContentCopyIcon sx={iconSize} />}
+                sx={iconStyling}
+              >
+                Copy WebId
               </MenuItem>
               <MenuItem
                 component={Button}
