@@ -3,11 +3,13 @@ import React, { useContext } from 'react';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports
+// eslint-disable-next-line no-unused-vars
 import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import {
+  // eslint-disable-next-line no-unused-vars
   DataGrid,
   GridActionsCellItem,
   GridToolbarContainer,
@@ -20,11 +22,14 @@ import { useSession } from '@hooks';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Theme Imports
+// eslint-disable-next-line no-unused-vars
 import theme from '../../theme';
 // Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
+import DocumentPreview from './DocumentPreview';
 
 // DataGrid Toolbar
+// eslint-disable-next-line no-unused-vars
 const CustomToolbar = () => (
   <GridToolbarContainer>
     <GridToolbarFilterButton />
@@ -80,6 +85,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     window.open(urlFileBlob);
   };
 
+  // eslint-disable-next-line no-unused-vars
   const columnTitlesArray = [
     {
       headerName: 'Name',
@@ -182,50 +188,16 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     type: mappingType(document.type)
   }));
 
-  const determineDocumentsTable = mappedDocuments?.length ? (
+  const documents = mappedDocuments?.length ? (
     // Render if documents
-    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
-      <DataGrid
-        columns={columnTitlesArray}
-        rows={mappedDocuments.map((document) => ({
-          id: document.name,
-          type: document.type,
-          name: document.name,
-          description: document.description,
-          delete: document,
-          'upload date': document?.uploadDate.toLocaleDateString(),
-          'expiration date': document?.endDate?.toLocaleDateString(),
-          'preview file': document.fileUrl
-        }))}
-        pageSizeOptions={[10]}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 10, page: 0 }
-          }
-        }}
-        slots={{
-          toolbar: CustomToolbar
-        }}
-        disableColumnMenu
-        disableRowSelectionOnClick
-        sx={{
-          '.MuiDataGrid-columnHeader': {
-            background: theme.palette.primary.light,
-            color: 'white'
-          },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none'
-          }
-        }}
-      />
-    </Box>
+    mappedDocuments.map((document) => <DocumentPreview document={document} />)
   ) : (
     // Render if no documents
     <EmptyListNotification type="documents" />
   );
 
   // MAIN RETURN OF COMPONENT
-  return loadingDocuments ? <LoadingAnimation loadingItem="documents" /> : determineDocumentsTable;
+  return loadingDocuments ? <LoadingAnimation loadingItem="documents" /> : documents;
 };
 
 export default DocumentTable;
