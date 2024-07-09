@@ -136,7 +136,7 @@ const Home = () => {
             <div ref={aboutRef}>
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/web-security-green.png"
+                componentImageSrc="/assets/web-security-blue.webp"
                 componentImageAlt=""
                 title="Keep Your Documents Safe and Secure Using Decentralized Technology"
                 description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
@@ -146,7 +146,7 @@ const Home = () => {
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/app-green.png"
+                componentImageSrc="/assets/app-blue.webp"
                 componentImageAlt=""
                 title="An App for Caseworkers"
                 description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
@@ -154,7 +154,7 @@ const Home = () => {
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/key-features-green.png"
+                componentImageSrc="/assets/key-features-blue.webp"
                 componentImageAlt=""
                 title="Key Features"
               />
