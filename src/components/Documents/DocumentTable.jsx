@@ -2,40 +2,15 @@
 import React, { useContext } from 'react';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
-// Material UI Imports
-// eslint-disable-next-line no-unused-vars
-import Box from '@mui/material/Box';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ShareIcon from '@mui/icons-material/Share';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
-import {
-  // eslint-disable-next-line no-unused-vars
-  DataGrid,
-  GridActionsCellItem,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarFilterButton
-} from '@mui/x-data-grid';
+
 // Context Imports
 import { DocumentListContext } from '@contexts';
 import { useSession } from '@hooks';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
-// Theme Imports
-// eslint-disable-next-line no-unused-vars
-import theme from '../../theme';
 // Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 import DocumentPreview from './DocumentPreview';
-
-// DataGrid Toolbar
-// eslint-disable-next-line no-unused-vars
-const CustomToolbar = () => (
-  <GridToolbarContainer>
-    <GridToolbarFilterButton />
-    <GridToolbarDensitySelector />
-  </GridToolbarContainer>
-);
 
 /**
  * DocumentTable - Component that shows the list of documents
@@ -79,105 +54,12 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
      * @returns {Promise<Blob>} A promise that resolves with the Blob of the document.
      * @throws {Error} Throws an error if there is an issue fetching the document blob.
      */
+
     const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
 
     // Opens a new window with the Blob URL displaying the document.
     window.open(urlFileBlob);
   };
-
-  // eslint-disable-next-line no-unused-vars
-  const columnTitlesArray = [
-    {
-      headerName: 'Name',
-      field: 'name',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      headerName: 'Type',
-      field: 'type',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      headerName: 'Description',
-      field: 'description',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      headerName: 'Upload Date',
-      field: 'upload date',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      headerName: 'Expiration Date',
-      field: 'expiration date',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      headerName: 'Preview File',
-      field: 'preview file',
-      minWidth: 100,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center',
-      sortable: false,
-      filterable: false,
-      renderCell: (fileUrl) => (
-        <GridActionsCellItem
-          key={String(fileUrl)}
-          icon={<FileOpenIcon />}
-          onClick={() => handleShowDocumentLocal(fileUrl)}
-          label="Preview"
-        />
-      )
-    },
-    {
-      headerName: 'Sharing',
-      field: 'sharing',
-      type: 'actions',
-      minWidth: 80,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center',
-      getActions: (data) => [
-        <GridActionsCellItem
-          icon={<ShareIcon />}
-          onClick={() => handleAclPermissionsModal('document', data.row.id, data.row.type)}
-          label="Share"
-        />
-      ]
-    },
-    {
-      headerName: 'Delete',
-      field: 'actions',
-      type: 'actions',
-      minWidth: 80,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center',
-      getActions: (data) => [
-        <GridActionsCellItem
-          icon={<DeleteOutlineOutlinedIcon />}
-          onClick={() => handleSelectDeleteDoc(data.row.delete)}
-          label="Delete"
-        />
-      ]
-    }
-  ];
 
   // Updates type value to use DOC_TYPES for formatting the string
   const mappingType = (type) => DOC_TYPES[type] || type;
@@ -190,7 +72,15 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
 
   const documents = mappedDocuments?.length ? (
     // Render if documents
-    mappedDocuments.map((document) => <DocumentPreview document={document} />)
+    mappedDocuments.map((document) => (
+      <DocumentPreview
+        key={document.id}
+        document={document}
+        onShare={() => handleAclPermissionsModal('document', document.id, document.type)}
+        onRemove={() => handleSelectDeleteDoc(document.delete)}
+        onPreview={() => handleShowDocumentLocal(document.fileUrl)}
+      />
+    ))
   ) : (
     // Render if no documents
     <EmptyListNotification type="documents" />

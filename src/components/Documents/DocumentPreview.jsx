@@ -6,12 +6,15 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import ListItemButton from '@mui/material/ListItemButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ShareIcon from '@mui/icons-material/Share';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 
 /**
  * @typedef {import("../../typedefs.js").DocumentListContext} documentListObject //@todo Update this
@@ -25,9 +28,12 @@ import { useTheme } from '@mui/material/styles';
  * @name DocumentPreview
  * @param {object} Props - Component props for Document Preview
  * @param {documentListObject} Props.document - The document object
+ * @param {EventListener} Props.onPreview - The document preview event
+ * @param {EventListener} Props.onShare - The document share event
+ * @param {EventListener} Props.onRemove - The document remove event
  * @returns {React.JSX.Element} React component for DocumentPreview
  */
-const DocumentPreview = ({ document }) => {
+const DocumentPreview = ({ document, onPreview, onShare, onRemove }) => {
   /**
    * @todo: Import document utilities from
    * @file DocumentListContext.jsx
@@ -35,27 +41,28 @@ const DocumentPreview = ({ document }) => {
    */
 
   /**  @todo: Implement buttons */
-  const handleShare = async () => {
+
+  const handlePreview = async () => {
     try {
-      // await shareDocument(document);
+      await onPreview();
     } catch {
-      throw new Error('Failed to update read status');
+      throw new Error('Failed to preview');
     }
   };
 
-  const handleReplace = async () => {
+  const handleShare = async () => {
     try {
-      // await replaceDocument(document);
+      await onShare();
     } catch {
-      throw new Error('Failed to update read status');
+      throw new Error('Failed to share');
     }
   };
 
   const handleRemove = async () => {
     try {
-      // await removeDocument(document);
+      await onRemove();
     } catch {
-      throw new Error('Failed to update read status');
+      throw new Error('Failed to remove');
     }
   };
 
@@ -88,6 +95,16 @@ const DocumentPreview = ({ document }) => {
       title: 'Description: ',
       text: document?.description,
       xs_value: isSmallScreen ? 12 : renderMediumGridRight()
+    },
+    {
+      title: 'Upload Date: ',
+      text: document?.uploadDate.toLocaleDateString(),
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
+    },
+    {
+      title: 'Expiration Date: ',
+      text: document?.endDate?.toLocaleDateString(),
+      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
     }
   ];
 
@@ -108,43 +125,30 @@ const DocumentPreview = ({ document }) => {
     <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
         <Box sx={{ flexGrow: 1 }}>
-          <ListItemButton
-            onClick={
-              /** @todo: Implement viewDocument page */ alert('TODO: Implement viewDocument')
-            }
-            alignItems="flex-start"
-            aria-label={`open document preview ${document.id}`}
-          >
-            <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
-              {documentInfo.map((info, index) => (
-                <Grid
-                  item
-                  xs={info.xs_value}
-                  sx={{ opacity: '1' }}
-                  key={info.title + String(index)}
-                >
-                  <Typography>
-                    {info.title} <strong>{info.text}</strong>
-                  </Typography>
-                </Grid>
-              ))}
-
-              <Grid item xs={12}>
-                <Divider />
-                <Stack direction="row" spacing={2}>
-                  <Button variant="contained" onClick={handleShare}>
-                    Share
-                  </Button>
-                  <Button variant="outlined" onClick={handleReplace}>
-                    Replace
-                  </Button>
-                  <Button variant="outlined" onClick={handleRemove}>
-                    Remove
-                  </Button>
-                </Stack>
+          <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
+            {documentInfo.map((info, index) => (
+              <Grid item xs={info.xs_value} sx={{ opacity: '1' }} key={info.title + String(index)}>
+                <Typography>
+                  {info.title} <strong>{info.text}</strong>
+                </Typography>
               </Grid>
+            ))}
+
+            <Grid item xs={12}>
+              <Divider />
+              <Stack direction="row" spacing={2}>
+                <Button variant="contained" onClick={() => handleShare()}>
+                  <img src={ShareIcon} alt="share" />
+                </Button>
+                <Button variant="outlined" onClick={() => handleRemove()}>
+                  <img src={DeleteOutlineOutlinedIcon} alt="remove" />
+                </Button>
+                <Button variant="outlined" onClick={() => handlePreview()}>
+                  <img src={FileOpenIcon} alt="preview" />
+                </Button>
+              </Stack>
             </Grid>
-          </ListItemButton>
+          </Grid>
         </Box>
       </Paper>
     </Container>
