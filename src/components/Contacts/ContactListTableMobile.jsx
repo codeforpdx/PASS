@@ -1,6 +1,8 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Inrupt Imports
+import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,6 +21,8 @@ import { useTheme } from '@mui/material/styles';
 import useNotification from '@hooks/useNotification';
 // Util Imports
 import { saveToClipboard } from '@utils';
+// Context Imports
+import { DocumentListContext } from '@contexts';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
 
@@ -41,6 +45,7 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @returns {React.JSX.Element} The ContactListTableMobile component
  */
 const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) => {
+  const { setContact } = useContext(DocumentListContext);
   const { addNotification } = useNotification();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
@@ -61,7 +66,20 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
     handleClose();
   };
 
+  // Event handler for profile page routing
+  const handleSelectProfile = async (contactInfo) => {
+    try {
+      await getWebIdDataset(contactInfo.webId);
+      setContact(contactInfo);
+    } catch {
+      setContact(null);
+      navigate('/contacts');
+      addNotification('error', 'WebId does not exist');
+    }
+  };
+
   const handleProfileClick = (contact) => {
+    handleSelectProfile(contact);
     // TODO: Consider abstracting this into a reusable function
     navigate(`/contacts/${encodeURIComponent(contact.webId)}`, {
       state: { contact }
