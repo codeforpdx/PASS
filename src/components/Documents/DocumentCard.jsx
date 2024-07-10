@@ -33,7 +33,7 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
  * @param {EventListener} Props.onRemove - The document remove event
  * @returns {React.JSX.Element} React component for DocumentPreview
  */
-const DocumentPreview = ({ document, onPreview, onShare, onRemove }) => {
+const DocumentCard = ({ document, onPreview, onShare, onRemove }) => {
   /**
    * @todo: Import document utilities from
    * @file DocumentListContext.jsx
@@ -155,4 +155,4 @@ const DocumentPreview = ({ document, onPreview, onShare, onRemove }) => {
   );
 };
 
-export default DocumentPreview;
+export default DocumentCard;

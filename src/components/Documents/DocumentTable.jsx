@@ -10,7 +10,7 @@ import { useSession } from '@hooks';
 import { getBlobFromSolid } from '@utils';
 // Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
-import DocumentPreview from './DocumentPreview';
+import DocumentCard from './DocumentCard';
 
 /**
  * DocumentTable - Component that shows the list of documents
@@ -70,10 +70,10 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     type: mappingType(document.type)
   }));
 
-  const documents = mappedDocuments?.length ? (
+  const documentCards = mappedDocuments?.length ? (
     // Render if documents
     mappedDocuments.map((document) => (
-      <DocumentPreview
+      <DocumentCard
         key={document.name}
         document={document}
         onShare={() => handleAclPermissionsModal('document', document.name, document.type)}
@@ -87,7 +87,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   );
   // Failed to share. Reason: Fetching the metadata of the Resource at [http://localhost:3000/rss/PASS/Documents/New_Text%20Document%20(2).txt] failed: [404] [Not Found].
   // MAIN RETURN OF COMPONENT
-  return loadingDocuments ? <LoadingAnimation loadingItem="documents" /> : documents;
+  return loadingDocuments ? <LoadingAnimation loadingItem="documents" /> : documentCards;
 };
 
 export default DocumentTable;
