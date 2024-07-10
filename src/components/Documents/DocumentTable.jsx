@@ -74,10 +74,10 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     // Render if documents
     mappedDocuments.map((document) => (
       <DocumentPreview
-        key={document.id}
+        key={document.name}
         document={document}
-        onShare={() => handleAclPermissionsModal('document', document.id, document.type)}
-        onRemove={() => handleSelectDeleteDoc(document.delete)}
+        onShare={() => handleAclPermissionsModal('document', document.name, document.type)}
+        onRemove={() => handleSelectDeleteDoc(document)}
         onPreview={() => handleShowDocumentLocal(document.fileUrl)}
       />
     ))
@@ -85,7 +85,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     // Render if no documents
     <EmptyListNotification type="documents" />
   );
-
+  // Failed to share. Reason: Fetching the metadata of the Resource at [http://localhost:3000/rss/PASS/Documents/New_Text%20Document%20(2).txt] failed: [404] [Not Found].
   // MAIN RETURN OF COMPONENT
   return loadingDocuments ? <LoadingAnimation loadingItem="documents" /> : documents;
 };
