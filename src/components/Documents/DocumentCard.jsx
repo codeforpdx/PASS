@@ -108,19 +108,6 @@ const DocumentCard = ({ document, onPreview, onShare, onRemove }) => {
     }
   ];
 
-  /** 
-   * DOCUMENT INFO
-   * ------------------
-    id: document.name,
-    type: document.type,
-    name: document.name,
-    description: document.description,
-    delete: document,
-    'upload date': document?.uploadDate.toLocaleDateString(),
-    'expiration date': document?.endDate?.toLocaleDateString(),
-    'preview file': document.fileUrl
-   */
-
   return (
     <Container sx={{ wordWrap: 'break-word' }}>
       <Paper>
