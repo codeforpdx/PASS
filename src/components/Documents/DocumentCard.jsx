@@ -28,44 +28,16 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
  * @name DocumentPreview
  * @param {object} Props - Component props for Document Preview
  * @param {documentListObject} Props.document - The document object
- * @param {EventListener} Props.onPreview - The document preview event
- * @param {EventListener} Props.onShare - The document share event
- * @param {EventListener} Props.onRemove - The document remove event
+ * @param {object} Props.handlers - Object containing pertinent event handlers
+ * @param {EventListener} Props.handlers.onPreview - The document preview event
+ * @param Props.onShare
+ * @param Props.onDelete
+ * @param Props.onPreview
+ * @param {EventListener} Props.handlers.onShare - The document share event
+ * @param {EventListener} Props.handlers.onDelete - The document delete event
  * @returns {React.JSX.Element} React component for DocumentPreview
  */
-const DocumentCard = ({ document, onPreview, onShare, onRemove }) => {
-  /**
-   * @todo: Import document utilities from
-   * @file DocumentListContext.jsx
-   * @file DocumentList.js
-   */
-
-  /**  @todo: Implement buttons */
-
-  const handlePreview = async () => {
-    try {
-      await onPreview();
-    } catch {
-      throw new Error('Failed to preview');
-    }
-  };
-
-  const handleShare = async () => {
-    try {
-      await onShare();
-    } catch {
-      throw new Error('Failed to share');
-    }
-  };
-
-  const handleRemove = async () => {
-    try {
-      await onRemove();
-    } catch {
-      throw new Error('Failed to remove');
-    }
-  };
-
+const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -124,13 +96,13 @@ const DocumentCard = ({ document, onPreview, onShare, onRemove }) => {
             <Grid item xs={12}>
               <Divider />
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" onClick={() => handleShare()}>
+                <Button variant="contained" onClick={() => onShare()}>
                   <img src={ShareIcon} alt="share" />
                 </Button>
-                <Button variant="outlined" onClick={() => handleRemove()}>
-                  <img src={DeleteOutlineOutlinedIcon} alt="remove" />
+                <Button variant="outlined" onClick={() => onDelete()}>
+                  <img src={DeleteOutlineOutlinedIcon} alt="delete" />
                 </Button>
-                <Button variant="outlined" onClick={() => handlePreview()}>
+                <Button variant="outlined" onClick={() => onPreview()}>
                   <img src={FileOpenIcon} alt="preview" />
                 </Button>
               </Stack>
