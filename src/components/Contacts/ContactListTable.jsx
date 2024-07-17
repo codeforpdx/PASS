@@ -2,34 +2,19 @@
 import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import SendIcon from '@mui/icons-material/Send';
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector
-} from '@mui/x-data-grid';
-// Theme Imports
-import theme from '../../theme';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Component Imports
-import ContactProfileIcon from './ContactProfileIcon';
 import { NewMessageModal } from '../Modals';
-
-const CustomToolbar = () => (
-  <GridToolbarContainer>
-    <GridToolbarFilterButton />
-    <GridToolbarDensitySelector />
-  </GridToolbarContainer>
-);
+import ContactListTableDesktop from './ContactListTableDesktop';
+import ContactListTableMobile from './ContactListTableMobile';
 
 /**
  * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
- * ContactListTable Component - Component that generates the list of contacts
+ * ContactListTable - Component that generates the list of contacts
  * from data within ContactList
  *
  * @memberof Contacts
@@ -42,110 +27,35 @@ const CustomToolbar = () => (
 const ContactListTable = ({ contacts, deleteContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
-    setMessageToField(contactId.value.podUrl);
+    setMessageToField(isSmallScreen ? contactId.podUrl : contactId.value.podUrl);
   };
 
-  const columnTitlesArray = [
-    {
-      field: 'First Name',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      field: 'Last Name',
-      minWidth: 120,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      field: 'webId',
-      headerName: 'Web ID',
-      minWidth: 150,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      field: 'Profile',
-      renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
-      sortable: false,
-      filterable: false,
-      width: 80,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      field: 'Message',
-      renderCell: (contactId) => (
-        <SendIcon
-          sx={{ color: 'gray', cursor: 'pointer' }}
-          onClick={() => handleSendMessage(contactId)}
-        />
-      ),
-      sortable: false,
-      filterable: false,
-      width: 80,
-      headerAlign: 'center',
-      align: 'center'
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Delete',
-      width: 80,
-      getActions: (contactData) => [
-        <GridActionsCellItem
-          icon={<DeleteOutlineOutlinedIcon />}
-          onClick={() => deleteContact(contactData.row.Delete)}
-          label="Delete"
-        />
-      ]
-    }
-  ];
-
   return (
-    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
-      <DataGrid
-        columns={columnTitlesArray}
-        rows={contacts?.map((contact) => ({
-          id: contact.webId,
-          'First Name': contact.givenName || '',
-          'Last Name': contact.familyName || '',
-          webId: contact.webId,
-          Profile: contact,
-          Message: contact,
-          Delete: contact
-        }))}
-        slots={{
-          toolbar: CustomToolbar
-        }}
-        sx={{
-          '.MuiDataGrid-columnHeader': {
-            background: theme.palette.primary.light,
-            color: 'white'
-          },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none'
-          }
-        }}
-        pageSizeOptions={[10]}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 10, page: 0 }
-          },
-          sorting: {
-            sortModel: [{ field: 'webId', sort: 'asc' }]
-          }
-        }}
-        disableColumnMenu
-        disableRowSelectionOnClick
-      />
+    <Box
+      sx={{
+        margin: '20px 0',
+        width: '95vw',
+        height: '500px'
+      }}
+    >
+      {isSmallScreen ? (
+        <ContactListTableMobile
+          contacts={contacts}
+          deleteContact={deleteContact}
+          handleSendMessage={handleSendMessage}
+        />
+      ) : (
+        <ContactListTableDesktop
+          contacts={contacts}
+          deleteContact={deleteContact}
+          handleSendMessage={handleSendMessage}
+        />
+      )}
       <NewMessageModal
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}
