@@ -36,6 +36,7 @@ const Contacts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
+  const [deleteViaEdit, setDeleteViaEdit] = useState(false);
   const {
     data,
     isLoading,
@@ -64,11 +65,17 @@ const Contacts = () => {
     setShowConfirmationModal(true);
   };
 
-  const handleDeleteContact = async () => {
+  const handleDeleteContact = async (contact) => {
     setProcessing(true);
     try {
       await deleteContact(selectedContactToDelete);
-
+      // Edit passes the contact as a parameter, deleting from the list table does not
+      if (Object.hasOwn(contact, 'webId')) {
+        await deleteContact(contact);
+        setDeleteViaEdit(!deleteViaEdit);
+      } else {
+        await deleteContact(selectedContactToDelete);
+      }
       addNotification('success', `"${truncatedText}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
@@ -80,6 +87,7 @@ const Contacts = () => {
 
   if (isLoading) return <LoadingAnimation loadingItem="Contacts" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
+
   return (
     <Container
       sx={{
@@ -134,6 +142,8 @@ const Contacts = () => {
           <ContactListTable
             contacts={data}
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
+            handleDeleteContact={handleDeleteContact}
+            addContact={addContact}
           />
         ) : (
           <EmptyListNotification type="Contacts" />
