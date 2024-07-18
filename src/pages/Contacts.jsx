@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import { FormControl, Select, MenuItem, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/system';
+import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// Component Imports
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/system';
+// Custom Hooks Imports
 import { useContactsList, useNotification } from '@hooks';
+// Component Imports
 import { AddContactModal, ConfirmationModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
@@ -17,7 +21,7 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
 import { truncateText } from '@utils';
 
 /**
- * Contacts Component - Component that generates Contacts Page for PASS
+ * Contacts - Component that generates Contacts Page for PASS
  *
  * @memberof Pages
  * @name Contacts
@@ -95,6 +99,7 @@ const Contacts = () => {
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* TODO: Make sorting options functional */}
           {isSmallScreen && (
             <FormControl sx={{ minWidth: 120 }} size="small">
               <Select
@@ -119,6 +124,7 @@ const Contacts = () => {
               >
                 <MenuItem value="First Name">First Name</MenuItem>
                 <MenuItem value="Last Name">Last Name</MenuItem>
+                <MenuItem value="Web ID">Web ID</MenuItem>
               </Select>
             </FormControl>
           )}

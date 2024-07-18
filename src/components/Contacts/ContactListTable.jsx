@@ -3,38 +3,19 @@ import React, { useState } from 'react';
 
 // Material UI Imports
 import Box from '@mui/material/Box';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import SendIcon from '@mui/icons-material/Send';
-import EditIcon from '@mui/icons-material/Edit';
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector
-} from '@mui/x-data-grid';
-
-// import modals
-import { AddContactModal, NewMessageModal } from '@components/Modals';
-
-// Theme Imports
-import theme from '../../theme';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Component Imports
-import ContactProfileIcon from './ContactProfileIcon';
-
-const CustomToolbar = () => (
-  <GridToolbarContainer>
-    <GridToolbarFilterButton />
-    <GridToolbarDensitySelector />
-  </GridToolbarContainer>
-);
+import { NewMessageModal, AddContactModal } from '../Modals';
+import ContactListTableDesktop from './ContactListTableDesktop';
+import ContactListTableMobile from './ContactListTableMobile';
 
 /**
  * @typedef {import("../../typedefs.js").userListObject} userListObject
  */
 
 /**
- * ContactListTable Component - Component that generates the list of contacts
+ * ContactListTable - Component that generates the list of contacts
  * from data within ContactList
  *
  * @memberof Contacts
@@ -49,6 +30,8 @@ const CustomToolbar = () => (
 const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [showAddContactModal, setShowAddContactModal] = useState(false);
   const [contactToEdit, setContactToEdit] = useState({});
@@ -56,16 +39,16 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
-    setMessageToField(contactId.value.podUrl);
+    setMessageToField(isSmallScreen ? contactId.podUrl : contactId.value.podUrl);
   };
 
-  const handleEditContact = (contactId) => {
+  const handleEditContact = (contact) => {
     setShowAddContactModal(!showAddContactModal);
-    setContactToEdit(contactId.value);
+    setContactToEdit(contact);
     setIsEditing(true);
   };
 
-  const columnTitlesArray = [
+  /*   const columnTitlesArray = [
     {
       field: 'First Name',
       minWidth: 120,
@@ -138,48 +121,33 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         />
       ]
     }
-  ];
+  ]; */
 
   const contactWebIds = contacts.map(({ webId }) => webId);
 
   return (
-    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
-      <DataGrid
-        columns={columnTitlesArray}
-        rows={contacts?.map((contact) => ({
-          id: contact.webId,
-          'First Name': contact.givenName || '',
-          'Last Name': contact.familyName || '',
-          webId: contact.webId,
-          Profile: contact,
-          Message: contact,
-          Edit: contact,
-          Delete: contact
-        }))}
-        slots={{
-          toolbar: CustomToolbar
-        }}
-        sx={{
-          '.MuiDataGrid-columnHeader': {
-            background: theme.palette.primary.light,
-            color: 'white'
-          },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none'
-          }
-        }}
-        pageSizeOptions={[10]}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 10, page: 0 }
-          },
-          sorting: {
-            sortModel: [{ field: 'webId', sort: 'asc' }]
-          }
-        }}
-        disableColumnMenu
-        disableRowSelectionOnClick
-      />
+    <Box
+      sx={{
+        margin: '20px 0',
+        width: '95vw',
+        height: '500px'
+      }}
+    >
+      {isSmallScreen ? (
+        <ContactListTableMobile
+          contacts={contacts}
+          deleteContact={deleteContact}
+          handleSendMessage={handleSendMessage}
+          editContact={handleEditContact}
+        />
+      ) : (
+        <ContactListTableDesktop
+          contacts={contacts}
+          deleteContact={deleteContact}
+          handleSendMessage={handleSendMessage}
+          editContact={handleEditContact}
+        />
+      )}
       <NewMessageModal
         showModal={showMessageModal}
         setShowModal={setShowMessageModal}

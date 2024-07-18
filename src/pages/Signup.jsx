@@ -10,7 +10,8 @@ import { FOAF } from '@inrupt/vocab-common-rdf';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import { Typography } from '@mui/material';
+
+import { Tab, Tabs, Typography } from '@mui/material';
 // Constant Imports
 import { ENV } from '@constants';
 // Signup Form Imports
@@ -22,6 +23,43 @@ import {
   ExistingPodForm
 } from '@components/Signup';
 
+const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
+  const [value, setValue] = useState('1');
+
+  const handleChange = (_event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant="h4" component="h1" align="center">
+          Sign Up
+        </Typography>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="New or Existing Pod"
+          variant="fullWidth"
+        >
+          <Tab label="New Pod" value="1" />
+          <Tab label="Existing Pod" value="2" />
+        </Tabs>
+      </Box>
+      <Box hidden={value !== '1'}>
+        <PodRegistrationForm
+          register={register}
+          caseManagerName={caseManagerName}
+          previousInfo={previousInfo}
+        />
+      </Box>
+      <Box hidden={value !== '2'}>
+        <ExistingPodForm />
+      </Box>
+    </Box>
+  );
+};
+/**/
 /**
  * Signup - First screen in the user registration flow.
  * Allows users to either create a pod, or sign into an existing pod
@@ -100,35 +138,30 @@ const Signup = () => {
   }, [session.info.isLoggedIn, window.location.href]);
 
   return (
-    <Container>
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 3,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           alignItems: 'center'
         }}
       >
         <Paper
           elevation={2}
           sx={{
-            display: 'inline-block',
             mx: '2px',
             padding: '20px',
-            minWidth: '400px',
+            margin: '24px',
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
           }}
         >
           {step === 'begin' && (
-            <>
-              <PodRegistrationForm
-                previousInfo={previousInfo}
-                register={registerAndInitialize}
-                caseManagerName={caseManagerName}
-              />
-              <ExistingPodForm />
-            </>
+            <PassRegistrationTab
+              previousInfo={previousInfo}
+              register={registerAndInitialize}
+              caseManagerName={caseManagerName}
+            />
           )}
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (

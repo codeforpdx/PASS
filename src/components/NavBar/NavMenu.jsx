@@ -21,7 +21,7 @@ import { DocumentListContext } from '@contexts';
 import { useMessageList } from '@hooks';
 
 /**
- * NavMenu Component - Component that generates NavMenu section for PASS
+ * NavMenu - Component that generates NavMenu section for PASS
  *
  * @memberof NavBar
  * @name NavMenu
@@ -77,8 +77,6 @@ const NavMenu = ({
           sx: {
             p: '15px 15px 0 15px',
             borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
-            // width: isSmallScreen ? '75vw' : 0
-            // minWidth: '50dvw'
           }
         }
       }
