@@ -1,6 +1,5 @@
 // React Imports
 import React, { useState } from 'react';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';

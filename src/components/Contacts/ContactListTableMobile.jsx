@@ -10,13 +10,12 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditIconOutlined from '@mui/icons-material/EditOutlined';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
-import EditIconOutlined from '@mui/icons-material/EditOutlined';
-
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Custom Hooks Imports

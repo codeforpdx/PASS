@@ -50,7 +50,6 @@ import { FormSection } from '../Form';
  * @param {Function} props.addContact - Function to add a contact
  * @param {boolean} props.showAddContactModal - Whether to display modal or not
  * @param {Function} props.setShowAddContactModal - Toggle modal
- * @param {Function} props.setShowAddContactModal - Toggle modal
  * @param {Function} props.handleDeleteContact - ContactListTable delete function
  * @param {object} props.contactToEdit - the contact being edited
  * @param {boolean} props.isEditing - state of editing contacts or making a new contact
