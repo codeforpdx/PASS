@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports
+import Box from '@mui/material/Box';
 import { useMediaQuery } from '@mui/material';
 
 // Context Imports
@@ -86,10 +87,20 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
 
   if (!documents?.length) return <EmptyListNotification type="documents" />;
   if (loadingDocuments) return <LoadingAnimation loadingItem="documents" />;
-  return isMobile ? (
-    <DocumentsMobile documents={documents} handlers={handlers} />
-  ) : (
-    <DocumentsDesktop documents={documents} handlers={handlers} />
+  return (
+    <Box
+      sx={{
+        margin: '20px 0',
+        width: '95vw',
+        height: '500px'
+      }}
+    >
+      {isMobile ? (
+        <DocumentsMobile documents={documents} handlers={handlers} />
+      ) : (
+        <DocumentsDesktop documents={documents} handlers={handlers} />
+      )}
+    </Box>
   );
 };
 

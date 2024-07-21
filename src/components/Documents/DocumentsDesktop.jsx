@@ -1,5 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
@@ -21,10 +20,36 @@ const CustomToolbar = () => (
   </GridToolbarContainer>
 );
 
+/**
+ * @typedef {object} Document
+ * @property {string} name - The given name of the document
+ * @property {string} type - The given type of the document
+ * @property {string} description - The given description of the document
+ * @property {string} uploadDate- The upload date of the document
+ * @property {string} endDate - The expiration date of the document
+ * @property {string} fileUrl - The file URL of the document
+ */
+
+/**
+ * @typedef {object} Handlers
+ * @property {Function} onPreview - Function to handle document previewing.
+ * @property {Function} onShare - Function to handle document sharing.
+ * @property {Function} onDelete - Function to handle document deletion.
+ */
+
+/**
+ * DocumentsDesktop - Component for displaying documents in a DataGrid
+ *
+ * @memberof Documents
+ * @name DocumentsDesktop
+ * @param {object} Props - The props for DocumentsDesktop
+ * @param {Document[]} Props.documents - The list of documents to display
+ * @param {Handlers} Props.handlers - Object containing event handler functions.
+ * @returns {React.JSX.Element} The DocumentsDesktop component
+ */
 const DocumentsDesktop = ({ documents, handlers }) => {
   const columnTitlesArray = [
     {
-      headerName: 'Name',
       field: 'name',
       minWidth: 120,
       flex: 1,
@@ -32,7 +57,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center'
     },
     {
-      headerName: 'Type',
       field: 'type',
       minWidth: 120,
       flex: 1,
@@ -40,7 +64,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center'
     },
     {
-      headerName: 'Description',
       field: 'description',
       minWidth: 120,
       flex: 1,
@@ -48,7 +71,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center'
     },
     {
-      headerName: 'Upload Date',
       field: 'upload date',
       minWidth: 120,
       flex: 1,
@@ -56,7 +78,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center'
     },
     {
-      headerName: 'Expiration Date',
       field: 'expiration date',
       minWidth: 120,
       flex: 1,
@@ -64,7 +85,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center'
     },
     {
-      headerName: 'Preview File',
       field: 'preview file',
       minWidth: 100,
       flex: 1,
@@ -82,7 +102,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       )
     },
     {
-      headerName: 'Sharing',
       field: 'sharing',
       type: 'actions',
       minWidth: 80,
@@ -98,7 +117,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       ]
     },
     {
-      headerName: 'Delete',
       field: 'actions',
       type: 'actions',
       minWidth: 80,
@@ -116,41 +134,39 @@ const DocumentsDesktop = ({ documents, handlers }) => {
   ];
   // Render if documents
   return (
-    <Box sx={{ margin: '20px 0', width: '90vw', height: '500px' }}>
-      <DataGrid
-        columns={columnTitlesArray}
-        rows={documents.map((document) => ({
-          id: document.name,
-          type: document.type,
-          name: document.name,
-          description: document.description,
-          delete: document,
-          'upload date': document?.uploadDate.toLocaleDateString(),
-          'expiration date': document?.endDate?.toLocaleDateString(),
-          'preview file': document.fileUrl
-        }))}
-        pageSizeOptions={[10]}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 10, page: 0 }
-          }
-        }}
-        slots={{
-          toolbar: CustomToolbar
-        }}
-        disableColumnMenu
-        disableRowSelectionOnClick
-        sx={{
-          '.MuiDataGrid-columnHeader': {
-            background: theme.palette.primary.light,
-            color: 'white'
-          },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none'
-          }
-        }}
-      />
-    </Box>
+    <DataGrid
+      columns={columnTitlesArray}
+      rows={documents.map((document) => ({
+        id: document.name,
+        type: document.type,
+        name: document.name,
+        description: document.description,
+        delete: document,
+        'upload date': document?.uploadDate.toLocaleDateString(),
+        'expiration date': document?.endDate?.toLocaleDateString(),
+        'preview file': document.fileUrl
+      }))}
+      pageSizeOptions={[10]}
+      initialState={{
+        pagination: {
+          paginationModel: { pageSize: 10, page: 0 }
+        }
+      }}
+      slots={{
+        toolbar: CustomToolbar
+      }}
+      sx={{
+        '.MuiDataGrid-columnHeader': {
+          background: theme.palette.primary.light,
+          color: 'white'
+        },
+        '.MuiDataGrid-columnSeparator': {
+          display: 'none'
+        }
+      }}
+      disableColumnMenu
+      disableRowSelectionOnClick
+    />
   );
 };
 

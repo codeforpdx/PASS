@@ -17,25 +17,26 @@ import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 
 /**
- * @typedef {import("../../typedefs.js").DocumentListContext} documentListObject //@todo Update this
+ * @typedef {object} Document
+ * @property {string} name - The given name of the document
+ * @property {string} type - The given type of the document
+ * @property {string} description - The given description of the document
+ * @property {string} uploadDate- The upload date of the document
+ * @property {string} endDate - The expiration date of the document
+ * @property {string} fileUrl - The file URL of the document
  */
 
 /**
- * DocumentPreview - Component that displays document previews from
- * user's documents container
+ * DocumentCard - Component that contains a document
  *
  * @memberof Documents
- * @name DocumentPreview
+ * @name DocumentCard
  * @param {object} Props - Component props for Document Preview
- * @param {documentListObject} Props.document - The document object
- * @param {object} Props.handlers - Object containing pertinent event handlers
- * @param {EventListener} Props.handlers.onPreview - The document preview event
- * @param Props.onShare
- * @param Props.onDelete
- * @param Props.onPreview
- * @param {EventListener} Props.handlers.onShare - The document share event
- * @param {EventListener} Props.handlers.onDelete - The document delete event
- * @returns {React.JSX.Element} React component for DocumentPreview
+ * @param {Document} Props.document - The document
+ * @param {Function} Props.onPreview - The document preview event
+ * @param {Function} Props.onShare - The document share event
+ * @param {Function} Props.onDelete - The document delete event
+ * @returns {React.JSX.Element} React component for DocumentCard
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const theme = useTheme();
