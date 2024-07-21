@@ -2,6 +2,7 @@
 import React from 'react';
 // Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditOutlined from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -36,11 +37,12 @@ const CustomToolbar = () => (
  * @param {object} Props - The props for ContactListTableDesktop
  * @param {Contact[]} Props.contacts - The list of contacts to display
  * @param {Function} Props.deleteContact - Function to delete a contact
+ * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
 //  * @param {Function} Props.handleProfileClick - Function to handle profile click
  * @returns {React.JSX.Element} The ContactListTableDesktop component
  */
-const ContactListTableDesktop = ({ contacts, deleteContact, handleSendMessage }) => {
+const ContactListTableDesktop = ({ contacts, deleteContact, editContact, handleSendMessage }) => {
   const theme = useTheme();
 
   const columnTitlesArray = [
@@ -81,6 +83,20 @@ const ContactListTableDesktop = ({ contacts, deleteContact, handleSendMessage })
         <SendIcon
           sx={{ color: '#808080', cursor: 'pointer' }}
           onClick={() => handleSendMessage(contactId)}
+        />
+      ),
+      sortable: false,
+      filterable: false,
+      width: 80,
+      headerAlign: 'center',
+      align: 'center'
+    },
+    {
+      field: 'Edit',
+      renderCell: (contact) => (
+        <EditOutlined
+          sx={{ color: 'gray', cursor: 'pointer' }}
+          onClick={() => editContact(contact.row.Profile)}
         />
       ),
       sortable: false,

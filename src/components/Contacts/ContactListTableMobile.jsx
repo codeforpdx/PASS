@@ -10,6 +10,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditIconOutlined from '@mui/icons-material/EditOutlined';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -41,10 +42,11 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @param {object} Props - The props for ContactListTableMobile
  * @param {Contact[]} Props.contacts - The list of contacts to display
  * @param {Function} Props.deleteContact - Function to delete a contact
+ * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
  * @returns {React.JSX.Element} The ContactListTableMobile component
  */
-const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) => {
+const ContactListTableMobile = ({ contacts, deleteContact, editContact, handleSendMessage }) => {
   const { setContact } = useContext(DocumentListContext);
   const { addNotification } = useNotification();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -212,6 +214,14 @@ const ContactListTableMobile = ({ contacts, deleteContact, handleSendMessage }) 
                 sx={iconStyling}
               >
                 Copy WebId
+              </MenuItem>
+              <MenuItem
+                component={Button}
+                onClick={handleMenuItemClick(editContact, contact)}
+                startIcon={<EditIconOutlined sx={iconSize} />}
+                sx={iconStyling}
+              >
+                Edit
               </MenuItem>
               <MenuItem
                 component={Button}
