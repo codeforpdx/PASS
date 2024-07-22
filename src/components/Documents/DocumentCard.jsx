@@ -1,20 +1,18 @@
 // React Imports
-import React from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import PreviewIcon from '@mui/icons-material/Preview';
 import ShareIcon from '@mui/icons-material/Share';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Typography from '@mui/material/Typography';
 
 /**
  * @typedef {object} Document
@@ -39,79 +37,101 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
  * @returns {React.JSX.Element} React component for DocumentCard
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const renderMediumGridLeft = () => {
-    if (isMediumScreen) return 8;
-    return 5;
+  const handleClick = (event, clickedDocument) => {
+    setAnchorEl(event.currentTarget);
+    setOpenMenu(clickedDocument.id);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpenMenu(null);
   };
 
-  const renderMediumGridRight = () => {
-    if (isMediumScreen) return 4;
-    return 2;
+  const handleMenuItemClick = (action, clickedDocument) => () => {
+    action(clickedDocument);
+    handleClose();
   };
 
-  const documentInfo = [
-    {
-      title: 'Name: ',
-      text: document?.name,
-      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
-    },
-    {
-      title: 'Type: ',
-      text: document?.type,
-      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
-    },
-    {
-      title: 'Description: ',
-      text: document?.description,
-      xs_value: isSmallScreen ? 12 : renderMediumGridRight()
-    },
-    {
-      title: 'Upload Date: ',
-      text: document?.uploadDate.toLocaleDateString(),
-      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
-    },
-    {
-      title: 'Expiration Date: ',
-      text: document?.endDate?.toLocaleDateString(),
-      xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
-    }
-  ];
+  const iconSize = {
+    height: '24px',
+    width: '24px'
+  };
+
+  const iconStyling = {
+    width: '100%'
+  };
 
   return (
-    <Container sx={{ wordWrap: 'break-word' }}>
-      <Paper>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container columnSpacing={1} sx={{ padding: isSmallScreen ? '0' : '10px' }}>
-            {documentInfo.map((info, index) => (
-              <Grid item xs={info.xs_value} sx={{ opacity: '1' }} key={info.title + String(index)}>
-                <Typography>
-                  {info.title} <strong>{info.text}</strong>
-                </Typography>
-              </Grid>
-            ))}
-
-            <Grid item xs={12}>
-              <Divider />
-              <Stack direction="row" spacing={2}>
-                <Button variant="contained" onClick={() => onShare()}>
-                  <img src={ShareIcon} alt="share" />
-                </Button>
-                <Button variant="outlined" onClick={() => onDelete()}>
-                  <img src={DeleteOutlineOutlinedIcon} alt="delete" />
-                </Button>
-                <Button variant="outlined" onClick={() => onPreview()}>
-                  <img src={FileOpenIcon} alt="preview" />
-                </Button>
-              </Stack>
-            </Grid>
-          </Grid>
-        </Box>
-      </Paper>
-    </Container>
+    <Box key={document.id}>
+      <Card
+        sx={{
+          my: '5px',
+          position: 'relative'
+        }}
+      >
+        <CardContent>
+          <Box>
+            <Typography variant="body1" component="div" noWrap sx={{ maxWidth: '90%' }}>
+              {document.name || '[No name given]'}
+            </Typography>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                right: 5,
+                transform: 'translateY(-50%)'
+              }}
+            >
+              <IconButton
+                id="actions-icon-button"
+                aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMenu === document.id ? 'true' : undefined}
+                onClick={(event) => handleClick(event, document)}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </CardContent>
+        <Menu
+          id="actions-menu"
+          anchorEl={anchorEl}
+          open={openMenu === document.id}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'actions-icon-button'
+          }}
+        >
+          <MenuItem
+            component={Button}
+            onClick={handleMenuItemClick(onPreview, document)}
+            startIcon={<PreviewIcon sx={iconSize} />}
+            sx={iconStyling}
+          >
+            Preview
+          </MenuItem>
+          <MenuItem
+            component={Button}
+            onClick={handleMenuItemClick(onShare, document)}
+            startIcon={<ShareIcon sx={iconSize} />}
+            sx={iconStyling}
+          >
+            Share
+          </MenuItem>
+          <MenuItem
+            component={Button}
+            onClick={handleMenuItemClick(onDelete, document)}
+            startIcon={<DeleteOutlineOutlinedIcon sx={iconSize} />}
+            sx={iconStyling}
+          >
+            Delete
+          </MenuItem>
+        </Menu>
+      </Card>
+    </Box>
   );
 };
 

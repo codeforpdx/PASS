@@ -1,5 +1,5 @@
 // React Imports
-import React, { useContext } from 'react';
+import React, { useContext, useId } from 'react';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports
@@ -75,8 +75,9 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
 
   // Map types for each document in the array
   const documents = documentListObject?.docList.map((document) => ({
-    ...document,
-    type: mappingType(document.type)
+    id: useId(),
+    type: mappingType(document.type),
+    ...document
   }));
 
   const handlers = {
