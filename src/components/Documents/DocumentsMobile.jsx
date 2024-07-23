@@ -63,7 +63,7 @@ const DocumentsMobile = ({ documents, handlers }) => {
       </Box>
       {documents.map((document) => (
         <DocumentCard
-          key={document.name}
+          key={document.id}
           document={document}
           onShare={() => handlers.onShare('document', document.name, document.type)}
           onDelete={() => handlers.onDelete(document)}

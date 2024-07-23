@@ -1,5 +1,6 @@
 // React Imports
-import React, { useContext, useId } from 'react';
+import React, { useContext, useMemo } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports
@@ -74,11 +75,15 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const mappingType = (type) => DOC_TYPES[type] || type;
 
   // Map types for each document in the array
-  const documents = documentListObject?.docList.map((document) => ({
-    id: useId(),
-    type: mappingType(document.type),
-    ...document
-  }));
+  const documents = useMemo(
+    () =>
+      documentListObject?.docList.map((document) => ({
+        id: uuidv4(), // Generate a UUID (a unique ID)
+        type: mappingType(document.type),
+        ...document
+      })),
+    [documentListObject?.docList]
+  );
 
   const handlers = {
     onShare: handleAclPermissionsModal,

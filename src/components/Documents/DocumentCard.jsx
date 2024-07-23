@@ -64,7 +64,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   };
 
   return (
-    <Box key={document.id}>
+    <Box>
       <Card
         sx={{
           my: '5px',
