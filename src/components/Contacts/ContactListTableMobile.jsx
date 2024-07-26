@@ -44,7 +44,7 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @param {Function} Props.deleteContact - Function to delete a contact
  * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
- * @param Props.'data-testid' - Test ID
+ * @param {string} Props.'data-testid' - Test ID
  * @returns {React.JSX.Element} The ContactListTableMobile component
  */
 const ContactListTableMobile = ({

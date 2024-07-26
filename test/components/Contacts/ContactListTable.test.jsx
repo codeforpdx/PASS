@@ -33,23 +33,23 @@ const MockTableComponent = ({ contacts, isSmallScreen, isLoggedIn = true }) => {
   );
 };
 
-describe('contacts table tests', () => {
-  const contacts = [
-    {
-      familyName: 'Abby',
-      givenName: 'Aaron',
-      person: 'Aaron Abby',
-      webId: 'https://example.com/Abby'
-    },
-    {
-      familyName: 'Builder',
-      givenName: 'Bob',
-      person: 'Bob Builder',
-      webId: 'https://example.com/Builder'
-    }
-  ];
+const contacts = [
+  {
+    familyName: 'Abby',
+    givenName: 'Aaron',
+    person: 'Aaron Abby',
+    webId: 'https://example.com/Abby'
+  },
+  {
+    familyName: 'Builder',
+    givenName: 'Bob',
+    person: 'Bob Builder',
+    webId: 'https://example.com/Builder'
+  }
+];
 
-  it('renders all clients from client context', () => {
+describe('contacts table tests', () => {
+ it('renders all clients from client context', () => {
     MockTableComponent({ contacts });
 
     const allRows = screen.getAllByRole('row');

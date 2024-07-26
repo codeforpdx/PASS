@@ -83,6 +83,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
+            'aria-label': 'Password',
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
@@ -111,6 +112,7 @@ const PodRegistrationForm = ({ register, caseManagerName, previousInfo = null })
           error={password !== confirmPassword}
           helperText={password !== confirmPassword && 'Password does not match'}
           InputProps={{
+            'aria-label': 'Confirm Password',
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton

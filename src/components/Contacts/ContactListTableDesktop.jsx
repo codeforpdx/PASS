@@ -39,7 +39,7 @@ const CustomToolbar = () => (
  * @param {Function} Props.deleteContact - Function to delete a contact
  * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
- * @param Props.'data-testid' - Test ID
+ * @param {string} Props.'data-testid' - Test ID
 //  * @param {Function} Props.handleProfileClick - Function to handle profile click
  * @returns {React.JSX.Element} The ContactListTableDesktop component
  */

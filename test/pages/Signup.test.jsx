@@ -27,7 +27,6 @@ vi.mock('react-router-dom', async () => {
     useSearchParams: () => [new URLSearchParams({ webId: 'https://example.com/profile' })]
   };
 });
-
 vi.mock('@components/Signup', async () => {
   const orig = await vi.importActual('@components/Signup');
 
@@ -36,7 +35,7 @@ vi.mock('@components/Signup', async () => {
     initializePod: vi.fn(),
     registerPod: vi.fn((email) => {
       if (email && /emailExists/.test(email)) {
-        // pretending this email is already in solid
+        // Pretending this email is already in solid
         return Promise.reject(new Error());
       }
       return Promise.resolve({ webId: '', podUrl: '', fetch: vi.fn() });
@@ -79,8 +78,9 @@ describe('Signup Page', () => {
     };
     useNotification.mockReturnValue({ addNotification: vi.fn() });
     const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
+    expect(getByRole('heading', { name: 'Sign Up' })).not.toBeNull();
   });
+
   it('lets users request to create pods', async () => {
     const session = {
       login: vi.fn(),
@@ -112,6 +112,7 @@ describe('Signup Page', () => {
     expect(registerPod).toHaveBeenCalledOnce();
     expect(initializePod).toBeCalledTimes(1);
   });
+
   it('it fails if email is already registered', async () => {
     const session = {
       login: vi.fn(),
@@ -144,6 +145,7 @@ describe('Signup Page', () => {
     await user.click(getAllByRole('button')[2]);
     expect(registerPod(emailField.value)).rejects.toThrow();
   });
+
   it('shows pod creation message when logged in', () => {
     const session = {
       podUrl: 'https://example.com',
