@@ -44,9 +44,16 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @param {Function} Props.deleteContact - Function to delete a contact
  * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
+ * @param Props.'data-testid' - Test ID
  * @returns {React.JSX.Element} The ContactListTableMobile component
  */
-const ContactListTableMobile = ({ contacts, deleteContact, editContact, handleSendMessage }) => {
+const ContactListTableMobile = ({
+  contacts,
+  deleteContact,
+  editContact,
+  handleSendMessage,
+  'data-testid': dataTestId
+}) => {
   const { setContact } = useContext(DocumentListContext);
   const { addNotification } = useNotification();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -98,7 +105,7 @@ const ContactListTableMobile = ({ contacts, deleteContact, editContact, handleSe
   };
 
   return (
-    <Box>
+    <Box data-testid={dataTestId}>
       <Box
         sx={{
           my: '15px',
@@ -157,6 +164,7 @@ const ContactListTableMobile = ({ contacts, deleteContact, editContact, handleSe
                 >
                   <IconButton
                     id="actions-icon-button"
+                    aria-labelledby="actions-icon-button"
                     aria-controls={openMenu === contact.webId ? 'actions-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={openMenu === contact.webId ? 'true' : undefined}

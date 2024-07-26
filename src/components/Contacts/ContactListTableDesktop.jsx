@@ -39,10 +39,17 @@ const CustomToolbar = () => (
  * @param {Function} Props.deleteContact - Function to delete a contact
  * @param {Function} Props.editContact - Function to edit a contact
  * @param {Function} Props.handleSendMessage - Function to handle sending a message
+ * @param Props.'data-testid' - Test ID
 //  * @param {Function} Props.handleProfileClick - Function to handle profile click
  * @returns {React.JSX.Element} The ContactListTableDesktop component
  */
-const ContactListTableDesktop = ({ contacts, deleteContact, editContact, handleSendMessage }) => {
+const ContactListTableDesktop = ({
+  contacts,
+  deleteContact,
+  editContact,
+  handleSendMessage,
+  'data-testid': dataTestId
+}) => {
   const theme = useTheme();
 
   const columnTitlesArray = [
@@ -122,6 +129,7 @@ const ContactListTableDesktop = ({ contacts, deleteContact, editContact, handleS
 
   return (
     <DataGrid
+      data-testid={dataTestId}
       columns={columnTitlesArray}
       rows={contacts?.map((contact) => ({
         id: contact.webId,
