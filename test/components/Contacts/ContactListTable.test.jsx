@@ -49,7 +49,7 @@ const contacts = [
 ];
 
 describe('contacts table tests', () => {
- it('renders all clients from client context', () => {
+  it('renders all clients from client context', () => {
     MockTableComponent({ contacts });
 
     const allRows = screen.getAllByRole('row');
