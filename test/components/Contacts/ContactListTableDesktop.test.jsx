@@ -8,4 +8,4 @@
 // const queryClient = new QueryClient();
 import { describe } from 'vitest';
 
-describe.todo('write tests for this component')
+describe.todo('write tests for this component');
