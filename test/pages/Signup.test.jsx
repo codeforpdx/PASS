@@ -79,7 +79,7 @@ describe('Signup Page', () => {
     };
     useNotification.mockReturnValue({ addNotification: vi.fn() });
     const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
+    expect(getByRole('heading', { name: 'Sign Up' })).not.toBeNull();
   });
   it('lets users request to create pods', async () => {
     const session = {
@@ -102,8 +102,8 @@ describe('Signup Page', () => {
     const password = 'password';
     const confirmPassword = 'password';
     const emailField = getByRole('textbox', { name: 'Email' });
-    const passwordField = getByLabelText('Password');
-    const confirmPasswordField = getByLabelText('Confirm Password');
+    const passwordField = getByLabelText(/^password/i);
+    const confirmPasswordField = getByLabelText(/^confirm password/i);
     await user.type(emailField, email);
     await user.type(passwordField, password);
     await user.type(confirmPasswordField, confirmPassword);
@@ -135,8 +135,8 @@ describe('Signup Page', () => {
     const password = 'password';
     const confirmPassword = 'password';
     const emailField = getByRole('textbox', { name: 'Email' });
-    const passwordField = getByLabelText('Password');
-    const confirmPasswordField = getByLabelText('Confirm Password');
+    const passwordField = getByLabelText(/^password/i);
+    const confirmPasswordField = getByLabelText(/^confirm password/i);
 
     await user.type(emailField, email);
     await user.type(passwordField, password);

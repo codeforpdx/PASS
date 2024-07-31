@@ -16,7 +16,7 @@ describe('Civic Profile', () => {
         <CivicProfile />
       </BrowserRouter>
     );
-    expect(getByRole('nav')).not.toBeNull();
-    expect(getAllByRole('link').length).toEqual(numLinks);
+    expect(getByRole('navigation')).not.toBeNull();
+    expect(getAllByRole('tab').length).toEqual(numLinks);
   });
 });
