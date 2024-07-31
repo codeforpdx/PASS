@@ -6,3 +6,6 @@
 // import ContactListTableMobile from '../../../src/components/Contacts/ContactListTableMobile';
 
 // const queryClient = new QueryClient();
+import { describe } from 'vitest';
+
+describe.todo('write tests for this component')
