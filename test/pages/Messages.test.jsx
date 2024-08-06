@@ -1,10 +1,15 @@
-// import React from 'react';
-// import { render } from '@testing-library/react';
-// import { BrowserRouter } from 'react-router-dom';
-// import { expect, it, describe } from 'vitest';
-// import { Messages } from '@pages';
+import React from 'react';
+import { cleanup, render } from '@testing-library/react';
+import { afterEach, describe, it } from 'vitest';
+import { Messages } from '@pages';
 
-// describe('Messages', () => {
-//   // TODO: Finish tests
-//   it('renders', () => {});
-// });
+// Clear created DOM after each test
+afterEach(() => {
+  cleanup();
+});
+
+describe('Messages', () => {
+  it('renders', () => {
+    render(<Messages />);
+  });
+});
