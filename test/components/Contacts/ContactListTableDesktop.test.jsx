@@ -70,7 +70,7 @@ describe('contacts list table desktop tests', () => {
   });
 
   it('renders with all clients from client context', () => {
-    render(<MockTableComponent contacts={contacts} />);
+    render(<MockTableComponent contacts={contacts} session={sessionObj} />);
 
     const dataGrid = screen.getByTestId('contacts-table');
 

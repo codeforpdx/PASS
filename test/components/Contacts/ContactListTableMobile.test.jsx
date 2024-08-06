@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -52,5 +52,34 @@ const contacts = [
 ];
 
 describe('contacts list table mobile tests', () => {
-  it.todo('renders all clients from client context');
+  const sessionObj = {
+    login: vi.fn(),
+    fetch: vi.fn(),
+    podUrl: 'https://example.com',
+    session: {
+      fetch: vi.fn(),
+      info: {
+        webId: 'https://example.com/profile/',
+        isLoggedIn: true
+      }
+    }
+  };
+
+  it('renders', () => {
+    render(<MockTableComponent contacts={[]} session={sessionObj} />);
+  });
+
+  it('renders with all clients from client context', () => {
+    render(<MockTableComponent contacts={contacts} session={sessionObj} />);
+
+    contacts.forEach((contact) => {
+      const name = `${contact.givenName} ${contact.familyName}`.trim();
+      const nameElement = screen.getByText(name);
+
+      const webIdElement = screen.getByText(contact.webId);
+
+      expect(nameElement).not.toBeNull();
+      expect(webIdElement).not.toBeNull();
+    });
+  });
 });
