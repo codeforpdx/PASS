@@ -6,3 +6,6 @@
 // import ContactListTableDesktop from '../../../src/components/Contacts/ContactListTableDesktop';
 
 // const queryClient = new QueryClient();
+import { describe } from 'vitest';
+
+describe.todo('write tests for this component');

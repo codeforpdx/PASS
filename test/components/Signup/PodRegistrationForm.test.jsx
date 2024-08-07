@@ -18,8 +18,8 @@ describe('PodRegistrationForm', () => {
     );
 
     const textField = screen.getByRole('textbox', { name: 'Email' });
-    const inputElementPassword = screen.getByLabelText('Password');
-    const inputElementConfirmPassord = screen.getByLabelText('Confirm Password');
+    const inputElementPassword = screen.getByLabelText(/^password/i);
+    const inputElementConfirmPassord = screen.getByLabelText(/^confirm password/i);
 
     expect(textField).not.toBeNull();
     expect(inputElementPassword).not.toBeNull();
