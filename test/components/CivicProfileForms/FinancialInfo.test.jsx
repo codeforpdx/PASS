@@ -1,11 +1,10 @@
 // import React from 'react';
 // import { render } from '@testing-library/react';
-// import { expect, it, describe } from 'vitest';
-// import { FinancialInfo } from '@components/CivicProfileForms';
+import { it, describe } from 'vitest';
 
-// describe('Financial Info Form', () => {
-//   it('renders', () => {
-//     const { getByText } = render(<FinancialInfo />);
-//     expect(getByText('Financial Information')).not.toBeNull();
-//   });
-// });
+describe.todo('Financial Info Form', () => {
+  it('renders', () => {
+    // const { getByText } = render(<FinancialInfo />);
+    // expect(getByText('Financial Information')).not.toBeNull();
+  });
+});
