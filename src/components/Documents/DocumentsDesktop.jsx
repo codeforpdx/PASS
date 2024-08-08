@@ -50,42 +50,42 @@ const CustomToolbar = () => (
 const DocumentsDesktop = ({ documents, handlers }) => {
   const columnTitlesArray = [
     {
-      field: 'name',
+      field: 'Name',
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
-      field: 'type',
+      field: 'Type',
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
-      field: 'description',
+      field: 'Description',
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
-      field: 'upload date',
+      field: 'Upload Date',
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
-      field: 'expiration date',
+      field: 'Expiration Date',
       minWidth: 120,
       flex: 1,
       headerAlign: 'center',
       align: 'center'
     },
     {
-      field: 'preview file',
+      field: 'Preview',
       minWidth: 100,
       flex: 1,
       headerAlign: 'center',
@@ -102,14 +102,16 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       )
     },
     {
-      field: 'sharing',
-      type: 'actions',
-      minWidth: 80,
+      field: 'Share',
+      minWidth: 100,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
-      getActions: (data) => [
+      sortable: false,
+      filterable: false,
+      renderCell: (data) => [
         <GridActionsCellItem
+          key={String()}
           icon={<ShareIcon />}
           onClick={() => handlers.onShare('document', data.row.id, data.row.type)}
           label="Share"
@@ -117,13 +119,12 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       ]
     },
     {
-      field: 'actions',
-      type: 'actions',
-      minWidth: 80,
+      field: 'Delete',
+      minWidth: 100,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
-      getActions: (data) => [
+      renderCell: (data) => [
         <GridActionsCellItem
           icon={<DeleteOutlineOutlinedIcon />}
           onClick={() => handlers.onDelete(data.row.delete)}
@@ -138,13 +139,14 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       columns={columnTitlesArray}
       rows={documents.map((document) => ({
         id: document.name,
-        type: document.type,
-        name: document.name,
-        description: document.description,
-        delete: document,
-        'upload date': document?.uploadDate.toLocaleDateString(),
-        'expiration date': document?.endDate?.toLocaleDateString(),
-        'preview file': document.fileUrl
+        Name: document.name,
+        Type: document.type,
+        Description: document.description,
+        'Upload Date': document?.uploadDate.toLocaleDateString(),
+        'Expiration Date': document?.endDate?.toLocaleDateString(),
+        Preview: document.fileUrl,
+        Share: document,
+        Delete: document
       }))}
       pageSizeOptions={[10]}
       initialState={{
