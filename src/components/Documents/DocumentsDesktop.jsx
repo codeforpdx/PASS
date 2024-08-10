@@ -22,9 +22,10 @@ const CustomToolbar = () => (
 
 /**
  * @typedef {object} Document
- * @property {string} name - The given name of the document
- * @property {string} type - The given type of the document
- * @property {string} description - The given description of the document
+ * @property {string} id - The id of the document
+ * @property {string} name - The provided name of the document
+ * @property {string} type - The provided type of the document
+ * @property {string} description - The provided description of the document
  * @property {string} uploadDate- The upload date of the document
  * @property {string} endDate - The expiration date of the document
  * @property {string} fileUrl - The file URL of the document
@@ -92,14 +93,17 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center',
       sortable: false,
       filterable: false,
-      renderCell: (fileUrl) => (
-        <GridActionsCellItem
-          key={String(fileUrl)}
-          icon={<FileOpenIcon />}
-          onClick={() => handlers.onPreview(fileUrl)}
-          label="Preview"
-        />
-      )
+      renderCell: (data) => {
+        const [id, fileUrl] = data.value;
+        return (
+          <GridActionsCellItem
+            key={`Preview:${String(id)}`}
+            icon={<FileOpenIcon />}
+            onClick={() => handlers.onPreview(fileUrl)}
+            label="Preview"
+          />
+        );
+      }
     },
     {
       field: 'Share',
@@ -109,14 +113,17 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center',
       sortable: false,
       filterable: false,
-      renderCell: (data) => [
-        <GridActionsCellItem
-          key={String()}
-          icon={<ShareIcon />}
-          onClick={() => handlers.onShare('document', data.row.id, data.row.type)}
-          label="Share"
-        />
-      ]
+      renderCell: (data) => {
+        const [id, type] = data.value;
+        return (
+          <GridActionsCellItem
+            key={`Share:${String(data.row.id)}`}
+            icon={<ShareIcon />}
+            onClick={() => handlers.onShare('document', id, type)}
+            label="Share"
+          />
+        );
+      }
     },
     {
       field: 'Delete',
@@ -124,13 +131,19 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       flex: 1,
       headerAlign: 'center',
       align: 'center',
-      renderCell: (data) => [
-        <GridActionsCellItem
-          icon={<DeleteOutlineOutlinedIcon />}
-          onClick={() => handlers.onDelete(data.row.delete)}
-          label="Delete"
-        />
-      ]
+      sortable: false,
+      filterable: false,
+      renderCell: (data) => {
+        const [document] = data.value;
+        return (
+          <GridActionsCellItem
+            key={`Delete:${String(document.id)}`}
+            icon={<DeleteOutlineOutlinedIcon />}
+            onClick={() => handlers.onDelete(document)}
+            label="Delete"
+          />
+        );
+      }
     }
   ];
   // Render if documents
@@ -138,15 +151,15 @@ const DocumentsDesktop = ({ documents, handlers }) => {
     <DataGrid
       columns={columnTitlesArray}
       rows={documents.map((document) => ({
-        id: document.name,
+        id: document.id,
         Name: document.name,
         Type: document.type,
         Description: document.description,
         'Upload Date': document?.uploadDate.toLocaleDateString(),
         'Expiration Date': document?.endDate?.toLocaleDateString(),
-        Preview: document.fileUrl,
-        Share: document,
-        Delete: document
+        Preview: [document.id, document.fileUrl],
+        Share: [document.id, document.name, document.type],
+        Delete: [document]
       }))}
       pageSizeOptions={[10]}
       initialState={{
