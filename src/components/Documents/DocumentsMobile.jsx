@@ -35,6 +35,13 @@ import DocumentCard from './DocumentCard';
  */
 const DocumentsMobile = ({ documents, handlers }) => {
   const theme = useTheme();
+
+  // parent box element
+  const tableHeaderStyling = { display: 'flex', width: '100%', justifyContent: 'flex-start' };
+
+  // topography elements
+  const columnHeaderStyling = { display: 'flex', flexBasis: '50%', justifyContent: 'flex-start' };
+
   return (
     <Box>
       <Box
@@ -47,18 +54,12 @@ const DocumentsMobile = ({ documents, handlers }) => {
           position: 'relative'
         }}
       >
-        <Box>
-          <Typography>Name</Typography>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              right: 15,
-              transform: 'translateY(-50%)'
-            }}
-          >
-            <Typography>Actions</Typography>
-          </Box>
+        <Box sx={tableHeaderStyling}>
+          <Typography sx={columnHeaderStyling}>Name</Typography>
+          <Typography sx={columnHeaderStyling}>Description</Typography>
+          <Typography sx={{ ...columnHeaderStyling, justifyContent: 'flex-end' }}>
+            Actions
+          </Typography>
         </Box>
       </Box>
       {documents.map((document) => (
