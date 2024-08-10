@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import PreviewIcon from '@mui/icons-material/Preview';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import IconButton from '@mui/material/IconButton';
@@ -108,7 +108,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           <MenuItem
             component={Button}
             onClick={handleMenuItemClick(onPreview, document)}
-            startIcon={<PreviewIcon sx={iconSize} />}
+            startIcon={<FileOpenIcon sx={iconSize} />}
             sx={iconStyling}
           >
             Preview
