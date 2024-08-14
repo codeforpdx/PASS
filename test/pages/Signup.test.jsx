@@ -102,8 +102,8 @@ describe('Signup Page', () => {
     const password = 'password';
     const confirmPassword = 'password';
     const emailField = getByRole('textbox', { name: 'Email' });
-    const passwordField = getByLabelText(/^password/i);
-    const confirmPasswordField = getByLabelText(/^confirm password/i);
+    const passwordField = getByLabelText('Password');
+    const confirmPasswordField = getByLabelText('Confirm Password');
     await user.type(emailField, email);
     await user.type(passwordField, password);
     await user.type(confirmPasswordField, confirmPassword);
@@ -135,8 +135,8 @@ describe('Signup Page', () => {
     const password = 'password';
     const confirmPassword = 'password';
     const emailField = getByRole('textbox', { name: 'Email' });
-    const passwordField = getByLabelText(/^password/i);
-    const confirmPasswordField = getByLabelText(/^confirm password/i);
+    const passwordField = getByLabelText('Password');
+    const confirmPasswordField = getByLabelText('Confirm Password');
 
     await user.type(emailField, email);
     await user.type(passwordField, password);

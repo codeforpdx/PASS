@@ -2,16 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Custom Hooks Imports
-import { useSession, useNotification } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Inrupt Imports
-import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
+import { getStringNoLocale, getThing, getWebIdDataset } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-
-import { Tab, Tabs, Typography } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
 // Constant Imports
 import { ENV } from '@constants';
 // Signup Form Imports
@@ -59,7 +60,7 @@ const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
     </Box>
   );
 };
-/**/
+
 /**
  * Signup - First screen in the user registration flow.
  * Allows users to either create a pod, or sign into an existing pod
