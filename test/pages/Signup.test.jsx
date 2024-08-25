@@ -79,7 +79,7 @@ describe('Signup Page', () => {
     };
     useNotification.mockReturnValue({ addNotification: vi.fn() });
     const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
+    expect(getByRole('heading', { name: 'Sign Up' })).not.toBeNull();
   });
   it('lets users request to create pods', async () => {
     const session = {

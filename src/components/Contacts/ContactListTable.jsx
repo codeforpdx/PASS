@@ -59,6 +59,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     >
       {isSmallScreen ? (
         <ContactListTableMobile
+          data-testid="ContactListTableMobile"
           contacts={contacts}
           deleteContact={deleteContact}
           handleSendMessage={handleSendMessage}
@@ -66,6 +67,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         />
       ) : (
         <ContactListTableDesktop
+          data-testid="ContactListTableDesktop"
           contacts={contacts}
           deleteContact={deleteContact}
           handleSendMessage={handleSendMessage}
