@@ -14,6 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
 
+// Utility Imports
+import { truncateText } from '@utils';
+
 /**
  * @typedef {object} Document
  * @property {string} name - The given name of the document
@@ -37,6 +40,11 @@ import Typography from '@mui/material/Typography';
  * @returns {React.JSX.Element} React component for DocumentCard
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
+  // primary columns
+  // name, type, uploaddate, expiration, actions
+  // expandable information
+  //  description
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -54,6 +62,60 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
     handleClose();
   };
 
+  const getTypeText = (type) => {
+    switch (type) {
+      case 'driversLicense':
+        return "Driver's License";
+      case 'passport':
+        return 'Passport';
+      case 'bankStatement':
+        return 'Bank Statement';
+      default:
+        return 'Unknown Document Type';
+    }
+  };
+
+  // styling for primary, top-level information
+  const primaryRowStyling = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  };
+
+  // styling for primary, top-level information
+  const secondaryRowStyling = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '10px',
+    columnGap: '10px',
+    flexWrap: 'wrap'
+  };
+
+  // styling for secondary information
+  const descriptionRowStyling = {
+    marginTop: '10px'
+  };
+
+  // ubiquitous information styling
+  const primaryColumnStyling = {
+    columnGap: '10px'
+  };
+
+  const secondaryColumnStyling = {
+    fontSize: '0.8rem',
+    color: 'text.secondary',
+    fontWeight: 'bold'
+  };
+
+  // secondary information styling
+  const descriptionColumnStyling = {
+    fontSize: '0.875rem',
+    wordWrap: 'break-word',
+    color: 'text.secondary',
+    fontStyle: 'italic'
+  };
+
+  // icon styles
   const iconSize = {
     height: '24px',
     width: '24px'
@@ -72,16 +134,25 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
         }}
       >
         <CardContent>
-          <Box>
-            <Typography variant="body1" component="div" noWrap sx={{ maxWidth: '90%' }}>
-              {document.name || '[No name given]'}
+          <Box sx={primaryRowStyling}>
+            <Typography
+              variant="body1"
+              component="div"
+              noWrap
+              sx={{ ...primaryColumnStyling, marginLeft: '0' }}
+            >
+              {document.name || '[No Name provided]'}
             </Typography>
+            <Typography variant="body1" component="div" noWrap sx={primaryColumnStyling}>
+              {document.type ? getTypeText(document.type) : 'N/A'}
+            </Typography>
+
             <Box
               sx={{
-                position: 'absolute',
-                top: '50%',
-                right: 5,
-                transform: 'translateY(-50%)'
+                ...primaryColumnStyling,
+                justifyContent: 'flex-end',
+                maxWidth: '54px',
+                marginRight: '0'
               }}
             >
               <IconButton
@@ -94,6 +165,28 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
                 <MoreVertIcon />
               </IconButton>
             </Box>
+          </Box>
+          <Box sx={secondaryRowStyling}>
+            <Typography variant="body1" component="div" noWrap sx={secondaryColumnStyling}>
+              {document.uploadDate
+                ? `Uploaded ${document.uploadDate.toLocaleDateString()}`
+                : 'Unknown Upload Date'}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="div"
+              noWrap
+              sx={{ ...secondaryColumnStyling, justifyContent: 'flex-end', paddingRight: '18px' }}
+            >
+              {document.endDate
+                ? `Expires ${document.endDate.toLocaleDateString()}`
+                : 'No Expiration'}
+            </Typography>
+          </Box>
+          <Box sx={descriptionRowStyling}>
+            <Typography variant="body1" component="div" sx={descriptionColumnStyling}>
+              {truncateText(document.description, 140)}
+            </Typography>
           </Box>
         </CardContent>
         <Menu

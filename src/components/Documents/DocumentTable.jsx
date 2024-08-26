@@ -38,7 +38,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const { session } = useSession();
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   /**
    * Handles the local display of a document by opening it in a new window.

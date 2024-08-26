@@ -37,10 +37,10 @@ const DocumentsMobile = ({ documents, handlers }) => {
   const theme = useTheme();
 
   // parent box element
-  const tableHeaderStyling = { display: 'flex', width: '100%', justifyContent: 'flex-start' };
-
-  // topography elements
-  const columnHeaderStyling = { display: 'flex', flexBasis: '50%', justifyContent: 'flex-start' };
+  const tableHeaderStyling = {
+    display: 'flex',
+    justifyContent: 'space-between'
+  };
 
   return (
     <Box>
@@ -55,9 +55,15 @@ const DocumentsMobile = ({ documents, handlers }) => {
         }}
       >
         <Box sx={tableHeaderStyling}>
-          <Typography sx={columnHeaderStyling}>Name</Typography>
-          <Typography sx={columnHeaderStyling}>Description</Typography>
-          <Typography sx={{ ...columnHeaderStyling, justifyContent: 'flex-end' }}>
+          <Typography sx={{ marginLeft: '0' }}>Name</Typography>
+          <Typography>Type</Typography>
+          <Typography
+            sx={{
+              justifyContent: 'flex-end',
+              maxWidth: '54px',
+              marginRight: '0'
+            }}
+          >
             Actions
           </Typography>
         </Box>
