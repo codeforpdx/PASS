@@ -55,7 +55,7 @@ const DocumentsMobile = ({ documents, handlers }) => {
         }}
       >
         <Box sx={tableHeaderStyling}>
-          <Typography sx={{ marginLeft: '0' }}>Name</Typography>
+          <Typography sx={{ marginLeft: '0' }}>Document</Typography>
           <Typography
             sx={{
               justifyContent: 'flex-end',
