@@ -13,6 +13,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+
 // Utility Imports
 import { truncateText } from '@utils';
 
@@ -44,6 +46,8 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   // expandable information
   //  description
 
+  const theme = useTheme();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -74,71 +78,53 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
     }
   };
 
-  // Imported theme for reuse
-  //  Have row, column, primaryInfo, secondaryInfo
-
   const rowStyling = {
     display: 'flex',
     columnGap: '10px'
   };
 
-  // contains the main column styling
   const columnStyling = {
     display: 'flex',
     flexDirection: 'column'
   };
 
-  // top row in the data column containing the primary data
+  // styling for data contained in each section
   const dataStyling = {
     ...rowStyling,
+    fontSize: '.8rem',
     justifyContent: 'flex-start'
   };
 
-  // contains styling for the left (data) column
-  const dataColumnStyling = {
+  // styling for each data section in the document data column
+  const dataSectionStyling = {
     ...columnStyling,
-    flex: '1 0 90%',
-    rowGap: '10px',
     '& div': {
       ...dataStyling
-    },
-    '& div > div': {
-      rowGap: '10px'
     }
   };
 
-  // right (actions) column
+  // styling for the document data column
+  const dataColumnStyling = {
+    ...columnStyling,
+    flex: '1 1 90%',
+    rowGap: '10px',
+    '& div': {
+      ...dataSectionStyling
+    }
+  };
+
+  // styling for the document actions column
   const actionsColumnStyling = {
     ...columnStyling,
-    flex: '1 0 10%',
+    flex: '0 1 10%',
     maxWidth: '54px',
     justifyContent: 'center',
     alignItems: 'flex-end'
   };
 
-  // lower row in the data column - section of secondary data rows
-  const secondaryDataSectionStyling = {
-    ...columnStyling,
-    paddingLeft: '20px',
-    '& div': {
-      ...dataStyling,
-      color: 'text.secondary',
-      fontSize: '.875rem'
-    }
-  };
-
-  const descriptionStyling = {
-    marginTop: '10px',
-    '& div': {
-      fontSize: '.8rem',
-      fontStyle: 'italic',
-      textWrap: 'wrap',
-      fontWeight: 'bold'
-    }
-  };
-
   const cardStyling = {
     ...rowStyling,
+    background: theme.palette.background.tint,
     justifyContent: 'space-between',
     gap: '10px'
   };
@@ -163,28 +149,40 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
       >
         <CardContent sx={cardStyling}>
           <Box sx={dataColumnStyling}>
-            <Typography variant="body1" component="div" noWrap>
-              {document.name || '[No Name provided]'}
-            </Typography>
-            <Box sx={secondaryDataSectionStyling}>
-              <Typography variant="body1" component="div" noWrap>
+            <Box>
+              <Typography
+                sx={{ fontSize: '1rem !important', fontWeight: 'bold' }}
+                variant="body1"
+                component="div"
+                noWrap
+              >
+                {document.name || '[No Name provided]'}
+              </Typography>
+              <Typography
+                sx={{ fontStyle: 'italic', fontWeight: 'bold' }}
+                variant="body1"
+                component="div"
+                noWrap
+              >
                 {document.type ? getTypeText(document.type) : 'N/A'}
               </Typography>
+            </Box>
+            <Box>
               <Typography variant="body1" component="div" noWrap>
                 {document.uploadDate
-                  ? `Uploaded ${document.uploadDate.toLocaleDateString()}`
-                  : 'Unknown Upload Date'}
+                  ? `Uploaded: ${document.uploadDate.toLocaleDateString()}`
+                  : 'Upload Date Unset'}
               </Typography>
               <Typography variant="body1" component="div" noWrap>
                 {document.endDate
-                  ? `Expires ${document.endDate.toLocaleDateString()}`
-                  : 'No Expiration'}
+                  ? `Expires: ${document.endDate.toLocaleDateString()}`
+                  : 'Expiration Unset'}
               </Typography>
-              <Box sx={descriptionStyling}>
-                <Typography variant="body1" component="div">
-                  {truncateText(document.description, 140)}
-                </Typography>
-              </Box>
+            </Box>
+            <Box>
+              <Typography sx={{ fontStyle: 'italic' }} variant="body1" component="div">
+                {truncateText(document.description, 140)}
+              </Typography>
             </Box>
           </Box>
           <Box sx={actionsColumnStyling}>
