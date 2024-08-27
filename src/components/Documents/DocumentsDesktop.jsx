@@ -31,7 +31,7 @@ const CustomToolbar = () => (
 
 /**
  * @typedef {object} Document
- * @property {string} id - The unique identifier of the document
+ * @property {string} id - The unique id of the document
  * @property {string} name - The name of the document
  * @property {string} type - The type of the document
  * @property {string} description - A brief description of the document

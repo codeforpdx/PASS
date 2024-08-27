@@ -21,6 +21,7 @@ import { truncateText, getTypeText } from '@utils';
 
 /**
  * @typedef {object} Document
+ * @property {string} id - The unique id of the document
  * @property {string} name - The given name of the document
  * @property {string} type - The given type of the document
  * @property {string} description - The given description of the document
