@@ -140,9 +140,9 @@ const DocumentsDesktop = ({ documents, handlers }) => {
         id: document.id,
         Name: document.name,
         Type: getTypeText(document.type),
-        Description: document.description,
+        Description: document.description || '[Not Provided]',
         'Upload Date': document?.uploadDate.toLocaleDateString(),
-        'Expiration Date': document?.endDate?.toLocaleDateString(),
+        'Expiration Date': document?.endDate?.toLocaleDateString() || '[Not Provided]',
         Preview: [document.id, document.fileUrl], // Pass data needed for "Preview" action
         Share: [document.id, document.name, document.type], // Pass data needed for "Share" action
         Delete: [document] // Pass the document object for "Delete" action
