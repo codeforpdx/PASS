@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
 // Utility Imports
-import { truncateText } from '@utils';
+import { truncateText, getTypeText } from '@utils';
 
 /**
  * @typedef {object} Document
@@ -63,19 +63,6 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const handleMenuItemClick = (action, clickedDocument) => () => {
     action(clickedDocument);
     handleClose();
-  };
-
-  const getTypeText = (type) => {
-    switch (type) {
-      case 'driversLicense':
-        return "Driver's License";
-      case 'passport':
-        return 'Passport';
-      case 'bankStatement':
-        return 'Bank Statement';
-      default:
-        return 'Other';
-    }
   };
 
   const rowStyling = {

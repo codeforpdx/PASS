@@ -9,6 +9,10 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
+
+// Util Imports
+import { getTypeText } from '@utils';
+
 // Theme Imports
 import theme from '../../theme';
 
@@ -153,7 +157,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       rows={documents.map((document) => ({
         id: document.id,
         Name: document.name,
-        Type: document.type,
+        Type: getTypeText(document.type),
         Description: document.description,
         'Upload Date': document?.uploadDate.toLocaleDateString(),
         'Expiration Date': document?.endDate?.toLocaleDateString(),
