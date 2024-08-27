@@ -13,7 +13,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
-
 // Utility Imports
 import { truncateText } from '@utils';
 
@@ -71,48 +70,77 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
       case 'bankStatement':
         return 'Bank Statement';
       default:
-        return 'Unknown Document Type';
+        return 'Other';
     }
   };
 
-  // styling for primary, top-level information
-  const primaryRowStyling = {
+  // Imported theme for reuse
+  //  Have row, column, primaryInfo, secondaryInfo
+
+  const rowStyling = {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  };
-
-  // styling for primary, top-level information
-  const secondaryRowStyling = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: '10px',
-    columnGap: '10px',
-    flexWrap: 'wrap'
-  };
-
-  // styling for secondary information
-  const descriptionRowStyling = {
-    marginTop: '10px'
-  };
-
-  // ubiquitous information styling
-  const primaryColumnStyling = {
     columnGap: '10px'
   };
 
-  const secondaryColumnStyling = {
-    fontSize: '0.8rem',
-    color: 'text.secondary',
-    fontWeight: 'bold'
+  // contains the main column styling
+  const columnStyling = {
+    display: 'flex',
+    flexDirection: 'column'
   };
 
-  // secondary information styling
-  const descriptionColumnStyling = {
-    fontSize: '0.875rem',
-    wordWrap: 'break-word',
-    color: 'text.secondary',
-    fontStyle: 'italic'
+  // top row in the data column containing the primary data
+  const dataStyling = {
+    ...rowStyling,
+    justifyContent: 'flex-start'
+  };
+
+  // contains styling for the left (data) column
+  const dataColumnStyling = {
+    ...columnStyling,
+    flex: '1 0 90%',
+    rowGap: '10px',
+    '& div': {
+      ...dataStyling
+    },
+    '& div > div': {
+      rowGap: '10px'
+    }
+  };
+
+  // right (actions) column
+  const actionsColumnStyling = {
+    ...columnStyling,
+    flex: '1 0 10%',
+    maxWidth: '54px',
+    justifyContent: 'center',
+    alignItems: 'flex-end'
+  };
+
+  // lower row in the data column - section of secondary data rows
+  const secondaryDataSectionStyling = {
+    ...columnStyling,
+    paddingLeft: '20px',
+    '& div': {
+      ...dataStyling,
+      color: 'text.secondary',
+      fontSize: '.875rem'
+    }
+  };
+
+  const descriptionStyling = {
+    marginTop: '10px',
+    '& div': {
+      fontSize: '.8rem',
+      fontStyle: 'italic',
+      textWrap: 'wrap',
+      fontWeight: 'bold'
+    }
+  };
+
+  const cardStyling = {
+    ...rowStyling,
+    justifyContent: 'space-between',
+    gap: '10px'
   };
 
   // icon styles
@@ -133,60 +161,42 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           position: 'relative'
         }}
       >
-        <CardContent>
-          <Box sx={primaryRowStyling}>
-            <Typography
-              variant="body1"
-              component="div"
-              noWrap
-              sx={{ ...primaryColumnStyling, marginLeft: '0' }}
-            >
+        <CardContent sx={cardStyling}>
+          <Box sx={dataColumnStyling}>
+            <Typography variant="body1" component="div" noWrap>
               {document.name || '[No Name provided]'}
             </Typography>
-            <Typography variant="body1" component="div" noWrap sx={primaryColumnStyling}>
-              {document.type ? getTypeText(document.type) : 'N/A'}
-            </Typography>
-
-            <Box
-              sx={{
-                ...primaryColumnStyling,
-                justifyContent: 'flex-end',
-                maxWidth: '54px',
-                marginRight: '0'
-              }}
-            >
-              <IconButton
-                id="actions-icon-button"
-                aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openMenu === document.id ? 'true' : undefined}
-                onClick={(event) => handleClick(event, document)}
-              >
-                <MoreVertIcon />
-              </IconButton>
+            <Box sx={secondaryDataSectionStyling}>
+              <Typography variant="body1" component="div" noWrap>
+                {document.type ? getTypeText(document.type) : 'N/A'}
+              </Typography>
+              <Typography variant="body1" component="div" noWrap>
+                {document.uploadDate
+                  ? `Uploaded ${document.uploadDate.toLocaleDateString()}`
+                  : 'Unknown Upload Date'}
+              </Typography>
+              <Typography variant="body1" component="div" noWrap>
+                {document.endDate
+                  ? `Expires ${document.endDate.toLocaleDateString()}`
+                  : 'No Expiration'}
+              </Typography>
+              <Box sx={descriptionStyling}>
+                <Typography variant="body1" component="div">
+                  {truncateText(document.description, 140)}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-          <Box sx={secondaryRowStyling}>
-            <Typography variant="body1" component="div" noWrap sx={secondaryColumnStyling}>
-              {document.uploadDate
-                ? `Uploaded ${document.uploadDate.toLocaleDateString()}`
-                : 'Unknown Upload Date'}
-            </Typography>
-            <Typography
-              variant="body1"
-              component="div"
-              noWrap
-              sx={{ ...secondaryColumnStyling, justifyContent: 'flex-end', paddingRight: '18px' }}
+          <Box sx={actionsColumnStyling}>
+            <IconButton
+              id="actions-icon-button"
+              aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openMenu === document.id ? 'true' : undefined}
+              onClick={(event) => handleClick(event, document)}
             >
-              {document.endDate
-                ? `Expires ${document.endDate.toLocaleDateString()}`
-                : 'No Expiration'}
-            </Typography>
-          </Box>
-          <Box sx={descriptionRowStyling}>
-            <Typography variant="body1" component="div" sx={descriptionColumnStyling}>
-              {truncateText(document.description, 140)}
-            </Typography>
+              <MoreVertIcon />
+            </IconButton>
           </Box>
         </CardContent>
         <Menu
