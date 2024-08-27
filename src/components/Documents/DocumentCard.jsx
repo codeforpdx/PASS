@@ -1,5 +1,6 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Used to keep track of card menu state
+
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -29,41 +30,45 @@ import { truncateText, getTypeText } from '@utils';
  */
 
 /**
- * DocumentCard - Component that contains a document
+ * DocumentCard - A component that displays a single document's information
+ * and provides actions (preview, share, delete) through a context menu.
  *
  * @memberof Documents
  * @name DocumentCard
- * @param {object} Props - Component props for Document Preview
- * @param {Document} Props.document - The document
- * @param {Function} Props.onPreview - The document preview event
- * @param {Function} Props.onShare - The document share event
- * @param {Function} Props.onDelete - The document delete event
- * @returns {React.JSX.Element} React component for DocumentCard
+ * @param {object} props - Component props
+ * @param {Document} props.document - The document object to be displayed
+ * @param {Function} props.onPreview - Function to handle the "Preview" action
+ * @param {Function} props.onShare - Function to handle the "Share" action
+ * @param {Function} props.onDelete - Function to handle the "Delete" action
+ * @returns {React.JSX.Element} The DocumentCard component
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
-  // primary columns
-  // name, type, uploaddate, expiration, actions
-  // expandable information
-  //  description
-
   const theme = useTheme();
 
+  // State to manage the anchor element for the context menu
   const [anchorEl, setAnchorEl] = useState(null);
+  // State to control the visibility of the context menu for a specific document
   const [openMenu, setOpenMenu] = useState(null);
 
+  // Handles the click on the "MoreVertIcon" (three dots) to open the context menu
   const handleClick = (event, clickedDocument) => {
     setAnchorEl(event.currentTarget);
     setOpenMenu(clickedDocument.id);
   };
+
+  // Closes the context menu
   const handleClose = () => {
     setAnchorEl(null);
     setOpenMenu(null);
   };
 
+  // Handles the click on a context menu item, executing the corresponding action
   const handleMenuItemClick = (action, clickedDocument) => () => {
     action(clickedDocument);
     handleClose();
   };
+
+  // ... (Styling definitions below)
 
   const rowStyling = {
     display: 'flex',
@@ -109,6 +114,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
     alignItems: 'flex-end'
   };
 
+  // overall card styling, keeping 'Document' and 'Action' columns on opposite sides
   const cardStyling = {
     ...rowStyling,
     background: theme.palette.background.tint,
@@ -128,15 +134,15 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
 
   return (
     <Box>
-      <Card
-        sx={{
-          my: '5px',
-          position: 'relative'
-        }}
-      >
+      <Card sx={{ my: '5px', position: 'relative' }}>
+        {/* Card container for the document */}
         <CardContent sx={cardStyling}>
+          {/* Card content with flexbox layout */}
           <Box sx={dataColumnStyling}>
+            {/* Column for document data */}
             <Box>
+              {/* Section for document name and type */}
+              {/* Document name (or placeholder if not provided) */}
               <Typography
                 sx={{ fontSize: '1rem !important', fontWeight: 'bold' }}
                 variant="body1"
@@ -145,34 +151,43 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
               >
                 {document.name || '[No Name provided]'}
               </Typography>
+              {/* Document type (or 'Unknown Type' if not provided), formatted using `getTypeText` */}
               <Typography
                 sx={{ fontStyle: 'italic', fontWeight: 'bold' }}
                 variant="body1"
                 component="div"
                 noWrap
               >
-                {document.type ? getTypeText(document.type) : 'N/A'}
+                {document.type ? getTypeText(document.type) : 'Unknown Type'}
               </Typography>
             </Box>
             <Box>
+              {/* Section for upload and expiration dates */}
+              {/* Upload date (or placeholder if not set) */}
               <Typography variant="body1" component="div" noWrap>
                 {document.uploadDate
                   ? `Uploaded: ${document.uploadDate.toLocaleDateString()}`
                   : 'Upload Date Unset'}
               </Typography>
+              {/* Expiration date (or placeholder if not set) */}
               <Typography variant="body1" component="div" noWrap>
                 {document.endDate
                   ? `Expires: ${document.endDate.toLocaleDateString()}`
-                  : 'Expiration Unset'}
+                  : 'No expiration given'}
               </Typography>
             </Box>
             <Box>
+              {/* Section for document description (truncated if too long) */}
               <Typography sx={{ fontStyle: 'italic' }} variant="body1" component="div">
-                {truncateText(document.description, 140)}
+                {document.description
+                  ? truncateText(document.description, 140)
+                  : 'No description given.'}
               </Typography>
             </Box>
           </Box>
           <Box sx={actionsColumnStyling}>
+            {/* Column for action icons */}
+            {/* "MoreVertIcon" (three dots) to open the context menu */}
             <IconButton
               id="actions-icon-button"
               aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
@@ -184,6 +199,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
             </IconButton>
           </Box>
         </CardContent>
+        {/* Context menu with "Preview", "Share", and "Delete" options */}
         <Menu
           id="actions-menu"
           anchorEl={anchorEl}
@@ -193,6 +209,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
             'aria-labelledby': 'actions-icon-button'
           }}
         >
+          {/* "Preview" menu option */}
           <MenuItem
             component={Button}
             onClick={handleMenuItemClick(onPreview, document)}
@@ -201,6 +218,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           >
             Preview
           </MenuItem>
+          {/* "Share" menu option */}
           <MenuItem
             component={Button}
             onClick={handleMenuItemClick(onShare, document)}
@@ -209,6 +227,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           >
             Share
           </MenuItem>
+          {/* "Delete" menu option */}
           <MenuItem
             component={Button}
             onClick={handleMenuItemClick(onDelete, document)}

@@ -1,9 +1,14 @@
+// React Import
 import React from 'react';
+
+// Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+// Material UI Styling
 import { useTheme } from '@mui/material/styles';
 
+// Component Import
 import DocumentCard from './DocumentCard';
 
 /**
@@ -24,41 +29,50 @@ import DocumentCard from './DocumentCard';
  */
 
 /**
- * DocumentsMobile - Component for displaying documents in a DataGrid
+ * DocumentsMobile - A component designed to display a list of documents
+ * in a mobile-friendly layout using `DocumentCard` components.
  *
  * @memberof Documents
- * @name DocumentsDesktop
- * @param {object} Props - The props for DocumentsMobile
- * @param {Document[]} Props.documents - The list of documents to display
- * @param {Handlers} Props.handlers - Object containing event handler functions.
+ * @name DocumentsMobile
+ * @param {object} props - Component props
+ * @param {Document[]} props.documents - An array of document objects to be displayed
+ * @param {Handlers} props.handlers - An object containing handler functions for document actions (preview, share, delete)
  * @returns {React.JSX.Element} The DocumentsMobile component
  */
 const DocumentsMobile = ({ documents, handlers }) => {
   const theme = useTheme();
 
-  // parent box element
+  // Styling for the parent container of the document list
   const tableHeaderStyling = {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between' // Arrange child elements with space between them
   };
 
   return (
     <Box>
+      {/* Header section with "Document" and "Actions" labels */}
       <Box
         sx={{
-          my: '15px',
-          p: '15px',
-          background: theme.palette.primary.main,
+          my: '15px', // Margin top and bottom: 15px
+          p: '15px', // Padding: 15px
+          background: theme.palette.primary.main, // Background color from theme
           color: '#fff',
           borderRadius: '8px',
           position: 'relative'
         }}
       >
         <Box sx={tableHeaderStyling}>
-          <Typography sx={{ marginLeft: '0' }}>Document</Typography>
+          {/* Apply the tableHeaderStyling */}
           <Typography
             sx={{
-              justifyContent: 'flex-end',
+              justifyContent: 'flex-start' // Align 'Document' header to the left
+            }}
+          >
+            Document
+          </Typography>
+          <Typography
+            sx={{
+              justifyContent: 'flex-end', // Align 'Actions' header to the right
               maxWidth: '54px',
               marginRight: '0'
             }}
@@ -67,13 +81,15 @@ const DocumentsMobile = ({ documents, handlers }) => {
           </Typography>
         </Box>
       </Box>
+
+      {/* Map through the documents array and render a `DocumentCard` for each */}
       {documents.map((document) => (
         <DocumentCard
-          key={document.id}
-          document={document}
-          onShare={() => handlers.onShare('document', document.name, document.type)}
-          onDelete={() => handlers.onDelete(document)}
-          onPreview={() => handlers.onPreview(document.fileUrl)}
+          key={document.id} // Unique key for each card
+          document={document} // Pass the document data to the card
+          onShare={() => handlers.onShare('document', document.name, document.type)} // Share handler
+          onDelete={() => handlers.onDelete(document)} // Delete handler
+          onPreview={() => handlers.onPreview(document.fileUrl)} // Preview handler
         />
       ))}
     </Box>
