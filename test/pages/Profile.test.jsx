@@ -58,8 +58,12 @@ describe('Profile Page', () => {
   it('can show and hide the share documents modal', async () => {
     const user = userEvent.setup();
 
-    const shareDocumentsButton = await screen.findByRole('button', { name: 'Share Documents' }, { timeout: 2000 });
-    expect(shareDocumentsButton).toHaveAccessibleName('Share Documents')
+    const shareDocumentsButton = await screen.findByRole(
+      'button',
+      { name: 'Share Documents' },
+      { timeout: 2000 }
+    );
+    expect(shareDocumentsButton).toHaveAccessibleName('Share Documents');
 
     // Open share document modal
     user.click(shareDocumentsButton);
@@ -67,22 +71,26 @@ describe('Profile Page', () => {
     expect(shareHeading).toBeVisible();
 
     // Close share document modal
-    user.keyboard('{escape}')
+    user.keyboard('{escape}');
     await waitForElementToBeRemoved(shareHeading, { timeout: 5000 });
   });
 
   it('can show and hide the add document modal', async () => {
     const user = userEvent.setup();
 
-    const addDocumentButton = await screen.findByRole('button', { name: 'Add Document' }, { timeout: 2000 });
-    expect(addDocumentButton).toHaveAccessibleName('Add Document')
+    const addDocumentButton = await screen.findByRole(
+      'button',
+      { name: 'Add Document' },
+      { timeout: 2000 }
+    );
+    expect(addDocumentButton).toHaveAccessibleName('Add Document');
 
     // Open add document modal
     user.click(addDocumentButton);
     const addHeading = await screen.findByRole('heading', { name: 'Upload Document' });
 
     // close add document modal
-    user.keyboard('{escape}')
+    user.keyboard('{escape}');
     await waitForElementToBeRemoved(addHeading, { timeout: 5000 });
   });
 });
