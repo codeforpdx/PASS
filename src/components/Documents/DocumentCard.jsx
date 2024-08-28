@@ -165,7 +165,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
             {document.description && (
               <Box>
                 <Typography
-                  sx={{ fontSize: '0.8rem !important', fontStyle: 'italic' }}
+                  sx={{ marginTop: '5px', fontSize: '0.8rem !important', fontStyle: 'italic' }}
                   variant="body1"
                   component="div"
                 >
