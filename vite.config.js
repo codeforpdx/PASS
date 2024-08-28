@@ -26,6 +26,7 @@ export default defineConfig({
         {find: "@utils", replacement: resolve(__dirname, "src/utils")},
         {find: "@components", replacement: resolve(__dirname,"src/components")},
         {find: "@constants", replacement: resolve(__dirname,"src/constants")},
+        {find: "@model-helpers", replacement: resolve(__dirname,"src/model-helpers")},
       ]
     },
     test: {
