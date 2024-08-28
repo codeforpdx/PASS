@@ -105,7 +105,8 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
     flex: '0 1 10%',
     maxWidth: '54px',
     justifyContent: 'center',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    marginRight: '-10px'
   };
 
   const cardStyling = {
