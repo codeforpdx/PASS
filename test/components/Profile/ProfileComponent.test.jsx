@@ -5,36 +5,17 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProfileComponent } from '@components/Profile';
 import { SignedInUserContext } from '@contexts';
-import * as profileHelper from '../../../src/model-helpers/Profile';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-const profileInfo = {
-  profileName: null,
-  nickname: null,
-  profileImg: null
-};
+import MockSignedInUserContext from '../../mocks/contexts/MockSignedInUserContext'
 
-const mockSignedInUserContextMemo = {
-  updateProfileInfo: vi.fn(),
-  setProfileData: vi.fn(),
-  profileData: {
-    profileInfo: {
-      profileName: null,
-      nickname: null,
-      profileImg: null
-    }
-  },
-  fetchProfileInfo: vi.spyOn(profileHelper, 'fetchProfileInfo').mockResolvedValue({
-    profileData: profileInfo
-  })
-};
-const renderTest = () =>
+const renderTest = (contactProfile = null) =>
   render(
     <BrowserRouter>
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-        <ProfileComponent contactProfile={null} />
-      </SignedInUserContext.Provider>
+      <MockSignedInUserContext>
+        <ProfileComponent contactProfile={contactProfile} />
+      </MockSignedInUserContext>
     </BrowserRouter>
   );
 
@@ -90,13 +71,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders no edit button for ProfileInputFields if contactProfile is not null', async () => {
-    const { queryByRole } = render(
-      <BrowserRouter>
-        <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
-          <ProfileComponent contactProfile={{}} />
-        </SignedInUserContext.Provider>
-      </BrowserRouter>
-    );
+    const { queryByRole } = renderTest({})
     await waitFor(() => {
       const editButton = queryByRole('button', { name: 'Edit' });
 

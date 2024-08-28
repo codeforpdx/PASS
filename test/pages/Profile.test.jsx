@@ -5,37 +5,22 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act } from 'react-dom/test-utils';
 import { render, screen, cleanup, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 
 import { Profile } from '@pages';
-import { SignedInUserContext } from '@contexts';
-import * as profileHelper from '@model-helpers/Profile';
+
+import MockSignedInUserContext from '../mocks/contexts/MockSignedInUserContext'
 
 const queryClient = new QueryClient();
-
-const profileInfo = {
-  profileName: null,
-  nickname: null,
-  profileImg: null
-};
-
-const mockSignedInUserContextMemo = {
-  updateProfileInfo: vi.fn(),
-  setProfileData: vi.fn(),
-  profileData: profileInfo,
-  fetchProfileInfo: vi.spyOn(profileHelper, 'fetchProfileInfo').mockResolvedValue({
-    profileData: profileInfo
-  })
-};
 
 const renderProfile = () =>
   render(
     <QueryClientProvider client={queryClient}>
-      <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
+      <MockSignedInUserContext>
         <BrowserRouter>
           <Profile />
         </BrowserRouter>
-      </SignedInUserContext.Provider>
+      </MockSignedInUserContext>
     </QueryClientProvider>
   );
 
