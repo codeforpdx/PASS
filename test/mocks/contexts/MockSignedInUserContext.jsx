@@ -26,6 +26,7 @@ const mockSignedInUserContextMemo = {
 const MockSignedInUserContext = ({ children }) => (
   <SignedInUserContext.Provider value={mockSignedInUserContextMemo}>
     {children}
-  </SignedInUserContext.Provider>)
+  </SignedInUserContext.Provider>
+);
 
 export default MockSignedInUserContext;

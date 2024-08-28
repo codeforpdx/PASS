@@ -9,7 +9,7 @@ import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 
 import { Profile } from '@pages';
 
-import MockSignedInUserContext from '../mocks/contexts/MockSignedInUserContext'
+import MockSignedInUserContext from '../mocks/contexts/MockSignedInUserContext';
 
 const queryClient = new QueryClient();
 

@@ -7,7 +7,7 @@ import { ProfileComponent } from '@components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-import MockSignedInUserContext from '../../mocks/contexts/MockSignedInUserContext'
+import MockSignedInUserContext from '../../mocks/contexts/MockSignedInUserContext';
 
 const renderTest = (contactProfile = null) =>
   render(
@@ -70,7 +70,7 @@ describe('ProfileComponent', () => {
   });
 
   it('renders no edit button for ProfileInputFields if contactProfile is not null', async () => {
-    const { queryByRole } = renderTest({})
+    const { queryByRole } = renderTest({});
     await waitFor(() => {
       const editButton = queryByRole('button', { name: 'Edit' });
 
