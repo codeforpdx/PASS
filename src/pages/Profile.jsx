@@ -21,7 +21,7 @@ import { LoadingAnimation } from '@components/Notification';
 // Util Imports
 import { truncateText } from '@utils';
 // Model Helpers
-import { fetchProfileInfo } from '@model-helpers/Profile';
+import { fetchProfileInfo } from '../model-helpers';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -80,7 +80,7 @@ const Profile = () => {
   const contact = location.state?.contact;
   const [contactProfile, setContactProfile] = useState(null);
   const webIdUrl = contact?.webId ?? session.info.webId;
-  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
 
   // Handler for the SetAclPermissions Modal that
   // sets the appropriate version of the modal to load,
