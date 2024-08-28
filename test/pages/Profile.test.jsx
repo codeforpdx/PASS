@@ -7,13 +7,14 @@ import { BrowserRouter } from 'react-router-dom';
 
 const queryClient = new QueryClient();
 
-const renderProfile = () => render(
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <Profile />
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+const renderProfile = () =>
+  render(
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
 
 describe('Profile Page', () => {
   afterEach(() => {
@@ -23,7 +24,11 @@ describe('Profile Page', () => {
   it('renders with proper components', async () => {
     renderProfile();
 
-    const heading = await screen.findByRole("heading", { name: "My Profile" }, { timeout: 10, interval: 1 });
-    expect(heading).toHaveAccessibleName("My Profile");
-  })
-})
+    const heading = await screen.findByRole(
+      'heading',
+      { name: 'My Profile' },
+      { timeout: 10, interval: 1 }
+    );
+    expect(heading).toHaveAccessibleName('My Profile');
+  });
+});
