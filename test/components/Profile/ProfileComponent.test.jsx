@@ -4,7 +4,6 @@ import { cleanup, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProfileComponent } from '@components/Profile';
-import { SignedInUserContext } from '@contexts';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
