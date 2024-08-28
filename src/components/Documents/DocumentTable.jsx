@@ -1,31 +1,19 @@
 // React Imports
 import React, { useContext, useMemo } from 'react'; // Used to optimally track and respond to document changes
 import { v4 as uuidv4 } from 'uuid'; // Used to generate a unique ID for each document
-
 // Constants
-// Import document type constants for mapping and display purposes
 import DOC_TYPES from '@constants/doc_types';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import { useMediaQuery } from '@mui/material';
-
 // Context Imports
-// Import the `DocumentListContext` to access the document list and loading state
 import { DocumentListContext } from '@contexts';
-// Import the `useSession` hook to get the current Solid session
 import { useSession } from '@hooks';
-
 // Utility Imports
-// Import the `getBlobFromSolid` utility to fetch document data from Solid
 import { getBlobFromSolid } from '@utils';
-
 // Theme Imports
-// Import the application's theme for styling purposes
 import theme from '../../theme';
-
 // Component Imports
-// Import notification components for empty list and loading states
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
 // Import components for rendering documents on mobile and desktop
 import DocumentsMobile from './DocumentsMobile';
@@ -42,15 +30,12 @@ import DocumentsDesktop from './DocumentsDesktop';
  * @param {object} props - Component props
  * @param {(modalType: string, docName: string, docType: string) => void} props.handleAclPermissionsModal - Function to open the ACL permissions modal
  * @param {(document: object) => void} props.handleSelectDeleteDoc - Function to handle document deletion
- * @returns {React.JSX.Element} The DocumentTable component
+ * @returns {React.JSX.Element} - The DocumentTable component
  */
 const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => {
-  // Get the current Solid session using the `useSession` hook
   const { session } = useSession();
-  // Retrieve the document list and loading state from the `DocumentListContext`
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
 
-  // Determine if the screen size is mobile using Material-UI's `useMediaQuery`
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   /**
@@ -86,33 +71,28 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const documents = useMemo(
     () =>
       documentListObject?.docList.map((document) => ({
-        id: uuidv4(), // Generate a unique ID for each document
-        type: mappingType(document.type), // Map the document type
-        ...document // Include all other document properties
+        id: uuidv4(),
+        type: mappingType(document.type),
+        ...document
       })),
-    [documentListObject?.docList] // Re-compute only when the document list changes
+    [documentListObject?.docList]
   );
 
-  // An object containing event handler functions for document actions
   const handlers = {
     onShare: handleAclPermissionsModal,
     onDelete: handleSelectDeleteDoc,
     onPreview: handleShowDocumentLocal
   };
 
-  // Render a notification if there are no documents
   if (!documents?.length) return <EmptyListNotification type="documents" />;
-
-  // Render a loading animation while documents are being fetched
   if (loadingDocuments) return <LoadingAnimation loadingItem="documents" />;
 
-  // Render the document list based on screen size (mobile or desktop)
   return (
     <Box
       sx={{
         margin: '20px 0',
         width: '95vw',
-        height: '500px'
+        height: '100%'
       }}
     >
       {isMobile ? (

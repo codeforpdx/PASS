@@ -1,13 +1,9 @@
 // React Import
 import React from 'react';
-
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
-// Material UI Styling
 import { useTheme } from '@mui/material/styles';
-
 // Component Import
 import DocumentCard from './DocumentCard';
 
@@ -43,37 +39,34 @@ import DocumentCard from './DocumentCard';
 const DocumentsMobile = ({ documents, handlers }) => {
   const theme = useTheme();
 
-  // Styling for the parent container of the document list
   const tableHeaderStyling = {
     display: 'flex',
-    justifyContent: 'space-between' // Arrange child elements with space between them
+    justifyContent: 'space-between'
   };
 
   return (
     <Box>
-      {/* Header section with "Document" and "Actions" labels */}
       <Box
         sx={{
-          my: '15px', // Margin top and bottom: 15px
-          p: '15px', // Padding: 15px
-          background: theme.palette.primary.main, // Background color from theme
+          my: '15px',
+          p: '15px',
+          background: theme.palette.primary.main,
           color: '#fff',
           borderRadius: '8px',
           position: 'relative'
         }}
       >
         <Box sx={tableHeaderStyling}>
-          {/* Apply the tableHeaderStyling */}
           <Typography
             sx={{
-              justifyContent: 'flex-start' // Align 'Document' header to the left
+              justifyContent: 'flex-start'
             }}
           >
             Document
           </Typography>
           <Typography
             sx={{
-              justifyContent: 'flex-end', // Align 'Actions' header to the right
+              justifyContent: 'flex-end',
               maxWidth: '54px',
               marginRight: '0'
             }}
@@ -83,14 +76,13 @@ const DocumentsMobile = ({ documents, handlers }) => {
         </Box>
       </Box>
 
-      {/* Map through the documents array and render a `DocumentCard` for each */}
       {documents.map((document) => (
         <DocumentCard
-          key={document.id} // Unique key for each card
-          document={document} // Pass the document data to the card
-          onShare={() => handlers.onShare('document', document.name, document.type)} // Share handler
-          onDelete={() => handlers.onDelete(document)} // Delete handler
-          onPreview={() => handlers.onPreview(document.fileUrl)} // Preview handler
+          key={document.id}
+          document={document}
+          onShare={() => handlers.onShare('document', document.name, document.type)}
+          onDelete={() => handlers.onDelete(document)}
+          onPreview={() => handlers.onPreview(document.fileUrl)}
         />
       ))}
     </Box>

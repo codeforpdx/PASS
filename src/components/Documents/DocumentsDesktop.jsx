@@ -1,12 +1,9 @@
 // React Import
 import React from 'react';
-
-// Material UI Icon Imports
+// Material UI Imports
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-
-// Material UI DataGrid Imports
 import {
   DataGrid,
   GridActionsCellItem,
@@ -14,18 +11,16 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
-
 // Util Imports
-import { getTypeText } from '@utils'; // Import utility function for getting formatted document type text
-
+import { getTypeText } from '@utils';
 // Theme Imports
 import theme from '../../theme';
 
 // Custom toolbar for the DataGrid
 const CustomToolbar = () => (
   <GridToolbarContainer>
-    <GridToolbarFilterButton /> {/* Add a filter button to the toolbar */}
-    <GridToolbarDensitySelector /> {/* Add a density selector to the toolbar */}
+    <GridToolbarFilterButton />
+    <GridToolbarDensitySelector />
   </GridToolbarContainer>
 );
 
@@ -60,7 +55,6 @@ const CustomToolbar = () => (
  * @returns {React.JSX.Element} The DocumentsDesktop component
  */
 const DocumentsDesktop = ({ documents, handlers }) => {
-  // Define the columns for the DataGrid
   const columnTitlesArray = [
     { field: 'Name', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
     { field: 'Type', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
@@ -73,13 +67,12 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       flex: 1,
       headerAlign: 'center',
       align: 'center',
-      sortable: false, // Disable sorting for this column
-      filterable: false, // Disable filtering for this column
-      // Render a "Preview" button in each row's cell
+      sortable: false,
+      filterable: false,
       renderCell: (data) => {
         const [id, fileUrl] = data.value;
         return (
-          <GridActionsCellItem // A clickable cell item with an icon and label
+          <GridActionsCellItem
             key={`Preview:${String(id)}`}
             icon={<FileOpenIcon />}
             onClick={() => handlers.onPreview(fileUrl)}
@@ -116,7 +109,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       align: 'center',
       sortable: false,
       filterable: false,
-      // Render a "Delete" button in each row's cell
       renderCell: (data) => {
         const [document] = data.value;
         return (
@@ -131,33 +123,30 @@ const DocumentsDesktop = ({ documents, handlers }) => {
     }
   ];
 
-  // Render the DataGrid if there are documents to display
   return (
     <DataGrid
-      columns={columnTitlesArray} // Use the defined columns
+      columns={columnTitlesArray}
       rows={documents.map((document) => ({
-        // Map document data to row data format expected by DataGrid
         id: document.id,
         Name: document.name,
         Type: getTypeText(document.type),
         Description: document.description || '[Not Provided]',
         'Upload Date': document?.uploadDate.toLocaleDateString(),
         'Expiration Date': document?.endDate?.toLocaleDateString() || '[Not Provided]',
-        Preview: [document.id, document.fileUrl], // Pass data needed for "Preview" action
-        Share: [document.id, document.name, document.type], // Pass data needed for "Share" action
-        Delete: [document] // Pass the document object for "Delete" action
+        Preview: [document.id, document.fileUrl],
+        Share: [document.id, document.name, document.type],
+        Delete: [document]
       }))}
-      pageSizeOptions={[10]} // Allow only 10 rows per page
+      pageSizeOptions={[10]}
       initialState={{
         pagination: {
-          paginationModel: { pageSize: 10, page: 0 } // Start with 10 rows on the first page
+          paginationModel: { pageSize: 10, page: 0 }
         }
       }}
       slots={{
-        toolbar: CustomToolbar // Use the custom toolbar
+        toolbar: CustomToolbar
       }}
       sx={{
-        // Apply styling to the DataGrid using Material-UI's `sx` prop
         '.MuiDataGrid-columnHeader': {
           background: theme.palette.primary.light,
           color: 'white'
@@ -166,8 +155,8 @@ const DocumentsDesktop = ({ documents, handlers }) => {
           display: 'none'
         }
       }}
-      disableColumnMenu // Disable the default column menu
-      disableRowSelectionOnClick // Prevent row selection on click
+      disableColumnMenu
+      disableRowSelectionOnClick
     />
   );
 };
