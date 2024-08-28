@@ -21,7 +21,7 @@ import { LoadingAnimation } from '@components/Notification';
 // Util Imports
 import { truncateText } from '@utils';
 // Model Helpers
-import { fetchProfileInfo } from '../model-helpers';
+import { fetchProfileInfo } from '@model-helpers';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
@@ -145,7 +145,9 @@ const Profile = () => {
           width: isSmallScreen ? '100%' : 'auto'
         }}
       >
-        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>My Profile</Typography>
+        <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+          My Profile
+        </Typography>
         {/* TODO: Determine whether this Box is needed */}
         {/* <Box
           sx={{
