@@ -44,11 +44,10 @@ import { truncateText, getTypeText } from '@utils';
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const theme = useTheme();
 
-  // State to manage the anchor element for the context menu
   const [anchorEl, setAnchorEl] = useState(null);
-  // State to control the visibility of the context menu for a specific document
   const [openMenu, setOpenMenu] = useState(null);
 
+  // Opens the context menu
   const handleClick = (event, clickedDocument) => {
     setAnchorEl(event.currentTarget);
     setOpenMenu(clickedDocument.id);
@@ -80,7 +79,8 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
 
   const dataStyling = {
     ...rowStyling,
-    fontSize: '.8rem',
+    color: 'text.secondary',
+    fontSize: '.875rem',
     justifyContent: 'flex-start'
   };
 
@@ -94,7 +94,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const dataColumnStyling = {
     ...columnStyling,
     flex: '1 1 90%',
-    rowGap: '10px',
+    rowGap: '5px',
     '& div': {
       ...dataSectionStyling
     }
@@ -110,9 +110,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
 
   const cardStyling = {
     ...rowStyling,
-    background: theme.palette.background.tint,
-    justifyContent: 'space-between',
-    gap: '10px'
+    justifyContent: 'space-between'
   };
 
   // icon styles
@@ -132,7 +130,10 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           <Box sx={dataColumnStyling}>
             <Box>
               <Typography
-                sx={{ fontSize: '1rem !important', fontWeight: 'bold' }}
+                sx={{
+                  color: `${theme.palette.primary.text} !important`,
+                  fontSize: '1rem !important'
+                }}
                 variant="body1"
                 component="div"
                 noWrap
@@ -140,7 +141,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
                 {document.name || '[No Name provided]'}
               </Typography>
               <Typography
-                sx={{ fontStyle: 'italic', fontWeight: 'bold' }}
+                sx={{ fontWeight: 'bold', fontVariantCaps: 'small-caps' }}
                 variant="body1"
                 component="div"
                 noWrap
@@ -160,13 +161,17 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
                   : 'No expiration given'}
               </Typography>
             </Box>
-            <Box>
-              <Typography sx={{ fontStyle: 'italic' }} variant="body1" component="div">
-                {document.description
-                  ? truncateText(document.description, 140)
-                  : 'No description given.'}
-              </Typography>
-            </Box>
+            {document.description && (
+              <Box>
+                <Typography
+                  sx={{ fontSize: '0.8rem !important', fontStyle: 'italic' }}
+                  variant="body1"
+                  component="div"
+                >
+                  {truncateText(document.description, 140)}
+                </Typography>
+              </Box>
+            )}
           </Box>
           <Box sx={actionsColumnStyling}>
             <IconButton

@@ -48,7 +48,6 @@ const DocumentsMobile = ({ documents, handlers }) => {
     <Box>
       <Box
         sx={{
-          my: '15px',
           p: '15px',
           background: theme.palette.primary.main,
           color: '#fff',
