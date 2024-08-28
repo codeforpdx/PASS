@@ -30,8 +30,7 @@ module.exports = {
           ['@pages', './src/pages'],
           ['@utils', './src/utils'],
           ['@components', './src/components'],
-          ['@constants', './src/constants'],
-          ['@model-helpers', './src/model-helpers']
+          ['@constants', './src/constants']
         ]
       }
     }
