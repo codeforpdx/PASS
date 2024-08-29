@@ -1,14 +1,11 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 import { act } from 'react-dom/test-utils';
 import { render, screen, cleanup, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
-
 import { Profile } from '@pages';
-
 import MockSignedInUserContext from '../mocks/contexts/MockSignedInUserContext';
 
 const queryClient = new QueryClient();
