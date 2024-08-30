@@ -16,6 +16,16 @@ import { getTypeText } from '@utils';
 // Theme Imports
 import theme from '../../theme';
 
+const MUIDataGridStyling = {
+  '.MuiDataGrid-columnHeader': {
+    background: theme.palette.primary.light,
+    color: 'white'
+  },
+  '.MuiDataGrid-columnSeparator': {
+    display: 'none'
+  }
+};
+
 // Custom toolbar for the DataGrid
 const CustomToolbar = () => (
   <GridToolbarContainer>
@@ -146,15 +156,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       slots={{
         toolbar: CustomToolbar
       }}
-      sx={{
-        '.MuiDataGrid-columnHeader': {
-          background: theme.palette.primary.light,
-          color: 'white'
-        },
-        '.MuiDataGrid-columnSeparator': {
-          display: 'none'
-        }
-      }}
+      sx={MUIDataGridStyling}
       disableColumnMenu
       disableRowSelectionOnClick
     />

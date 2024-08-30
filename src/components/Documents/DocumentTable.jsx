@@ -1,6 +1,6 @@
 // React Imports
-import React, { useContext, useMemo } from 'react'; // Used to optimally track and respond to document changes
-import { v4 as uuidv4 } from 'uuid'; // Used to generate a unique ID for each document
+import React, { useContext, useMemo } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 // Constants
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports

@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react'; // Used to keep track of card menu state
+import React, { useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -139,7 +139,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
                 component="div"
                 noWrap
               >
-                {document.name || '[No Name provided]'}
+                {truncateText(document.name) || '[No Name]'}
               </Typography>
               <Typography
                 sx={{ fontWeight: 'bold', fontVariantCaps: 'small-caps' }}
