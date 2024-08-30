@@ -6,7 +6,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProfileComponent } from '@components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 import createMatchMedia from '../../helpers/createMatchMedia';
-
 import MockSignedInUserContext from '../../mocks/contexts/MockSignedInUserContext';
 
 const renderTest = (contactProfile = null) =>
