@@ -110,6 +110,10 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   };
 
   const cardStyling = {
+    marginBottom: '15px'
+  };
+
+  const cardContentStyling = {
     ...rowStyling,
     justifyContent: 'space-between'
   };
@@ -126,8 +130,8 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
 
   return (
     <Box>
-      <Card sx={{ my: '5px', position: 'relative' }}>
-        <CardContent sx={cardStyling}>
+      <Card sx={cardStyling}>
+        <CardContent sx={cardContentStyling}>
           <Box sx={dataColumnStyling}>
             <Box>
               <Typography

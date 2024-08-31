@@ -4,12 +4,28 @@ import { describe, expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import DocumentTable from '@components/Documents';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { DocumentListContext } from '@contexts';
+
+// eslint-disable-next-line no-extend-native
+String.prototype.withSpaces = () => {
+  const randomSpaces = Array.from({ length: Math.floor(Math.random() * 5) }, () =>
+    Math.floor(Math.random() * this.length)
+  );
+  return this.split('').reduce((acc, char, i) => {
+    if (randomSpaces.includes(i)) {
+      return `${acc} ${char}`;
+    }
+    return acc + char;
+  }, '');
+};
 
 const mockedDocumentContext = {
   documentListObject: {
     docList: [
       {
+        id: uuidv4(),
         name: 'test.pdf',
         type: 'Other',
         description: 'test description',
@@ -18,6 +34,7 @@ const mockedDocumentContext = {
         fileUrl: 'http://localhost:3000/pod/PASS/Documents/test.pdf'
       },
       {
+        id: uuidv4(),
         name: 'test2.pdf',
         type: 'Passport',
         description: 'test description 2',

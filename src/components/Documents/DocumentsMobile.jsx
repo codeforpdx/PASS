@@ -44,18 +44,18 @@ const DocumentsMobile = ({ documents, handlers }) => {
     justifyContent: 'space-between'
   };
 
+  const tableStyling = {
+    my: '15px',
+    p: '16px',
+    background: theme.palette.primary.main,
+    color: '#fff',
+    borderRadius: '8px',
+    position: 'relative'
+  };
+
   return (
     <Box>
-      <Box
-        sx={{
-          my: '15px',
-          p: '16px',
-          background: theme.palette.primary.main,
-          color: '#fff',
-          borderRadius: '8px',
-          position: 'relative'
-        }}
-      >
+      <Box sx={tableStyling}>
         <Box sx={tableHeaderStyling}>
           <Typography
             sx={{
