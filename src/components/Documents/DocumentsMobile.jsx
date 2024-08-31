@@ -54,7 +54,7 @@ const DocumentsMobile = ({ documents, handlers }) => {
   };
 
   return (
-    <Box>
+    <Box data-testid="documents-mobile">
       <Box sx={tableStyling}>
         <Box sx={tableHeaderStyling}>
           <Typography

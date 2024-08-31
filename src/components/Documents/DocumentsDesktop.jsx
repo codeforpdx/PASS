@@ -87,6 +87,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
             icon={<FileOpenIcon />}
             onClick={() => handlers.onPreview(fileUrl)}
             label="Preview"
+            data-testid={`preview-button-${id}`}
           />
         );
       }
@@ -107,6 +108,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
             icon={<ShareIcon />}
             onClick={() => handlers.onShare('document', name, type)}
             label="Share"
+            data-testid={`share-button-${id}`}
           />
         );
       }
@@ -127,6 +129,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
             icon={<DeleteOutlineOutlinedIcon />}
             onClick={() => handlers.onDelete(document)}
             label="Delete"
+            data-testid={`delete-button-${document.id}`}
           />
         );
       }
@@ -135,6 +138,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
 
   return (
     <DataGrid
+      disableVirtualization
       columns={columnTitlesArray}
       rows={documents.map((document) => ({
         id: document.id,
@@ -159,6 +163,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       sx={MUIDataGridStyling}
       disableColumnMenu
       disableRowSelectionOnClick
+      data-testid="documents-desktop"
     />
   );
 };

@@ -184,6 +184,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
               aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
               aria-haspopup="true"
               aria-expanded={openMenu === document.id ? 'true' : undefined}
+              aria-label="open-actions-menu"
               onClick={(event) => handleClick(event, document)}
             >
               <MoreVertIcon />

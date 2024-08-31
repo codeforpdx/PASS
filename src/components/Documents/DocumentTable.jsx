@@ -84,8 +84,10 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
     onPreview: handleShowDocumentLocal
   };
 
-  if (!documents?.length) return <EmptyListNotification type="documents" />;
-  if (loadingDocuments) return <LoadingAnimation loadingItem="documents" />;
+  if (!documents?.length)
+    return <EmptyListNotification type="documents" data-testid="empty-list" />;
+  if (loadingDocuments)
+    return <LoadingAnimation loadingItem="documents" data-testid="loading-animation" />;
 
   return (
     <Box
@@ -94,11 +96,16 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
         width: '95vw',
         height: '100%'
       }}
+      data-testid="document-table"
     >
       {isMobile ? (
-        <DocumentsMobile documents={documents} handlers={handlers} />
+        <DocumentsMobile documents={documents} handlers={handlers} data-testid="documents-mobile" />
       ) : (
-        <DocumentsDesktop documents={documents} handlers={handlers} />
+        <DocumentsDesktop
+          documents={documents}
+          handlers={handlers}
+          data-testid="documents-desktop"
+        />
       )}
     </Box>
   );

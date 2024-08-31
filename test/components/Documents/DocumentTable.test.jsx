@@ -1,80 +1,107 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import DocumentTable from '@components/Documents';
-
-import { v4 as uuidv4 } from 'uuid';
-
+import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, describe, it, vi, expect } from 'vitest';
 import { DocumentListContext } from '@contexts';
+import { DocumentTable } from '@components/Documents';
+import createMatchMedia from '../../helpers/createMatchMedia';
 
-// eslint-disable-next-line no-extend-native
-String.prototype.withSpaces = () => {
-  const randomSpaces = Array.from({ length: Math.floor(Math.random() * 5) }, () =>
-    Math.floor(Math.random() * this.length)
-  );
-  return this.split('').reduce((acc, char, i) => {
-    if (randomSpaces.includes(i)) {
-      return `${acc} ${char}`;
-    }
-    return acc + char;
-  }, '');
-};
+// Clear created DOM after each test
+afterEach(() => {
+  cleanup();
+});
 
-const mockedDocumentContext = {
-  documentListObject: {
-    docList: [
-      {
-        id: uuidv4(),
-        name: 'test.pdf',
-        type: 'Other',
-        description: 'test description',
-        endDate: new Date(),
-        uploadDate: new Date(),
-        fileUrl: 'http://localhost:3000/pod/PASS/Documents/test.pdf'
-      },
-      {
-        id: uuidv4(),
-        name: 'test2.pdf',
-        type: 'Passport',
-        description: 'test description 2',
-        endDate: null,
-        uploadDate: new Date(),
-        fileUrl: 'http://localhost:3000/pod/PASS/Documents/test2.pdf'
-      }
-    ],
-    dataset: {},
-    containerURL: 'foo'
-  },
-  loadingDocuments: false
-};
+const MockTableComponent = ({
+  documentListObject,
+  loadingDocuments,
+  isMobile,
+  isLoggedIn = true
+}) => {
+  window.matchMedia = createMatchMedia(isMobile ? 500 : 1200);
 
-const MockTableComponent = () => (
-  <BrowserRouter>
-    <DocumentListContext.Provider value={mockedDocumentContext}>
-      <DocumentTable />
+  return render(
+    <DocumentListContext.Provider value={{ documentListObject, loadingDocuments }}>
+      <BrowserRouter>
+        <DocumentTable
+          handleAclPermissionsModal={vi.fn()}
+          handleSelectDeleteDoc={vi.fn()}
+          session={{ info: { isLoggedIn } }}
+        />
+      </BrowserRouter>
     </DocumentListContext.Provider>
-  </BrowserRouter>
-);
+  );
+};
+
+const documentListObject = {
+  docList: [
+    {
+      id: '1',
+      name: 'test.pdf',
+      type: 'Other',
+      description: 'test description',
+      uploadDate: new Date(),
+      endDate: new Date(),
+      fileUrl: 'http://localhost:3000/pod/PASS/Documents/test.pdf'
+    },
+    {
+      id: '2',
+      name: 'test2.pdf',
+      type: 'Passport',
+      description: 'test description 2',
+      uploadDate: new Date(),
+      endDate: null,
+      fileUrl: 'http://localhost:3000/pod/PASS/Documents/test2.pdf'
+    }
+  ]
+};
 
 describe('DocumentTable Component', () => {
-  it('renders with documents', () => {
-    const { getAllByRole, queryByRole } = render(<MockTableComponent />);
-    const allRows = getAllByRole('row');
-    expect(allRows.length).toBe(3);
+  it('renders without crashing', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false });
+    expect(screen.getByText('test.pdf')).toBeInTheDocument();
+  });
 
-    const row1FileName = queryByRole('cell', { name: 'test.pdf' });
-    const row1FileType = queryByRole('cell', { name: 'Other' });
-    const row1Description = queryByRole('cell', { name: 'test description' });
-    const row2FileName = queryByRole('cell', { name: 'test2.pdf' });
-    const row2FileType = queryByRole('cell', { name: 'Passport' });
-    const row2Description = queryByRole('cell', { name: 'test description 2' });
+  it('displays loading animation when documents are loading', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: true });
+    expect(screen.getByTestId('loading-animation')).toBeInTheDocument();
+  });
 
-    expect(row1FileName).not.toBeNull();
-    expect(row1FileType).not.toBeNull();
-    expect(row1Description).not.toBeNull();
-    expect(row2FileName).not.toBeNull();
-    expect(row2FileType).not.toBeNull();
-    expect(row2Description).not.toBeNull();
+  it('renders DocumentsDesktop for larger screens', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: false });
+    expect(screen.getByTestId('documents-desktop')).toBeInTheDocument();
+  });
+
+  it('renders DocumentsMobile for smaller screens', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: true });
+    expect(screen.getByTestId('documents-mobile')).toBeInTheDocument();
+  });
+
+  it('displays empty list notification when no documents are present', () => {
+    MockTableComponent({ documentListObject: { docList: [] }, loadingDocuments: false });
+    expect(screen.getByTestId('empty-list')).toBeInTheDocument();
+  });
+
+  it('renders all documents from documentListContext', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false });
+
+    const allRows = screen.getAllByRole('row');
+    expect(allRows.length).toBe(documentListObject.docList.length + 1);
+
+    documentListObject.docList.forEach((document) => {
+      expect(screen.getByRole('cell', { name: document.name })).not.toBeNull();
+      expect(screen.getByRole('cell', { name: document.description })).not.toBeNull();
+    });
+  });
+
+  it('renders DocumentsListTableDesktop when user is logged in on larger screen device', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: false });
+
+    expect(screen.getByTestId('documents-desktop')).not.toBeNull();
+  });
+
+  it('renders DocumentsListTableMobile when user is logged in on smaller screen device', () => {
+    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: true });
+
+    expect(screen.getByTestId('documents-mobile')).not.toBeNull();
   });
 });
