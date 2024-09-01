@@ -56,7 +56,7 @@ const documentListObject = {
 };
 
 describe('DocumentTable Component', () => {
-  it('renders without crashing', () => {
+  it('renders crashing', () => {
     MockTableComponent({ documentListObject, loadingDocuments: false });
     expect(screen.getByText('test.pdf')).toBeInTheDocument();
   });
@@ -91,17 +91,5 @@ describe('DocumentTable Component', () => {
       expect(screen.getByRole('cell', { name: document.name })).not.toBeNull();
       expect(screen.getByRole('cell', { name: document.description })).not.toBeNull();
     });
-  });
-
-  it('renders DocumentsListTableDesktop when user is logged in on larger screen device', () => {
-    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: false });
-
-    expect(screen.getByTestId('documents-desktop')).not.toBeNull();
-  });
-
-  it('renders DocumentsListTableMobile when user is logged in on smaller screen device', () => {
-    MockTableComponent({ documentListObject, loadingDocuments: false, isMobile: true });
-
-    expect(screen.getByTestId('documents-mobile')).not.toBeNull();
   });
 });

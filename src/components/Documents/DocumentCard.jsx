@@ -80,7 +80,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const dataStyling = {
     ...rowStyling,
     color: 'text.secondary',
-    fontSize: '.875rem',
+    fontSize: '14px',
     justifyContent: 'flex-start'
   };
 
@@ -94,6 +94,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
   const dataColumnStyling = {
     ...columnStyling,
     flex: '1 1 90%',
+    maxWidth: '90%',
     rowGap: '5px',
     '& div': {
       ...dataSectionStyling
@@ -137,13 +138,13 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
               <Typography
                 sx={{
                   color: `${theme.palette.primary.text} !important`,
-                  fontSize: '1rem !important'
+                  fontSize: '16px !important'
                 }}
                 variant="body1"
                 component="div"
                 noWrap
               >
-                {truncateText(document.name) || '[No Name]'}
+                {document.name || '[No Name]'}
               </Typography>
               <Typography
                 sx={{ fontWeight: 'bold', fontVariantCaps: 'small-caps' }}
@@ -169,7 +170,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
             {document.description && (
               <Box>
                 <Typography
-                  sx={{ marginTop: '5px', fontSize: '0.8rem !important', fontStyle: 'italic' }}
+                  sx={{ marginTop: '5px', fontSize: '12px !important', fontStyle: 'italic' }}
                   variant="body1"
                   component="div"
                 >

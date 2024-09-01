@@ -46,7 +46,7 @@ const document = {
 };
 
 describe('DocumentCard Component', () => {
-  it('renders without crashing', () => {
+  it('renders', () => {
     MockCardComponent({ document });
     expect(screen.getByText('Document 1')).toBeInTheDocument();
   });
