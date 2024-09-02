@@ -65,61 +65,7 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
     handleClose();
   };
 
-  // ... (Styling definitions below)
-
-  const rowStyling = {
-    display: 'flex',
-    columnGap: '10px'
-  };
-
-  const columnStyling = {
-    display: 'flex',
-    flexDirection: 'column'
-  };
-
-  const dataStyling = {
-    ...rowStyling,
-    color: 'text.secondary',
-    fontSize: '14px',
-    justifyContent: 'flex-start'
-  };
-
-  const dataSectionStyling = {
-    ...columnStyling,
-    '& div': {
-      ...dataStyling
-    }
-  };
-
-  const dataColumnStyling = {
-    ...columnStyling,
-    flex: '1 1 90%',
-    maxWidth: '90%',
-    rowGap: '5px',
-    '& div': {
-      ...dataSectionStyling
-    }
-  };
-
-  const actionsColumnStyling = {
-    ...columnStyling,
-    flex: '0 1 10%',
-    maxWidth: '54px',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginRight: '-10px'
-  };
-
-  const cardStyling = {
-    marginBottom: '15px'
-  };
-
-  const cardContentStyling = {
-    ...rowStyling,
-    justifyContent: 'space-between'
-  };
-
-  // icon styles
+  // Icon styles
   const iconSize = {
     height: '24px',
     width: '24px'
@@ -131,20 +77,26 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
 
   return (
     <Box>
-      <Card sx={cardStyling}>
-        <CardContent sx={cardContentStyling}>
-          <Box sx={dataColumnStyling}>
+      <Card
+        sx={{
+          my: '5px',
+          position: 'relative'
+        }}
+      >
+        <CardContent>
+          <Box>
             <Box>
               <Typography
                 sx={{
                   color: `${theme.palette.primary.text} !important`,
-                  fontSize: '16px !important'
+                  fontSize: '16px !important',
+                  maxWidth: '90%'
                 }}
                 variant="body1"
                 component="div"
                 noWrap
               >
-                {document.name || '[No Name]'}
+                {document.name || '[Untitled document]'}
               </Typography>
               <Typography
                 sx={{ fontWeight: 'bold', fontVariantCaps: 'small-caps' }}
@@ -152,25 +104,29 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
                 component="div"
                 noWrap
               >
-                {document.type ? getTypeText(document.type) : 'Unknown Type'}
+                {document.type ? getTypeText(document.type) : 'Other'}
               </Typography>
             </Box>
             <Box>
               <Typography variant="body1" component="div" noWrap>
                 {document.uploadDate
                   ? `Uploaded: ${document.uploadDate.toLocaleDateString()}`
-                  : 'Upload Date Unset'}
+                  : 'Upload date: N/A'}
               </Typography>
               <Typography variant="body1" component="div" noWrap>
                 {document.endDate
                   ? `Expires: ${document.endDate.toLocaleDateString()}`
-                  : 'No expiration given'}
+                  : 'Expires: Never'}
               </Typography>
             </Box>
             {document.description && (
-              <Box>
+              <Box sx={{ maxWidth: '90%' }}>
                 <Typography
-                  sx={{ marginTop: '5px', fontSize: '12px !important', fontStyle: 'italic' }}
+                  sx={{
+                    marginTop: '5px',
+                    fontSize: '12px !important',
+                    fontStyle: 'italic'
+                  }}
                   variant="body1"
                   component="div"
                 >
@@ -179,7 +135,14 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
               </Box>
             )}
           </Box>
-          <Box sx={actionsColumnStyling}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              right: 5,
+              transform: 'translateY(-50%)'
+            }}
+          >
             <IconButton
               id="actions-icon-button"
               aria-controls={openMenu === document.id ? 'actions-menu' : undefined}
