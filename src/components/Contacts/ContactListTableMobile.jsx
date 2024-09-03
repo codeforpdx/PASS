@@ -140,20 +140,16 @@ const ContactListTableMobile = ({
           >
             <CardContent>
               <Box>
-                <Typography variant="body1" component="div" noWrap sx={{ maxWidth: '90%' }}>
-                  {contact.givenName || contact.familyName
-                    ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
-                    : '[No name given]'}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  component="div"
-                  noWrap
-                  color="text.secondary"
-                  sx={{ maxWidth: '90%' }}
-                >
-                  {contact.webId}
-                </Typography>
+                <Box sx={{ maxWidth: '90%' }}>
+                  <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold' }}>
+                    {contact.givenName || contact.familyName
+                      ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
+                      : '[No name given]'}
+                  </Typography>
+                  <Typography variant="body2" component="div" noWrap color="text.secondary">
+                    {contact.webId}
+                  </Typography>
+                </Box>
                 <Box
                   sx={{
                     position: 'absolute',

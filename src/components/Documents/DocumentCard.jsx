@@ -13,7 +13,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 // Utility Imports
 import { truncateText, getTypeText } from '@utils';
 
@@ -42,8 +41,6 @@ import { truncateText, getTypeText } from '@utils';
  * @returns {React.JSX.Element} The DocumentCard component
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
-  const theme = useTheme();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -84,55 +81,35 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
         }}
       >
         <CardContent>
-          <Box>
-            <Box>
-              <Typography
-                sx={{
-                  color: `${theme.palette.primary.text} !important`,
-                  fontSize: '16px !important',
-                  maxWidth: '90%'
-                }}
-                variant="body1"
-                component="div"
-                noWrap
-              >
-                {document.name || '[Untitled document]'}
-              </Typography>
-              <Typography
-                sx={{ fontWeight: 'bold', fontVariantCaps: 'small-caps' }}
-                variant="body1"
-                component="div"
-                noWrap
-              >
-                {document.type ? getTypeText(document.type) : 'Other'}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="body1" component="div" noWrap>
-                {document.uploadDate
-                  ? `Uploaded: ${document.uploadDate.toLocaleDateString()}`
-                  : 'Upload date: N/A'}
-              </Typography>
-              <Typography variant="body1" component="div" noWrap>
-                {document.endDate
-                  ? `Expires: ${document.endDate.toLocaleDateString()}`
-                  : 'Expires: Never'}
-              </Typography>
-            </Box>
+          <Box sx={{ maxWidth: '90%' }}>
+            <Typography
+              sx={{
+                fontWeight: 'bold'
+              }}
+              variant="body1"
+              component="div"
+              noWrap
+            >
+              {document.name || '[Untitled document]'}
+            </Typography>
+            <Typography variant="body2" component="div" noWrap>
+              {document.type ? `Type: ${getTypeText(document.type)}` : 'Type: Other'}
+            </Typography>
+
+            <Typography variant="body2" component="div" noWrap>
+              {document.uploadDate
+                ? `Uploaded: ${document.uploadDate.toLocaleDateString()}`
+                : 'Uploaded: N/A'}
+            </Typography>
+            <Typography variant="body2" component="div" noWrap>
+              {document.endDate
+                ? `Expires: ${document.endDate.toLocaleDateString()}`
+                : 'Expires: Never'}
+            </Typography>
             {document.description && (
-              <Box sx={{ maxWidth: '90%' }}>
-                <Typography
-                  sx={{
-                    marginTop: '5px',
-                    fontSize: '12px !important',
-                    fontStyle: 'italic'
-                  }}
-                  variant="body1"
-                  component="div"
-                >
-                  {truncateText(document.description, 140)}
-                </Typography>
-              </Box>
+              <Typography variant="body2" component="div" color="text.secondary" sx={{ mt: '5px' }}>
+                {truncateText(document.description, 140)}
+              </Typography>
             )}
           </Box>
           <Box
