@@ -104,11 +104,11 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
             <Typography variant="body2" component="div" noWrap>
               {document.endDate
                 ? `Expires: ${document.endDate.toLocaleDateString()}`
-                : 'Expires: Never'}
+                : 'Expires: N/A'}
             </Typography>
             {document.description && (
               <Typography variant="body2" component="div" color="text.secondary" sx={{ mt: '5px' }}>
-                {truncateText(document.description, 140)}
+                <em>{truncateText(document.description, 140)}</em>
               </Typography>
             )}
           </Box>

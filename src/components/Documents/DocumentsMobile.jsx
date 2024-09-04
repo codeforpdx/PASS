@@ -76,15 +76,23 @@ const DocumentsMobile = ({ documents, handlers }) => {
         </Box>
       </Box>
 
-      {documents.map((document) => (
-        <DocumentCard
-          key={document.id}
-          document={document}
-          onShare={() => handlers.onShare('document', document.name, document.type)}
-          onDelete={() => handlers.onDelete(document)}
-          onPreview={() => handlers.onPreview(document.fileUrl)}
-        />
-      ))}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '12px'
+        }}
+      >
+        {documents.map((document) => (
+          <DocumentCard
+            key={document.id}
+            document={document}
+            onShare={() => handlers.onShare('document', document.name, document.type)}
+            onDelete={() => handlers.onDelete(document)}
+            onPreview={() => handlers.onPreview(document.fileUrl)}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };

@@ -130,113 +130,121 @@ const ContactListTableMobile = ({
           </Box>
         </Box>
       </Box>
-      {contacts?.map((contact) => (
-        <Box key={contact.webId}>
-          <Card
-            sx={{
-              my: '5px',
-              position: 'relative'
-            }}
-          >
-            <CardContent>
-              <Box sx={{ maxWidth: '90%' }}>
-                <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold' }}>
-                  {contact.givenName || contact.familyName
-                    ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
-                    : '[No name given]'}
-                </Typography>
-                <Typography variant="body2" component="div" noWrap color="text.secondary">
-                  {contact.webId}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: 5,
-                  transform: 'translateY(-50%)'
-                }}
-              >
-                <IconButton
-                  id="actions-icon-button"
-                  aria-labelledby="actions-icon-button"
-                  aria-controls={openMenu === contact.webId ? 'actions-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={openMenu === contact.webId ? 'true' : undefined}
-                  onClick={(event) => handleClick(event, contact)}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </Box>
-            </CardContent>
-            <Menu
-              id="actions-menu"
-              anchorEl={anchorEl}
-              open={openMenu === contact.webId}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'actions-icon-button'
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '12px'
+        }}
+      >
+        {contacts?.map((contact) => (
+          <Box key={contact.webId}>
+            <Card
+              sx={{
+                my: '5px',
+                position: 'relative'
               }}
             >
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(handleProfileClick, contact)}
-                startIcon={<ContactProfileIcon contact={contact} sx={iconSize} />}
-                sx={iconStyling}
+              <CardContent>
+                <Box sx={{ maxWidth: '90%' }}>
+                  <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold' }}>
+                    {contact.givenName || contact.familyName
+                      ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
+                      : '[No name given]'}
+                  </Typography>
+                  <Typography variant="body2" component="div" noWrap color="text.secondary">
+                    {contact.webId}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    right: 5,
+                    transform: 'translateY(-50%)'
+                  }}
+                >
+                  <IconButton
+                    id="actions-icon-button"
+                    aria-labelledby="actions-icon-button"
+                    aria-controls={openMenu === contact.webId ? 'actions-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openMenu === contact.webId ? 'true' : undefined}
+                    onClick={(event) => handleClick(event, contact)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </Box>
+              </CardContent>
+              <Menu
+                id="actions-menu"
+                anchorEl={anchorEl}
+                open={openMenu === contact.webId}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'actions-icon-button'
+                }}
               >
-                Profile
-              </MenuItem>
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(handleSendMessage, contact)}
-                startIcon={
-                  <SendIcon
-                    sx={{
-                      ...iconSize,
-                      color: '#808080',
-                      cursor: 'pointer'
-                    }}
-                  />
-                }
-                sx={iconStyling}
-              >
-                Message
-              </MenuItem>
-              {/* TODO: Keep copy function? */}
-              {/* If so, also add to Desktop table? */}
-              {/* Maybe without any icon. Simply click on the web ID and it will copy? */}
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(
-                  () =>
-                    saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
-                  contact
-                )}
-                startIcon={<ContentCopyIcon sx={iconSize} />}
-                sx={iconStyling}
-              >
-                Copy WebId
-              </MenuItem>
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(editContact, contact)}
-                startIcon={<EditIconOutlined sx={iconSize} />}
-                sx={iconStyling}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem
-                component={Button}
-                onClick={handleMenuItemClick(deleteContact, contact)}
-                startIcon={<DeleteOutlineOutlinedIcon sx={iconSize} />}
-                sx={iconStyling}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-          </Card>
-        </Box>
-      ))}
+                <MenuItem
+                  component={Button}
+                  onClick={handleMenuItemClick(handleProfileClick, contact)}
+                  startIcon={<ContactProfileIcon contact={contact} sx={iconSize} />}
+                  sx={iconStyling}
+                >
+                  Profile
+                </MenuItem>
+                <MenuItem
+                  component={Button}
+                  onClick={handleMenuItemClick(handleSendMessage, contact)}
+                  startIcon={
+                    <SendIcon
+                      sx={{
+                        ...iconSize,
+                        color: '#808080',
+                        cursor: 'pointer'
+                      }}
+                    />
+                  }
+                  sx={iconStyling}
+                >
+                  Message
+                </MenuItem>
+                {/* TODO: Keep copy function? */}
+                {/* If so, also add to Desktop table? */}
+                {/* Maybe without any icon. Simply click on the web ID and it will copy? */}
+                <MenuItem
+                  component={Button}
+                  onClick={handleMenuItemClick(
+                    () =>
+                      saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
+                    contact
+                  )}
+                  startIcon={<ContentCopyIcon sx={iconSize} />}
+                  sx={iconStyling}
+                >
+                  Copy WebId
+                </MenuItem>
+                <MenuItem
+                  component={Button}
+                  onClick={handleMenuItemClick(editContact, contact)}
+                  startIcon={<EditIconOutlined sx={iconSize} />}
+                  sx={iconStyling}
+                >
+                  Edit
+                </MenuItem>
+                <MenuItem
+                  component={Button}
+                  onClick={handleMenuItemClick(deleteContact, contact)}
+                  startIcon={<DeleteOutlineOutlinedIcon sx={iconSize} />}
+                  sx={iconStyling}
+                >
+                  Delete
+                </MenuItem>
+              </Menu>
+            </Card>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
