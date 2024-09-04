@@ -21,7 +21,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Custom Hooks Imports
 import useNotification from '@hooks/useNotification';
-// Constant Imports
+// Constants Imports
 import { ENV } from '@constants';
 // Util Imports
 import { saveToClipboard, truncateText } from '@utils';

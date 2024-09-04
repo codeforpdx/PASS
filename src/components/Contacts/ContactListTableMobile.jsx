@@ -139,36 +139,34 @@ const ContactListTableMobile = ({
             }}
           >
             <CardContent>
-              <Box>
-                <Box sx={{ maxWidth: '90%' }}>
-                  <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold' }}>
-                    {contact.givenName || contact.familyName
-                      ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
-                      : '[No name given]'}
-                  </Typography>
-                  <Typography variant="body2" component="div" noWrap color="text.secondary">
-                    {contact.webId}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    right: 5,
-                    transform: 'translateY(-50%)'
-                  }}
+              <Box sx={{ maxWidth: '90%' }}>
+                <Typography variant="body1" component="div" noWrap sx={{ fontWeight: 'bold' }}>
+                  {contact.givenName || contact.familyName
+                    ? `${contact.givenName || ''}\u00A0${contact.familyName || ''}`
+                    : '[No name given]'}
+                </Typography>
+                <Typography variant="body2" component="div" noWrap color="text.secondary">
+                  {contact.webId}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: 5,
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                <IconButton
+                  id="actions-icon-button"
+                  aria-labelledby="actions-icon-button"
+                  aria-controls={openMenu === contact.webId ? 'actions-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openMenu === contact.webId ? 'true' : undefined}
+                  onClick={(event) => handleClick(event, contact)}
                 >
-                  <IconButton
-                    id="actions-icon-button"
-                    aria-labelledby="actions-icon-button"
-                    aria-controls={openMenu === contact.webId ? 'actions-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openMenu === contact.webId ? 'true' : undefined}
-                    onClick={(event) => handleClick(event, contact)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                </Box>
+                  <MoreVertIcon />
+                </IconButton>
               </Box>
             </CardContent>
             <Menu

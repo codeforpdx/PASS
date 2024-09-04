@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-// Component Import
+// Component Imports
 import DocumentCard from './DocumentCard';
 
 /**
@@ -67,7 +67,7 @@ const DocumentsMobile = ({ documents, handlers }) => {
           <Typography
             sx={{
               justifyContent: 'flex-end',
-              maxWidth: '54px',
+              // maxWidth: '54px',
               marginRight: '0'
             }}
           >

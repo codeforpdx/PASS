@@ -1,7 +1,8 @@
 // React Imports
 import React, { useContext, useMemo } from 'react';
+// Dependency Imports
 import { v4 as uuidv4 } from 'uuid';
-// Constants
+// Constants Imports
 import DOC_TYPES from '@constants/doc_types';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -15,7 +16,6 @@ import { getBlobFromSolid } from '@utils';
 import theme from '../../theme';
 // Component Imports
 import { EmptyListNotification, LoadingAnimation } from '../Notification';
-// Import components for rendering documents on mobile and desktop
 import DocumentsMobile from './DocumentsMobile';
 import DocumentsDesktop from './DocumentsDesktop';
 

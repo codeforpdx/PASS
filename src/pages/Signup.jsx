@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-// Constant Imports
+// Constants Imports
 import { ENV } from '@constants';
 // Signup Form Imports
 import {
@@ -71,7 +71,7 @@ const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
  */
 const Signup = () => {
   const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
-  const [storredIssuer, setStorredIssuer] = useState(null);
+  const [storedIssuer, setStoredIssuer] = useState(null);
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
@@ -135,7 +135,7 @@ const Signup = () => {
     }
 
     const storedOidcIssuer = localStorage.getItem('oidcIssuer', oidcIssuer);
-    setStorredIssuer(storedOidcIssuer);
+    setStoredIssuer(storedOidcIssuer);
   }, [session.info.isLoggedIn, window.location.href]);
 
   return (
@@ -168,7 +168,7 @@ const Signup = () => {
           {step === 'done' && (
             <ShowNewPod
               oidcIssuer={oidcIssuer}
-              oidcExisting={storredIssuer}
+              oidcExisting={storedIssuer}
               podUrl={registrationInfo.podUrl}
               webId={session.info.webId}
             />
