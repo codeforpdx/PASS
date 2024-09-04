@@ -32,6 +32,7 @@ const LoadingAnimation = ({ loadingItem, children }) => (
       textAlign: 'center',
       padding: '20px'
     }}
+    data-testid="loading-animation"
   >
     <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
       <Typography variant="h5" component="h2" mb={2} align="center">

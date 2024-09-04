@@ -15,7 +15,7 @@ import { useTheme } from '@mui/material/styles';
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
-import DocumentTable from '@components/Documents';
+import { DocumentTable } from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
 // Util Imports
