@@ -1,15 +1,13 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
-import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import ShareIcon from '@mui/icons-material/Share';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -17,9 +15,11 @@ import { useTheme } from '@mui/material/styles';
 import { DocumentListContext } from '@contexts';
 // Component Imports
 import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
-import DocumentTable from '@components/Documents';
+import { DocumentTable } from '@components/Documents';
 import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
+// Util Imports
+import { truncateText } from '@utils';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
 
@@ -117,6 +117,8 @@ const Profile = () => {
     }, 1000);
   }, []);
 
+  const truncatedText = selectedDocToDelete?.name ? truncateText(selectedDocToDelete.name) : '';
+
   if (loadingProfile) {
     return (
       <LoadingAnimation loadingItem="Profile">
@@ -134,51 +136,62 @@ const Profile = () => {
         width: '100%'
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>Profile Information</Typography>
-        <Box
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxSizing: 'border-box',
+          width: isSmallScreen ? '100%' : 'auto'
+        }}
+      >
+        <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+          My Profile
+        </Typography>
+        {/* TODO: Determine whether this Box is needed */}
+        {/* <Box
           sx={{
             display: 'flex',
             gap: '5px',
             alignItems: 'center',
-            justifyContent: 'center',
             flexDirection: isSmallScreen ? 'column' : 'row'
           }}
-        />
-        <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
+        /> */}
 
-        <Container
+        <Box
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             gap: 2,
-            flexDirection: isSmallScreen ? 'column' : 'row'
+            flexDirection: 'row',
+            paddingLeft: '0px'
           }}
         >
           {!contact && (
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
-              startIcon={<ShareIcon />}
               onClick={() => handleAclPermissionsModal('container')}
-              sx={{ width: isSmallScreen ? '250px' : 'default' }}
+              sx={{
+                width: isSmallScreen ? '165px' : '200px',
+                borderColor: 'primary.main',
+                padding: '6px 12px'
+              }}
             >
-              Share Documents Folder
+              Share Documents
             </Button>
           )}
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
-            startIcon={<AddIcon />}
             onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '200px' : 'default' }}
+            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
           >
             Add Document
           </Button>
-        </Container>
+        </Box>
+        <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
         <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
         <SetAclPermissionsModal
           showModal={showAclPermissionModal}
@@ -189,7 +202,7 @@ const Profile = () => {
           showModal={showConfirmationModal}
           setShowModal={setShowConfirmationModal}
           title="Delete Document"
-          text={`You're about to delete "${selectedDocToDelete?.name}" from the pod, do you wish to continue?`}
+          text={`You're about to delete "${truncatedText}" from the pod. Do you wish to continue?`}
           onConfirm={handleDeleteDoc}
           confirmButtonText="Delete"
           processing={processing}

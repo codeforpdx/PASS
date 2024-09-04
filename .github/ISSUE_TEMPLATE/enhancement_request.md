@@ -3,6 +3,7 @@ name: Enhancement request
 about: Suggest an enhancement for this project
 title: '[Enhancement] - Your Title Here'
 labels: enhancement
+projects: 'PASS'
 assignees: ''
 ---
 

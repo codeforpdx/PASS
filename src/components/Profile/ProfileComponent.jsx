@@ -1,24 +1,26 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
+// Util Imports
+import { saveToClipboard } from '@utils';
 // Component Inputs
-import ProfileImageField from './ProfileImageField';
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
+import ProfileImageField from './ProfileImageField';
 
 /**
- * The UserProfile Component is a component that renders the user's profile on
+ * UserProfile - Component is a component that renders the user's profile on
  * PASS
  *
  * @memberof Profile
@@ -38,13 +40,11 @@ const ProfileComponent = ({ contactProfile, webId }) => {
   // Public Profile Data
   const [profileName, setProfileName] = useState(profileData?.profileInfo?.profileName);
   const [nickname, setNickname] = useState(profileData?.profileInfo?.nickname);
-
   const [edit, setEdit] = useState(false);
 
   const loadProfileData = async () => {
     const profileDataSolid = await fetchProfileInfo(session.info.webId);
     setProfileData(profileDataSolid);
-
     setProfileName(profileDataSolid.profileInfo?.profileName);
     setNickname(profileDataSolid.profileInfo?.nickname);
   };
@@ -86,7 +86,9 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         display: 'flex',
         flexDirection: isSmallScreen ? 'column' : 'row',
         gap: '15px',
-        padding: '10px'
+        padding: '10px',
+        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
+        borderRadius: '10px'
       }}
     >
       <ProfileImageField loadProfileData={loadProfileData} contactProfile={contactProfile} />
@@ -95,9 +97,8 @@ const ProfileComponent = ({ contactProfile, webId }) => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 0 3px 0 black',
           justifyContent: 'space-between',
-          padding: '20px'
+          padding: '10px'
         }}
       >
         <Box
@@ -107,6 +108,13 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             gap: '10px'
           }}
         >
+          {!contactProfile && (
+            <ProfileEditButtonGroup
+              edit={edit}
+              handleCancelEdit={handleCancelEdit}
+              handleEditInput={handleEditInput}
+            />
+          )}
           <ProfileInputField
             inputName="Name"
             inputValue={
@@ -131,8 +139,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy WebId"
                 edge="end"
                 onClick={() => {
-                  navigator.clipboard.writeText(webId);
-                  addNotification('success', 'webId copied to clipboard');
+                  saveToClipboard(webId, 'webId copied to clipboard', addNotification);
                 }}
               >
                 <ContentCopyIcon />
@@ -141,12 +148,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
           />
         </Box>
         {!contactProfile && (
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <ProfileEditButtonGroup
-              edit={edit}
-              handleCancelEdit={handleCancelEdit}
-              handleEditInput={handleEditInput}
-            />
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
             <Typography sx={{ marginTop: '8px' }}>
               <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
                 Your Invite Link
@@ -155,8 +157,11 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                 aria-label="Copy Invite Link"
                 edge="end"
                 onClick={() => {
-                  navigator.clipboard.writeText(signupLink);
-                  addNotification('success', 'Invite link copied to clipboard');
+                  saveToClipboard(
+                    `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
+                    'Invite link copied to clipboard',
+                    addNotification
+                  );
                 }}
               >
                 <ContentCopyIcon />

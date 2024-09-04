@@ -1,4 +1,4 @@
-import { getFile } from '@inrupt/solid-client';
+import { getFile, universalAccess } from '@inrupt/solid-client';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -32,24 +32,18 @@ import {
  * @memberof utils
  * @function setDocAclPermission
  * @param {Session} session - Solid's Session Object {@link Session}
- * @param {string} docType - Type of document
+ * @param {string} docName - Name of document to share
  * @param {Access} permissions - The Access object for setting ACL in Solid
  * @param {URL} podUrl - URL of the user's Pod
- * @param {string} webIdToSetPermsTo - URL of the other user's Pod to give/revoke permissions OR empty string
+ * @param {string} webId - The webId to share the document with
  * @returns {Promise} Promise - Sets permission for otherPodUsername for given
  * document type, if exists, or null
  */
-export const setDocAclPermission = async (
-  session,
-  docType,
-  permissions,
-  podUrl,
-  webIdToSetPermsTo
-) => {
+export const setDocAclPermission = async (session, docName, permissions, podUrl, webId) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const documentUrl = `${containerUrl}${docType.replace("'", '').replace(' ', '_')}/`;
+  const documentUrl = `${containerUrl}${docName.replace("'", '').replace(' ', '%20')}`;
 
-  await setDocAclForUser(session, documentUrl, 'update', webIdToSetPermsTo, permissions);
+  await universalAccess.setAgentAccess(documentUrl, webId, permissions, { fetch: session.fetch });
 };
 
 /**
@@ -72,7 +66,7 @@ export const setDocContainerAclPermission = async (
 ) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
 
-  await setDocAclForUser(session, containerUrl, 'update', webIdToSetPermsTo, permissions);
+  await setDocAclForUser(session, containerUrl, '', webIdToSetPermsTo, permissions);
 };
 
 /*

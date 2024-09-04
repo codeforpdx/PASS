@@ -10,7 +10,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import SvgIcon from '@mui/material/SvgIcon';
 
-// new Twitter Icon
+// New Twitter Icon
 const TwitterIcon = () => (
   <SvgIcon
     viewBox="0 0 512 512"
@@ -19,7 +19,7 @@ const TwitterIcon = () => (
   >
     <path
       d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-      fill="#fff"
+      fill="primary"
     />
   </SvgIcon>
 );
@@ -49,9 +49,11 @@ const socialLinks = [
 ];
 
 /**
- * The RenderCompanyInfoSection component renders information about policy,
- * terms and conditions, and the site to Code for PDX
+ * RenderCompanyInfoSection - Component renders information about policy,
+ * terms and conditions, and the site to CODE PDX
  *
+ * @memberof Footer
+ * @name RenderCompanyInfoSection
  * @param {object} Props - The props for footer sub-component
  * @param {boolean} Props.isReallySmallScreen - Boolean for if screen is below theme
  * breakdown of 'sm' for MUI
@@ -60,7 +62,7 @@ const socialLinks = [
 const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
   <Stack width={isReallySmallScreen ? 1 : 1 / 5} justifyContent="space-between" alignItems="center">
     <Box>
-      <Typography color="tertiary.main" variant="h5" component="h2" mb={1}>
+      <Typography color="primary.strong" variant="h5" component="h2" mb={1}>
         Connect
       </Typography>
       <Stack direction="row" spacing={isReallySmallScreen ? 3 : 2} alignItems="center">
@@ -70,7 +72,7 @@ const RenderCompanyInfoSection = ({ isReallySmallScreen }) => (
             href={href}
             target="_blank"
             rel="noopener"
-            color="#fff"
+            color="primary"
             aria-label={`Follow us on ${name}`}
           >
             {icon}

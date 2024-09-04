@@ -12,7 +12,7 @@ import RenderCompanyInfoSection from './RenderCompanyInfoSection';
 import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
 
 /**
- * Footer Component - Generates the responsive footer used in PASS
+ * Footer - Generates the responsive footer used in PASS
  *
  * @memberof Footer
  * @name Footer
@@ -33,7 +33,7 @@ const Footer = () => {
         position: 'sticky',
         top: '100%',
         textAlign: 'center',
-        bgcolor: 'primary.main'
+        bgcolor: 'primary.background'
       }}
     >
       <Stack
@@ -44,7 +44,7 @@ const Footer = () => {
           <Divider
             orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
             flexItem={isReallySmallScreen ? null : true}
-            color={theme.palette.tertiary.main}
+            color={theme.palette.primary.main}
             sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
           />
         }

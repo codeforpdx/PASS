@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getWebIdDataset } from '@inrupt/solid-client';
 // Material UI Imports
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useNotification } from '@hooks';
 // Context Imports
 import { DocumentListContext } from '@contexts';
@@ -20,7 +20,7 @@ import { DocumentListContext } from '@contexts';
  */
 
 /**
- * ContactProfileIcon Component - Component that generates the contact profile
+ * ContactProfileIcon - Component that generates the contact profile
  * icon for the Contacts List which is a special link to their profile page
  *
  * @memberof Contacts

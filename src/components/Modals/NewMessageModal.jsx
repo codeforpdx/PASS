@@ -3,21 +3,21 @@ import React, { useContext, useEffect, useState } from 'react';
 // Inrupt Library Imports
 import { useMessageList, useNotification, useSession, useContactsList } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import Autocomplete from '@mui/material/Autocomplete';
 // Utility Imports
 import { sendMessageTTL } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
 /**
@@ -25,7 +25,7 @@ import { FormSection } from '../Form';
  */
 
 /**
- * NewMessageModal Component - Component that allows user to write
+ * NewMessageModal - Component that allows user to write
  *  a message to another user from their inbox
  *
  * @memberof Modals
@@ -48,7 +48,8 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
 
   const [message, setMessage] = useState({
-    recipientPodUrl: oldMessage ? oldMessage.senderWebId.split('profile')[0] : '',
+    recipientPodUrl:
+      oldMessage && oldMessage.senderWebId ? oldMessage.senderWebId.split('profile')[0] : '',
     title: oldMessage ? `RE:${oldMessage.title}`.replace('RE:RE:', 'RE:') : '',
     message: '',
     inReplyTo: oldMessage ? oldMessage.messageId : '',
@@ -57,10 +58,11 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const contactListOptions = data?.map((contact) => ({
-    label: `${contact.person} ${contact.podUrl}`,
-    id: contact.podUrl
-  }));
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.podUrl}`,
+      id: contact.podUrl
+    })) ?? [];
   const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
@@ -120,132 +122,119 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
 
   /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    <Dialog
+    <ModalBase
       open={showModal}
       aria-labelledby="new-message-modal"
       onClose={() => handleReplyMessage(false)}
     >
-      <Box
-        noValidate
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px',
-          minWidth: '50%',
-          minHeight: '90%'
-        }}
-      >
-        <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
-          <form
-            aria-labelledby="new-message-form"
-            onSubmit={(e) => handleSubmit(e)}
-            autoComplete="off"
-          >
-            <Autocomplete
-              data-testid="newMessageTo"
-              freeSolo
-              value={recipientName?.person ?? message.recipientPodUrl}
-              disablePortal
-              autoSelect
-              id="recipientPodUrl"
-              options={contactListOptions}
-              onChange={(event, newValue) => {
-                setMessage({
-                  ...message,
-                  // if user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
-                  recipientPodUrl: newValue.id ?? newValue
-                });
+      <FormSection title={oldMessage ? 'Reply To' : 'New Message'} headingId="new-message-form">
+        <form
+          aria-labelledby="new-message-form"
+          onSubmit={(e) => handleSubmit(e)}
+          autoComplete="off"
+        >
+          <Autocomplete
+            data-testid="newMessageTo"
+            id="recipientPodUrl"
+            freeSolo
+            value={recipientName?.person ?? message.recipientPodUrl}
+            disablePortal
+            autoSelect
+            options={contactListOptions}
+            onChange={(_event, newValue) => {
+              setMessage({
+                ...message,
+                // If user wants to use a custom webId instead of a contact option, set the recipient value to the typed input
+                recipientPodUrl: newValue.id ?? newValue
+              });
+            }}
+            fullWidth
+            disabled={Boolean(toField) || Boolean(oldMessage)}
+            renderInput={(params) => (
+              <TextField {...params} autoFocus margin="normal" label="To" required />
+            )}
+          />
+          <TextField
+            margin="normal"
+            value={message.title}
+            type="text"
+            name="title"
+            id="title"
+            onChange={(e) => handleChange(e)}
+            required
+            label="Subject"
+            disabled={Boolean(oldMessage)}
+            inputProps={{
+              maxLength: '48'
+            }}
+            fullWidth
+          />
+          {oldMessage && (
+            <TextField
+              margin="normal"
+              value={originalMessage}
+              type="text"
+              name="previousMessage"
+              id="previousMessage"
+              label="Previous Message"
+              variant="filled"
+              multiline
+              rows={3}
+              InputProps={{
+                readOnly: true
               }}
               fullWidth
-              required
-              autoFocus
-              disabled={toField !== ''}
-              renderInput={(params) => <TextField {...params} label="To" />}
             />
-            <TextField
-              margin="normal"
-              value={message.title}
-              type="text"
-              name="title"
-              id="title"
-              onChange={(e) => handleChange(e)}
-              required
-              label="Subject"
-              inputProps={{ maxLength: '48' }}
-              fullWidth
-            />
-            {oldMessage && (
-              <TextField
-                margin="normal"
-                value={originalMessage}
-                type="text"
-                name="previousMessage"
-                id="previousMessage"
-                label="Previous Message"
-                variant="filled"
-                // TODO: The line below shrinks the "Reply To" version more than the "New Message" one
-                // Is this something that needs to be addressed?
-                sx={{ display: 'block' }}
-                multiline
-                rows={3}
-                InputProps={{
-                  readOnly: true
-                }}
+          )}
+          <TextField
+            margin="normal"
+            value={message.message}
+            type="text"
+            name="message"
+            id="message"
+            onChange={(e) => handleChange(e)}
+            multiline
+            rows={4}
+            label="Message"
+            required
+            // TODO: Determine how long a maximum length, if any, is suitable
+            inputProps={{ maxLength: '500' }}
+            fullWidth
+          />
+          <DialogActions sx={{ width: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                gap: isSmallScreen ? '10px' : '8px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<ClearIcon />}
+                onClick={() => setShowModal(false)}
                 fullWidth
-              />
-            )}
-            <TextField
-              margin="normal"
-              value={message.message}
-              type="text"
-              name="message"
-              id="message"
-              onChange={(e) => handleChange(e)}
-              multiline
-              rows={5}
-              label="Message"
-              required
-              // TODO: Determine how long a maximum length, if any, is suitable
-              inputProps={{ maxLength: '500' }}
-              fullWidth
-            />
-            <DialogActions sx={{ width: '100%' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: isSmallScreen ? 'column' : 'row',
-                  gap: isSmallScreen ? '10px' : '8px',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%'
-                }}
               >
-                <Button
-                  variant="outlined"
-                  color="error"
-                  startIcon={<ClearIcon />}
-                  onClick={() => setShowModal(false)}
-                  fullWidth
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  startIcon={<CheckIcon />}
-                  fullWidth
-                >
-                  Submit
-                </Button>
-              </Box>
-            </DialogActions>
-          </form>
-        </FormSection>
-      </Box>
-    </Dialog>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                color="primary"
+                startIcon={<CheckIcon />}
+                fullWidth
+              >
+                Submit
+              </Button>
+            </Box>
+          </DialogActions>
+        </form>
+      </FormSection>
+    </ModalBase>
   );
   /* eslint-disable jsx-a11y/label-has-associated-control */
 };

@@ -4,29 +4,30 @@ import React, { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+/* import Slide from '@mui/material/Slide'; */
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
 import useNotification from '../../hooks/useNotification';
 import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
 
 /**
- * UploadDocumentModal Component - Component that generates the form for uploading
+ * UploadDocumentModal - Component that generates the form for uploading
  * a specific document type to a user's Solid Pod via Solid Session
  *
  * @memberof Modals
@@ -37,12 +38,13 @@ import UploadDocumentConfirmationModal from './UploadDocumentConfirmationModal';
  * - React set function for setting showModal state
  * @returns {React.JSX.Element} The UploadDocumentModal Component
  */
+
 const UploadDocumentModal = ({ showModal, setShowModal }) => {
   const { addNotification } = useNotification();
   const [expireDate, setExpireDate] = useState(null);
   const [docDescription, setDocDescription] = useState('');
   const [docType, setDocType] = useState('');
-  const [verifyFile, setVerifyFile] = useState(false);
+  // const [verifyFile, setVerifyFile] = useState(false);
   const [file, setFile] = useState(null);
   const [inputKey, setInputKey] = useState(false);
   const { addDocument, replaceDocument } = useContext(DocumentListContext);
@@ -57,7 +59,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   const clearInputFields = () => {
-    setVerifyFile(false);
+    // setVerifyFile(false);
     setDocType('');
     setFile('');
     setInputKey(!inputKey); // Clears file by forcing re-render
@@ -125,7 +127,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
   };
 
   return (
-    <Dialog open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
+    <ModalBase open={showModal} aria-labelledby="upload-document-dialog" onClose={clearInputFields}>
       <UploadDocumentConfirmationModal
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
@@ -135,23 +137,24 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
       />
       <FormSection title="Upload Document">
         <form onSubmit={onFormSubmit} autoComplete="off" style={{ width: '100%' }}>
-          <FormControlLabel
+          {/* TODO: Fully implement this switch */}
+          {/* <FormControlLabel
             control={<Switch />}
             label="Verify file on upload"
             id="verify-checkbox"
             value={verifyFile}
             checked={verifyFile}
-            onChange={() => setVerifyFile(!verifyFile)}
-            sx={{ mb: 1 }}
-          />
+            // onChange={() => setVerifyFile(!verifyFile)}
+          /> */}
           <FormControl fullWidth>
-            <DocumentSelection
-              htmlForAndIdProp="upload-doc"
-              handleDocType={handleDocType}
-              docType={docType}
-            />
-            <br />
-            <FormControl>
+            <FormControl margin="normal">
+              <DocumentSelection
+                htmlForAndIdProp="upload-doc"
+                handleDocType={handleDocType}
+                docType={docType}
+              />
+            </FormControl>
+            <FormControl margin="normal">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   name="date"
@@ -163,17 +166,16 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
                 />
               </LocalizationProvider>
             </FormControl>
-            <br />
             <TextField
+              margin="normal"
               name="description"
               multiline
-              rows={4}
+              rows={3}
               label="Enter Description"
               value={docDescription}
               onChange={(newDocDescription) => setDocDescription(newDocDescription.target.value)}
               placeholder="Add a description here"
             />
-            <br />
             <UploadButtonGroup file={file} setFile={setFile} />
             <FormHelperText
               sx={{
@@ -221,7 +223,7 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
           </FormControl>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

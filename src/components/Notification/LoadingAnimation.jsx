@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 /**
- * LoadingAnimation Component - Displays a div containing title of what is being
+ * LoadingAnimation - Component that displays a div containing title of what is being
  * loaded and an animated loading progress bar. Must pass loadingItem attribute
  * as a string of the "title" of what is being loaded. By default LinearProgress
  * will be used as the default animation, if used as a provider (i.e. wrapping
@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
  * @param {string} Props.loadingItem - The name of what you plan on loading
  * @param {React.JSX.Element} [Props.children] - If used as a provider, wrapped
  * component will be used as the animation
- * @returns {React.ReactElement} a div of what is currently loading
+ * @returns {React.ReactElement} Div of what is currently loading
  */
 const LoadingAnimation = ({ loadingItem, children }) => (
   <Box
@@ -32,6 +32,7 @@ const LoadingAnimation = ({ loadingItem, children }) => (
       textAlign: 'center',
       padding: '20px'
     }}
+    data-testid="loading-animation"
   >
     <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
       <Typography variant="h5" component="h2" mb={2} align="center">

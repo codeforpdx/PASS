@@ -1,10 +1,10 @@
 // React Imports
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // Material UI Imports
-import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
-// Custom Hook Imports
+import Snackbar from '@mui/material/Snackbar';
+// Custom Hooks Imports
 import useNotification from '@hooks/useNotification';
 
 const TransitionUp = (props) => <Slide {...props} direction="up" />;

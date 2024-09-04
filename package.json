@@ -1,10 +1,10 @@
 {
   "name": "pass",
   "homepage": ".",
-  "version": "0.12.0",
+  "version": "1.0.0-alpha",
   "description": "",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run dev\" \"npm run podserver\"",
+    "start": "concurrently --kill-others \"npm run podserver\" \"npm run dev\"",
     "dev": "vite --host",
     "build": "vite build",
     "test": "vitest",

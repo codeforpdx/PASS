@@ -22,7 +22,7 @@ import { HomeSection, KeyFeatures } from '@components/Home';
  *
  * @memberof Pages
  * @name Home
- * @returns {React.ReactElement} The home page
+ * @returns {React.ReactElement} The Home Page
  */
 const Home = () => {
   const theme = useTheme();
@@ -55,17 +55,23 @@ const Home = () => {
         mb={2}
         data-testid="testStack"
       >
-        <Typography variant="h1" component="span" fontWeight="500" fontSize="72px">
+        <Typography
+          color="primary.text"
+          variant="h1"
+          component="span"
+          fontWeight="500"
+          fontSize="72px"
+        >
           {heading}
         </Typography>
         <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
-        <Typography variant="h4" component="span" fontWeight="600" mb={8}>
+        <Typography color="primary.text" variant="h4" component="span" fontWeight="600" mb={8}>
           {subheading}
         </Typography>
       </Stack>
     </Typography>
   ) : (
-    <Typography component="h1" color="primary">
+    <Typography component="h1" color="primary.text">
       <Stack
         justifyContent="center"
         alignItems="center"
@@ -81,11 +87,17 @@ const Home = () => {
           spacing={4}
         >
           <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
-          <Typography variant="h1" component="span" fontWeight="500" fontSize="144px">
+          <Typography
+            color="primary.text"
+            variant="h1"
+            component="span"
+            fontWeight="500"
+            fontSize="144px"
+          >
             {heading}
           </Typography>
         </Stack>
-        <Typography variant="h3" component="span" fontWeight="600">
+        <Typography color="primary.text" variant="h3" component="span" fontWeight="600">
           {subheading}
         </Typography>
       </Stack>
@@ -114,17 +126,17 @@ const Home = () => {
               alignItems="center"
             >
               {logoSection}
-              <Typography color="secondary.main" sx={{ fontSize: '24px' }}>
+              <Typography color="primary" sx={{ fontSize: '24px' }}>
                 Learn More
               </Typography>
-              <IconButton aria-label="Scroll down" color="secondary" onClick={handleClick}>
+              <IconButton aria-label="Scroll down" color="primary" onClick={handleClick}>
                 <ArrowCircleDownOutlinedIcon sx={{ fontSize: '32px' }} />
               </IconButton>
             </Box>
             <div ref={aboutRef}>
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/web-security-green.png"
+                componentImageSrc="/assets/web-security-blue.webp"
                 componentImageAlt=""
                 title="Keep Your Documents Safe and Secure Using Decentralized Technology"
                 description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
@@ -134,7 +146,7 @@ const Home = () => {
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/app-green.png"
+                componentImageSrc="/assets/app-blue.webp"
                 componentImageAlt=""
                 title="An App for Caseworkers"
                 description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
@@ -142,7 +154,7 @@ const Home = () => {
               />
               <HomeSection
                 isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/key-features-green.png"
+                componentImageSrc="/assets/key-features-blue.webp"
                 componentImageAlt=""
                 title="Key Features"
               />

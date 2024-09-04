@@ -7,7 +7,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Typography from '@mui/material/Typography';
 
 /**
- * The Breadcrumbs Component is part of the layout of PASS where it renders the
+ * Breadcrumbs - Component that is part of the layout of PASS where it renders the
  * navigation links to previous sections of the website utilizing MUI's
  * Breadcrumbs and React Router's useLocation hook
  *

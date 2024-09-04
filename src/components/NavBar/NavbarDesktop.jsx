@@ -1,6 +1,5 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
-// React Router Imports
 import { Link, NavLink } from 'react-router-dom';
 // Material UI Imports
 import AppBar from '@mui/material/AppBar';
@@ -10,7 +9,7 @@ import Box from '@mui/material/Box';
 import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
-// Custom Hook Imports
+// Custom Hooks Imports
 import { useMessageList } from '@hooks';
 // Component Imports
 import { SignedInUserContext } from '@contexts';
@@ -26,7 +25,7 @@ import NavMenu from './NavMenu';
  * @param {object} Props - The props for NavbarDesktop Component
  * @param {React.Dispatch<React.SetStateAction<boolean>>} Props.setShowConfirmation
  * - The set function for showConfirmationModal
- * @returns {React.JSX.Element} - The Desktop version of Navbar Component
+ * @returns {React.JSX.Element} The Desktop version of Navbar Component
  */
 const NavbarDesktop = ({ setShowConfirmation }) => {
   const { data } = useMessageList('Inbox');

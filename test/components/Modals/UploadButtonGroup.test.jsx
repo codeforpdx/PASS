@@ -11,18 +11,18 @@ const mockEnumerateDevices = (available) => {
 };
 
 describe('UploadButtonGroup Component', () => {
-  it('renders only two buttons', () => {
+  it('renders only three buttons', () => {
     global.innerWidth = 1024;
     const { getAllByRole } = render(<UploadButtonGroup />);
     const buttons = getAllByRole('button');
-    expect(buttons.length).toBe(2);
+    expect(buttons.length).toBe(3);
   });
 
   it('renders use webcam button when webcam exists', async () => {
     mockEnumerateDevices(true);
     const { findByText } = render(<UploadButtonGroup />);
 
-    const webcamButton = await findByText('Use Webcam');
+    const webcamButton = await findByText('Take Photos');
     expect(webcamButton).to.be.ok;
   });
 
@@ -30,7 +30,7 @@ describe('UploadButtonGroup Component', () => {
     mockEnumerateDevices(false);
     const { findByText } = render(<UploadButtonGroup />);
 
-    const captureImageButton = await findByText('Capture image');
+    const captureImageButton = await findByText('Capture Image');
     // eslint-disable-next-line no-unused-expressions
     expect(captureImageButton).to.be.ok;
   });

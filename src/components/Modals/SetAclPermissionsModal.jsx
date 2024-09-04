@@ -1,27 +1,29 @@
 // React Imports
 import React, { useContext, useState } from 'react';
-// Custom Hook Imports
-import { useSession } from '@hooks';
+// Custom Hooks Imports
+import { useContactsList, useNotification, useSession } from '@hooks';
 // Material UI Imports
+import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import Dialog from '@mui/material/Dialog';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ShareIcon from '@mui/icons-material/Share';
 import TextField from '@mui/material/TextField';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 // Utility Imports
 import { setDocAclPermission, setDocContainerAclPermission } from '@utils';
 // Context Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
+import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
-import useNotification from '../../hooks/useNotification';
 
 /**
- * SetPermissionsModal Component - Modal component that generates the form for
+ * SetPermissionsModal - Modal component that generates the form for
  * setting ACL permissions to another user's documents, or document container
  * in their Solid Pod via Solid Session.
  *
@@ -39,16 +41,27 @@ import useNotification from '../../hooks/useNotification';
 const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   const { session } = useSession();
   const { addNotification } = useNotification();
-  const { podUrl } = useContext(SignedInUserContext);
+  const { podUrl, webId } = useContext(SignedInUserContext);
   const [permissionState, setPermissionState] = useState({
-    podUrlToSetPermissionsTo: '',
+    webIdToSetPermsTo: '',
     permissionType: ''
   });
   const [processing, setProcessing] = useState(false);
+  const { data } = useContactsList();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const contactListOptions =
+    data?.map((contact) => ({
+      label: `${contact.person} ${contact.webId}`,
+      id: contact.webId
+    })) ?? [];
+  const shareName = data?.filter(
+    (contact) => permissionState.webIdToSetPermsTo === contact.webId
+  )[0];
 
   const clearInputFields = () => {
     setPermissionState({
-      podUrlToSetPermissionsTo: '',
+      webIdToSetPermsTo: '',
       permissionType: ''
     });
     setProcessing(false);
@@ -65,20 +78,24 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           append: event.target.setAclPerms.value === 'Share' && dataset.modalType === 'container'
         }
       : undefined;
-    const webIdToSetPermsTo = `${permissionState.podUrlToSetPermissionsTo}profile/card#me`;
 
     try {
       switch (dataset.modalType) {
         case 'container':
-          await setDocContainerAclPermission(session, permissions, podUrl, webIdToSetPermsTo);
+          await setDocContainerAclPermission(
+            session,
+            permissions,
+            podUrl,
+            permissionState.webIdToSetPermsTo
+          );
           break;
         case 'document':
           await setDocAclPermission(
             session,
-            dataset.docType,
+            dataset.docName,
             permissions,
             podUrl,
-            webIdToSetPermsTo
+            permissionState.webIdToSetPermsTo
           );
           break;
         default:
@@ -88,7 +105,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
       addNotification(
         'success',
         `${permissions.read ? 'Shared' : 'Unshared'} with ${
-          permissionState.podUrlToSetPermissionsTo
+          permissionState.webIdToSetPermsTo
         } for ${dataset.modalType === 'container' ? 'Documents Container' : dataset.docName}.`
       );
     } catch (error) {
@@ -101,14 +118,14 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
   };
 
   return (
-    <Dialog open={showModal} onClose={clearInputFields}>
+    <ModalBase open={showModal} onClose={clearInputFields}>
       <FormSection
         title={
-          dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
+          dataset.modalType === 'container' ? 'Share All Documents' : `Share "${dataset.docName}"`
         }
       >
-        <form onSubmit={handleAclPermission} autoComplete="off">
-          <FormControl required fullWidth sx={{ marginBottom: '1rem' }}>
+        <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>
+          <FormControl required fullWidth sx={{ mb: '1rem' }}>
             <InputLabel id="permissionType-label">Select One</InputLabel>
             <Select
               labelId="permissionType-label"
@@ -124,31 +141,46 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
               <MenuItem value="Unshare">Unshare</MenuItem>
             </Select>
           </FormControl>
-          <br />
-          <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-            <TextField
-              id="set-acl-to"
-              name="setAclTo"
-              value={permissionState.podUrlToSetPermissionsTo}
-              onChange={(e) =>
-                setPermissionState({
-                  ...permissionState,
-                  podUrlToSetPermissionsTo: e.target.value
-                })
-              }
-              placeholder={permissionState.podUrlToSetPermissionsTo}
-              label="Enter podURL"
-              required
-              error={permissionState.podUrlToSetPermissionsTo === podUrl}
-              helperText={
-                permissionState.podUrlToSetPermissionsTo === podUrl
-                  ? 'Cannot share to your own pod.'.toUpperCase()
-                  : ''
-              }
-            />
-          </FormControl>
-          <br />
-          <FormControl fullWidth sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
+          <Autocomplete
+            data-testid="newShareWith"
+            id="set-acl-to"
+            sx={{ mb: '1rem' }}
+            freeSolo
+            fullWidth
+            required
+            value={shareName?.person ?? permissionState.webIdToSetPermsTo}
+            disablePortal
+            autoSelect
+            options={contactListOptions}
+            onChange={(_, newValue) => {
+              setPermissionState({
+                ...permissionState,
+                webIdToSetPermsTo: newValue.id ?? newValue
+              });
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name="setAclTo"
+                autoFocus
+                label="WebID to share with"
+                placeholder="WebID to share with"
+                error={permissionState.webIdToSetPermsTo === webId}
+                helperText={
+                  permissionState.webIdToSetPermsTo === webId ? 'Cannot share to your own pod.' : ''
+                }
+              />
+            )}
+          />
+          <FormControl
+            fullWidth
+            sx={{
+              display: 'flex',
+              flexDirection: isSmallScreen ? 'column' : 'row',
+              gap: isSmallScreen ? '10px' : '8px',
+              width: '100%'
+            }}
+          >
             <Button
               variant="outlined"
               color="error"
@@ -160,7 +192,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
             </Button>
             <Button
               variant="contained"
-              disabled={permissionState.podUrlToSetPermissionsTo === podUrl || processing}
+              disabled={permissionState.webIdToSetPermsTo === webId || processing}
               type="submit"
               color="primary"
               startIcon={<ShareIcon />}
@@ -171,7 +203,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
           </FormControl>
         </form>
       </FormSection>
-    </Dialog>
+    </ModalBase>
   );
 };
 

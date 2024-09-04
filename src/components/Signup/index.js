@@ -1,6 +1,7 @@
 /* Components */
 import PodRegistrationForm from './PodRegistrationForm';
 import ShowNewPod from './ShowNewPod';
+import ExistingPodForm from './ExistingPodForm';
 
 /* Pod Helpers */
 import initializePod from './podSignupHelpers/initializePod';
@@ -12,4 +13,4 @@ import registerPod from './podSignupHelpers/registerPod';
  * @namespace Signup
  */
 
-export { PodRegistrationForm, ShowNewPod, initializePod, registerPod };
+export { PodRegistrationForm, ShowNewPod, initializePod, registerPod, ExistingPodForm };

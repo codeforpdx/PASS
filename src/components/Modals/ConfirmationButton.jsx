@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 
 /**
- * ConfirmationButton Component - Component that renders the confirm/affirm/yes
+ * ConfirmationButton - Component that renders the confirm/affirm/yes
  * button on the ConfirmationModal Component
  *
  * @memberof Modals
@@ -14,7 +14,7 @@ import CheckIcon from '@mui/icons-material/Check';
  * @param {string} Props.title - text rendered in confirmationButton
  * @param {Function} Props.confirmFunction - method that runs onClick of button
  * @param {boolean} Props.processing - state used to disable button
- * @returns {React.JSX.Element} - The confirmation button
+ * @returns {React.JSX.Element} The confirmation button
  */
 const ConfirmationButton = ({ title, confirmFunction, processing }) => (
   <Button

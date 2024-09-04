@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 // Material UI Imports
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
+import Button from '@mui/material/Button';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
@@ -20,7 +21,7 @@ import { DocumentListContext } from '@contexts';
 import { useMessageList } from '@hooks';
 
 /**
- * NavMenu Component - Component that generates NavMenu section for PASS
+ * NavMenu - Component that generates NavMenu section for PASS
  *
  * @memberof NavBar
  * @name NavMenu
@@ -35,7 +36,7 @@ import { useMessageList } from '@hooks';
  * - The set function for showConfirmationModal
  * Notification Menu
  * @param {string} Props.profileImg - String for profile image
- * @returns {React.JSX.Element} - The NavMenu Component
+ * @returns {React.JSX.Element} The NavMenu Component
  */
 const NavMenu = ({
   menuId,
@@ -50,7 +51,7 @@ const NavMenu = ({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { setContact } = useContext(DocumentListContext);
   const { data } = useMessageList('Inbox');
-
+  const MenuOrDrawer = isSmallScreen ? Drawer : Menu;
   const numUnreadMessages = data?.reduce((a, m) => (!m.readStatus ? a + 1 : a), 0);
 
   const handleMenuClose = () => {
@@ -58,31 +59,58 @@ const NavMenu = ({
     setAnchorEl(null);
   };
 
+  const iconSize = {
+    height: '24px',
+    width: '24px'
+  };
+
+  const iconStyling = {
+    display: { md: 'none' },
+    color: theme.palette.primary.main,
+    width: '100%',
+    minHeight: '36px'
+  };
+
+  const MenuProps = isSmallScreen
+    ? {
+        PaperProps: {
+          sx: {
+            p: '15px 15px 0 15px',
+            borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
+          }
+        }
+      }
+    : {
+        anchorEl,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'right'
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        },
+        MenuListProps: { disablePadding: true },
+        style: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        },
+        slotProps: {
+          paper: {
+            style: {
+              marginTop: '10px'
+            }
+          }
+        }
+      };
+
   return (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right'
-      }}
+    <MenuOrDrawer
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right'
-      }}
       open={openMenu}
       onClose={handleMenuClose}
       onClick={handleMenuClose}
-      MenuListProps={{ disablePadding: true }}
-      slotProps={{
-        paper: {
-          style: {
-            marginTop: '10px'
-          }
-        }
-      }}
-      sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      {...MenuProps}
     >
       <MenuList>
         {isSmallScreen && (
@@ -93,13 +121,8 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<ContactsIcon sx={{ height: '24px', width: '24px' }} />}
-                sx={{
-                  display: { md: 'none' },
-                  color: theme.palette.primary.main,
-                  width: '100%',
-                  minHeight: '36px'
-                }}
+                startIcon={<ContactsIcon sx={iconSize} />}
+                sx={iconStyling}
               >
                 Contacts
               </MenuItem>
@@ -110,18 +133,13 @@ const NavMenu = ({
             >
               <MenuItem
                 component={Button}
-                startIcon={<AccountBoxIcon sx={{ height: '24px', width: '24px' }} />}
-                sx={{
-                  display: { md: 'none' },
-                  color: theme.palette.primary.main,
-                  width: '100%',
-                  minHeight: '36px'
-                }}
+                startIcon={<AccountBoxIcon sx={iconSize} />}
+                sx={iconStyling}
               >
                 Civic Profile
               </MenuItem>
             </Link>
-            <Divider sx={{ marginY: '5px' }} />
+            <Divider sx={{ my: '5px' }} />
           </div>
         )}
         {/* messages */}
@@ -130,15 +148,10 @@ const NavMenu = ({
             component={Button}
             startIcon={
               <Badge variant={numUnreadMessages > 0 ? 'dot' : 'standard'} color="error">
-                <EmailIcon sx={{ height: '24px', width: '24px' }} />
+                <EmailIcon sx={iconSize} />
               </Badge>
             }
-            sx={{
-              display: { md: 'none' },
-              color: theme.palette.primary.main,
-              width: '100%',
-              minHeight: '36px'
-            }}
+            sx={iconStyling}
           >
             Messages
           </MenuItem>
@@ -152,7 +165,10 @@ const NavMenu = ({
         >
           <MenuItem
             component={Button}
-            sx={{ width: '100%', minHeight: '36px' }}
+            sx={{
+              width: '100%',
+              minHeight: '36px'
+            }}
             startIcon={
               <Avatar
                 src={profileImg}
@@ -170,18 +186,18 @@ const NavMenu = ({
             Profile
           </MenuItem>
         </Link>
-        <Divider sx={{ marginY: '5px' }} />
+        <Divider sx={{ my: '5px' }} />
         {/* logout */}
         <MenuItem
           component={Button}
-          startIcon={<LogoutIcon sx={{ height: '24px', width: '24px' }} />}
+          startIcon={<LogoutIcon sx={iconSize} />}
           onClick={() => setShowConfirmation(true)}
           sx={{ color: theme.palette.error.main, width: '100%', minHeight: '36px' }}
         >
           Log Out
         </MenuItem>
       </MenuList>
-    </Menu>
+    </MenuOrDrawer>
   );
 };
 
