@@ -53,7 +53,7 @@ describe('DocumentCard Component', () => {
 
   it('displays document details correctly', () => {
     MockCardComponent({ document });
-    expect(screen.getByText('Other')).toBeInTheDocument();
+    expect(screen.getByText('Type: Other')).toBeInTheDocument();
     expect(screen.getByText('Uploaded: 8/1/2023')).toBeInTheDocument();
     expect(screen.getByText('Expires: 8/1/2024')).toBeInTheDocument();
     expect(screen.getByText('This is a test document')).toBeInTheDocument();

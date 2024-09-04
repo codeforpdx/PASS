@@ -82,7 +82,7 @@ describe('DocumentsMobile Component', () => {
 
     documents.forEach((doc) => {
       const name = screen.getByText(doc.name);
-      const types = screen.getAllByText(doc.type);
+      const types = screen.getAllByText(`Type: ${doc.type}`);
       expect(name).toBeInTheDocument();
       expect(types).toHaveLength(2);
     });
