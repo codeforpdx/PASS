@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -42,11 +42,16 @@ const Contacts = () => {
     isLoading,
     isError,
     error,
+    refetch,
     add: addContact,
     delete: deleteContact
   } = useContactsList();
   const { addNotification } = useNotification();
   const [fieldType, setFieldType] = useState('First Name');
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const getContactDisplayName = (contact) => {
     if (!contact) {
