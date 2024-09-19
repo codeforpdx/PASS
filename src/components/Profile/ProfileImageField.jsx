@@ -5,8 +5,8 @@ import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
+import IconButton from '@mui/material/IconButton';
 import ImageIcon from '@mui/icons-material/Image';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
@@ -34,6 +34,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [hover, setHover] = useState(false);
 
   const handleProfileImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
@@ -69,6 +70,15 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     setShowConfirmationModal(true);
   };
 
+  const iconButtonStyling = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: '#fff'
+  };
+
   return (
     <Box
       sx={{
@@ -80,35 +90,53 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         gap: '10px'
       }}
     >
-      <Avatar
-        src={contactProfile ? contactProfile.profileImage : profileImg}
-        alt="PASS profile"
-        sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
-      />
-      {!contactProfile &&
-        (profileImg ? (
-          <Button
-            variant="outlined"
-            color="error"
-            sx={{ width: '150px' }}
-            onClick={handleSelectRemoveProfileImg}
-            endIcon={<HideImageIcon />}
-          >
-            Remove Img
-          </Button>
-        ) : (
-          <Button
-            variant="outlined"
-            component="label"
-            color="primary"
-            onChange={handleProfileImage}
-            endIcon={<ImageIcon />}
-            sx={{ width: '150px' }}
-          >
-            Choose Img
-            <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
-          </Button>
-        ))}
+      <Box
+        position="relative"
+        display="inline-block"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Avatar
+          src={contactProfile ? contactProfile.profileImage : profileImg}
+          alt="PASS profile"
+          sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
+        />
+        {hover && (
+          <>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '50%'
+              }}
+            />
+            {contactProfile || profileImg ? (
+              <IconButton
+                sx={iconButtonStyling}
+                disableRipple
+                onClick={handleSelectRemoveProfileImg}
+              >
+                <HideImageIcon />
+              </IconButton>
+            ) : (
+              <IconButton sx={iconButtonStyling} component="label" disableRipple>
+                <ImageIcon />
+                <input
+                  type="file"
+                  hidden
+                  accept=".gif, .png, .jpeg, .jpg, .webp"
+                  onChange={handleProfileImage}
+                />
+              </IconButton>
+            )}
+          </>
+        )}
+      </Box>
+
       <ConfirmationModal
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
