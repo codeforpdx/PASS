@@ -33,7 +33,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [showAddContactModal, setShowAddContactModal] = useState(false);
-  const [contactToEdit, setContactToEdit] = useState({});
+  const [contactToEdit, setContactToEdit] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSendMessage = (contactId) => {
@@ -89,6 +89,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         handleDeleteContact={handleDeleteContact}
         contactWebIds={contactWebIds}
         contacts={contacts}
+        setContactToEdit={setContactToEdit}
       />
     </Box>
   );
