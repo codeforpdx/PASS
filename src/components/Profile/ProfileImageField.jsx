@@ -5,8 +5,8 @@ import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
-import IconButton from '@mui/material/IconButton';
 import ImageIcon from '@mui/icons-material/Image';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
@@ -19,12 +19,12 @@ import ConfirmationModal from '../Modals/ConfirmationModal';
  *
  * @memberof Profile
  * @name ProfileImageField
- * @param {object} Props - Props used for NewMessage
+ * @param {object} Props - Props used for ProfileImageField
  * @param {() => void} Props.loadProfileData - Handler function for setting local
  * state for profile card in PASS
  * @param {object} [Props.contactProfile] - Contact object with data from profile
  * or null if user profile is selected
- * @returns {React.JSX.Element} React component for NewMessage
+ * @returns {React.JSX.Element} React component for ProfileImageField
  */
 const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const { addNotification } = useNotification();
@@ -72,9 +72,16 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
 
   const iconButtonStyling = {
     position: 'absolute',
+    width: '100%',
+    height: '100%',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    borderRadius: '50%',
+    opacity: 0.8,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     color: '#fff'
   };
@@ -86,8 +93,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '20px',
-        gap: '10px'
+        padding: '20px'
       }}
     >
       <Box
@@ -99,7 +105,10 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         <Avatar
           src={contactProfile ? contactProfile.profileImage : profileImg}
           alt="PASS profile"
-          sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
+          sx={{
+            height: '100px',
+            width: '100px'
+          }}
         />
         {hover && (
           <>
@@ -115,23 +124,36 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
               }}
             />
             {contactProfile || profileImg ? (
-              <IconButton
-                sx={iconButtonStyling}
-                disableRipple
+              <Button
+                data-testid="deleteProfilePictureIcon"
+                aria-label="delete-profile-picture"
+                color="content"
+                component="label"
+                variant="contained"
+                startIcon={<HideImageIcon />}
                 onClick={handleSelectRemoveProfileImg}
+                sx={iconButtonStyling}
               >
-                <HideImageIcon />
-              </IconButton>
+                Delete
+              </Button>
             ) : (
-              <IconButton sx={iconButtonStyling} component="label" disableRipple>
-                <ImageIcon />
+              <Button
+                data-testid="uploadProfilePictureIcon"
+                aria-label="upload-profile-picture"
+                color="content"
+                component="label"
+                variant="contained"
+                startIcon={<ImageIcon />}
+                sx={iconButtonStyling}
+              >
+                Upload
                 <input
                   type="file"
                   hidden
                   accept=".gif, .png, .jpeg, .jpg, .webp"
                   onChange={handleProfileImage}
                 />
-              </IconButton>
+              </Button>
             )}
           </>
         )}
