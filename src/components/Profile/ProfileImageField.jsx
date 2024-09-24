@@ -103,7 +103,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         onMouseLeave={() => setHover(false)}
       >
         <Avatar
-          src={contactProfile ? contactProfile.profileImage : profileImg}
+          src={contactProfile?.profileImage || profileImg || ''}
           alt="PASS profile"
           sx={{
             height: '100px',
