@@ -73,6 +73,7 @@ describe('Contacts Page', () => {
     const contacts = getByRole('grid');
     expect(contacts).not.toBeNull();
   });
+  
   it('displays empty list message when there are no contacts', () => {
     useContactsList.mockReturnValue({ data: [], refetch: vi.fn() });
     const { getByLabelText } = render(
