@@ -37,8 +37,10 @@ const Contacts = () => {
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
   const [deleteViaEdit, setDeleteViaEdit] = useState(false);
+  const [sortValue, setSortValue] = useState('Sort by:');
+  const [sortedData, setSortedData] = useState([]);
   const {
-    data,
+    data = [],
     isLoading,
     isError,
     error,
@@ -47,11 +49,41 @@ const Contacts = () => {
     delete: deleteContact
   } = useContactsList();
   const { addNotification } = useNotification();
-  const [fieldType, setFieldType] = useState('First Name');
+
+  const sortData = (value) => {
+    const sorted = [...data].sort((a, b) => {
+      if (value === 'Default') {
+        return data;
+      }
+      if (value === 'First Name') {
+        return a.givenName.localeCompare(b.givenName);
+      }
+      if (value === 'Last Name') {
+        return a.familyName.localeCompare(b.familyName);
+      }
+      if (value === 'Web ID') {
+        return a.webId.localeCompare(b.webId);
+      }
+      return 0;
+    });
+    setSortedData(sorted);
+  };
+
+  const handleSortChange = (event) => {
+    const { value } = event.target;
+    setSortValue(value);
+    sortData(value);
+  };
 
   useEffect(() => {
     refetch();
   }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setSortedData(data);
+    }
+  }, [data]);
 
   const getContactDisplayName = (contact) => {
     if (!contact) {
@@ -104,14 +136,13 @@ const Contacts = () => {
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* TODO: Make sorting options functional */}
           {isSmallScreen && (
             <FormControl sx={{ minWidth: 120 }} size="small">
               <Select
                 id="contact-select-field-small"
-                value={fieldType}
                 defaultValue="First Name"
-                onChange={(e) => setFieldType(e.target.value)}
+                value={sortValue}
+                onChange={handleSortChange}
                 sx={{
                   borderRadius: '8px',
                   color: 'primary.main',
@@ -127,6 +158,11 @@ const Contacts = () => {
                 }}
                 IconComponent={KeyboardArrowDownIcon}
               >
+                {' '}
+                <MenuItem value="Sort by:" disabled>
+                  Sort by:
+                </MenuItem>
+                <MenuItem value="Default">Default</MenuItem>
                 <MenuItem value="First Name">First Name</MenuItem>
                 <MenuItem value="Last Name">Last Name</MenuItem>
                 <MenuItem value="Web ID">Web ID</MenuItem>
@@ -145,7 +181,7 @@ const Contacts = () => {
         </Box>
         {data.length > 0 ? (
           <ContactListTable
-            contacts={data}
+            contacts={isSmallScreen ? sortedData : data}
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
             handleDeleteContact={handleDeleteContact}
             addContact={addContact}
