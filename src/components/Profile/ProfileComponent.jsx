@@ -6,6 +6,7 @@ import { useNotification, useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -164,7 +165,7 @@ const ProfileComponent = ({ contactProfile, webId }) => {
                   );
                 }}
               >
-                <ContentCopyIcon />
+                <FolderSharedIcon />
               </IconButton>
             </Typography>
           </Box>

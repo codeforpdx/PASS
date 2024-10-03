@@ -76,7 +76,7 @@ const NavbarMobile = ({ setShowConfirmation }) => {
           >
             <MenuIcon />
           </IconButton>
-          {/* notifications menu */}
+          {/* Notifications menu */}
           <Menu
             id="menu-appbar-notifications"
             anchorEl={anchorElNotifications}

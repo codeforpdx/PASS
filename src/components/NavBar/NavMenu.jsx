@@ -10,6 +10,7 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import EmailIcon from '@mui/icons-material/Email';
+import FolderIcon from '@mui/icons-material/Folder';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -124,7 +125,19 @@ const NavMenu = ({
                 startIcon={<ContactsIcon sx={iconSize} />}
                 sx={iconStyling}
               >
-                Contacts
+                My Contacts
+              </MenuItem>
+            </Link>
+            <Link
+              to="/documents"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              <MenuItem
+                component={Button}
+                startIcon={<FolderIcon sx={iconSize} />}
+                sx={iconStyling}
+              >
+                My Documents
               </MenuItem>
             </Link>
             <Link
