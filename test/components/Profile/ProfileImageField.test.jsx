@@ -1,6 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { ProfileImageField } from '../../../src/components/Profile';
 import '@testing-library/jest-dom/extend-expect';
@@ -24,6 +23,7 @@ describe('ProfileImageField', () => {
 
   it('renders image if contactProfile is null but user has profile image', () => {
     const { queryByRole, queryByTestId } = render(
+      // <ThemeProvider theme={theme}>
       <MockProfileComponent mockContactProfile={null} />
     );
 
@@ -35,17 +35,13 @@ describe('ProfileImageField', () => {
   });
 
   it('renders upload profile picture icon when user hovers over avatar with no profile image', async () => {
-    const mockContactProfile = { profileImage: '' };
-    render(<MockProfileComponent noUserImage mockContactProfile={mockContactProfile} />);
+    render(<MockProfileComponent noUserImage mockContactProfile={{}} />);
 
     const avatar = screen.getByAltText('PASS profile');
     expect(screen.queryByTestId('uploadProfilePictureIcon')).toBeNull();
 
-    userEvent.hover(avatar);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('uploadProfilePictureIcon')).not.toBeNull();
-    });
+    fireEvent.mouseEnter(avatar);
+    expect(screen.getByTestId('uploadProfilePictureIcon')).not.toBeNull();
   });
 
   it('renders deleteProfilePictureIcon when user hovers over avatar with profile image uploaded', () => {
@@ -59,4 +55,3 @@ describe('ProfileImageField', () => {
     expect(screen.getByTestId('deleteProfilePictureIcon')).not.toBeNull();
   });
 });
-

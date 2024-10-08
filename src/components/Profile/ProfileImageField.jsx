@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
+import { useTheme } from '@mui/material/styles';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -35,6 +36,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [hover, setHover] = useState(false);
+  const theme = useTheme();
 
   const handleProfileImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
@@ -76,14 +78,16 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     height: '100%',
     top: '50%',
     left: '50%',
+    opacity: 0.8,
     transform: 'translate(-50%, -50%)',
     borderRadius: '50%',
-    opacity: 0.8,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    color: '#fff'
+    cursor: 'pointer',
+    border: 'none',
+    color: '#FFFFFF',
+    backgroundColor: theme.palette.content,
+    '&:hover': {
+      backgroundColor: theme.palette.content
+    }
   };
 
   return (
@@ -127,7 +131,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
               <Button
                 data-testid="deleteProfilePictureIcon"
                 aria-label="delete-profile-picture"
-                color="content"
+                // color={theme.palette.secondary.main}
                 component="label"
                 variant="contained"
                 startIcon={<HideImageIcon />}
@@ -140,7 +144,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
               <Button
                 data-testid="uploadProfilePictureIcon"
                 aria-label="upload-profile-picture"
-                color="content"
+                // color="content"
                 component="label"
                 variant="contained"
                 startIcon={<ImageIcon />}
