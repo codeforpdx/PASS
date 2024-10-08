@@ -4,26 +4,26 @@ import { useLocation } from 'react-router-dom';
 // Custom Hooks Imports
 import { useNotification } from '@hooks';
 // Material UI Imports
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
-import { ConfirmationModal, UploadDocumentModal, SetAclPermissionsModal } from '@components/Modals';
+import { ConfirmationModal, SetAclPermissionsModal, UploadDocumentModal } from '@components/Modals';
 import { DocumentTable } from '@components/Documents';
 import { LoadingAnimation } from '@components/Notification';
 // Util Imports
 import { truncateText } from '@utils';
-// Model Helpers
-// import { fetchProfileInfo } from '../model-helpers';
 
 /**
- * Documents Page - Page that displays the user's document information and
+ * Documents Page - Page that displays the user's documents and
  * allow users to edit/update them on PASS
  *
  * @memberof Pages
@@ -49,6 +49,7 @@ const Documents = () => {
   const [selectedDocToDelete, setSelectedDocToDelete] = useState(null);
   const [showAddDocModal, setShowAddDocModal] = useState(false);
   const [showAclPermissionModal, setShowAclPermissionModal] = useState(false);
+  const [loadingDocuments, setLoadingDocuments] = useState(true);
   const [dataset, setDataset] = useState({
     modalType: '',
     docName: '',
@@ -74,9 +75,8 @@ const Documents = () => {
     }
   };
 
-  // Documents related states
+  // Contacts related states
   const contact = location.state?.contact;
-  const [loadingDocuments, setLoadingDocuments] = useState(true);
 
   // Handler for the SetAclPermissions Modal that
   // sets the appropriate version of the modal to load,
@@ -94,7 +94,7 @@ const Documents = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoadingDocuments(false);
-    }, 1000);
+    }, 500);
   }, []);
 
   const truncatedText = selectedDocToDelete?.name ? truncateText(selectedDocToDelete.name) : '';
@@ -116,52 +116,49 @@ const Documents = () => {
         width: '100%'
       }}
     >
-      <Box
+      <Card
         sx={{
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
           boxSizing: 'border-box',
-          width: isSmallScreen ? '100%' : 'auto'
+          width: isSmallScreen ? '100%' : 'auto',
+          padding: '20px'
         }}
       >
         <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
           My Documents
         </Typography>
-
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            flexDirection: 'row',
-            paddingLeft: '0px'
-          }}
-        >
-          {!contact && (
+        <Stack direction="row" spacing={2}>
+          <>
             <Button
               variant="outlined"
               color="primary"
               size="small"
               onClick={() => handleAclPermissionsModal('container')}
               sx={{
-                width: isSmallScreen ? '165px' : '200px',
+                // width: isSmallScreen ? '165px' : '200px',
                 borderColor: 'primary.main',
                 padding: '6px 12px'
               }}
+              disabled={contact}
             >
               Share Documents
             </Button>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
-          >
-            Add Document
-          </Button>
-        </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => setShowAddDocModal(true)}
+              sx={{
+                // width: isSmallScreen ? '140px' : '180px',
+                padding: '6px 12px'
+              }}
+            >
+              Add Document
+            </Button>
+          </>
+        </Stack>
         <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
         <SetAclPermissionsModal
           showModal={showAclPermissionModal}
@@ -177,7 +174,7 @@ const Documents = () => {
           confirmButtonText="Delete"
           processing={processing}
         />
-      </Box>
+      </Card>
       <DocumentTable
         handleAclPermissionsModal={handleAclPermissionsModal}
         handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}

@@ -16,9 +16,9 @@ import { SignedInUserContext } from '@contexts';
 // Util Imports
 import { saveToClipboard } from '@utils';
 // Component Inputs
-import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 import ProfileImageField from './ProfileImageField';
+import ProfileInputField from './ProfileInputField';
 
 /**
  * UserProfile - Component is a component that renders the user's profile on

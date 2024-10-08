@@ -48,6 +48,8 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
+    // TODO: Consider making this a Select component instead
+    // That way it's clearer to the user they can select from multiple options
     <Box
       sx={{
         display: 'flex',
@@ -64,6 +66,7 @@ const OidcLoginComponent = ({ setShowSignInModal }) => {
           marginBottom: isSmallScreen && dropdownIsOpen ? '150px' : '0'
         }}
         fullWidth={isSmallScreen}
+        // TODO: Remove quotation marks from beginning and end of options provided
         options={SUGGESTED_OIDC_OPTIONS}
         size="small"
         freeSolo

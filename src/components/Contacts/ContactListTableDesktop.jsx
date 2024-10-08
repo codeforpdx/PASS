@@ -4,7 +4,6 @@ import React from 'react';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlined from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
-import { useTheme } from '@mui/material/styles';
 import {
   DataGrid,
   GridToolbarContainer,
@@ -14,7 +13,20 @@ import {
 } from '@mui/x-data-grid';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
+// Theme Imports
+import theme from '../../theme';
 
+const MUIDataGridStyling = {
+  '.MuiDataGrid-columnHeader': {
+    background: theme.palette.primary.main,
+    color: 'white'
+  },
+  '.MuiDataGrid-columnSeparator': {
+    display: 'none'
+  }
+};
+
+// Custom toolbar for the DataGrid
 const CustomToolbar = () => (
   <GridToolbarContainer>
     <GridToolbarFilterButton />
@@ -49,7 +61,7 @@ const ContactListTableDesktop = ({
   handleSendMessage,
   'data-testid': dataTestId
 }) => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const columnTitlesArray = [
     {
@@ -79,7 +91,8 @@ const ContactListTableDesktop = ({
       renderCell: (contactData) => <ContactProfileIcon contact={contactData} />,
       sortable: false,
       filterable: false,
-      width: 80,
+      minWidth: 80,
+      maxWidth: 80,
       headerAlign: 'center',
       align: 'center'
     },
@@ -93,7 +106,8 @@ const ContactListTableDesktop = ({
       ),
       sortable: false,
       filterable: false,
-      width: 80,
+      minWidth: 80,
+      maxWidth: 80,
       headerAlign: 'center',
       align: 'center'
     },
@@ -107,7 +121,8 @@ const ContactListTableDesktop = ({
       ),
       sortable: false,
       filterable: false,
-      width: 80,
+      minWidth: 80,
+      maxWidth: 80,
       headerAlign: 'center',
       align: 'center'
     },
@@ -115,7 +130,8 @@ const ContactListTableDesktop = ({
       field: 'actions',
       type: 'actions',
       headerName: 'Delete',
-      width: 80,
+      minWidth: 80,
+      maxWidth: 80,
       getActions: (contactData) => [
         <GridActionsCellItem
           icon={<DeleteOutlineOutlinedIcon />}
@@ -142,15 +158,7 @@ const ContactListTableDesktop = ({
       slots={{
         toolbar: CustomToolbar
       }}
-      sx={{
-        '.MuiDataGrid-columnHeader': {
-          background: theme.palette.primary.light,
-          color: '#fff'
-        },
-        '.MuiDataGrid-columnSeparator': {
-          display: 'none'
-        }
-      }}
+      sx={MUIDataGridStyling}
       pageSizeOptions={[10]}
       initialState={{
         pagination: {

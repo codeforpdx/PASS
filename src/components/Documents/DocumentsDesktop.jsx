@@ -18,7 +18,7 @@ import theme from '../../theme';
 
 const MUIDataGridStyling = {
   '.MuiDataGrid-columnHeader': {
-    background: theme.palette.primary.light,
+    background: theme.palette.primary.main,
     color: 'white'
   },
   '.MuiDataGrid-columnSeparator': {
@@ -73,7 +73,8 @@ const DocumentsDesktop = ({ documents, handlers }) => {
     { field: 'Expiration Date', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
     {
       field: 'Preview',
-      minWidth: 100,
+      minWidth: 80,
+      maxWidth: 80,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -94,7 +95,8 @@ const DocumentsDesktop = ({ documents, handlers }) => {
     },
     {
       field: 'Share',
-      minWidth: 100,
+      minWidth: 80,
+      maxWidth: 80,
       flex: 1,
       headerAlign: 'center',
       align: 'center',
@@ -115,7 +117,8 @@ const DocumentsDesktop = ({ documents, handlers }) => {
     },
     {
       field: 'Delete',
-      minWidth: 100,
+      minWidth: 80,
+      maxWidth: 80,
       flex: 1,
       headerAlign: 'center',
       align: 'center',

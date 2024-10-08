@@ -36,4 +36,3 @@ describe('Profile Page', () => {
     expect(heading).toHaveAccessibleName('My Profile');
   });
 });
-

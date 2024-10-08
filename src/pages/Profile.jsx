@@ -5,21 +5,20 @@ import { useLocation } from 'react-router-dom';
 import { useSession } from '@hooks';
 // Material UI Imports
 import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // Component Imports
-import { ProfileComponent } from '@components/Profile';
 import { LoadingAnimation } from '@components/Notification';
+import { ProfileComponent } from '@components/Profile';
 // Model Helpers
 import { fetchProfileInfo } from '../model-helpers';
 
 /**
  * Profile Page - Page that displays the user's profile card information and
- * allow users to edit/update them on PASS
+ * allow users to edit/update it on PASS
  *
  * @memberof Pages
  * @name Profile
@@ -82,6 +81,7 @@ const Profile = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%'
+        // minHeight: '400px'
       }}
     >
       <Box
@@ -90,7 +90,8 @@ const Profile = () => {
           flexDirection: 'column',
           gap: '20px',
           boxSizing: 'border-box',
-          width: isSmallScreen ? '100%' : 'auto'
+          width: isSmallScreen ? '100%' : 'auto',
+          pb: '50px'
         }}
       >
         <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>

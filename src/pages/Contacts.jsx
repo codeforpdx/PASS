@@ -1,13 +1,15 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 // Material UI Imports
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
-import FormControl from '@mui/material/FormControl';
+// import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/system';
@@ -52,9 +54,6 @@ const Contacts = () => {
 
   const sortData = (value) => {
     const sorted = [...data].sort((a, b) => {
-      if (value === 'Default') {
-        return data;
-      }
       if (value === 'First Name') {
         return a.givenName.localeCompare(b.givenName);
       }
@@ -134,17 +133,29 @@ const Contacts = () => {
         width: '100%'
       }}
     >
-      <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {isSmallScreen && (
-            <FormControl sx={{ minWidth: 120 }} size="small">
+      <Card
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxSizing: 'border-box',
+          width: isSmallScreen ? '100%' : 'auto',
+          padding: '20px'
+        }}
+      >
+        <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+          My Contacts
+        </Typography>
+        <Stack direction="row" spacing={2}>
+          <>
+            {isSmallScreen && (
               <Select
                 id="contact-select-field-small"
                 defaultValue="First Name"
                 value={sortValue}
                 onChange={handleSortChange}
                 sx={{
-                  borderRadius: '8px',
+                  borderRadius: '25px',
                   color: 'primary.main',
                   '.MuiOutlinedInput-notchedOutline': {
                     borderColor: 'primary.main'
@@ -157,54 +168,58 @@ const Contacts = () => {
                   }
                 }}
                 IconComponent={KeyboardArrowDownIcon}
+                size="small"
               >
-                {' '}
                 <MenuItem value="Sort by:" disabled>
                   Sort by:
                 </MenuItem>
-                <MenuItem value="Default">Default</MenuItem>
                 <MenuItem value="First Name">First Name</MenuItem>
                 <MenuItem value="Last Name">Last Name</MenuItem>
                 <MenuItem value="Web ID">Web ID</MenuItem>
               </Select>
-            </FormControl>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => setShowAddContactModal(true)}
-            sx={{ fontWeight: 500, padding: '10px 36px' }}
-          >
-            Add Contact
-          </Button>
-        </Box>
-        {data.length > 0 ? (
-          <ContactListTable
-            contacts={isSmallScreen ? sortedData : data}
-            deleteContact={(contact) => handleSelectDeleteContact(contact)}
-            handleDeleteContact={handleDeleteContact}
-            addContact={addContact}
-          />
-        ) : (
-          <EmptyListNotification type="Contacts" />
-        )}
-      </Box>
-
-      <AddContactModal
-        showAddContactModal={showAddContactModal}
-        setShowAddContactModal={setShowAddContactModal}
-        addContact={addContact}
-      />
-      <ConfirmationModal
-        showModal={showConfirmationModal}
-        setShowModal={setShowConfirmationModal}
-        title="Delete Contact"
-        text={`Are you sure you want to delete "${truncatedText}" from your contact list?`}
-        onConfirm={handleDeleteContact}
-        confirmButtonText="Delete"
-        processing={processing}
-      />
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => setShowAddContactModal(true)}
+              sx={{
+                // fontWeight: 500,
+                // padding: '10px 36px'
+                // width: isSmallScreen ? '165px' : '200px',
+                borderColor: 'primary.main',
+                padding: '6px 12px'
+              }}
+            >
+              Add Contact
+            </Button>
+          </>
+        </Stack>
+        <AddContactModal
+          showAddContactModal={showAddContactModal}
+          setShowAddContactModal={setShowAddContactModal}
+          addContact={addContact}
+        />
+        <ConfirmationModal
+          showModal={showConfirmationModal}
+          setShowModal={setShowConfirmationModal}
+          title="Delete Contact"
+          text={`Are you sure you want to delete "${truncatedText}" from your contact list?`}
+          onConfirm={handleDeleteContact}
+          confirmButtonText="Delete"
+          processing={processing}
+        />
+      </Card>
+      {data.length > 0 ? (
+        <ContactListTable
+          contacts={isSmallScreen ? sortedData : data}
+          deleteContact={(contact) => handleSelectDeleteContact(contact)}
+          handleDeleteContact={handleDeleteContact}
+          addContact={addContact}
+        />
+      ) : (
+        <EmptyListNotification type="Contacts" />
+      )}
     </Container>
   );
 };

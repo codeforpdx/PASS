@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 /**
- * EmptyListNotification Component - Component
+ * EmptyListNotification - Component
  * that displays a message to the user letting
  * them know their data list is empty, and thus
  * nothing is being rendered.

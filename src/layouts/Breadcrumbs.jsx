@@ -38,6 +38,7 @@ const Breadcrumbs = () => {
       separator={<NavigateNextIcon fontSize="small" />}
       sx={{ margin: { xs: '20px', sm: '20px 80px' } }}
     >
+      {/* TODO: Breadcrumb should not display if there is only one */}
       {crumbs.map((crumb, index) =>
         index !== crumbs.length - 1 ? (
           <Link
