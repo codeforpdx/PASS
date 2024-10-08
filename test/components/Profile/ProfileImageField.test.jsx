@@ -23,7 +23,6 @@ describe('ProfileImageField', () => {
 
   it('renders image if contactProfile is null but user has profile image', () => {
     const { queryByRole, queryByTestId } = render(
-      // <ThemeProvider theme={theme}>
       <MockProfileComponent mockContactProfile={null} />
     );
 
