@@ -57,3 +57,5 @@ describe('ProfileImageField', () => {
     expect(screen.getByTestId('deleteProfilePictureIcon')).not.toBeNull();
   });
 });
+
+

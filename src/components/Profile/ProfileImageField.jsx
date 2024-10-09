@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import HideImageIcon from '@mui/icons-material/HideImage';
 import ImageIcon from '@mui/icons-material/Image';
-import { useTheme } from '@mui/material/styles';
 // Contexts Imports
 import { SignedInUserContext } from '@contexts';
 // Component Imports
@@ -36,7 +35,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [hover, setHover] = useState(false);
-  const theme = useTheme();
 
   const handleProfileImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
@@ -84,9 +82,9 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     cursor: 'pointer',
     border: 'none',
     color: '#FFFFFF',
-    backgroundColor: theme.palette.content,
+    backgroundColor: '#545454',
     '&:hover': {
-      backgroundColor: theme.palette.content
+      backgroundColor: '#545454'
     }
   };
 
@@ -131,7 +129,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
               <Button
                 data-testid="deleteProfilePictureIcon"
                 aria-label="delete-profile-picture"
-                // color={theme.palette.secondary.main}
                 component="label"
                 variant="contained"
                 startIcon={<HideImageIcon />}
@@ -144,7 +141,6 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
               <Button
                 data-testid="uploadProfilePictureIcon"
                 aria-label="upload-profile-picture"
-                // color="content"
                 component="label"
                 variant="contained"
                 startIcon={<ImageIcon />}
