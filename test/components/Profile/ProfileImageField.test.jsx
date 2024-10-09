@@ -5,7 +5,9 @@ import { ProfileImageField } from '../../../src/components/Profile';
 import '@testing-library/jest-dom/extend-expect';
 
 const MockProfileComponent = ({ noUserImage, mockContactProfile }) => {
-  if (!noUserImage) {
+  if (noUserImage) {
+    localStorage.removeItem('profileImage');
+  } else {
     localStorage.setItem('profileImage', 'https://example.com/user.png');
   }
   return <ProfileImageField contactProfile={mockContactProfile} />;
@@ -34,9 +36,10 @@ describe('ProfileImageField', () => {
   });
 
   it('renders upload profile picture icon when user hovers over avatar with no profile image', async () => {
-    render(<MockProfileComponent noUserImage mockContactProfile={{}} />);
+    render(<MockProfileComponent noUserImage mockContactProfile={null} />);
 
-    const avatar = screen.getByAltText('PASS profile');
+    const avatar = screen.queryByTestId('PersonIcon');
+    expect(avatar).not.toBeNull();
     expect(screen.queryByTestId('uploadProfilePictureIcon')).toBeNull();
 
     fireEvent.mouseEnter(avatar);
