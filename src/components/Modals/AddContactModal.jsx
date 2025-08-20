@@ -158,6 +158,20 @@ const AddContactModal = ({
     setOIDC(e.target.value);
   };
 
+  const getUserFriendlyError = (e) => {
+    if (e.status === 404 || (typeof e.message === 'string' && e.message.includes('404'))) {
+      return 'The contact could not be found in the pod. Please ensure the username is correct and registered with this pod.';
+    }
+    if (e.status === 401 || (typeof e.message === 'string' && e.message.includes('401'))) {
+      return 'You are not authorized to add this contact. Please check your permissions.';
+    }
+    if (typeof e.message === 'string' && e.message.toLowerCase().includes('network')) {
+      return 'Network error: Unable to reach the pod. Please check your connection and try again.';
+    }
+
+    return 'An unexpected error occurred while adding the contact. Please try again or contact support.';
+  };
+
   const handleAddContact = async (event) => {
     event.preventDefault();
     setProcessing(true);
@@ -207,8 +221,8 @@ const AddContactModal = ({
       setShowAddContactModal(false);
       clearInputFields();
     } catch (e) {
-      const errorMessage = e ? e.message : 'Unknown error occurred';
-      addNotification('error', `Add contact failed. Reason: ${errorMessage}`);
+      const errorMessage = getUserFriendlyError(e);
+      addNotification('error', `${errorMessage}`);
       setInvalidWebId(true);
     } finally {
       setProcessing(false);
