@@ -159,13 +159,18 @@ const AddContactModal = ({
   };
 
   const getUserFriendlyError = (e) => {
-    if (e.status === 404 || (typeof e.message === 'string' && e.message.includes('404'))) {
+    const status = e?.status || e?.response?.status;
+    const message = typeof e?.message === 'string' ? e.message : '';
+
+    console.error('Add contact error:', status, message, e);
+
+    if (status === 404 || message.includes('404')) {
       return 'The contact could not be found in the pod. Please ensure the username is correct and registered with this pod.';
     }
-    if (e.status === 401 || (typeof e.message === 'string' && e.message.includes('401'))) {
+    if (status === 401 || status === 403 || message.includes('401') || message.includes('403')) {
       return 'You are not authorized to add this contact. Please check your permissions.';
     }
-    if (typeof e.message === 'string' && e.message.toLowerCase().includes('network')) {
+    if (message.toLowerCase().includes('network')) {
       return 'Network error: Unable to reach the pod. Please check your connection and try again.';
     }
 
