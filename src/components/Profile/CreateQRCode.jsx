@@ -71,7 +71,13 @@ const CreateQRCode = ({ webId }) => {
             </Stack>
           </DialogContent>
           <DialogActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={closeModal} variant="contained">
+            <Button
+              onClick={closeModal}
+              variant="contained"
+              sx={{
+                width: { xs: '90%', sm: '75%' }
+              }}
+            >
               Close
             </Button>
           </DialogActions>
