@@ -36,12 +36,18 @@ jobs:
         with:
           path: './dist'
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./dist
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    steps: 
+    steps:
       - name: Code Checkout
         uses: actions/checkout@v3
       - name: Setup Node.js
@@ -61,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    steps: 
+    steps:
       - name: Code Checkout
         uses: actions/checkout@v3
       - name: Setup Node.js
