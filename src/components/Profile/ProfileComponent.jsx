@@ -18,6 +18,7 @@ import { saveToClipboard } from '@utils';
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 import ProfileImageField from './ProfileImageField';
+import CreateQRCode from './CreateQRCode';
 
 /**
  * UserProfile - Component is a component that renders the user's profile on
@@ -135,15 +136,18 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             inputName="WebId"
             inputValue={webId}
             endAdornment={
-              <IconButton
-                aria-label="Copy WebId"
-                edge="end"
-                onClick={() => {
-                  saveToClipboard(webId, 'webId copied to clipboard', addNotification);
-                }}
-              >
-                <ContentCopyIcon />
-              </IconButton>
+              <>
+                <IconButton
+                  aria-label="Copy WebId"
+                  edge="end"
+                  onClick={() => {
+                    saveToClipboard(webId, 'webId copied to clipboard', addNotification);
+                  }}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+                <CreateQRCode webId={webId} />
+              </>
             }
           />
         </Box>
