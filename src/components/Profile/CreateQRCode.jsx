@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import QRCode from 'react-qr-code';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-// import Box from '@mui/material/Box';
-// import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-// import useMediaQuery from '@mui/material/useMediaQuery';
-// import { useTheme } from '@mui/material/styles';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Stack,
+  Typography
+} from '@mui/material';
 
 /**
  *
  * @param root0
  * @param root0.webId
  */
+
 const CreateQRCode = ({ webId }) => {
-  console.log('WebId: ', webId);
   const [qrIconClicked, setQrIconClicked] = useState(false);
+  const [docUrl, setDocUrl] = useState(null);
 
   const createQrCode = () => {
     setQrIconClicked(!qrIconClicked);
+    const trimmedWebId = webId && webId.includes('#') ? webId.split('#')[0] : webId;
+    setDocUrl(trimmedWebId);
+  };
+
+  const closeModal = () => {
+    setQrIconClicked(false);
   };
 
   return (
@@ -31,14 +42,40 @@ const CreateQRCode = ({ webId }) => {
     >
       <QrCode2Icon />
       {qrIconClicked ? (
-        <div style={{ height: 'auto', margin: '0 auto', maxWidth: 64, width: '100%' }}>
-          <QRCode
-            size={256}
-            style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-            value={webId}
-            viewBox="0 0 256 256"
-          />
-        </div>
+        <Dialog
+          open={qrIconClicked}
+          onClose={closeModal}
+          aria-labelledby="qr-modal-title"
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle id="qr-modal-title" sx={{ textAlign: 'center' }}>
+            Share your WebID
+          </DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} alignItems="center" sx={{ py: 1 }}>
+              <div style={{ background: '#fff' }}>
+                <div style={{ width: 256 }}>
+                  <QRCode
+                    value={docUrl || ''}
+                    size={256}
+                    style={{ width: '100%', height: 'auto' }}
+                    viewBox="0 0 256 256"
+                    level="M"
+                  />
+                </div>
+              </div>
+              <Typography variant="body2" sx={{ wordBreak: 'break-all', textAlign: 'center' }}>
+                {docUrl}
+              </Typography>
+            </Stack>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={closeModal} variant="contained">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       ) : (
         ''
       )}
