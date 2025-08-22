@@ -136,42 +136,44 @@ const ProfileComponent = ({ contactProfile, webId }) => {
             inputName="WebId"
             inputValue={webId}
             endAdornment={
-              <>
-                <IconButton
-                  aria-label="Copy WebId"
-                  edge="end"
-                  onClick={() => {
-                    saveToClipboard(webId, 'webId copied to clipboard', addNotification);
-                  }}
-                >
-                  <ContentCopyIcon />
-                </IconButton>
-                <CreateQRCode webId={webId} />
-              </>
-            }
-          />
-        </Box>
-        {!contactProfile && (
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
-            <Typography sx={{ marginTop: '8px' }}>
-              <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
-                Your Invite Link
-              </Link>
               <IconButton
-                aria-label="Copy Invite Link"
+                aria-label="Copy WebId"
                 edge="end"
                 onClick={() => {
-                  saveToClipboard(
-                    `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
-                    'Invite link copied to clipboard',
-                    addNotification
-                  );
+                  saveToClipboard(webId, 'webId copied to clipboard', addNotification);
                 }}
               >
                 <ContentCopyIcon />
               </IconButton>
-            </Typography>
-          </Box>
+            }
+          />
+        </Box>
+        {!contactProfile && (
+          <>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
+              <Typography sx={{ marginTop: '8px' }}>
+                <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
+                  Your Invite Link
+                </Link>
+                <IconButton
+                  aria-label="Copy Invite Link"
+                  edge="end"
+                  onClick={() => {
+                    saveToClipboard(
+                      `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
+                      'Invite link copied to clipboard',
+                      addNotification
+                    );
+                  }}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+              </Typography>
+            </Box>
+            <Box sx={{ alignSelf: 'end' }}>
+              <CreateQRCode webId={webId} />
+            </Box>
+          </>
         )}
       </form>
     </Box>

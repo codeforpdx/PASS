@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import QRCode from 'react-qr-code';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import IconButton from '@mui/material/IconButton';
 import {
   Dialog,
   DialogTitle,
@@ -33,14 +32,16 @@ const CreateQRCode = ({ webId }) => {
   };
 
   return (
-    <IconButton
-      aria-label="Create QR Code"
-      edge="end"
-      onClick={() => {
-        createQrCode();
-      }}
-    >
-      <QrCode2Icon />
+    <>
+      <Button
+        variant="outlined"
+        startIcon={<QrCode2Icon />}
+        onClick={() => {
+          createQrCode();
+        }}
+      >
+        Show QR Code
+      </Button>
       {qrIconClicked ? (
         <Dialog
           open={qrIconClicked}
@@ -85,7 +86,7 @@ const CreateQRCode = ({ webId }) => {
       ) : (
         ''
       )}
-    </IconButton>
+    </>
   );
 };
 
