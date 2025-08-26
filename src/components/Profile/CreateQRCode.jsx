@@ -13,8 +13,11 @@ import {
 
 /**
  *
- * @param root0
- * @param root0.webId
+ * @memberof Profile
+ * @name CreateQRCode
+ * @param {object} Props - React props
+ * @param {string} [Props.webId] - The webId of the user's profile
+ * @returns {React.JSX.Element} The CreateQRCode Modal
  */
 
 const CreateQRCode = ({ webId }) => {
