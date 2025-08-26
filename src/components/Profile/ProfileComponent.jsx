@@ -18,6 +18,7 @@ import { saveToClipboard } from '@utils';
 import ProfileInputField from './ProfileInputField';
 import ProfileEditButtonGroup from './ProfileEditButtonGroup';
 import ProfileImageField from './ProfileImageField';
+import CreateQRCode from './CreateQRCode';
 
 /**
  * UserProfile - Component is a component that renders the user's profile on
@@ -148,26 +149,31 @@ const ProfileComponent = ({ contactProfile, webId }) => {
           />
         </Box>
         {!contactProfile && (
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
-            <Typography sx={{ marginTop: '8px' }}>
-              <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
-                Your Invite Link
-              </Link>
-              <IconButton
-                aria-label="Copy Invite Link"
-                edge="end"
-                onClick={() => {
-                  saveToClipboard(
-                    `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
-                    'Invite link copied to clipboard',
-                    addNotification
-                  );
-                }}
-              >
-                <ContentCopyIcon />
-              </IconButton>
-            </Typography>
-          </Box>
+          <>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', alignSelf: 'end' }}>
+              <Typography sx={{ marginTop: '8px' }}>
+                <Link to={`${signupLink}?webId=${encodeURIComponent(session.info.webId)}`}>
+                  Your Invite Link
+                </Link>
+                <IconButton
+                  aria-label="Copy Invite Link"
+                  edge="end"
+                  onClick={() => {
+                    saveToClipboard(
+                      `${signupLink}?webId=${encodeURIComponent(session.info.webId)}`,
+                      'Invite link copied to clipboard',
+                      addNotification
+                    );
+                  }}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+              </Typography>
+            </Box>
+            <Box sx={{ alignSelf: 'end' }}>
+              <CreateQRCode webId={webId} />
+            </Box>
+          </>
         )}
       </form>
     </Box>
