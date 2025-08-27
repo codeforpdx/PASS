@@ -31,36 +31,37 @@ PASS is currently in development working towards MVP release by generous efforts
 
 ## 1. Quick Setup Instructions
 
- **Note**: All commands in this document are for bash. If you are using an incompatible shell like CMD or powershell, you may need to use different commands. 
+**Note**: All commands in this document are for bash. If you are using an incompatible shell like CMD or powershell, you may need to use different commands.
 
-- ### Getting the Code 
+- ### Getting the Code
 
 1. Clone the git repository:
 
    ```bash
    git clone https://github.com/codeforpdx/PASS.git
    ```
+
 2. Enter the project folder:
-    ```bash
-    cd PASS
-    ```
+   ```bash
+   cd PASS
+   ```
 
 - ### Setting up Node
 
-_If you already have node 18 installed on your system, you may skip this section._
+_If you already have node 20 installed on your system, you may skip this section._
 
-Currently, we require Node version 18.19.x and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
+Currently, we require Node version 20.xx.x and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 - For Windows users: [https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows)
 
-2. If you don't have node version 18, install node version 18 by running:
+2. If you don't have node version 20, install node version 20 by running:
    ```bash
    nvm install 18
    ```
-   This will download node 18 and set it up for use 
+   This will download node 20 and set it up for use
 3. Check that node and npm are set up:
 
    ```bash
@@ -70,11 +71,12 @@ Currently, we require Node version 18.19.x and NPM for our package manager. We r
    ```bash
    npm -v
    ```
-The node version should be 18.19 (and maybe third decimal) and the npm version should be 10.2 (and maybe a third decimal). If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
 
-4. We include a `.nvmrc` in the root folder of the project, which contains our target node version. We update this version periodically. If you're ever not sure of what node version you should be using, run 
+   The node version should be 20.xx (and maybe third decimal) and the npm version should be 10.2 (and maybe a third decimal). If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
+
+4. We include a `.nvmrc` in the root folder of the project, which contains our target node version. We update this version periodically. If you're ever not sure of what node version you should be using, run
    ```bash
-   nvm use 
+   nvm use
    ```
    to be synced with the project. You may receive warning messages in the terminal if the verion is not installed. Follow the messages to resolve the issues.
 
@@ -87,19 +89,22 @@ The node version should be 18.19 (and maybe third decimal) and the npm version s
    ```
 
 2. Configure the project environment:
-    ```bash
-    cp env.template .env
-    ```
+
+   ```bash
+   cp env.template .env
+   ```
 
 3. Run the following command:
-    ```bash
-    npm start
-    ```
-    To start up everything needed to run PASS.
+
+   ```bash
+   npm start
+   ```
+
+   To start up everything needed to run PASS.
 
 4. Navigate to PASS and set up an account.
 
-    By default, PASS launches at [http://localhost:5173](http://localhost:5173) on your local machine. Navigate to that screen, then click the signup button to create a pod and web ID for yourself. Then return to the homepage and log in. Follow all prompts that appear, and you will be up and running with PASS!
+   By default, PASS launches at [http://localhost:5173](http://localhost:5173) on your local machine. Navigate to that screen, then click the signup button to create a pod and web ID for yourself. Then return to the homepage and log in. Follow all prompts that appear, and you will be up and running with PASS!
 
 - ### Setting up Git Hooks for development
 
@@ -126,6 +131,7 @@ In Portland, housing-insecure individuals struggle to maintain documents often r
 - [CODEPDX code of conduct](https://github.com/codeforpdx/codeofconduct/blob/master/README.md)
 
 ## 5. PASS Wiki
+
 [Visit the wiki for more information on every aspect of the project. Feature set, architecture, tooling, etc](https://github.com/codeforpdx/PASS/wiki)
 
 **[⬆️ Back to Top](#pass---personal-access-system-for-services)**
