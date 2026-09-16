@@ -31,7 +31,7 @@ const App = () => (
       <ThemeProvider theme={theme}>
         <NotificationContextProvider>
           <UserDataContextProvider>
-            <BrowserRouter>
+            <BrowserRouter future={{ v7_relativeSplatPath: true }}>
               <Layout>
                 <AppRoutes />
               </Layout>
