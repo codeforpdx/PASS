@@ -28,7 +28,9 @@ import { truncateText } from '@utils';
  * @returns {React.JSX.Component} The Contacts Page
  */
 const Contacts = () => {
-  localStorage.setItem('restorePath', '/contacts');
+  useEffect(() => {
+    localStorage.setItem('restorePath', '/contacts');
+  }, []);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 

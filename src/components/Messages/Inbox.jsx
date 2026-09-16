@@ -1,12 +1,14 @@
 // React Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 // Custom Hooks Imports
 import { useMessageList } from '@hooks';
 // Component Imports
 import MessageFolder from './MessageFolder';
 
 const Inbox = () => {
-  localStorage.setItem('restorePath', '/messages/inbox');
+  useEffect(() => {
+    localStorage.setItem('restorePath', '/messages/inbox');
+  }, []);
   const { data, refetch, isFetching } = useMessageList('Inbox');
 
   return (
