@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // Material UI Imports
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -23,7 +23,9 @@ const FormLayout = ({ children }) => {
   const location = useLocation();
   const path = location.pathname.split('/').pop();
 
-  localStorage.setItem('restorePath', location.pathname);
+  useEffect(() => {
+    localStorage.setItem('restorePath', location.pathname);
+  }, [location.pathname]);
   const pageIdx = HMIS_FORM_LIST.findIndex((form) => form.path === path);
 
   return (

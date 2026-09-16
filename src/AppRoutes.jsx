@@ -20,7 +20,9 @@ const ProtectedRoute = ({ isLoggedIn, children }) =>
  */
 const AppRoutes = () => {
   const { session } = useSession();
-  const restorePath = localStorage.getItem('restorePath');
+  const storedPath = localStorage.getItem('restorePath');
+  // Only trust a plain absolute path; a backslash makes history.replaceState throw.
+  const restorePath = /^\/[\w\-/]*$/.test(storedPath ?? '') ? storedPath : '';
   const loggedIn = session.info.isLoggedIn;
   const path = loggedIn ? restorePath || '/contacts' : '/';
   const location = useLocation();
@@ -73,7 +75,7 @@ const AppRoutes = () => {
             />
           ))}
         </Route>
-        <Route path="*" element={<Navigate to={restorePath} replace />} />
+        <Route path="*" element={<Navigate to={path} replace />} />
       </Route>
     </Routes>
   );
