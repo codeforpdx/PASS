@@ -48,20 +48,20 @@ PASS is currently in development working towards MVP release by generous efforts
 
 - ### Setting up Node
 
-_If you already have node 20 installed on your system, you may skip this section._
+_If you already have node 24 installed on your system, you may skip this section._
 
-Currently, we require Node version 20.xx.x and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
+Currently, we require Node version 24.xx.x and NPM for our package manager. We recommend using Node Version Manager (NVM) to install Node and npm. To proceed using NVM, perform the following:
 
 1. Download NVM for your system.
 
 - For Mac, Linux, and other POSIX users: [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 - For Windows users: [https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows)
 
-2. If you don't have node version 20, install node version 20 by running:
+2. If you don't have node version 24, install node version 24 by running:
    ```bash
-   nvm install 18
+   nvm install 24
    ```
-   This will download node 20 and set it up for use
+   This will download node 24 and set it up for use
 3. Check that node and npm are set up:
 
    ```bash
@@ -72,7 +72,7 @@ Currently, we require Node version 20.xx.x and NPM for our package manager. We r
    npm -v
    ```
 
-   The node version should be 20.xx (and maybe third decimal) and the npm version should be 10.2 (and maybe a third decimal). If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
+   The node version should be 24.xx (and maybe third decimal) and the npm version should be 11.x (and maybe a third decimal). If they are not these versions, or if either of those commands cause an error, node has not been installed correctly.
 
 4. We include a `.nvmrc` in the root folder of the project, which contains our target node version. We update this version periodically. If you're ever not sure of what node version you should be using, run
    ```bash
