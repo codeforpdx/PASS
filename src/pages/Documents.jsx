@@ -20,11 +20,10 @@ import { DocumentTable } from '@components/Documents';
 const Documents = () => {
   // Route related states
   const location = useLocation();
-  if (location.pathname.split('/')[1] === 'contacts') {
-    localStorage.setItem('restorePath', '/contacts');
-  } else {
-    localStorage.setItem('restorePath', '/profile');
-  }
+  useEffect(() => {
+    const isContactRoute = location.pathname.split('/')[1] === 'contacts';
+    localStorage.setItem('restorePath', isContactRoute ? '/contacts' : '/profile');
+  }, [location.pathname]);
   const { setContact } = useContext(DocumentListContext);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));

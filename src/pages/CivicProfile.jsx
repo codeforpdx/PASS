@@ -1,5 +1,5 @@
 // React Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
@@ -19,7 +19,9 @@ import { CIVIC_FORM_LIST } from '@components/CivicProfileForms';
 const CivicProfile = () => {
   const location = useLocation();
 
-  localStorage.setItem('restorePath', location.pathname);
+  useEffect(() => {
+    localStorage.setItem('restorePath', location.pathname);
+  }, [location.pathname]);
   const currentForm = location.pathname.split('/').pop();
 
   return (
